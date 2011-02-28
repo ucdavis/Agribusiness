@@ -1,0 +1,189 @@
+<#@ template language="C#" HostSpecific="True" #>
+<#
+MvcTextTemplateHost mvcHost = (MvcTextTemplateHost)(Host);
+string className = mvcHost.ControllerRootName;
+string lowerClassName = className.ToLower();
+string repository = "_" + lowerClassName + "Repository";
+#>
+using System;
+using System.Web.Mvc;
+using UCDArch.Core.PersistanceSupport;
+using UCDArch.Web.Controller;
+using UCDArch.Web.Helpers;
+using UCDArch.Core.Utils;
+
+namespace <#= mvcHost.Namespace #>
+{
+    /// <summary>
+    /// Controller for the <#= className #> class
+    /// </summary>
+    public class <#= mvcHost.ControllerName #> : ApplicationController
+    {
+	    private readonly IRepository<<#= className #>> <#= repository #>;
+
+        public <#= mvcHost.ControllerName #>(IRepository<<#= className #>> <#= lowerClassName #>Repository)
+        {
+            <#= repository #> = <#= lowerClassName #>Repository;
+        }
+    
+        //
+        // GET: <#= (!String.IsNullOrEmpty(mvcHost.AreaName)) ? ("/" + mvcHost.AreaName) : String.Empty #>/<#= mvcHost.ControllerRootName #>/
+        public ActionResult Index()
+        {
+            var <#= lowerClassName #>List = <#= repository #>.Queryable;
+
+            return View(<#= lowerClassName #>List);
+        }
+
+<#
+if(mvcHost.AddActionMethods) {
+#>
+        //
+        // GET: <#= (!String.IsNullOrEmpty(mvcHost.AreaName)) ? ("/" + mvcHost.AreaName) : String.Empty #>/<#= mvcHost.ControllerRootName #>/Details/5
+        public ActionResult Details(int id)
+        {
+            var <#= lowerClassName #> = <#= repository #>.GetNullableById(id);
+
+            if (<#= lowerClassName #> == null) return RedirectToAction("Index");
+
+            return View(<#= lowerClassName #>);
+        }
+
+        //
+        // GET: <#= (!String.IsNullOrEmpty(mvcHost.AreaName)) ? ("/" + mvcHost.AreaName) : String.Empty #>/<#= mvcHost.ControllerRootName #>/Create
+        public ActionResult Create()
+        {
+			var viewModel = <#= className #>ViewModel.Create(Repository);
+            
+            return View(viewModel);
+        } 
+
+        //
+        // POST: <#= (!String.IsNullOrEmpty(mvcHost.AreaName)) ? ("/" + mvcHost.AreaName) : String.Empty #>/<#= mvcHost.ControllerRootName #>/Create
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Create(<#= className #> <#= lowerClassName #>)
+        {
+            var <#= lowerClassName #>ToCreate = new <#= className #>();
+
+            TransferValues(<#= lowerClassName #>, <#= lowerClassName #>ToCreate);
+
+            <#= lowerClassName #>ToCreate.TransferValidationMessagesTo(ModelState);
+
+            if (ModelState.IsValid)
+            {
+                <#= repository #>.EnsurePersistent(<#= lowerClassName #>ToCreate);
+
+                Message = "<#= className #> Created Successfully";
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+				var viewModel = <#= className #>ViewModel.Create(Repository);
+                viewModel.<#= className #> = <#= lowerClassName #>;
+
+                return View(viewModel);
+            }
+        }
+
+        //
+        // GET: <#= (!String.IsNullOrEmpty(mvcHost.AreaName)) ? ("/" + mvcHost.AreaName) : String.Empty #>/<#= mvcHost.ControllerRootName #>/Edit/5
+        public ActionResult Edit(int id)
+        {
+            var <#= lowerClassName #> = <#= repository #>.GetNullableById(id);
+
+            if (<#= lowerClassName #> == null) return RedirectToAction("Index");
+
+			var viewModel = <#= className #>ViewModel.Create(Repository);
+			viewModel.<#= className #> = <#= lowerClassName #>;
+
+			return View(viewModel);
+        }
+        
+        //
+        // POST: <#= (!String.IsNullOrEmpty(mvcHost.AreaName)) ? ("/" + mvcHost.AreaName) : String.Empty #>/<#= mvcHost.ControllerRootName #>/Edit/5
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Edit(int id, <#= className #> <#= lowerClassName #>)
+        {
+            var <#= lowerClassName #>ToEdit = <#= repository #>.GetNullableById(id);
+
+            if (<#= lowerClassName #>ToEdit == null) return RedirectToAction("Index");
+
+            TransferValues(<#= lowerClassName #>, <#= lowerClassName #>ToEdit);
+
+            <#= lowerClassName #>ToEdit.TransferValidationMessagesTo(ModelState);
+
+            if (ModelState.IsValid)
+            {
+                <#= repository #>.EnsurePersistent(<#= lowerClassName #>ToEdit);
+
+                Message = "<#= className #> Edited Successfully";
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+				var viewModel = <#= className #>ViewModel.Create(Repository);
+                viewModel.<#= className #> = <#= lowerClassName #>;
+
+                return View(viewModel);
+            }
+        }
+        
+        //
+        // GET: <#= (!String.IsNullOrEmpty(mvcHost.AreaName)) ? ("/" + mvcHost.AreaName) : String.Empty #>/<#= mvcHost.ControllerRootName #>/Delete/5 
+        public ActionResult Delete(int id)
+        {
+			var <#= lowerClassName #> = <#= repository #>.GetNullableById(id);
+
+            if (<#= lowerClassName #> == null) return RedirectToAction("Index");
+
+            return View(<#= lowerClassName #>);
+        }
+
+        //
+        // POST: <#= (!String.IsNullOrEmpty(mvcHost.AreaName)) ? ("/" + mvcHost.AreaName) : String.Empty #>/<#= mvcHost.ControllerRootName #>/Delete/5
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Delete(int id, <#= className #> <#= lowerClassName #>)
+        {
+			var <#= lowerClassName #>ToDelete = <#= repository #>.GetNullableById(id);
+
+            if (<#= lowerClassName #>ToDelete == null) return RedirectToAction("Index");
+
+            <#= repository #>.Remove(<#= lowerClassName #>ToDelete);
+
+            Message = "<#= className #> Removed Successfully";
+
+            return RedirectToAction("Index");
+        }
+        
+        /// <summary>
+        /// Transfer editable values from source to destination
+        /// </summary>
+        private static void TransferValues(<#= className #> source, <#= className #> destination)
+        {
+            throw new NotImplementedException();
+        }
+
+<#
+}
+#>
+    }
+
+	/// <summary>
+    /// ViewModel for the <#= className #> class
+    /// </summary>
+    public class <#= className #>ViewModel
+	{
+		public <#= className #> <#= className #> { get; set; }
+ 
+		public static <#= className #>ViewModel Create(IRepository repository)
+		{
+			Check.Require(repository != null, "Repository must be supplied");
+			
+			var viewModel = new <#= className #>ViewModel {<#= className #> = new <#= className #>()};
+ 
+			return viewModel;
+		}
+	}
+}
