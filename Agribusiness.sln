@@ -1,0 +1,69 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agribusiness.Web", "Agribusiness.Web\Agribusiness.Web.csproj", "{33BA1238-6E6E-47CB-B0F3-910ACAE25B4E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agribusiness.Tests", "Agribusiness.Tests\Agribusiness.Tests.csproj", "{D01CEA98-CF40-4880-8685-E488B461FFE1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bin", "Bin", "{16225D2D-13C1-46B6-816F-0F8AB3B019D7}"
+	ProjectSection(SolutionItems) = preProject
+		Bin\Antlr3.Runtime.dll = Bin\Antlr3.Runtime.dll
+		Bin\AutoMapper.dll = Bin\AutoMapper.dll
+		Bin\Castle.Core.dll = Bin\Castle.Core.dll
+		Bin\Castle.Windsor.dll = Bin\Castle.Windsor.dll
+		Bin\Common.Logging.dll = Bin\Common.Logging.dll
+		Bin\Elmah.dll = Bin\Elmah.dll
+		Bin\FluentNHibernate.dll = Bin\FluentNHibernate.dll
+		Bin\HibernatingRhinos.Profiler.Appender.dll = Bin\HibernatingRhinos.Profiler.Appender.dll
+		Bin\Iesi.Collections.dll = Bin\Iesi.Collections.dll
+		Bin\log4net.dll = Bin\log4net.dll
+		Bin\Microsoft.Practices.ServiceLocation.dll = Bin\Microsoft.Practices.ServiceLocation.dll
+		Bin\Microsoft.Web.Mvc.dll = Bin\Microsoft.Web.Mvc.dll
+		Bin\MvcContrib.dll = Bin\MvcContrib.dll
+		Bin\MvcContrib.FluentHtml.dll = Bin\MvcContrib.FluentHtml.dll
+		Bin\MvcContrib.TestHelper.dll = Bin\MvcContrib.TestHelper.dll
+		Bin\Newtonsoft.Json.dll = Bin\Newtonsoft.Json.dll
+		Bin\NHibernate.ByteCode.Spring.dll = Bin\NHibernate.ByteCode.Spring.dll
+		Bin\NHibernate.dll = Bin\NHibernate.dll
+		Bin\NHibernate.Validator.dll = Bin\NHibernate.Validator.dll
+		Bin\Remotion.Data.Linq.dll = Bin\Remotion.Data.Linq.dll
+		Bin\Rhino.Mocks.dll = Bin\Rhino.Mocks.dll
+		Bin\Spring.Aop.dll = Bin\Spring.Aop.dll
+		Bin\Spring.Core.dll = Bin\Spring.Core.dll
+		Bin\System.Data.SQLite.DLL = Bin\System.Data.SQLite.DLL
+		Bin\Telerik.Web.Mvc.dll = Bin\Telerik.Web.Mvc.dll
+		Bin\UCDArch.dll = Bin\UCDArch.dll
+		Bin\xVal.dll = Bin\xVal.dll
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 3
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.caes.ucdavis.edu:8088/tfs/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Agribusiness.Tests\\Agribusiness.Tests.csproj
+		SccProjectName1 = Agribusiness.Tests
+		SccLocalPath1 = Agribusiness.Tests
+		SccProjectUniqueName2 = Agribusiness.Web\\Agribusiness.Web.csproj
+		SccProjectName2 = Agribusiness.Web
+		SccLocalPath2 = Agribusiness.Web
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{33BA1238-6E6E-47CB-B0F3-910ACAE25B4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33BA1238-6E6E-47CB-B0F3-910ACAE25B4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33BA1238-6E6E-47CB-B0F3-910ACAE25B4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33BA1238-6E6E-47CB-B0F3-910ACAE25B4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D01CEA98-CF40-4880-8685-E488B461FFE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D01CEA98-CF40-4880-8685-E488B461FFE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D01CEA98-CF40-4880-8685-E488B461FFE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D01CEA98-CF40-4880-8685-E488B461FFE1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
