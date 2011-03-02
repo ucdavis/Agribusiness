@@ -38,21 +38,45 @@
     <Reference Include="DataAnnotationsExtensions">
       <HintPath>..\packages\DataAnnotationsExtensions.0.1.0.0\lib\NETFramework40\DataAnnotationsExtensions.dll</HintPath>
     </Reference>
+    <Reference Include="FluentNHibernate">
+      <HintPath>..\Bin\FluentNHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\Bin\NHibernate.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="UCDArch">
+      <HintPath>..\Bin\UCDArch.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Domain\AddressType.cs" />
+    <Compile Include="Domain\Address.cs" />
+    <Compile Include="Domain\CaseStudy.cs" />
+    <Compile Include="Domain\Contact.cs" />
+    <Compile Include="Domain\ContactType.cs" />
+    <Compile Include="Domain\Firm.cs" />
+    <Compile Include="Domain\Person.cs" />
+    <Compile Include="Domain\SeminarPerson.cs" />
+    <Compile Include="Domain\SeminarRole.cs" />
+    <Compile Include="Domain\Seminar.cs" />
+    <Compile Include="Domain\Session.cs" />
+    <Compile Include="Domain\SessionType.cs" />
+    <Compile Include="Domain\State.cs" />
+    <Compile Include="Extensions\BeforeAfterValidation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

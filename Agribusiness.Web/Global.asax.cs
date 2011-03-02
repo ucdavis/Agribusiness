@@ -1,6 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 using Agribusiness.Core;
+using Agribusiness.Core.Domain;
 using Agribusiness.Web.Controllers;
 using Castle.Windsor;
 using Microsoft.Practices.ServiceLocation;
@@ -22,7 +23,7 @@ namespace Agribusiness.Web
 
             ModelBinders.Binders.DefaultBinder = new UCDArchModelBinder();
 
-            NHibernateSessionConfiguration.Mappings.UseFluentMappings(typeof(Class1).Assembly);
+            NHibernateSessionConfiguration.Mappings.UseFluentMappings(typeof(AddressType).Assembly);
 
             IWindsorContainer container = InitializeServiceLocator();
         }
