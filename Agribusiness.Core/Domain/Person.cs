@@ -55,9 +55,7 @@ namespace Agribusiness.Core.Domain
         [StringLength(50)]
         public virtual string BadgeName { get; set; }
         
-        [DataType(DataType.PhoneNumber)]
         public virtual string CellPhone { get; set; }
-        [DataType(DataType.PhoneNumber)]
         public virtual string Fax { get; set; }
 
         public virtual byte[] Picture { get; set; }

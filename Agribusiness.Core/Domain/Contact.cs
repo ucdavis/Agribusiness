@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using DataAnnotationsExtensions;
 using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
 
@@ -27,9 +28,8 @@ namespace Agribusiness.Core.Domain
         [StringLength(50)]
         public virtual string LastName { get; set; }
         [Required]
-        [DataType(DataType.PhoneNumber)]
         public virtual string Phone { get; set; }
-        [DataType(DataType.EmailAddress)]
+        [Email]
         public virtual string Email { get; set; }
 
         [Required]
