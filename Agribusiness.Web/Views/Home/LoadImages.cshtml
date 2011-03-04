@@ -1,0 +1,26 @@
+﻿@model Agribusiness.Core.Domain.Person
+
+@{
+    ViewBag.Title = "LoadImages";
+}
+
+    <script type="text/javascript">
+    <!--
+        $(function () {
+            $(".dynamic-load")
+            .attr('src', '@Url.Action("LoadPicture", new { id = @Model.Id })')
+            .load(function () {                
+                //Will get called each time image is loaded
+            });
+        });    
+    //-->
+    </script>
+
+<ul style="list-style-type: none;">
+@for (int i = 0; i < 100; i++) { 
+    <li style="border: 2px; border-style: solid; margin: 5px;">
+        <img src="http://placekitten.com/g/270/50" class="dynamic-load" alt="Profile Picture">
+        <strong>@Model.LastName</strong> #@i.ToString()
+    </li>   
+}
+</ul>
