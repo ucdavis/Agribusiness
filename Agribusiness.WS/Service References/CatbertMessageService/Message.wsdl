@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="https://secure.caes.ucdavis.edu/Catbert4" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="https://secure.caes.ucdavis.edu/Catbert4" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="https://secure.caes.ucdavis.edu/Catbert4/Imports">
+      <xsd:import schemaLocation="https://dev.caes.ucdavis.edu/Catbert4/public/Message.svc?xsd=xsd0" namespace="https://secure.caes.ucdavis.edu/Catbert4" />
+      <xsd:import schemaLocation="https://dev.caes.ucdavis.edu/Catbert4/public/Message.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="https://dev.caes.ucdavis.edu/Catbert4/public/Message.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Catbert4.Services.Wcf" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IMessageService_GetMessages_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetMessages" />
+  </wsdl:message>
+  <wsdl:message name="IMessageService_GetMessages_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetMessagesResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IMessageService">
+    <wsdl:operation name="GetMessages">
+      <wsdl:input wsaw:Action="https://secure.caes.ucdavis.edu/Catbert4/IMessageService/GetMessages" message="tns:IMessageService_GetMessages_InputMessage" />
+      <wsdl:output wsaw:Action="https://secure.caes.ucdavis.edu/Catbert4/IMessageService/GetMessagesResponse" message="tns:IMessageService_GetMessages_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>

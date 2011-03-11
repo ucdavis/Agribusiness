@@ -38,9 +38,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bin", "Bin", "{16225D2D-13C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agribusiness.Core", "Agribusiness.Core\Agribusiness.Core.csproj", "{59FC9042-FBF0-4F82-803D-78E291FDD7F2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agribusiness.WS", "Agribusiness.WS\Agribusiness.WS.csproj", "{9A333D4D-EC23-45AC-8B92-E64987A5EAB5}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 4
+		SccNumberOfProjects = 5
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.caes.ucdavis.edu:8088/tfs/defaultcollection
 		SccLocalPath0 = .
@@ -53,6 +55,9 @@ Global
 		SccProjectUniqueName3 = Agribusiness.Core\\Agribusiness.Core.csproj
 		SccProjectName3 = Agribusiness.Core
 		SccLocalPath3 = Agribusiness.Core
+		SccProjectUniqueName4 = Agribusiness.WS\\Agribusiness.WS.csproj
+		SccProjectName4 = Agribusiness.WS
+		SccLocalPath4 = Agribusiness.WS
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +76,10 @@ Global
 		{59FC9042-FBF0-4F82-803D-78E291FDD7F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59FC9042-FBF0-4F82-803D-78E291FDD7F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59FC9042-FBF0-4F82-803D-78E291FDD7F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A333D4D-EC23-45AC-8B92-E64987A5EAB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A333D4D-EC23-45AC-8B92-E64987A5EAB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A333D4D-EC23-45AC-8B92-E64987A5EAB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A333D4D-EC23-45AC-8B92-E64987A5EAB5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

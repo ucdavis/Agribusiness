@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Catbert4.Services.Wcf" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Catbert4.Services.Wcf" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="ArrayOfServiceMessage">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ServiceMessage" nillable="true" type="tns:ServiceMessage" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfServiceMessage" nillable="true" type="tns:ArrayOfServiceMessage" />
+  <xs:complexType name="ServiceMessage">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Critical" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ServiceMessage" nillable="true" type="tns:ServiceMessage" />
+</xs:schema>
