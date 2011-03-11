@@ -28,8 +28,10 @@ namespace Agribusiness.Core.Domain
         [StringLength(50)]
         public virtual string LastName { get; set; }
         [Required]
+        [DataType(DataType.PhoneNumber)]
         public virtual string Phone { get; set; }
         [Email]
+        [DataType(DataType.EmailAddress)]
         public virtual string Email { get; set; }
 
         [Required]
