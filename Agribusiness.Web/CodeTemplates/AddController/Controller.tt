@@ -166,6 +166,8 @@ if(mvcHost.AddActionMethods) {
 #>
     }
 
+	<# var camelClassName = className.SubString(0,1).ToLower() + className.Substring(1); #>
+
 	/// <summary>
     /// ViewModel for the <#= className #> class
     /// </summary>
@@ -173,11 +175,11 @@ if(mvcHost.AddActionMethods) {
 	{
 		public <#= className #> <#= className #> { get; set; }
  
-		public static <#= className #>ViewModel Create(IRepository repository)
+		public static <#= className #>ViewModel Create(IRepository repository, <#= className #> <#= camelClassName #> = null)
 		{
 			Check.Require(repository != null, "Repository must be supplied");
 			
-			var viewModel = new <#= className #>ViewModel {<#= className #> = new <#= className #>()};
+			var viewModel = new <#= className #>ViewModel {<#= className #> = <#= camelClassName #> ?? new <#= className #>()};
  
 			return viewModel;
 		}
