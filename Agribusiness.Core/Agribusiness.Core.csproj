@@ -70,6 +70,7 @@
     <Compile Include="Domain\Session.cs" />
     <Compile Include="Domain\SessionType.cs" />
     <Compile Include="Domain\State.cs" />
+    <Compile Include="Domain\User.cs" />
     <Compile Include="Extensions\BeforeAfterValidation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

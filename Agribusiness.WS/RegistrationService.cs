@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
 using System.ServiceModel;
-using System.Text;
 using Agribusiness.Core.Domain;
 using Agribusiness.WS.CrpService;
 
@@ -38,22 +35,19 @@ namespace Agribusiness.WS
             return client;
         }
 
-        public string GenerateCoupon(int itemId, Person person, SeminarRole role)
+        public string GenerateCoupon(int itemId, Seminar seminar, Person person, SeminarRole role)
         {
-            // calculate the discount amt
-
-            // hard code in the rules
-
             // execute the request
+            var client = InitializeClient();
+            var code = client.CreateCoupon(itemId, person.User.UserName, null, role.Discount.Value, 1, 1, CouponTypes.SingleUsage);
 
-            // return the coupon code
-
-            throw new NotImplementedException();
+            return code;
         }
 
         public void CancelCoupon(int itemId, string couponCode)
         {
-            throw new NotImplementedException();
+            var client = InitializeClient();
+            client.CancelCoupon(itemId, couponCode);
         }
     }
 }

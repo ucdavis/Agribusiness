@@ -6,11 +6,11 @@
       <xs:sequence>
         <xs:element minOccurs="0" name="itemId" type="xs:int" />
         <xs:element minOccurs="0" name="email" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="unlimited" type="xs:boolean" />
         <xs:element minOccurs="0" name="expiration" nillable="true" type="xs:dateTime" />
         <xs:element minOccurs="0" name="discountAmount" type="xs:decimal" />
         <xs:element minOccurs="0" name="maxUsage" nillable="true" type="xs:int" />
         <xs:element minOccurs="0" name="maxQuantity" nillable="true" type="xs:int" />
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/CRP.Services.Wcf" minOccurs="0" name="couponTypes" type="q1:CouponTypes" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -24,6 +24,7 @@
   <xs:element name="CancelCoupon">
     <xs:complexType>
       <xs:sequence>
+        <xs:element minOccurs="0" name="itemId" type="xs:int" />
         <xs:element minOccurs="0" name="couponCode" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
@@ -45,7 +46,7 @@
   <xs:element name="GetRegistrationByReferenceResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/CRP.Services.Wcf" minOccurs="0" name="GetRegistrationByReferenceResult" nillable="true" type="q1:ServiceTransaction" />
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/CRP.Services.Wcf" minOccurs="0" name="GetRegistrationByReferenceResult" nillable="true" type="q2:ServiceTransaction" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -59,7 +60,7 @@
   <xs:element name="GetRegistrationByIdResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/CRP.Services.Wcf" minOccurs="0" name="GetRegistrationByIdResult" nillable="true" type="q2:ServiceTransaction" />
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/CRP.Services.Wcf" minOccurs="0" name="GetRegistrationByIdResult" nillable="true" type="q3:ServiceTransaction" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -73,7 +74,7 @@
   <xs:element name="GetRegistrationsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/CRP.Services.Wcf" minOccurs="0" name="GetRegistrationsResult" nillable="true" type="q3:ArrayOfServiceTransaction" />
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/CRP.Services.Wcf" minOccurs="0" name="GetRegistrationsResult" nillable="true" type="q4:ArrayOfServiceTransaction" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

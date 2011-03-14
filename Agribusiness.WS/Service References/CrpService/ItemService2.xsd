@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/CRP.Services.Wcf" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/CRP.Services.Wcf" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import schemaLocation="https://url.caesdo.caes.ucdavis.edu/crp/Services/ItemService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:simpleType name="CouponTypes">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Unlimited" />
+      <xs:enumeration value="LimitedUsage" />
+      <xs:enumeration value="SingleUsage" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="CouponTypes" nillable="true" type="tns:CouponTypes" />
   <xs:complexType name="ServiceTransaction">
     <xs:sequence>
       <xs:element minOccurs="0" name="DateRegistered" type="xs:dateTime" />

@@ -64,6 +64,8 @@ namespace Agribusiness.Core.Domain
         public virtual string Biography { get; set; }
         public virtual bool Invite { get; set; }
 
+        public virtual User User { get; set; }
+
         // bags
         public virtual IList<Address> Addresses { get; set; }
         public virtual IList<Contact> Contacts { get; set; }
@@ -91,6 +93,8 @@ namespace Agribusiness.Core.Domain
             Map(x => x.Picture);
             Map(x => x.Biography);
             Map(x => x.Invite);
+
+            References(x => x.User);
 
             HasMany(a => a.Addresses).Inverse().Cascade.AllDeleteOrphan();
             HasMany(a => a.Contacts).Inverse().Cascade.AllDeleteOrphan();

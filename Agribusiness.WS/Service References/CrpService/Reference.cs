@@ -13,6 +13,20 @@ namespace Agribusiness.WS.CrpService {
     using System;
     
     
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="CouponTypes", Namespace="http://schemas.datacontract.org/2004/07/CRP.Services.Wcf")]
+    public enum CouponTypes : int {
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Unlimited = 0,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        LimitedUsage = 1,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        SingleUsage = 2,
+    }
+    
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="ServiceTransaction", Namespace="http://schemas.datacontract.org/2004/07/CRP.Services.Wcf")]
@@ -204,10 +218,10 @@ namespace Agribusiness.WS.CrpService {
     public interface IItemService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IItemService/CreateCoupon", ReplyAction="http://tempuri.org/IItemService/CreateCouponResponse")]
-        string CreateCoupon(int itemId, string email, bool unlimited, System.Nullable<System.DateTime> expiration, decimal discountAmount, System.Nullable<int> maxUsage, System.Nullable<int> maxQuantity);
+        string CreateCoupon(int itemId, string email, System.Nullable<System.DateTime> expiration, decimal discountAmount, System.Nullable<int> maxUsage, System.Nullable<int> maxQuantity, Agribusiness.WS.CrpService.CouponTypes couponTypes);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IItemService/CancelCoupon", ReplyAction="http://tempuri.org/IItemService/CancelCouponResponse")]
-        bool CancelCoupon(string couponCode);
+        bool CancelCoupon(int itemId, string couponCode);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IItemService/GetRegistrationByReference", ReplyAction="http://tempuri.org/IItemService/GetRegistrationByReferenceResponse")]
         Agribusiness.WS.CrpService.ServiceTransaction GetRegistrationByReference(string registrationId);
@@ -246,12 +260,12 @@ namespace Agribusiness.WS.CrpService {
                 base(binding, remoteAddress) {
         }
         
-        public string CreateCoupon(int itemId, string email, bool unlimited, System.Nullable<System.DateTime> expiration, decimal discountAmount, System.Nullable<int> maxUsage, System.Nullable<int> maxQuantity) {
-            return base.Channel.CreateCoupon(itemId, email, unlimited, expiration, discountAmount, maxUsage, maxQuantity);
+        public string CreateCoupon(int itemId, string email, System.Nullable<System.DateTime> expiration, decimal discountAmount, System.Nullable<int> maxUsage, System.Nullable<int> maxQuantity, Agribusiness.WS.CrpService.CouponTypes couponTypes) {
+            return base.Channel.CreateCoupon(itemId, email, expiration, discountAmount, maxUsage, maxQuantity, couponTypes);
         }
         
-        public bool CancelCoupon(string couponCode) {
-            return base.Channel.CancelCoupon(couponCode);
+        public bool CancelCoupon(int itemId, string couponCode) {
+            return base.Channel.CancelCoupon(itemId, couponCode);
         }
         
         public Agribusiness.WS.CrpService.ServiceTransaction GetRegistrationByReference(string registrationId) {

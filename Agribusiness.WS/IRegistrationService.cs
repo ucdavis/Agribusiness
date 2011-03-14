@@ -8,7 +8,7 @@ namespace Agribusiness.WS
 {
     public interface IRegistrationService
     {
-        string GenerateCoupon(int itemId, Person person, SeminarRole role);
+        string GenerateCoupon(int itemId, Seminar seminar, Person person, SeminarRole role);
         void CancelCoupon(int itemId, string couponCode);
     }
 }

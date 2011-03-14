@@ -25,9 +25,8 @@ namespace Agribusiness.Core.Domain
         public virtual string Location { get; set; }
         [Before("End")]
         public virtual DateTime Begin { get; set; }
-        [After("Begin")]
         public virtual DateTime End { get; set; }
-        
+
         // optional fields
         [StringLength(20)]
         public virtual string RegistrationPassword { get; set; }
