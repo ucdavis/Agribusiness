@@ -45,32 +45,7 @@
         <span><img src="w:\Webdevel\GRAMPS\logo-caes-long-cap.png" alt="College of Agricultural &amp; Environmental Sciences" /></a></span>   
      </div> 
      <div class="col2">
-        <ul class="navigation">
-        <li>
-        <a href="#">Nav1</a>
-        </li>
-        <li>
-        <a href="#">Nav2</a>
-        </li>
-        <li>
-        <a href="#">Nav3</a>
-        </li>
-        <li>
-        <a href="#">Nav4</a>
-        </li>
-        <li>
-        <a href="#">Nav5</a>
-        </li>
-        <li>
-        <a href="#">Nav6</a>
-        </li>
-        <li>
-        <a href="#">Nav7</a>
-        </li>
-        <li>
-        <a href="#">Nav8</a>
-        </li>
-        </ul>
+        @Html.Partial("_Navigation")
     </div> 
 
     </span> 
@@ -98,20 +73,7 @@
         <h2>@ViewBag.SubPageTitle</h2>
         </div>
         <div class="col2">
-            <ul class="navigation">
-            <li>
-            <a href="#">SubPageNav1</a>
-            </li>
-            <li>
-            <a href="#">SubPageNav2</a>
-            </li>
-            <li>
-            <a href="#">SubPageNav3</a>
-            </li>
-            <li>
-            <a href="#">SubPageNav4</a>
-            </li>
-            </ul> 
+            @RenderSection("SubPageNavigation", false)
         </div>
         
         </div> <!-- End of Message Container -->
@@ -125,32 +87,7 @@
 <div id="footer">
 <div id="footertext">
 <div class="col1">
-        <ul class="navigation">
-        <li>
-        <a href="#">Nav1</a>
-        </li>
-        <li>
-        <a href="#">Nav2</a>
-        </li>
-        <li>
-        <a href="#">Nav3</a>
-        </li>
-        <li>
-        <a href="#">Nav4</a>
-        </li>
-        <li>
-        <a href="#">Nav5</a>
-        </li>
-        <li>
-        <a href="#">Nav6</a>
-        </li>
-        <li>
-        <a href="#">Nav7</a>
-        </li>
-        <li>
-        <a href="#">Nav8</a>
-        </li>
-	</ul>
+    @Html.Partial("_Navigation")
 </div>
 <div class="col2">
 <ul>

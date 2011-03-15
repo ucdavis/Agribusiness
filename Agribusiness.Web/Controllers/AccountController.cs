@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Security.Principal;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
 using Agribusiness.Web.Models;
+using UCDArch.Web.Authentication;
+using MvcContrib;
 
 namespace Agribusiness.Web.Controllers
 {
@@ -29,14 +25,18 @@ namespace Agribusiness.Web.Controllers
         // URL: /Account/LogOn
         // **************************************
 
-        public ActionResult LogOn()
+        public ActionResult LogOn(string returnUrl, bool membershipLogon = false)
         {
+            if (!membershipLogon) return this.RedirectToAction(a => a.CasLogon(returnUrl));
+
             return View();
         }
 
         [HttpPost]
         public ActionResult LogOn(LogOnModel model, string returnUrl)
         {
+            
+
             if (ModelState.IsValid)
             {
                 if (MembershipService.ValidateUser(model.UserName, model.Password))
@@ -145,6 +145,22 @@ namespace Agribusiness.Web.Controllers
         public ActionResult ChangePasswordSuccess()
         {
             return View();
+        }
+
+
+        // **************************************
+        // Cas Logon
+        // **************************************
+        public ActionResult CasLogon(string returnUrl)
+        {
+            string resultUrl = CASHelper.Login();   // do cas logon
+
+            if (resultUrl != null)
+            {
+                return Redirect(resultUrl);
+            }
+
+            return this.RedirectToAction<ErrorController>(a => a.NotAuthorized());
         }
 
     }

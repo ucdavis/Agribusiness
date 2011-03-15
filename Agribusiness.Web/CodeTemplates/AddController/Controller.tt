@@ -166,7 +166,7 @@ if(mvcHost.AddActionMethods) {
 #>
     }
 
-	<# var camelClassName = className.SubString(0,1).ToLower() + className.Substring(1); #>
+	<# var camelClassName = className.Substring(0,1).ToLower() + className.Substring(1); #>
 
 	/// <summary>
     /// ViewModel for the <#= className #> class

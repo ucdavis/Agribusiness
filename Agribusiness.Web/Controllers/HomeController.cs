@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using Agribusiness.Core.Domain;
+using Agribusiness.Web.Controllers.Filters;
 using UCDArch.Web.Attributes;
 using System;
 
@@ -10,6 +11,12 @@ namespace Agribusiness.Web.Controllers
     public class HomeController : ApplicationController
     {
         public ActionResult Index()
+        {
+            return View();
+        }
+
+        [UserOnly]
+        public ActionResult Admin()
         {
             return View();
         }

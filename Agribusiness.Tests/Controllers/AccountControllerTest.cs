@@ -134,7 +134,7 @@ namespace Agribusiness.Tests.Controllers
             AccountController controller = GetAccountController();
 
             // Act
-            ActionResult result = controller.LogOn();
+            ActionResult result = controller.LogOn(string.Empty);
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(ViewResult));

@@ -12,8 +12,6 @@ namespace Agribusiness.WS
     public class NotificationService : INotificationService
     {
         private string _url = ConfigurationManager.AppSettings["CatbertMessageServiceUrl"];
-        private string _userName = ConfigurationManager.AppSettings["CatbertUser"];
-        private string _password = ConfigurationManager.AppSettings["CatbertPassword"];
 
         private MessageServiceClient InitializeClient()
         {
@@ -32,9 +30,6 @@ namespace Agribusiness.WS
             var endpointAddress = new EndpointAddress(_url);
 
             MessageServiceClient client = new MessageServiceClient(binding, endpointAddress);
-
-            client.ClientCredentials.UserName.UserName = _userName;
-            client.ClientCredentials.UserName.Password = _password;
 
             return client;
         }

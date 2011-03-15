@@ -102,6 +102,7 @@
     <Compile Include="ComponentRegistrar.asax.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\Filters\CatbertMessagesAttribute.cs" />
     <Compile Include="Controllers\Filters\RoleFilter.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -194,6 +195,9 @@
     <None Include="CodeTemplates\AddController\Controller.tt" />
     <Content Include="Views\Home\LoadImages.cshtml" />
     <Content Include="Views\Shared\_Message.cshtml" />
+    <Content Include="Views\Error\NotAuthorized.cshtml" />
+    <Content Include="Views\Home\Admin.cshtml" />
+    <Content Include="Views\Shared\_Navigation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="App_GlobalResources\StaticIndexes.resx">
