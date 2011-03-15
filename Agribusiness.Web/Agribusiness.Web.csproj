@@ -110,15 +110,17 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\MessageModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RouteConfigurator.asax.cs" />
-    <Compile Include="StaticIndexes.Designer.cs">
+    <Compile Include="App_GlobalResources\StaticIndexes.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>StaticIndexes.resx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Css\main.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
@@ -128,7 +130,6 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Css\Site.css" />
     <Content Include="Css\themes\base\jquery-ui.css" />
     <Content Include="Css\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Css\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -192,9 +193,10 @@
   <ItemGroup>
     <None Include="CodeTemplates\AddController\Controller.tt" />
     <Content Include="Views\Home\LoadImages.cshtml" />
+    <Content Include="Views\Shared\_Message.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="StaticIndexes.resx">
+    <EmbeddedResource Include="App_GlobalResources\StaticIndexes.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>StaticIndexes.Designer.cs</LastGenOutput>
     </EmbeddedResource>

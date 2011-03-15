@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Agribusiness.Web {
+namespace Agribusiness.Web.App_GlobalResources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Agribusiness.Web {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Agribusiness.Web.StaticIndexes", typeof(StaticIndexes).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Agribusiness.Web.App_GlobalResources.StaticIndexes", typeof(StaticIndexes).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

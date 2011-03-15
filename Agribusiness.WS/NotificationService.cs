@@ -12,6 +12,8 @@ namespace Agribusiness.WS
     public class NotificationService : INotificationService
     {
         private string _url = ConfigurationManager.AppSettings["CatbertMessageServiceUrl"];
+        private string _userName = ConfigurationManager.AppSettings["CatbertUser"];
+        private string _password = ConfigurationManager.AppSettings["CatbertPassword"];
 
         private MessageServiceClient InitializeClient()
         {
@@ -21,8 +23,9 @@ namespace Agribusiness.WS
                 ,
                 Security =
                 {
-                    Mode = BasicHttpSecurityMode.TransportWithMessageCredential,
-                    Message = { ClientCredentialType = BasicHttpMessageCredentialType.UserName }
+                    Mode = BasicHttpSecurityMode.Transport
+                    //Mode = BasicHttpSecurityMode.TransportWithMessageCredential,
+                    //Message = { ClientCredentialType = BasicHttpMessageCredentialType.UserName }
                 }
             };
 
@@ -30,8 +33,8 @@ namespace Agribusiness.WS
 
             MessageServiceClient client = new MessageServiceClient(binding, endpointAddress);
 
-            //client.ClientCredentials.UserName.UserName = _userName;
-            //client.ClientCredentials.UserName.Password = _password;
+            client.ClientCredentials.UserName.UserName = _userName;
+            client.ClientCredentials.UserName.Password = _password;
 
             return client;
         }
@@ -42,6 +45,14 @@ namespace Agribusiness.WS
 
         public void GetAllNotifications(List<string> critical, List<string> messages)
         {
+#if DEBUG
+            var client = InitializeClient();
+
+            var serviceMessages = client.GetMessages(Agribusiness);
+
+            critical = serviceMessages.Where(a => a.Critical).Select(a => a.Message).ToList();
+            messages = serviceMessages.Where(a => !a.Critical).Select(a => a.Message).ToList();
+#else
             var cache = HttpContext.Current.Cache;
 
             // check the cache for values
@@ -63,6 +74,9 @@ namespace Agribusiness.WS
                 cache.Insert(CatbertMessagesKey, messages, null, DateTime.Now.AddHours(4), Cache.NoSlidingExpiration);
                 cache.Insert(CatbertCriticalKey, critical, null, DateTime.Now.AddHours(4), Cache.NoSlidingExpiration);
             }
+#endif
+
+
         }
     }
 }

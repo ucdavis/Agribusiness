@@ -1,0 +1,13 @@
+﻿@model MessageModel
+
+@if (Model.IsError)
+{ 
+    <div id="error_message">
+        @Model.Message
+    </div>
+}
+else { 
+    <div id="status_message">
+        @Model.Message
+    </div>
+}
