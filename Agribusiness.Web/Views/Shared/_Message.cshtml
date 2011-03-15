@@ -1,13 +1,15 @@
-﻿@model MessageModel
+﻿@using Agribusiness.Web.Models
+
+@model MessageModel
 
 @if (Model.IsError)
 { 
     <div id="error_message">
-        @Model.Message
+        @Html.Raw(Model.Message)
     </div>
 }
 else { 
     <div id="status_message">
-        @Model.Message
+        @Html.Raw(Model.Message)
     </div>
 }

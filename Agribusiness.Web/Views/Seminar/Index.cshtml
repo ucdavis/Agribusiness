@@ -1,0 +1,52 @@
+﻿@using Agribusiness.Core.Domain
+@using Agribusiness.Web.Models
+
+@model IQueryable<Seminar>
+
+@{
+    ViewBag.Title = "Seminar Home";
+    ViewBag.SubPageTitle = "Seminars";
+}
+
+@section SubPageNavigation {
+    <ul class="navigation">
+        <li>
+            @Html.ActionLink("Create New", "Create", "Seminar")
+        </li>
+    </ul>
+}
+
+@if (Model.Count() <= 0)
+{ 
+    @Html.Partial("_Message", new MessageModel() { IsError = false, Message = "There are no seminars available" })
+}
+else
+{ 
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th>Year</th>
+                <th>Location</th>
+                <th>Registration Deadline</th>
+                <th>Registration Id</th>
+            </tr>    
+        </thead>
+        <tfoot></tfoot>
+        <tbody>
+            @foreach (var a in Model)
+            { 
+                <tr>
+                    <td>
+                        @Html.ActionLink("Select", "Details", "Seminar", new {@class="table_select"})
+                        @Html.ActionLink("Edit", "Edit", "Seminar", new {@class="table_edit"})
+                    </td>
+                    <td>@a.Year</td>
+                    <td>@a.Location</td>
+                    <td>@a.RegistrationDeadline.HasValue ? @a.RegistrationDeadline.Value.ToShortDateString() : "n/a" </td>
+                    <td>@a.RegistrationId</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

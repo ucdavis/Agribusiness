@@ -8,7 +8,10 @@ namespace Agribusiness.Core.Domain
 {
     public class Seminar : DomainObject
     {
-        public Seminar() { }
+        public Seminar()
+        {
+            SetDefaults();
+        }
 
         public Seminar(int year, string location, DateTime begin, DateTime end)
         {
@@ -16,6 +19,14 @@ namespace Agribusiness.Core.Domain
             Location = location;
             Begin = begin;
             End = end;
+        }
+
+        private void SetDefaults()
+        {
+            Year = DateTime.Now.Year;
+
+            Begin = DateTime.Now;
+            End = DateTime.Now;
         }
 
         #region Mapped Fields
@@ -26,6 +37,8 @@ namespace Agribusiness.Core.Domain
         [Before("End")]
         public virtual DateTime Begin { get; set; }
         public virtual DateTime End { get; set; }
+        [Before("End")]
+        public virtual DateTime? RegistrationDeadline { get; set; }
 
         // optional fields
         [StringLength(20)]
@@ -44,6 +57,7 @@ namespace Agribusiness.Core.Domain
             Map(x => x.Location);
             Map(x => x.Begin).Column("`Begin`");
             Map(x => x.End).Column("`End`");
+            Map(x => x.RegistrationDeadline);
             Map(x => x.RegistrationPassword);
             Map(x => x.RegistrationId);
         }

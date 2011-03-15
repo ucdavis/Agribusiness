@@ -39,6 +39,15 @@ namespace Agribusiness.Web.Controllers
             return View(viewModel);
         }
 
+        [UserOnly]
+        [HttpPost]
+        public ActionResult Create(Seminar seminar)
+        {
+            var viewModel = SeminarViewModel.Create(Repository, seminar);
+
+            return View(viewModel);
+        }
+
     }
 
 	/// <summary>

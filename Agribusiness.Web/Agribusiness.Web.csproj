@@ -198,6 +198,9 @@
     <Content Include="Views\Error\NotAuthorized.cshtml" />
     <Content Include="Views\Home\Admin.cshtml" />
     <Content Include="Views\Shared\_Navigation.cshtml" />
+    <Content Include="Views\Seminar\Index.cshtml" />
+    <Content Include="Views\Seminar\Create.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="App_GlobalResources\StaticIndexes.resx">

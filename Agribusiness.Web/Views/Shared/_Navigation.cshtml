@@ -1,25 +1,28 @@
-﻿    <ul class="navigation">
+﻿    @using Agribusiness.Web.Controllers.Filters
+    
+    <ul class="navigation">
         <li>
             @Html.ActionLink("Home", "Index", "Home")
         </li>
-        <li>
-        <a href="#">Nav2</a>
-        </li>
-        <li>
-        <a href="#">Nav3</a>
-        </li>
-        <li>
-        <a href="#">Nav4</a>
-        </li>
-        <li>
-        <a href="#">Nav5</a>
-        </li>
-        <li>
-        <a href="#">Nav6</a>
-        </li>
-        <li>
-        <a href="#">Nav7</a>
-        </li>
+
+
+        @if (HttpContext.Current.User.Identity.IsAuthenticated)
+        { 
+            if (User.IsInRole(RoleNames.User))
+            {
+                <li><a href="#">Seminars</a></li>
+                <li><a href="#">Applications</a></li>
+                <li><a href="#">People</a></li>
+                <li><a href="#">Firms</a></li>
+            }
+            else
+            {
+                <li><a href="#">Applications</a></li>
+                <li><a href="#">Seminars</a></li>
+                <li><a href="#">Profile</a></li>
+            }
+        }
+
         <li>
             @Html.ActionLink("Admin Tools", "Admin", "Home")
         </li>
