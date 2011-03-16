@@ -1,4 +1,4 @@
 ﻿@model DateTime?
 
-@Html.TextBox("", (Model.HasValue ? Model.Value.ToShortDateString() : string.Empty), new { @class = "dateAndTime" })
+@Html.TextBox("", (Model.HasValue ? Model.Value.ToString("g") : string.Empty), new { @class = "dateAndTime" })
 

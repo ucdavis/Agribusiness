@@ -220,6 +220,9 @@
     <Content Include="Views\Seminar\Edit.cshtml" />
     <Content Include="Views\Session\Create.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DateAndTime.cshtml" />
+    <Content Include="Views\Session\Edit.cshtml" />
+    <Content Include="Views\Session\_SessionForm.cshtml" />
+    <Content Include="Views\Session\_SessionFormScripts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">

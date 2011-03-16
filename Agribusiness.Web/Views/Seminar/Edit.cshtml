@@ -39,7 +39,9 @@
             @foreach (var a in Model.Seminar.Sessions)
             { 
                 <tr>
-                    <td></td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", "Session", new {id=a.Id, seminarId=Model.Seminar.Id}, new {@class="table_edit"})
+                    </td>
                     <td>@a.Name</td>
                     <td>@a.Location</td>
                     <td>@a.BeginString</td>

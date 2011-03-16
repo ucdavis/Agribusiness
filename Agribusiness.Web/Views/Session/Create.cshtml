@@ -3,57 +3,14 @@
 @model SessionViewModel
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Create Session";
+    ViewBag.SubPageTitle = "Create Session";
 }
 
 @section ScriptContent{
 
-    <link href="@Url.Content("~/Css/anytimec.css")" rel="stylesheet" type="text/css" />   
-    <script src="@Url.Content("~/Scripts/anytimec.js")" type="text/javascript"></script>
-
-    <script type="text/javascript">
-        $(function () {
-            $.each($(".dateAndTime"), function (index, item) {
-                AnyTime.picker(item.id, {format: "%m/%d/%Y %h:%i %p"});
-            });
-        });
-    </script>
+    @Html.Partial("_SessionFormScripts")
 
 }
 
-@Html.ValidationSummary("Please correct the following errors.")
-
-@using (Html.BeginForm())
-{ 
-@Html.AntiForgeryToken()
-<fieldset>
-    <ul>
-        <li>@Html.LabelFor(a => a.Session.Name)
-            @Html.EditorFor(a => a.Session.Name)
-            @Html.ValidationMessageFor(a => a.Session.Name)
-        </li>
-        <li>@Html.LabelFor(a=>a.Session.Location)
-            @Html.EditorFor(a => a.Session.Location)
-            @Html.ValidationMessageFor(a => a.Session.Location)
-        </li>
-        <li>@Html.LabelFor(a=>a.Session.Begin)
-            @Html.EditorFor(a => a.Session.Begin, "DateAndTime")
-            @Html.ValidationMessageFor(a => a.Session.Begin)
-        </li>
-        <li>@Html.LabelFor(a=>a.Session.End)
-            @Html.EditorFor(a => a.Session.End, "DateAndTime")
-            @Html.ValidationMessageFor(a => a.Session.End)
-        </li>
-        <li>@Html.LabelFor(a=>a.Session.SessionType)
-            @Html.DropDownListFor(a=>a.Session.SessionType, new SelectList(Model.SessionTypes, "Id", "Name"), "--Select a Session Type--")
-            @Html.ValidationMessageFor(a => a.Session.SessionType)
-        </li>
-        <li>
-            <label></label>
-            <input type="submit" value="Save" class="button" />
-            @Html.ActionLink("Cancel", "Edit", "Seminar", new {id=Model.SeminarId}, new {@class="button"})
-        </li>
-    </ul>
-</fieldset>
-    
-}
+@Html.Partial("_SessionForm")

@@ -1,0 +1,12 @@
+﻿
+
+    <link href="@Url.Content("~/Css/anytimec.css")" rel="stylesheet" type="text/css" />   
+    <script src="@Url.Content("~/Scripts/anytimec.js")" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $.each($(".dateAndTime"), function (index, item) {
+                AnyTime.picker(item.id, { format: "%m/%d/%Y %h:%i %p" });
+            });
+        });
+    </script>

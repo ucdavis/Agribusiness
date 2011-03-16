@@ -1,0 +1,40 @@
+﻿@using MvcContrib.FluentHtml
+
+@model Agribusiness.Web.Models.SessionViewModel
+
+@Html.ValidationSummary("Please correct the following errors.")
+
+@using (Html.BeginForm())
+{ 
+@Html.AntiForgeryToken()
+<fieldset>
+    <ul>
+        <li>@Html.LabelFor(a => a.Session.Name)
+            @Html.EditorFor(a => a.Session.Name)
+            @Html.ValidationMessageFor(a => a.Session.Name)
+        </li>
+        <li>@Html.LabelFor(a => a.Session.Location)
+            @Html.EditorFor(a => a.Session.Location)
+            @Html.ValidationMessageFor(a => a.Session.Location)
+        </li>
+        <li>@Html.LabelFor(a => a.Session.Begin)
+            @Html.EditorFor(a => a.Session.Begin, "DateAndTime")
+            @Html.ValidationMessageFor(a => a.Session.Begin)
+        </li>
+        <li>@Html.LabelFor(a => a.Session.End)
+            @Html.EditorFor(a => a.Session.End, "DateAndTime")
+            @Html.ValidationMessageFor(a => a.Session.End)
+        </li>
+        <li>@Html.LabelFor(a => a.Session.SessionType)
+            @this.Select("Session.SessionType").Options(Model.SessionTypes,x=>x.Id,x=>x.Name).Selected(Model.Session.SessionType != null ? Model.Session.SessionType.Id : string.Empty).FirstOptionText("--Select a Session Type--")
+            @Html.ValidationMessageFor(a => a.Session.SessionType)
+        </li>
+        <li>
+            <label>&nbsp;</label>
+            <input type="submit" value="Save" /> |
+            @Html.ActionLink("Cancel", "Edit", "Seminar", new { id = Model.SeminarId }, new { })
+        </li>
+    </ul>
+</fieldset>
+    
+}

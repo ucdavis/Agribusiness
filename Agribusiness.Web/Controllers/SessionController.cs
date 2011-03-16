@@ -2,6 +2,7 @@
 using Agribusiness.Core.Domain;
 using Agribusiness.Web.Controllers.Filters;
 using Agribusiness.Web.Models;
+using AutoMapper;
 using Resources;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
@@ -39,17 +40,60 @@ namespace Agribusiness.Web.Controllers
             session.Seminar = _seminarRepository.GetNullableById(seminarId);
 
             // clear any previous errors
-            foreach(var a in ModelState.Values) a.Errors.Clear();
+            ModelState.Clear();
 
             // validate that a seminar was returned
             session.TransferValidationMessagesTo(ModelState);
 
-            //if (ModelState.IsValid)
-            //{
-            //    _sessionRepository.EnsurePersistent(session);
-            //    Message = string.Format(Messages.Saved, "Session");
-            //    return this.RedirectToAction<SeminarController>(a => a.Edit(seminarId));
-            //}
+            if (ModelState.IsValid)
+            {
+                _sessionRepository.EnsurePersistent(session);
+                Message = string.Format(Messages.Saved, "Session");
+                return this.RedirectToAction<SeminarController>(a => a.Edit(seminarId));
+            }
+
+            var viewModel = SessionViewModel.Create(Repository, seminarId, session);
+            return View(viewModel);
+        }
+
+        [UserOnly]
+        public ActionResult Edit(int id, int seminarId)
+        {
+            var session = _sessionRepository.GetNullableById(id);
+
+            if (session == null)
+            {
+                ErrorMessages = string.Format(Messages.NotFound, "Session", id);
+                return this.RedirectToAction<SeminarController>(a => a.Edit(seminarId));
+            }
+
+            var viewModel = SessionViewModel.Create(Repository, seminarId, session);
+            return View(viewModel);
+        }
+
+        [UserOnly]
+        [HttpPost]
+        public ActionResult Edit(int id, int seminarId, [Bind(Exclude="Seminar, SeminarPeople")]Session session)
+        {
+            var origSession = _sessionRepository.GetNullableById(id);
+
+            if (origSession == null)
+            {
+                ErrorMessages = string.Format(Messages.NotFound, "Session", id);
+                return this.RedirectToAction<SeminarController>(a => a.Edit(seminarId));
+            }
+
+            Mapper.Map(session, origSession);
+
+            // clear the modelstate and vaidate
+            ModelState.Clear();
+            origSession.TransferValidationMessagesTo(ModelState);
+
+            if (ModelState.IsValid)
+            {
+                Message = string.Format(Messages.Saved, "Session");
+                return this.RedirectToAction<SeminarController>(a => a.Edit(seminarId));
+            }
 
             var viewModel = SessionViewModel.Create(Repository, seminarId, session);
             return View(viewModel);

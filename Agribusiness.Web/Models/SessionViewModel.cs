@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Web.Mvc;
 using Agribusiness.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
@@ -14,6 +15,8 @@ namespace Agribusiness.Web.Models
         public IEnumerable<SessionType> SessionTypes { get; set; }
         public int SeminarId { get; set; }
 
+        public SelectList SessionTypesList { get; set; }
+
         public static SessionViewModel Create(IRepository repository, int seminarId, Session session = null)
         {
             Check.Require(repository != null, "Repository must be supplied");
@@ -25,6 +28,8 @@ namespace Agribusiness.Web.Models
                                     SessionTypes = repository.OfType<SessionType>().GetAll()
                                 };
  
+            viewModel.SessionTypesList = new SelectList(viewModel.SessionTypes, "Id", "Name", viewModel.Session.SessionType.Id);
+
             return viewModel;
         }
     }

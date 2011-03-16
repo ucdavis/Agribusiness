@@ -35,9 +35,9 @@
             @Html.ValidationMessageFor(a => a.Seminar.RegistrationId)
         </li>
         <li>
-            <label></label>
-            <input type="submit" value="Save" class="button" />
-            @Html.ActionLink("Cancel", "Index", "Seminar", new { @class = "button" })
+            <label>&nbsp;</label>
+            <input type="submit" value="Save" /> | 
+            @Html.ActionLink("Cancel", "Index", "Seminar", new { })
         </li>
         </ul>
     </fieldset>
