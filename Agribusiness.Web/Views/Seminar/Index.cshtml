@@ -38,6 +38,7 @@ else
             { 
                 <tr>
                     <td>
+                        @Html.ActionLink("Select", "Select", "Seminar", new { id = a.Id }, new { @class = "table_select" })
                         @Html.ActionLink("Edit", "Edit", "Seminar", new { id = a.Id }, new { @class = "table_edit" })
                     </td>
                     <td>@a.Year</td>

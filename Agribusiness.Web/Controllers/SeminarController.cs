@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using Agribusiness.Core.Domain;
 using Agribusiness.Web.Controllers.Filters;
@@ -61,7 +62,7 @@ namespace Agribusiness.Web.Controllers
         [UserOnly]
         public ActionResult Edit(int id)
         {
-            var seminar = _seminarRepository.GetNullableById(id);
+            var seminar = LoadSeminar(id);
 
             if (seminar == null)
             {
@@ -77,7 +78,7 @@ namespace Agribusiness.Web.Controllers
         [HttpPost]
         public ActionResult Edit(int id, Seminar seminar)
         {
-            var origSeminar = _seminarRepository.GetNullableById(id);
+            var origSeminar = LoadSeminar(id);
 
             if (origSeminar == null)
             {
@@ -97,6 +98,41 @@ namespace Agribusiness.Web.Controllers
             var viewModel = SeminarViewModel.Create(Repository, seminar);
             return View(viewModel);
         }
+
+        [UserOnly]
+        public ActionResult Details(int? id)
+        {
+            var seminar = LoadSeminar(id);
+
+            if (seminar == null)
+            {
+                ErrorMessages = string.Format(Messages.NotFound, "Seminar", id);
+                return this.RedirectToAction(a => a.Index());
+            }
+
+            return View(seminar);
+        }
+
+        /// <summary>
+        /// Loads a seminar object
+        /// </summary>
+        /// <param name="id">when null, loads the currnet seminar (the latest one)</param>
+        /// <returns></returns>
+        private Seminar LoadSeminar(int? id)
+        {
+            Seminar seminar = null;
+
+            if (id.HasValue) seminar = _seminarRepository.GetNullableById(id.Value);
+
+            // if we found one, return it
+            if (seminar != null) return seminar;
+
+            // otherwise just load the latest one
+            seminar = _seminarRepository.Queryable.LastOrDefault();
+
+            return seminar;
+        }
+
         #endregion
     }
 }

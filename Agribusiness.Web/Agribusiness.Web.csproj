@@ -223,6 +223,7 @@
     <Content Include="Views\Session\Edit.cshtml" />
     <Content Include="Views\Session\_SessionForm.cshtml" />
     <Content Include="Views\Session\_SessionFormScripts.cshtml" />
+    <Content Include="Views\Seminar\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">
