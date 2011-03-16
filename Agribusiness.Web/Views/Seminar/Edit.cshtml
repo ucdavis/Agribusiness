@@ -1,0 +1,59 @@
+﻿@using Agribusiness.Web.Models
+
+@model Agribusiness.Web.Models.SeminarViewModel
+
+@{
+    ViewBag.Title = "Edit Seminar";
+    ViewBag.SubPageTitle = "Edit Seminar";
+}
+
+@section SubPageNavigation {
+    <ul class="navigation">
+        <li>
+            @Html.ActionLink("Create Session", "Create", "Session", new { seminarId = @Model.Seminar.Id }, new { })
+        </li>
+    </ul>
+}
+
+@Html.Partial("_SeminarForm")
+
+<fieldset>
+    <legend>Sessions</legend>
+    @if (Model.Seminar.Sessions.Any())
+    { 
+    <table>
+        <thead> 
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Begin</th>
+                <th>End</th>
+                <th>Type</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tfoot></tfoot>
+        <tbody>
+        
+            @foreach (var a in Model.Seminar.Sessions)
+            { 
+                <tr>
+                    <td></td>
+                    <td>@a.Name</td>
+                    <td>@a.Location</td>
+                    <td>@a.BeginString</td>
+                    <td>@a.EndString</td>
+                    <td>@a.SessionType.Name</td>
+                    <td></td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+    }
+    else 
+    { 
+        @Html.Partial("_Message", new MessageModel(){IsError=false,Message="No Sessions have been created yet."})
+    }
+</fieldset>

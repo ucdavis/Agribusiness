@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using DataAnnotationsExtensions;
 using FluentNHibernate.Mapping;
@@ -27,6 +28,9 @@ namespace Agribusiness.Core.Domain
 
             Begin = DateTime.Now;
             End = DateTime.Now;
+
+            Sessions = new List<Session>();
+            SeminarPeople = new List<SeminarPerson>();
         }
 
         #region Mapped Fields
@@ -44,7 +48,15 @@ namespace Agribusiness.Core.Domain
         [StringLength(20)]
         public virtual string RegistrationPassword { get; set; }
         public virtual int? RegistrationId { get; set; }
+
+        public virtual IList<Session> Sessions { get; set; }
+        public virtual IList<SeminarPerson> SeminarPeople { get; set; }
         #endregion
+
+        /// <summary>
+        /// Short Date Time string for Registration Deadline, if not specified returns "n/a"
+        /// </summary>
+        public virtual string RegistrationDeadlineString { get { return RegistrationDeadline.HasValue ? RegistrationDeadline.Value.ToShortDateString() : "n/a"; } }
     }
 
     public class SeminarMap : ClassMap<Seminar>
@@ -60,6 +72,9 @@ namespace Agribusiness.Core.Domain
             Map(x => x.RegistrationDeadline);
             Map(x => x.RegistrationPassword);
             Map(x => x.RegistrationId);
+
+            HasMany(x => x.Sessions).Inverse().Cascade.AllDeleteOrphan();
+            HasMany(x => x.SeminarPeople).Inverse().Cascade.AllDeleteOrphan();
         }
     }
 }

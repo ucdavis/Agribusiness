@@ -38,12 +38,11 @@ else
             { 
                 <tr>
                     <td>
-                        @Html.ActionLink("Select", "Details", "Seminar", new {@class="table_select"})
-                        @Html.ActionLink("Edit", "Edit", "Seminar", new {@class="table_edit"})
+                        @Html.ActionLink("Edit", "Edit", "Seminar", new { id = a.Id }, new { @class = "table_edit" })
                     </td>
                     <td>@a.Year</td>
                     <td>@a.Location</td>
-                    <td>@a.RegistrationDeadline.HasValue ? @a.RegistrationDeadline.Value.ToShortDateString() : "n/a" </td>
+                    <td>@a.RegistrationDeadlineString </td>
                     <td>@a.RegistrationId</td>
                 </tr>
             }

@@ -2,10 +2,13 @@
 using System.Web.Mvc;
 using Agribusiness.Core.Domain;
 using Agribusiness.Web.Controllers.Filters;
+using Agribusiness.Web.Models;
+using AutoMapper;
+using Resources;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Web.Controller;
 using UCDArch.Web.Helpers;
-using UCDArch.Core.Utils;
+using MvcContrib;
 
 namespace Agribusiness.Web.Controllers
 {
@@ -20,7 +23,8 @@ namespace Agribusiness.Web.Controllers
         {
             _seminarRepository = seminarRepository;
         }
-    
+
+        #region Administrative Functions
         //
         // GET: /Seminar/
         [UserOnly]
@@ -43,27 +47,56 @@ namespace Agribusiness.Web.Controllers
         [HttpPost]
         public ActionResult Create(Seminar seminar)
         {
-            var viewModel = SeminarViewModel.Create(Repository, seminar);
+            if (ModelState.IsValid)
+            {
+                _seminarRepository.EnsurePersistent(seminar);
+                Message = string.Format(Messages.Saved, "Seminar");
+                return this.RedirectToAction(a => a.Index());
+            }
 
+            var viewModel = SeminarViewModel.Create(Repository, seminar);
             return View(viewModel);
         }
 
-    }
+        [UserOnly]
+        public ActionResult Edit(int id)
+        {
+            var seminar = _seminarRepository.GetNullableById(id);
 
-	/// <summary>
-    /// ViewModel for the Seminar class
-    /// </summary>
-    public class SeminarViewModel
-	{
-		public Seminar Seminar { get; set; }
- 
-		public static SeminarViewModel Create(IRepository repository, Seminar seminar = null)
-		{
-			Check.Require(repository != null, "Repository must be supplied");
-			
-			var viewModel = new SeminarViewModel {Seminar = seminar ?? new Seminar()};
- 
-			return viewModel;
-		}
-	}
+            if (seminar == null)
+            {
+                ErrorMessages = string.Format(Messages.NotFound, "Seminar", id);
+                return this.RedirectToAction(a => a.Index());
+            }
+
+            var viewModel = SeminarViewModel.Create(Repository, seminar);
+            return View(viewModel);
+        }
+
+        [UserOnly]
+        [HttpPost]
+        public ActionResult Edit(int id, Seminar seminar)
+        {
+            var origSeminar = _seminarRepository.GetNullableById(id);
+
+            if (origSeminar == null)
+            {
+                ErrorMessages = string.Format(Messages.NotFound, "Seminar", id);
+                return this.RedirectToAction(a => a.Index());
+            }
+
+            Mapper.Map(seminar, origSeminar);
+
+            if (ModelState.IsValid)
+            {
+                _seminarRepository.EnsurePersistent(origSeminar);
+                Message = string.Format(Messages.Saved, "Seminar");
+                return this.RedirectToAction(a => a.Index());
+            }
+
+            var viewModel = SeminarViewModel.Create(Repository, seminar);
+            return View(viewModel);
+        }
+        #endregion
+    }
 }

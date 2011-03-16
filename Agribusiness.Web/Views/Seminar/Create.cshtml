@@ -1,59 +1,9 @@
-﻿@model Agribusiness.Web.Controllers.SeminarViewModel
+﻿@model Agribusiness.Web.Models.SeminarViewModel
 
 @{
     ViewBag.Title = "Create Seminar";
     ViewBag.SubPageTitle = "Create Seminar";
 }
 
-@section ScriptContent {
-    <script type="text/javascript">
-        $(function () {
-            $("input[type='submit']").button();
-            $("fieldset a").button();
-        });
-    </script>
-}
-
-@using (Html.BeginForm()) { 
-    
-    @Html.ValidationSummary("Please correct the following errors.")
-    @Html.AntiForgeryToken()
-    <fieldset>
-        <ul>
-        <li><label for="year">Year:</label>
-            @Html.EditorFor(a=>a.Seminar.Year)
-            @Html.ValidationMessageFor(a => a.Seminar.Year)
-        </li>
-        <li><label for="location">Location:</label>
-            @Html.EditorFor(a=>a.Seminar.Location)
-            @Html.ValidationMessageFor(a => a.Seminar.Location)
-        </li>
-        <li><label for="Begin">Begin Date:</label>
-            @Html.EditorFor(a=>a.Seminar.Begin)
-            @Html.ValidationMessageFor(a => a.Seminar.Begin)
-        </li>
-        <li><label for="End">End Date:</label>
-            @Html.EditorFor(a=>a.Seminar.End)
-        </li>
-        <li><label for="RegistrationDeadline">Registration Deadline:</label>
-            @Html.EditorFor(a => a.Seminar.RegistrationDeadline)
-            @Html.ValidationMessageFor(a => a.Seminar.RegistrationDeadline)
-        </li>
-        <li><label for="RegistrationPassword">Registration Password:</label>
-            @Html.EditorFor(a=>a.Seminar.RegistrationPassword)
-            @Html.ValidationMessageFor(a => a.Seminar.RegistrationPassword)
-        </li>
-        <li><label for="RegistrationId">Registration Id:</label>
-            @Html.EditorFor(a=>a.Seminar.RegistrationId)
-            @Html.ValidationMessageFor(a => a.Seminar.RegistrationId)
-        </li>
-        <li>
-            <label></label>
-            <input type="submit" value="Save" />
-            @Html.ActionLink("Cancel","Index", "Seminar")
-        </li>
-        </ul>
-    </fieldset>
-}
-
+@Html.Partial("_SeminarForm")
 

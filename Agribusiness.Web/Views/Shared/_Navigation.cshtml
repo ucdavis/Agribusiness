@@ -10,7 +10,7 @@
         { 
             if (User.IsInRole(RoleNames.User))
             {
-                <li><a href="#">Seminars</a></li>
+                <li>@Html.ActionLink("Seminars", "Index", "Seminar")</li>
                 <li><a href="#">Applications</a></li>
                 <li><a href="#">People</a></li>
                 <li><a href="#">Firms</a></li>

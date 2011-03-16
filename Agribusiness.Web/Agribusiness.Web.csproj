@@ -37,6 +37,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\Bin\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="Castle.Core, Version=2.5.1.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <HintPath>..\Bin\Castle.Core.dll</HintPath>
     </Reference>
@@ -99,6 +102,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppStart_RegisterClientValidationExtensions.cs" />
+    <Compile Include="App_GlobalResources\Messages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Messages.resx</DependentUpon>
+    </Compile>
     <Compile Include="ComponentRegistrar.asax.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
@@ -107,11 +115,15 @@
     <Compile Include="Controllers\Filters\RoleFilter.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SeminarController.cs" />
+    <Compile Include="Controllers\SessionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\AutomapperConfig.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\MessageModel.cs" />
+    <Compile Include="Models\SeminarViewModel.cs" />
+    <Compile Include="Models\SessionViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RouteConfigurator.asax.cs" />
     <Compile Include="App_GlobalResources\StaticIndexes.Designer.cs">
@@ -121,9 +133,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Css\Agribusiness.css" />
+    <Content Include="Css\anytimec.css" />
     <Content Include="Css\main.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\anytimec.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -201,8 +216,16 @@
     <Content Include="Views\Seminar\Index.cshtml" />
     <Content Include="Views\Seminar\Create.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
+    <Content Include="Views\Seminar\_SeminarForm.cshtml" />
+    <Content Include="Views\Seminar\Edit.cshtml" />
+    <Content Include="Views\Session\Create.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DateAndTime.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_GlobalResources\Messages.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Messages.Designer.cs</LastGenOutput>
+    </Content>
     <EmbeddedResource Include="App_GlobalResources\StaticIndexes.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>StaticIndexes.Designer.cs</LastGenOutput>

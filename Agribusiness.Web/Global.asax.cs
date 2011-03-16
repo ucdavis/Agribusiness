@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using Agribusiness.Core;
 using Agribusiness.Core.Domain;
 using Agribusiness.Web.Controllers;
+using Agribusiness.Web.Helpers;
 using Castle.Windsor;
 using Microsoft.Practices.ServiceLocation;
 using UCDArch.Data.NHibernate;
@@ -26,6 +27,8 @@ namespace Agribusiness.Web
             NHibernateSessionConfiguration.Mappings.UseFluentMappings(typeof(AddressType).Assembly);
 
             IWindsorContainer container = InitializeServiceLocator();
+
+            AutomapperConfig.Configure();
         }
 
         private static IWindsorContainer InitializeServiceLocator()

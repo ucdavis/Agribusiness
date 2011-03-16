@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using DataAnnotationsExtensions;
 using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
 
@@ -11,14 +12,22 @@ namespace Agribusiness.Core.Domain
     public class Session : DomainObject
     {
         #region Constructors
-        public Session() { }
+        public Session() { SetDefaults(); }
 
         public Session(string name, SessionType sessionType, Seminar seminar)
         {
             Name = name;
             SessionType = sessionType;
             Seminar = seminar;
+
+            SetDefaults();
         }
+
+        private void SetDefaults()
+        {
+            SeminarPeople = new List<SeminarPerson>();
+        }
+
         #endregion
 
         #region Mapped Fields
@@ -27,6 +36,7 @@ namespace Agribusiness.Core.Domain
         public virtual string Name { get; set; }
         [StringLength(50)]
         public virtual string Location { get; set; }
+        [Before("End")]
         public virtual DateTime? Begin { get; set; }
         public virtual DateTime? End { get; set; }
         [Required]
@@ -36,6 +46,9 @@ namespace Agribusiness.Core.Domain
 
         public virtual IList<SeminarPerson> SeminarPeople { get; set; }
         #endregion
+
+        public virtual string BeginString { get { return Begin.HasValue ? Begin.Value.ToString("g") : "n/a"; } }
+        public virtual string EndString { get { return End.HasValue ? End.Value.ToString("g") : "n/a"; } }
     }
 
     public class SessionMap : ClassMap<Session>
