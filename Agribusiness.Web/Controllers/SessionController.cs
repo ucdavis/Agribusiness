@@ -91,6 +91,7 @@ namespace Agribusiness.Web.Controllers
 
             if (ModelState.IsValid)
             {
+                _sessionRepository.EnsurePersistent(origSession);
                 Message = string.Format(Messages.Saved, "Session");
                 return this.RedirectToAction<SeminarController>(a => a.Edit(seminarId));
             }
