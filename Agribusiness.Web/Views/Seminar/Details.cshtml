@@ -5,4 +5,14 @@
     ViewBag.SubPageTitle = "Seminar Details";
 }
 
-
+@section SubPageNavigation
+{
+    <ul class="navigation">
+        <li>
+            @Html.ActionLink("Edit", "Edit", "Seminar", new { id = Model.Id }, new { })
+        </li>
+        <li>
+            @Html.ActionLink("Back to List", "Index", "Seminar")
+        </li>
+    </ul>
+}

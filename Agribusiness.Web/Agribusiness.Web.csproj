@@ -120,6 +120,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\AutomapperConfig.cs" />
+    <Compile Include="Helpers\FluentHelper.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\MessageModel.cs" />
     <Compile Include="Models\SeminarViewModel.cs" />

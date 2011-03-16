@@ -1,4 +1,5 @@
 ﻿@using MvcContrib.FluentHtml
+@using Agribusiness.Web.Helpers
 
 @model Agribusiness.Web.Models.SessionViewModel
 
@@ -26,7 +27,7 @@
             @Html.ValidationMessageFor(a => a.Session.End)
         </li>
         <li>@Html.LabelFor(a => a.Session.SessionType)
-            @this.Select("Session.SessionType").Options(Model.SessionTypes,x=>x.Id,x=>x.Name).Selected(Model.Session.SessionType != null ? Model.Session.SessionType.Id : string.Empty).FirstOptionText("--Select a Session Type--")
+            @this.Select("Session.SessionType").Options(Model.SessionTypes,x=>x.Id,x=>x.Name).Selected(Model.Session.SessionType != null ? Model.Session.SessionType.Id : string.Empty).FirstOptionText("--Select a Session Type--").IncludeUnobtrusiveValidationAttributes(Html)
             @Html.ValidationMessageFor(a => a.Session.SessionType)
         </li>
         <li>
