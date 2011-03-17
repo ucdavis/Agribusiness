@@ -59,12 +59,15 @@ namespace Agribusiness.Core.Domain
         public virtual string CellPhone { get; set; }
         [DataType(DataType.PhoneNumber)]
         public virtual string Fax { get; set; }
-
-        public virtual byte[] Picture { get; set; }
+        
         public virtual string Biography { get; set; }
         public virtual bool Invite { get; set; }
 
         public virtual User User { get; set; }
+
+        public virtual byte[] OriginalPicture { get; set; }
+        public virtual byte[] MainProfilePicture { get; set; }
+        public virtual byte[] ThumbnailPicture { get; set; }
 
         // bags
         public virtual IList<Address> Addresses { get; set; }
@@ -72,6 +75,18 @@ namespace Agribusiness.Core.Domain
         public virtual IList<CaseStudy> CaseStudyExecutive { get; set; }
         public virtual IList<CaseStudy> CaseStudyAuthor { get; set; }
         #endregion
+
+        public virtual string FullName { 
+            get
+            {
+                // return full name
+                if (!string.IsNullOrWhiteSpace(MI))
+                    return string.Format("{0} {1} {2}", FirstName, MI, LastName);
+
+                // just return first and last name
+                return string.Format("{0} {1}", FirstName, LastName);
+            }
+        }
     }
 
     public class PersonMap : ClassMap<Person>
@@ -90,9 +105,12 @@ namespace Agribusiness.Core.Domain
             Map(x => x.BadgeName);
             Map(x => x.CellPhone);
             Map(x => x.Fax);
-            Map(x => x.Picture);
             Map(x => x.Biography);
             Map(x => x.Invite);
+
+            Map(x => x.OriginalPicture);
+            Map(x => x.MainProfilePicture);
+            Map(x => x.ThumbnailPicture);
 
             References(x => x.User);
 

@@ -1,0 +1,18 @@
+﻿@model IQueryable<Person>
+
+@{
+    ViewBag.Title = "People Index";
+    ViewBag.SubPageTitle = "People Index";
+}
+
+@foreach (var a in Model)
+{ 
+    <fieldset>
+        <legend>@a.FullName</legend>
+
+        @if(a.MainProfilePicture == null)
+        {
+            <img src='@Url.Content("~/Images/profileplaceholder.jpg")' />
+        }
+    </fieldset>
+}

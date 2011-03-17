@@ -1,4 +1,5 @@
-﻿using Castle.MicroKernel.Registration;
+﻿using Agribusiness.Web.Services;
+using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using UCDArch.Core.CommonValidator;
 using UCDArch.Core.DataAnnotationsValidator.CommonValidatorAdapter;
@@ -15,6 +16,8 @@ namespace Agribusiness.Web
 
             container.Register(Component.For<IValidator>().ImplementedBy<Validator>().Named("validator"));
             container.Register(Component.For<IDbContext>().ImplementedBy<DbContext>().Named("dbContext"));
+
+            container.Register(Component.For<IPictureService>().ImplementedBy<PictureService>().Named("PictureService"));
         }
 
         private static void AddGenericRepositoriesTo(IWindsorContainer container)

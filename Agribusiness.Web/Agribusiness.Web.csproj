@@ -114,6 +114,8 @@
     <Compile Include="Controllers\Filters\CatbertMessagesAttribute.cs" />
     <Compile Include="Controllers\Filters\RoleFilter.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PersonController.cs" />
+    <Compile Include="Controllers\PictureTestController.cs" />
     <Compile Include="Controllers\SeminarController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
     <Compile Include="Global.asax.cs">
@@ -121,8 +123,10 @@
     </Compile>
     <Compile Include="Helpers\AutomapperConfig.cs" />
     <Compile Include="Helpers\FluentHelper.cs" />
+    <Compile Include="Services\IPictureService.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\MessageModel.cs" />
+    <Compile Include="Models\PersonViewModel.cs" />
     <Compile Include="Models\SeminarViewModel.cs" />
     <Compile Include="Models\SessionViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -132,14 +136,19 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StaticIndexes.resx</DependentUpon>
     </Compile>
+    <Compile Include="Services\PictureService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Css\Agribusiness.css" />
     <Content Include="Css\anytimec.css" />
+    <Content Include="Css\jquery.Jcrop.css" />
     <Content Include="Css\main.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Images\Jcrop.gif" />
+    <Content Include="Images\profileplaceholder.jpg" />
     <Content Include="Scripts\anytimec.js" />
+    <Content Include="Scripts\jquery.Jcrop.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -225,6 +234,8 @@
     <Content Include="Views\Session\_SessionForm.cshtml" />
     <Content Include="Views\Session\_SessionFormScripts.cshtml" />
     <Content Include="Views\Seminar\Details.cshtml" />
+    <Content Include="Views\Person\Index.cshtml" />
+    <Content Include="Views\PictureTest\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">

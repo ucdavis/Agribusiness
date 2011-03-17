@@ -41,7 +41,7 @@ namespace Agribusiness.Web.Controllers
 
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(5));
 
-            return File(person.Picture, "image/jpg");
+            return File(person.OriginalPicture, "image/jpg");
         }
     }
 }
