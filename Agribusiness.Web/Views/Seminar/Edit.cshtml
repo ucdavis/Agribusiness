@@ -46,7 +46,7 @@
             { 
                 <tr>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", "Session", new {id=a.Id, seminarId=Model.Seminar.Id}, new {@class="table_edit"})
+                        @Html.ActionLink("Edit", "Edit", "Session", new {id=a.Id, seminarId=a.Seminar.Id}, new {@class="table_edit"})
                     </td>
                     <td>@a.Name</td>
                     <td>@a.Location</td>

@@ -37,7 +37,7 @@ namespace Agribusiness.Core.Domain
         public virtual string CouponCode { get; set; }
         public virtual bool Registered { get; set; }
 
-        public virtual string RegistartionCode { get; private set; }
+        public virtual string RegistrationCode { get; private set; }
 
         public virtual IList<Session> Sessions { get; set; }
         #endregion
@@ -57,7 +57,7 @@ namespace Agribusiness.Core.Domain
             Map(x => x.FirmCode);
             Map(x => x.CouponCode);
             Map(x => x.Registered);
-            Map(x => x.RegistartionCode).ReadOnly();
+            Map(x => x.RegistrationCode).ReadOnly();
 
             HasManyToMany(x => x.Sessions).ParentKeyColumn("SeminarPersonId")
                 .ChildKeyColumn("SessionId")

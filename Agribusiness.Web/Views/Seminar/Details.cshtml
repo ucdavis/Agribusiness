@@ -9,10 +9,110 @@
 {
     <ul class="navigation">
         <li>
+            <a href="#">Assign Sessions</a>
+        </li>
+
+        <li>
             @Html.ActionLink("Edit", "Edit", "Seminar", new { id = Model.Id }, new { })
         </li>
         <li>
             @Html.ActionLink("Back to List", "Index", "Seminar")
         </li>
     </ul>
+}
+
+<h3>Details</h3>
+    <ul>
+        <li><label for="year">Year:</label>
+            @Html.DisplayFor(a=>a.Year)
+        </li>
+        <li><label for="location">Location:</label>
+            @Html.DisplayFor(a=>a.Location)
+        </li>
+        <li><label for="Begin">Begin Date:</label>
+            @Html.DisplayFor(a=>a.Begin)
+        </li>
+        <li><label for="End">End Date:</label>
+            @Html.DisplayFor(a=>a.End)
+        </li>
+        <li><label for="RegistrationDeadline">Registration Deadline:</label>
+            @Html.DisplayFor(a => a.RegistrationDeadline)
+        </li>
+        <li><label for="RegistrationPassword">Registration Password:</label>
+            @Html.DisplayFor(a=>a.RegistrationPassword)
+        </li>
+        <li><label for="RegistrationId">Registration Id:</label>
+            @Html.DisplayFor(a=>a.RegistrationId)
+        </li>
+    </ul>
+
+<h3>Sessions</h3>
+
+@if (Model.Sessions.Any())
+{ 
+    <table>
+        <thead> 
+            <tr>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Begin</th>
+                <th>End</th>
+                <th>Type</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tfoot></tfoot>
+        <tbody>
+        
+            @foreach (var a in Model.Sessions)
+            { 
+                <tr>
+                    <td>@a.Name</td>
+                    <td>@a.Location</td>
+                    <td>@a.BeginString</td>
+                    <td>@a.EndString</td>
+                    <td>@a.SessionType.Name</td>
+                    <td></td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+}
+else 
+{ 
+    @Html.Partial("_Message", new MessageModel(){IsError=false,Message="No Sessions have been created yet."})
+}
+
+<h3>People</h3>
+
+@if (Model.SeminarPeople.Count <= 0)
+{ 
+    @Html.Partial("_Message", new MessageModel() { IsError = false, Message = "No one has been approved to attend this seminar" })
+}
+else
+{ 
+<table>
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>MI</th>
+            <th>Last Name</th>
+            <th>Title</th>
+            <th>Firm</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var a in Model.SeminarPeople)
+        { 
+            <tr>
+                <td>@a.Person.FirstName</td>
+                <td>@a.Person.MI</td>
+                <td>@a.Person.LastName</td>
+                <td>@a.Title</td>
+                <td>@a.FirmCode</td>
+            </tr>
+        }
+    </tbody>
+</table>
 }
