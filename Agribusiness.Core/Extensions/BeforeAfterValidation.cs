@@ -51,10 +51,12 @@ namespace DataAnnotationsExtensions
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
+            var memberNames = new[] {validationContext.MemberName};
+
             PropertyInfo otherPropertyInfo = validationContext.ObjectType.GetProperty(OtherProperty);
             if (otherPropertyInfo == null)
             {
-                return new ValidationResult(String.Format(CultureInfo.CurrentCulture, "Could not find a property named {0}.", OtherProperty));
+                return new ValidationResult(String.Format(CultureInfo.CurrentCulture, "Could not find a property named {0}.", OtherProperty), memberNames);
             }
 
             object otherPropertyValue = otherPropertyInfo.GetValue(validationContext.ObjectInstance, null);
@@ -77,13 +79,13 @@ namespace DataAnnotationsExtensions
                 case DateComparisonType.Before:
                     if (comparison >= 0)
                     {
-                        return new ValidationResult(FormatErrorMessage(validationContext.DisplayName));
+                        return new ValidationResult(FormatErrorMessage(validationContext.DisplayName), memberNames);
                     }
                     break;
                 case DateComparisonType.After:
                     if (comparison <= 0)
                     {
-                        return new ValidationResult(FormatErrorMessage(validationContext.DisplayName));
+                        return new ValidationResult(FormatErrorMessage(validationContext.DisplayName), memberNames);
                     }
                     break;
             }

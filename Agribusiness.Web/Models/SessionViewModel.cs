@@ -28,7 +28,7 @@ namespace Agribusiness.Web.Models
                                     SessionTypes = repository.OfType<SessionType>().GetAll()
                                 };
  
-            viewModel.SessionTypesList = new SelectList(viewModel.SessionTypes, "Id", "Name", viewModel.Session.SessionType.Id);
+            viewModel.SessionTypesList = new SelectList(viewModel.SessionTypes, "Id", "Name", viewModel.Session.SessionType == null ? string.Empty : viewModel.Session.SessionType.Id);
 
             return viewModel;
         }
