@@ -18,6 +18,7 @@
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
+    <UseIISExpress>false</UseIISExpress>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -239,6 +240,33 @@
     <Content Include="Views\PictureTest\Index.cshtml" />
     <Content Include="Views\Person\Create.cshtml" />
     <Content Include="Views\Person\UpdateProfilePicture.cshtml" />
+    <None Include="CodeTemplates\AddView\AspxCSharp\Create.tt" />
+    <None Include="CodeTemplates\AddView\AspxCSharp\CreateViewModel.tt" />
+    <None Include="CodeTemplates\AddView\AspxCSharp\Delete.tt" />
+    <None Include="CodeTemplates\AddView\AspxCSharp\Details.tt" />
+    <None Include="CodeTemplates\AddView\AspxCSharp\Edit.tt" />
+    <None Include="CodeTemplates\AddView\AspxCSharp\EditViewModel.tt" />
+    <None Include="CodeTemplates\AddView\AspxCSharp\Empty.tt" />
+    <None Include="CodeTemplates\AddView\AspxCSharp\List.tt" />
+    <None Include="CodeTemplates\AddView\AspxCSharp\ListTelerik.tt" />
+    <Content Include="CodeTemplates\AddView\CSHTML\Create.cshtml" />
+    <None Include="CodeTemplates\AddView\CSHTML\Create.tt" />
+    <Content Include="CodeTemplates\AddView\CSHTML\CreateViewModel.cshtml" />
+    <None Include="CodeTemplates\AddView\CSHTML\CreateViewModel.tt" />
+    <Content Include="CodeTemplates\AddView\CSHTML\Delete.cshtml" />
+    <None Include="CodeTemplates\AddView\CSHTML\Delete.tt" />
+    <Content Include="CodeTemplates\AddView\CSHTML\Details.cshtml" />
+    <None Include="CodeTemplates\AddView\CSHTML\Details.tt" />
+    <Content Include="CodeTemplates\AddView\CSHTML\Edit.cshtml" />
+    <None Include="CodeTemplates\AddView\CSHTML\Edit.tt" />
+    <Content Include="CodeTemplates\AddView\CSHTML\EditViewModel.cshtml" />
+    <None Include="CodeTemplates\AddView\CSHTML\EditViewModel.tt" />
+    <Content Include="CodeTemplates\AddView\CSHTML\Empty.cshtml" />
+    <None Include="CodeTemplates\AddView\CSHTML\Empty.tt" />
+    <Content Include="CodeTemplates\AddView\CSHTML\List.cshtml" />
+    <None Include="CodeTemplates\AddView\CSHTML\List.tt" />
+    <Content Include="CodeTemplates\AddView\CSHTML\ListTelerik.cshtml" />
+    <None Include="CodeTemplates\AddView\CSHTML\ListTelerik.tt" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">
