@@ -14,7 +14,8 @@ namespace Agribusiness.Web.Models
         public IList<Address> Addresses { get; set; }
         public IEnumerable<State> States { get; set; }
         public Person Person { get; set; }
- 
+        public string Email { get; set; }
+
         public static PersonViewModel Create(IRepository repository, Person person = null)
         {
             Check.Require(repository != null, "Repository must be supplied");

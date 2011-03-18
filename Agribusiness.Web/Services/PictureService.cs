@@ -1,5 +1,7 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
 
 namespace Agribusiness.Web.Services
@@ -8,6 +10,26 @@ namespace Agribusiness.Web.Services
     {
         public byte[] Crop(byte[] img, int x, int y, int width, int height)
         {
+            //using (var OriginalImage = Image.FromStream(new MemoryStream(img)))
+            //{
+            //    using (var bmp = new Bitmap(width, height))
+            //    {
+            //        bmp.SetResolution(OriginalImage.HorizontalResolution, OriginalImage.VerticalResolution);
+
+            //        using (var Graphic = Graphics.FromImage(bmp))
+            //        {
+            //            Graphic.SmoothingMode = SmoothingMode.AntiAlias;
+            //            Graphic.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            //            Graphic.PixelOffsetMode = PixelOffsetMode.HighQuality;
+            //            Graphic.DrawImage(OriginalImage, new Rectangle(0, 0, width, height), x, y, width, height, GraphicsUnit.Pixel);
+
+            //            MemoryStream ms = new MemoryStream();
+            //            bmp.Save(ms, OriginalImage.RawFormat);
+            //            return ms.GetBuffer();
+            //        }
+            //    }
+            //}            
+
             var s = new MemoryStream(img);
             var origImg = Image.FromStream(s);
 
@@ -42,6 +64,11 @@ namespace Agribusiness.Web.Services
 
             var ms = new MemoryStream();
             newImg.Save(ms, origImg.RawFormat);
+
+            graphic.Dispose();
+            newImg.Dispose();
+            origImg.Dispose();
+
             return ms.GetBuffer();
         }
 

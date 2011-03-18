@@ -42,10 +42,6 @@ namespace Agribusiness.Core.Domain
         [Required]
         [DataType(DataType.PhoneNumber)]
         public virtual string Phone { get; set; }
-        /// <summary>
-        /// Link to the asp.net membership user
-        /// </summary>
-        public virtual Guid UserId { get; set; }
 
         // optional fields
         [StringLength(50)]
@@ -118,8 +114,7 @@ namespace Agribusiness.Core.Domain
             Map(x => x.LastName);
             Map(x => x.FirstName);
             Map(x => x.Phone);
-            Map(x => x.UserId);
-
+            
             Map(x => x.MI);
             Map(x => x.Salutation);
             Map(x => x.BadgeName);
@@ -128,10 +123,10 @@ namespace Agribusiness.Core.Domain
             Map(x => x.Biography);
             Map(x => x.Invite);
 
-            Map(x => x.OriginalPicture);
-            Map(x => x.MainProfilePicture);
-            Map(x => x.ThumbnailPicture);
-            Map(x => x.ContentType);
+            Map(x => x.OriginalPicture).LazyLoad().CustomType("BinaryBlob");
+            Map(x => x.MainProfilePicture).LazyLoad().CustomType("BinaryBlob");
+            Map(x => x.ThumbnailPicture).LazyLoad().CustomType("BinaryBlob");
+            Map(x => x.ContentType).LazyLoad();
 
             References(x => x.User);
 

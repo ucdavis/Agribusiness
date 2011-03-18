@@ -7,9 +7,10 @@ namespace Agribusiness.Web
 {
     public interface IPictureService
     {
-        byte[] Crop(byte[] img, int x, int y, int height, int width);
-        byte[] Resize(byte[] img, int height, int width);
+        byte[] Crop(byte[] img, int x, int y, int width, int height);
+        byte[] Resize(byte[] img, int width, int height);
 
+        byte[] MakeMainProfile(byte[] img);
         byte[] MakeThumbnail(byte[] img);
     }
 }

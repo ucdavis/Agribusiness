@@ -17,9 +17,7 @@
     <fieldset>
         <legend>@a.FullName</legend>
 
-        @if(a.MainProfilePicture == null)
-        {
-            <img src='@Url.Content("~/Images/profileplaceholder.jpg")' />
-        }
+        <img src='@Url.Action("GetProfilePicture", "Person", new {id=a.Id})' alt='string.Format("{0}''s Profile Picture", @a.FullName)' />
+
     </fieldset>
 }

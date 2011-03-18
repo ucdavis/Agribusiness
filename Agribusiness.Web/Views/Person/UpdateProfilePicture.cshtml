@@ -1,0 +1,73 @@
+﻿@model Agribusiness.Core.Domain.Person
+
+@{
+    ViewBag.Title = "Update Profile Picture";
+    ViewBag.SubPageTitle = "Update Profile Picture for " + Model.FullName;
+}
+
+@section ScriptContent{
+    
+    <link href="@Url.Content("~/Css/jquery.Jcrop.css")" rel="stylesheet" type="text/css" />   
+    <script src="@Url.Content("~/Scripts/jquery.Jcrop.min.js")" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $("#profile_image").Jcrop({ onChange: showPreview, onSelect: showPreview, aspectRatio: .8, minSize: [148,158] });
+        });
+
+        // Code based off of http://deepliquid.com/projects/Jcrop/demos.php?demo=thumbnail
+        // modified to handle different sized images
+        function showPreview(coords) {
+
+            var rx = 148 / coords.w;
+            var ry = 185 / coords.h;
+
+            // calculate the width and height or originals
+            var widthOrig = $("#profile_image").width();
+            var heightOrig = $("#profile_image").height();
+            
+            $("#preview").css({
+                width: Math.round(rx * widthOrig) + 'px',
+                height: Math.round(ry * heightOrig) + 'px',
+                marginLeft: '-' + Math.round(rx*coords.x) + 'px',
+                marginTop: '-' + Math.round(ry*coords.y) + 'px'
+            });
+
+            // set the form values
+            $("#x").val(coords.x);
+            $("#y").val(coords.y);
+            $("#width").val(coords.w);
+            $("#height").val(coords.h);
+
+        }
+    </script>
+
+}
+
+<div class="col1">
+    <img id="profile_image" src='@Url.Action("LoadPicture", "Home", new { id = Model.Id })' alt="Profile Image" />
+</div>
+<div class="col2">
+
+    <div style="width: 148px; height: 185px; overflow: hidden; border:1px solid black;">
+    <img id="preview" src='@Url.Action("LoadPicture", "Home", new {id=Model.Id})' alt="Profile Preview" />
+    </div>
+
+    <div>
+    
+        @using (Html.BeginForm()) 
+        { 
+            @Html.AntiForgeryToken()
+            
+            @Html.Hidden("Id", Model.Id)
+            @Html.Hidden("x")
+            @Html.Hidden("y")
+            @Html.Hidden("width")
+            @Html.Hidden("height")
+
+            <input type="submit" value="save" />
+        }
+        
+    </div>
+
+</div>

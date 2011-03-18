@@ -32,7 +32,6 @@ namespace Agribusiness.Core.Domain
         [StringLength(50)]
         public virtual string City { get; set; }
         [Required]
-        [StringLength(2)]
         public virtual State State { get; set; }
         [Required]
         [StringLength(10)]
