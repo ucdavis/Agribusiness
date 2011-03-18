@@ -5,6 +5,13 @@
     ViewBag.SubPageTitle = "People Index";
 }
 
+@section SubPageNavigation
+{
+    <ul class="navigation">
+        <li>@Html.ActionLink("Create New", "Create")</li>
+    </ul>
+}
+
 @foreach (var a in Model)
 { 
     <fieldset>

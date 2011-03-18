@@ -14,7 +14,7 @@
 
     <script type="text/javascript">
         $(function () {
-            $("#placeholder").Jcrop({onChange: showCoords, onSelect: showCoords});
+            $("#placeholder").Jcrop({onChange: showCoords, onSelect: showCoords, aspectRatio: .8});
         });
 
         function showCoords(c) {

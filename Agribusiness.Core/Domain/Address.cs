@@ -43,6 +43,18 @@ namespace Agribusiness.Core.Domain
         [Required]
         public virtual Person Person { get; set; }
         #endregion
+
+        /// <summary>
+        /// Checks  to see if any of the fields has a value
+        /// </summary>
+        /// <returns></returns>
+        public virtual bool HasAddress()
+        {
+            return !(string.IsNullOrWhiteSpace(Line1)
+                     && string.IsNullOrWhiteSpace(City)
+                     && State == null
+                     && string.IsNullOrWhiteSpace(Zip));
+        }
     }
 
     public class AddressMap : ClassMap<Address>

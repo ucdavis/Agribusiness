@@ -63,11 +63,13 @@ namespace Agribusiness.Core.Domain
         public virtual string Biography { get; set; }
         public virtual bool Invite { get; set; }
 
+        [Required]
         public virtual User User { get; set; }
 
         public virtual byte[] OriginalPicture { get; set; }
         public virtual byte[] MainProfilePicture { get; set; }
         public virtual byte[] ThumbnailPicture { get; set; }
+        public virtual string ContentType { get; set; }
 
         // bags
         public virtual IList<Address> Addresses { get; set; }
@@ -76,7 +78,9 @@ namespace Agribusiness.Core.Domain
         public virtual IList<CaseStudy> CaseStudyAuthor { get; set; }
         #endregion
 
-        public virtual string FullName { 
+        #region Calculated Fields and Methods
+        public virtual string FullName
+        {
             get
             {
                 // return full name
@@ -87,6 +91,22 @@ namespace Agribusiness.Core.Domain
                 return string.Format("{0} {1}", FirstName, LastName);
             }
         }
+
+        public virtual void AddAddress(Address address)
+        {
+            address.Person = this;
+
+            Addresses.Add(address);
+        }
+
+        public virtual void AddContact(Contact contact)
+        {
+            contact.Person = this;
+
+            Contacts.Add(contact);
+        }
+        #endregion
+        
     }
 
     public class PersonMap : ClassMap<Person>
@@ -111,6 +131,7 @@ namespace Agribusiness.Core.Domain
             Map(x => x.OriginalPicture);
             Map(x => x.MainProfilePicture);
             Map(x => x.ThumbnailPicture);
+            Map(x => x.ContentType);
 
             References(x => x.User);
 

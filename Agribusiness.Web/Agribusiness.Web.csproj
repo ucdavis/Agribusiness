@@ -123,6 +123,7 @@
     </Compile>
     <Compile Include="Helpers\AutomapperConfig.cs" />
     <Compile Include="Helpers\FluentHelper.cs" />
+    <Compile Include="Models\PersonEditModel.cs" />
     <Compile Include="Services\IPictureService.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\MessageModel.cs" />
@@ -236,6 +237,7 @@
     <Content Include="Views\Seminar\Details.cshtml" />
     <Content Include="Views\Person\Index.cshtml" />
     <Content Include="Views\PictureTest\Index.cshtml" />
+    <Content Include="Views\Person\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">
@@ -267,7 +269,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>3071</DevelopmentServerPort>
+          <DevelopmentServerPort>4274</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

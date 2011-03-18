@@ -6,7 +6,7 @@ namespace Agribusiness.Web.Services
 {
     public class PictureService : IPictureService
     {
-        public byte[] Crop(byte[] img, int x, int y, int height, int width)
+        public byte[] Crop(byte[] img, int x, int y, int width, int height)
         {
             var s = new MemoryStream(img);
             var origImg = Image.FromStream(s);
@@ -25,7 +25,7 @@ namespace Agribusiness.Web.Services
             return ms.GetBuffer();
         }
 
-        public byte[] Resize(byte[] img, int height, int width)
+        public byte[] Resize(byte[] img, int width, int height)
         {
             var s = new MemoryStream(img);
             var origImg = Image.FromStream(s);
@@ -45,9 +45,30 @@ namespace Agribusiness.Web.Services
             return ms.GetBuffer();
         }
 
+        /// <summary>
+        /// Resizes image for main profile picture
+        /// </summary>
+        /// <remarks>
+        /// 148 width x 185 height
+        /// </remarks>
+        /// <param name="img"></param>
+        /// <returns></returns>
+        public byte[] MakeMainProfile(byte[] img)
+        {
+            return Resize(img, 148, 185);
+        }
+
+        /// <summary>
+        /// Resizes image for thumbnail
+        /// </summary>
+        /// <remarks>
+        /// 80 width x 100 height
+        /// </remarks>
+        /// <param name="img"></param>
+        /// <returns></returns>
         public byte[] MakeThumbnail(byte[] img)
         {
-            return Resize(img, 100, 80);
+            return Resize(img, 80, 100);
         }
     }
 }
