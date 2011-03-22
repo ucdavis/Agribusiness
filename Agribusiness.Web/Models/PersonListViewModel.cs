@@ -38,8 +38,17 @@ namespace Agribusiness.Web.Models
             return viewModel;
         }
 
-        private static List<Firm> GetListofFirms(IRepository<Firm> firmRepository)
+        private static List<Firm> GetListofFirms(IRepository<Firm> firmRepository)        
         {
+            // eventually this would be the ideal query 
+            //from firm in Firms
+            //where 
+            //(from a in Firms
+            //group a by a.FirmCode into b
+            //select b.Max(c=>c.Id)
+            //).Contains(firm.Id)
+            //select firm
+
             // load the ids of latest revisions of each firm
             var firmIds = (from a in firmRepository.Queryable
                            group a by a.FirmCode into b
