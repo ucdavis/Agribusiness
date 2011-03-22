@@ -158,6 +158,7 @@
     <Content Include="Images\profileplaceholder.jpg" />
     <Content Include="Scripts\anytimec.js" />
     <Content Include="Scripts\jquery.Jcrop.min.js" />
+    <Content Include="UCDArch.txt" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

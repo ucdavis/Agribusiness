@@ -7,6 +7,7 @@ namespace Agribusiness.Web.Controllers
 {
     [Version]
     //[CatbertMessages]
+    //[ServiceMessage("Agribusiness", ...)]
     public abstract class ApplicationController : SuperController
     {
         public string ErrorMessages
