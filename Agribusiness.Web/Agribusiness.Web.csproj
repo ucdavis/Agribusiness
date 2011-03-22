@@ -125,6 +125,8 @@
     <Compile Include="Helpers\AutomapperConfig.cs" />
     <Compile Include="Helpers\FluentHelper.cs" />
     <Compile Include="Models\PersonEditModel.cs" />
+    <Compile Include="Models\PersonListViewModel.cs" />
+    <Compile Include="Services\IPersonService.cs" />
     <Compile Include="Services\IPictureService.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\MessageModel.cs" />
@@ -138,6 +140,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StaticIndexes.resx</DependentUpon>
     </Compile>
+    <Compile Include="Services\PersonService.cs" />
     <Compile Include="Services\PictureService.cs" />
   </ItemGroup>
   <ItemGroup>

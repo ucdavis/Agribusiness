@@ -1,4 +1,4 @@
-﻿@model IQueryable<Person>
+﻿@model PersonListViewModel
 
 @{
     ViewBag.Title = "People Index";
@@ -12,12 +12,24 @@
     </ul>
 }
 
-@foreach (var a in Model)
+@foreach (var a in Model.People)
 { 
     <fieldset>
-        <legend>@a.FullName</legend>
+        <legend>@a.Person.FullName</legend>
 
-        <img src='@Url.Action("GetProfilePicture", "Person", new {id=a.Id})' alt='string.Format("{0}''s Profile Picture", @a.FullName)' />
+        <img src='@Url.Action("GetProfilePicture", "Person", new { id = a.Person.Id })' alt='string.Format("{0}''s Profile Picture", @a.Person.FullName)' />
 
+        @if(a.Firm != null){
+            
+            <ul>
+                <li>@a.Firm.Name</li>
+                <li>@a.Firm.Description</li>
+            </ul>
+            
+        }else{
+            
+            <text>No firm has been defined for this person</text>
+            
+        }
     </fieldset>
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
+using System.Linq;
 
 namespace Agribusiness.Core.Domain
 {
@@ -24,6 +25,7 @@ namespace Agribusiness.Core.Domain
         {
             Invite = false;
 
+            SeminarPeople = new List<SeminarPerson>();
             Addresses = new List<Address>();
             Contacts = new List<Contact>();
             CaseStudyExecutive =  new List<CaseStudy>();
@@ -67,11 +69,16 @@ namespace Agribusiness.Core.Domain
         public virtual byte[] ThumbnailPicture { get; set; }
         public virtual string ContentType { get; set; }
 
-        // bags
+        #region Bags
+        /// <summary>
+        /// Gives a list of all the registration's a person has made
+        /// </summary>
+        public virtual IList<SeminarPerson> SeminarPeople { get; set; }
         public virtual IList<Address> Addresses { get; set; }
         public virtual IList<Contact> Contacts { get; set; }
         public virtual IList<CaseStudy> CaseStudyExecutive { get; set; }
         public virtual IList<CaseStudy> CaseStudyAuthor { get; set; }
+        #endregion
         #endregion
 
         #region Calculated Fields and Methods
@@ -100,6 +107,11 @@ namespace Agribusiness.Core.Domain
             contact.Person = this;
 
             Contacts.Add(contact);
+        }
+
+        public virtual SeminarPerson GetLatestRegistration()
+        {
+            return SeminarPeople.AsQueryable().LastOrDefault();
         }
         #endregion
         

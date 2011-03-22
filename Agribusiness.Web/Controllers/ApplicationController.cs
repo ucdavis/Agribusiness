@@ -6,7 +6,7 @@ using UCDArch.Web.Controller;
 namespace Agribusiness.Web.Controllers
 {
     [Version]
-    [CatbertMessages]
+    //[CatbertMessages]
     public abstract class ApplicationController : SuperController
     {
         public string ErrorMessages

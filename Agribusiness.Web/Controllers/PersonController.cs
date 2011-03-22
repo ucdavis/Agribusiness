@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Agribusiness.Core.Domain;
+using Agribusiness.Web.Controllers.Filters;
 using Agribusiness.Web.Models;
 using Resources;
 using UCDArch.Core.PersistanceSupport;
@@ -20,13 +21,15 @@ namespace Agribusiness.Web.Controllers
     {
 	    private readonly IRepository<Person> _personRepository;
         private readonly IRepository<User> _userRepository;
+        private readonly IRepository<Firm> _firmRepository;
         private readonly IPictureService _pictureService;
         private readonly IMembershipService _membershipService;
 
-        public PersonController(IRepository<Person> personRepository, IRepository<User> userRepository, IPictureService pictureService)
+        public PersonController(IRepository<Person> personRepository, IRepository<User> userRepository, IRepository<Firm> firmRepository, IPictureService pictureService)
         {
             _personRepository = personRepository;
             _userRepository = userRepository;
+            _firmRepository = firmRepository;
             _pictureService = pictureService;
 
             _membershipService = new AccountMembershipService();
@@ -36,17 +39,25 @@ namespace Agribusiness.Web.Controllers
         // GET: /Person/
         public ActionResult Index()
         {
-            var personList = _personRepository.Queryable;
+            var viewModel = PersonListViewModel.Create(_personRepository, _firmRepository);
 
-            return View(personList);
+            return View(viewModel);
         }
 
+        public ActionResult Details(int id)
+        {
+            return View();
+        }
+
+        #region Administration Functions
+        [UserOnly]
         public ActionResult Create()
         {
             var viewModel = PersonViewModel.Create(Repository);
             return View(viewModel);
         }
 
+        [UserOnly]
         [HttpPost]
         public ActionResult Create(PersonEditModel personEditModel, HttpPostedFileBase profilepic)
         {
@@ -86,6 +97,7 @@ namespace Agribusiness.Web.Controllers
             return View(viewModel);
         }
 
+        [UserOnly]
         public ActionResult UpdateProfilePicture(int id)
         {
             var person = _personRepository.GetNullableById(id);
@@ -99,6 +111,7 @@ namespace Agribusiness.Web.Controllers
             return View(person);
         }
 
+        [UserOnly]
         [HttpPost]
         public ActionResult UpdateProfilePicture(int id, int x, int y, int height, int width)
         {
@@ -131,11 +144,16 @@ namespace Agribusiness.Web.Controllers
             return View(person);
         }
 
+        [UserOnly]
         [HttpPost]
         public ActionResult UploadPhoto(int id, HttpPostedFileBase profilepic)
         {
             return View();
         }
+        #endregion
+
+        
+
 
         public ActionResult GetProfilePicture(int id)
         {
