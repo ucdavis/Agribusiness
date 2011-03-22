@@ -15,8 +15,6 @@ namespace Agribusiness.Web.Models
             Check.Require(personRepository != null, "personRepository is required.");
             Check.Require(firmRepository != null, "firmRepository is required.");
 
-            var test = firmRepository.Queryable.Where(firm => firmRepository.Queryable.GroupBy(a => a.FirmCode).Select(b => b.Max(c => c.Id)).Contains(firm.Id)).ToList();
-
             var viewModel = new PersonListViewModel(){People = new List<DisplayPerson>()};
 
             var people = personRepository.GetAll();
@@ -42,18 +40,13 @@ namespace Agribusiness.Web.Models
 
         private static List<Firm> GetListofFirms(IRepository<Firm> firmRepository)
         {
-            // load firms
-            var allFirms = firmRepository.GetAll();
-            var firmCodes = allFirms.Select(a => a.FirmCode).Distinct();
+            // load the ids of latest revisions of each firm
+            var firmIds = (from a in firmRepository.Queryable
+                           group a by a.FirmCode into b
+                           select b.Max(c => c.Id)).ToList();
 
-            var firms = new List<Firm>();
-
-            foreach (var a in firmCodes)
-            {
-                var firm = allFirms.Where(c => c.Id == allFirms.Where(b => b.FirmCode == a).Max(b => b.Id)).SingleOrDefault();
-
-                if (firm != null) firms.Add(firm);
-            }
+            // get the firms
+            var firms = firmRepository.Queryable.Where(a => firmIds.Contains(a.Id)).ToList();
 
             return firms;
         }
