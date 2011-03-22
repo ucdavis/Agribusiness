@@ -41,24 +41,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agribusiness.WS", "Agribusiness.WS\Agribusiness.WS.csproj", "{9A333D4D-EC23-45AC-8B92-E64987A5EAB5}"
 EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 5
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs.caes.ucdavis.edu:8088/tfs/defaultcollection
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = Agribusiness.Tests\\Agribusiness.Tests.csproj
-		SccProjectName1 = Agribusiness.Tests
-		SccLocalPath1 = Agribusiness.Tests
-		SccProjectUniqueName2 = Agribusiness.Web\\Agribusiness.Web.csproj
-		SccProjectName2 = Agribusiness.Web
-		SccLocalPath2 = Agribusiness.Web
-		SccProjectUniqueName3 = Agribusiness.Core\\Agribusiness.Core.csproj
-		SccProjectName3 = Agribusiness.Core
-		SccLocalPath3 = Agribusiness.Core
-		SccProjectUniqueName4 = Agribusiness.WS\\Agribusiness.WS.csproj
-		SccProjectName4 = Agribusiness.WS
-		SccLocalPath4 = Agribusiness.WS
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
