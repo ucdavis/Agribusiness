@@ -12,18 +12,49 @@
     </ul>
 }
 
+@section ScriptContent
+{
+    <style type="text/css">
+        .profile_pic_container
+        {
+            float:left;
+            margin-left: 15px;
+        }
+        
+        .information_container
+        {
+            float:left;
+            margin-left: 15px;
+        }
+        
+        .information_container ul
+        {
+            list-style: none;
+        }
+        
+        .information_container .name { font-size: larger; font-weight: bold; color: #014A81;}
+        .information_container .title { margin-top: .5em; font-weight: bold;}
+        .information_container .description { margin-top: 1em;}
+    </style>
+}
+
 @foreach (var a in Model.People)
 { 
     <fieldset>
         <legend>@a.Person.FullName</legend>
 
-        <img src='@Url.Action("GetProfilePicture", "Person", new { id = a.Person.Id })' alt='string.Format("{0}''s Profile Picture", @a.Person.FullName)' />
+        <div class="profile_pic_container">
+            <img src='@Url.Action("GetThumbnail", "Person", new { id = a.Person.Id })' alt='string.Format("{0}''s Profile Picture", @a.Person.FullName)' />
+        </div>
 
+        <div class="information_container">
         @if(a.Firm != null){
             
             <ul>
+                <li class="name">@Html.ActionLink(a.Person.FullName, "Details", new { id = a.Person.Id })</li>
+                <li class="title">@a.Title</li>
                 <li>@a.Firm.Name</li>
-                <li>@a.Firm.Description</li>
+                <li class="description">@a.Firm.Description</li>
             </ul>
             
         }else{
@@ -31,5 +62,7 @@
             <text>No firm has been defined for this person</text>
             
         }
+        </div>
+
     </fieldset>
 }

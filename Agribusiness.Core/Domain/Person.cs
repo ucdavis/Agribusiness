@@ -73,6 +73,7 @@ namespace Agribusiness.Core.Domain
         /// <summary>
         /// Gives a list of all the registration's a person has made
         /// </summary>
+        //TODO: add a constraint that there must be at least one seminar person
         public virtual IList<SeminarPerson> SeminarPeople { get; set; }
         public virtual IList<Address> Addresses { get; set; }
         public virtual IList<Contact> Contacts { get; set; }
@@ -142,6 +143,7 @@ namespace Agribusiness.Core.Domain
 
             References(x => x.User);
 
+            HasMany(x => x.SeminarPeople).Inverse().Cascade.AllDeleteOrphan();
             HasMany(a => a.Addresses).Inverse().Cascade.AllDeleteOrphan();
             HasMany(a => a.Contacts).Inverse().Cascade.AllDeleteOrphan();
 

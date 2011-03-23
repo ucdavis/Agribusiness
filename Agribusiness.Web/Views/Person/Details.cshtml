@@ -1,0 +1,16 @@
+﻿@model DisplayPerson
+
+@{
+    ViewBag.Title = "Details";
+    ViewBag.SubPageTitle = Model.Person.FullName;
+}
+
+<div id="picture_container">
+    <img src='@Url.Action("GetProfilePicture", new { id = Model.Person.Id })' />
+</div>
+
+<div id="contact_info">
+    <ul>
+        
+    </ul>
+</div>

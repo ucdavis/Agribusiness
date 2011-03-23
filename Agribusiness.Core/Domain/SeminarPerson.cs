@@ -11,16 +11,18 @@ namespace Agribusiness.Core.Domain
         #region Constructors
         public SeminarPerson() { SetDefaults(); }
 
-        public SeminarPerson(Seminar seminar, Person person, SeminarRole seminarRole)
+        public SeminarPerson(Seminar seminar, Person person)
         {
             Seminar = seminar;
             Person = person;
-            SeminarRole = seminarRole;
         }
 
         private void SetDefaults()
         {
             Registered = false;
+
+            Sessions = new List<Session>();
+            SeminarRoles = new List<SeminarRole>();
         }
         #endregion
 
@@ -29,8 +31,6 @@ namespace Agribusiness.Core.Domain
         public virtual Seminar Seminar { get; set; }
         [Required]
         public virtual Person Person { get; set; }
-        [Required]
-        public virtual SeminarRole SeminarRole { get; set; }
 
         public virtual string Title { get; set; }
         public virtual Guid FirmCode { get; set; }
@@ -40,6 +40,7 @@ namespace Agribusiness.Core.Domain
         public virtual string RegistrationCode { get; private set; }
 
         public virtual IList<Session> Sessions { get; set; }
+        public virtual IList<SeminarRole> SeminarRoles { get; set; }
         #endregion
     }
 
@@ -51,7 +52,6 @@ namespace Agribusiness.Core.Domain
 
             References(x => x.Seminar);
             References(x => x.Person);
-            References(x => x.SeminarRole);
 
             Map(x => x.Title);
             Map(x => x.FirmCode);
@@ -62,6 +62,11 @@ namespace Agribusiness.Core.Domain
             HasManyToMany(x => x.Sessions).ParentKeyColumn("SeminarPersonId")
                 .ChildKeyColumn("SessionId")
                 .Table("SeminarPeopleXSessions")
+                .Cascade.SaveUpdate();
+
+            HasManyToMany(x => x.SeminarRoles).ParentKeyColumn("SeminarPersonId")
+                .ChildKeyColumn("SeminarRoleId")
+                .Table("SeminarPeopleXSeminarRoles")
                 .Cascade.SaveUpdate();
         }
     }

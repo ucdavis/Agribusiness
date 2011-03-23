@@ -18,6 +18,8 @@ namespace Agribusiness.Web
             container.Register(Component.For<IDbContext>().ImplementedBy<DbContext>().Named("dbContext"));
 
             container.Register(Component.For<IPictureService>().ImplementedBy<PictureService>().Named("PictureService"));
+            container.Register(Component.For<IPersonService>().ImplementedBy<PersonService>().Named("PersonService"));
+            container.Register(Component.For<IFirmService>().ImplementedBy<FirmService>().Named("FirmService"));
         }
 
         private static void AddGenericRepositoriesTo(IWindsorContainer container)

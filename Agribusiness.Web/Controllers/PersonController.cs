@@ -7,8 +7,10 @@ using System.Web.Mvc;
 using Agribusiness.Core.Domain;
 using Agribusiness.Web.Controllers.Filters;
 using Agribusiness.Web.Models;
+using Agribusiness.Web.Services;
 using Resources;
 using UCDArch.Core.PersistanceSupport;
+using UCDArch.Core.Utils;
 using UCDArch.Web.Helpers;
 using MvcContrib;
 
@@ -21,16 +23,16 @@ namespace Agribusiness.Web.Controllers
     {
 	    private readonly IRepository<Person> _personRepository;
         private readonly IRepository<User> _userRepository;
-        private readonly IRepository<Firm> _firmRepository;
         private readonly IPictureService _pictureService;
+        private readonly IPersonService _personService;
         private readonly IMembershipService _membershipService;
 
-        public PersonController(IRepository<Person> personRepository, IRepository<User> userRepository, IRepository<Firm> firmRepository, IPictureService pictureService)
+        public PersonController(IRepository<Person> personRepository, IRepository<User> userRepository, IPictureService pictureService, IPersonService personService)
         {
             _personRepository = personRepository;
             _userRepository = userRepository;
-            _firmRepository = firmRepository;
             _pictureService = pictureService;
+            _personService = personService;
 
             _membershipService = new AccountMembershipService();
         }
@@ -39,14 +41,22 @@ namespace Agribusiness.Web.Controllers
         // GET: /Person/
         public ActionResult Index()
         {
-            var viewModel = PersonListViewModel.Create(_personRepository, _firmRepository);
-
+            var viewModel = PersonListViewModel.Create(_personRepository, _personService);
             return View(viewModel);
         }
 
         public ActionResult Details(int id)
         {
-            return View();
+            var person = _personRepository.GetNullableById(id);
+
+            if (person == null)
+            {
+                Message = "Could not locate person.";
+                return this.RedirectToAction(a => a.Index());
+            }
+
+            var displayPerson = _personService.GetDisplayPerson(person);
+            return View(displayPerson);
         }
 
         #region Administration Functions

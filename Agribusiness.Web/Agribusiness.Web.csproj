@@ -130,6 +130,8 @@
     <Compile Include="Helpers\FluentHelper.cs" />
     <Compile Include="Models\PersonEditModel.cs" />
     <Compile Include="Models\PersonListViewModel.cs" />
+    <Compile Include="Services\FirmService.cs" />
+    <Compile Include="Services\IFirmService.cs" />
     <Compile Include="Services\IPersonService.cs" />
     <Compile Include="Services\IPictureService.cs" />
     <Compile Include="Models\AccountModels.cs" />
@@ -275,6 +277,7 @@
     <None Include="CodeTemplates\AddView\CSHTML\List.tt" />
     <Content Include="CodeTemplates\AddView\CSHTML\ListTelerik.cshtml" />
     <None Include="CodeTemplates\AddView\CSHTML\ListTelerik.tt" />
+    <Content Include="Views\Person\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">
