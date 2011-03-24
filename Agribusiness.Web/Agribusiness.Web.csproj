@@ -128,6 +128,7 @@
     </Compile>
     <Compile Include="Helpers\AutomapperConfig.cs" />
     <Compile Include="Helpers\FluentHelper.cs" />
+    <Compile Include="Models\AssignToSessionViewModel.cs" />
     <Compile Include="Models\PersonEditModel.cs" />
     <Compile Include="Models\PersonListViewModel.cs" />
     <Compile Include="Services\FirmService.cs" />
@@ -166,6 +167,7 @@
     <Content Include="Images\logo-ucdavis.png" />
     <Content Include="Images\profileplaceholder.jpg" />
     <Content Include="Images\top_blue_bar.jpg" />
+    <Content Include="Images\wells-fargo-uc-davis.gif" />
     <Content Include="Scripts\anytimec.js" />
     <Content Include="Scripts\jquery.Jcrop.min.js" />
     <Content Include="UCDArch.txt" />
@@ -286,6 +288,7 @@
     <Content Include="CodeTemplates\AddView\CSHTML\ListTelerik.cshtml" />
     <None Include="CodeTemplates\AddView\CSHTML\ListTelerik.tt" />
     <Content Include="Views\Person\Details.cshtml" />
+    <Content Include="Views\Seminar\AssignToSessions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">

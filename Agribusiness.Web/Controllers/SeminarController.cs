@@ -133,6 +133,27 @@ namespace Agribusiness.Web.Controllers
             return seminar;
         }
 
+        /// <summary>
+        /// Assign people to sessions to attend.
+        /// </summary>
+        /// <param name="id">Seminar Id</param>
+        /// <returns></returns>
+        [UserOnly]
+        public ActionResult AssignToSessions(int id)
+        {
+            var seminar = LoadSeminar(id);
+
+            // redirect to the list if no seminar
+            if (seminar == null)
+            {
+                ErrorMessages = string.Format(Messages.NotFound, "Seminar", id);
+                return this.RedirectToAction(a => a.Index());
+            }
+
+            var viewModel = AssignToSessionViewModel.Create(seminar);
+            return View(viewModel);
+        }
+
         #endregion
     }
 }

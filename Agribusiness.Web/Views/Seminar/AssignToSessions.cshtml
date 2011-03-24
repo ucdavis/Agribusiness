@@ -1,0 +1,99 @@
+﻿@model AssignToSessionViewModel
+
+@{
+    ViewBag.Title = "Assign Attendees to Sessions";
+    ViewBag.SubPageTitle = "Assign Attendees to Sessions";
+}
+
+@section ScriptContent{
+    <style type="text/css">
+
+        .people
+        {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            margin-right: 10px;
+        }
+        .people li
+        {
+            margin: 5px;
+            padding: 5px;
+            background: lightgray;
+        }
+
+        ul.session { list-style-type: none; margin: 0; padding: 0; float:left; margin-right: 10px; background: #333; padding: 5px; width: 100%;}
+        ul.session li { margin: 5px; padding: 5px; font-size: 1.2em; background: lightgray;}
+
+        .people-container{ width: 200px; float:left; margin-right: 1em;}
+        .session-container{ width: 800px; float:left;}
+        .session-container fieldset { margin: 1em; }
+        .session-item {float:left; margin: 1em; width: 230px;}
+    </style>
+
+    <script type="text/javascript">
+        $(function () {
+            $("ul").sortable({
+                connectWith: '.session',
+                // prevent removing from the original list
+                remove: function (event, ui) { return false; },
+                // create a new object to put into the target list
+                receive: function (event, ui) {
+                    // ui.item --> the person
+                    // this --> the session
+                    var person = $("<li>").addClass("person").html($(ui.item).html());
+                    $(this).append(person);
+
+                }
+            });
+        });
+    </script>
+}
+
+<fieldset class="people-container">
+    <legend>Attendees</legend>
+    
+    <ul class="people">
+    @foreach (var person in Model.Seminar.SeminarPeople)
+    { 
+        <li class="person">@person.Person.FullName</li>
+    }
+    </ul>
+
+</fieldset>
+
+<fieldset class="session-container">
+    <legend>Sessions</legend>
+
+    @{var date = Model.Seminar.Begin;}
+
+    @do {
+
+        <fieldset>
+            <legend>@date.ToShortDateString()</legend>
+            @for (int i = 1; i < 24; i++)
+            {
+                // if any then put out a header and all the sessions
+                if (Model.Seminar.Sessions.Any(a => a.Begin.Value.Hour == i && a.Begin.Value.Date == date.Date))
+                {
+                    foreach (var session in Model.Seminar.Sessions.Where(a => a.Begin.Value.Hour == i))
+                    { 
+                        <div class="session-item">
+                        <h4>@session.Name (@session.Begin.Value.ToShortTimeString())</h4>
+                        <ul id='@session.Id' class="session">
+                        </ul>
+                        </div>
+                    }
+                    <div style="clear:both;"></div>
+                }
+            }
+        </fieldset>
+        
+        // increment the day by one
+        date = date.AddDays(1);
+        
+    } while (date.Date <= Model.Seminar.End);
+
+</fieldset>
+
+<div style="clear:both;"></div>

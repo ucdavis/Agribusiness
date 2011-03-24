@@ -9,7 +9,7 @@
 {
     <ul class="navigation">
         <li>
-            <a href="#">Assign Sessions</a>
+            @Html.ActionLink("Assign Sessions", "AssignToSessions", new { id = Model.Id })
         </li>
 
         <li>
@@ -57,7 +57,7 @@
 
 @if (Model.Sessions.Any())
 { 
-    <table>
+    <table class="noicon">
         <thead> 
             <tr>
                 <th>Name</th>
