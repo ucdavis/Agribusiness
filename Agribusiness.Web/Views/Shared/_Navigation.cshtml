@@ -1,29 +1,29 @@
-﻿    @using Agribusiness.Web.Controllers.Filters
+﻿@using Agribusiness.Web.Controllers.Filters
     
-    <ul class="navigation">
-        <li>
-            @Html.ActionLink("Home", "Index", "Home")
-        </li>
+<ul class="navigation">
+    <li>
+        @Html.ActionLink("Home", "Index", "Home")
+    </li>
 
 
-        @if (HttpContext.Current.User.Identity.IsAuthenticated)
-        { 
-            if (User.IsInRole(RoleNames.User))
-            {
-                <li>@Html.ActionLink("Seminars", "Index", "Seminar")</li>
-                <li><a href="#">Applications</a></li>
-                <li>@Html.ActionLink("People", "Index", "Person")</li>
-                <li><a href="#">Firms</a></li>
-            }
-            else
-            {
-                <li><a href="#">Applications</a></li>
-                <li><a href="#">Seminars</a></li>
-                <li><a href="#">Profile</a></li>
-            }
+    @if (HttpContext.Current.User.Identity.IsAuthenticated)
+    { 
+        if (User.IsInRole(RoleNames.User))
+        {
+            <li>@Html.ActionLink("Seminars", "Index", "Seminar")</li>
+            <li><a href="#">Applications</a></li>
+            <li>@Html.ActionLink("People", "Index", "Person")</li>
+            <li><a href="#">Firms</a></li>
         }
+        else
+        {
+            <li><a href="#">Applications</a></li>
+            <li><a href="#">Seminars</a></li>
+            <li><a href="#">Profile</a></li>
+        }
+    }
 
-        <li>
-            @Html.ActionLink("Admin Tools", "Admin", "Home")
-        </li>
-	</ul>
+    <li>
+        @Html.ActionLink("Admin Tools", "Admin", "Home")
+    </li>
+</ul>

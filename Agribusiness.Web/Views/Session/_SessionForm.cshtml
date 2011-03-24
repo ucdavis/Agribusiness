@@ -9,30 +9,53 @@
 @Html.AntiForgeryToken()
 <fieldset>
     <ul>
-        <li>@Html.LabelFor(a => a.Session.Name)
-            @Html.EditorFor(a => a.Session.Name)
-            @Html.ValidationMessageFor(a => a.Session.Name)
+        <li><div class="editor-label required">
+                @Html.LabelFor(a => a.Session.Name)
+                <span>*</span>
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(a => a.Session.Name)
+                @Html.ValidationMessageFor(a => a.Session.Name)
+            </div>
         </li>
-        <li>@Html.LabelFor(a => a.Session.Location)
-            @Html.EditorFor(a => a.Session.Location)
-            @Html.ValidationMessageFor(a => a.Session.Location)
+        <li><div class="editor-label">
+                @Html.LabelFor(a => a.Session.Location)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(a => a.Session.Location)
+                @Html.ValidationMessageFor(a => a.Session.Location)
+            </div>
         </li>
-        <li>@Html.LabelFor(a => a.Session.Begin)
-            @Html.EditorFor(a => a.Session.Begin, "DateAndTime")
-            @Html.ValidationMessageFor(a => a.Session.Begin)
+        <li><div class="editor-label">
+                @Html.LabelFor(a => a.Session.Begin)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(a => a.Session.Begin, "DateAndTime")
+                @Html.ValidationMessageFor(a => a.Session.Begin)
+            </div>
         </li>
-        <li>@Html.LabelFor(a => a.Session.End)
-            @Html.EditorFor(a => a.Session.End, "DateAndTime")
-            @Html.ValidationMessageFor(a => a.Session.End)
+        <li><div class="editor-label">
+                @Html.LabelFor(a => a.Session.End)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(a => a.Session.End, "DateAndTime")
+                @Html.ValidationMessageFor(a => a.Session.End)
+            </div>
         </li>
-        <li>@Html.LabelFor(a => a.Session.SessionType)
-            @this.Select("Session.SessionType").Options(Model.SessionTypes,x=>x.Id,x=>x.Name).Selected(Model.Session.SessionType != null ? Model.Session.SessionType.Id : string.Empty).FirstOptionText("--Select a Session Type--").IncludeUnobtrusiveValidationAttributes(Html)
-            @Html.ValidationMessageFor(a => a.Session.SessionType)
+        <li><div class="editor-label required">
+                @Html.LabelFor(a => a.Session.SessionType)
+                <span>*</span>
+            </div>
+            <div class="editor-field">
+                @this.Select("Session.SessionType").Options(Model.SessionTypes,x=>x.Id,x=>x.Name).Selected(Model.Session.SessionType != null ? Model.Session.SessionType.Id : string.Empty).FirstOptionText("--Select a Session Type--").IncludeUnobtrusiveValidationAttributes(Html)
+                @Html.ValidationMessageFor(a => a.Session.SessionType)
+            </div>
         </li>
-        <li>
-            <label>&nbsp;</label>
-            <input type="submit" value="Save" /> |
+        <li><div class="editor-label"><label>&nbsp;</label></div>
+            <div class="editor-field">
+            <input class="button" type="submit" value="Save" /> |
             @Html.ActionLink("Cancel", "Edit", "Seminar", new { id = Model.SeminarId }, new { })
+            </div>
         </li>
     </ul>
 </fieldset>

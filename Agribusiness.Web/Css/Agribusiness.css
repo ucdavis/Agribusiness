@@ -1,1 +1,13 @@
 ﻿a.button { color:#333333; }
+
+
+/* ---------------- */
+/* Profile Styling  */
+/* ---------------- */
+.profile_pic_container { float:left; margin-left: 15px;}
+
+.information_container { float:left; margin-left: 15px;}
+.information_container ul { list-style:none; }
+.information_container .name {font-size: larger; font-weight: bold; color: #014A81; }
+.information_container .title { margin-top: .5em; font-weight: bold; }
+.information_container .description { margin-top: 1em; }

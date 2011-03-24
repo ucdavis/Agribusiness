@@ -22,30 +22,31 @@
 }
 
 <h3>Details</h3>
+    <div class="display-form">
     <ul>
-        <li><label for="year">Year:</label>
+        <li><label for="year" class="editor-label">Year:</label>
             @Html.DisplayFor(a=>a.Year)
         </li>
-        <li><label for="location">Location:</label>
+        <li><label for="location" class="editor-label">Location:</label>
             @Html.DisplayFor(a=>a.Location)
         </li>
-        <li><label for="Begin">Begin Date:</label>
+        <li><label for="Begin" class="editor-label">Begin Date:</label>
             @Html.DisplayFor(a=>a.Begin)
         </li>
-        <li><label for="End">End Date:</label>
+        <li><label for="End" class="editor-label">End Date:</label>
             @Html.DisplayFor(a=>a.End)
         </li>
-        <li><label for="RegistrationDeadline">Registration Deadline:</label>
+        <li><label for="RegistrationDeadline" class="editor-label">Registration Deadline:</label>
             @Html.DisplayFor(a => a.RegistrationDeadline)
         </li>
-        <li><label for="RegistrationPassword">Registration Password:</label>
+        <li><label for="RegistrationPassword" class="editor-label">Registration Password:</label>
             @Html.DisplayFor(a=>a.RegistrationPassword)
         </li>
-        <li><label for="RegistrationId">Registration Id:</label>
+        <li><label for="RegistrationId" class="editor-label">Registration Id:</label>
             @Html.DisplayFor(a=>a.RegistrationId)
         </li>
     </ul>
-
+    </div>
 <h3>Sessions</h3>
 
 @if (Model.Sessions.Any())

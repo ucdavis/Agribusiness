@@ -156,8 +156,16 @@
     <Content Include="Css\main.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Images\comment.png" />
+    <Content Include="Images\delete.png" />
+    <Content Include="Images\details.png" />
+    <Content Include="Images\edit.png" />
+    <Content Include="Images\email.png" />
     <Content Include="Images\Jcrop.gif" />
+    <Content Include="Images\logo-caes-long-cap.png" />
+    <Content Include="Images\logo-ucdavis.png" />
     <Content Include="Images\profileplaceholder.jpg" />
+    <Content Include="Images\top_blue_bar.jpg" />
     <Content Include="Scripts\anytimec.js" />
     <Content Include="Scripts\jquery.Jcrop.min.js" />
     <Content Include="UCDArch.txt" />

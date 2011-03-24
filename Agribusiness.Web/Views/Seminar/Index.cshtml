@@ -38,8 +38,14 @@ else
             { 
                 <tr>
                     <td>
-                        @Html.ActionLink("Select", "Details", "Seminar", new { id = a.Id }, new { @class = "table_select" })
-                        @Html.ActionLink("Edit", "Edit", "Seminar", new { id = a.Id }, new { @class = "table_edit" })
+                        <a href='@Url.Action("Details", new { id = a.Id })'>
+                            <img src='@Url.Content("~/Images/details.png")' alt="View the details of this seminar" />
+                        </a>
+
+                        <a href='@Url.Action("Edit", new {id = a.Id})'>
+                            <img src='@Url.Content("~/Images/edit.png")' alt="Edit this seminar" />
+                        </a>
+
                     </td>
                     <td>@a.Year</td>
                     <td>@a.Location</td>

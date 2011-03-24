@@ -17,7 +17,7 @@
     
 
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.10/themes/vader/jquery-ui.css" type="text/css" />
-     <link href="@Url.Content("~/Css/main.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Css/main.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Css/Agribusiness.css")" rel="stylesheet" type="text/css" />   
 
     <script src="//ajax.microsoft.com/ajax/jQuery/jquery-1.5.1.min.js"></script>
@@ -26,7 +26,7 @@
     <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
 
     <script type="text/javascript">
-        $(function () { $(".datepicker").datepicker(); });
+        $(function () { $(".datepicker").datepicker(); }); 
     </script>
 
     @RenderSection("ScriptContent", false)
@@ -45,12 +45,13 @@
         </div>
     }
 
+@* Contains branding and navigation *@
 <div id="branding">
     <span class="header">
     <h1>California Agribusiness Executive Seminar</h1>
     <div class="col1">  
-        <span><img src="w:\Webdevel\GRAMPS\logo-ucdavis-12.png")" alt="UC Davis" /></a></span>
-        <span><img src="w:\Webdevel\GRAMPS\logo-caes-long-cap.png" alt="College of Agricultural &amp; Environmental Sciences" /></a></span>   
+        <span><img src=@Url.Content("logo-ucdavis-12.png")' alt="UC Davis" /></a></span>
+        <span><img src='@Url.Content("logo-caes-long-cap.png")' alt="College of Agricultural &amp; Environmental Sciences" /></a></span>   
      </div> 
      <div class="col2">
         @Html.Partial("_Navigation")
@@ -59,12 +60,14 @@
     </span> 
 </div>
 
-
+@* This section holds the logon/logoff and greeting *@
 <div id="personalbar">
     @Html.Partial("_LogOnPartial")
 </div>
 
     <div class="main">
+
+        @* status and error message container *@
         <div id="messagecontainer">
 
         @if (!string.IsNullOrWhiteSpace((string)TempData["ErrorMessages"]))
@@ -77,6 +80,7 @@
             @Html.Partial("_Message", new MessageModel() { IsError = false, Message = (string)TempData["Message"] })
         }
 
+        @* Page Title and Navigation *@
         <div class="col1">
         <h2>@ViewBag.SubPageTitle</h2>
         </div>
@@ -86,12 +90,14 @@
         
         </div> <!-- End of Message Container -->
 	
+        @* Render the main contents of the page *@
         @RenderBody()
 
     </div> <!-- End of Main -->
 
 </div>
 
+@* Byline and Secondary Navigation *@
 <div id="footer">
 <div id="footertext">
 <div class="col1">

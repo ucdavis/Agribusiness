@@ -2,15 +2,44 @@
 
 @{
     ViewBag.Title = "Details";
-    ViewBag.SubPageTitle = Model.Person.FullName;
 }
 
-<div id="picture_container">
+@section SubPageNavigation
+{
+    <ul class="navigation">
+        <li>@Html.ActionLink("Back to List", "Index")</li>
+    </ul>
+}
+
+<div class="profile_pic_container">
     <img src='@Url.Action("GetProfilePicture", new { id = Model.Person.Id })' />
 </div>
 
-<div id="contact_info">
+<div class="information_container">
+
+    <h2>@Model.Person.FullName</h2>
+
     <ul>
-        
+        <li class="title">@Model.Title</li>
+        <li>@Model.Firm.Name</li>
+        <li class="description">@Model.Firm.Description</li>
     </ul>
+
+    <h3>Contact Information</h3>
+
+    <ul>
+        <li><label>Email:</label>
+            @Model.Person.User.UserName
+        </li>
+        <li><label>Phone:</label>
+            @Model.Person.Phone
+        </li>
+        <li><label>Address:</label>123 Fake Street<br />
+            <label>&nbsp;</label>Davis, CA 94534
+        </li>
+    </ul>
+
 </div>
+
+
+<div style="clear:both;" />

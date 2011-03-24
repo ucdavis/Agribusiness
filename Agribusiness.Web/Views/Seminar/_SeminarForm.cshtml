@@ -7,37 +7,72 @@
     @Html.AntiForgeryToken()
     <fieldset>
         <ul>
-        <li><label for="year">Year:</label>
-            @Html.EditorFor(a=>a.Seminar.Year)
-            @Html.ValidationMessageFor(a => a.Seminar.Year)
+        <li><div class="editor-label required">
+                <label for="year">Year:</label>
+                <span>*</span>
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(a=>a.Seminar.Year)
+                @Html.ValidationMessageFor(a => a.Seminar.Year)
+            </div>
         </li>
-        <li><label for="location">Location:</label>
-            @Html.EditorFor(a=>a.Seminar.Location)
-            @Html.ValidationMessageFor(a => a.Seminar.Location)
+        <li><div class="editor-label required">
+                <label for="location">Location:</label>
+                <span>*</span>
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(a=>a.Seminar.Location)
+                @Html.ValidationMessageFor(a => a.Seminar.Location)
+            </div>
         </li>
-        <li><label for="Begin">Begin Date:</label>
-            @Html.EditorFor(a=>a.Seminar.Begin)
-            @Html.ValidationMessageFor(a => a.Seminar.Begin)
+        <li><div class="editor-label required">
+                <label for="Begin">Begin Date:</label>
+                <span>*</span>
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(a=>a.Seminar.Begin)
+                @Html.ValidationMessageFor(a => a.Seminar.Begin)
+            </div>
         </li>
-        <li><label for="End">End Date:</label>
-            @Html.EditorFor(a=>a.Seminar.End)
+        <li><div class="editor-label required">
+                <label for="End">End Date:</label>
+                <span>*</span>
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(a=>a.Seminar.End)
+                @Html.ValidationMessageFor(a=>a.Seminar.End)
+            </div>
         </li>
-        <li><label for="RegistrationDeadline">Registration Deadline:</label>
-            @Html.EditorFor(a => a.Seminar.RegistrationDeadline)
-            @Html.ValidationMessageFor(a => a.Seminar.RegistrationDeadline)
+        <li><div class="editor-label">
+                <label for="RegistrationDeadline">Registration Deadline:</label>
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(a => a.Seminar.RegistrationDeadline)
+                @Html.ValidationMessageFor(a => a.Seminar.RegistrationDeadline)
+            </div>
         </li>
-        <li><label for="RegistrationPassword">Registration Password:</label>
-            @Html.EditorFor(a=>a.Seminar.RegistrationPassword)
-            @Html.ValidationMessageFor(a => a.Seminar.RegistrationPassword)
+        <li><div class="editor-label">
+                <label for="RegistrationPassword">Registration Password:</label>
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(a=>a.Seminar.RegistrationPassword)
+                @Html.ValidationMessageFor(a => a.Seminar.RegistrationPassword)
+            </div>
         </li>
-        <li><label for="RegistrationId">Registration Id:</label>
-            @Html.EditorFor(a=>a.Seminar.RegistrationId)
-            @Html.ValidationMessageFor(a => a.Seminar.RegistrationId)
+        <li><div class="editor-label">
+                <label for="RegistrationId">Registration Id:</label>
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(a=>a.Seminar.RegistrationId)
+                @Html.ValidationMessageFor(a => a.Seminar.RegistrationId)
+            </div>
         </li>
         <li>
-            <label>&nbsp;</label>
-            <input type="submit" value="Save" /> | 
-            @Html.ActionLink("Cancel", "Index", "Seminar", new { })
+            <div class="editor-label"><label>&nbsp;</label></div>
+            <div class="editor-field">
+                <input class="button" type="submit" value="Save" /> | 
+                @Html.ActionLink("Cancel", "Index", "Seminar", new { })
+            </div>
         </li>
         </ul>
     </fieldset>
