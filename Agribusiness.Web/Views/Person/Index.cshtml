@@ -1,8 +1,8 @@
 ﻿@model PersonListViewModel
 
 @{
-    ViewBag.Title = "People Index";
-    ViewBag.SubPageTitle = "People Index";
+    ViewBag.Title = "People";
+    ViewBag.SubPageTitle = "People";
 }
 
 @section SubPageNavigation
@@ -14,8 +14,7 @@
 
 @foreach (var a in Model.People)
 { 
-    <fieldset>
-        <legend>@a.Person.FullName</legend>
+    <fieldset style="padding: 1em;">
 
         <div class="profile_pic_container">
             <img src='@Url.Action("GetThumbnail", "Person", new { id = a.Person.Id })' alt='string.Format("{0}''s Profile Picture", @a.Person.FullName)' />

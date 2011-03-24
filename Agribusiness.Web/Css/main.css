@@ -99,14 +99,13 @@ input.button {font-size: 1.2em; padding: 8px 15px 3px;}
 .display-form {margin:1em 0; text-align:left;}
 .display-form ul li {list-style-type:none;margin:10px 0;}
 .display-form ul li ul li{margin:2px 0;}
-.display-form .editor-label {display:inline-block; width:120px; vertical-align:top;}
-.display-form .col1 {text-align:right; width:200px;}
+.display-form div.display-label {display:inline-block; width:120px; vertical-align:top; }
+.display-form div.display-details {display:inline-block; font-weight:bold; vertical-align:top;}
 .display-form fieldset {padding:10px;}
 .display-form fieldset  ul{padding:10px 50px 10px 100px;}
 .display-form fieldset  ul ul{padding:0;}
-.display-form fieldset div.editor-label {display:inline-block; width:120px; vertical-align:top;}
-.display-form fieldset div.editor-field {display:inline-block; vertical-align:top;}
-.display-form .text_field, .display-form.text_area  {min-width:200px;}
+.display-form fieldset div.display-label {display:inline-block; width:120px; vertical-align:top;}
+.display-form fieldset div.display-field {display:inline-block; vertical-align:top; font-weight:bold;}
 
 
 /*   validation     */
@@ -128,6 +127,7 @@ td {vertical-align:top; line-height:1.5em;}
 .odd {}
 .even:hover, .odd:hover {background-color:#d0e3f1;}
 tr  > td:first-child, tr > td:last-child {width:40px; text-align:center;}
+.noicon tr  > td:first-child,.noicon tr > td:last-child {width:auto; text-align:left;}
 tfoot tr  > td:first-child {text-align:left;}
 tfoot tr > td:last-child {text-align:right;}
 tfoot {text-align:center;}

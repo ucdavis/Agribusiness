@@ -24,26 +24,32 @@
 <h3>Details</h3>
     <div class="display-form">
     <ul>
-        <li><label for="year" class="editor-label">Year:</label>
-            @Html.DisplayFor(a=>a.Year)
+        <li><div class="display-label"><label for="year">Year:</label></div>
+            <div class="display-details">@Html.DisplayFor(a => a.Year)</div>
         </li>
-        <li><label for="location" class="editor-label">Location:</label>
-            @Html.DisplayFor(a=>a.Location)
+        <li><div class="display-label"><label for="location" class="editor-label">Location:</label></div>
+            <div class="display-details">@Html.DisplayFor(a => a.Location)</div>
         </li>
-        <li><label for="Begin" class="editor-label">Begin Date:</label>
-            @Html.DisplayFor(a=>a.Begin)
+        <li><div class="display-label"><label for="Begin" class="editor-label">Begin Date:</label></div>
+            <div class="display-details">@Html.DisplayFor(a => a.Begin)</div>
         </li>
-        <li><label for="End" class="editor-label">End Date:</label>
-            @Html.DisplayFor(a=>a.End)
+        <li><div class="display-label"><label for="End" class="editor-label">End Date:</label></div>
+            <div class="display-details">@Html.DisplayFor(a => a.End)</div>
         </li>
-        <li><label for="RegistrationDeadline" class="editor-label">Registration Deadline:</label>
-            @Html.DisplayFor(a => a.RegistrationDeadline)
+        <li><div class="display-label">
+            <label for="RegistrationDeadline" class="editor-label">Registration Deadline:</label>
+            </div>
+            <div class="display-details">@Html.DisplayFor(a => a.RegistrationDeadline)</div>
         </li>
-        <li><label for="RegistrationPassword" class="editor-label">Registration Password:</label>
-            @Html.DisplayFor(a=>a.RegistrationPassword)
+        <li><div class="display-label">
+            <label for="RegistrationPassword" class="editor-label">Registration Password:</label>
+            </div>
+            <div class="display-details">@Html.DisplayFor(a => a.RegistrationPassword)</div>
         </li>
-        <li><label for="RegistrationId" class="editor-label">Registration Id:</label>
-            @Html.DisplayFor(a=>a.RegistrationId)
+        <li><div class="display-label">
+            <label for="RegistrationId" class="editor-label">Registration Id:</label>
+            </div>
+            <div class="display-details">@Html.DisplayFor(a => a.RegistrationId)</div>
         </li>
     </ul>
     </div>
@@ -93,7 +99,7 @@ else
 }
 else
 { 
-<table>
+<table class="noicon">
     <thead>
         <tr>
             <th>First Name</th>
