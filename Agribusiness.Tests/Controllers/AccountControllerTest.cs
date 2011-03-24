@@ -134,10 +134,26 @@ namespace Agribusiness.Tests.Controllers
             AccountController controller = GetAccountController();
 
             // Act
-            ActionResult result = controller.LogOn(string.Empty);
+            ActionResult result = controller.LogOn(string.Empty, true);
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(ViewResult));
+        }
+
+        [TestMethod]
+        public void LogOn_Get_RedirectsForCAS()
+        {
+            // Arrange
+            AccountController controller = GetAccountController();
+
+            // Act
+            ActionResult result = controller.LogOn(string.Empty);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+            RedirectToRouteResult redirectResult = (RedirectToRouteResult)result;
+            Assert.AreEqual("Account", redirectResult.RouteValues["controller"]);
+            Assert.AreEqual("CasLogon", redirectResult.RouteValues["action"]);
         }
 
         [TestMethod]
