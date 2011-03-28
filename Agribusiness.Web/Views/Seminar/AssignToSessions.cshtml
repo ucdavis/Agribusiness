@@ -38,190 +38,52 @@
         
         /* css for button to remove person from session */
         .remove {float:right;}
+        
+        /* button to add all attendees to a session */
+        .add-all { cursor: pointer; }
+        
+        .scrollable { overflow: auto; height: 500px; }
     </style>
 
     <script type="text/javascript">
 
-        $(function () {
+        var deleteImageUrl = '@Url.Content("~/Images/button_delete_red.png")';
+        var antiforgeryToken;
 
-            // set the source of where the names will be dragged from
-            $("ul.people li").draggable({ helper: "clone" });
+        var assignUrl = '@Url.Action("Assign")';
+        var unassignUrl = '@Url.Action("UnAssign")';
 
-            // setup the targets
-            $("ul.session").droppable({
-                drop: function (event, ui) {
-                    AddPersonToSession(this, ui.draggable);
-                },
-                over: function (event, ui) {
-                    ResizeSessionBox(this, true);
-                },
-                out: function (event, ui) {
-                    ResizeSessionBox(this, false);
-                }
-            });
+        $(function () { antiforgeryToken = $('input[name="__RequestVerificationToken"]').val(); });
 
-            // add all people to a specific session
-            $(".add-all").click(function () {
-                var session = $("#" + $(this).data("id"));
-
-                $.each($("ul.people li"), function (index, item) {
-                    AddPersonToSession(session, item);
-                });
-            });
-
-            // add live click handler for removing people from session
-            $(".remove").live('click', function () {
-                // need to make the call to the server
-
-                var session = $(this).parents(".session");
-
-                // remove the li object
-                $(this).parents("li").remove();
-
-                if (session.parents("div").hasClass("single")) {
-                    AdjustNotFirstClasses(session);
-                }
-
-                // shrink the list as need be
-                ResizeSessionBox(session, false);
-            });
-        });
-
-        /*
-            Add a person to a session
-
-            Parameters:
-                that - the session ul
-                personLi - the li object for a person
-        */
-        function AddPersonToSession(that, personLi) {
-            //that --> the session
-            var person = $(personLi).clone().removeClass("ui-draggable");
-            var deleteImg = $("<img>").attr("src", '@Url.Content("~/Images/button_delete_red.png")').addClass("remove");
-            person.append(deleteImg);
-
-            // prevent adding a duplicate
-            if ($(that).find('li[data-id="' + person.data("id") + '"]').length <= 0) {
-                // make the call to the server to save
-
-                person.appendTo(that);
-
-                // for those "single" sessions that span the 3 columns
-                // determine if this is not a first column item
-                if ($(that).parents("div").hasClass("single")) {
-                    AdjustNotFirstClasses(that);
-                }
-            }
-            // shrink back the box because we prevented the addition
-            else {ResizeSessionBox(that, false);}
+        function Assign(sessionId, personId) {
+            $.post(assignUrl, {id:sessionId, seminarPersonId: personId, __RequestVerificationToken: antiforgeryToken}, function(result){alert(result);});
         }
+        function UnAssign(sessionId, personId) { }
 
-        /*
-            Sets the classes so that "single" sessions always
-            display their attendees correctly
-
-            Parameters:
-                session - the session ul
-        */
-        function AdjustNotFirstClasses(session) {
-
-            // iterate through each object and determine if it needs the "notfirst" class
-            $.each($(session).find("li"), function (index, item) {
-
-                // get rid of the class
-                $(item).removeClass("notfirst");
-
-                var count = index % 3;
-
-                if (count != 0) $(item).addClass("notfirst");
-
-            });
-
-        }
-
-        /*
-            Resizes the session box to adjust for the addition/removal of people
-
-            Parameters:
-                that - the session ul
-                expand - boolean whether expanding or contracting the box
-        */
-        function ResizeSessionBox(that, expand) {
-
-            // calculate how many rows are in there
-            var attendees = $(that).find(".person").length;
-            var count = attendees % 3;
-
-            // figure the height
-            var currentHeight = $(that).height();
-
-            // if we need to "add" a row, add 36px
-            if (count == 0) {
-                if (expand) $(that).height(currentHeight + 36);
-                else $(that).height(currentHeight - 36);
-            }
-
-        }
-
-        </script>
-        <script type="text/javascript">
-        /*
-        // the same functionality as above but using the sortable
-        // has several problems such as the items being removed from the original list
-        // or the list being reordered
-        $(function () {
-            $("ul").sortable({
-                connectWith: '.session',
-                revert: true,
-                // prevent removing from the original list
-                remove: function (event, ui) { return false; },
-                // create a new object to put into the target list
-                receive: function (event, ui) {
-
-                    AddPersonToSession(this, ui);
-
-                }
-            });
-        });
-
-        function AddPersonToSession (that, ui) {
-
-            // ui.item --> the person
-            // this --> the session
-            var person = $("<li>").addClass("person").html($(ui.item).html());
-
-            // for those "single" sessions that span the 3 columns
-            // determine if this is not a first column item
-            if ($(that).parents("div").hasClass("single")) {
-                var peeps = $(that).find(".person").length;
-                var count = peeps % 3;
-                if (count != 0) {
-                    person.addClass("notfirst");
-                }
-            }
-
-            $(that).append(person);
-
-        }
-        */
     </script>
+
+    <script type="text/javascript" src='@Url.Content("~/Scripts/AssignToSession.js")'></script>
+
 }
+
+@Html.AntiForgeryToken()
 
 <fieldset class="people-container">
     <legend>Attendees</legend>
-    
+    <div class="scrollable">
     <ul class="people">
     @foreach (var person in Model.Seminar.SeminarPeople.OrderBy(a=>a.Person.LastName))
     { 
         <li class="person" data-id='@person.Id'>@person.Person.FullName</li>
     }
     </ul>
-
+    </div>
 </fieldset>
 
 <fieldset class="session-container">
     <legend>Sessions</legend>
 
+    <div class="scrollable">
     @{var date = Model.Seminar.Begin;}
 
     @do {
@@ -237,9 +99,16 @@
                        
                     foreach (var session in Model.Seminar.Sessions.Where(a => a.Begin.Value.Hour == i))
                     { 
-                        <div class='session-item @single'><a href="#" class="add-all" data-id='@session.Id'>Add All</a>
+                        <div class='session-item @single'><a class="add-all" data-id='@session.Id'>Add All</a>
                         <h4>@session.Name (@session.Begin.Value.ToShortTimeString())</h4>
                         <ul id='@session.Id' class="session">
+                            @foreach (var person in session.SeminarPeople)
+                            { 
+                                <li class="person" data-id='@person.Id'>
+                                    @person.Person.FullName
+                                    <img src='@Url.Content("~/Images/button_delete_red.png")' class="remove" />
+                                </li>
+                            }
                         </ul>
                         </div>
                     }
@@ -252,7 +121,7 @@
         date = date.AddDays(1);
         
     } while (date.Date <= Model.Seminar.End);
-
+    </div>
 </fieldset>
 
 <div style="clear:both;"></div>

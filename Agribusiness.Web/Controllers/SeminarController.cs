@@ -19,10 +19,14 @@ namespace Agribusiness.Web.Controllers
     public class SeminarController : ApplicationController
     {
 	    private readonly IRepository<Seminar> _seminarRepository;
+        private readonly IRepository<Session> _sessionRepository;
+        private readonly IRepository<SeminarPerson> _seminarPersonRepository;
 
-        public SeminarController(IRepository<Seminar> seminarRepository)
+        public SeminarController(IRepository<Seminar> seminarRepository, IRepository<Session> sessionRepository, IRepository<SeminarPerson> seminarPersonRepository)
         {
             _seminarRepository = seminarRepository;
+            _sessionRepository = sessionRepository;
+            _seminarPersonRepository = seminarPersonRepository;
         }
 
         #region Administrative Functions
@@ -152,6 +156,51 @@ namespace Agribusiness.Web.Controllers
 
             var viewModel = AssignToSessionViewModel.Create(seminar);
             return View(viewModel);
+        }
+
+        /// <summary>
+        /// Assigns a person into a session
+        /// </summary>
+        /// <param name="id">Session Id</param>
+        /// <param name="seminarPersonId"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [UserOnly]
+        public JsonResult Assign(int id, int seminarPersonId)
+        {
+            var session = _sessionRepository.GetNullableById(id);
+            var seminarPerson = _seminarPersonRepository.GetNullableById(seminarPersonId);
+
+            // make sure the sesion isn't already assigned
+            if (!seminarPerson.Sessions.Any(a => a == session))
+            {
+                seminarPerson.Sessions.Add(session);
+                _seminarPersonRepository.EnsurePersistent(seminarPerson);
+
+                return Json(true);
+            }
+
+            return Json(false);
+        }
+
+        /// <summary>
+        /// Removes a session from a person
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="seminarPersonId"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [UserOnly]
+        public JsonResult UnAssign(int id, int seminarPersonId)
+        {
+            //var session = _sessionRepository.GetNullableById(id);
+            var seminarPerson = _seminarPersonRepository.GetNullableById(seminarPersonId);
+
+            var session = seminarPerson.Sessions.Where(a => a.Id == id).FirstOrDefault();
+            seminarPerson.Sessions.Remove(session);
+
+            _seminarPersonRepository.EnsurePersistent(seminarPerson);
+            return Json(true);
         }
 
         #endregion
