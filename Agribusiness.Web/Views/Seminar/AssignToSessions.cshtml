@@ -20,33 +20,190 @@
             margin: 5px;
             padding: 5px;
             background: lightgray;
+            cursor: pointer;
         }
 
         ul.session { list-style-type: none; margin: 0; padding: 0; float:left; margin-right: 10px; background: #333; padding: 5px; width: 100%;}
-        ul.session li { margin: 5px; padding: 5px; font-size: 1.2em; background: lightgray;}
+        ul.session li { margin: 5px; padding: 5px; background: lightgray;}
 
         .people-container{ width: 200px; float:left; margin-right: 1em;}
         .session-container{ width: 800px; float:left;}
         .session-container fieldset { margin: 1em; }
         .session-item {float:left; margin: 1em; width: 230px;}
+        
+        /* for sessions that are the only ones in a given hour */
+        .single {width: 736px;}
+        .single li.person { width: 210px; float:left; }
+        .single li.notfirst { width: 210px; float:left; margin-left: 2em; }
+        
+        /* css for button to remove person from session */
+        .remove {float:right;}
     </style>
 
     <script type="text/javascript">
+
+        $(function () {
+
+            // set the source of where the names will be dragged from
+            $("ul.people li").draggable({ helper: "clone" });
+
+            // setup the targets
+            $("ul.session").droppable({
+                drop: function (event, ui) {
+                    AddPersonToSession(this, ui.draggable);
+                },
+                over: function (event, ui) {
+                    ResizeSessionBox(this, true);
+                },
+                out: function (event, ui) {
+                    ResizeSessionBox(this, false);
+                }
+            });
+
+            // add all people to a specific session
+            $(".add-all").click(function () {
+                var session = $("#" + $(this).data("id"));
+
+                $.each($("ul.people li"), function (index, item) {
+                    AddPersonToSession(session, item);
+                });
+            });
+
+            // add live click handler for removing people from session
+            $(".remove").live('click', function () {
+                // need to make the call to the server
+
+                var session = $(this).parents(".session");
+
+                // remove the li object
+                $(this).parents("li").remove();
+
+                if (session.parents("div").hasClass("single")) {
+                    AdjustNotFirstClasses(session);
+                }
+
+                // shrink the list as need be
+                ResizeSessionBox(session, false);
+            });
+        });
+
+        /*
+            Add a person to a session
+
+            Parameters:
+                that - the session ul
+                personLi - the li object for a person
+        */
+        function AddPersonToSession(that, personLi) {
+            //that --> the session
+            var person = $(personLi).clone().removeClass("ui-draggable");
+            var deleteImg = $("<img>").attr("src", '@Url.Content("~/Images/button_delete_red.png")').addClass("remove");
+            person.append(deleteImg);
+
+            // prevent adding a duplicate
+            if ($(that).find('li[data-id="' + person.data("id") + '"]').length <= 0) {
+                // make the call to the server to save
+
+                person.appendTo(that);
+
+                // for those "single" sessions that span the 3 columns
+                // determine if this is not a first column item
+                if ($(that).parents("div").hasClass("single")) {
+                    AdjustNotFirstClasses(that);
+                }
+            }
+            // shrink back the box because we prevented the addition
+            else {ResizeSessionBox(that, false);}
+        }
+
+        /*
+            Sets the classes so that "single" sessions always
+            display their attendees correctly
+
+            Parameters:
+                session - the session ul
+        */
+        function AdjustNotFirstClasses(session) {
+
+            // iterate through each object and determine if it needs the "notfirst" class
+            $.each($(session).find("li"), function (index, item) {
+
+                // get rid of the class
+                $(item).removeClass("notfirst");
+
+                var count = index % 3;
+
+                if (count != 0) $(item).addClass("notfirst");
+
+            });
+
+        }
+
+        /*
+            Resizes the session box to adjust for the addition/removal of people
+
+            Parameters:
+                that - the session ul
+                expand - boolean whether expanding or contracting the box
+        */
+        function ResizeSessionBox(that, expand) {
+
+            // calculate how many rows are in there
+            var attendees = $(that).find(".person").length;
+            var count = attendees % 3;
+
+            // figure the height
+            var currentHeight = $(that).height();
+
+            // if we need to "add" a row, add 36px
+            if (count == 0) {
+                if (expand) $(that).height(currentHeight + 36);
+                else $(that).height(currentHeight - 36);
+            }
+
+        }
+
+        </script>
+        <script type="text/javascript">
+        /*
+        // the same functionality as above but using the sortable
+        // has several problems such as the items being removed from the original list
+        // or the list being reordered
         $(function () {
             $("ul").sortable({
                 connectWith: '.session',
+                revert: true,
                 // prevent removing from the original list
                 remove: function (event, ui) { return false; },
                 // create a new object to put into the target list
                 receive: function (event, ui) {
-                    // ui.item --> the person
-                    // this --> the session
-                    var person = $("<li>").addClass("person").html($(ui.item).html());
-                    $(this).append(person);
+
+                    AddPersonToSession(this, ui);
 
                 }
             });
         });
+
+        function AddPersonToSession (that, ui) {
+
+            // ui.item --> the person
+            // this --> the session
+            var person = $("<li>").addClass("person").html($(ui.item).html());
+
+            // for those "single" sessions that span the 3 columns
+            // determine if this is not a first column item
+            if ($(that).parents("div").hasClass("single")) {
+                var peeps = $(that).find(".person").length;
+                var count = peeps % 3;
+                if (count != 0) {
+                    person.addClass("notfirst");
+                }
+            }
+
+            $(that).append(person);
+
+        }
+        */
     </script>
 }
 
@@ -54,9 +211,9 @@
     <legend>Attendees</legend>
     
     <ul class="people">
-    @foreach (var person in Model.Seminar.SeminarPeople)
+    @foreach (var person in Model.Seminar.SeminarPeople.OrderBy(a=>a.Person.LastName))
     { 
-        <li class="person">@person.Person.FullName</li>
+        <li class="person" data-id='@person.Id'>@person.Person.FullName</li>
     }
     </ul>
 
@@ -75,10 +232,12 @@
             {
                 // if any then put out a header and all the sessions
                 if (Model.Seminar.Sessions.Any(a => a.Begin.Value.Hour == i && a.Begin.Value.Date == date.Date))
-                {
+                {                    
+                    var single = Model.Seminar.Sessions.Count(a=>a.Begin.Value.Hour == i && a.Begin.Value.Date == date.Date) == 1 ? "single" : string.Empty;
+                       
                     foreach (var session in Model.Seminar.Sessions.Where(a => a.Begin.Value.Hour == i))
                     { 
-                        <div class="session-item">
+                        <div class='session-item @single'><a href="#" class="add-all" data-id='@session.Id'>Add All</a>
                         <h4>@session.Name (@session.Begin.Value.ToShortTimeString())</h4>
                         <ul id='@session.Id' class="session">
                         </ul>
