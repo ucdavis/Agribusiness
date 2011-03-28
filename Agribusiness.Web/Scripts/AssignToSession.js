@@ -29,18 +29,13 @@ $(function () {
 
     // add live click handler for removing people from session
     $(".remove").live('click', function () {
-        // need to make the call to the server
 
         var session = $(this).parents(".session");
+        var person = $(this).parents("li");
 
-        // remove the li object
-        $(this).parents("li").remove();
+        // need to make the call to the server
+        UnAssign(session, person);
 
-        if (session.parents("div").hasClass("single")) {
-            AdjustNotFirstClasses(session);
-        }
-
-        ResizeSessionBox(session);
     });
 
 
@@ -63,17 +58,8 @@ function AddPersonToSession(that, personLi) {
     if ($(that).find('li[data-id="' + person.data("id") + '"]').length <= 0) {
         
         // make the call to the server to save
-        Assign($(that).attr("id"), $(person).data("id"));
+        Assign(that, person);
 
-        person.appendTo(that);
-
-        // for those "single" sessions that span the 3 columns
-        // determine if this is not a first column item
-        if ($(that).parents("div").hasClass("single")) {
-            AdjustNotFirstClasses(that);
-        }
-
-        ResizeSessionBox(that);
     }
 }
 
@@ -129,4 +115,68 @@ function ResizeSessionBox(that) {
     }
 
     $(that).height(boxHeight);
+}
+
+/*
+    Makes the ajax calls to persist assignments to sessions
+
+    Parameters:
+    session - ul object for the particular session
+    person - the li object for a particular person
+*/
+function Assign(session, person) {
+
+    var sessionId = $(session).attr("id");
+    var personId = $(person).data("id");
+
+    $.post(assignUrl, { id: sessionId, seminarPersonId: personId, __RequestVerificationToken: antiforgeryToken }, function (result) {
+
+        if (result) {
+
+            person.appendTo(session);
+
+            // for those "single" sessions that span the 3 columns
+            // determine if this is not a first column item
+            if ($(session).parents("div").hasClass("single")) {
+                AdjustNotFirstClasses(session);
+            }
+
+            ResizeSessionBox(session);
+
+        }
+        else {
+            alert("failed to save");
+        }
+
+    });
+}
+
+/*
+    Makes the ajax calls to persist unassignments to sessions
+
+    Parameters:
+    session - ul object for the particular session
+    person - the li object for a particular person
+*/
+function UnAssign(session, person) {
+
+    var sessionId = $(session).attr("id");
+    var personId = $(person).data("id");
+
+    $.post(unassignUrl, { id: sessionId, seminarPersonId: personId, __RequestVerificationToken: antiforgeryToken }, function (result) {
+
+        if (result) {
+
+            $(person).remove();
+
+            if ($(session).parents("div").hasClass("single")) {
+                AdjustNotFirstClasses(session);
+            }
+
+            ResizeSessionBox(session);
+        }
+        else {
+            alert("failed to save");
+        }
+    });
 }

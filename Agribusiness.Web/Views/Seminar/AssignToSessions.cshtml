@@ -53,12 +53,10 @@
         var assignUrl = '@Url.Action("Assign")';
         var unassignUrl = '@Url.Action("UnAssign")';
 
+        /* Set the antiforgery token from the dom object */
         $(function () { antiforgeryToken = $('input[name="__RequestVerificationToken"]').val(); });
 
-        function Assign(sessionId, personId) {
-            $.post(assignUrl, {id:sessionId, seminarPersonId: personId, __RequestVerificationToken: antiforgeryToken}, function(result){alert(result);});
-        }
-        function UnAssign(sessionId, personId) { }
+
 
     </script>
 
@@ -102,7 +100,7 @@
                         <div class='session-item @single'><a class="add-all" data-id='@session.Id'>Add All</a>
                         <h4>@session.Name (@session.Begin.Value.ToShortTimeString())</h4>
                         <ul id='@session.Id' class="session">
-                            @foreach (var person in session.SeminarPeople)
+                            @foreach (var person in session.SeminarPeople.OrderBy(a=>a.Person.LastName))
                             { 
                                 <li class="person" data-id='@person.Id'>
                                     @person.Person.FullName
