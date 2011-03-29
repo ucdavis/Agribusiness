@@ -16,6 +16,9 @@
             @Html.ActionLink("Create Session", "Create", "Session", new { seminarId = @Model.Seminar.Id }, new { })
         </li>
         <li>
+            @Html.ActionLink("Create Case Study", "Create", "CaseStudy", new { seminarId = Model.Seminar.Id }, new { })
+        </li>
+        <li>
             @Html.ActionLink("Back to List", "Index", "Seminar")
         </li>
     </ul>
@@ -66,5 +69,17 @@
     else 
     { 
         @Html.Partial("_Message", new MessageModel(){IsError=false,Message="No Sessions have been created yet."})
+    }
+</fieldset>
+
+<fieldset>
+    <legend>Case Studies</legend>
+
+    @if (Model.Seminar.CaseStudies.Any())
+    {
+    }
+    else
+    { 
+        @Html.Partial("_Message",new MessageModel(){IsError=false,Message="No Case Studies have been created yet."})
     }
 </fieldset>

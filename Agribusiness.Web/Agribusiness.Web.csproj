@@ -115,6 +115,7 @@
     <Compile Include="ComponentRegistrar.asax.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
+    <Compile Include="Controllers\CaseStudyController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\Filters\CatbertMessagesAttribute.cs" />
     <Compile Include="Controllers\Filters\RoleFilter.cs" />
@@ -129,6 +130,7 @@
     <Compile Include="Helpers\AutomapperConfig.cs" />
     <Compile Include="Helpers\FluentHelper.cs" />
     <Compile Include="Models\AssignToSessionViewModel.cs" />
+    <Compile Include="Models\CaseStudyViewModel.cs" />
     <Compile Include="Models\PersonEditModel.cs" />
     <Compile Include="Models\PersonListViewModel.cs" />
     <Compile Include="Services\FirmService.cs" />
@@ -291,6 +293,7 @@
     <None Include="CodeTemplates\AddView\CSHTML\ListTelerik.tt" />
     <Content Include="Views\Person\Details.cshtml" />
     <Content Include="Views\Seminar\AssignToSessions.cshtml" />
+    <Content Include="Views\CaseStudy\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">

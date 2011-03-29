@@ -1,4 +1,4 @@
-﻿@model Agribusiness.Core.Domain.Seminar
+﻿@model Agribusiness.Web.Models.SeminarViewModel
 
 @{
     ViewBag.Title = "Seminar Details";
@@ -9,11 +9,11 @@
 {
     <ul class="navigation">
         <li>
-            @Html.ActionLink("Assign Sessions", "AssignToSessions", new { id = Model.Id })
+            @Html.ActionLink("Assign Sessions", "AssignToSessions", new { id = Model.Seminar.Id })
         </li>
 
         <li>
-            @Html.ActionLink("Edit", "Edit", "Seminar", new { id = Model.Id }, new { })
+            @Html.ActionLink("Edit", "Edit", "Seminar", new { id = Model.Seminar.Id }, new { })
         </li>
         <li>
             @Html.ActionLink("Back to List", "Index", "Seminar")
@@ -25,37 +25,37 @@
     <div class="display-form">
     <ul>
         <li><div class="display-label"><label for="year">Year:</label></div>
-            <div class="display-details">@Html.DisplayFor(a => a.Year)</div>
+            <div class="display-details">@Html.DisplayFor(a => a.Seminar.Year)</div>
         </li>
         <li><div class="display-label"><label for="location" class="editor-label">Location:</label></div>
-            <div class="display-details">@Html.DisplayFor(a => a.Location)</div>
+            <div class="display-details">@Html.DisplayFor(a => a.Seminar.Location)</div>
         </li>
         <li><div class="display-label"><label for="Begin" class="editor-label">Begin Date:</label></div>
-            <div class="display-details">@Html.DisplayFor(a => a.Begin)</div>
+            <div class="display-details">@Html.DisplayFor(a => a.Seminar.Begin)</div>
         </li>
         <li><div class="display-label"><label for="End" class="editor-label">End Date:</label></div>
-            <div class="display-details">@Html.DisplayFor(a => a.End)</div>
+            <div class="display-details">@Html.DisplayFor(a => a.Seminar.End)</div>
         </li>
         <li><div class="display-label">
             <label for="RegistrationDeadline" class="editor-label">Registration Deadline:</label>
             </div>
-            <div class="display-details">@Html.DisplayFor(a => a.RegistrationDeadline)</div>
+            <div class="display-details">@Html.DisplayFor(a => a.Seminar.RegistrationDeadline)</div>
         </li>
         <li><div class="display-label">
             <label for="RegistrationPassword" class="editor-label">Registration Password:</label>
             </div>
-            <div class="display-details">@Html.DisplayFor(a => a.RegistrationPassword)</div>
+            <div class="display-details">@Html.DisplayFor(a => a.Seminar.RegistrationPassword)</div>
         </li>
         <li><div class="display-label">
             <label for="RegistrationId" class="editor-label">Registration Id:</label>
             </div>
-            <div class="display-details">@Html.DisplayFor(a => a.RegistrationId)</div>
+            <div class="display-details">@Html.DisplayFor(a => a.Seminar.RegistrationId)</div>
         </li>
     </ul>
     </div>
 <h3>Sessions</h3>
 
-@if (Model.Sessions.Any())
+@if (Model.Seminar.Sessions.Any())
 { 
     <table class="noicon">
         <thead> 
@@ -71,7 +71,7 @@
         <tfoot></tfoot>
         <tbody>
         
-            @foreach (var a in Model.Sessions)
+            @foreach (var a in Model.Seminar.Sessions)
             { 
                 <tr>
                     <td>@a.Name</td>
@@ -93,7 +93,7 @@ else
 
 <h3>People</h3>
 
-@if (Model.SeminarPeople.Count <= 0)
+@if (Model.DisplayPeople.Count <= 0)
 { 
     @Html.Partial("_Message", new MessageModel() { IsError = false, Message = "No one has been approved to attend this seminar" })
 }
@@ -110,14 +110,15 @@ else
         </tr>
     </thead>
     <tbody>
-        @foreach (var a in Model.SeminarPeople)
+        @foreach (var a in Model.DisplayPeople)
         { 
             <tr>
                 <td>@a.Person.FirstName</td>
                 <td>@a.Person.MI</td>
                 <td>@a.Person.LastName</td>
                 <td>@a.Title</td>
-                <td>@a.FirmCode</td>
+                @*<td>@a.FirmCode</td>*@
+                <td>@a.Firm.Name</td>
             </tr>
         }
     </tbody>

@@ -53,7 +53,7 @@ namespace Agribusiness.Core.Domain
 
             Map(x => x.Name);
             Map(x => x.Description);
-            Map(x => x.File);
+            Map(x => x.File).Column("`File`");
 
             References(x => x.Seminar);
             References(x => x.Session);

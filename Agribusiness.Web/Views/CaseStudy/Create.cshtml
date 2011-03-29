@@ -1,0 +1,57 @@
+﻿@model CaseStudyViewModel
+
+@{
+    ViewBag.Title = "Create Case Study";
+    ViewBag.SubPageTitle = "Create Case Study";
+}
+
+@using (Html.BeginForm()) { 
+
+    <fieldset>
+    
+        <ul>
+            <li><div class="editor-label required">
+                @Html.LabelFor(a=>a.CaseStudy.Name)
+                <span>*</span>
+                </div>
+                <div class="editor-field">
+                @Html.TextBoxFor(a=>a.CaseStudy.Name)
+                @Html.ValidationMessageFor(a=>a.CaseStudy.Name)
+                </div>
+            </li>
+            <li><div class="editor-label">
+                @Html.LabelFor(a=>a.CaseStudy.Description)
+                </div>
+                <div class="editor-field">
+                @Html.TextAreaFor(a=>a.CaseStudy.Description)
+                @Html.ValidationMessageFor(a=>a.CaseStudy.Description)
+                </div>
+            </li>
+            <li><div class="editor-label required">
+                @Html.LabelFor(a => a.CaseStudy.File)
+                <span>*</span>
+                </div>
+                <div class="editor-field">
+                <input type="file" name="file" />
+                @Html.ValidationMessageFor(a=>a.CaseStudy.File)
+                </div>
+            </li>
+            <li><div class="editor-label">
+                @Html.LabelFor(a=>a.CaseStudy.Session)
+                </div>
+                <div class="editor-field">
+                @this.Select("CaseStudy.Session").Options(Model.Seminar.Sessions,x=>x.Id,x=>x.Name).FirstOption("--Select a Session--").Selected(Model.CaseStudy.Session != null ? Model.CaseStudy.Id.ToString() : string.Empty)
+                </div>
+            </li>
+            <li>
+                <div class="editor-label"><label>&nbsp;</label></div>
+                <div class="editor-field">
+                    <input type="submit" value="Save" class="button" /> |
+                    @Html.ActionLink("Cancel", "Edit", "Seminar", new{id=Model.Seminar.Id},new{})
+                </div>
+            </li>
+        </ul>
+
+    </fieldset>
+    
+}

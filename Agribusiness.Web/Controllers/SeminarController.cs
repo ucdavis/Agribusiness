@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using Agribusiness.Core.Domain;
 using Agribusiness.Web.Controllers.Filters;
 using Agribusiness.Web.Models;
+using Agribusiness.Web.Services;
 using AutoMapper;
 using Resources;
 using UCDArch.Core.PersistanceSupport;
@@ -21,12 +22,14 @@ namespace Agribusiness.Web.Controllers
 	    private readonly IRepository<Seminar> _seminarRepository;
         private readonly IRepository<Session> _sessionRepository;
         private readonly IRepository<SeminarPerson> _seminarPersonRepository;
+        private readonly IFirmService _firmService;
 
-        public SeminarController(IRepository<Seminar> seminarRepository, IRepository<Session> sessionRepository, IRepository<SeminarPerson> seminarPersonRepository)
+        public SeminarController(IRepository<Seminar> seminarRepository, IRepository<Session> sessionRepository, IRepository<SeminarPerson> seminarPersonRepository, IFirmService firmService)
         {
             _seminarRepository = seminarRepository;
             _sessionRepository = sessionRepository;
             _seminarPersonRepository = seminarPersonRepository;
+            _firmService = firmService;
         }
 
         #region Administrative Functions
@@ -114,7 +117,10 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction(a => a.Index());
             }
 
-            return View(seminar);
+            var viewModel = SeminarViewModel.Create(Repository, seminar);
+           viewModel.PopulateDisplayPeople(_firmService);
+
+            return View(viewModel);
         }
 
         /// <summary>
