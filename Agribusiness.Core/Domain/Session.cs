@@ -26,6 +26,7 @@ namespace Agribusiness.Core.Domain
         private void SetDefaults()
         {
             SeminarPeople = new List<SeminarPerson>();
+            CaseStudies = new List<CaseStudy>();
         }
 
         #endregion
@@ -45,6 +46,7 @@ namespace Agribusiness.Core.Domain
         public virtual Seminar Seminar { get; set; }
 
         public virtual IList<SeminarPerson> SeminarPeople { get; set; }
+        public virtual IList<CaseStudy> CaseStudies { get; set; }
         #endregion
 
         public virtual string BeginString { get { return Begin.HasValue ? Begin.Value.ToString("g") : "n/a"; } }
@@ -69,6 +71,8 @@ namespace Agribusiness.Core.Domain
                 .ChildKeyColumn("SeminarPersonId")
                 .Table("SeminarPeopleXSessions")
                 .Cascade.SaveUpdate();
+
+            HasMany(x => x.CaseStudies).Inverse().Cascade.AllDeleteOrphan();
         }
     }
 }
