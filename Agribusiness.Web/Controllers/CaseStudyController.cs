@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Web;
 using System.Web.Mvc;
 using Agribusiness.Core.Domain;
 using Agribusiness.Web.Models;
@@ -16,10 +18,12 @@ namespace Agribusiness.Web.Controllers
     public class CaseStudyController : ApplicationController
     {
 	    private readonly IRepository<CaseStudy> _casestudyRepository;
+        private readonly IRepository<Seminar> _seminarRepository;
 
-        public CaseStudyController(IRepository<CaseStudy> casestudyRepository)
+        public CaseStudyController(IRepository<CaseStudy> casestudyRepository, IRepository<Seminar> seminarRepository)
         {
             _casestudyRepository = casestudyRepository;
+            _seminarRepository = seminarRepository;
         }
 
         /// <summary>
@@ -29,7 +33,7 @@ namespace Agribusiness.Web.Controllers
         /// <returns></returns>
         public ActionResult Create(int seminarId)
         {
-            var seminar = Repository.OfType<Seminar>().GetNullableById(seminarId);
+            var seminar = _seminarRepository.GetNullableById(seminarId);
 
             if (seminar == null)
             {
@@ -42,9 +46,16 @@ namespace Agribusiness.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(int seminarId, CaseStudy caseStudy)
+        public ActionResult Create(int seminarId, CaseStudy caseStudy, HttpPostedFileBase file)
         {
             var seminar = Repository.OfType<Seminar>().GetNullableById(seminarId);
+
+            if (file != null)
+            {
+                var reader = new BinaryReader(file.InputStream);
+                var data = reader.ReadBytes(file.ContentLength);
+                caseStudy.File = data;
+            }
 
             if (seminar == null)
             {
@@ -64,8 +75,59 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction<SeminarController>(a => a.Edit(seminarId));
             }
 
-            var viewModel = CaseStudyViewModel.Create(Repository, seminar);
+            var viewModel = CaseStudyViewModel.Create(Repository, seminar, caseStudy);
             return View(viewModel);
+        }
+
+        public ActionResult Edit(int id, int seminarId)
+        {
+            var seminar = _seminarRepository.GetNullableById(seminarId);
+            var caseStudy = _casestudyRepository.GetNullableById(id);
+
+            if (seminar == null || caseStudy == null)
+            {
+                Message += seminar == null ? string.Format(Messages.NotFound, "Seminar", seminarId) : string.Empty;
+                Message += caseStudy == null ? string.Format(Messages.NotFound, "Case Study", id) : string.Empty;
+                return this.RedirectToAction<SeminarController>(a => a.Index());
+            }
+
+            var viewModel = CaseStudyViewModel.Create(Repository, seminar, caseStudy);
+            return View(viewModel);
+        }
+
+        /// <summary>
+        /// Either adding a Author or Case Executive
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult AddPerson(int id)
+        {
+            var caseStudy = _casestudyRepository.GetNullableById(id);
+
+            if (caseStudy == null)
+            {
+                Message = string.Format(Messages.NotFound, "case study", id);
+                return this.RedirectToAction<SeminarController>(a => a.Index());
+            }
+
+            var viewModel = CaseStudyPersonViewModel.Create(Repository, caseStudy);
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult AddPerson(int id, int seminarPersonId)
+        {
+            return View();
+        }
+
+        public FileResult Download(int id)
+        {
+            var caseStudy = _casestudyRepository.GetNullableById(id);
+
+            if (caseStudy == null) return File(new byte[0], string.Empty);
+
+            var fileName = caseStudy.Name.Replace(" ", string.Empty);
+
+            return File(caseStudy.File, "application/pdf", string.Format("{0}.pdf", fileName));
         }
     }
 }

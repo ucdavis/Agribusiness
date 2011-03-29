@@ -24,13 +24,28 @@
     </ul>
 }
 
+@section ScriptContent{
+
+    <script type="text/javascript" src='@Url.Content("~/Scripts/jquery.dataTables.min.js")'></script>
+
+    <script type="text/javascript">
+        $(function () {
+            //            $("#sessions").dataTable({ "bJQueryUI": true });
+            //            $("#casestudies").dataTable({ "bJQueryUI": true });
+
+            $("#sessions").dataTable({});
+            $("#casestudies").dataTable({});
+        });    
+    </script>
+}
+
 @Html.Partial("_SeminarForm")
 
-<fieldset>
-    <legend>Sessions</legend>
+<h3>Sessions</h3>
+
     @if (Model.Seminar.Sessions.Any())
     { 
-    <table>
+    <table id="sessions">
         <thead> 
             <tr>
                 <th></th>
@@ -42,7 +57,6 @@
                 <th></th>
             </tr>
         </thead>
-        <tfoot></tfoot>
         <tbody>
         
             @foreach (var a in Model.Seminar.Sessions)
@@ -70,16 +84,42 @@
     { 
         @Html.Partial("_Message", new MessageModel(){IsError=false,Message="No Sessions have been created yet."})
     }
-</fieldset>
 
-<fieldset>
-    <legend>Case Studies</legend>
+<div style="clear:both; margin: 1em;">&nbsp;</div>
+<h3>Case Studies</h3>
 
     @if (Model.Seminar.CaseStudies.Any())
     {
+        <table id="casestudies" class="noicon">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Session</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var cs in Model.Seminar.CaseStudies) { 
+                <tr>
+                    <td><a href='@Url.Action("Download", "CaseStudy", new { id=cs.Id })'>
+                            <img src='@Url.Content("~/Images/details.png")' alt="download case study" />
+                        </a>
+                        <a href='@Url.Action("Edit", "CaseStudy", new {id=cs.Id,seminarId=Model.Seminar.Id})'>
+                            <img src='@Url.Content("~/Images/edit.png")' alt="edit case study" />
+                        </a>
+                    </td>
+                    <td>@cs.Name</td>
+                    <td>@cs.Description</td>
+                    <td>@cs.Session.Name</td>
+                </tr>                
+                }
+
+            </tbody>
+        </table>        
     }
     else
     { 
-        @Html.Partial("_Message",new MessageModel(){IsError=false,Message="No Case Studies have been created yet."})
+        @Html.Partial("_Message", new MessageModel() { IsError = false, Message = "No Case Studies have been created yet." })
     }
-</fieldset>

@@ -1,0 +1,63 @@
+﻿@model CaseStudyViewModel
+
+@{
+    ViewBag.Title = "Edit Case Study";
+    ViewBag.SubPageTitle = "Edit Case Study";
+}
+
+@section ScriptContent{
+
+    <script type="text/javascript" src='@Url.Content("~/Scripts/jquery.dataTables.min.js")'></script>
+
+    <script type="text/javascript">
+        $(function () { 
+            
+        });    
+    </script>
+}
+
+@section SubPageNavigation
+{
+    <ul class="navigation">
+        <li>@Html.ActionLink("Add Author/Case Executive", "AddPerson", new{id=Model.CaseStudy.Id}) </li>
+    </ul>
+}
+
+@Html.Partial("_CaseStudyForm")
+
+<h3>Author(s)</h3>
+
+@if (Model.CaseStudy.CaseAuthors.Any())
+{
+    <table id="authors">
+        <thead>
+            <tr></tr>
+            <tr>Author</tr>
+            <tr></tr>
+        </thead>
+        <tbody>
+            @foreach (var a in Model.CaseStudy.CaseAuthors)
+            { 
+                <tr>
+                    <td></td>
+                    <td>@a.FullName</td>
+                    <td></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{ 
+    @Html.Partial("_Message", new MessageModel() { IsError = false, Message = "No authors have been added yet." })
+}
+
+<h3>Case Executive(s)</h3>
+
+@if (Model.CaseStudy.CaseExecutives.Any())
+{
+}
+else
+{ 
+    @Html.Partial("_Message", new MessageModel() { IsError = false, Message = "No case executives have been added yet." })
+}

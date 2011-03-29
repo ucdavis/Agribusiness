@@ -35,6 +35,7 @@ namespace Agribusiness.Core.Domain
         public virtual string Name { get; set; }
 
         public virtual string Description { get; set; }
+        [Required]
         public virtual byte[] File { get; set; }
         
         public virtual Seminar Seminar { get; set; }
@@ -53,7 +54,7 @@ namespace Agribusiness.Core.Domain
 
             Map(x => x.Name);
             Map(x => x.Description);
-            Map(x => x.File).Column("`File`");
+            Map(x => x.File).Column("`File`").LazyLoad().CustomType("BinaryBlob");
 
             References(x => x.Seminar);
             References(x => x.Session);
