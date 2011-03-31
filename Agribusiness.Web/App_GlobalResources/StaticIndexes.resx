@@ -129,4 +129,34 @@
   <data name="Key_Message" xml:space="preserve">
     <value>Messages</value>
   </data>
+  <data name="Role_CaseExecutive" xml:space="preserve">
+    <value>CE</value>
+  </data>
+  <data name="Role_CaseStudyAuthor" xml:space="preserve">
+    <value>CA</value>
+  </data>
+  <data name="Role_DiscussionGroupLeader" xml:space="preserve">
+    <value>DL</value>
+  </data>
+  <data name="Role_FacultyDirector" xml:space="preserve">
+    <value>FD</value>
+  </data>
+  <data name="Role_Panelist" xml:space="preserve">
+    <value>PN</value>
+  </data>
+  <data name="Role_Participant" xml:space="preserve">
+    <value>PT</value>
+  </data>
+  <data name="Role_Speaker" xml:space="preserve">
+    <value>SP</value>
+  </data>
+  <data name="Role_Staff" xml:space="preserve">
+    <value>ST</value>
+  </data>
+  <data name="Role_SteeringCommittee" xml:space="preserve">
+    <value>SC</value>
+  </data>
+  <data name="Role_Vendor" xml:space="preserve">
+    <value>VD</value>
+  </data>
 </root>

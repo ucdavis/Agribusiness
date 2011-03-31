@@ -23,8 +23,8 @@ namespace Agribusiness.Core.Domain
 
         private void SetDefaults()
         {
-            CaseExecutives =  new List<Person>();
-            CaseAuthors = new List<Person>();
+            CaseExecutives =  new List<SeminarPerson>();
+            CaseAuthors = new List<SeminarPerson>();
         }
 
         #endregion
@@ -41,8 +41,8 @@ namespace Agribusiness.Core.Domain
         public virtual Seminar Seminar { get; set; }
         public virtual Session Session { get; set; }
 
-        public virtual IList<Person> CaseExecutives { get; set; }
-        public virtual IList<Person> CaseAuthors { get; set; }
+        public virtual IList<SeminarPerson> CaseExecutives { get; set; }
+        public virtual IList<SeminarPerson> CaseAuthors { get; set; }
         #endregion
     }
 
@@ -61,13 +61,13 @@ namespace Agribusiness.Core.Domain
 
             HasManyToMany(x => x.CaseExecutives)
                 .ParentKeyColumn("CaseStudyId")
-                .ChildKeyColumn("PersonId")
+                .ChildKeyColumn("SeminarPersonId")
                 .Table("CaseStudyExecutives")
                 .Cascade.SaveUpdate();
 
             HasManyToMany(x => x.CaseAuthors)
                 .ParentKeyColumn("CaseStudyId")
-                .ChildKeyColumn("PersonId")
+                .ChildKeyColumn("SeminarPersonId")
                 .Table("CaseStudyAuthors")
                 .Cascade.SaveUpdate();            
         }

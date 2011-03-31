@@ -1,4 +1,6 @@
-﻿@model CaseStudyViewModel
+﻿@using Resources
+
+@model CaseStudyViewModel
 
 @{
     ViewBag.Title = "Edit Case Study";
@@ -14,11 +16,23 @@
             
         });    
     </script>
+
+    <style type="text/css">
+        .removePerson
+        {
+            background:url(@Url.Content("~/Images/delete.png")) no-repeat;
+            cursor: pointer;
+            border: none;
+            width: 24px;
+            height: 24px;
+        }
+    </style>
 }
 
 @section SubPageNavigation
 {
     <ul class="navigation">
+        <li>@Html.ActionLink("Back to Seminar", "Edit", "Seminar", new { id=Model.Seminar.Id }, new { })</li>
         <li>@Html.ActionLink("Add Author/Case Executive", "AddPerson", new{id=Model.CaseStudy.Id}) </li>
     </ul>
 }
@@ -31,17 +45,26 @@
 {
     <table id="authors">
         <thead>
-            <tr></tr>
-            <tr>Author</tr>
-            <tr></tr>
+            <tr>
+                <td></td>
+                <td>Author</td>
+            </tr>
         </thead>
         <tbody>
             @foreach (var a in Model.CaseStudy.CaseAuthors)
             { 
                 <tr>
-                    <td></td>
-                    <td>@a.FullName</td>
-                    <td></td>
+                    <td>
+                        @using (Html.BeginForm("RemovePerson", "CaseStudy", FormMethod.Post, new {style="display:inline-block; width: 100%;"})) { 
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("id", Model.CaseStudy.Id)
+                            @Html.Hidden("seminarPersonId", a.Id)
+                            @Html.Hidden("personType", StaticIndexes.Role_CaseStudyAuthor)
+                            
+                            <input type="submit" value="" class="removePerson" />
+                        }
+                    </td>
+                    <td>@a.Person.FullName</td>
                 </tr>
             }
         </tbody>

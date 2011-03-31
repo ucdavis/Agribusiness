@@ -5,8 +5,10 @@
     ViewBag.SubPageTitle = string.Format("Add Person to {0} Case Study", Model.CaseStudy.Name);
 }
 
-@using (Html.BeginForm()) { 
+@Html.ValidationSummary("Please correct the following errors:")
 
+@using (Html.BeginForm()) { 
+    @Html.AntiForgeryToken()
     <fieldset>
         <ul>
             <li><div class="editor-label required">
