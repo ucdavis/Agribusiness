@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
+using System.Linq;
 
 namespace Agribusiness.Core.Domain
 {
@@ -43,6 +44,18 @@ namespace Agribusiness.Core.Domain
 
         public virtual IList<SeminarPerson> CaseExecutives { get; set; }
         public virtual IList<SeminarPerson> CaseAuthors { get; set; }
+        #endregion
+
+        #region Calculated Fields
+
+        /// <summary>
+        /// Comma seperated string of all case authors
+        /// </summary>
+        public virtual string Authors { get { return string.Join(", ", CaseAuthors.Select(a=>a.Person.FullName)); } }
+        /// <summary>
+        /// Comma seperated string of all case executives
+        /// </summary>
+        public virtual string Executives { get { return string.Join(", ", CaseExecutives.Select(a=>a.Person.FullName)); } }
         #endregion
     }
 

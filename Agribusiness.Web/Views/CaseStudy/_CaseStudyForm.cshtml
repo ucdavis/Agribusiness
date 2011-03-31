@@ -35,6 +35,14 @@
                 <div class="editor-field">
                 <input type="file" name='file' id='file' />
                 @Html.ValidationMessageFor(a => a.CaseStudy.File)
+
+
+                @if (Model.CaseStudy.File != null)
+                { 
+                    <text>|</text> @Html.ActionLink("Download Existing File", "Download", new { id=Model.CaseStudy.Id })
+                }
+                    
+
                 </div>
             </li>
             <li><div class="editor-label">

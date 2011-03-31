@@ -21,6 +21,17 @@
     </ul>
 }
 
+@section ScriptContent
+{
+    <script type="text/javascript" src='@Url.Content("~/Scripts/jquery.dataTables.min.js")'></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $("table").dataTable({ "bJQueryUI": true });
+        });    
+    </script>
+}
+
 <h3>Details</h3>
     <div class="display-form">
     <ul>
@@ -68,7 +79,6 @@
                 <th></th>
             </tr>
         </thead>
-        <tfoot></tfoot>
         <tbody>
         
             @foreach (var a in Model.Seminar.Sessions)
@@ -91,11 +101,46 @@ else
     @Html.Partial("_Message", new MessageModel(){IsError=false,Message="No Sessions have been created yet."})
 }
 
+<h3>Case Studies</h3>
+@if (Model.Seminar.CaseStudies.Count <= 0)
+{ 
+    @Html.Partial("_Message", new MessageModel() { IsError = false, Message = "No case studies have been added to this seminar." })
+}
+else
+{ 
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Author(s)</th>
+                <th>Case Executive(s)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var a in Model.Seminar.CaseStudies)
+            { 
+                <tr>
+                    <td><a href='@Url.Action("Download", "CaseStudy", new { id=a.Id })'>
+                            <img src='@Url.Content("~/Images/edit.png")' alt="Download this case study." />
+                        </a>
+                    </td>
+                    <td>@a.Name</td>
+                    <td>@a.Authors</td>
+                    <td>@a.Executives</td>
+                    <td></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
 <h3>People</h3>
 
 @if (Model.DisplayPeople.Count <= 0)
 { 
-    @Html.Partial("_Message", new MessageModel() { IsError = false, Message = "No one has been approved to attend this seminar" })
+    @Html.Partial("_Message", new MessageModel() { IsError = false, Message = "No one has been approved to attend this seminar." })
 }
 else
 { 
@@ -117,7 +162,6 @@ else
                 <td>@a.Person.MI</td>
                 <td>@a.Person.LastName</td>
                 <td>@a.Title</td>
-                @*<td>@a.FirmCode</td>*@
                 <td>@a.Firm.Name</td>
             </tr>
         }
