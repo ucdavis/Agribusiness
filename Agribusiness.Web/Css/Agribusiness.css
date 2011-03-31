@@ -50,7 +50,10 @@ div.dataTables_wrapper table
     clear:both;
 }
 
-
+.DataTables_sort_wrapper
+{
+    cursor:pointer;
+}
 
 .css_right { float:right;}
 .clear { clear: both; }
