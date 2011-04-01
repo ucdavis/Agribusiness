@@ -162,7 +162,6 @@ namespace Agribusiness.Web.Controllers
         }
         #endregion
 
-        
 
 
         public ActionResult GetProfilePicture(int id)

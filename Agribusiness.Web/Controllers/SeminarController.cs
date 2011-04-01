@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Agribusiness.Core.Domain;
@@ -209,6 +210,37 @@ namespace Agribusiness.Web.Controllers
             return Json(true);
         }
 
+        #endregion
+
+        #region Membership User Functions
+        /// <summary>
+        /// Screen to display all seminars a user has been approved for.
+        /// </summary>
+        /// <returns></returns>
+        [MembershipUserOnly]
+        public ActionResult MySeminars()
+        {
+            var user = Repository.OfType<User>().Queryable.Where(a => a.LoweredUserName == CurrentUser.Identity.Name.ToLower()).FirstOrDefault();
+
+            if (user == null)
+            {
+                Message = "User not found.";
+                return this.RedirectToAction<HomeController>(a => a.Index());
+            }
+
+            var seminars = new List<Seminar>();
+            if (user.Person != null)
+            {
+                seminars = user.Person.SeminarPeople.Select(a => a.Seminar).ToList();
+            }
+
+            return View(seminars);
+        }
+
+        public ActionResult Apply()
+        {
+            return View();
+        }
         #endregion
     }
 }

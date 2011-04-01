@@ -315,6 +315,7 @@
     <Content Include="Views\CaseStudy\_CaseStudyForm.cshtml" />
     <Content Include="Views\CaseStudy\AddPerson.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Seminar\MySeminars.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">
