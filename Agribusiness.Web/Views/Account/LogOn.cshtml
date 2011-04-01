@@ -17,6 +17,8 @@
         <fieldset>
             <legend>Account Information</legend>
 
+            <ul>
+            <li>
             <div class="editor-label">
                 @Html.LabelFor(m => m.UserName)
             </div>
@@ -24,7 +26,8 @@
                 @Html.TextBoxFor(m => m.UserName)
                 @Html.ValidationMessageFor(m => m.UserName)
             </div>
-
+            </li>
+            <li>
             <div class="editor-label">
                 @Html.LabelFor(m => m.Password)
             </div>
@@ -32,15 +35,18 @@
                 @Html.PasswordFor(m => m.Password)
                 @Html.ValidationMessageFor(m => m.Password)
             </div>
-
-            <div class="editor-label">
+            </li>
+            <li><div class="editor-label">&nbsp;</div>
+            <div class="editor-field">
                 @Html.CheckBoxFor(m => m.RememberMe)
                 @Html.LabelFor(m => m.RememberMe)
             </div>
+            </li>
+            <li><div class="editor-label">&nbsp;</div>
+                <div class="editor-field"><input type="submit" value="Log On" class="button" /></div>
+            </li>
 
-            <p>
-                <input type="submit" value="Log On" />
-            </p>
+            </ul>
         </fieldset>
     </div>
 }

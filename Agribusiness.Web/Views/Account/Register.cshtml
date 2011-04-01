@@ -21,14 +21,8 @@
         <fieldset>
             <legend>Account Information</legend>
 
-            <div class="editor-label">
-                @Html.LabelFor(m => m.UserName)
-            </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(m => m.UserName)
-                @Html.ValidationMessageFor(m => m.UserName)
-            </div>
-
+            <ul>
+            <li>
             <div class="editor-label">
                 @Html.LabelFor(m => m.Email)
             </div>
@@ -36,7 +30,8 @@
                 @Html.TextBoxFor(m => m.Email)
                 @Html.ValidationMessageFor(m => m.Email)
             </div>
-
+            </li>
+            <li>
             <div class="editor-label">
                 @Html.LabelFor(m => m.Password)
             </div>
@@ -44,7 +39,8 @@
                 @Html.PasswordFor(m => m.Password)
                 @Html.ValidationMessageFor(m => m.Password)
             </div>
-
+            </li>
+            <li>
             <div class="editor-label">
                 @Html.LabelFor(m => m.ConfirmPassword)
             </div>
@@ -52,10 +48,15 @@
                 @Html.PasswordFor(m => m.ConfirmPassword)
                 @Html.ValidationMessageFor(m => m.ConfirmPassword)
             </div>
-
-            <p>
-                <input type="submit" value="Register" />
-            </p>
+            </li>
+    
+            <li><div class="editor-label">&nbsp;</div>
+                <div class="editor-field">
+                    <input type="submit" value="Register" class="button" /> |
+                    @Html.ActionLink("Cancel", "LogOn", new {membershipLogon = true})
+                </div>
+            </li>
+            </ul>
         </fieldset>
     </div>
 }

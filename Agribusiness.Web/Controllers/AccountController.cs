@@ -1,4 +1,7 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
 using Agribusiness.Web.Models;
@@ -35,8 +38,6 @@ namespace Agribusiness.Web.Controllers
         [HttpPost]
         public ActionResult LogOn(LogOnModel model, string returnUrl)
         {
-            
-
             if (ModelState.IsValid)
             {
                 if (MembershipService.ValidateUser(model.UserName, model.Password))
@@ -85,6 +86,17 @@ namespace Agribusiness.Web.Controllers
         [HttpPost]
         public ActionResult Register(RegisterModel model)
         {
+            // clear validation because username is not provided
+            ModelState.Clear();
+
+            // set hte username to the email
+            model.UserName = model.Email.ToLower();
+
+            var ctx = new ValidationContext(model, null, null);
+            var rst = new List<ValidationResult>();
+            Validator.TryValidateObject(model, ctx, rst);
+            foreach (var a in rst) { ModelState.AddModelError(a.MemberNames.First(), a.ErrorMessage); }
+
             if (ModelState.IsValid)
             {
                 // Attempt to register the user
