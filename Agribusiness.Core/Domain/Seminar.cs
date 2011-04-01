@@ -42,7 +42,9 @@ namespace Agribusiness.Core.Domain
         [Before("End")]
         public virtual DateTime Begin { get; set; }
         public virtual DateTime End { get; set; }
-        [Before("End")]
+        [Before("Begin")]
+        public virtual DateTime? RegistrationBegin { get; set; }
+        [Before("Begin")]
         public virtual DateTime? RegistrationDeadline { get; set; }
 
         // optional fields
@@ -71,6 +73,7 @@ namespace Agribusiness.Core.Domain
             Map(x => x.Location);
             Map(x => x.Begin).Column("`Begin`");
             Map(x => x.End).Column("`End`");
+            Map(x => x.RegistrationBegin);
             Map(x => x.RegistrationDeadline);
             Map(x => x.RegistrationPassword);
             Map(x => x.RegistrationId);
