@@ -459,6 +459,11 @@ namespace Agribusiness.Tests.Controllers
             {
                 return (userName == "someUser" && oldPassword == "goodOldPassword" && newPassword == "goodNewPassword");
             }
+
+            public bool ResetPassword(string userName)
+            {
+                throw new NotImplementedException();
+            }
         }
 
     }

@@ -10,7 +10,7 @@ using MvcContrib;
 
 namespace Agribusiness.Web.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : ApplicationController
     {
 
         public IFormsAuthenticationService FormsService { get; set; }
@@ -148,6 +148,25 @@ namespace Agribusiness.Web.Controllers
             // If we got this far, something failed, redisplay form
             ViewBag.PasswordLength = MembershipService.MinPasswordLength;
             return View(model);
+        }
+
+        public ActionResult ResetPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ResetPassword(string userName)
+        {
+            if (MembershipService.ResetPassword(userName))
+            {
+                Message = "Your password has been reset, please check your email";
+                return this.RedirectToAction<HomeController>(a => a.Index());
+            }
+
+            ModelState.AddModelError("", "Invalid account name provided.");
+
+            return View();
         }
 
         // **************************************

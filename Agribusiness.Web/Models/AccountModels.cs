@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -85,6 +86,8 @@ namespace Agribusiness.Web.Models
         bool ValidateUser(string userName, string password);
         MembershipCreateStatus CreateUser(string userName, string password, string email);
         bool ChangePassword(string userName, string oldPassword, string newPassword);
+
+        bool ResetPassword(string userName);
     }
 
     public class AccountMembershipService : IMembershipService
@@ -146,6 +149,29 @@ namespace Agribusiness.Web.Models
                 return false;
             }
             catch (MembershipPasswordException)
+            {
+                return false;
+            }
+        }
+
+        public bool ResetPassword(string userName)
+        {
+            try
+            {
+                var user = _provider.GetUser(userName, false);
+                var newPassword = user.ResetPassword();
+
+                // email the new password
+                var body = string.Format("Your password has been reset to : {0} <br/><br/>Please log in immediately and change your password.", newPassword);
+                
+                var client = new SmtpClient();
+                var message = new MailMessage("automatedemail@caes.ucdavis.edu", userName, "Agribusiness Password Reset", body);
+
+                client.Send(message);
+
+                return true;
+            }
+            catch (Exception)
             {
                 return false;
             }

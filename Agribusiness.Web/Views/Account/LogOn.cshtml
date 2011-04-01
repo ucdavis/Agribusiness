@@ -6,13 +6,14 @@
 }
 
 <p>
-    Please enter your username and password. @Html.ActionLink("Register", "Register") if you don't have an account.
+    Please enter your username and password. @Html.ActionLink("Register", "Register") if you don't have an account.  Forgot your password? @Html.ActionLink("Click Here", "ResetPassword")
 </p>
 
 
 @Html.ValidationSummary(true, "Login was unsuccessful. Please correct the errors and try again.")
 
 @using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
     <div>
         <fieldset>
             <legend>Account Information</legend>
