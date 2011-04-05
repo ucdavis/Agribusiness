@@ -34,6 +34,7 @@ namespace Agribusiness.Core.Domain
         [StringLength(50)]
         public virtual string BadgeName { get; set; }
         public virtual byte[] Photo { get; set; }
+        public virtual string ContentType { get; set; }
         [StringLength(100)]
         public virtual string AssistantName { get; set; }
         [DataType(DataType.PhoneNumber)]
@@ -97,6 +98,7 @@ namespace Agribusiness.Core.Domain
             Map(x => x.LastName);
             Map(x => x.BadgeName);
             Map(x => x.Photo);
+            Map(x => x.ContentType);
             Map(x => x.AssistantName);
             Map(x => x.AssistantPhone);
             Map(x => x.AssistantEmail);

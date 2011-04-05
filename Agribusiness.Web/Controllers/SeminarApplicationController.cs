@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using Agribusiness.Core.Domain;
@@ -52,6 +53,14 @@ namespace Agribusiness.Web.Controllers
 
             application.Seminar = _seminarService.GetCurrent();
             application.User = Repository.OfType<User>().Queryable.Where(a => a.LoweredUserName == CurrentUser.Identity.Name.ToLower()).FirstOrDefault();
+
+            if (file != null)
+            {
+                // read the file
+                var reader = new BinaryReader(file.InputStream);
+                application.Photo = reader.ReadBytes(file.ContentLength);
+                application.ContentType = file.ContentType;
+            }
 
             application.TransferValidationMessagesTo(ModelState);
 
