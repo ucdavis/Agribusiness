@@ -1,0 +1,84 @@
+﻿@model IEnumerable<Agribusiness.Core.Domain.Application>
+
+@{
+    ViewBag.Title = "Seminar Applications";
+    ViewBag.SubPageTitle = "Seminar Applications";
+}
+
+
+@section SubPageNavigation
+{
+    <ul class="navigation">
+        <li>@Html.ActionLink("Apply for Seminar", "Apply")</li>
+    </ul>
+}
+
+<table>
+	<thead>
+		<tr>
+			<th></th>
+			<th>
+				FirstName
+			</th>
+			<th>
+				MI
+			</th>
+			<th>
+				LastName
+			</th>
+			<th>
+				BadgeName
+			</th>
+			<th>
+				AssistantName
+			</th>
+			<th>
+				AssistantPhone
+			</th>
+			<th>
+				AssistantEmail
+			</th>
+			<th>
+				Expectations
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+@{ var odd = false; }
+@foreach (var item in Model) {
+		<tr class="@(odd ? "odd": "even")">
+			<td>
+				@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+				@Html.ActionLink("Details", "Details", new { id=item.Id }) |
+				@Html.ActionLink("Delete", "Delete", new { id=item.Id })
+			</td>
+			<td>
+				@item.FirstName
+			</td>
+			<td>
+				@item.MI
+			</td>
+			<td>
+				@item.LastName
+			</td>
+			<td>
+				@item.BadgeName
+			</td>
+			<td>
+				@item.AssistantName
+			</td>
+			<td>
+				@item.AssistantPhone
+			</td>
+			<td>
+				@item.AssistantEmail
+			</td>
+			<td>
+				@item.Expectations
+			</td>
+		</tr>
+		odd = !odd;
+}
+	</tbody>
+</table>
+

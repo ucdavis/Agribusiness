@@ -1,0 +1,344 @@
+﻿@model Agribusiness.Web.Models.ApplicationViewModel
+
+@{
+	ViewBag.Title = "Apply for Seminar";
+    ViewBag.SubPageTitle = "Apply for Seminar";
+}
+
+@section SubPageNavigation
+{
+    <ul class="navigation">
+        <li>@Html.ActionLink("Back to List", "Index")</li>
+    </ul>
+}
+
+@section ScriptContent{
+
+    <style type="text/css">
+        .commodities li
+        {
+            float:left;
+            display:inline-block;
+            width: 210px;
+        }
+    </style>
+
+    <script type="text/javascript">
+        $(function () {
+            $("#firm_dialog").dialog({
+                autoOpen: false,
+                modal: true,
+                buttons: {
+                    "Confirm": selectFirm,
+                    Cancel: function () { $(this).dialog("close"); }
+                }
+            });
+
+            $("#selectFirm_btn").click(function () {
+                $("#firm_dialog").dialog("open");
+            });
+        });
+
+        function selectFirm() {
+
+            var dropDown = $(this).find("select");
+
+            // hide the existing firms
+            $("#existingFirmInformation").hide();
+            $("#firmInformation").hide();
+            $("#firmAddress").hide();
+            $("#jobInformation").hide();
+
+            // make sure a firm has been selected
+            if (dropDown.val() != "" && dropDown.val() != "0") {
+
+                // display the correct form
+                $("#firmName").html($(dropDown).find(":selected").text());
+                $("#Application_FirmId").val($(dropDown).val());
+                $("#existingFirmInformation").show();
+
+            }
+            // selected other
+            else if (dropDown.val() == "0") {
+
+                $("#firmInformation").show();
+
+            }
+            // did not select a firm or other
+            else {
+                alert("no firm selected");
+                return;
+            }
+
+            $("#jobInformation").show();
+            $("#firmAddress").show();
+            $(this).dialog("close");
+        }
+    </script>
+
+}
+
+@Html.ValidationSummary("Please correct the following errors:")
+
+@using (Html.BeginForm("Apply", "SeminarApplication", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+	@Html.AntiForgeryToken()
+	
+    <fieldset>
+	    <legend>Personal Information</legend>
+	    <p>All required fields are in <strong>bold</strong> and have a red <span class="required">*</span> next to the field label.</p>
+	    <ul>
+		    <li>
+			    <div class="editor-label required">
+				    @Html.LabelFor(model => model.Application.FirstName)<span>*</span> 
+			    </div>
+			    <div class="editor-field">
+				    @Html.EditorFor(model => model.Application.FirstName)
+				    @Html.ValidationMessageFor(model => model.Application.FirstName)
+			    </div>
+		    </li>
+		    <li>
+			    <div class="editor-label">
+				    @Html.LabelFor(model => model.Application.MI) 
+			    </div>
+			    <div class="editor-field">
+				    @Html.EditorFor(model => model.Application.MI)
+				    @Html.ValidationMessageFor(model => model.Application.MI)
+			    </div>
+		    </li>
+		    <li>
+			    <div class="editor-label required">
+				    @Html.LabelFor(model => model.Application.LastName)<span>*</span> 
+			    </div>
+			    <div class="editor-field">
+				    @Html.EditorFor(model => model.Application.LastName)
+				    @Html.ValidationMessageFor(model => model.Application.LastName)
+			    </div>
+		    </li>
+		    <li>
+			    <div class="editor-label">
+				    @Html.LabelFor(model => model.Application.BadgeName) 
+			    </div>
+			    <div class="editor-field">
+				    @Html.EditorFor(model => model.Application.BadgeName)
+				    @Html.ValidationMessageFor(model => model.Application.BadgeName)
+			    </div>
+		    </li>
+            <li><div class="editor-label">
+                    @Html.LabelFor(model => model.Application.Photo)
+                </div>
+                <div class="editor-field">
+                    <input type="file" name="file" id="file" />
+                    @Html.ValidationMessageFor(model => model.Application.Photo)
+                </div>
+            </li>
+        </ul>
+    </fieldset>
+    <fieldset>
+        <legend>Firm Information</legend>
+
+        <p style="margin-bottom: 2em;">
+            Please select your firm from the pop-up list and make any necessary changes below.  If your firm does not appear, select "Other" and fill in the requested information.
+        </p>
+
+        <div class="text_btn" id="selectFirm_btn">
+            <a href="javascript:;">Select a Firm</a>
+            <span style="color:Red;">*</span>
+        </div>
+        
+
+        <div id="firm_dialog" title="Select a Firm">
+            <p>
+            @this.Select("Firm").Options(Model.Firms,x=>x.Id,x=>x.Name).FirstOption("--Select a Firm--")
+            </p>
+        </div>
+
+        <div class="display-form" id="existingFirmInformation" style="display:none;">
+
+        @Html.HiddenFor(a=>a.Application.FirmId)
+        <ul>
+            <li><div class="display-label">Firm Name:</div>
+                <div class="display-details"><span id="firmName"></span></div>
+            </li>
+        </ul>
+        </div>
+
+        @* Only needed if firm name has not been selected *@
+        <ul id="firmInformation" style="display:none;">
+            <li><div class="editor-label required">Firm Name:<span>*</span></div>
+                @*<div class="editor-field">@Html.TextBoxFor(a=>a.Application.FirmName)</div>*@
+                <div class="editor-field">@Html.TextBox("Application.FirmName", Model.Application.FirmName)</div>
+            </li>
+            <li><div class="editor-label required">Business Type/Firm Description:<span>*</span></div>
+                @*<div class="editor-field">@Html.TextAreaFor(a=>a.Application.FirmDescription)</div>*@
+                <div class="editor-field">@Html.TextBox("Application.FirmDescription", Model.Application.FirmDescription)</div>
+            </li>
+        </ul>
+
+        @* Job Information *@
+        <ul id="jobInformation" style="display:none;">
+
+            <li><div class="editor-label">Website:</div>
+                <div class="editor-field">@Html.TextBoxFor(a=>a.Application.Website)</div>
+            </li>
+            <li><div class="editor-label">Job Title:</div>
+                <div class="editor-field">@Html.TextBoxFor(a=>a.Application.JobTitle)</div>
+            </li>
+            <li><div class="editor-label">Job Responsibilities:</div>
+                <div class="editor-field">@Html.TextAreaFor(a=>a.Application.Responsibilities)</div>
+            </li>
+            <li><div class="editor-label required">Phone Number:<span>*</span></div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(a=>a.Application.Phone)
+                    @Html.ValidationMessageFor(a=>a.Application.Phone)
+                </div>
+            </li>
+        </ul>
+
+        @* Always need to fill in the address information *@
+        <ul id="firmAddress" style="display:none;">
+            <li><div class="editor-label required">Address Line 1:<span>*</span></div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(a=>a.Application.FirmAddressLine1)
+                    @Html.ValidationMessageFor(a=>a.Application.FirmAddressLine1)
+                </div>
+            </li>
+            <li><div class="editor-label required">Address Line 2:<span>*</span></div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(a=>a.Application.FirmAddressLine2)
+                    @Html.ValidationMessageFor(a=>a.Application.FirmAddressLine2)
+                </div>
+            </li>
+            <li><div class="editor-label required">City:<span>*</span></div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(a=>a.Application.FirmCity)
+                    @Html.ValidationMessageFor(a=>a.Application.FirmCity)
+                </div>
+            </li>
+            <li><div class="editor-label required">State:<span>*</span></div>
+                <div class="editor-field">
+                    @this.Select("Application.State").Options(Model.States,x=>x.Id,x=>x.Name).FirstOption("--Select a State--")
+                    @Html.ValidationMessageFor(a=>a.Application.FirmState)
+                </div>
+            </li>
+            <li><div class="editor-label required">Zip:<span>*</span></div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(a=>a.Application.FirmZip)
+                    @Html.ValidationMessageFor(a=>a.Application.FirmZip)    
+                </div>
+            </li>
+            
+        </ul>
+
+    </fieldset>
+    <fieldset>
+        <legend>Key Commodities Sold</legend>
+        <p>Please check all commodities that apply to your firm.</p>
+        <ul class="commodities">
+            @foreach (var c in Model.Commodities)
+            { 
+                <li>
+                    @{var selected = Model.Application.Commodities.Contains(c) ? "checked" : string.Empty;}
+                    <input type="checkbox" name="Application.Commodities" value='@c.Id' @selected />
+                    @c.Name
+                </li>
+            }
+        </ul>
+
+    </fieldset>
+    <fieldset>
+        <legend>Assistant</legend>
+            <ul>
+    		    <li>
+			    <div class="editor-label">
+				    @Html.LabelFor(model => model.Application.AssistantName) 
+			    </div>
+			    <div class="editor-field">
+				    @Html.EditorFor(model => model.Application.AssistantName)
+				    @Html.ValidationMessageFor(model => model.Application.AssistantName)
+			    </div>
+		    </li>
+		    <li>
+			    <div class="editor-label">
+				    @Html.LabelFor(model => model.Application.AssistantPhone) 
+			    </div>
+			    <div class="editor-field">
+				    @Html.EditorFor(model => model.Application.AssistantPhone)
+				    @Html.ValidationMessageFor(model => model.Application.AssistantPhone)
+			    </div>
+		    </li>
+		    <li>
+			    <div class="editor-label">
+				    @Html.LabelFor(model => model.Application.AssistantEmail) 
+			    </div>
+			    <div class="editor-field">
+				    @Html.EditorFor(model => model.Application.AssistantEmail)
+				    @Html.ValidationMessageFor(model => model.Application.AssistantEmail)
+			    </div>
+		    </li>
+		    
+		    
+	    </ul>
+    </fieldset>
+    <fieldset>
+        <legend>Seminar Expectations</legend>
+
+        <p>
+            Please tell us your expectations of the California Agribusiness Executive Seminar and
+            how it may benefit you and your organization.
+        </p>
+
+        <ul>
+        <li>
+			<div class="editor-label">
+				@Html.LabelFor(model => model.Application.Expectations) 
+			</div>
+			<div class="editor-field">
+				@Html.TextAreaFor(model => model.Application.Expectations)
+				@Html.ValidationMessageFor(model => model.Application.Expectations)
+			</div>
+		</li>
+        </ul>
+    </fieldset>
+    <fieldset>
+        <legend>Photo</legend>
+
+        <p>
+            @if (Model.HasPhoto)
+            { 
+                <text>You have a photo on file, if you would like to update the photo, please upload a new one.</text>
+            }
+            else
+            { 
+                <text>You do not have a photo on file, please upload a new one.</text>
+            }
+            If you do not wish to upload a file now, you can upload a new photo at anytime through your profile manager.
+        </p>
+
+        <ul>
+            <li><div class="editor-label">&nbsp;</div>
+                <div class="editor-field">
+                    <input type="file" id="file" name="file" />
+                </div>
+            </li>
+        </ul>
+    </fieldset>
+    
+    <fieldset>
+    
+        <ul>
+            <li>
+			    <div class="editor-label">&nbsp;</div>
+                <div class="editor-field">
+			    <input class="button" type="submit" value="Create" /> | @Html.ActionLink("Cancel", "Index")
+                </div>
+		    </li>
+        </ul>
+
+    </fieldset>
+}
+
+<div>
+	
+</div>
+

@@ -63,7 +63,9 @@
   <ItemGroup>
     <Compile Include="Domain\AddressType.cs" />
     <Compile Include="Domain\Address.cs" />
+    <Compile Include="Domain\Application.cs" />
     <Compile Include="Domain\CaseStudy.cs" />
+    <Compile Include="Domain\Commodity.cs" />
     <Compile Include="Domain\Contact.cs" />
     <Compile Include="Domain\ContactType.cs" />
     <Compile Include="Domain\Firm.cs" />
@@ -76,6 +78,7 @@
     <Compile Include="Domain\State.cs" />
     <Compile Include="Domain\User.cs" />
     <Compile Include="Extensions\BeforeAfterValidation.cs" />
+    <Compile Include="Extensions\EitherOrValidation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

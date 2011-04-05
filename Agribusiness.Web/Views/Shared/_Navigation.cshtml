@@ -1,13 +1,19 @@
 ﻿@using Agribusiness.Web.Controllers.Filters
     
 <ul class="navigation">
-    <li>
-        @Html.ActionLink("Home", "Index", "Home")
-    </li>
+
+    @* Public navigation *@
+    @if (!HttpContext.Current.User.Identity.IsAuthenticated)
+    { 
+        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+        
+    }
+
+    
 
 
     @if (HttpContext.Current.User.Identity.IsAuthenticated)
-    { 
+    {
         if (User.IsInRole(RoleNames.User))
         {
             <li>@Html.ActionLink("Seminars", "Index", "Seminar")</li>
@@ -17,7 +23,7 @@
         }
         else
         {
-            <li><a href="#">Applications</a></li>
+            <li>@Html.ActionLink("Applications", "Index", "SeminarApplication")</li>
             <li>@Html.ActionLink("Seminars", "MySeminars", "Seminar")</li>
             @*<li><a href="#">Seminars</a></li>*@
             <li><a href="#">Profile</a></li>

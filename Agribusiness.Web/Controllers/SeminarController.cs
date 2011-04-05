@@ -9,6 +9,7 @@ using Agribusiness.Web.Services;
 using AutoMapper;
 using Resources;
 using UCDArch.Core.PersistanceSupport;
+using UCDArch.Core.Utils;
 using UCDArch.Web.Controller;
 using UCDArch.Web.Helpers;
 using MvcContrib;
@@ -237,10 +238,7 @@ namespace Agribusiness.Web.Controllers
             return View(seminars);
         }
 
-        public ActionResult Apply()
-        {
-            return View();
-        }
         #endregion
     }
+
 }
