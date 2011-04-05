@@ -46,7 +46,7 @@ namespace Agribusiness.Core.Domain
         /// Populated if an existing firm has been selected
         /// </summary>
         [EitherOr(new string[]{"FirmName", "FirmDescription"})]
-        public virtual int? FirmId { get; set; }
+        public virtual Firm Firm { get; set; }
         [StringLength(200)]
         public virtual string FirmName { get; set; }
         public virtual string FirmDescription { get; set; }
@@ -102,7 +102,7 @@ namespace Agribusiness.Core.Domain
             Map(x => x.AssistantEmail);
             Map(x => x.Expectations);
 
-            Map(x => x.FirmId);
+            References(x => x.Firm);
             Map(x => x.FirmName);
             Map(x => x.FirmDescription);
             Map(x => x.FirmAddressLine1);

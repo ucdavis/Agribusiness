@@ -8,7 +8,7 @@
 @section SubPageNavigation
 {
     <ul class="navigation">
-        <li>@Html.ActionLink("Back to List", "Index")</li>
+        <li>@Html.ActionLink("Back to Home", "Index", "Authorized")</li>
     </ul>
 }
 
@@ -49,12 +49,17 @@
             $("#firmAddress").hide();
             $("#jobInformation").hide();
 
+            // blank out the other txt boxes
+            $("#Application_Firm").val("");
+            $("#Application_FirmName").val("");
+            $("#Application_FirmDescription").val("");
+
             // make sure a firm has been selected
             if (dropDown.val() != "" && dropDown.val() != "0") {
 
                 // display the correct form
                 $("#firmName").html($(dropDown).find(":selected").text());
-                $("#Application_FirmId").val($(dropDown).val());
+                $("#Application_Firm").val($(dropDown).val());
                 $("#existingFirmInformation").show();
 
             }
@@ -149,22 +154,34 @@
 
         <div id="firm_dialog" title="Select a Firm">
             <p>
-            @this.Select("Firm").Options(Model.Firms,x=>x.Id,x=>x.Name).FirstOption("--Select a Firm--")
+            @this.Select("Firm").Options(Model.Firms, x => x.Id, x => x.Name).FirstOption("--Select a Firm--")
             </p>
         </div>
 
-        <div class="display-form" id="existingFirmInformation" style="display:none;">
 
-        @Html.HiddenFor(a=>a.Application.FirmId)
+        @{
+            var existing = Model.Application.Firm == null;
+            var newFirm = string.IsNullOrWhiteSpace(Model.Application.FirmName) && string.IsNullOrWhiteSpace(Model.Application.FirmDescription);
+
+            var displayExisting = existing ? "display:none;" : "";
+            var displayNew = newFirm ? "display:none;" : "";
+            
+            var combined = existing && newFirm ? "display:none;" : "";
+            
+            var existingFirmName = Model.Application.Firm != null ? Model.Application.Firm.Name : string.Empty;
+        }
+
+        <div class="display-form" id="existingFirmInformation" style='@displayExisting' >
+        @Html.HiddenFor(a=>a.Application.Firm)
         <ul>
             <li><div class="display-label">Firm Name:</div>
-                <div class="display-details"><span id="firmName"></span></div>
+                <div class="display-details"><span id="firmName">@existingFirmName</span></div>
             </li>
         </ul>
         </div>
 
         @* Only needed if firm name has not been selected *@
-        <ul id="firmInformation" style="display:none;">
+        <ul id="firmInformation" style='@displayNew'>
             <li><div class="editor-label required">Firm Name:<span>*</span></div>
                 @*<div class="editor-field">@Html.TextBoxFor(a=>a.Application.FirmName)</div>*@
                 <div class="editor-field">@Html.TextBox("Application.FirmName", Model.Application.FirmName)</div>
@@ -176,7 +193,7 @@
         </ul>
 
         @* Job Information *@
-        <ul id="jobInformation" style="display:none;">
+        <ul id="jobInformation" style='@combined'>
 
             <li><div class="editor-label">Website:</div>
                 <div class="editor-field">@Html.TextBoxFor(a=>a.Application.Website)</div>
@@ -196,14 +213,14 @@
         </ul>
 
         @* Always need to fill in the address information *@
-        <ul id="firmAddress" style="display:none;">
+        <ul id="firmAddress" style='@combined'>
             <li><div class="editor-label required">Address Line 1:<span>*</span></div>
                 <div class="editor-field">
                     @Html.TextBoxFor(a=>a.Application.FirmAddressLine1)
                     @Html.ValidationMessageFor(a=>a.Application.FirmAddressLine1)
                 </div>
             </li>
-            <li><div class="editor-label required">Address Line 2:<span>*</span></div>
+            <li><div class="editor-label">Address Line 2:</div>
                 <div class="editor-field">
                     @Html.TextBoxFor(a=>a.Application.FirmAddressLine2)
                     @Html.ValidationMessageFor(a=>a.Application.FirmAddressLine2)
@@ -217,7 +234,7 @@
             </li>
             <li><div class="editor-label required">State:<span>*</span></div>
                 <div class="editor-field">
-                    @this.Select("Application.State").Options(Model.States,x=>x.Id,x=>x.Name).FirstOption("--Select a State--")
+                    @this.Select("Application.FirmState").Options(Model.States,x=>x.Id,x=>x.Name).FirstOption("--Select a State--")
                     @Html.ValidationMessageFor(a=>a.Application.FirmState)
                 </div>
             </li>
