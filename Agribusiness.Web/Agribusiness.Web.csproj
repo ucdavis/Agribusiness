@@ -122,6 +122,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PersonController.cs" />
     <Compile Include="Controllers\PictureTestController.cs" />
+    <Compile Include="Controllers\PublicController.cs" />
     <Compile Include="Controllers\SeminarApplicationController.cs" />
     <Compile Include="Controllers\SeminarController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
@@ -320,6 +321,7 @@
     <Content Include="Views\Seminar\MySeminars.cshtml" />
     <Content Include="Views\SeminarApplication\Apply.cshtml" />
     <Content Include="Views\SeminarApplication\Index.cshtml" />
+    <Content Include="Views\Shared\_PublicNavigation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">

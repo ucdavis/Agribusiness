@@ -1,16 +1,8 @@
-﻿@using Agribusiness.Web.Controllers.Filters
+﻿@* If the model is true, the nav is for header *@
+
+@using Agribusiness.Web.Controllers.Filters
     
 <ul class="navigation">
-
-    @* Public navigation *@
-    @if (!HttpContext.Current.User.Identity.IsAuthenticated)
-    { 
-        <li>@Html.ActionLink("Home", "Index", "Home")</li>
-        
-    }
-
-    
-
 
     @if (HttpContext.Current.User.Identity.IsAuthenticated)
     {
@@ -25,12 +17,14 @@
         {
             <li>@Html.ActionLink("Applications", "Index", "SeminarApplication")</li>
             <li>@Html.ActionLink("Seminars", "MySeminars", "Seminar")</li>
-            @*<li><a href="#">Seminars</a></li>*@
             <li><a href="#">Profile</a></li>
         }
     }
 
+    @if (!Model)
+    { 
     <li>
         @Html.ActionLink("Admin Tools", "Admin", "Home")
     </li>
+    }
 </ul>
