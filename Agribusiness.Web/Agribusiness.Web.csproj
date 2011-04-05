@@ -115,6 +115,7 @@
     <Compile Include="ComponentRegistrar.asax.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
+    <Compile Include="Controllers\AuthorizedController.cs" />
     <Compile Include="Controllers\CaseStudyController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\Filters\CatbertMessagesAttribute.cs" />
@@ -133,6 +134,7 @@
     <Compile Include="Helpers\FluentHelper.cs" />
     <Compile Include="Models\ApplicationViewModel.cs" />
     <Compile Include="Models\AssignToSessionViewModel.cs" />
+    <Compile Include="Models\AuthorizedViewModel.cs" />
     <Compile Include="Models\CaseStudyPersonViewModel.cs" />
     <Compile Include="Models\CaseStudyViewModel.cs" />
     <Compile Include="Models\PersonEditModel.cs" />
@@ -153,8 +155,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StaticIndexes.resx</DependentUpon>
     </Compile>
+    <Compile Include="Services\ISeminarService.cs" />
     <Compile Include="Services\PersonService.cs" />
     <Compile Include="Services\PictureService.cs" />
+    <Compile Include="Services\SeminarService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Css\Agribusiness.css" />
@@ -322,6 +326,7 @@
     <Content Include="Views\SeminarApplication\Apply.cshtml" />
     <Content Include="Views\SeminarApplication\Index.cshtml" />
     <Content Include="Views\Shared\_PublicNavigation.cshtml" />
+    <Content Include="Views\Authorized\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">

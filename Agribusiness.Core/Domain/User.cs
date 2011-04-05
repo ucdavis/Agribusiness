@@ -18,6 +18,7 @@ namespace Agribusiness.Core.Domain
         public virtual string LoweredUserName { get; set; }
 
         public virtual IList<Person> People { get; set; }
+        public virtual IList<Application> Applications { get; set; }
 
         /// <summary>
         /// Returns the theoretical single person
@@ -38,6 +39,7 @@ namespace Agribusiness.Core.Domain
             Map(x => x.LoweredUserName);
 
             HasMany(x => x.People).Inverse().Cascade.AllDeleteOrphan();
+            HasMany(x => x.Applications).Inverse().Cascade.AllDeleteOrphan();
         }
     }
 }

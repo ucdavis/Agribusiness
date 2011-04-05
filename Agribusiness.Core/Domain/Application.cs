@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Agribusiness.Core.Extensions;
 using FluentNHibernate.Mapping;
@@ -15,6 +16,10 @@ namespace Agribusiness.Core.Domain
 
         private void SetDefault()
         {
+            IsPending = true;
+            IsApproved = false;
+            DateSubmitted = DateTime.Now;
+
             Commodities = new List<Commodity>();
         }
 
@@ -68,6 +73,16 @@ namespace Agribusiness.Core.Domain
         [StringLength(50)]
         public virtual string JobTitle { get; set; }
 
+        public virtual bool IsPending { get; set; }
+        public virtual bool IsApproved { get; set; }
+        public virtual DateTime DateSubmitted { get; set; }
+        public virtual DateTime? DateDecision { get; set; }
+
+        [Required]
+        public virtual User User { get; set; }
+        [Required]
+        public virtual Seminar Seminar { get; set; }
+
         public virtual IList<Commodity> Commodities { get; set; }
     }
 
@@ -99,6 +114,9 @@ namespace Agribusiness.Core.Domain
             Map(x => x.Website);
             Map(x => x.Responsibilities);
             Map(x => x.JobTitle);
+
+            References(x => x.User);
+            References(x => x.Seminar);
 
             HasManyToMany(x => x.Commodities).ParentKeyColumn("ApplicationId")
                 .ChildKeyColumn("CommodityId")
