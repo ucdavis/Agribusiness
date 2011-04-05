@@ -327,6 +327,7 @@
     <Content Include="Views\SeminarApplication\Index.cshtml" />
     <Content Include="Views\Shared\_PublicNavigation.cshtml" />
     <Content Include="Views\Authorized\Index.cshtml" />
+    <Content Include="Views\SeminarApplication\Decide.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">

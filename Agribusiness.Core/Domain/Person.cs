@@ -110,6 +110,13 @@ namespace Agribusiness.Core.Domain
             Contacts.Add(contact);
         }
 
+        public virtual void AddSeminarPerson(SeminarPerson seminarPerson)
+        {
+            seminarPerson.Person = this;
+
+            SeminarPeople.Add(seminarPerson);
+        }
+
         public virtual SeminarPerson GetLatestRegistration()
         {
             return SeminarPeople.AsQueryable().LastOrDefault();

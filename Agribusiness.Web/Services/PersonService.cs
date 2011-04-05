@@ -67,6 +67,7 @@ namespace Agribusiness.Web.Services
             return GetDisplayPeeps(people);
         }
 
+        #region Helper Functions
         private IEnumerable<DisplayPerson> GetDisplayPeeps(IEnumerable<Person> people)
         {
             var displayPeople = new List<DisplayPerson>();
@@ -87,8 +88,8 @@ namespace Agribusiness.Web.Services
                 }
             }
 
-            return displayPeople;            
+            return displayPeople;
         }
-        
+        #endregion
     }
 }

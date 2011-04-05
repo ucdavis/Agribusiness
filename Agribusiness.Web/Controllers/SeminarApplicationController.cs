@@ -31,11 +31,54 @@ namespace Agribusiness.Web.Controllers
             _seminarService = seminarService;
         }
 
-        [MembershipUserOnly]
+        [UserOnly]
         public ActionResult Index()
         {
-            var applications = _applicationRepository.Queryable;
+            var applications = _applicationRepository.Queryable.OrderBy(a=>a.IsPending).ThenBy(a=>a.IsApproved);
             return View(applications);
+        }
+
+        [UserOnly]
+        public ActionResult Decide(int id)
+        {
+            var application = _applicationRepository.GetNullableById(id);
+            if (application == null)
+            {
+                Message = string.Format(Messages.NotFound, "application", id);
+                return this.RedirectToAction(a => a.Index());
+            }
+
+            return View(application);
+        }
+
+        [HttpPost]
+        [UserOnly]
+        public ActionResult Decide(int id, bool isApproved)
+        {
+            var application = _applicationRepository.GetNullableById(id);
+            if (application == null)
+            {
+                Message = string.Format(Messages.NotFound, "application", id);
+                return this.RedirectToAction(a => a.Index());
+            }
+
+            // make the changes to the object
+            application.IsPending = false;
+            application.IsApproved = isApproved;
+            application.DateDecision = DateTime.Now;
+
+            // create a new person
+
+            // create a seminar person
+
+            // update/validate firm information
+            // if new firm, ask user to confirm new firm information
+
+            _applicationRepository.EnsurePersistent(application);
+
+            //TODO: figure out emailing stuff.);
+
+            return View(application);
         }
 
         [MembershipUserOnly]

@@ -36,6 +36,9 @@ namespace Agribusiness.Web.Models
             var person = repository.OfType<User>().Queryable.Where(a => a.LoweredUserName == userId.ToLower()).FirstOrDefault();
             if (person == null) throw new ArgumentException(string.Format("Unable to load user with userid {0}.", userId));
 
+            
+            // populate the application with person info
+
             viewModel.HasPhoto = person.Person != null && person.Person.MainProfilePicture != null;
 
             // get the firms and add the "Other" option

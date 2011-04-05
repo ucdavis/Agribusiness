@@ -85,6 +85,23 @@ namespace Agribusiness.Core.Domain
         public virtual Seminar Seminar { get; set; }
 
         public virtual IList<Commodity> Commodities { get; set; }
+
+
+        #region Calculated Fields
+
+        public virtual string FullName
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(MI))
+                {
+                    return string.Format("{0} {1}", FirstName, LastName);
+                }
+
+                return string.Format("{0} {1} {2}", FirstName, MI, LastName);
+            }
+        }
+        #endregion
     }
 
     public class ApplicationMap : ClassMap<Application>
@@ -116,6 +133,11 @@ namespace Agribusiness.Core.Domain
             Map(x => x.Website);
             Map(x => x.Responsibilities);
             Map(x => x.JobTitle);
+
+            Map(x => x.IsPending);
+            Map(x => x.IsApproved);
+            Map(x => x.DateSubmitted);
+            Map(x => x.DateDecision);
 
             References(x => x.User);
             References(x => x.Seminar);

@@ -6,13 +6,6 @@
 }
 
 
-@section SubPageNavigation
-{
-    <ul class="navigation">
-        <li>@Html.ActionLink("Apply for Seminar", "Apply")</li>
-    </ul>
-}
-
 <table>
 	<thead>
 		<tr>
@@ -27,20 +20,11 @@
 				LastName
 			</th>
 			<th>
-				BadgeName
-			</th>
-			<th>
-				AssistantName
-			</th>
-			<th>
-				AssistantPhone
-			</th>
-			<th>
-				AssistantEmail
-			</th>
-			<th>
 				Expectations
 			</th>
+            <th>Date Submitted</th>
+            <th>Pending</th>
+            <th>Approved</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -48,9 +32,13 @@
 @foreach (var item in Model) {
 		<tr class="@(odd ? "odd": "even")">
 			<td>
-				@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                <a href='@Url.Action("Decide", new { id=item.Id })'>
+                <img src='@Url.Content("~/Images/Edit.png")' alt="Decide on this application." />
+                </a>
+
+				@*@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
 				@Html.ActionLink("Details", "Details", new { id=item.Id }) |
-				@Html.ActionLink("Delete", "Delete", new { id=item.Id })
+				@Html.ActionLink("Delete", "Delete", new { id=item.Id })*@
 			</td>
 			<td>
 				@item.FirstName
@@ -62,20 +50,13 @@
 				@item.LastName
 			</td>
 			<td>
-				@item.BadgeName
-			</td>
-			<td>
-				@item.AssistantName
-			</td>
-			<td>
-				@item.AssistantPhone
-			</td>
-			<td>
-				@item.AssistantEmail
-			</td>
-			<td>
 				@item.Expectations
 			</td>
+            <td>
+                @item.DateSubmitted.ToString("g")
+            </td>
+            <td>@item.IsPending</td>
+            <td>@item.IsApproved</td>
 		</tr>
 		odd = !odd;
 }

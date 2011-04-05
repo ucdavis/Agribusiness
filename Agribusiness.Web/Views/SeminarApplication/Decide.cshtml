@@ -1,0 +1,156 @@
+﻿@model Agribusiness.Core.Domain.Application
+
+@{
+    ViewBag.Title = "Decide";
+    ViewBag.SubPageTitle = "Decide";
+}
+
+@section SubPageNavigation
+{
+    <ul class="navigation">
+        <li>@Html.ActionLink("Back to List", "Index")</li>
+    </ul>
+}
+
+@section ScriptContent
+{
+    <style type="text/css">
+        form {display:inline-block;}
+    </style>
+}
+
+<div class="display-form">
+
+    <fieldset>
+        <legend>Personal Information</legend>
+	    <ul>
+		    <li>
+			    <div class="display-label">Name:</div>
+			    <div class="display-details">@Model.FullName</div>
+		    </li>
+            <li>
+                <div class="display-label">Badge Name:</div>
+                <div class="display-details"></div>
+            </li>
+            <li>
+		        <div class="display-label">DateSubmitted</div>
+		        <div class="display-details">@String.Format("{0:g}", Model.DateSubmitted)</div>
+	        </li>
+        </ul>
+    </fieldset>
+
+    <fieldset>
+        <legend>Firm Information</legend>
+
+        <ul>
+        @if (Model.Firm != null)
+        { 
+            <li>
+			    <div class="display-label">Name:</div>
+			    <div class="display-details">@Model.Firm.Name</div>
+		    </li>
+		    <li>
+			    <div class="display-label">Description:</div>
+			    <div class="display-details">@Model.Firm.Description</div>
+		    </li>    
+        }
+        else
+        { 
+            <li>
+			    <div class="display-label">Name:</div>
+			    <div class="display-details">@Model.FirmName</div>
+		    </li>
+		    <li>
+			    <div class="display-label">Description:</div>
+			    <div class="display-details">@Model.FirmDescription</div>
+		    </li>
+        }
+
+
+		<li>
+			<div class="display-label">Address Line 1:</div>
+			<div class="display-details">@Model.FirmAddressLine1</div>
+		</li>
+		<li>
+			<div class="display-label">Address Line 2:</div>
+			<div class="display-details">@Model.FirmAddressLine2</div>
+		</li>
+		<li>
+			<div class="display-label">City:</div>
+			<div class="display-details">@Model.FirmCity</div>
+		</li>
+        <li>
+            <div class="display-label">State:</div>
+            <div class="display-details">@Model.FirmState.Name</div>
+        </li>
+		<li>
+			<div class="display-label">Zip:</div>
+			<div class="display-details">@Model.FirmZip</div>
+		</li>
+		<li>
+			<div class="display-label">Phone:</div>
+			<div class="display-details">@Model.FirmPhone</div>
+		</li>
+		<li>
+			<div class="display-label">Website:</div>
+			<div class="display-details">@Model.Website</div>
+		</li>
+		<li>
+			<div class="display-label">Job Title:</div>
+			<div class="display-details">@Model.JobTitle</div>
+		</li>
+		<li>
+			<div class="display-label">Responsibilities:</div>
+			<div class="display-details">@Model.Responsibilities</div>
+		</li>
+        <li>
+            <div class="display-label">Commodities:</div>
+            <div class="display-details">@string.Join(", ", Model.Commodities.Select(a=>a.Name))</div>
+        </li>
+        </ul>
+    </fieldset>
+
+    <fieldset>
+        <legend>Assistant</legend>
+
+        <ul>
+        <li>
+			<div class="display-label">AssistantName</div>
+			<div class="display-details">@Model.AssistantName</div>
+		</li>
+		<li>
+			<div class="display-label">AssistantPhone</div>
+			<div class="display-details">@Model.AssistantPhone</div>
+		</li>
+		<li>
+			<div class="display-label">AssistantEmail</div>
+			<div class="display-details">@Model.AssistantEmail</div>
+		</li>
+        </ul>
+    </fieldset>
+
+    <fieldset>
+        <legend>Expectations</legend>
+
+        <p>@Model.Expectations</p>
+
+    </fieldset>
+
+    <fieldset>
+        <legend>Make Decision</legend>
+
+        @using (Html.BeginForm()) { 
+            @Html.AntiForgeryToken()
+            @Html.Hidden("isApproved", true)
+            <input type="submit" value="Approve" class="button" />
+        }
+        |
+        @using (Html.BeginForm()) { 
+            @Html.AntiForgeryToken()
+            @Html.Hidden("isApproved", false)
+            <input type="submit" value="Deny" class="button" />
+        }
+        |
+        @Html.ActionLink("Cancel", "Index")
+    </fieldset>
+</div>

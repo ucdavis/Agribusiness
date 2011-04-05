@@ -9,5 +9,7 @@ namespace Agribusiness.Web.Services
     public interface ISeminarService
     {
         Seminar GetCurrent();
+
+        void CreateSeminarPerson(Application application);
     }
 }
