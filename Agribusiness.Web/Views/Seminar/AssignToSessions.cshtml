@@ -100,9 +100,14 @@
                         <div class='session-item @single'><a class="add-all" data-id='@session.Id'>Add All</a>
                         <h4>@session.Name (@session.Begin.Value.ToShortTimeString())</h4>
                         <ul id='@session.Id' class="session">
-                            @foreach (var person in session.SeminarPeople.OrderBy(a=>a.Person.LastName))
+                            @{var orderedPeeps = session.SeminarPeople.OrderBy(a=>a.Person.LastName).ToList();}
+                            @for(var j = 0; j<orderedPeeps.Count; j++)
                             { 
-                                <li class="person" data-id='@person.Id'>
+                                var person = orderedPeeps[j];
+                                var isFirst = j%3 == 0;
+                                var notFirst = isFirst ? "" : "notfirst";
+                                
+                                <li class="person @notFirst" data-id='@person.Id'>
                                     @person.Person.FullName
                                     <img src='@Url.Content("~/Images/button_delete_red.png")' class="remove" />
                                 </li>
