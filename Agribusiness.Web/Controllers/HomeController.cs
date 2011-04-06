@@ -20,8 +20,6 @@ namespace Agribusiness.Web.Controllers
         [UserOnly]
         public ActionResult Admin()
         {
-            //var viewModel = AdminHomeViewModel.Create(Repository);
-
             var pendingApplications = Repository.OfType<Application>().Queryable.Where(a => a.IsPending).Count();
             var peopleMissingPicture = Repository.OfType<Person>().Queryable.Where(a=>a.OriginalPicture == null).Count();
             var firmsRequiringReview = Repository.OfType<Firm>().Queryable.Where(a => a.Review).Count();

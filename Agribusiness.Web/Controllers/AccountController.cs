@@ -28,7 +28,7 @@ namespace Agribusiness.Web.Controllers
         // URL: /Account/LogOn
         // **************************************
 
-        public ActionResult LogOn(string returnUrl, bool membershipLogon = false)
+        public ActionResult LogOn(string returnUrl, bool membershipLogon = true)
         {
             if (!membershipLogon) return this.RedirectToAction(a => a.CasLogon(returnUrl));
 

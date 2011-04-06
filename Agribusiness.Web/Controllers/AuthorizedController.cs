@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
+using Agribusiness.Web.Controllers.Filters;
 using Agribusiness.Web.Models;
 using Agribusiness.Web.Services;
 using UCDArch.Web.Controller;
@@ -10,6 +11,8 @@ namespace Agribusiness.Web.Controllers
     /// <summary>
     /// Home controller for authorized users.
     /// </summary>
+    [MembershipUserOnly]
+    [Authorize]
     public class AuthorizedController : ApplicationController
     {
         private readonly ISeminarService _seminarService;
