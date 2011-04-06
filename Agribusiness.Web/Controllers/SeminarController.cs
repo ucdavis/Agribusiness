@@ -214,32 +214,6 @@ namespace Agribusiness.Web.Controllers
 
         #region Membership User Functions
         /// <summary>
-        /// Screen to display all seminars a user has been approved for.
-        /// 
-        /// deprecated....
-        /// </summary>
-        /// <returns></returns>
-        [MembershipUserOnly]
-        public ActionResult MySeminars()
-        {
-            var user = Repository.OfType<User>().Queryable.Where(a => a.LoweredUserName == CurrentUser.Identity.Name.ToLower()).FirstOrDefault();
-
-            if (user == null)
-            {
-                Message = "User not found.";
-                return this.RedirectToAction<HomeController>(a => a.Index());
-            }
-
-            var seminars = new List<Seminar>();
-            if (user.Person != null)
-            {
-                seminars = user.Person.SeminarPeople.Select(a => a.Seminar).ToList();
-            }
-
-            return View(seminars);
-        }
-
-        /// <summary>
         /// Loads up the seminar information for a person's seminar
         /// </summary>
         /// <param name="id">Seminar Person Id</param>

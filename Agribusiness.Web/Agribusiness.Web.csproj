@@ -325,7 +325,6 @@
     <Content Include="Views\CaseStudy\_CaseStudyForm.cshtml" />
     <Content Include="Views\CaseStudy\AddPerson.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
-    <Content Include="Views\Seminar\MySeminars.cshtml" />
     <Content Include="Views\SeminarApplication\Apply.cshtml" />
     <Content Include="Views\SeminarApplication\Index.cshtml" />
     <Content Include="Views\Authorized\Index.cshtml" />
