@@ -313,7 +313,7 @@ namespace Agribusiness.Tests.Controllers
             RegisterModel model = new RegisterModel()
             {
                 UserName = "duplicateUser",
-                Email = "goodEmail",
+                Email = "goodEmailDupe",
                 Password = "goodPassword",
                 ConfirmPassword = "goodPassword"
             };
@@ -337,11 +337,11 @@ namespace Agribusiness.Tests.Controllers
             RegisterModel model = new RegisterModel()
             {
                 UserName = "someUser",
-                Email = "goodEmail",
+                Email = "",
                 Password = "goodPassword",
                 ConfirmPassword = "goodPassword"
             };
-            controller.ModelState.AddModelError("", "Dummy error message.");
+            //controller.ModelState.AddModelError("", "Dummy error message."); //This is now cleared in the controller method.
 
             // Act
             ActionResult result = controller.Register(model);
@@ -378,7 +378,8 @@ namespace Agribusiness.Tests.Controllers
             public void SignIn(string userName, bool createPersistentCookie)
             {
                 // verify that the arguments are what we expected
-                Assert.AreEqual("someUser", userName);
+                //Assert.AreEqual("someUser", userName);
+                Assert.IsTrue(userName == "someUser" || userName == "goodemail");
                 Assert.IsFalse(createPersistentCookie);
 
                 SignIn_WasCalled = true;
@@ -443,7 +444,7 @@ namespace Agribusiness.Tests.Controllers
 
             public MembershipCreateStatus CreateUser(string userName, string password, string email)
             {
-                if (userName == "duplicateUser")
+                if (userName == "goodEmailDupe".ToLower())
                 {
                     return MembershipCreateStatus.DuplicateUserName;
                 }
