@@ -1,0 +1,73 @@
+﻿@model Agribusiness.Web.Models.MySeminarViewModel
+
+@{
+    ViewBag.Title = "My Seminar";
+    ViewBag.SubPageTitle = "My Seminar";
+}
+
+@section ScriptContent{
+    <script type="text/javascript" src='@Url.Content("~/Scripts/jquery.dataTables.min.js")'></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $("table").dataTable({ "bJQueryUI": true });
+        });    
+    </script>
+}
+
+<h3>Seminar Details</h3>
+<div class="display-form">
+    <ul >
+        <li><div class="display-label">Date:</div>
+            <div class="display-details">@Model.Seminar.Begin.ToShortDateString()</div>
+        </li>
+        <li><div class="display-label">Location:</div>
+            <div class="display-details">@Model.Seminar.Location</div>
+        </li>
+        <li><div class="display-label">Payment Status:</div>
+            @{ var paid = Model.SeminarPerson.Registered ? "Paid" : "Not Paid";}
+            <div class="display-details">@paid</div>
+        </li>
+        @if (!string.IsNullOrWhiteSpace(Model.SeminarPerson.CouponCode))
+        { 
+        <li><div class="display-label">Coupon:</div>
+            <div class="display-details">@Model.SeminarPerson.CouponCode</div>
+        </li>
+        }
+    </ul>
+</div>
+
+<h3>Your Sessions</h3>
+    <table>
+        <thead> 
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Begin</th>
+                <th>End</th>
+                <th>Type</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        
+            @foreach (var a in Model.SeminarPerson.Sessions)
+            { 
+                <tr>
+                    <td>
+                        <a href="#">
+                            <img src='@Url.Content("~/Images/details.png")' alt="View details for session" />
+                        </a>
+                    </td>
+                    <td>@a.Name</td>
+                    <td>@a.Location</td>
+                    <td>@a.BeginString</td>
+                    <td>@a.EndString</td>
+                    <td>@a.SessionType.Name</td>
+                    <td></td>
+                </tr>
+            }
+
+        </tbody>
+    </table>

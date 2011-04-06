@@ -9,7 +9,6 @@ using Agribusiness.Web.Services;
 using AutoMapper;
 using Resources;
 using UCDArch.Core.PersistanceSupport;
-using UCDArch.Core.Utils;
 using UCDArch.Web.Controller;
 using UCDArch.Web.Helpers;
 using MvcContrib;
@@ -216,6 +215,8 @@ namespace Agribusiness.Web.Controllers
         #region Membership User Functions
         /// <summary>
         /// Screen to display all seminars a user has been approved for.
+        /// 
+        /// deprecated....
         /// </summary>
         /// <returns></returns>
         [MembershipUserOnly]
@@ -238,7 +239,34 @@ namespace Agribusiness.Web.Controllers
             return View(seminars);
         }
 
+        /// <summary>
+        /// Loads up the seminar information for a person's seminar
+        /// </summary>
+        /// <param name="id">Seminar Person Id</param>
+        /// <returns></returns>
+        [MembershipUserOnly]
+        public ActionResult MySeminar(int id)
+        {
+            var seminarPerson = _seminarPersonRepository.GetNullableById(id);
+
+            // invalid seminar person id
+            if (seminarPerson == null)
+            {
+                Message = string.Format(Messages.NotFound, "seminar person", id);
+                return this.RedirectToAction<AuthorizedController>(a => a.Index());
+            }
+
+            // someone is trying to access seminar person of another user, tsk tsk
+            if (seminarPerson.Person.User.LoweredUserName != CurrentUser.Identity.Name.ToLower())
+            {
+                return this.RedirectToAction<ErrorController>(a => a.NotAuthorized());
+            }
+
+            var viewModel = MySeminarViewModel.Create(Repository, seminarPerson);
+
+            return View(viewModel);
+        }
+
         #endregion
     }
-
 }

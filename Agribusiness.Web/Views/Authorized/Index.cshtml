@@ -25,7 +25,10 @@ else
     {
         if (Model.Application.IsApproved)
         { 
-            <p>Your application has been approved.</p>
+            <p>
+                @string.Format("The upcoming seminar is on {0}, to download documents and see other attendees click ", Model.Seminar.Begin.ToShortDateString())
+                @Html.ActionLink("Here", "MySeminar", "Seminar", new {id=Model.SeminarPerson.Id}, new {})
+            </p>
         }
         else
         { 

@@ -1,5 +1,5 @@
 ﻿@model Agribusiness.Web.Models.SeminarViewModel
-
+@using Agribusiness.Web.Controllers.Filters
 @{
     ViewBag.Title = "Seminar Details";
     ViewBag.SubPageTitle = "Seminar Details";
@@ -96,9 +96,9 @@
         </tbody>
     </table>
 }
-else 
+else
 { 
-    @Html.Partial("_Message", new MessageModel(){IsError=false,Message="No Sessions have been created yet."})
+    @Html.Partial("_Message", new MessageModel() { IsError = false, Message = "No Sessions have been created yet." })
 }
 
 <h3>Case Studies</h3>
@@ -122,7 +122,7 @@ else
             @foreach (var a in Model.Seminar.CaseStudies)
             { 
                 <tr>
-                    <td><a href='@Url.Action("Download", "CaseStudy", new { id=a.Id })'>
+                    <td><a href='@Url.Action("Download", "CaseStudy", new { id = a.Id })'>
                             <img src='@Url.Content("~/Images/edit.png")' alt="Download this case study." />
                         </a>
                     </td>

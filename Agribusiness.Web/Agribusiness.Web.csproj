@@ -138,6 +138,7 @@
     <Compile Include="Models\AuthorizedViewModel.cs" />
     <Compile Include="Models\CaseStudyPersonViewModel.cs" />
     <Compile Include="Models\CaseStudyViewModel.cs" />
+    <Compile Include="Models\MySeminarViewModel.cs" />
     <Compile Include="Models\PersonEditModel.cs" />
     <Compile Include="Models\PersonListViewModel.cs" />
     <Compile Include="Services\FirmService.cs" />
@@ -327,10 +328,10 @@
     <Content Include="Views\Seminar\MySeminars.cshtml" />
     <Content Include="Views\SeminarApplication\Apply.cshtml" />
     <Content Include="Views\SeminarApplication\Index.cshtml" />
-    <Content Include="Views\Shared\_PublicNavigation.cshtml" />
     <Content Include="Views\Authorized\Index.cshtml" />
     <Content Include="Views\SeminarApplication\Decide.cshtml" />
     <Content Include="Views\Public\ProgramOverview.cshtml" />
+    <Content Include="Views\Seminar\MySeminar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">
