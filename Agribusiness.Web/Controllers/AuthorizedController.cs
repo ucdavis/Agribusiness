@@ -12,7 +12,6 @@ namespace Agribusiness.Web.Controllers
     /// Home controller for authorized users.
     /// </summary>
     [MembershipUserOnly]
-    [Authorize]
     public class AuthorizedController : ApplicationController
     {
         private readonly ISeminarService _seminarService;
