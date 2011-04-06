@@ -30,6 +30,7 @@ else
                 <th>Location</th>
                 <th>Registration Deadline</th>
                 <th>Registration Id</th>
+                <th></th>
             </tr>    
         </thead>
         <tfoot></tfoot>
@@ -41,16 +42,15 @@ else
                         <a href='@Url.Action("Details", new { id = a.Id })'>
                             <img src='@Url.Content("~/Images/details.png")' alt="View the details of this seminar" />
                         </a>
-
                         <a href='@Url.Action("Edit", new {id = a.Id})'>
                             <img src='@Url.Content("~/Images/edit.png")' alt="Edit this seminar" />
                         </a>
-
                     </td>
                     <td>@a.Year</td>
                     <td>@a.Location</td>
                     <td>@a.RegistrationDeadlineString </td>
                     <td>@a.RegistrationId</td>
+                    <td></td>
                 </tr>
             }
         </tbody>

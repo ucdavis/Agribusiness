@@ -32,8 +32,8 @@
 @section SubPageNavigation
 {
     <ul class="navigation">
-        <li>@Html.ActionLink("Back to Seminar", "Edit", "Seminar", new { id=Model.Seminar.Id }, new { })</li>
-        <li>@Html.ActionLink("Add Author/Case Executive", "AddPerson", new{id=Model.CaseStudy.Id}) </li>
+        <li>@Html.ActionLink("Back to Seminar", "Edit", "Seminar", new { id = Model.Seminar.Id }, new { })</li>
+        <li>@Html.ActionLink("Add Author/Case Executive", "AddPerson", new { id = Model.CaseStudy.Id }) </li>
     </ul>
 }
 
@@ -55,7 +55,8 @@
             { 
                 <tr>
                     <td>
-                        @using (Html.BeginForm("RemovePerson", "CaseStudy", FormMethod.Post, new {style="display:inline-block; width: 100%;"})) { 
+                        @using (Html.BeginForm("RemovePerson", "CaseStudy", FormMethod.Post, new { style = "display:inline-block; width: 100%;" }))
+                        { 
                             @Html.AntiForgeryToken()
                             @Html.Hidden("id", Model.CaseStudy.Id)
                             @Html.Hidden("seminarPersonId", a.Id)
@@ -79,6 +80,33 @@ else
 
 @if (Model.CaseStudy.CaseExecutives.Any())
 {
+    <table id="caseExecutives">
+        <thead>
+            <tr>
+                <td></td>
+                <td>Author</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var a in Model.CaseStudy.CaseExecutives)
+            { 
+                <tr>
+                    <td>
+                        @using (Html.BeginForm("RemovePerson", "CaseStudy", FormMethod.Post, new { style = "display:inline-block; width: 100%;" }))
+                        { 
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("id", Model.CaseStudy.Id)
+                            @Html.Hidden("seminarPersonId", a.Id)
+                            @Html.Hidden("personType", StaticIndexes.Role_CaseExecutive)
+                            
+                            <input type="submit" value="" class="removePerson" />
+                        }
+                    </td>
+                    <td>@a.Person.FullName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
 else
 { 
