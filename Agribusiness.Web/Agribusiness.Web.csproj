@@ -123,6 +123,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PersonController.cs" />
     <Compile Include="Controllers\PictureTestController.cs" />
+    <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\PublicController.cs" />
     <Compile Include="Controllers\SeminarApplicationController.cs" />
     <Compile Include="Controllers\SeminarController.cs" />
@@ -184,6 +185,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Images\button_delete_red.png" />
+    <Content Include="Images\caes_wf_blue.jpg" />
     <Content Include="Images\comment.png" />
     <Content Include="Images\delete.png" />
     <Content Include="Images\details.png" />
@@ -195,7 +197,6 @@
     <Content Include="Images\profilepicplaceholder.jpg" />
     <Content Include="Images\profileplaceholder_thumb.jpg" />
     <Content Include="Images\top_blue_bar.jpg" />
-    <Content Include="Images\wells-fargo-uc-davis.gif" />
     <Content Include="Scripts\anytimec.js" />
     <Content Include="Scripts\AssignToSession.js" />
     <Content Include="Scripts\jquery.dataTables.js" />
