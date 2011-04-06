@@ -16,16 +16,18 @@ namespace Agribusiness.Web.Models
         public Person Person { get; set; }
         public string Email { get; set; }
 
+        public SeminarPerson SeminarPerson { get; set; }
+
         public static PersonViewModel Create(IRepository repository, Person person = null)
         {
             Check.Require(repository != null, "Repository must be supplied");
 
             var viewModel = new PersonViewModel()
             {
-                Person = person ?? new Person()
-                ,
+                Person = person ?? new Person(),
                 Addresses = repository.OfType<AddressType>().Queryable.Select(a => new Address() { AddressType = a}).ToList(),
-                States = repository.OfType<State>().GetAll()
+                States = repository.OfType<State>().GetAll(),
+                SeminarPerson = person != null ? person.GetLatestRegistration() : null
             };
  
             return viewModel;

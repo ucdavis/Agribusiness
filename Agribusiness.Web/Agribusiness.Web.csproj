@@ -123,7 +123,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PersonController.cs" />
     <Compile Include="Controllers\PictureTestController.cs" />
-    <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\PublicController.cs" />
     <Compile Include="Controllers\SeminarApplicationController.cs" />
     <Compile Include="Controllers\SeminarController.cs" />
@@ -142,6 +141,7 @@
     <Compile Include="Models\MySeminarViewModel.cs" />
     <Compile Include="Models\PersonEditModel.cs" />
     <Compile Include="Models\PersonListViewModel.cs" />
+    <Compile Include="Models\ProfileViewModel.cs" />
     <Compile Include="Services\FirmService.cs" />
     <Compile Include="Services\IFirmService.cs" />
     <Compile Include="Services\IPersonService.cs" />
@@ -332,6 +332,7 @@
     <Content Include="Views\SeminarApplication\Decide.cshtml" />
     <Content Include="Views\Public\ProgramOverview.cshtml" />
     <Content Include="Views\Seminar\MySeminar.cshtml" />
+    <Content Include="Views\Person\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">

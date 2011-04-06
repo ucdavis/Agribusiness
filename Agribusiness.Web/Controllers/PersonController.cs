@@ -25,14 +25,16 @@ namespace Agribusiness.Web.Controllers
         private readonly IRepository<User> _userRepository;
         private readonly IPictureService _pictureService;
         private readonly IPersonService _personService;
+        private readonly IFirmService _firmService;
         private readonly IMembershipService _membershipService;
 
-        public PersonController(IRepository<Person> personRepository, IRepository<User> userRepository, IPictureService pictureService, IPersonService personService)
+        public PersonController(IRepository<Person> personRepository, IRepository<User> userRepository, IPictureService pictureService, IPersonService personService, IFirmService firmService)
         {
             _personRepository = personRepository;
             _userRepository = userRepository;
             _pictureService = pictureService;
             _personService = personService;
+            _firmService = firmService;
 
             _membershipService = new AccountMembershipService();
         }
@@ -107,7 +109,7 @@ namespace Agribusiness.Web.Controllers
             return View(viewModel);
         }
 
-        [UserOnly]
+        [Authorize]
         public ActionResult UpdateProfilePicture(int id)
         {
             var person = _personRepository.GetNullableById(id);
@@ -121,7 +123,7 @@ namespace Agribusiness.Web.Controllers
             return View(person);
         }
 
-        [UserOnly]
+        [Authorize]
         [HttpPost]
         public ActionResult UpdateProfilePicture(int id, int x, int y, int height, int width)
         {
@@ -162,7 +164,38 @@ namespace Agribusiness.Web.Controllers
         }
         #endregion
 
+        [Authorize]
+        public ActionResult Edit()
+        {
+            var viewModel = ProfileViewModel.Create(Repository, _firmService, CurrentUser.Identity.Name);
 
+            Check.Ensure(viewModel.SeminarPerson != null, "viewModel.SeminarPerson is required.");
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult UpdatePerson()
+        {
+            return View();
+        }
+
+        [Authorize]
+        public ActionResult GetOriginalPicture(int id)
+        {
+            var person = Repository.OfType<Person>().GetById(id);
+
+            if (person.OriginalPicture != null) return File(person.OriginalPicture, person.ContentType);
+
+            // load the default image
+            var fs = new FileStream(Server.MapPath("~/Images/profilepicplaceholder.jpg"), FileMode.Open, FileAccess.Read);
+            var img = new byte[fs.Length];
+            fs.Read(img, 0, img.Length);
+            fs.Close();
+
+            return File(img, "image/jpeg");
+        }
 
         public ActionResult GetProfilePicture(int id)
         {

@@ -1,0 +1,55 @@
+﻿@model ProfileViewModel
+
+@{
+    ViewBag.Title = "Edit Profile";
+    ViewBag.SubPageTitle = "Edit Profile";
+}
+
+<div class="profile_pic_container">
+    <img src='@Url.Action("GetProfilePicture", new { id = Model.Person.Id })' />
+    @Html.ActionLink("Update", "UpdateProfilePicture", new { id=Model.Person.Id })
+</div>
+<div class="information_container">
+
+    @using(Html.BeginForm("UpdatePerson")){
+    <fieldset>
+        <legend>Personal / Contact Information</legend>
+
+        <ul>
+        <li><div class="editor-label required">First Name:<span>*</span></div>
+            <div class="editor-field">@Html.TextBoxFor(a=>a.Person.FirstName)</div>
+        </li>
+        <li><div class="editor-label">MI:</div>
+            <div class="editor-field">@Html.TextBoxFor(a=>a.Person.MI)</div>
+        </li>
+        <li><div class="editor-label required">Last Name:<span>*</span></div>
+            <div class="editor-field">@Html.TextBoxFor(a=>a.Person.LastName)</div>
+        </li>
+        <li><div class="editor-label">Salutation:</div>
+            <div class="editor-field">@Html.TextBoxFor(a=>a.Person.Salutation)</div>
+        </li>
+        <li><div class="editor-label">Badge Name:</div>
+            <div class="editor-field">@Html.TextBoxFor(a=>a.Person.BadgeName)</div>
+        </li>
+        <li><div class="editor-label">Phone:</div>
+            <div class="editor-field">@Html.TextBoxFor(a=>a.Person.Phone)</div>
+        </li>
+        <li><div class="editor-label">Cell Phone:</div>
+            <div class="editor-field">@Html.TextBoxFor(a=>a.Person.CellPhone)</div>
+        </li>
+        <li><div class="editor-label">Fax:</div>
+            <div class="editor-field">@Html.TextBoxFor(a=>a.Person.Fax)</div>
+        </li>
+        <li><div class="editor-label">&nbsp;</div>
+            <div class="editor-field">
+                <input type="submit" value="save" class="button" />
+            </div>            
+        </li>
+        </ul>
+
+    </fieldset>
+    }
+
+</div>
+
+<div style="clear:both;" />
