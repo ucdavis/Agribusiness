@@ -13,16 +13,6 @@ namespace Agribusiness.Web.Controllers.Filters
 
     public class MembershipUserOnlyAttribute : AuthorizeAttribute, IAuthorizationFilter
     {
-        //public override void OnAuthorization(AuthorizationContext filterContext)
-        //{
-        //    var userName = filterContext.HttpContext.User.Identity.Name;
-
-        //    if (IsValidEmail(userName))
-        //    {
-        //        Users = userName;
-        //    }
-        //}
-
         protected override bool AuthorizeCore(System.Web.HttpContextBase httpContext)
         {
             var userName = httpContext.User.Identity.Name;
