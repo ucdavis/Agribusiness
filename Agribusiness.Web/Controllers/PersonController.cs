@@ -171,7 +171,7 @@ namespace Agribusiness.Web.Controllers
             if (person.MainProfilePicture != null) return File(person.MainProfilePicture, person.ContentType);
 
             // load the default image
-            var fs = new FileStream(Server.MapPath("~/Images/profileplaceholder.jpg"), FileMode.Open, FileAccess.Read);
+            var fs = new FileStream(Server.MapPath("~/Images/profilepicplaceholder.jpg"), FileMode.Open, FileAccess.Read);
             var img = new byte[fs.Length];
             fs.Read(img, 0, img.Length);
             fs.Close();
@@ -186,7 +186,7 @@ namespace Agribusiness.Web.Controllers
             if (person.MainProfilePicture != null) return File(person.ThumbnailPicture, person.ContentType);
 
             // load the default image
-            var fs = new FileStream(Server.MapPath("~/Images/profileplaceholder.jpg"), FileMode.Open, FileAccess.Read);
+            var fs = new FileStream(Server.MapPath("~/Images/profileplaceholder_thumb.jpg"), FileMode.Open, FileAccess.Read);
             var img = new byte[fs.Length];
             fs.Read(img, 0, img.Length);
             fs.Close();

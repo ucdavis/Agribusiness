@@ -191,7 +191,8 @@
     <Content Include="Images\Jcrop.gif" />
     <Content Include="Images\logo-caes-long-cap.png" />
     <Content Include="Images\logo-ucdavis.png" />
-    <Content Include="Images\profileplaceholder.jpg" />
+    <Content Include="Images\profilepicplaceholder.jpg" />
+    <Content Include="Images\profileplaceholder_thumb.jpg" />
     <Content Include="Images\top_blue_bar.jpg" />
     <Content Include="Images\wells-fargo-uc-davis.gif" />
     <Content Include="Scripts\anytimec.js" />
