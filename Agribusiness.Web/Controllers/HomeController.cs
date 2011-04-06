@@ -1,7 +1,9 @@
 ﻿using System.Linq;
+using System.Text;
 using System.Web.Mvc;
 using Agribusiness.Core.Domain;
 using Agribusiness.Web.Controllers.Filters;
+using Agribusiness.Web.Models;
 using UCDArch.Web.Attributes;
 using System;
 
@@ -18,30 +20,35 @@ namespace Agribusiness.Web.Controllers
         [UserOnly]
         public ActionResult Admin()
         {
-            return View();
+            //var viewModel = AdminHomeViewModel.Create(Repository);
+
+            var pendingApplications = Repository.OfType<Application>().Queryable.Where(a => a.IsPending).Count();
+            var peopleMissingPicture = Repository.OfType<Person>().Queryable.Where(a=>a.OriginalPicture == null).Count();
+            var firmsRequiringReview = Repository.OfType<Firm>().Queryable.Where(a => a.Review).Count();
+
+            var message = new StringBuilder();
+
+            if (pendingApplications > 0)
+            {
+                message.Append(string.Format("There are {0} pending applications to review.<br/>", pendingApplications));
+            }
+
+            if (peopleMissingPicture > 0)
+            {
+                message.Append(string.Format("There are {0} profiles that are missing pictures.<br/>", peopleMissingPicture));
+            }
+
+            if (firmsRequiringReview > 0)
+            {
+                message.Append(string.Format("There are {0} firms waiting approval.", firmsRequiringReview));
+            }
+
+            return View(message);
         }
 
         public ActionResult About()
         {
             return View();
-        }
-
-        [Transaction]
-        public ActionResult LoadImages()
-        {
-            var people = Repository.OfType<Person>().GetAll();
-
-            return View(people.First());
-        }
-
-        [Transaction]
-        public ActionResult LoadPicture(int id)
-        {
-            var person = Repository.OfType<Person>().GetById(id);
-
-            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(5));
-
-            return File(person.OriginalPicture, "image/jpg");
         }
     }
 }

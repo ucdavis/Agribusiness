@@ -132,6 +132,7 @@
     </Compile>
     <Compile Include="Helpers\AutomapperConfig.cs" />
     <Compile Include="Helpers\FluentHelper.cs" />
+    <Compile Include="Models\AdminHomeViewModel.cs" />
     <Compile Include="Models\ApplicationViewModel.cs" />
     <Compile Include="Models\AssignToSessionViewModel.cs" />
     <Compile Include="Models\AuthorizedViewModel.cs" />

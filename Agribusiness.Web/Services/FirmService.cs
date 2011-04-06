@@ -34,6 +34,7 @@ namespace Agribusiness.Web.Services
         {
             // load the ids of latest revisions of each firm
             var firmIds = (from a in _firmRepository.Queryable
+                           where !a.Review
                            group a by a.FirmCode into b
                            select b.Max(c => c.Id)).ToList();
 
@@ -51,7 +52,7 @@ namespace Agribusiness.Web.Services
         public Firm GetFirm(Guid firmCode)
         {
             var firm = _firmRepository.Queryable
-                        .Where(a => a.Id == _firmRepository.Queryable.Where(b => b.FirmCode == firmCode)
+                        .Where(a => !a.Review && a.Id == _firmRepository.Queryable.Where(b => b.FirmCode == firmCode)
                                             .Select(b => b.Id).Max())
                         .FirstOrDefault();
 

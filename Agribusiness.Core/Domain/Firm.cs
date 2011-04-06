@@ -20,6 +20,8 @@ namespace Agribusiness.Core.Domain
             Name = name;
             Description = description;
             FirmCode = firmCode ?? Guid.NewGuid();
+
+            Review = true;
         }
 
         public virtual Guid FirmCode { get; set; }
@@ -28,6 +30,8 @@ namespace Agribusiness.Core.Domain
         public virtual string Name { get; set; }
         [Required]
         public virtual string Description { get; set; }
+
+        public virtual bool Review { get; set; }
     }
 
     public class FirmMap : ClassMap<Firm>
@@ -38,6 +42,7 @@ namespace Agribusiness.Core.Domain
             Map(x => x.Name);
             Map(x => x.Description);
             Map(x => x.FirmCode);
+            Map(x => x.Review);
         }
     }
 }

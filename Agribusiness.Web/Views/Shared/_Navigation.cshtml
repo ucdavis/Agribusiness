@@ -8,6 +8,7 @@
     {
         if (User.IsInRole(RoleNames.User))
         {
+            <li>@Html.ActionLink("Home", "Admin", "Home")</li>
             <li>@Html.ActionLink("Seminars", "Index", "Seminar")</li>
             <li>@Html.ActionLink("Applications", "Index", "SeminarApplication")</li>
             <li>@Html.ActionLink("People", "Index", "Person")</li>
@@ -21,7 +22,7 @@
         }
     }
 
-    @if (!Model)
+    @if (!Model && !HttpContext.Current.User.Identity.IsAuthenticated)
     { 
     <li>
         @Html.ActionLink("Admin Tools", "Admin", "Home")

@@ -2,3 +2,8 @@
     ViewBag.Title = "Admin Home";
     ViewBag.SubPageTitle = "Admin Home";
 }
+
+@if (!string.IsNullOrEmpty(@Model.ToString()))
+{
+    @Html.Partial("_Message", new MessageModel(){IsError=false, Message = Model.ToString()})    
+}

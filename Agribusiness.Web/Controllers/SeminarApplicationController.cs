@@ -67,16 +67,20 @@ namespace Agribusiness.Web.Controllers
             application.IsApproved = isApproved;
             application.DateDecision = DateTime.Now;
 
-            // create a new person
+            application.TransferValidationMessagesTo(ModelState);
 
-            // create a seminar person
+            if (ModelState.IsValid)
+            {
+                _seminarService.CreateSeminarPerson(application, ModelState);
+            }
 
-            // update/validate firm information
-            // if new firm, ask user to confirm new firm information
-
-            _applicationRepository.EnsurePersistent(application);
-
-            //TODO: figure out emailing stuff.);
+            // check if model state is still valid, might have changed on create
+            if (ModelState.IsValid)
+            {
+                _applicationRepository.EnsurePersistent(application);
+                Message = string.Format("Application for {0} has been {1}", application.FullName, isApproved ? "Approved" : "Denied");
+                return this.RedirectToAction<SeminarApplicationController>(a => a.Index());
+            }
 
             return View(application);
         }

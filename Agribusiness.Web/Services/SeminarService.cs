@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using Agribusiness.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
+using UCDArch.Web.Helpers;
 
 namespace Agribusiness.Web.Services
 {
@@ -28,7 +30,7 @@ namespace Agribusiness.Web.Services
             return seminar;
         }
 
-        public void CreateSeminarPerson(Application application)
+        public void CreateSeminarPerson(Application application, ModelStateDictionary modelState)
         {
             var person = application.User.Person ?? new Person()
             {
@@ -42,7 +44,6 @@ namespace Agribusiness.Web.Services
                 ContentType = application.ContentType
             };
 
-
             var firm = application.Firm ?? new Firm(application.FirmName, application.FirmDescription);
 
             var seminarPerson = new SeminarPerson()
@@ -54,8 +55,14 @@ namespace Agribusiness.Web.Services
 
             person.AddSeminarPerson(seminarPerson);
 
-            _firmRepository.EnsurePersistent(firm);
-            _personRepository.EnsurePersistent(person);
+            person.TransferValidationMessagesTo(modelState);
+            seminarPerson.TransferValidationMessagesTo(modelState);
+
+            if (modelState.IsValid)
+            {
+                _firmRepository.EnsurePersistent(firm);
+                _personRepository.EnsurePersistent(person);
+            }
         }
     }
 }
