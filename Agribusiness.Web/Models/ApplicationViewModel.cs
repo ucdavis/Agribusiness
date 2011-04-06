@@ -33,13 +33,25 @@ namespace Agribusiness.Web.Models
                                     States = repository.OfType<State>().GetAll()
                                 };
 
-            var person = repository.OfType<User>().Queryable.Where(a => a.LoweredUserName == userId.ToLower()).FirstOrDefault();
-            if (person == null) throw new ArgumentException(string.Format("Unable to load user with userid {0}.", userId));
+            var user = repository.OfType<User>().Queryable.Where(a => a.LoweredUserName == userId.ToLower()).FirstOrDefault();
+            if (user == null) throw new ArgumentException(string.Format("Unable to load user with userid {0}.", userId));
 
-            
             // populate the application with person info
+            var person = user.Person;
+            // if person is not null, there should be at least one registration (seminar person)
+            if (person != null)
+            {
+                var seminarPeople = person.GetLatestRegistration();
 
-            viewModel.HasPhoto = person.Person != null && person.Person.MainProfilePicture != null;
+                application.FirstName = person.FirstName;
+                application.MI = person.MI;
+                application.LastName = person.LastName;
+                application.BadgeName = person.BadgeName;
+
+                application.Firm = firmService.GetFirm(seminarPeople.FirmCode);
+            }
+
+            viewModel.HasPhoto = user.Person != null && user.Person.MainProfilePicture != null;
 
             // get the firms and add the "Other" option
             var firms = new List<Firm>(firmService.GetAllFirms());
