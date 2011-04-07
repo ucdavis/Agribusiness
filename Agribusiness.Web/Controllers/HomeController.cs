@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using Agribusiness.Core.Domain;
 using Agribusiness.Web.Controllers.Filters;
 using Agribusiness.Web.Models;
+using Agribusiness.Web.Services;
 using UCDArch.Web.Attributes;
 using System;
 
@@ -12,9 +13,18 @@ namespace Agribusiness.Web.Controllers
     [HandleTransactionsManually]
     public class HomeController : ApplicationController
     {
+        private readonly ISeminarService _seminarService;
+
+        public HomeController(ISeminarService seminarService)
+        {
+            _seminarService = seminarService;
+        }
+
         public ActionResult Index()
         {
-            return View();
+            var seminar = _seminarService.GetCurrent();
+
+            return View(seminar);
         }
 
         [UserOnly]

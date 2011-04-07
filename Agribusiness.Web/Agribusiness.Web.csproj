@@ -186,6 +186,7 @@
     <Content Include="Global.asax" />
     <Content Include="Images\button_delete_red.png" />
     <Content Include="Images\caes_wf_blue.jpg" />
+    <Content Include="Images\collage.jpg" />
     <Content Include="Images\comment.png" />
     <Content Include="Images\delete.png" />
     <Content Include="Images\details.png" />
@@ -333,6 +334,7 @@
     <Content Include="Views\Public\ProgramOverview.cshtml" />
     <Content Include="Views\Seminar\MySeminar.cshtml" />
     <Content Include="Views\Person\Edit.cshtml" />
+    <Content Include="Views\Public\Background.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">

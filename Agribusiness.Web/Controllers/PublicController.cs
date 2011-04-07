@@ -8,7 +8,7 @@ using UCDArch.Core.Utils;
 namespace Agribusiness.Web.Controllers
 {
     /// <summary>
-    /// Controller for the Public class
+    /// All public facing static pages.
     /// </summary>
     public class PublicController : ApplicationController
     {
