@@ -1,0 +1,165 @@
+﻿@model Agribusiness.Web.Models.PersonViewModel
+
+
+	@Html.AntiForgeryToken()
+	
+	<fieldset>
+		<legend>Personal Information</legend>
+		<ul>
+			<li><div class="editor-label required">
+                    @Html.LabelFor(a=>a.Person.FirstName)
+                    <span>*</span>
+                </div>
+                <div class="editor-field">
+				    @Html.EditorFor(a=>a.Person.FirstName)
+				    @Html.ValidationMessageFor(a=>a.Person.FirstName)
+                </div>
+			</li>
+			<li><div class="editor-label">
+                    @Html.LabelFor(a=>a.Person.MI)
+                </div>
+                <div class="editor-field">
+				    @Html.EditorFor(a=>a.Person.MI)
+				    @Html.ValidationMessageFor(a=>a.Person.MI)
+                </div>
+			</li>
+			<li><div class="editor-label required">
+                    @Html.LabelFor(a=>a.Person.LastName)
+                    <span>*</span>
+                </div>
+                <div class="editor-field">
+				    @Html.EditorFor(a=>a.Person.LastName)
+				    @Html.ValidationMessageFor(a=>a.Person.LastName)
+                </div>
+			</li>
+			<li><div class="editor-label">
+                    @Html.LabelFor(a => a.Person.Salutation)
+                </div>
+                <div class="editor-field">
+				    @Html.EditorFor(a=>a.Person.Salutation)
+				    @Html.ValidationMessageFor(a=>a.Person.Salutation)
+                </div>
+			</li>
+			<li><div class="editor-label">
+                    @Html.LabelFor(a=>a.Person.BadgeName)
+                </div>
+                <div class="editor-field">
+				    @Html.EditorFor(a=>a.Person.BadgeName)
+				    @Html.ValidationMessageFor(a=>a.Person.BadgeName)
+                </div>
+			</li>
+		</ul>
+	</fieldset>
+	
+	<fieldset>
+		<legend>Contact Information</legend>
+
+		<ul>
+            <li><div class="editor-label required">
+                    @Html.LabelFor(a=>a.Email)
+                    <span>*</span>
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(a=>a.Email)
+                    @Html.ValidationMessageFor(a=>a.Email)
+                </div>
+            </li>
+			<li><div class="editor-label required">
+                    @Html.LabelFor(a=>a.Person.Phone)
+                </div>
+                <div class="editor-field">
+				    @Html.EditorFor(a=>a.Person.Phone)
+				    @Html.ValidationMessageFor(a=>a.Person.Phone)
+                </div>
+			</li>
+			<li><div class="editor-label">
+                    @Html.LabelFor(a=>a.Person.CellPhone)
+                </div>
+                <div class="editor-field">
+				    @Html.EditorFor(a=>a.Person.CellPhone)
+				    @Html.ValidationMessageFor(a=>a.Person.CellPhone)
+                </div>
+			</li>
+			<li><div class="editor-label">
+                    @Html.LabelFor(a=>a.Person.Fax)
+                </div>
+                <div class="editor-field">
+				    @Html.EditorFor(a=>a.Person.Fax)
+				    @Html.ValidationMessageFor(a=>a.Person.Fax)
+                </div>
+			</li>
+		</ul>
+
+    </fieldset>
+
+    <fieldset>
+        <legend>Addresses</legend>
+
+		@for (int i = 0; i < Model.Addresses.Count(); i++)
+		{
+			<h4>@string.Format("{0} Address", Model.Addresses[i].AddressType.Name)</h4>
+  
+			<input type="hidden" id='@string.Format("Addresses_{0}__AddressType", i)' name='@string.Format("Addresses[{0}].AddressType", i)' value='@Model.Addresses[i].AddressType.Id' />
+			
+			<ul>
+				<li><div class="editor-label">
+                    @Html.LabelFor(a => a.Addresses[i].Line1)
+                    </div>
+                    <div class="editor-field">
+					@Html.TextBox(string.Format("Addresses[{0}].Line1", i), Model.Addresses[i].Line1)
+                    </div>
+				</li>
+				<li><div class="editor-label">
+                    @Html.LabelFor(a => a.Addresses[i].Line2)
+                    </div>
+                    <div class="editor-field">
+					@Html.TextBox(string.Format("Addresses[{0}].Line2", i), Model.Addresses[i].Line2)
+                    </div>
+				</li>
+				<li><div class="editor-label">
+                    @Html.LabelFor(a => a.Addresses[i].City)
+                    </div>
+                    <div class="editor-field">
+					@Html.TextBox(string.Format("Addresses[{0}].City", i), Model.Addresses[i].City)
+                    </div>
+				</li>
+				<li><div class="editor-label">
+                    @Html.LabelFor(a => a.Addresses[i].State)
+                    </div>
+                    <div class="editor-field">
+					@{ var ss = Model.Addresses.ElementAtOrDefault(i);
+                        var selectedState = ss.State != null ? ss.State.Id : string.Empty;
+					   }
+					@this.Select(string.Format("Addresses[{0}].State", i)).Options(Model.States, x => x.Id, x => x.Name).FirstOption("--Select a State--").Selected(selectedState)
+                    </div>
+				</li>
+				<li><div class="editor-label">
+                    @Html.LabelFor(a => a.Addresses[i].Zip)
+                    </div>
+                    <div class="editor-field">
+					@Html.TextBox(string.Format("Addresses[{0}].Zip", i), Model.Addresses[i].Zip)
+                    </div>
+				</li>
+			</ul>
+        }
+	</fieldset>
+	
+	<fieldset>
+		<legend>Profile Picture</legend>
+		<ul>
+		<li><div class="editor-label"><label>&nbsp;</label></div>
+		    <div class="editor-field"><input type="file" name="profilepic" id="profilepice" /></div>
+		</li>
+		</ul>
+	</fieldset>
+	
+	<fieldset>
+		<ul>
+			<li><div class="editor-label"><label>&nbsp;</label></div>
+				<div class="editor-field">
+                <input type="submit" value="save" class="button" /> |
+				@Html.ActionLink("Cancel", "Index")
+                </div>
+			</li>
+		</ul>
+	</fieldset>

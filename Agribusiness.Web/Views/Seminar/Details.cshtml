@@ -27,7 +27,7 @@
 
     <script type="text/javascript">
         $(function () {
-            $("table").dataTable({ "bJQueryUI": true });
+            $("table").dataTable({ "bJQueryUI": true, "bPaginate": false });
         });    
     </script>
 }
@@ -134,37 +134,4 @@ else
             }
         </tbody>
     </table>
-}
-
-<h3>People</h3>
-
-@if (Model.DisplayPeople.Count() <= 0)
-{ 
-    @Html.Partial("_Message", new MessageModel() { IsError = false, Message = "No one has been approved to attend this seminar." })
-}
-else
-{ 
-<table class="noicon">
-    <thead>
-        <tr>
-            <th>First Name</th>
-            <th>MI</th>
-            <th>Last Name</th>
-            <th>Title</th>
-            <th>Firm</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var a in Model.DisplayPeople)
-        { 
-            <tr>
-                <td>@a.Person.FirstName</td>
-                <td>@a.Person.MI</td>
-                <td>@a.Person.LastName</td>
-                <td>@a.Title</td>
-                <td>@a.Firm.Name</td>
-            </tr>
-        }
-    </tbody>
-</table>
 }

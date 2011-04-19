@@ -29,5 +29,8 @@ namespace Agribusiness.Web.Models
         public Person Person { get; set; }
         public string Title { get; set; }
         public Firm Firm { get; set; }
+
+        public bool Invite { get; set; }
+        public bool Registered { get; set; }
     }
 }

@@ -29,7 +29,23 @@ namespace Agribusiness.Web.Models
                 States = repository.OfType<State>().GetAll(),
                 SeminarPerson = person != null ? person.GetLatestRegistration() : null
             };
- 
+
+            // find any addresses and replace them into the list
+            if (person != null)
+            {
+                foreach(var a in person.Addresses)
+                {
+                    var addr = viewModel.Addresses.Where(b => b.AddressType == a.AddressType).FirstOrDefault();
+
+                    if (addr != null) viewModel.Addresses.Remove(addr);
+
+                    viewModel.Addresses.Add(a);
+                }
+            }
+
+            // reorder so always in the same order
+            viewModel.Addresses = viewModel.Addresses.OrderBy(a => a.AddressType.Id).ToList();
+
             return viewModel;
         }
     }

@@ -80,7 +80,7 @@ namespace Agribusiness.Web.Services
                 if (reg != null)
                 {
                     var firm = firms.Where(b => b.FirmCode == reg.FirmCode).FirstOrDefault();
-                    displayPeople.Add(new DisplayPerson() { Firm = firm, Person = person, Title = reg.Title});
+                    displayPeople.Add(new DisplayPerson() { Firm = firm, Person = person, Title = reg.Title, Invite = reg.Invite, Registered = reg.Registered});
                 }
                 else
                 {

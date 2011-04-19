@@ -36,6 +36,7 @@ namespace Agribusiness.Core.Domain
         public virtual Guid FirmCode { get; set; }
         public virtual string CouponCode { get; set; }
         public virtual bool Registered { get; set; }
+        public virtual bool Invite { get; set; }
 
         public virtual string RegistrationCode { get; private set; }
 
@@ -58,6 +59,7 @@ namespace Agribusiness.Core.Domain
             Map(x => x.CouponCode);
             Map(x => x.Registered);
             Map(x => x.RegistrationCode).ReadOnly();
+            Map(x => x.Invite);
 
             HasManyToMany(x => x.Sessions).ParentKeyColumn("SeminarPersonId")
                 .ChildKeyColumn("SessionId")

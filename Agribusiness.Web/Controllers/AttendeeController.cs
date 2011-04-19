@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using Agribusiness.Core.Domain;
+using Agribusiness.Web.Models;
+using Agribusiness.Web.Services;
+using Resources;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Web.Controller;
 using UCDArch.Web.Helpers;
-using UCDArch.Core.Utils;
 
 namespace Agribusiness.Web.Controllers
 {
@@ -13,38 +16,33 @@ namespace Agribusiness.Web.Controllers
     /// </summary>
     public class AttendeeController : ApplicationController
     {
-        private readonly IRepository<SeminarPerson> _seminarPersonRespository;
+        private readonly IRepository<Seminar> _seminarRespository;
+        private readonly IPersonService _personService;
 
-        public AttendeeController(IRepository<SeminarPerson> seminarPersonRespository)
+        public AttendeeController(IRepository<Seminar> seminarRespository, IPersonService personService)
         {
-            _seminarPersonRespository = seminarPersonRespository;
+            _seminarRespository = seminarRespository;
+            _personService = personService;
         }
 
-        //
-        // GET: /Attendee/
-        public ActionResult Index()
+        /// <summary>
+        /// Attendee List for a seminar
+        /// </summary>
+        /// <param name="id">seminar id</param>
+        /// <returns></returns>
+        public ActionResult Index(int id)
         {
-            var attendeeList = _seminarPersonRespository.Queryable;
+            var seminar = _seminarRespository.GetNullableById(id);
 
-            return View(attendeeList);
+            if (seminar == null)
+            {
+                Message = string.Format(Messages.NotFound, "Seminar", id);
+                return this.RedirectToAction("Index", "Seminar");
+            }
+
+            var viewModel = AttendeeListViewModel.Create(seminar, _personService);
+            return View(viewModel);
         }
 
     }
-	
-	/// <summary>
-    /// ViewModel for the Attendee class
-    /// </summary>
-    public class AttendeeViewModel
-	{
-		public SeminarPerson SeminarPerson { get; set; }
- 
-		public static AttendeeViewModel Create(IRepository repository, SeminarPerson seminarPerson = null)
-		{
-			Check.Require(repository != null, "Repository must be supplied");
-			
-			var viewModel = new AttendeeViewModel {SeminarPerson = seminarPerson ?? new SeminarPerson()};
- 
-			return viewModel;
-		}
-	}
 }

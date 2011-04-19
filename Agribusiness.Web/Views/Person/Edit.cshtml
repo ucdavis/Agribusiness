@@ -1,4 +1,4 @@
-﻿@model ProfileViewModel
+﻿@model PersonViewModel
 
 @{
     ViewBag.Title = "Edit Profile";
@@ -11,6 +11,14 @@
 </div>
 <div class="information_container">
 
+    
+    @using (Html.BeginForm("Edit", "Person", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    { 
+        @Html.ValidationSummary(true)
+        @Html.Partial("_PersonForm")
+
+    }
+@*
     @using(Html.BeginForm("UpdatePerson")){
     <fieldset>
         <legend>Personal / Contact Information</legend>
@@ -48,7 +56,9 @@
         </ul>
 
     </fieldset>
-    }
+    }*@
+
+    
 
 </div>
 
