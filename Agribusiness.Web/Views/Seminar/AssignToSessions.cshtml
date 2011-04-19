@@ -64,6 +64,13 @@
 
 }
 
+@section SubPageNavigation
+{
+    <ul class="navigation">
+        <li>@Html.ActionLink("Back to Seminar", "Details", new {id=@Model.Seminar.Id}) </li>
+    </ul>
+}
+
 @Html.AntiForgeryToken()
 
 <fieldset class="people-container">
