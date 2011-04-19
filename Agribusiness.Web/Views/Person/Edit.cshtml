@@ -11,12 +11,20 @@
 
 <div class="information_container">
 
-    @using (Html.BeginForm("Edit", "Person", FormMethod.Post, new { enctype = "multipart/form-data" }))
-    { 
-        @Html.ValidationSummary(true)
-        @Html.Partial("_PersonForm")
+    @if (Model.AdminEdit)
+    {
+        @Html.Partial("_AdminPersonForm")
+    }
+    else
+    {
+        using (Html.BeginForm("Edit", "Person", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        { 
+            @Html.ValidationSummary(true)
 
-    }   
+
+            @Html.Partial("_PersonForm")        
+        }
+    }
 
 </div>
 

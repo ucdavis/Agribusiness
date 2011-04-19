@@ -21,16 +21,17 @@ namespace Agribusiness.Web.Controllers
     /// <summary>
     /// Controller for the Person class
     /// </summary>
+    [Authorize]
     public class PersonController : ApplicationController
     {
 	    private readonly IRepository<Person> _personRepository;
-        private readonly IRepository<User> _userRepository;
+        private readonly IRepositoryWithTypedId<User, Guid> _userRepository;
         private readonly IPictureService _pictureService;
         private readonly IPersonService _personService;
         private readonly IFirmService _firmService;
         private readonly IMembershipService _membershipService;
 
-        public PersonController(IRepository<Person> personRepository, IRepository<User> userRepository, IPictureService pictureService, IPersonService personService, IFirmService firmService)
+        public PersonController(IRepository<Person> personRepository, IRepositoryWithTypedId<User, Guid> userRepository, IPictureService pictureService, IPersonService personService, IFirmService firmService)
         {
             _personRepository = personRepository;
             _userRepository = userRepository;
@@ -110,12 +111,6 @@ namespace Agribusiness.Web.Controllers
             viewModel.Email = personEditModel.Email;
             return View(viewModel);
         }
-        [UserOnly]
-        [HttpPost]
-        public ActionResult UploadPhoto(int id, HttpPostedFileBase profilepic)
-        {
-            return View();
-        }
         #endregion
 
         #region Profile Editing Functions
@@ -124,21 +119,23 @@ namespace Agribusiness.Web.Controllers
         /// </summary>
         /// <param name="id">Person Id for admin editing</param>
         /// <returns></returns>
-        [Authorize]
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(Guid? id)
         {
             User user;
+            var adminEdit = false;
 
             // admin is trying to edit, authorize them
             if (id.HasValue)
             {
-                user = Repository.OfType<User>().GetNullableById(id.Value);
+                user = _userRepository.GetNullableById(id.Value);
 
-                // current user must be in User role
+                // current user must be in User role)
                 if (!Roles.IsUserInRole(RoleNames.User))
                 {
                     return this.RedirectToAction<ErrorController>(a => a.NotAuthorized());
                 }
+
+                adminEdit = true;
             }
             else
             {
@@ -154,14 +151,15 @@ namespace Agribusiness.Web.Controllers
 
             var viewModel = PersonViewModel.Create(Repository, person);
             viewModel.Email = CurrentUser.Identity.Name.ToLower();
+            viewModel.AdminEdit = adminEdit;
             return View(viewModel);
         }
 
         [HttpPost]
-        [Authorize]
-        public ActionResult Edit(int? id, PersonEditModel personEditModel, HttpPostedFileBase profilepic)
+        public ActionResult Edit(Guid? id, PersonEditModel personEditModel, HttpPostedFileBase profilepic)
         {
             User user = null;
+            var adminEdit = false;
 
             // admin is trying to edit, authorize them
             if (id.HasValue)
@@ -169,7 +167,9 @@ namespace Agribusiness.Web.Controllers
                 // current user must be in User role
                 if (Roles.IsUserInRole(RoleNames.User))
                 {
-                    user = Repository.OfType<User>().GetNullableById(id.Value);
+                    user = _userRepository.GetNullableById(id.Value);
+
+                    adminEdit = true;
                 }
             }
             else
@@ -195,13 +195,37 @@ namespace Agribusiness.Web.Controllers
 
             var viewModel = PersonViewModel.Create(Repository, person);
             viewModel.Email = user.LoweredUserName;
+            viewModel.AdminEdit = adminEdit;
             return View(viewModel);
+        }
+
+        /// <summary>
+        /// Update the biography
+        /// </summary>
+        /// <param name="id">Person Id</param>
+        /// <param name="biography">Biography Text</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult UpdateBiography(int id, string biography)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Updating roles
+        /// </summary>
+        /// <param name="id">Person Id</param>
+        /// <returns></returns>
+        [UserOnly]
+        [HttpPost]
+        public ActionResult UpdateRoles(int id, int[] roles)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
 
         #region Profile Picture Actions
-        [Authorize]
         public ActionResult UpdateProfilePicture(int id)
         {
             var person = _personRepository.GetNullableById(id);
@@ -221,7 +245,6 @@ namespace Agribusiness.Web.Controllers
             return View(person);
         }
 
-        [Authorize]
         [HttpPost]
         public ActionResult UpdateProfilePicture(int id, int x, int y, int height, int width)
         {
@@ -260,7 +283,6 @@ namespace Agribusiness.Web.Controllers
             return View(person);
         }
 
-        [Authorize]
         public ActionResult GetOriginalPicture(int id)
         {
             var person = Repository.OfType<Person>().GetById(id);

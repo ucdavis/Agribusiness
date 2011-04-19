@@ -18,6 +18,10 @@ namespace Agribusiness.Web.Models
 
         public SeminarPerson SeminarPerson { get; set; }
 
+        // admin fields
+        public bool AdminEdit { get; set; }
+        public IQueryable<SeminarRole> SeminarRoles { get; set; }
+
         public static PersonViewModel Create(IRepository repository, Person person = null)
         {
             Check.Require(repository != null, "Repository must be supplied");
@@ -27,7 +31,8 @@ namespace Agribusiness.Web.Models
                 Person = person ?? new Person(),
                 Addresses = repository.OfType<AddressType>().Queryable.Select(a => new Address() { AddressType = a}).ToList(),
                 States = repository.OfType<State>().GetAll(),
-                SeminarPerson = person != null ? person.GetLatestRegistration() : null
+                SeminarPerson = person != null ? person.GetLatestRegistration() : null,
+                SeminarRoles = repository.OfType<SeminarRole>().Queryable
             };
 
             // find any addresses and replace them into the list

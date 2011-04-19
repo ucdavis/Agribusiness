@@ -342,6 +342,7 @@
     <Content Include="Views\Attendee\Index.cshtml" />
     <Content Include="Views\Person\_PersonForm.cshtml" />
     <Content Include="Views\Person\AdminEdit.cshtml" />
+    <Content Include="Views\Person\_AdminPersonForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">

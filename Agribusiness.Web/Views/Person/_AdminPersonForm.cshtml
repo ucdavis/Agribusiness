@@ -1,0 +1,66 @@
+﻿@model Agribusiness.Web.Models.PersonViewModel
+
+<div id="tabs">
+
+    <ul>
+        <li><a href="#profile">Profile</a></li>
+        <li><a href="#biography">Biography</a></li>
+        <li><a href="#registration">Registration</a></li>
+        <li><a href="#roles">Roles</a></li>
+    </ul>
+
+    <div id="profile">
+        @using (Html.BeginForm("Edit", "Person", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        { 
+        @Html.Partial("_PersonForm")
+        }
+    </div>
+    <div id="biography">
+    
+        @using (Html.BeginForm("UpdateBiography", "Person", FormMethod.Post)) 
+        { 
+            
+            @Html.Hidden("id", Model.Person.Id)
+            
+            <ul>
+                <li><div class="editor-label">@Html.TextArea("biography", new { @style="height: 180px; width: 780px;" })</div>
+                </li>
+                <li><div class="editor-field">
+                    <input type="submit" value="Save" class="button" />
+                    </div>
+                </li>
+            </ul>
+        }
+    </div>
+    <div id="registration">
+    
+        <p>Registration information will be displayed here.  Eg. Is Registrated, Coupon Code, Invited</p>
+
+    </div>
+    <div id="roles">
+    
+        @using(Html.BeginForm("UpdateRoles", "Person", FormMethod.Post))
+        {
+
+            <ul>
+            @foreach(var a in Model.SeminarRoles)
+            {
+                <li>
+                <input type="checkbox" name="roles" value='@a.Id' />
+                @a.Name
+                </li>
+            }
+                <li><input type="submit" value="Save" class="button" /></li>
+            </ul>
+            
+        }
+
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $("#tabs").tabs();
+    });
+</script>
