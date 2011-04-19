@@ -11,7 +11,9 @@
         <li>
             @Html.ActionLink("Assign Sessions", "AssignToSessions", new { id = Model.Seminar.Id })
         </li>
-
+        <li>
+            @Html.ActionLink("Attendees", "Index", "Attendee", new { id= Model.Seminar.Id }, new { })
+        </li>
         <li>
             @Html.ActionLink("Edit", "Edit", "Seminar", new { id = Model.Seminar.Id }, new { })
         </li>

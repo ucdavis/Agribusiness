@@ -13,9 +13,6 @@
             @Html.ActionLink("Details View", "Details", "Seminar", new { id = Model.Seminar.Id }, new { })
         </li>
         <li>
-            @Html.ActionLink("Attendees", "Index", "Attendee", new { id= Model.Seminar.Id }, new { })
-        </li>
-        <li>
             @Html.ActionLink("Create Session", "Create", "Session", new { seminarId = @Model.Seminar.Id }, new { })
         </li>
         <li>

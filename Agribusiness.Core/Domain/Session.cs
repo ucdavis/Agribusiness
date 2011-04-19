@@ -51,6 +51,10 @@ namespace Agribusiness.Core.Domain
 
         public virtual string BeginString { get { return Begin.HasValue ? Begin.Value.ToString("g") : "n/a"; } }
         public virtual string EndString { get { return End.HasValue ? End.Value.ToString("g") : "n/a"; } }
+
+        public virtual int AttendeeCount {
+            get { return SeminarPeople.Count; }
+        }
     }
 
     public class SessionMap : ClassMap<Session>
