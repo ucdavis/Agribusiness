@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using Agribusiness.Core.Domain;
 using Agribusiness.Web.Controllers.Filters;
 using Agribusiness.Web.Models;
@@ -140,53 +141,10 @@ namespace Agribusiness.Web.Controllers
         #endregion
 
         #region Attendee Functions
-        [Authorize]
-        public ActionResult UpdateProfilePicture(int id)
-        {
-            var person = _personRepository.GetNullableById(id);
-
-            if (person == null)
-            {
-                Message = string.Format(Messages.NotFound, "Person", id);
-                return this.RedirectToAction(a => a.Index());
-            }
-
-            return View(person);
-        }
-
-        [Authorize]
-        [HttpPost]
-        public ActionResult UpdateProfilePicture(int id, int x, int y, int height, int width)
-        {
-            var person = _personRepository.GetNullableById(id);
-
-            if (person == null)
-            {
-                Message = string.Format(Messages.NotFound, "Person", id);
-                return this.RedirectToAction(a => a.Index());
-            }
-
-            // crop the image
-            var cropped = _pictureService.Crop(person.OriginalPicture, x, y, width, height);
-
-            // get the main profile picture
-            person.MainProfilePicture = _pictureService.MakeMainProfile(cropped);
-
-            // get the thumbnail
-            person.ThumbnailPicture = _pictureService.MakeThumbnail(cropped);
-
-            person.TransferValidationMessagesTo(ModelState);
-
-            if (ModelState.IsValid)
-            {
-                Message = string.Format(Messages.Saved, "Person");
-                _personRepository.EnsurePersistent(person);
-                return this.RedirectToAction(a => a.Index());
-            }
-
-            return View(person);
-        }
-
+        /// <summary>
+        /// Attendee's page to update their own profile
+        /// </summary>
+        /// <returns></returns>
         [Authorize]
         public ActionResult Edit()
         {
@@ -233,7 +191,66 @@ namespace Agribusiness.Web.Controllers
 
         #endregion
 
-        #region All Authorized User Functions
+        #region Profile Picture Actions
+        [Authorize]
+        public ActionResult UpdateProfilePicture(int id)
+        {
+            var person = _personRepository.GetNullableById(id);
+
+            if (person == null)
+            {
+                Message = string.Format(Messages.NotFound, "Person", id);
+                return this.RedirectToAction(a => a.Index());
+            }
+
+            // validate this is the person or is a person in user role
+            if (person.User.LoweredUserName != CurrentUser.Identity.Name.ToLower() && !Roles.IsUserInRole(RoleNames.User))
+            {
+                return this.RedirectToAction<ErrorController>(a => a.NotAuthorized());
+            }
+
+            return View(person);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult UpdateProfilePicture(int id, int x, int y, int height, int width)
+        {
+            var person = _personRepository.GetNullableById(id);
+
+            if (person == null)
+            {
+                Message = string.Format(Messages.NotFound, "Person", id);
+                return this.RedirectToAction(a => a.Index());
+            }
+
+            // validate this is the person or is a person in user role
+            if (person.User.LoweredUserName != CurrentUser.Identity.Name.ToLower() && !Roles.IsUserInRole(RoleNames.User))
+            {
+                return this.RedirectToAction<ErrorController>(a => a.NotAuthorized());
+            }
+            
+            // crop the image
+            var cropped = _pictureService.Crop(person.OriginalPicture, x, y, width, height);
+
+            // get the main profile picture
+            person.MainProfilePicture = _pictureService.MakeMainProfile(cropped);
+
+            // get the thumbnail
+            person.ThumbnailPicture = _pictureService.MakeThumbnail(cropped);
+
+            person.TransferValidationMessagesTo(ModelState);
+
+            if (ModelState.IsValid)
+            {
+                Message = string.Format(Messages.Saved, "Person");
+                _personRepository.EnsurePersistent(person);
+                return this.RedirectToAction(a => a.Index());
+            }
+
+            return View(person);
+        }
+
         [Authorize]
         public ActionResult GetOriginalPicture(int id)
         {
