@@ -15,7 +15,7 @@ namespace Agribusiness.Web.Models
         public Seminar Seminar { get; set; }
 
         // used to display the details of the semianr
-        public List<DisplayPerson> DisplayPeople { get; set; }
+        public IEnumerable<DisplayPerson> DisplayPeople { get; set; }
 
         public static SeminarViewModel Create(IRepository repository, Seminar seminar = null)
         {
@@ -26,18 +26,18 @@ namespace Agribusiness.Web.Models
             return viewModel;
         }
 
-        public void PopulateDisplayPeople(IFirmService firmService)
-        {
-            var firms = firmService.GetAllFirms();
+        //public void PopulateDisplayPeople(IFirmService firmService)
+        //{
+        //    var firms = firmService.GetAllFirms();
 
-            DisplayPeople = new List<DisplayPerson>();
+        //    DisplayPeople = new List<DisplayPerson>();
 
-            foreach (var a in Seminar.SeminarPeople)
-            {
-                var dp = new DisplayPerson() {Firm = firms.Where(b=>b.FirmCode == a.FirmCode).SingleOrDefault(),Person = a.Person, Title = a.Title};
-                DisplayPeople.Add(dp);
-            }
+        //    foreach (var a in Seminar.SeminarPeople)
+        //    {
+        //        var dp = new DisplayPerson() {Firm = firms.Where(b=>b.FirmCode == a.FirmCode).SingleOrDefault(),Person = a.Person, Title = a.Title};
+        //        DisplayPeople.Add(dp);
+        //    }
 
-        }
+        //}
     }
 }

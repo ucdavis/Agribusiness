@@ -24,13 +24,15 @@ namespace Agribusiness.Web.Controllers
         private readonly IRepository<Session> _sessionRepository;
         private readonly IRepository<SeminarPerson> _seminarPersonRepository;
         private readonly IFirmService _firmService;
+        private readonly IPersonService _personService;
 
-        public SeminarController(IRepository<Seminar> seminarRepository, IRepository<Session> sessionRepository, IRepository<SeminarPerson> seminarPersonRepository, IFirmService firmService)
+        public SeminarController(IRepository<Seminar> seminarRepository, IRepository<Session> sessionRepository, IRepository<SeminarPerson> seminarPersonRepository, IFirmService firmService, IPersonService personService)
         {
             _seminarRepository = seminarRepository;
             _sessionRepository = sessionRepository;
             _seminarPersonRepository = seminarPersonRepository;
             _firmService = firmService;
+            _personService = personService;
         }
 
         #region Administrative Functions
@@ -119,7 +121,8 @@ namespace Agribusiness.Web.Controllers
             }
 
             var viewModel = SeminarViewModel.Create(Repository, seminar);
-           viewModel.PopulateDisplayPeople(_firmService);
+           //viewModel.PopulateDisplayPeople(_firmService);
+            viewModel.DisplayPeople = _personService.GetDisplayPeopleForSeminar(seminar.Id);
 
             return View(viewModel);
         }

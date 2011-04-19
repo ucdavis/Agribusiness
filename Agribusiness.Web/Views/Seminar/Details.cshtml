@@ -138,7 +138,7 @@ else
 
 <h3>People</h3>
 
-@if (Model.DisplayPeople.Count <= 0)
+@if (Model.DisplayPeople.Count() <= 0)
 { 
     @Html.Partial("_Message", new MessageModel() { IsError = false, Message = "No one has been approved to attend this seminar." })
 }

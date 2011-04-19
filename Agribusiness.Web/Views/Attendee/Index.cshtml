@@ -1,0 +1,62 @@
+﻿@model IQueryable<Agribusiness.Core.Domain.SeminarPerson>
+
+@{
+	ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+	@Html.ActionLink("Create New", "Create")
+</p>
+<table>
+	<thead>
+		<tr>
+			<th></th>
+			<th>
+				Title
+			</th>
+			<th>
+				FirmCode
+			</th>
+			<th>
+				CouponCode
+			</th>
+			<th>
+				Registered
+			</th>
+			<th>
+				RegistrationCode
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+@{ var odd = false; }
+@foreach (var item in Model) {
+		<tr class="@(odd ? "odd": "even")">
+			<td>
+				@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+				@Html.ActionLink("Details", "Details", new { id=item.Id }) |
+				@Html.ActionLink("Delete", "Delete", new { id=item.Id })
+			</td>
+			<td>
+				@item.Title
+			</td>
+			<td>
+				@item.FirmCode
+			</td>
+			<td>
+				@item.CouponCode
+			</td>
+			<td>
+				@item.Registered
+			</td>
+			<td>
+				@item.RegistrationCode
+			</td>
+		</tr>
+		odd = !odd;
+}
+	</tbody>
+</table>
+

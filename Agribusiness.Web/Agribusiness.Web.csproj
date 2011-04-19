@@ -115,6 +115,7 @@
     <Compile Include="ComponentRegistrar.asax.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
+    <Compile Include="Controllers\AttendeeController.cs" />
     <Compile Include="Controllers\AuthorizedController.cs" />
     <Compile Include="Controllers\CaseStudyController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
@@ -335,6 +336,7 @@
     <Content Include="Views\Seminar\MySeminar.cshtml" />
     <Content Include="Views\Person\Edit.cshtml" />
     <Content Include="Views\Public\Background.cshtml" />
+    <Content Include="Views\Attendee\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">
