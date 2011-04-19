@@ -20,10 +20,11 @@
         @using (Html.BeginForm("UpdateBiography", "Person", FormMethod.Post)) 
         { 
             
-            @Html.Hidden("id", Model.Person.Id)
+            @Html.Hidden("personId", Model.Person.Id)
+            @Html.AntiForgeryToken()
             
             <ul>
-                <li><div class="editor-label">@Html.TextArea("biography", new { @style="height: 180px; width: 780px;" })</div>
+                <li><div class="editor-label">@Html.TextArea("biography", Model.Person.Biography, new { @style="height: 180px; width: 780px;" })</div>
                 </li>
                 <li><div class="editor-field">
                     <input type="submit" value="Save" class="button" />
@@ -41,18 +42,23 @@
     
         @using(Html.BeginForm("UpdateRoles", "Person", FormMethod.Post))
         {
+            @Html.Hidden("personId", Model.Person.Id)
+            @Html.AntiForgeryToken()
 
             <ul>
-            @foreach(var a in Model.SeminarRoles)
+            @foreach (var a in Model.SeminarRoles)
             {
                 <li>
-                <input type="checkbox" name="roles" value='@a.Id' />
+                @{
+                    var check = Model.Person.GetLatestRegistration().SeminarRoles.Contains(a);
+                    var checkedTxt = check ? "checked" : string.Empty;
+                    }
+                <input type="checkbox" name="roles" value='@a.Id' @checkedTxt />
                 @a.Name
                 </li>
             }
                 <li><input type="submit" value="Save" class="button" /></li>
             </ul>
-            
         }
 
     </div>

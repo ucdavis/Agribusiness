@@ -26,18 +26,22 @@ namespace Agribusiness.Web.Controllers
     {
 	    private readonly IRepository<Person> _personRepository;
         private readonly IRepositoryWithTypedId<User, Guid> _userRepository;
+        private readonly IRepositoryWithTypedId<SeminarRole, string> _seminarRoleRepository;
         private readonly IPictureService _pictureService;
         private readonly IPersonService _personService;
         private readonly IFirmService _firmService;
+        private readonly ISeminarService _seminarService;
         private readonly IMembershipService _membershipService;
 
-        public PersonController(IRepository<Person> personRepository, IRepositoryWithTypedId<User, Guid> userRepository, IPictureService pictureService, IPersonService personService, IFirmService firmService)
+        public PersonController(IRepository<Person> personRepository, IRepositoryWithTypedId<User, Guid> userRepository, IRepositoryWithTypedId<SeminarRole, string> seminarRoleRepository, IPictureService pictureService, IPersonService personService, IFirmService firmService, ISeminarService seminarService)
         {
             _personRepository = personRepository;
             _userRepository = userRepository;
+            _seminarRoleRepository = seminarRoleRepository;
             _pictureService = pictureService;
             _personService = personService;
             _firmService = firmService;
+            _seminarService = seminarService;
 
             _membershipService = new AccountMembershipService();
         }
@@ -202,25 +206,78 @@ namespace Agribusiness.Web.Controllers
         /// <summary>
         /// Update the biography
         /// </summary>
-        /// <param name="id">Person Id</param>
+        /// <param name="personId">Person Id</param>
         /// <param name="biography">Biography Text</param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult UpdateBiography(int id, string biography)
+        public ActionResult UpdateBiography(int personId, string biography)
         {
-            throw new NotImplementedException();
+            var person = _personRepository.GetNullableById(personId);
+
+            if (person == null)
+            {
+                Message = string.Format(Messages.NotFound, "Person", personId);
+                return this.RedirectToAction(a => a.Index());
+            }
+
+            person.Biography = biography;
+
+            _personRepository.EnsurePersistent(person);
+            Message = string.Format(Messages.Saved, "Biography");
+            return this.RedirectToAction(a=>a.Edit(person.User.Id));
         }
 
         /// <summary>
         /// Updating roles
         /// </summary>
-        /// <param name="id">Person Id</param>
+        /// <param name="personId">Person Id</param>
         /// <returns></returns>
         [UserOnly]
         [HttpPost]
-        public ActionResult UpdateRoles(int id, int[] roles)
+        public ActionResult UpdateRoles(int personId, List<string> roles)
         {
-            throw new NotImplementedException();
+            var person = _personRepository.GetNullableById(personId);
+
+            if (person == null)
+            {
+                Message = string.Format(Messages.NotFound, "Person", personId);
+                return this.RedirectToAction(a => a.Index());
+            }
+
+            // merge the roles
+            var reg = person.GetLatestRegistration();
+            var seminar = _seminarService.GetCurrent();
+
+            // check if user is registered for the current seminar
+            if (reg.Seminar != seminar)
+            {
+                Message = "User is not a part of the current seminar.  Roles cannot be assigned.";
+                return this.RedirectToAction(a => a.Edit(person.User.Id));
+            }
+
+            var existingRoles = reg.SeminarRoles.Select(a => a.Id).ToList();
+
+            // add the roles
+            foreach (var a in roles)
+            {
+                var role = _seminarRoleRepository.GetNullableById(a);
+                if (role != null && !existingRoles.Contains(a))
+                {
+                    reg.SeminarRoles.Add(role);
+                }
+            }
+
+            // remove the ones they shouldn't have
+            var remove = reg.SeminarRoles.Where(a => !roles.ToList().Contains(a.Id)).ToList();
+            foreach (var a in remove)
+            {
+                reg.SeminarRoles.Remove(a);
+            }
+
+            Repository.OfType<SeminarPerson>().EnsurePersistent(reg);
+            Message = string.Format(Messages.Saved, "Seminar Roles");
+            return this.RedirectToAction(a => a.Edit(person.User.Id));
+
         }
 
         #endregion
