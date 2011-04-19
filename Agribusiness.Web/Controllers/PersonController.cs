@@ -116,39 +116,34 @@ namespace Agribusiness.Web.Controllers
         {
             return View();
         }
-
-        /// <summary>
-        /// Administrative editing of person
-        /// </summary>
-        /// <param name="id">Person Id</param>
-        /// <returns></returns>
-        [UserOnly]
-        public ActionResult AdminEdit(int id, int? seminarId)
-        {
-            var person = _personRepository.GetNullableById(id);
-
-            if (person == null)
-            {
-                Message = string.Format(Messages.NotFound, "Person", id);
-                if (seminarId != null) return this.RedirectToAction("Edit", "Seminar", new { id = seminarId });
-
-                return this.RedirectToAction("Index");
-            }
-
-            var viewModel = ProfileViewModel.Create(Repository, _firmService, person.User.LoweredUserName);
-            return View(viewModel);
-        }
         #endregion
 
-        #region Attendee Functions
+        #region Profile Editing Functions
         /// <summary>
         /// Attendee's page to update their own profile
         /// </summary>
+        /// <param name="id">Person Id for admin editing</param>
         /// <returns></returns>
         [Authorize]
-        public ActionResult Edit()
+        public ActionResult Edit(int? id)
         {
-            var user = Repository.OfType<User>().Queryable.Where(a => a.LoweredUserName == CurrentUser.Identity.Name.ToLower()).FirstOrDefault();
+            User user;
+
+            // admin is trying to edit, authorize them
+            if (id.HasValue)
+            {
+                user = Repository.OfType<User>().GetNullableById(id.Value);
+
+                // current user must be in User role
+                if (!Roles.IsUserInRole(RoleNames.User))
+                {
+                    return this.RedirectToAction<ErrorController>(a => a.NotAuthorized());
+                }
+            }
+            else
+            {
+                user = Repository.OfType<User>().Queryable.Where(a => a.LoweredUserName == CurrentUser.Identity.Name.ToLower()).FirstOrDefault();    
+            }
 
             if (user == null)
             {
@@ -164,9 +159,23 @@ namespace Agribusiness.Web.Controllers
 
         [HttpPost]
         [Authorize]
-        public ActionResult Edit(PersonEditModel personEditModel, HttpPostedFileBase profilepic)
+        public ActionResult Edit(int? id, PersonEditModel personEditModel, HttpPostedFileBase profilepic)
         {
-            var user = Repository.OfType<User>().Queryable.Where(a => a.LoweredUserName == CurrentUser.Identity.Name.ToLower()).FirstOrDefault();
+            User user = null;
+
+            // admin is trying to edit, authorize them
+            if (id.HasValue)
+            {
+                // current user must be in User role
+                if (Roles.IsUserInRole(RoleNames.User))
+                {
+                    user = Repository.OfType<User>().GetNullableById(id.Value);
+                }
+            }
+            else
+            {
+                user = Repository.OfType<User>().Queryable.Where(a => a.LoweredUserName == CurrentUser.Identity.Name.ToLower()).FirstOrDefault();
+            }
 
             if (user == null)
             {
@@ -298,6 +307,7 @@ namespace Agribusiness.Web.Controllers
         }
         #endregion
 
+        #region Private Helpers
         private Person SetPerson(PersonEditModel personEditModel, ModelStateDictionary modelState, Person person = null, HttpPostedFileBase profilePic = null)
         {
             person = person ?? personEditModel.Person;
@@ -367,5 +377,6 @@ namespace Agribusiness.Web.Controllers
                 }
             }
         }
+        #endregion
     }
 }
