@@ -40,8 +40,10 @@
     </div>
     <div id="roles">
     
-        @using(Html.BeginForm("UpdateRoles", "Person", FormMethod.Post))
+        @if (Model.IsCurrentSeminar)
         {
+            using (Html.BeginForm("UpdateRoles", "Person", FormMethod.Post))
+            {
             @Html.Hidden("personId", Model.Person.Id)
             @Html.AntiForgeryToken()
 
@@ -50,8 +52,8 @@
             {
                 <li>
                 @{
-                    var check = Model.Person.GetLatestRegistration().SeminarRoles.Contains(a);
-                    var checkedTxt = check ? "checked" : string.Empty;
+                var check = Model.Person.GetLatestRegistration().SeminarRoles.Contains(a);
+                var checkedTxt = check ? "checked" : string.Empty;
                     }
                 <input type="checkbox" name="roles" value='@a.Id' @checkedTxt />
                 @a.Name
@@ -59,8 +61,12 @@
             }
                 <li><input type="submit" value="Save" class="button" /></li>
             </ul>
+            }
         }
-
+        else
+        { 
+        <p>@Model.Person.FullName is not registered for the current seminar.</p>
+        }
     </div>
 
 </div>

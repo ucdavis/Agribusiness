@@ -156,6 +156,7 @@ namespace Agribusiness.Web.Controllers
             var viewModel = PersonViewModel.Create(Repository, person);
             viewModel.Email = CurrentUser.Identity.Name.ToLower();
             viewModel.AdminEdit = adminEdit;
+            viewModel.IsCurrentSeminar = viewModel.SeminarPerson.Seminar == _seminarService.GetCurrent();
             return View(viewModel);
         }
 
@@ -200,6 +201,7 @@ namespace Agribusiness.Web.Controllers
             var viewModel = PersonViewModel.Create(Repository, person);
             viewModel.Email = user.LoweredUserName;
             viewModel.AdminEdit = adminEdit;
+            viewModel.IsCurrentSeminar = viewModel.SeminarPerson.Seminar == _seminarService.GetCurrent();
             return View(viewModel);
         }
 
@@ -277,7 +279,6 @@ namespace Agribusiness.Web.Controllers
             Repository.OfType<SeminarPerson>().EnsurePersistent(reg);
             Message = string.Format(Messages.Saved, "Seminar Roles");
             return this.RedirectToAction(a => a.Edit(person.User.Id));
-
         }
 
         #endregion

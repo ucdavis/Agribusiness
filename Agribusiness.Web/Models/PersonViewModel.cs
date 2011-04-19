@@ -21,6 +21,7 @@ namespace Agribusiness.Web.Models
         // admin fields
         public bool AdminEdit { get; set; }
         public IQueryable<SeminarRole> SeminarRoles { get; set; }
+        public bool IsCurrentSeminar { get; set; }
 
         public static PersonViewModel Create(IRepository repository, Person person = null)
         {

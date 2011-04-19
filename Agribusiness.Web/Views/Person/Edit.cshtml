@@ -5,6 +5,20 @@
     ViewBag.SubPageTitle = "Edit Profile";
 }
 
+@section SubPageNavigation
+{
+    <ul class="navigation">
+        @if (Model.AdminEdit)
+        {
+            <li>@Html.ActionLink("Back to Attendees", "Index", "Attendee", new { id = Model.SeminarPerson.Seminar.Id }, new { })</li>
+        }
+        else
+        { 
+            <li>@Html.ActionLink("Back to Details", "Details", new { id = Model.Person.Id })</li>
+        }
+    </ul>
+}
+
 <div class="profile_pic_container">
     <img src='@Url.Action("GetProfilePicture", new { id = Model.Person.Id })' />
 </div>
