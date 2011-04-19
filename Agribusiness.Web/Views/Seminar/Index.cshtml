@@ -22,7 +22,7 @@
 }
 else
 { 
-    <table>
+    <table class="nolasticon">
         <thead>
             <tr>
                 <th></th>
@@ -30,7 +30,6 @@ else
                 <th>Location</th>
                 <th>Registration Deadline</th>
                 <th>Registration Id</th>
-                <th></th>
             </tr>    
         </thead>
         <tfoot></tfoot>
@@ -38,8 +37,7 @@ else
             @foreach (var a in Model)
             { 
                 <tr>
-                    <td>
-                        <a href='@Url.Action("Details", new { id = a.Id })'>
+                    <td><a href='@Url.Action("Details", new { id = a.Id })'>
                             <img src='@Url.Content("~/Images/details.png")' alt="View the details of this seminar" />
                         </a>
                         <a href='@Url.Action("Edit", new {id = a.Id})'>
@@ -50,7 +48,6 @@ else
                     <td>@a.Location</td>
                     <td>@a.RegistrationDeadlineString </td>
                     <td>@a.RegistrationId</td>
-                    <td></td>
                 </tr>
             }
         </tbody>
