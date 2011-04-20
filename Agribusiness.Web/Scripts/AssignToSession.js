@@ -191,5 +191,7 @@ function UnAssign(session, person) {
     Sets the beauty tips on all the objects refering to people
 */
 function setBT(obj) {
-    $(obj).bt({ ajaxPath: ["detailsUrl + '/' + $(this).data('id')"] });
+    $(obj).bt({
+        ajaxPath: ["detailsUrl + '/' + $(this).data('id')"]
+    });
 }
