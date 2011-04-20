@@ -1,0 +1,72 @@
+﻿@model FirmListViewModel
+
+@{
+    ViewBag.Title = "Firms";
+    ViewBag.SubPageTitle = "Firms";
+}
+
+@if (Model.PendingFirms.Count() > 0)
+{ 
+    <h3>Pending Firms</h3>
+    <table class="default_table nolasticon">
+	    <thead>
+		    <tr>
+			    <th></th>
+			    <th>
+				    Name
+			    </th>
+			    <th>
+				    Description
+			    </th>
+		    </tr>
+	    </thead>
+	    <tbody>
+    @{ var podd = false; }
+    @foreach (var item in Model.PendingFirms)
+    {
+		    <tr class="@(podd ? "odd" : "even")">
+			    <td></td>
+			    <td>
+				    @item.Name
+			    </td>
+			    <td>
+				    @item.Description
+			    </td>
+		    </tr>
+        podd = !podd;
+    }
+	    </tbody>
+    </table>
+}
+
+<h3>Firms</h3>
+<table class="default_table nolasticon">
+	<thead>
+		<tr>
+			<th></th>
+			<th>
+				Name
+			</th>
+			<th>
+				Description
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+@{ var odd = false; }
+@foreach (var item in Model.Firms)
+{
+		<tr class="@(odd ? "odd" : "even")">
+			<td></td>
+			<td>
+				@item.Name
+			</td>
+			<td>
+				@item.Description
+			</td>
+		</tr>
+    odd = !odd;
+}
+	</tbody>
+</table>
+

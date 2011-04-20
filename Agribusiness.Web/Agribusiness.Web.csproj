@@ -121,6 +121,7 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\Filters\CatbertMessagesAttribute.cs" />
     <Compile Include="Controllers\Filters\RoleFilter.cs" />
+    <Compile Include="Controllers\FirmController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PersonController.cs" />
     <Compile Include="Controllers\PictureTestController.cs" />
@@ -141,6 +142,8 @@
     <Compile Include="Models\AuthorizedViewModel.cs" />
     <Compile Include="Models\CaseStudyPersonViewModel.cs" />
     <Compile Include="Models\CaseStudyViewModel.cs" />
+    <Compile Include="Models\FirmListViewModel.cs" />
+    <Compile Include="Models\FirmViewModel.cs" />
     <Compile Include="Models\MySeminarViewModel.cs" />
     <Compile Include="Models\PersonEditModel.cs" />
     <Compile Include="Models\PersonListViewModel.cs" />
@@ -347,6 +350,8 @@
     <Content Include="Views\Person\AdminEdit.cshtml" />
     <Content Include="Views\Person\_AdminPersonForm.cshtml" />
     <Content Include="Views\Seminar\GetDetails.cshtml" />
+    <Content Include="Views\Firm\Index.cshtml" />
+    <Content Include="Views\Firm\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">

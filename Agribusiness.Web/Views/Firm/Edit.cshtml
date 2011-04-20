@@ -1,0 +1,52 @@
+﻿@model FirmViewModel
+
+@{
+    ViewBag.Title = "Edit Firm";
+    ViewBag.SubPageTitle = "Edit Firm";
+}
+
+<fieldset>
+    <legend>Original Firm Information</legend>
+
+    @if(Model.OrigFirm != null)
+    {
+    <div class="display-form">
+    <ul>
+        <li><div class="display-label">Name:</div>
+            <div class="display-details">@Model.OrigFirm.Name</div>
+        </li>
+        <li><div class="display-label">Description:</div>
+            <div class="display-details">@Model.OrigFirm.Description</div>
+        </li>
+    </ul>
+    </div>
+    }
+    else
+    {
+        <p>There is no old firm information.</p>
+    }
+        
+</fieldset>
+
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <legend>Modified/New Firm Information</legend>
+
+        <ul>
+            <li><div class="editor-label required">Name: <span>*</span></div>
+                <div class="editor-field">@Html.TextBox("Name", Model.PendingFirm.Name)</div>
+            </li>
+            <li><div class="editor-label required">Description:<span>*</span></div>
+                <div class="editor-field">@Html.TextArea("Description", Model.PendingFirm.Description, new { @style="height: 100px; width: 630px;" })</div>
+            </li>
+            <li><div class="editor-label"></div>
+                <div class="editor-field">
+                    <input type="submit" value="Save" class="button" /> |
+                    Cancel
+                </div>
+            </li>
+        </ul>
+    
+    </fieldset>
+}
