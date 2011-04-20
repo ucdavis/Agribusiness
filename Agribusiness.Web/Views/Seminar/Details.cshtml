@@ -27,7 +27,6 @@
 {
     <script type="text/javascript">
         $(function () {
-            $("#casestudies").dataTable({ "bJQueryUI": true, "bPaginate": false });
             $("#sessions").dataTable({ "bJQueryUI": true, "bPaginate": false, "aaSorting": [[2, "asc"]] });
         });    
     </script>
@@ -109,7 +108,7 @@ else
 }
 else
 { 
-    <table class="nolasticon" id="casestudies">
+    <table class="nolasticon default_table" id="casestudies">
         <thead>
             <tr>
                 <th></th>

@@ -25,13 +25,6 @@
 }
 
 @section ScriptContent{
-
-    <script type="text/javascript">
-        $(function () {
-            $("#sessions").dataTable({ "bJQueryUI": true });
-            $("#casestudies").dataTable({ "bJQueryUI": true });
-        });    
-    </script>
 }
 
 @Html.Partial("_SeminarForm")
@@ -40,7 +33,7 @@
 
     @if (Model.Seminar.Sessions.Any())
     { 
-    <table id="sessions">
+    <table id="sessions" class="default_table">
         <thead> 
             <tr>
                 <th></th>
@@ -85,7 +78,7 @@
 
     @if (Model.Seminar.CaseStudies.Any())
     {
-        <table id="casestudies" class="nolasticon">
+        <table id="casestudies" class="nolasticon default_table">
             <thead>
                 <tr>
                     <th></th>

@@ -28,7 +28,10 @@
     <script type="text/javascript" src='@Url.Content("~/Scripts/jquery.dataTables.min.js")'></script>
 
     <script type="text/javascript">
-        $(function () { $(".datepicker").datepicker(); }); 
+        $(function () {
+            $(".datepicker").datepicker();
+            $(".default_table").dataTable({ "bJQueryUI": true, "bPaginate": false });
+        }); 
     </script>
 
     @RenderSection("ScriptContent", false)
