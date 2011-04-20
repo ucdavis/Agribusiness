@@ -17,6 +17,14 @@
     <style type="text/css">
         form {display:inline-block;}
     </style>
+
+    <script type="text/javascript">
+        $(function () {
+            $("textarea#Reason").change(function () {
+                $(".decision_reason").val($(this).val());
+            });
+        });
+    </script>
 }
 
 <div class="display-form">
@@ -139,15 +147,20 @@
     <fieldset>
         <legend>Make Decision</legend>
 
+        Decision Reason:<br />
+        @Html.TextArea("Reason", new { @style="height: 100px; width: 990px;" })
+        <br /><br />
         @using (Html.BeginForm()) { 
             @Html.AntiForgeryToken()
             @Html.Hidden("isApproved", true)
+            @Html.Hidden("reason", string.Empty, new { @class="decision_reason" })
             <input type="submit" value="Approve" class="button" />
         }
         |
         @using (Html.BeginForm()) { 
             @Html.AntiForgeryToken()
             @Html.Hidden("isApproved", false)
+            @Html.Hidden("reason", string.Empty, new { @class = "decision_reason" })
             <input type="submit" value="Deny" class="button" />
         }
         |

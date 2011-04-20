@@ -53,7 +53,7 @@ namespace Agribusiness.Web.Controllers
 
         [HttpPost]
         [UserOnly]
-        public ActionResult Decide(int id, bool isApproved)
+        public ActionResult Decide(int id, bool isApproved, string reason)
         {
             var application = _applicationRepository.GetNullableById(id);
             if (application == null)
@@ -66,6 +66,7 @@ namespace Agribusiness.Web.Controllers
             application.IsPending = false;
             application.IsApproved = isApproved;
             application.DateDecision = DateTime.Now;
+            application.DecisionReason = reason;
 
             application.TransferValidationMessagesTo(ModelState);
 

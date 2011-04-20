@@ -78,6 +78,7 @@ namespace Agribusiness.Core.Domain
         public virtual bool IsApproved { get; set; }
         public virtual DateTime DateSubmitted { get; set; }
         public virtual DateTime? DateDecision { get; set; }
+        public virtual string DecisionReason { get; set; }
 
         [Required]
         public virtual User User { get; set; }
@@ -138,6 +139,7 @@ namespace Agribusiness.Core.Domain
             Map(x => x.IsApproved);
             Map(x => x.DateSubmitted);
             Map(x => x.DateDecision);
+            Map(x => x.DecisionReason);
 
             References(x => x.User);
             References(x => x.Seminar);
