@@ -8,14 +8,7 @@
 @section SubPageNavigation
 {
     <ul class="navigation">
-        @if (Model.AdminEdit)
-        {
-            <li>@Html.ActionLink("Back to Attendees", "Index", "Attendee", new { id = Model.SeminarPerson.Seminar.Id }, new { })</li>
-        }
-        else
-        { 
             <li>@Html.ActionLink("Back to Details", "Details", new { id = Model.Person.Id })</li>
-        }
     </ul>
 }
 
@@ -25,20 +18,12 @@
 
 <div class="information_container">
 
-    @if (Model.AdminEdit)
-    {
-        @Html.Partial("_AdminPersonForm")
-    }
-    else
-    {
-        using (Html.BeginForm("Edit", "Person", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        @using (Html.BeginForm("Edit", "Person", FormMethod.Post, new { enctype = "multipart/form-data" }))
         { 
             @Html.ValidationSummary(true)
 
-
             @Html.Partial("_PersonForm")        
         }
-    }
 
 </div>
 

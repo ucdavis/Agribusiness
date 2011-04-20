@@ -110,23 +110,63 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction(a => a.UpdateProfilePicture(person.Id));
             }
 
-            var viewModel = PersonViewModel.Create(Repository, person);
+            var viewModel = PersonViewModel.Create(Repository, person, personEditModel.Email);
             viewModel.Addresses = personEditModel.Addresses;
-            viewModel.Email = personEditModel.Email;
+            return View(viewModel);
+        }
+
+        [UserOnly]
+        public ActionResult AdminEdit(Guid id, int seminarId)
+        {
+            var user = _userRepository.GetNullableById(id);
+
+            if (user == null)
+            {
+                Message = string.Format(Messages.NotFound, "user", id);
+                return this.RedirectToAction<AttendeeController>(a => a.Index(seminarId));
+            }
+
+            var viewModel = AdminPersonViewModel.Create(Repository, _seminarService, seminarId, user.Person, user.LoweredUserName);
+            return View(viewModel);
+        }
+
+        [UserOnly]
+        [HttpPost]
+        public ActionResult AdminEdit(Guid id, int seminarId, PersonEditModel personEditModel, HttpPostedFileBase profilepic)
+        {
+            var user = _userRepository.GetNullableById(id);
+            
+            if (user == null)
+            {
+                Message = string.Format(Messages.NotFound, "user", id);
+                return this.RedirectToAction<AttendeeController>(a => a.Index(seminarId));
+            }
+
+            var person = SetPerson(personEditModel, ModelState, user.Person, profilepic);
+
+            if (ModelState.IsValid)
+            {
+                _personRepository.EnsurePersistent(person);
+                Message = string.Format(Messages.Saved, "Person");
+
+                // send to crop photo if one was uploaded
+                if (profilepic != null) return this.RedirectToAction(a => a.UpdateProfilePicture(person.Id));
+            }
+
+            var viewModel = AdminPersonViewModel.Create(Repository, _seminarService, seminarId, user.Person, user.LoweredUserName);
             return View(viewModel);
         }
         #endregion
 
         #region Profile Editing Functions
         /// <summary>
-        /// Attendee's page to update their own profile
+        /// Attendee's page to update their own profile, Limited editing page
         /// </summary>
         /// <param name="id">Person Id for admin editing</param>
         /// <returns></returns>
         public ActionResult Edit(Guid? id)
         {
             User user;
-            var adminEdit = false;
 
             // admin is trying to edit, authorize them
             if (id.HasValue)
@@ -138,8 +178,6 @@ namespace Agribusiness.Web.Controllers
                 {
                     return this.RedirectToAction<ErrorController>(a => a.NotAuthorized());
                 }
-
-                adminEdit = true;
             }
             else
             {
@@ -153,10 +191,7 @@ namespace Agribusiness.Web.Controllers
 
             var person = user.Person;
 
-            var viewModel = PersonViewModel.Create(Repository, person);
-            viewModel.Email = CurrentUser.Identity.Name.ToLower();
-            viewModel.AdminEdit = adminEdit;
-            viewModel.IsCurrentSeminar = viewModel.SeminarPerson.Seminar == _seminarService.GetCurrent();
+            var viewModel = PersonViewModel.Create(Repository, person, user.LoweredUserName);
             return View(viewModel);
         }
 
@@ -164,7 +199,6 @@ namespace Agribusiness.Web.Controllers
         public ActionResult Edit(Guid? id, PersonEditModel personEditModel, HttpPostedFileBase profilepic)
         {
             User user = null;
-            var adminEdit = false;
 
             // admin is trying to edit, authorize them
             if (id.HasValue)
@@ -173,8 +207,6 @@ namespace Agribusiness.Web.Controllers
                 if (Roles.IsUserInRole(RoleNames.User))
                 {
                     user = _userRepository.GetNullableById(id.Value);
-
-                    adminEdit = true;
                 }
             }
             else
@@ -198,10 +230,7 @@ namespace Agribusiness.Web.Controllers
                 if (profilepic != null) return this.RedirectToAction(a => a.UpdateProfilePicture(person.Id));
             }
 
-            var viewModel = PersonViewModel.Create(Repository, person);
-            viewModel.Email = user.LoweredUserName;
-            viewModel.AdminEdit = adminEdit;
-            viewModel.IsCurrentSeminar = viewModel.SeminarPerson.Seminar == _seminarService.GetCurrent();
+            var viewModel = PersonViewModel.Create(Repository, person, user.LoweredUserName);
             return View(viewModel);
         }
 

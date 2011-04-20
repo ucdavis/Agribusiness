@@ -29,7 +29,8 @@
 
     <script type="text/javascript">
         $(function () {
-            $("table").dataTable({ "bJQueryUI": true, "bPaginate": false });
+            $("#casestudies").dataTable({ "bJQueryUI": true, "bPaginate": false });
+            $("#sessions").dataTable({ "bJQueryUI": true, "bPaginate": false, "aaSorting": [[2, "asc"]] });
         });    
     </script>
 }
@@ -70,7 +71,7 @@
 
 @if (Model.Seminar.Sessions.Any())
 { 
-    <table class="noicon">
+    <table class="noicon" id="sessions">
         <thead> 
             <tr>
                 <th>Name</th>
@@ -78,7 +79,7 @@
                 <th>Begin</th>
                 <th>End</th>
                 <th>Type</th>
-                <th></th>
+                <th>Count</th>
             </tr>
         </thead>
         <tbody>
@@ -91,7 +92,7 @@
                     <td>@a.BeginString</td>
                     <td>@a.EndString</td>
                     <td>@a.SessionType.Name</td>
-                    <td></td>
+                    <td>@a.AttendeeCount</td>
                 </tr>
             }
 
@@ -110,14 +111,13 @@ else
 }
 else
 { 
-    <table>
+    <table class="nolasticon" id="casestudies">
         <thead>
             <tr>
                 <th></th>
                 <th>Name</th>
                 <th>Author(s)</th>
                 <th>Case Executive(s)</th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -131,7 +131,6 @@ else
                     <td>@a.Name</td>
                     <td>@a.Authors</td>
                     <td>@a.Executives</td>
-                    <td></td>
                 </tr>
             }
         </tbody>

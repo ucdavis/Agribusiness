@@ -42,7 +42,7 @@
         { 
             <tr>
                 <td>
-                    <a href='@Url.Action("Edit", "Person", new { id=a.Person.User.Id })'>
+                    <a href='@Url.Action("AdminEdit", "Person", new { id=a.Person.User.Id, seminarId=Model.Seminar.Id })'>
                         <img src='@Url.Image("edit.png")' alt='@string.Format("Edit attendee for {0}", a.Person.FullName)' />
                     </a>
                 </td>
