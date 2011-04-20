@@ -5,6 +5,13 @@
     ViewBag.SubPageTitle = "Seminar Applications";
 }
 
+@section ScriptContent{
+    <script type="text/javascript">
+        $(function () {
+            $("table").dataTable({ "bJQueryUI": true, "bPaginate": false, "aaSorting": [[3, "asc"]] });
+        });
+    </script>
+}
 
 <table>
 	<thead>
@@ -35,10 +42,6 @@
                 <a href='@Url.Action("Decide", new { id=item.Id })'>
                 <img src='@Url.Content("~/Images/Edit.png")' alt="Decide on this application." />
                 </a>
-
-				@*@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-				@Html.ActionLink("Details", "Details", new { id=item.Id }) |
-				@Html.ActionLink("Delete", "Delete", new { id=item.Id })*@
 			</td>
 			<td>
 				@item.FirstName
@@ -55,8 +58,8 @@
             <td>
                 @item.DateSubmitted.ToString("g")
             </td>
-            <td>@item.IsPending</td>
-            <td>@item.IsApproved</td>
+            <td>@if (item.IsPending) { <img src='@Url.Image("check.png")' alt='@string.Format("{0}'s application is pending.", item.FullName)' /> }</td>
+            <td>@if (item.IsApproved) { <img src='@Url.Image("check.png")' alt='@string.Format("{0}'s application is approved.", item.FullName)' /> }</td>
 		</tr>
 		odd = !odd;
 }
