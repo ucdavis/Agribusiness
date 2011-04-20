@@ -23,6 +23,7 @@
 
 <div class="profile_pic_container">
     <img src='@Url.Action("GetProfilePicture", new { id = Model.PersonViewModel.Person.Id })' />
+    @Html.ActionLink("Update Crop", "UpdateProfilePicture", new {id=Model.PersonViewModel.Person.Id, seminarId=Model.SeminarId})
 </div>
 
 <div class="information_container">

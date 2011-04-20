@@ -44,6 +44,21 @@
 
 }
 
+@section SubPageNavigation
+{
+    <ul class="navigation">
+        @if (ViewBag.SeminarId == null)
+        { 
+            <li>@Html.ActionLink("Back to Edit", "Edit", new { id = Model.User.Id })</li>
+        }
+        else
+        { 
+            <li>@Html.ActionLink("Back to Edit", "AdminEdit", new { id = Model.User.Id, seminarId=ViewBag.SeminarId })</li>
+        }
+        
+    </ul>
+}
+
 <div class="col1">
     <img id="profile_image" src='@Url.Action("GetOriginalPicture", "Person", new { id = Model.Id })' alt="Profile Image" />
 </div>
@@ -55,7 +70,7 @@
 
     <div>
     
-        @using (Html.BeginForm()) 
+        @using (Html.BeginForm())
         { 
             @Html.AntiForgeryToken()
             
@@ -65,7 +80,16 @@
             @Html.Hidden("width")
             @Html.Hidden("height")
 
-            <input type="submit" value="save" />
+            <input type="submit" value="Save" class="button" /> 
+            <text>|</text>
+            if (ViewBag.SeminarId == null)
+            { 
+                @Html.ActionLink("Cancel", "Edit", new { id = Model.User.Id })
+            }
+            else
+            { 
+                @Html.ActionLink("Cancel", "AdminEdit", new { id = Model.User.Id, seminarId=ViewBag.SeminarId })
+            }        
         }
         
     </div>

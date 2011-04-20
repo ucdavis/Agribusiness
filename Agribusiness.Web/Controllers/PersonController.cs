@@ -107,7 +107,7 @@ namespace Agribusiness.Web.Controllers
             {
                 _personRepository.EnsurePersistent(person);
                 Message = string.Format(Messages.Saved, "Person");
-                return this.RedirectToAction(a => a.UpdateProfilePicture(person.Id));
+                return this.RedirectToAction(a => a.UpdateProfilePicture(person.Id, null));
             }
 
             var viewModel = PersonViewModel.Create(Repository, person, personEditModel.Email);
@@ -150,7 +150,7 @@ namespace Agribusiness.Web.Controllers
                 Message = string.Format(Messages.Saved, "Person");
 
                 // send to crop photo if one was uploaded
-                if (profilepic != null) return this.RedirectToAction(a => a.UpdateProfilePicture(person.Id));
+                if (profilepic != null) return this.RedirectToAction(a => a.UpdateProfilePicture(person.Id, seminarId));
             }
 
             var viewModel = AdminPersonViewModel.Create(Repository, _seminarService, seminarId, user.Person, user.LoweredUserName);
@@ -227,7 +227,7 @@ namespace Agribusiness.Web.Controllers
                 Message = string.Format(Messages.Saved, "Person");
 
                 // send to crop photo if one was uploaded
-                if (profilepic != null) return this.RedirectToAction(a => a.UpdateProfilePicture(person.Id));
+                if (profilepic != null) return this.RedirectToAction(a => a.UpdateProfilePicture(person.Id, null));
             }
 
             var viewModel = PersonViewModel.Create(Repository, person, user.LoweredUserName);
@@ -313,7 +313,7 @@ namespace Agribusiness.Web.Controllers
         #endregion
 
         #region Profile Picture Actions
-        public ActionResult UpdateProfilePicture(int id)
+        public ActionResult UpdateProfilePicture(int id, int? seminarId)
         {
             var person = _personRepository.GetNullableById(id);
 
@@ -328,6 +328,9 @@ namespace Agribusiness.Web.Controllers
             {
                 return this.RedirectToAction<ErrorController>(a => a.NotAuthorized());
             }
+
+            // set this to check for admin routing back to attendee edit page
+            ViewBag.SeminarId = seminarId;
 
             return View(person);
         }
