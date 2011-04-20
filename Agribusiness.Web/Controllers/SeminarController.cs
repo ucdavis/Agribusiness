@@ -22,14 +22,16 @@ namespace Agribusiness.Web.Controllers
     {
 	    private readonly IRepository<Seminar> _seminarRepository;
         private readonly IRepository<Session> _sessionRepository;
+        private readonly IRepository<Person> _personRepository;
         private readonly IRepository<SeminarPerson> _seminarPersonRepository;
         private readonly IFirmService _firmService;
         private readonly IPersonService _personService;
 
-        public SeminarController(IRepository<Seminar> seminarRepository, IRepository<Session> sessionRepository, IRepository<SeminarPerson> seminarPersonRepository, IFirmService firmService, IPersonService personService)
+        public SeminarController(IRepository<Seminar> seminarRepository, IRepository<Session> sessionRepository, IRepository<Person> personRepository, IRepository<SeminarPerson> seminarPersonRepository, IFirmService firmService, IPersonService personService)
         {
             _seminarRepository = seminarRepository;
             _sessionRepository = sessionRepository;
+            _personRepository = personRepository;
             _seminarPersonRepository = seminarPersonRepository;
             _firmService = firmService;
             _personService = personService;
@@ -211,6 +213,22 @@ namespace Agribusiness.Web.Controllers
 
             _seminarPersonRepository.EnsurePersistent(seminarPerson);
             return Json(true);
+        }
+
+        /// <summary>
+        /// Gets the details for the popup balloons on assign to sessions
+        /// </summary>
+        /// <param name="id">Seminar Person</param>
+        /// <returns></returns>
+        public ActionResult GetDetails(int id)
+        {
+            var person = _seminarPersonRepository.GetNullableById(id);
+            var firm = _firmService.GetFirm(person.FirmCode);
+
+            ViewBag.Person = person;
+            ViewBag.Firm = firm;
+
+            return View();
         }
 
         #endregion

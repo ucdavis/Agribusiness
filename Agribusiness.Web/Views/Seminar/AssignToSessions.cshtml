@@ -22,7 +22,7 @@
             background: lightgray;
             cursor: pointer;
         }
-
+        .person {cursor: pointer;}
         ul.session { list-style-type: none; margin: 0; padding: 0; float:left; margin-right: 10px; background: #333; padding: 5px; width: 100%;}
         ul.session li { margin: 5px; padding: 5px; background: lightgray;}
 
@@ -43,7 +43,12 @@
         .add-all { cursor: pointer; }
         
         .scrollable { overflow: auto; height: 500px; }
+        
+        .details {float:right;}
     </style>
+
+    <script type="text/javascript" src='@Url.Script("jquery.bt.min.js")'></script>
+    <link href="@Url.Css("jquery.bt.css")" rel="stylesheet" type="text/css" />   
 
     <script type="text/javascript">
 
@@ -53,11 +58,12 @@
         var assignUrl = '@Url.Action("Assign")';
         var unassignUrl = '@Url.Action("UnAssign")';
 
+        var detailsUrl = '@Url.Action("GetDetails")';
+
         /* Set the antiforgery token from the dom object */
-        $(function () { antiforgeryToken = $('input[name="__RequestVerificationToken"]').val(); });
-
-
-
+        $(function () {
+            antiforgeryToken = $('input[name="__RequestVerificationToken"]').val();
+        });
     </script>
 
     <script type="text/javascript" src='@Url.Content("~/Scripts/AssignToSession.js")'></script>
@@ -67,7 +73,7 @@
 @section SubPageNavigation
 {
     <ul class="navigation">
-        <li>@Html.ActionLink("Back to Seminar", "Details", new {id=@Model.Seminar.Id}) </li>
+        <li>@Html.ActionLink("Back to Seminar", "Details", new {id=@Model.Seminar.Id})</li>
     </ul>
 }
 
@@ -79,7 +85,10 @@
     <ul class="people">
     @foreach (var person in Model.Seminar.SeminarPeople.OrderBy(a=>a.Person.LastName))
     { 
-        <li class="person" data-id='@person.Id'>@person.Person.FullName</li>
+        <li class="person" data-id='@person.Id'>
+            @person.Person.FullName
+            <span class="details" data-id='@person.Id'><img src='@Url.Image("Search.png")'  /></span>
+        </li>
     }
     </ul>
     </div>
@@ -116,7 +125,8 @@
                                 
                                 <li class="person @notFirst" data-id='@person.Id'>
                                     @person.Person.FullName
-                                    <img src='@Url.Content("~/Images/button_delete_red.png")' class="remove" />
+                                    <img src='@Url.Image("button_delete_red.png")' class="remove" />
+                                    <span class="details" data-id='@person.Id'><img src='@Url.Image("search.png")' /></span>
                                 </li>
                             }
                         </ul>
@@ -135,3 +145,12 @@
 </fieldset>
 
 <div style="clear:both;"></div>
+
+@*<div id="details" style="display:none;">
+    @foreach (var person in Model.Seminar.SeminarPeople.OrderBy(a=>a.Person.LastName))
+    { 
+        <div class="details" data-id='@person.Id'>
+            Specific details about @person.Person.FullName who is @person.Title at @person.FirmCode            
+        </div>
+    }
+</div>*@

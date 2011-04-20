@@ -183,10 +183,13 @@
     <Content Include="Css\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Css\images\ui-icons_fffff_256x240.png" />
     <Content Include="Css\jquery-ui-1.8.11.caes.css" />
+    <Content Include="Css\jquery.bt.css" />
     <Content Include="Css\jquery.Jcrop.css" />
     <Content Include="Css\main.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Images\search.png" />
+    <Content Include="Scripts\jquery.bt.min.js" />
     <Content Include="Images\button_delete_red.png" />
     <Content Include="Images\caes_wf_blue.jpg" />
     <Content Include="Images\check.png" />
@@ -343,6 +346,7 @@
     <Content Include="Views\Person\_PersonForm.cshtml" />
     <Content Include="Views\Person\AdminEdit.cshtml" />
     <Content Include="Views\Person\_AdminPersonForm.cshtml" />
+    <Content Include="Views\Seminar\GetDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">

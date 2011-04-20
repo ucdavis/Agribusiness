@@ -38,7 +38,7 @@ $(function () {
 
     });
 
-
+    $.each($("span.details"), function (index, item) { setBT(item); });
 });
 
 /*
@@ -51,8 +51,14 @@ personLi - the li object for a person
 function AddPersonToSession(that, personLi) {
     //that --> the session
     var person = $(personLi).clone().removeClass("ui-draggable");
+
+    // fix the tool tip
+    var details = $(person).find("span.details");
+    setBT(details[0]);
+
+    // insert the delete image
     var deleteImg = $("<img>").attr("src", deleteImageUrl).addClass("remove");
-    person.append(deleteImg);
+    deleteImg.insertBefore(details);
 
     // prevent adding a duplicate
     if ($(that).find('li[data-id="' + person.data("id") + '"]').length <= 0) {
@@ -179,4 +185,11 @@ function UnAssign(session, person) {
             alert("failed to save");
         }
     });
+}
+
+/*
+    Sets the beauty tips on all the objects refering to people
+*/
+function setBT(obj) {
+    $(obj).bt({ ajaxPath: ["detailsUrl + '/' + $(this).data('id')"] });
 }
