@@ -122,5 +122,28 @@ namespace Agribusiness.Web.Controllers
             var viewModel = ApplicationViewModel.Create(Repository, _firmService, CurrentUser.Identity.Name, application);
             return View(viewModel);
         }
+
+        /// <summary>
+        /// Gets photo from an application
+        /// </summary>
+        /// <param name="id">Application Id</param>
+        /// <returns></returns>
+        public FileResult GetApplicationPhoto(int id)
+        {
+            var application = _applicationRepository.GetNullableById(id);
+
+            if (application == null || application.Photo == null)
+            {
+                // load the default image
+                var fs = new FileStream(Server.MapPath("~/Images/profilepicplaceholder.jpg"), FileMode.Open, FileAccess.Read);
+                var img = new byte[fs.Length];
+                fs.Read(img, 0, img.Length);
+                fs.Close();
+
+                return File(img, "image/jpeg");    
+            }
+
+            return File(application.Photo, application.ContentType);
+        }
     }
 }

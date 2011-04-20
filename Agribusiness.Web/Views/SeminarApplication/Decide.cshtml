@@ -27,6 +27,11 @@
     </script>
 }
 
+<div class="profile_pic_container">
+    <img src='@Url.Action("GetApplicationPhoto", new { id = Model.Id })' />
+</div>
+
+<div class="information_container">
 <div class="display-form">
 
     <fieldset>
@@ -148,7 +153,7 @@
         <legend>Make Decision</legend>
 
         Decision Reason:<br />
-        @Html.TextArea("Reason", new { @style="height: 100px; width: 990px;" })
+        @Html.TextArea("Reason", new { @style="height: 100px; width: 790px;" })
         <br /><br />
         @using (Html.BeginForm()) { 
             @Html.AntiForgeryToken()
@@ -167,3 +172,6 @@
         @Html.ActionLink("Cancel", "Index")
     </fieldset>
 </div>
+</div>
+
+<div style="clear:both;" />
