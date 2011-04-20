@@ -7,6 +7,9 @@
     [RegistrationPassword] VARCHAR (20)  NULL,
     [RegistrationId]       INT           NULL,
     [RegistrationBegin]    DATE          NULL,
-    [RegistrationDeadline] DATE          NULL
+    [RegistrationDeadline] DATE          NULL,
+    [ReleaseToAttendees]   BIT           NOT NULL
 );
+
+
 

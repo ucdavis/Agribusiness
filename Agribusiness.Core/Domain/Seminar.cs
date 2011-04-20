@@ -29,6 +29,8 @@ namespace Agribusiness.Core.Domain
             Begin = DateTime.Now;
             End = DateTime.Now;
 
+            ReleaseToAttendees = false;
+
             Sessions = new List<Session>();
             SeminarPeople = new List<SeminarPerson>();
             CaseStudies = new List<CaseStudy>();
@@ -46,6 +48,8 @@ namespace Agribusiness.Core.Domain
         public virtual DateTime? RegistrationBegin { get; set; }
         [Before("Begin")]
         public virtual DateTime? RegistrationDeadline { get; set; }
+
+        public virtual bool ReleaseToAttendees { get; set; }
 
         // optional fields
         [StringLength(20)]
@@ -77,6 +81,7 @@ namespace Agribusiness.Core.Domain
             Map(x => x.RegistrationDeadline);
             Map(x => x.RegistrationPassword);
             Map(x => x.RegistrationId);
+            Map(x => x.ReleaseToAttendees);
 
             HasMany(x => x.Sessions).Inverse().Cascade.AllDeleteOrphan();
             HasMany(x => x.SeminarPeople).Inverse().Cascade.AllDeleteOrphan();

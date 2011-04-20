@@ -6,6 +6,9 @@
     [FirmCode]         UNIQUEIDENTIFIER NULL,
     [CouponCode]       VARCHAR (15)     NULL,
     [Registered]       BIT              NOT NULL,
-    [RegistrationCode] AS               (right('0000'+CONVERT([varchar],[id],(0)),(6)))
+    [RegistrationCode] AS               (right('0000'+CONVERT([varchar],[id],(0)),(6))),
+    [Invite]           BIT              NOT NULL
 );
+
+
 

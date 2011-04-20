@@ -67,6 +67,12 @@
                 @Html.ValidationMessageFor(a => a.Seminar.RegistrationId)
             </div>
         </li>
+        <li><div class="editor-label">Release To Attendees:</div>
+            <div class="editor-field">
+                @Html.EditorFor(a=>a.Seminar.ReleaseToAttendees)
+                @Html.ValidationMessageFor(a=>a.Seminar.ReleaseToAttendees)
+            </div>
+        </li>
         <li>
             <div class="editor-label"><label>&nbsp;</label></div>
             <div class="editor-field">
