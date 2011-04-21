@@ -41,6 +41,10 @@ namespace Agribusiness.Web.Helpers
                 .ForMember(x => x.Id, x => x.Ignore())
                 .ForMember(x => x.AddressType, x => x.Ignore())
                 .ForMember(x => x.Person, x => x.Ignore());
+
+            CreateMap<Firm, Firm>()
+                .ForMember(x => x.Id, x => x.Ignore())
+                .ForMember(x => x.Review, x => x.Ignore());
         }
         
     }

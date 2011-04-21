@@ -10,7 +10,7 @@
 
     @if(Model.OrigFirm != null)
     {
-    <div class="display-form">
+    <div class="display-form" style="padding: 10px 50px 10px 100px;">
     <ul>
         <li><div class="display-label">Name:</div>
             <div class="display-details">@Model.OrigFirm.Name</div>
@@ -30,8 +30,15 @@
 
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
+    @Html.Hidden("FirmCode", Model.PendingFirm.FirmCode)
     <fieldset>
-        <legend>Modified/New Firm Information</legend>
+        <legend>Modified/New Firm Information</legend>      
+
+        @if (Model.OrigFirm != null && Model.PendingFirm.Review)
+        { 
+        @Html.ActionLink("Reject Changes", "Reject", new { id = Model.PendingFirm.Id }, new { style = "float:right; margin-right: 20px;" })
+        }
 
         <ul>
             <li><div class="editor-label required">Name: <span>*</span></div>
@@ -43,7 +50,7 @@
             <li><div class="editor-label"></div>
                 <div class="editor-field">
                     <input type="submit" value="Save" class="button" /> |
-                    Cancel
+                    @Html.ActionLink("Cancel", "Index")
                 </div>
             </li>
         </ul>

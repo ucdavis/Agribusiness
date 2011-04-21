@@ -4,6 +4,7 @@ using Agribusiness.Core.Domain;
 using Agribusiness.Web.Controllers.Filters;
 using Agribusiness.Web.Models;
 using Agribusiness.Web.Services;
+using AutoMapper;
 using Resources;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Web.Controller;
@@ -49,6 +50,62 @@ namespace Agribusiness.Web.Controllers
 
             var viewModel = FirmViewModel.Create(Repository, firm, origFirm);
             return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(int id, Firm firm)
+        {
+            var newFirm = new Firm() {Review = false};
+
+            Mapper.Map(firm, newFirm);
+
+            ModelState.Clear();
+            newFirm.TransferValidationMessagesTo(ModelState);
+
+            if (ModelState.IsValid)
+            {
+                _firmRepository.EnsurePersistent(newFirm);
+                Message = string.Format(Messages.Saved, "Firm");
+
+                return this.RedirectToAction(a => a.Index());
+            }
+
+            var pendingfirm = _firmRepository.GetNullableById(id);
+            
+            // if review, get the last one, if it exists
+            var origFirm = firm.Review ? (_firmService.GetFirm(firm.FirmCode)) : firm;
+
+            var viewModel = FirmViewModel.Create(Repository, pendingfirm, origFirm);
+            return View(viewModel);            
+        }
+
+        /// <summary>
+        /// Reject requested changes on firms marked for review
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public RedirectToRouteResult Reject(int id)
+        {
+            var firm = _firmRepository.GetNullableById(id);
+
+            if (firm == null)
+            {
+                Message = string.Format(Messages.NotFound, "firm", id);
+                return this.RedirectToAction(a => a.Index());
+            }
+
+            if (!firm.Review)
+            {
+                Message = string.Format("Firm {0}({1}) was not marked for review", firm.Name, id);
+                return this.RedirectToAction(a => a.Index());
+            }
+
+            var firmName = firm.Name;
+
+            // delete the firm
+            _firmRepository.Remove(firm);
+            Message = string.Format("Suggested changes to {0} have been discarded", firmName);
+            return this.RedirectToAction(a => a.Index());
         }
     }
 }

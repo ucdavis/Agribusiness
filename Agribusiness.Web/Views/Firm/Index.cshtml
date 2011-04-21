@@ -25,7 +25,11 @@
     @foreach (var item in Model.PendingFirms)
     {
 		    <tr class="@(podd ? "odd" : "even")">
-			    <td></td>
+			    <td>
+                    <a href='@Url.Action("Edit", new {id=item.Id})'>
+                        <img src='@Url.Image("edit.png")' />
+                    </a>
+                </td>
 			    <td>
 				    @item.Name
 			    </td>
@@ -57,7 +61,11 @@
 @foreach (var item in Model.Firms)
 {
 		<tr class="@(odd ? "odd" : "even")">
-			<td></td>
+			<td>
+                <a href='@Url.Action("Edit", new {id=item.Id})'>
+                    <img src='@Url.Image("edit.png")' />
+                </a>
+            </td>
 			<td>
 				@item.Name
 			</td>
