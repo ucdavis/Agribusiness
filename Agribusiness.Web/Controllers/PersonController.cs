@@ -87,31 +87,26 @@ namespace Agribusiness.Web.Controllers
                                           , Guid.NewGuid().ToString().Replace("-", string.Empty).Substring(0, 10)
                                           , personEditModel.Email);
 
-            var user = _userRepository.Queryable.Where(a => a.UserName == personEditModel.Email).FirstOrDefault();
-            person.User = user;
-
-            person = SetPerson(personEditModel, ModelState, person, profilepic);
-
-            //SetAddresses(person, personEditModel.Addresses);
-
-            //if (profilepic != null)
-            //{
-            //    // read the file
-            //    var reader = new BinaryReader(profilepic.InputStream);
-            //    person.OriginalPicture = reader.ReadBytes(profilepic.ContentLength);
-            //    person.ContentType = profilepic.ContentType;
-            //}
-
-            //ModelState.Clear();
-            //person.TransferValidationMessagesTo(ModelState);
-
-            if (ModelState.IsValid)
+            // save only if user creation was successful
+            if (createStatus == MembershipCreateStatus.Success)
             {
-                _personRepository.EnsurePersistent(person);
-                Message = string.Format(Messages.Saved, "Person");
-                return this.RedirectToAction(a => a.UpdateProfilePicture(person.Id, null));
-            }
+                var user = _userRepository.Queryable.Where(a => a.UserName == personEditModel.Email).FirstOrDefault();
+                person.User = user;
 
+                person = SetPerson(personEditModel, ModelState, person, profilepic);
+
+                if (ModelState.IsValid)
+                {
+                    _personRepository.EnsurePersistent(person);
+                    Message = string.Format(Messages.Saved, "Person");
+                    return this.RedirectToAction(a => a.UpdateProfilePicture(person.Id, null));
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("Create User", AccountValidation.ErrorCodeToString(createStatus));
+            }
+            
             var viewModel = PersonViewModel.Create(Repository, person, personEditModel.Email);
             viewModel.Addresses = personEditModel.Addresses;
             return View(viewModel);
