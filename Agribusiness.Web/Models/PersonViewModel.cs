@@ -13,6 +13,7 @@ namespace Agribusiness.Web.Models
     public class PersonViewModel
     {
         public IList<Address> Addresses { get; set; }
+        public IList<Contact> Contacts { get; set; }
         public IEnumerable<State> States { get; set; }
         public Person Person { get; set; }
         public string Email { get; set; }
@@ -27,6 +28,7 @@ namespace Agribusiness.Web.Models
             {
                 Person = person ?? new Person(),
                 Addresses = repository.OfType<AddressType>().Queryable.Select(a => new Address() { AddressType = a}).ToList(),
+                Contacts = repository.OfType<ContactType>().Queryable.Select( a => new Contact(){ContactType = a}).ToList(),
                 States = repository.OfType<State>().GetAll(),
                 SeminarPerson = person != null ? person.GetLatestRegistration() : null,
                 Email = email
@@ -43,10 +45,20 @@ namespace Agribusiness.Web.Models
 
                     viewModel.Addresses.Add(a);
                 }
+
+                foreach (var a in person.Contacts)
+                {
+                    var ct = viewModel.Contacts.Where(b => b.ContactType == a.ContactType).FirstOrDefault();
+
+                    if (ct != null) viewModel.Contacts.Remove(ct);
+
+                    viewModel.Contacts.Add(a);
+                }
             }
 
             // reorder so always in the same order
             viewModel.Addresses = viewModel.Addresses.OrderBy(a => a.AddressType.Id).ToList();
+            viewModel.Contacts = viewModel.Contacts.OrderBy(a => a.ContactType.Id).ToList();
 
             return viewModel;
         }

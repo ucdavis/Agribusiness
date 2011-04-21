@@ -66,6 +66,7 @@
             </li>
 			<li><div class="editor-label required">
                     @Html.LabelFor(a=>a.Person.Phone)
+                    <span>*</span>
                 </div>
                 <div class="editor-field">
 				    @Html.EditorFor(a=>a.Person.Phone)
@@ -89,6 +90,26 @@
                 </div>
 			</li>
 		</ul>
+
+        @for (int i = 0; i < Model.Contacts.Count(); i++ )
+        { 
+            <h3>@Model.Contacts[i].ContactType.Name</h3>
+            @Html.Hidden(string.Format("Contacts[{0}].ContactType", i), Model.Contacts[i].ContactType.Id)
+            <ul>
+                <li><div class="editor-label">@Html.LabelFor(a => a.Contacts[i].FirstName)</div>
+                    <div class="editor-field">@Html.TextBox(string.Format("Contacts[{0}].FirstName", i), Model.Contacts[i].FirstName)</div>
+                </li>
+                <li><div class="editor-label">@Html.LabelFor(a => a.Contacts[i].LastName)</div>
+                    <div class="editor-field">@Html.TextBox(string.Format("Contacts[{0}].LastName", i), Model.Contacts[i].LastName)</div>
+                </li>
+                <li><div class="editor-label">@Html.LabelFor(a => a.Contacts[i].Phone)</div>
+                    <div class="editor-field">@Html.TextBox(string.Format("Contacts[{0}].Phone", i), Model.Contacts[i].Phone)</div>
+                </li>
+                <li><div class="editor-label">@Html.LabelFor(a => a.Contacts[i].Email)</div>
+                    <div class="editor-field">@Html.TextBox(string.Format("Contacts[{0}].Email", i), Model.Contacts[i].Email)</div>
+                </li>
+            </ul>
+        }
 
     </fieldset>
 

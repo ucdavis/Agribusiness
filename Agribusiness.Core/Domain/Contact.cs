@@ -39,6 +39,21 @@ namespace Agribusiness.Core.Domain
         [Required]
         public virtual Person Person { get; set; }
         #endregion
+
+        /// <summary>
+        /// Checks to see if any of the fields has a value
+        /// </summary>
+        public virtual bool HasContact { 
+            get
+            {
+                return !(
+                        string.IsNullOrWhiteSpace(FirstName)
+                     && string.IsNullOrWhiteSpace(LastName)
+                     && string.IsNullOrWhiteSpace(Phone)
+                     && string.IsNullOrWhiteSpace(Email)
+                    );
+            }
+        }
     }
 
     public class ContactMap : ClassMap<Contact>

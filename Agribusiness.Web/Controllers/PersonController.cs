@@ -90,18 +90,20 @@ namespace Agribusiness.Web.Controllers
             var user = _userRepository.Queryable.Where(a => a.UserName == personEditModel.Email).FirstOrDefault();
             person.User = user;
 
-            SetAddresses(person, personEditModel.Addresses);
+            person = SetPerson(personEditModel, ModelState, person, profilepic);
 
-            if (profilepic != null)
-            {
-                // read the file
-                var reader = new BinaryReader(profilepic.InputStream);
-                person.OriginalPicture = reader.ReadBytes(profilepic.ContentLength);
-                person.ContentType = profilepic.ContentType;
-            }
+            //SetAddresses(person, personEditModel.Addresses);
 
-            ModelState.Clear();
-            person.TransferValidationMessagesTo(ModelState);
+            //if (profilepic != null)
+            //{
+            //    // read the file
+            //    var reader = new BinaryReader(profilepic.InputStream);
+            //    person.OriginalPicture = reader.ReadBytes(profilepic.ContentLength);
+            //    person.ContentType = profilepic.ContentType;
+            //}
+
+            //ModelState.Clear();
+            //person.TransferValidationMessagesTo(ModelState);
 
             if (ModelState.IsValid)
             {
@@ -427,36 +429,8 @@ namespace Agribusiness.Web.Controllers
             // copy all the fields
             Mapper.Map(personEditModel, person);
 
-            // remove the blank address
-            var remove = personEditModel.Addresses.Where(a => !a.HasAddress()).ToList();
-            foreach (var a in remove) personEditModel.Addresses.Remove(a);
-
-            // update/add updated addresses
-            foreach (var addr in personEditModel.Addresses)
-            {
-                var type = addr.AddressType;
-                var origAddress = person.Addresses.Where(a => a.AddressType == type).FirstOrDefault();
-                
-                // address was entered
-                if (addr.HasAddress())
-                {
-                    // person did not have this address in the first place, add it in
-                    if (origAddress == null)
-                    {
-                        person.AddAddress(addr);
-                    }
-                    // update existing address
-                    else
-                    {
-                        Mapper.Map(addr, origAddress);    
-                    }
-                }
-                // address was blanked out/removed
-                else
-                {
-                    if (origAddress != null) person.Addresses.Remove(origAddress);
-                }
-            }
+            SetAddresses(person, personEditModel.Addresses);
+            SetContacts(person, personEditModel.Contacts);
 
             // deal with the image
             if (profilePic != null)
@@ -479,13 +453,66 @@ namespace Agribusiness.Web.Controllers
             return person;
         }
 
-        private void SetAddresses(Person person, IEnumerable<Address> addresses)
+        private void SetAddresses(Person person, IList<Address> addresses)
         {
-            foreach (var a in addresses)
+            // remove the blank address
+            var remove = addresses.Where(a => !a.HasAddress()).ToList();
+            foreach (var a in remove) addresses.Remove(a);
+
+            // update/add updated addresses
+            foreach (var addr in addresses)
             {
-                if (a.HasAddress())
+                var type = addr.AddressType;
+                var origAddress = person.Addresses.Where(a => a.AddressType == type).FirstOrDefault();
+
+                // address was entered
+                if (addr.HasAddress())
                 {
-                    person.AddAddress(a);
+                    // person did not have this address in the first place, add it in
+                    if (origAddress == null)
+                    {
+                        person.AddAddress(addr);
+                    }
+                    // update existing address
+                    else
+                    {
+                        Mapper.Map(addr, origAddress);
+                    }
+                }
+                // address was blanked out/removed
+                else
+                {
+                    if (origAddress != null) person.Addresses.Remove(origAddress);
+                }
+            }
+
+        }
+        private void SetContacts(Person person, IList<Contact> contacts)
+        {
+            // remove the blanks
+            var remove = contacts.Where(a => !a.HasContact).ToList();
+            foreach (var a in remove) contacts.Remove(a);
+
+            // update/add contacts
+            foreach (var ct in contacts)
+            {
+                var type = ct.ContactType;
+                var origCt = person.Contacts.Where(a => a.ContactType == type).FirstOrDefault();
+
+                if (ct.HasContact)
+                {
+                    if (origCt == null)
+                    {
+                        person.AddContact(ct);
+                    }
+                    else
+                    {
+                        Mapper.Map(ct, origCt);
+                    }
+                }
+                else
+                {
+                    if (origCt != null) person.Contacts.Remove(ct);
                 }
             }
         }
