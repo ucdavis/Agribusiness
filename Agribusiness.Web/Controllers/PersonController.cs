@@ -54,7 +54,7 @@ namespace Agribusiness.Web.Controllers
             return View(viewModel);
         }
 
-        public ActionResult Details(int id)
+        public ActionResult Profile(int id)
         {
             var person = _personRepository.GetNullableById(id);
 

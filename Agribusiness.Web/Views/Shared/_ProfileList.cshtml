@@ -1,0 +1,28 @@
+﻿@model Agribusiness.Web.Models.DisplayPerson
+
+    <div class="list-item">
+        <div class="list_pic_container">
+            <img src='@Url.Action("GetThumbnail", "Person", new { id = Model.Person.Id })' alt='string.Format("{0}''s Profile Picture", @Model.Person.FullName)' />
+        </div>
+
+        <div class="list_information_container">
+
+            @Html.ActionLink(Model.Person.FullName, "Profile", new { id = Model.Person.Id })
+
+        @if(Model.Firm != null){
+            
+            <ul>
+                <li class="title">@Model.Title</li>
+                <li>@Model.Firm.Name</li>
+                <li class="description">@Model.Firm.Description</li>
+            </ul>
+            
+        }else{
+            
+            <p>No firm has been defined for this person</p>
+            
+        }
+        </div>
+    
+    <hr class="list-divider" />
+    </div>

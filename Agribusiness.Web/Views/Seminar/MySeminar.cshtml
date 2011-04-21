@@ -13,6 +13,14 @@
     </script>
 }
 
+@section SubPageNavigation
+{
+    <ul class="navigation">
+        <li>@Html.ActionLink("Attendees", "Attendees", new {id=Model.Seminar.Id, seminarPersonId=Model.SeminarPerson.Id}, new {})</li>
+        <li>@Html.ActionLink("Case Studies", "CaseStudies", new { id = Model.Seminar.Id, seminarPersonId = Model.SeminarPerson.Id }, new { })</li>
+    </ul>
+}
+
 <h3>Seminar Details</h3>
 <div class="display-form">
     <ul >

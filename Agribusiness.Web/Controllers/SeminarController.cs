@@ -262,6 +262,49 @@ namespace Agribusiness.Web.Controllers
             return View(viewModel);
         }
 
+        /// <summary>
+        /// List of attendees for a seminar, available to attendees
+        /// </summary>
+        /// <param name="id">Seminar Id</param>
+        /// <param name="seminarPersonId"></param>
+        /// <returns></returns>
+        [MembershipUserOnly]
+        public ActionResult Attendees(int id, int seminarPersonId)
+        {
+            var seminar = _seminarRepository.GetNullableById(id);
+
+            if (seminar == null)
+            {
+                Message = string.Format(Messages.NotFound, "seminar", id);
+                return this.RedirectToAction(a => a.MySeminar(seminarPersonId));
+            }
+
+            ViewBag.seminarPersonId = seminarPersonId;
+
+            return View(_personService.GetDisplayPeopleForSeminar(seminar.Id));
+        }
+
+        /// <summary>
+        /// List of case studies for a seminar, available to attendees
+        /// </summary>
+        /// <param name="id">Seminar Id</param>
+        /// <param name="seminarPersonId"></param>
+        /// <returns></returns>
+        [MembershipUserOnly]
+        public ActionResult CaseStudies(int id, int seminarPersonId)
+        {
+            var seminar = _seminarRepository.GetNullableById(id);
+
+            if (seminar == null)
+            {
+                Message = string.Format(Messages.NotFound, "seminar", id);
+                return this.RedirectToAction(a => a.MySeminar(seminarPersonId));
+            }
+
+            ViewBag.seminarPersonId = seminarPersonId;
+
+            return View(seminar.CaseStudies);
+        }
         #endregion
     }
 }

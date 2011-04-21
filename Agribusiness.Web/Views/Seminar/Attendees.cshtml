@@ -1,0 +1,21 @@
+﻿@model IEnumerable<DisplayPerson>
+
+@{
+	ViewBag.Title = "Attendees";
+}
+
+<h2>Attendees</h2>
+
+
+@section SubPageNavigation
+{
+	<ul class='navigation'>
+		<li>@Html.ActionLink("Back to My Seminar", "MySeminar", new { id = ViewBag.seminarPersonId }, new { })</li>
+	</ul>
+}
+
+
+@foreach (var a in Model.OrderBy(a=>a.Person.LastName))
+{ 
+    @Html.Partial("_ProfileList", a)
+}
