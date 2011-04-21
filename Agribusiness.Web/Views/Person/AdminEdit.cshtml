@@ -21,12 +21,13 @@
     </ul>
 }
 
+<div>
 <div class="profile_pic_container">
     <img src='@Url.Action("GetProfilePicture", new { id = Model.PersonViewModel.Person.Id })' />
     @Html.ActionLink("Update Crop", "UpdateProfilePicture", new {id=Model.PersonViewModel.Person.Id, seminarId=Model.SeminarId})
 </div>
 
-<div class="information_container">
+<div class="profile_information_container">
 
     <div id="tabs">
 
@@ -99,9 +100,6 @@
         </div>
 
     </div>
-
-
-
 </div>
-
+</div>
 <div style="clear:both;" />
