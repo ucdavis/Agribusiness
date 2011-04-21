@@ -8,7 +8,7 @@
 @section SubPageNavigation
 {
 	<ul class='navigation'>
-		<li>@Html.ActionLink("Back to My Seminar", "MySeminar", new { id = ViewBag.seminarPersonId }, new { })</li>
+		<li>@Html.ActionLink("Back to My Seminar", "MySeminar", "Seminar", new { id = ViewBag.seminarPersonId }, new { })</li>
 	</ul>
 }
 
@@ -36,7 +36,7 @@
 @foreach (var item in Model) {
 		<tr class="@(odd ? "odd": "even")">
 			<td>
-				<a href='@Url.Action("Details", new {id=item.Id})'>
+				<a href='@Url.Action("Download", new {id=item.Id})'>
 					<img src='@Url.Image("details.png")' />
 				</a>
 			</td>

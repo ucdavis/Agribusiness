@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Agribusiness.Core.Domain;
 using Agribusiness.Web.App_GlobalResources;
+using Agribusiness.Web.Controllers.Filters;
 using Agribusiness.Web.Models;
 using Resources;
 using UCDArch.Core.PersistanceSupport;
@@ -21,15 +22,18 @@ namespace Agribusiness.Web.Controllers
     {
 	    private readonly IRepository<CaseStudy> _casestudyRepository;
         private readonly IRepository<Seminar> _seminarRepository;
+        private readonly IRepositoryWithTypedId<User, Guid> _userRepository;
         private readonly IRepository<SeminarPerson> _seminarPersonRepository;
 
-        public CaseStudyController(IRepository<CaseStudy> casestudyRepository, IRepository<Seminar> seminarRepository, IRepository<SeminarPerson> seminarPersonRepository)
+        public CaseStudyController(IRepository<CaseStudy> casestudyRepository, IRepository<Seminar> seminarRepository, IRepositoryWithTypedId<User, Guid> userRepository, IRepository<SeminarPerson> seminarPersonRepository)
         {
             _casestudyRepository = casestudyRepository;
             _seminarRepository = seminarRepository;
+            _userRepository = userRepository;
             _seminarPersonRepository = seminarPersonRepository;
         }
 
+        #region Administrative
         /// <summary>
         /// Add a case study to a seminar
         /// </summary>
@@ -212,6 +216,40 @@ namespace Agribusiness.Web.Controllers
             Message = string.Format(Messages.Saved, "Case Study");
             return this.RedirectToAction(a => a.Edit(id, caseStudy.Seminar.Id));
         }
+        #endregion
+
+        #region Membership Users
+        /// <summary>
+        /// Case studies by seminar for attendees
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [MembershipUserOnly]
+        public ActionResult BySeminar(int id)
+        {
+            var seminar = _seminarRepository.GetNullableById(id);
+
+            // get the user's seminar person id
+            var user = _userRepository.Queryable.Where(a => a.LoweredUserName == CurrentUser.Identity.Name.ToLower()).SingleOrDefault();
+            if (user == null) return this.RedirectToAction<ErrorController>(a => a.NotAuthorized());
+
+            var person = user.Person;
+            var latestReg = person.GetLatestRegistration();
+
+            if (seminar == null)
+            {
+                Message = string.Format(Messages.NotFound, "seminar", id);
+                return this.RedirectToAction<SeminarController>(a => a.MySeminar(latestReg.Id));
+            }
+
+            // validate seminar access
+            if (!seminar.SeminarPeople.Contains(latestReg)) return this.RedirectToAction<ErrorController>(a => a.NotAuthorized());
+
+            ViewBag.seminarPersonId = latestReg.Id;
+
+            return View(seminar.CaseStudies);
+        }
+        #endregion
 
         public FileResult Download(int id)
         {

@@ -351,8 +351,9 @@
     <Content Include="Views\Seminar\GetDetails.cshtml" />
     <Content Include="Views\Firm\Index.cshtml" />
     <Content Include="Views\Firm\Edit.cshtml" />
-    <Content Include="Views\Seminar\Attendees.cshtml" />
     <Content Include="Views\Shared\_ProfileList.cshtml" />
+    <Content Include="Views\Attendee\BySeminar.cshtml" />
+    <Content Include="Views\CaseStudy\BySeminar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">

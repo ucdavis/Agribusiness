@@ -16,8 +16,8 @@
 @section SubPageNavigation
 {
     <ul class="navigation">
-        <li>@Html.ActionLink("Attendees", "Attendees", new {id=Model.Seminar.Id, seminarPersonId=Model.SeminarPerson.Id}, new {})</li>
-        <li>@Html.ActionLink("Case Studies", "CaseStudies", new { id = Model.Seminar.Id, seminarPersonId = Model.SeminarPerson.Id }, new { })</li>
+        <li>@Html.ActionLink("Attendees", "BySeminar", "Attendee", new {id=Model.Seminar.Id}, new {})</li>
+        <li>@Html.ActionLink("Case Studies", "BySeminar", "CaseStudy", new { id = Model.Seminar.Id}, new { })</li>
     </ul>
 }
 
