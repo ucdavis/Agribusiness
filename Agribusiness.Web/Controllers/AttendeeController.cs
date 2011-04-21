@@ -74,7 +74,7 @@ namespace Agribusiness.Web.Controllers
             }
 
             // validate seminar access
-            if (!seminar.SeminarPeople.Contains(latestReg)) return this.RedirectToAction<ErrorController>(a => a.NotAuthorized());
+            if (!_personService.HasAccess(person, seminar)) return this.RedirectToAction<ErrorController>(a => a.NotAuthorized());
 
             ViewBag.seminarPersonId = latestReg.Id;
 

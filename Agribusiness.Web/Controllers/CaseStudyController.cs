@@ -7,6 +7,7 @@ using Agribusiness.Core.Domain;
 using Agribusiness.Web.App_GlobalResources;
 using Agribusiness.Web.Controllers.Filters;
 using Agribusiness.Web.Models;
+using Agribusiness.Web.Services;
 using Resources;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Web.Controller;
@@ -24,13 +25,15 @@ namespace Agribusiness.Web.Controllers
         private readonly IRepository<Seminar> _seminarRepository;
         private readonly IRepositoryWithTypedId<User, Guid> _userRepository;
         private readonly IRepository<SeminarPerson> _seminarPersonRepository;
+        private readonly IPersonService _personService;
 
-        public CaseStudyController(IRepository<CaseStudy> casestudyRepository, IRepository<Seminar> seminarRepository, IRepositoryWithTypedId<User, Guid> userRepository, IRepository<SeminarPerson> seminarPersonRepository)
+        public CaseStudyController(IRepository<CaseStudy> casestudyRepository, IRepository<Seminar> seminarRepository, IRepositoryWithTypedId<User, Guid> userRepository, IRepository<SeminarPerson> seminarPersonRepository, IPersonService personService)
         {
             _casestudyRepository = casestudyRepository;
             _seminarRepository = seminarRepository;
             _userRepository = userRepository;
             _seminarPersonRepository = seminarPersonRepository;
+            _personService = personService;
         }
 
         #region Administrative
@@ -243,7 +246,7 @@ namespace Agribusiness.Web.Controllers
             }
 
             // validate seminar access
-            if (!seminar.SeminarPeople.Contains(latestReg)) return this.RedirectToAction<ErrorController>(a => a.NotAuthorized());
+            if (!_personService.HasAccess(person, seminar)) return this.RedirectToAction<ErrorController>(a => a.NotAuthorized());
 
             ViewBag.seminarPersonId = latestReg.Id;
 
@@ -251,11 +254,14 @@ namespace Agribusiness.Web.Controllers
         }
         #endregion
 
-        public FileResult Download(int id)
+        public ActionResult Download(int id)
         {
             var caseStudy = _casestudyRepository.GetNullableById(id);
 
             if (caseStudy == null) return File(new byte[0], string.Empty);
+
+            if (!_personService.HasAccess(CurrentUser.Identity.Name, caseStudy.Seminar))
+                return this.RedirectToAction<ErrorController>(a => a.NotAuthorized());
 
             var fileName = caseStudy.Name.Replace(" ", string.Empty);
 
