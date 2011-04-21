@@ -31,7 +31,6 @@
             <th>Title</th>
             <th>Firm</th>
             <th>Roles</th>
-            <th>Invited</th>
             <th>Registered</th>
         </tr>
     </thead>
@@ -50,7 +49,6 @@
                 <td>@a.Title</td>
                 <td>@a.Firm.Name</td>
                 <td>@string.Join(", ", a.Person.GetLatestRegistration().SeminarRoles.Select(b=>b.Name))</td>
-                <td>@if (a.Invite) { <img src='@Url.Image("check.png")' alt='@string.Format("{0} was invited", a.Person.FullName)' /> }</td>
                 <td>@if (a.Registered) { <img src='@Url.Image("check.png")' alt='@string.Format("{0} has registered", a.Person.FullName)'  /> }</td>
             </tr>
         }

@@ -70,8 +70,10 @@ namespace Agribusiness.Core.Domain
         [DataType(DataType.Url)]
         [StringLength(200)]
         public virtual string Website { get; set; }
+        [Required]
         public virtual string Responsibilities { get; set; }
         [StringLength(50)]
+        [Required]
         public virtual string JobTitle { get; set; }
 
         public virtual bool IsPending { get; set; }
