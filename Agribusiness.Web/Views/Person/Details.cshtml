@@ -15,29 +15,92 @@
     <img src='@Url.Action("GetProfilePicture", new { id = Model.Person.Id })' />
 </div>
 
-<div class="information_container">
+<div class="profile_information_container display-form">
 
     <h2>@Model.Person.FullName</h2>
 
     <ul>
         <li class="title">@Model.Title</li>
-        <li>@Model.Firm.Name</li>
-        <li class="description">@Model.Firm.Description</li>
     </ul>
 
-    <h3>Contact Information</h3>
+    <fieldset>
+        <legend>Firm</legend>
 
-    <ul>
-        <li><label>Email:</label>
-            @Model.Person.User.UserName
-        </li>
-        <li><label>Phone:</label>
-            @Model.Person.Phone
-        </li>
-        <li><label>Address:</label>123 Fake Street<br />
-            <label>&nbsp;</label>Davis, CA 94534
-        </li>
-    </ul>
+        <ul>
+            <li><div class="display-label">Name:</div>
+	            <div class="display-details">@Model.Firm.Name</div>
+            </li>
+            <li><div class="display-label">Description:</div>
+	            <div class="display-details">@Model.Firm.Description</div>
+            </li>
+        </ul>
+    </fieldset>
+
+    <fieldset>
+        <legend>Contact Information</legend>
+
+        <ul>
+            <li><div class="display-label">Email:</div>
+                <div class="display-details">@Model.Person.User.UserName</div>
+            </li>
+            <li><div class="display-label">Phone:</div>
+                <div class="display-details">@Model.Person.Phone</div>
+            </li>
+        </ul>
+    </fieldset>
+
+    <fieldset>
+        <legend>Addresses</legend>
+
+        @foreach (var a in Model.Person.Addresses)
+        { 
+            <h3>@a.AddressType.Name</h3>
+            
+            <ul>
+                <li><div class="display-label">Address Line 1:</div>
+                    <div class="display-details">@a.Line1</div>
+                </li>
+                <li><div class="display-label">Address Line 2:</div>
+                    <div class="display-details">@a.Line2</div>
+                </li>
+                <li><div class="display-label">City:</div>
+                    <div class="display-details">@a.City</div>
+                </li>
+                <li><div class="display-label">State:</div>
+                    <div class="display-details">@a.State.Name</div>
+                </li>
+                <li><div class="display-label">Zip:</div>
+                    <div class="display-details">@a.Zip</div>
+                </li>
+            </ul>
+        }
+
+    </fieldset>
+
+    <fieldset>
+        <legend>Contacts</legend>
+
+        @foreach (var a in Model.Person.Contacts)
+        { 
+            <h3>@a.ContactType.Name</h3>
+            
+            <ul>
+                <li><div class="display-label">First Name:</div>
+                    <div class="display-details">@a.FirstName</div>
+                </li>
+                <li><div class="display-label">Last Name:</div>
+                    <div class="display-details">@a.LastName</div>
+                </li>
+                <li><div class="display-label">Phone:</div>
+                    <div class="display-details">@a.Phone</div>
+                </li>
+                <li><div class="display-label">Email:</div>
+                    <div class="display-details">@a.Email</div>
+                </li>
+            </ul>
+        }
+
+    </fieldset>
 
 </div>
 

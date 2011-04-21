@@ -12,19 +12,20 @@
     </ul>
 }
 
-@foreach (var a in Model.People)
+@foreach (var a in Model.People.OrderBy(a=>a.Person.LastName))
 { 
-    <fieldset style="padding: 1em;">
-
-        <div class="profile_pic_container">
+    <div class="list-item">
+        <div class="list_pic_container">
             <img src='@Url.Action("GetThumbnail", "Person", new { id = a.Person.Id })' alt='string.Format("{0}''s Profile Picture", @a.Person.FullName)' />
         </div>
 
-        <div class="information_container">
+        <div class="list_information_container">
+
+            @Html.ActionLink(a.Person.FullName, "Details", new { id = a.Person.Id })
+
         @if(a.Firm != null){
             
             <ul>
-                <li class="name">@Html.ActionLink(a.Person.FullName, "Details", new { id = a.Person.Id })</li>
                 <li class="title">@a.Title</li>
                 <li>@a.Firm.Name</li>
                 <li class="description">@a.Firm.Description</li>
@@ -32,10 +33,11 @@
             
         }else{
             
-            <text>No firm has been defined for this person</text>
+            <p>No firm has been defined for this person</p>
             
         }
         </div>
-
-    </fieldset>
+    
+    <hr class="list-divider" />
+    </div>
 }
