@@ -27,9 +27,9 @@
 /* ---------------- */
 /* Profile Styling  */
 /* ---------------- */
-.profile_pic_container { float:left; margin-left: 15px; width: 165px;}
+.profile_pic_container { margin-left: 15px; width: 165px; display:inline-block;}
 
-.profile_information_container { float:left; margin-left: 40px; width: 800px; vertical-align: top;}
+.profile_information_container { margin-left: 40px; width: 780px; vertical-align: top;display:inline-block;}
 .profile_information_container h2 { color: #014A81; }
 .profile_information_container ul { list-style:none; }
 .profile_information_container .name {font-size: larger; font-weight: bold; color: #014A81; }

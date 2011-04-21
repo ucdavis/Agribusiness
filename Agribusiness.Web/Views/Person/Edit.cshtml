@@ -12,11 +12,12 @@
     </ul>
 }
 
+<div>
 <div class="profile_pic_container">
     <img src='@Url.Action("GetProfilePicture", new { id = Model.Person.Id })' />
 </div>
 
-<div class="information_container">
+<div class="profile_information_container">
 
         @using (Html.BeginForm("Edit", "Person", FormMethod.Post, new { enctype = "multipart/form-data" }))
         { 
@@ -26,5 +27,5 @@
         }
 
 </div>
-
+</div>
 <div style="clear:both;" />
