@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Agribusiness.Core.Domain.CaseStudy>
+
+@{
+	ViewBag.Title = "Case Studies";
+    ViewBag.SubPageTitle = "Case Studies";
+}
+
+@section SubPageNavigation
+{
+	<ul class='navigation'>
+		<li>@Html.ActionLink("Back to My Seminar", "MySeminar", new { id = ViewBag.seminarPersonId }, new { })</li>
+	</ul>
+}
+
+
+<table class="default_table nolasticon">
+	<thead>
+		<tr>
+			<th></th>
+			<th>
+				Name
+			</th>
+			<th>
+				Description
+			</th>
+			<th>
+				Authors
+			</th>
+			<th>
+				Executives
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+@{ var odd = false; }
+@foreach (var item in Model) {
+		<tr class="@(odd ? "odd": "even")">
+			<td>
+				<a href='@Url.Action("Details", new {id=item.Id})'>
+					<img src='@Url.Image("details.png")' />
+				</a>
+			</td>
+			<td>
+				@item.Name
+			</td>
+			<td>
+				@item.Description
+			</td>
+			<td>
+				@item.Authors
+			</td>
+			<td>
+				@item.Executives
+			</td>
+
+		</tr>
+		odd = !odd;
+}
+	</tbody>
+</table>
+
