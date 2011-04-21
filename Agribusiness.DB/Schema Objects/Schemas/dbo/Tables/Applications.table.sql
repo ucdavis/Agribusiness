@@ -27,6 +27,9 @@
     [IsPending]        BIT              NOT NULL,
     [IsApproved]       BIT              NOT NULL,
     [DateSubmitted]    DATETIME         NOT NULL,
-    [DateDecision]     DATETIME         NULL
+    [DateDecision]     DATETIME         NULL,
+    [DecisionReason]   VARCHAR (MAX)    NULL
 );
+
+
 

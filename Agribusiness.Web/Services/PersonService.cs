@@ -39,7 +39,7 @@ namespace Agribusiness.Web.Services
             var reg = person.GetLatestRegistration();
             if (reg == null) return displayPerson;
 
-            displayPerson.Firm = _firmService.GetFirm(reg.FirmCode);
+            displayPerson.Firm = reg.Firm;
             displayPerson.Title = reg.Title;
             return displayPerson;
         }
@@ -79,7 +79,7 @@ namespace Agribusiness.Web.Services
                 var reg = person.GetLatestRegistration();
                 if (reg != null)
                 {
-                    var firm = firms.Where(b => b.FirmCode == reg.FirmCode).FirstOrDefault();
+                    var firm = reg.Firm;
                     displayPeople.Add(new DisplayPerson() { Firm = firm, Person = person, Title = reg.Title, Invite = reg.Invite, Registered = reg.Registered});
                 }
                 else

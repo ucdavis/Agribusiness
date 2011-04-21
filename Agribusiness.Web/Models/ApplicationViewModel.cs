@@ -48,7 +48,7 @@ namespace Agribusiness.Web.Models
                 application.LastName = person.LastName;
                 application.BadgeName = person.BadgeName;
 
-                application.Firm = firmService.GetFirm(seminarPeople.FirmCode);
+                application.Firm = seminarPeople.Firm;
             }
 
             viewModel.HasPhoto = user.Person != null && user.Person.MainProfilePicture != null;

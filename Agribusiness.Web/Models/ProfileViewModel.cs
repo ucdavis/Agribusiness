@@ -32,7 +32,7 @@ namespace Agribusiness.Web.Models
 
             var viewModel = new ProfileViewModel()
                                 {
-                                    Firm = firmService.GetFirm(seminarPerson.FirmCode),
+                                    Firm = seminarPerson.Firm,
                                     SeminarPerson = seminarPerson,
                                     Person = person
                                 };

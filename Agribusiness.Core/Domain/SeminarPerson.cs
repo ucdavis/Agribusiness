@@ -33,7 +33,8 @@ namespace Agribusiness.Core.Domain
         public virtual Person Person { get; set; }
 
         public virtual string Title { get; set; }
-        public virtual Guid FirmCode { get; set; }
+        //public virtual Guid FirmCode { get; set; }
+        public virtual Firm Firm { get; set; }
         public virtual string CouponCode { get; set; }
         public virtual bool Registered { get; set; }
         public virtual bool Invite { get; set; }
@@ -55,7 +56,8 @@ namespace Agribusiness.Core.Domain
             References(x => x.Person);
 
             Map(x => x.Title);
-            Map(x => x.FirmCode);
+            //Map(x => x.FirmCode);
+            References(x => x.Firm);
             Map(x => x.CouponCode);
             Map(x => x.Registered);
             Map(x => x.RegistrationCode).ReadOnly();

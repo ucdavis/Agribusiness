@@ -223,7 +223,7 @@ namespace Agribusiness.Web.Controllers
         public ActionResult GetDetails(int id)
         {
             var person = _seminarPersonRepository.GetNullableById(id);
-            var firm = _firmService.GetFirm(person.FirmCode);
+            var firm = person.Firm;
 
             ViewBag.Person = person;
             ViewBag.Firm = firm;

@@ -4,11 +4,14 @@
     [PersonId]         INT              NOT NULL,
     [Title]            VARCHAR (50)     NULL,
     [FirmCode]         UNIQUEIDENTIFIER NULL,
+    [FirmId]           INT              NULL,
     [CouponCode]       VARCHAR (15)     NULL,
     [Registered]       BIT              NOT NULL,
     [RegistrationCode] AS               (right('0000'+CONVERT([varchar],[id],(0)),(6))),
     [Invite]           BIT              NOT NULL
 );
+
+
 
 
 

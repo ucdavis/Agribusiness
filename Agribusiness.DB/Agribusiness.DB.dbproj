@@ -607,5 +607,8 @@
     <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_SeminarPeople_Invite.defconst.sql">
       <SubType>Code</SubType>
     </Build>
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_SeminarPeople_Firms.fkey.sql">
+      <SubType>Code</SubType>
+    </Build>
   </ItemGroup>
 </Project>
