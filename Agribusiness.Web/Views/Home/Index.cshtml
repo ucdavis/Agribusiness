@@ -13,14 +13,24 @@
 
 <p>
     <strong>
-        @Model.Begin through @Model.End <br />
-        @if (string.IsNullOrWhiteSpace(Model.LocationLink))
-        {
-            @Model.LocationLink<br />
+
+        @if (Model == null)
+        { 
+            <text>There is no current seminar.</text>
         }
         else
         { 
-        <a href='@Model.LocationLink'>@Model.Location</a><br />
+            <p>
+                @Model.Begin.ToString("g") through @Model.End.ToString("g")<br />
+                @if (string.IsNullOrWhiteSpace(Model.LocationLink))
+                {
+                    <text>@Model.Location</text>
+                }
+                else
+                {
+                    <a href='@Model.LocationLink'>@Model.Location</a>
+                }
+            </p>
         }
     </strong>
 </p>
