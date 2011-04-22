@@ -11,6 +11,7 @@ namespace Agribusiness.Core.Domain
         public virtual string Name { get; set; }
 
         public virtual decimal? Discount { get; set; }
+        public virtual string Description { get; set; }
     }
 
     public class SeminarRoleMap : ClassMap<SeminarRole>
@@ -22,6 +23,7 @@ namespace Agribusiness.Core.Domain
             Id(x => x.Id);
             Map(x => x.Name);
             Map(x => x.Discount);
+            Map(x => x.Description);
         }
     }
 }
