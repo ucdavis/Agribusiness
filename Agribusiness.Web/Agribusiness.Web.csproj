@@ -144,6 +144,7 @@
     <Compile Include="Models\AuthorizedViewModel.cs" />
     <Compile Include="Models\CaseStudyPersonViewModel.cs" />
     <Compile Include="Models\CaseStudyViewModel.cs" />
+    <Compile Include="Models\CommodityViewModel.cs" />
     <Compile Include="Models\FirmListViewModel.cs" />
     <Compile Include="Models\FirmViewModel.cs" />
     <Compile Include="Models\MySeminarViewModel.cs" />
