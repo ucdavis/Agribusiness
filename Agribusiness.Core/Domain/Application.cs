@@ -82,6 +82,11 @@ namespace Agribusiness.Core.Domain
         public virtual DateTime? DateDecision { get; set; }
         public virtual string DecisionReason { get; set; }
 
+        /// <summary>
+        /// Whether or not attendee has authorized release of personal contact information.
+        /// </summary>
+        public virtual bool ContactInformationRelease { get; set; }
+
         [Required]
         public virtual User User { get; set; }
         [Required]
