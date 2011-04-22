@@ -293,7 +293,7 @@
       </PropertyElementName>
       <PropertyElementName>
         <Name>TargetConnectionString</Name>
-        <Value>Data Source=.\sqlexpress;Initial Catalog=agribusiness;Integrated Security=True;Pooling=False</Value>
+        <Value>Data Source=vogel;Initial Catalog=Agribusiness;Integrated Security=True;Pooling=False</Value>
       </PropertyElementName>
       <PropertyElementName>
         <Name>VerifyDeployment</Name>

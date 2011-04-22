@@ -42,6 +42,7 @@ namespace Agribusiness.Core.Domain
 
         public virtual IList<Session> Sessions { get; set; }
         public virtual IList<SeminarRole> SeminarRoles { get; set; }
+        public virtual IList<Commodity> Commodities { get; set; }
         #endregion
     }
 
@@ -69,6 +70,11 @@ namespace Agribusiness.Core.Domain
             HasManyToMany(x => x.SeminarRoles).ParentKeyColumn("SeminarPersonId")
                 .ChildKeyColumn("SeminarRoleId")
                 .Table("SeminarPeopleXSeminarRoles")
+                .Cascade.SaveUpdate();
+
+            HasManyToMany(x => x.Commodities).ParentKeyColumn("SeminarPersonId")
+                .ChildKeyColumn("CommodityId")
+                .Table("SeminarPeopleXCommodities")
                 .Cascade.SaveUpdate();
         }
     }
