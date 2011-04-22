@@ -71,8 +71,6 @@ namespace Agribusiness.Web.Controllers
 
             application.TransferValidationMessagesTo(ModelState);
 
-            
-
             if (ModelState.IsValid)
             {
                 _seminarService.CreateSeminarPerson(application, ModelState);

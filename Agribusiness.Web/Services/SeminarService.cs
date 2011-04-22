@@ -50,7 +50,9 @@ namespace Agribusiness.Web.Services
             {
                 Seminar = application.Seminar,
                 Title = application.JobTitle,
-                Firm = firm
+                Firm = firm,
+                ContactInformationRelease = application.ContactInformationRelease,
+                Commodities = application.Commodities
             };
 
             person.AddSeminarPerson(seminarPerson);
