@@ -25,6 +25,9 @@ namespace Agribusiness.Web.Helpers
                 .ForMember(x => x.Id, x => x.Ignore())
                 .ForMember(x=>x.Seminar, x=>x.Ignore());
 
+            CreateMap<Commodity, Commodity>()
+                .ForMember(x => x.Id, x => x.Ignore());
+
             CreateMap<PersonEditModel, Person>()
                 .ForMember(x => x.Id, x => x.Ignore())
                 .ForMember(x => x.FirstName, x => x.MapFrom(a => a.Person.FirstName))
