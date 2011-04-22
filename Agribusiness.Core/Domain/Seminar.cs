@@ -41,6 +41,9 @@ namespace Agribusiness.Core.Domain
         [Required]
         [StringLength(100)]
         public virtual string Location { get; set; }
+        [StringLength(200)]
+        [DataType(DataType.Url)]
+        public virtual string LocationLink { get; set; }
         [Before("End")]
         public virtual DateTime Begin { get; set; }
         public virtual DateTime End { get; set; }

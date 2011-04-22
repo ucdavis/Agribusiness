@@ -20,8 +20,8 @@
     [FirmZip]          VARCHAR (10)     NULL,
     [FirmPhone]        VARCHAR (15)     NULL,
     [Website]          VARCHAR (200)    NULL,
-    [Responsibilities] VARCHAR (MAX)    NULL,
-    [JobTitle]         VARCHAR (50)     NULL,
+    [Responsibilities] VARCHAR (MAX)    NOT NULL,
+    [JobTitle]         VARCHAR (50)     NOT NULL,
     [UserId]           UNIQUEIDENTIFIER NOT NULL,
     [SeminarId]        INT              NOT NULL,
     [IsPending]        BIT              NOT NULL,
@@ -30,6 +30,8 @@
     [DateDecision]     DATETIME         NULL,
     [DecisionReason]   VARCHAR (MAX)    NULL
 );
+
+
 
 
 
