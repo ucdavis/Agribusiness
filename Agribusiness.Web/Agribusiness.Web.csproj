@@ -191,6 +191,7 @@
     <Content Include="Css\main.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Images\loading.gif" />
     <Content Include="Images\search.png" />
     <Content Include="Scripts\jquery.bt.min.js" />
     <Content Include="Images\button_delete_red.png" />

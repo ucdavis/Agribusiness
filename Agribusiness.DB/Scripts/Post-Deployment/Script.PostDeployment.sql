@@ -9,3 +9,26 @@ Post-Deployment Script Template
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
+
+/*
+	Values for static lookup tables
+*/
+
+if not exists (select * from AddressTypes where id = 'B')
+begin
+insert AddressTypes (id, Name) values ('B', 'Business')
+end
+if not exists (select * from AddressTypes where id = 'C')
+begin
+insert AddressTypes (id, Name) values ('C', 'Courier')
+end
+
+if not exists (select * from ContactTypes where id = 'A')
+begin
+insert ContactTypes (id, Name) values ('A', 'Assistant')
+end
+
+if not exists (select * from ContactTypes where id = 'E')
+begin
+insert ContactTypes (id, Name) values ('E', 'Emergency')
+end
