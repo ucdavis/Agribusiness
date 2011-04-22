@@ -8,6 +8,7 @@ using Agribusiness.Web.Models;
 using Agribusiness.Web.Services;
 using Resources;
 using UCDArch.Core.PersistanceSupport;
+using UCDArch.Web.ActionResults;
 using UCDArch.Web.Controller;
 using UCDArch.Web.Helpers;
 using System.Web;
@@ -88,6 +89,27 @@ namespace Agribusiness.Web.Controllers
             return View(application);
         }
 
+        [HttpPost]
+        [UserOnly]
+        public JsonNetResult SaveComments(int id, string comments)
+        {
+            var application = _applicationRepository.GetNullableById(id);
+            if (application == null) return new JsonNetResult(string.Format(Messages.NotFound, "application", id));
+
+            try
+            {
+                application.DecisionReason = comments;
+                _applicationRepository.EnsurePersistent(application);
+
+                return new JsonNetResult(string.Format(Messages.Saved, "Decision Reason"));
+            }
+            catch (Exception)
+            {
+                return new JsonNetResult("There was an error saving the comments, please reload page and try again.");
+            }
+        }
+
+        #region Membership User Functions
         [MembershipUserOnly]
         public ActionResult Apply()
         {
@@ -124,6 +146,7 @@ namespace Agribusiness.Web.Controllers
             var viewModel = ApplicationViewModel.Create(Repository, _firmService, CurrentUser.Identity.Name, application);
             return View(viewModel);
         }
+        #endregion
 
         /// <summary>
         /// Gets photo from an application

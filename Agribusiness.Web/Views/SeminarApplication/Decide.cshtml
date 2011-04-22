@@ -16,16 +16,38 @@
 {
     <style type="text/css">
         form {display:inline-block;}
+        #commentsResult {margin-left: 40px; color: gray; font-style: italic;}
+        #commentsLoading {display:none;} 
     </style>
 
     <script type="text/javascript">
+
+        var saveCommentsUrl = '@Url.Action("SaveComments")';
+        var antiforgeryToken;
+
         $(function () {
+
+            antiforgeryToken = $('input[name="__RequestVerificationToken"]').val();
+
             $("textarea#Reason").change(function () {
                 $(".decision_reason").val($(this).val());
+            });
+
+            $("#saveComments").click(function () {
+                var id = '@Model.Id';
+                var txt = $("#Reason").val();
+                $("#commentsLoading").show();
+                $.post(saveCommentsUrl, {id: id, comments: txt, __RequestVerificationToken: antiforgeryToken}, function(result){
+                    $("#commentsResult").html(result);
+                    $("#commentsLoading").hide();
+                });
+
             });
         });
     </script>
 }
+
+@Html.AntiForgeryToken()
 
 <div>
 <div class="profile_pic_container">
@@ -153,8 +175,15 @@
     <fieldset>
         <legend>Make Decision</legend>
 
-        Decision Reason:<br />
-        @Html.TextArea("Reason", new { @style="height: 100px; width: 790px;" })
+        Decision Reason/Comments:<br />
+        @Html.TextArea("Reason", Model.DecisionReason, new { @style="height: 100px; width: 700px;" })
+        <br />
+        <div>
+            <a href="javascript:;" id="saveComments">Save Comments</a>
+            <span id="commentsLoading"><img src='@Url.Image("loading.gif")' alt="Saving Comment Indicator" /></span>
+            <span id="commentsResult"></span>
+        </div>
+        
         <br /><br />
         @using (Html.BeginForm()) { 
             @Html.AntiForgeryToken()
