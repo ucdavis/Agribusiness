@@ -73,6 +73,13 @@ if (mvcHost.ReferenceScriptLibraries) {
 }
 #>
 
+@section SubNav
+{
+	<ul class="navigation">
+		<li>@Html.ActionLink("Back to List", "Index")</li>
+	</ul>
+}
+
 @using (Html.BeginForm()) {
 	@Html.AntiForgeryToken()
 	@Html.ValidationSummary(true)
@@ -86,11 +93,7 @@ Example: Dinosaur 1  *@
 	<ul>
 <#
 foreach (ModelProperty property in GetModelProperties(mvcHost.ViewDataType)) {
-	if (property.IsPrimaryKey) {
-#>
-		@Html.HiddenFor(model => model.<#= property.Name #>)
-<#
-	} else if (!property.IsReadOnly) {
+	if (!property.IsPrimaryKey && !property.IsReadOnly) {
 #>
 		<li>
 			<div class="editor-label<# if (property.IsRequired) { #> required<# }#>">
@@ -107,16 +110,15 @@ foreach (ModelProperty property in GetModelProperties(mvcHost.ViewDataType)) {
 #>
 		<li>
 			@* For the clear and submit buttons an empty label is required. Example: <label>&nbsp;</label> *@
-			<label>&nbsp;</label>
-			<input class="button" type="submit" value="Edit" /> | @Html.ActionLink("Cancel", "Index")
+			<div class="editor-label">&nbsp;</div>
+			<div class="editor-field">
+			<input class="button" type="submit" value="Create" /> | @Html.ActionLink("Cancel", "Index")
+			</div>
 		</li>
 	</ul>
 </fieldset>
 }
 
-<div>
-	@Html.ActionLink("Back to List", "Index")
-</div>
 <#
 // The following code closes the asp:Content tag used in the case of a master page and the body and html tags in the case of a regular view page
 #>
@@ -138,7 +140,7 @@ class ModelProperty {
 	public Type UnderlyingType { get; set; }
 	public bool IsPrimaryKey { get; set; }
 	public bool IsReadOnly { get; set; }
-    public bool IsRequired { get; set; }                                                                                                                                                                                                                                                                                                                                   
+    public bool IsRequired { get; set; }                                                                                                                                                                                                                                                                                  
 }
 
 // Change this list to include any non-primitive types you think should be eligible for display/edit
@@ -223,7 +225,7 @@ List<ModelProperty> GetEligibleProperties(Type type) {
 				UnderlyingType = underlyingType,
 				IsPrimaryKey = IsPrimaryKey(prop),
 				IsReadOnly = prop.GetSetMethod() == null,
-                IsRequired = prop.GetCustomAttributes(typeof(RequiredAttribute), true).Any()
+				IsRequired = prop.GetCustomAttributes(typeof(RequiredAttribute), true).Any()
 			});
 		}
 	}

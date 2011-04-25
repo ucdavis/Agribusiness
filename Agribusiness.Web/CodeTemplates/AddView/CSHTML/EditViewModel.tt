@@ -93,11 +93,11 @@ foreach (ModelProperty property in GetModelProperties(mvcHost.ViewDataType)) {
 #>
 		<li>
 			<div class="editor-label<# if (property.IsRequired) { #> required<# }#>">
-				@Html.LabelFor(model => model.<#= property.Name #>)<# if (property.IsRequired) { #><span>*</span><# }#> 
+				@Html.LabelFor(model => model.<#= property.Path #>)<# if (property.IsRequired) { #><span>*</span><# }#> 
 			</div>
 			<div class="editor-field">
-				@Html.EditorFor(model => model.<#= property.Name #>)
-				@Html.ValidationMessageFor(model => model.<#= property.Name #>)
+				@Html.EditorFor(model => model.<#= property.Path #>)
+				@Html.ValidationMessageFor(model => model.<#= property.Path #>)
 			</div>
 		</li>
 <#

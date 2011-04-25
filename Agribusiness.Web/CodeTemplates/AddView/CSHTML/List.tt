@@ -57,13 +57,12 @@ if (!String.IsNullOrEmpty(mvcHost.MasterPageFile)) {
 }
 #>
 
-@section SubPageNavigation
+@section SubNav
 {
-	<ul class='navigation'>
+	<ul class="navigation">
 		<li>@Html.ActionLink("Create New", "Create")</li>
 	</ul>
 }
-
 
 <table>
 	<thead>
@@ -124,6 +123,7 @@ foreach (ModelProperty property in properties) {
 <#
 	}
 }
+#>
 
 if (pkName != null) {
 #>

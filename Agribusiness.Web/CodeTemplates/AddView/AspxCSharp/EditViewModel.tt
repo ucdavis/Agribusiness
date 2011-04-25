@@ -78,9 +78,14 @@ if (mvcHost.ReferenceScriptLibraries) {
 <% using (Html.BeginForm()) { %>
 	<%: Html.AntiForgeryToken() %>
     <%: Html.ValidationSummary(true) %>
-    <fieldset>
-        <legend><#= GetUnderlyingModelName(mvcHost.ViewDataType) #></legend>
-
+<fieldset>
+ <%-- Legend is required if you have more than one widget/unit to help the user understand what is being asked of them.
+Example: Dinosaur 1  --%>
+	<legend><#= mvcHost.ViewDataType.Name #></legend>
+	<%--<h4>Form Header</h4>--%>
+	<%--<p>Be specific so the user understands what exactly you are looking for.  Example: After Dinosaur 1 moves out of his/her parents' den what will Dinosaur 1 do?  We need to know his employment plan, feeding area, as well as living situation.  This information will not be sold or given to carnivores.</p>--%>
+	<p>All required fields are in <strong>bold</strong> and have a red <span class="required">*</span> next to the field label.</p>
+	<ul>
 <#
 foreach (ModelProperty property in GetModelProperties(mvcHost.ViewDataType)) {
     if (property.IsPrimaryKey) {
@@ -90,8 +95,8 @@ foreach (ModelProperty property in GetModelProperties(mvcHost.ViewDataType)) {
 <#
     } else if (!property.IsReadOnly) {
 #>
-        <div class="editor-label">
-            <%: Html.LabelFor(model => model.<#= property.Path #>) %>
+        <div class="editor-label<# if (property.IsRequired) { #> required<# }#>">
+            <%: Html.LabelFor(model => model.<#= property.Path #>) %><# if (property.IsRequired) { #><span>*</span><# }#> 
         </div>
         <div class="editor-field">
             <%: Html.EditorFor(model => model.<#= property.Path #>) %>
@@ -102,10 +107,13 @@ foreach (ModelProperty property in GetModelProperties(mvcHost.ViewDataType)) {
     }
 }
 #>
-        <p>
-            <input type="submit" value="Save" />
-        </p>
-    </fieldset>
+		<li>
+			<%-- For the clear and submit buttons an empty label is required. Example: <label>&nbsp;</label> --%>
+			<label>&nbsp;</label>
+			<input class="button" type="submit" value="Create" /> | <%: Html.ActionLink("Cancel", "Index") %>
+		</li>
+	</ul>
+</fieldset>
 <% } %>
 
 <div>
@@ -150,6 +158,7 @@ class ModelProperty {
     public Type UnderlyingType { get; set; }
     public bool IsPrimaryKey { get; set; }
     public bool IsReadOnly { get; set; }
+    public bool IsRequired { get; set; }
 }
 
 // Change this list to include any non-primitive types you think should be eligible for display/edit
@@ -244,7 +253,8 @@ List<ModelProperty> GetEligibleProperties(Type type) {
                 ValueExpression = "Model." + prop.Name,
                 UnderlyingType = underlyingType,
                 IsPrimaryKey = IsPrimaryKey(prop),
-                IsReadOnly = prop.GetSetMethod() == null
+                IsReadOnly = prop.GetSetMethod() == null,
+                IsRequired = prop.GetCustomAttributes(typeof(RequiredAttribute), true).Any()
             });
         }
     }
