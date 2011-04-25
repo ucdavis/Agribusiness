@@ -169,3 +169,10 @@ if not exists (select * from seminarroles where id = 'SC') begin insert into sta
 if not exists (select * from seminarroles where id = 'SP') begin insert into states (id, name, discount, description) values ('SP', 'Speaker', 10.00, 'Paid Session Speaker') end
 if not exists (select * from seminarroles where id = 'ST') begin insert into states (id, name, discount, description) values ('ST', 'Staff', 10.00, 'Anyone Working on/at and Attending Conference') end
 if not exists (select * from seminarroles where id = 'VD') begin insert into states (id, name, discount, description) values ('VD', 'Vendor', 10.00, 'Businesses we work with for this event') end
+
+/*
+Necessary for the membership provider to work
+*/
+insert into aspnet_SchemaVersions (Feature, CompatibleSchemaVersion, IsCurrentVersion) values ('common', 1, 1)
+insert into aspnet_SchemaVersions (Feature, CompatibleSchemaVersion, IsCurrentVersion) values ('membership', 1, 1)
+insert into aspnet_Applications (ApplicationName, LoweredApplicationName, ApplicationId) values ('Agribusiness', 'agribusiness', '17a4ebcf-1b03-4096-92a4-263ca67d7f5a')
