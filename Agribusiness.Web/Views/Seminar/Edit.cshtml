@@ -33,7 +33,7 @@
 
     @if (Model.Seminar.Sessions.Any())
     { 
-    <table id="sessions" class="default_table">
+    <table id="sessions" class="default_table nolasticon">
         <thead> 
             <tr>
                 <th></th>
@@ -42,7 +42,6 @@
                 <th>Begin</th>
                 <th>End</th>
                 <th>Type</th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -61,7 +60,6 @@
                     <td>@a.BeginString</td>
                     <td>@a.EndString</td>
                     <td>@a.SessionType.Name</td>
-                    <td></td>
                 </tr>
             }
 
