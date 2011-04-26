@@ -9,6 +9,9 @@ namespace Agribusiness.Core.Domain
         [Required]
         [StringLength(50)]
         public virtual string Name { get; set; }
+
+        [StringLength(50)]
+        public virtual string PersonType { get; set; }
     }
 
     public class SessionTypeMap : ClassMap<SessionType>
@@ -19,6 +22,7 @@ namespace Agribusiness.Core.Domain
 
             Id(x => x.Id);
             Map(x => x.Name);
+            Map(x => x.PersonType);
         }
     }
 }

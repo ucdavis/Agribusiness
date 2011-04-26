@@ -151,6 +151,7 @@
     <Compile Include="Models\PersonEditModel.cs" />
     <Compile Include="Models\PersonListViewModel.cs" />
     <Compile Include="Models\ProfileViewModel.cs" />
+    <Compile Include="Models\SessionPersonViewModel.cs" />
     <Compile Include="Services\FirmService.cs" />
     <Compile Include="Services\IFirmService.cs" />
     <Compile Include="Services\IPersonService.cs" />
@@ -356,6 +357,7 @@
     <None Include="CodeTemplates\AddView\CSHTML\List.tt" />
     <None Include="CodeTemplates\AddView\CSHTML\ListDatatables.tt" />
     <None Include="CodeTemplates\AddView\CSHTML\ListTelerik.tt" />
+    <Content Include="Views\Session\AddPerson.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">

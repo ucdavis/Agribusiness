@@ -1,0 +1,44 @@
+﻿@model SessionPersonViewModel
+
+
+@{
+    ViewBag.Title = "Add Session Person";
+    ViewBag.SubPageTitle = "Add Session Person";
+}
+
+@section SubPageNavigation
+{
+    <ul class="navigation">
+        <li>@Html.ActionLink("Back to Session", "Edit", "Session", new {id=Model.Session.Id, seminarId = Model.Session.Seminar.Id}, new {})</li>
+    </ul>
+}
+
+@using (Html.BeginForm()) 
+{ 
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+
+    <fieldset>
+        <legend>Session Person</legend>
+
+        <p>The selected person will be added as a @Model.Session.SessionType.PersonType</p>
+
+        <ul>
+            <li><div class="editor-label required">Attendee:<span>*</span></div>
+                <div class="editor-field">
+                    @this.Select("seminarPersonId").Options(Model.SeminarPeople, x => x.Id, x => x.Person.FullName).Selected(Model.SeminarPerson.Id)
+                </div>
+            </li>
+            <li><div class="editor-label"></div>
+                <div class="editor-field">
+                    <input type="submit" value="Save" class="button" /> | @Html.ActionLink("Cancel", "Edit", "Session", new { id = Model.Session.Id, seminarId = Model.Session.Seminar.Id }, new { })
+                </div>
+            </li>
+        </ul>
+
+    </fieldset>
+}
+
+
+
+

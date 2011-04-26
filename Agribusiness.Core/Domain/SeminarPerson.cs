@@ -23,6 +23,7 @@ namespace Agribusiness.Core.Domain
 
             Sessions = new List<Session>();
             SeminarRoles = new List<SeminarRole>();
+            Commodities = new List<Commodity>();
         }
         #endregion
 
@@ -45,6 +46,12 @@ namespace Agribusiness.Core.Domain
         public virtual IList<SeminarRole> SeminarRoles { get; set; }
         public virtual IList<Commodity> Commodities { get; set; }
         #endregion
+
+        public virtual string GetCommodityList()
+        {
+            return string.Join(", ", Commodities);
+        }
+
     }
 
     public class SeminarPersonMap : ClassMap<SeminarPerson>

@@ -47,6 +47,10 @@ namespace Agribusiness.Core.Domain
 
         public virtual IList<SeminarPerson> SeminarPeople { get; set; }
         public virtual IList<CaseStudy> CaseStudies { get; set; }
+        /// <summary>
+        /// List of people assigned as speaker/panelists/discussion group leaders
+        /// </summary>
+        public virtual IList<SeminarPerson> SessionPeople { get; set; }
         #endregion
 
         public virtual string BeginString { get { return Begin.HasValue ? Begin.Value.ToString("g") : "n/a"; } }
@@ -77,6 +81,12 @@ namespace Agribusiness.Core.Domain
                 .Cascade.SaveUpdate();
 
             HasMany(x => x.CaseStudies).Inverse().Cascade.AllDeleteOrphan();
+
+            HasManyToMany(x => x.SessionPeople)
+                .ParentKeyColumn("SessionId")
+                .ChildKeyColumn("SeminarPersonId")
+                .Table("SessionPeople")
+                .Cascade.SaveUpdate();
         }
     }
 }

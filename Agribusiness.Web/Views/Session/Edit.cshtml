@@ -9,6 +9,58 @@
 
     @Html.Partial("_SessionFormScripts")
 
+    <script type="text/javascript">
+        $(function () {
+            $(".removePerson").click(function () {
+                $(this).parent()[0].submit();
+            });
+        });
+    </script>
+}
+
+@section SubPageNavigation
+{
+    <ul class="navigation">
+        <li>@Html.ActionLink("Add Session Person", "AddPerson", new { id=Model.Session.Id })</li>
+    </ul>
 }
 
 @Html.Partial("_SessionForm")
+
+@if (!string.IsNullOrWhiteSpace(Model.Session.SessionType.PersonType))
+{     
+    <fieldset class="display_form">
+        <legend>Session People</legend>
+
+        <p>People added here will be listed as a @Model.Session.SessionType.PersonType</p>
+
+        <table class="default_table nofirsticon">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var a in Model.Session.SessionPeople)
+                { 
+                    <tr>
+                        <td>@a.Person.FirstName</td>
+                        <td>@a.Person.LastName</td>
+                        <td>
+                            @using (Html.BeginForm("RemovePerson", "Session", FormMethod.Post, new { @style="display:inline;" }))
+                            { 
+                                @Html.Hidden("id", Model.Session.Id)
+                                @Html.Hidden("seminarPersonId", a.Id)
+                                @Html.AntiForgeryToken()
+                                
+                                <img class="removePerson" src='@Url.Content("~/Images/delete.png")' style="cursor:pointer;" />
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </fieldset>
+}

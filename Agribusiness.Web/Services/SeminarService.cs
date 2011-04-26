@@ -52,7 +52,7 @@ namespace Agribusiness.Web.Services
                 Title = application.JobTitle,
                 Firm = firm,
                 ContactInformationRelease = application.ContactInformationRelease,
-                Commodities = application.Commodities
+                Commodities = new List<Commodity>(application.Commodities)
             };
 
             person.AddSeminarPerson(seminarPerson);

@@ -49,6 +49,12 @@
                 @Html.ValidationMessageFor(a=>a.Seminar.End)
             </div>
         </li>
+        <li><div class="editor-label">Registration Begin:</div>
+            <div class="editor-field">
+                @Html.EditorFor(a=>a.Seminar.RegistrationBegin)
+                @Html.ValidationMessageFor(a=>a.Seminar.RegistrationBegin)
+            </div>
+        </li>
         <li><div class="editor-label">
                 <label for="RegistrationDeadline">Registration Deadline:</label>
             </div>

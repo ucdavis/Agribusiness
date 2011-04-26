@@ -101,7 +101,7 @@ namespace Agribusiness.Web.Controllers
 
                 return new JsonNetResult(string.Format(Messages.Saved, "Decision Reason"));
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return new JsonNetResult("There was an error saving the comments, please reload page and try again.");
             }
