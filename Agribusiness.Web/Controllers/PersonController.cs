@@ -333,7 +333,7 @@ namespace Agribusiness.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdateProfilePicture(int id, int x, int y, int height, int width)
+        public ActionResult UpdateProfilePicture(int id, int? seminarId, int x, int y, int height, int width)
         {
             var person = _personRepository.GetNullableById(id);
 
@@ -364,6 +364,12 @@ namespace Agribusiness.Web.Controllers
             {
                 Message = string.Format(Messages.Saved, "Person");
                 _personRepository.EnsurePersistent(person);
+
+                if (seminarId.HasValue)
+                {
+                    return this.RedirectToAction(a => a.AdminEdit(person.User.Id, seminarId.Value));
+                }
+
                 return this.RedirectToAction(a => a.Index());
             }
 
