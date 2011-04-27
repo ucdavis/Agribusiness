@@ -11,7 +11,7 @@
         $(function () {
             $("#tabs").tabs();
 
-            $("#cancel_coupon").click(function () { $(this).parent()[0].submit(); });
+            $(".submitanchor").click(function () { $(this).parent()[0].submit(); });
 
             $("#coupon_dialog").dialog({ autoOpen: false, modal: true });
 
@@ -91,24 +91,45 @@
             <div class="reg-navigation">
                 <ul>
                     <li>
-                        @using (Html.BeginForm("CancelCoupon", "Person", FormMethod.Post, new { @style="display:inline; margin: 0;" }))
+                        @using (Html.BeginForm("CancelCoupon", "Person", FormMethod.Post, new { @style = "display:inline; margin: 0;" }))
                         {
                             @Html.Hidden("seminarId", Model.SeminarId)
                             @Html.Hidden("personId", Model.PersonViewModel.Person.Id)
                             @Html.AntiForgeryToken()
 
-                            <a href="javascript:;" id="cancel_coupon">Cancel Coupon</a>
+                            <a href="javascript:;" id="cancel_coupon" class="submitanchor">Cancel Coupon</a>
                         }
                     </li>
                     <li><a href="javascript:;" id="update_coupon">Update Coupon</a></li>
-                    <li><a href="javascript:;" id="refresh_status">Refresh Status</a></li>
+                    <li>
+                        @using (Html.BeginForm("UpdateRegistrationStatus", "Person", FormMethod.Post, new { @style = "display:inline; margin: 0;" }))
+                        { 
+                            @Html.Hidden("seminarId", Model.SeminarId)
+                            @Html.Hidden("personId", Model.PersonViewModel.Person.Id)
+                            @Html.AntiForgeryToken()
+                            
+                            <a href="javascript:;" id="refresh_status" class="submitanchor">Refresh Status</a>
+                        }
+                    </li>
                 </ul>
             </div>
 
             <div class="display-form">
+
+                @{
+                    var registered = !string.IsNullOrWhiteSpace(Model.PersonViewModel.SeminarPerson.TransactionId);
+                    var paid = Model.PersonViewModel.SeminarPerson.Paid;
+                }
+
                 <ul>
-                    <li><div class='display-label'>Registered:</div>
-                        <div class='display-details'>@(Model.PersonViewModel.SeminarPerson.Registered ? "Yes" : "No")</div>
+                    <li><div class='display-label'>Registration Id:</div>
+                        <div class='display-details'>@Model.PersonViewModel.SeminarPerson.RegistrationCode</div>
+                    </li>
+                    <li><div class='display-label'>Transaction Id:</div>
+                        <div class='display-details'>@(registered ? Model.PersonViewModel.SeminarPerson.TransactionId : "Not Registered")</div>
+                    </li>
+                    <li><div class='display-label'>Status:</div>
+                        <div class='display-details'>@(registered ? (paid ? "Registered (Paid)" : "Registered (Not Paid)" ) : "n/a")</div>
                     </li>
                     <li><div class='display-label'>Coupon:</div>
                         <div class='display-details'>

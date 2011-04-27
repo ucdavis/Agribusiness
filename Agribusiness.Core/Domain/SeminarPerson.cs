@@ -19,7 +19,7 @@ namespace Agribusiness.Core.Domain
 
         private void SetDefaults()
         {
-            Registered = false;
+            Paid = false;
 
             Sessions = new List<Session>();
             SeminarRoles = new List<SeminarRole>();
@@ -38,11 +38,14 @@ namespace Agribusiness.Core.Domain
         public virtual string CouponCode { get; set; }
         [Range(0.0, Double.MaxValue)]
         public virtual decimal? CouponAmount { get; set; }
-        public virtual bool Registered { get; set; }
+        public virtual bool Paid { get; set; }
         public virtual bool Invite { get; set; }
         public virtual bool ContactInformationRelease { get; set; }
 
         public virtual string RegistrationCode { get; private set; }
+        [StringLength(20)]
+        public virtual string TransactionId { get; set; }
+        public virtual string Comments { get; set; }
 
         public virtual IList<Session> Sessions { get; set; }
         public virtual IList<SeminarRole> SeminarRoles { get; set; }
@@ -69,10 +72,12 @@ namespace Agribusiness.Core.Domain
             References(x => x.Firm);
             Map(x => x.CouponCode);
             Map(x => x.CouponAmount);
-            Map(x => x.Registered);
+            Map(x => x.Paid);
             Map(x => x.RegistrationCode).ReadOnly();
             Map(x => x.Invite);
             Map(x => x.ContactInformationRelease);
+            Map(x => x.TransactionId);
+            Map(x => x.Comments);
 
             HasManyToMany(x => x.Sessions).ParentKeyColumn("SeminarPersonId")
                 .ChildKeyColumn("SessionId")

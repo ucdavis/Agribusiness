@@ -51,6 +51,9 @@ namespace Agribusiness.WS.CrpService {
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private Agribusiness.WS.CrpService.ServiceQuestion[] ServiceQuestionsField;
         
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string TransactionNumberField;
+        
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
             get {
@@ -122,6 +125,19 @@ namespace Agribusiness.WS.CrpService {
                 if ((object.ReferenceEquals(this.ServiceQuestionsField, value) != true)) {
                     this.ServiceQuestionsField = value;
                     this.RaisePropertyChanged("ServiceQuestions");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string TransactionNumber {
+            get {
+                return this.TransactionNumberField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.TransactionNumberField, value) != true)) {
+                    this.TransactionNumberField = value;
+                    this.RaisePropertyChanged("TransactionNumber");
                 }
             }
         }
@@ -224,7 +240,7 @@ namespace Agribusiness.WS.CrpService {
         bool CancelCoupon(int itemId, string couponCode);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IItemService/GetRegistrationByReference", ReplyAction="http://tempuri.org/IItemService/GetRegistrationByReferenceResponse")]
-        Agribusiness.WS.CrpService.ServiceTransaction GetRegistrationByReference(string registrationId);
+        Agribusiness.WS.CrpService.ServiceTransaction GetRegistrationByReference(int itemId, string registrationId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IItemService/GetRegistrationById", ReplyAction="http://tempuri.org/IItemService/GetRegistrationByIdResponse")]
         Agribusiness.WS.CrpService.ServiceTransaction GetRegistrationById(int transactionId);
@@ -268,8 +284,8 @@ namespace Agribusiness.WS.CrpService {
             return base.Channel.CancelCoupon(itemId, couponCode);
         }
         
-        public Agribusiness.WS.CrpService.ServiceTransaction GetRegistrationByReference(string registrationId) {
-            return base.Channel.GetRegistrationByReference(registrationId);
+        public Agribusiness.WS.CrpService.ServiceTransaction GetRegistrationByReference(int itemId, string registrationId) {
+            return base.Channel.GetRegistrationByReference(itemId, registrationId);
         }
         
         public Agribusiness.WS.CrpService.ServiceTransaction GetRegistrationById(int transactionId) {

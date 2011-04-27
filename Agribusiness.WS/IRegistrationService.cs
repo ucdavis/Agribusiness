@@ -10,5 +10,7 @@ namespace Agribusiness.WS
     {
         string GenerateCoupon(int itemId, string email, decimal amount);
         bool CancelCoupon(int itemId, string couponCode);
+
+        void RefreshRegistration(int itemId, string registrationId, out string transactionId, out bool paid);
     }
 }

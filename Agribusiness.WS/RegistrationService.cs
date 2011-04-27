@@ -48,5 +48,23 @@ namespace Agribusiness.WS
             var client = InitializeClient();
             return client.CancelCoupon(itemId, couponCode);
         }
+
+        public void RefreshRegistration(int itemId, string registrationId, out string transactionId, out bool paid)
+        {
+            var client = InitializeClient();
+
+            var registration = client.GetRegistrationByReference(itemId, registrationId);
+
+            if (registration != null)
+            {
+                transactionId = registration.TransactionNumber;
+                paid = registration.Paid;
+
+                return;
+            }
+
+            transactionId = null;
+            paid = false;
+        }
     }
 }
