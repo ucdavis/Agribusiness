@@ -21,6 +21,21 @@
             display:inline-block;
             width: 210px;
         }
+        
+        input[type='text'], textarea, select
+        {
+            width: 250px;
+        }
+        
+        textarea
+        {
+            height: 75px;
+        }
+        
+        form fieldset div.editor-label, .display-form div.display-label
+        {
+            width: 150px;
+        }
     </style>
 
     <script type="text/javascript">
@@ -129,14 +144,14 @@
 				    @Html.ValidationMessageFor(model => model.Application.BadgeName)
 			    </div>
 		    </li>
-            <li><div class="editor-label">
+@*            <li><div class="editor-label">
                     @Html.LabelFor(model => model.Application.Photo)
                 </div>
                 <div class="editor-field">
                     <input type="file" name="file" id="file" />
                     @Html.ValidationMessageFor(model => model.Application.Photo)
                 </div>
-            </li>
+            </li>*@
         </ul>
     </fieldset>
     <fieldset>
@@ -188,7 +203,7 @@
             </li>
             <li><div class="editor-label required">Business Type/Firm Description:<span>*</span></div>
                 @*<div class="editor-field">@Html.TextAreaFor(a=>a.Application.FirmDescription)</div>*@
-                <div class="editor-field">@Html.TextBox("Application.FirmDescription", Model.Application.FirmDescription)</div>
+                <div class="editor-field">@Html.TextArea("Application.FirmDescription", Model.Application.FirmDescription)</div>
             </li>
         </ul>
 
