@@ -35,19 +35,18 @@ namespace Agribusiness.WS
             return client;
         }
 
-        public string GenerateCoupon(int itemId, Seminar seminar, Person person, SeminarRole role)
+        public string GenerateCoupon(int itemId, string email, decimal amount)
         {
-            // execute the request
             var client = InitializeClient();
-            var code = client.CreateCoupon(itemId, person.User.UserName, null, role.Discount.Value, 1, 1, CouponTypes.SingleUsage);
+            var coupon = client.CreateCoupon(itemId, email, null, amount, 1, 1, CouponTypes.SingleUsage);
 
-            return code;
+            return coupon;
         }
 
-        public void CancelCoupon(int itemId, string couponCode)
+        public bool CancelCoupon(int itemId, string couponCode)
         {
             var client = InitializeClient();
-            client.CancelCoupon(itemId, couponCode);
+            return client.CancelCoupon(itemId, couponCode);
         }
     }
 }

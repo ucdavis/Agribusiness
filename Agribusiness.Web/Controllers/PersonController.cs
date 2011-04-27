@@ -9,6 +9,7 @@ using Agribusiness.Core.Domain;
 using Agribusiness.Web.Controllers.Filters;
 using Agribusiness.Web.Models;
 using Agribusiness.Web.Services;
+using Agribusiness.WS;
 using AutoMapper;
 using Resources;
 using UCDArch.Core.PersistanceSupport;
@@ -27,21 +28,27 @@ namespace Agribusiness.Web.Controllers
 	    private readonly IRepository<Person> _personRepository;
         private readonly IRepositoryWithTypedId<User, Guid> _userRepository;
         private readonly IRepositoryWithTypedId<SeminarRole, string> _seminarRoleRepository;
+        private readonly IRepository<SeminarPerson> _seminarPersonRepository;
         private readonly IPictureService _pictureService;
         private readonly IPersonService _personService;
         private readonly IFirmService _firmService;
         private readonly ISeminarService _seminarService;
+        private readonly IRegistrationService _registrationService;
         private readonly IMembershipService _membershipService;
 
-        public PersonController(IRepository<Person> personRepository, IRepositoryWithTypedId<User, Guid> userRepository, IRepositoryWithTypedId<SeminarRole, string> seminarRoleRepository, IPictureService pictureService, IPersonService personService, IFirmService firmService, ISeminarService seminarService)
+        public PersonController(IRepository<Person> personRepository, IRepositoryWithTypedId<User, Guid> userRepository, IRepositoryWithTypedId<SeminarRole, string> seminarRoleRepository
+            , IRepository<SeminarPerson> seminarPersonRepository
+            , IPictureService pictureService, IPersonService personService, IFirmService firmService, ISeminarService seminarService, IRegistrationService registrationService)
         {
             _personRepository = personRepository;
             _userRepository = userRepository;
             _seminarRoleRepository = seminarRoleRepository;
+            _seminarPersonRepository = seminarPersonRepository;
             _pictureService = pictureService;
             _personService = personService;
             _firmService = firmService;
             _seminarService = seminarService;
+            _registrationService = registrationService;
 
             _membershipService = new AccountMembershipService();
         }
@@ -153,6 +160,170 @@ namespace Agribusiness.Web.Controllers
             var viewModel = AdminPersonViewModel.Create(Repository, _seminarService, seminarId, user.Person, user.LoweredUserName);
             return View(viewModel);
         }
+
+        /// <summary>
+        /// Update the biography
+        /// </summary>
+        /// <param name="personId">Person Id</param>
+        /// <param name="biography">Biography Text</param>
+        /// <returns></returns>
+        [UserOnly]
+        [HttpPost]
+        public ActionResult UpdateBiography(int personId, int seminarId, string biography)
+        {
+            var person = _personRepository.GetNullableById(personId);
+
+            if (person == null)
+            {
+                Message = string.Format(Messages.NotFound, "Person", personId);
+                return this.RedirectToAction(a => a.Index());
+            }
+
+            person.Biography = biography;
+
+            _personRepository.EnsurePersistent(person);
+            Message = string.Format(Messages.Saved, "Biography");
+
+            var url = Url.Action("AdminEdit", new {id = person.User.Id, seminarId = seminarId});
+            return Redirect(string.Format("{0}#biography", url));
+        }
+
+        /// <summary>
+        /// Updating roles
+        /// </summary>
+        /// <param name="personId">Person Id</param>
+        /// <returns></returns>
+        [UserOnly]
+        [HttpPost]
+        public ActionResult UpdateRoles(int personId, int seminarId, List<string> roles)
+        {
+            var person = _personRepository.GetNullableById(personId);
+
+            if (person == null)
+            {
+                Message = string.Format(Messages.NotFound, "Person", personId);
+                return this.RedirectToAction(a => a.Index());
+            }
+
+            // merge the roles
+            var reg = person.GetLatestRegistration();
+            var seminar = _seminarService.GetCurrent();
+
+            // check if user is registered for the current seminar
+            if (reg.Seminar != seminar)
+            {
+                Message = "User is not a part of the current seminar.  Roles cannot be assigned.";
+                return this.RedirectToAction(a => a.AdminEdit(person.User.Id, seminarId));
+            }
+
+            var existingRoles = reg.SeminarRoles.Select(a => a.Id).ToList();
+
+            // add the roles
+            foreach (var a in roles)
+            {
+                var role = _seminarRoleRepository.GetNullableById(a);
+                if (role != null && !existingRoles.Contains(a))
+                {
+                    reg.SeminarRoles.Add(role);
+                }
+            }
+
+            // remove the ones they shouldn't have
+            var remove = reg.SeminarRoles.Where(a => !roles.ToList().Contains(a.Id)).ToList();
+            foreach (var a in remove)
+            {
+                reg.SeminarRoles.Remove(a);
+            }
+
+            Repository.OfType<SeminarPerson>().EnsurePersistent(reg);
+            Message = string.Format(Messages.Saved, "Seminar Roles");
+
+            var url = Url.Action("AdminEdit", new { id = person.User.Id, seminarId = seminarId });
+            return Redirect(string.Format("{0}#roles", url));
+        }
+
+        [UserOnly]
+        [HttpPost]
+        public ActionResult UpdateCoupon(int personId, int seminarId, decimal couponAmount)
+        {
+            var person = _personRepository.GetNullableById(personId);
+
+            if (person == null)
+            {
+                Message = string.Format(Messages.NotFound, "Person", personId);
+                return this.RedirectToAction(a => a.Index());
+            }
+
+            var reg = person.GetLatestRegistration();
+            var seminar = _seminarService.GetCurrent();
+
+            // check if user is registered for the current seminar
+            if (reg.Seminar != seminar)
+            {
+                Message = "User is not a part of the current seminar.  Coupon cannot be created.";
+                return this.RedirectToAction(a => a.AdminEdit(person.User.Id, seminarId));
+            }
+
+            // check for a current coupon
+            if (!string.IsNullOrWhiteSpace(reg.CouponCode))
+            {
+                _registrationService.CancelCoupon(seminar.RegistrationId.Value, reg.CouponCode);
+                reg.CouponCode = null;
+                reg.CouponAmount = null;
+            }
+
+            // create new coupon
+            var coupon = _registrationService.GenerateCoupon(seminar.RegistrationId.Value, person.User.LoweredUserName, couponAmount);
+
+            if (!string.IsNullOrWhiteSpace(coupon))
+            {
+                reg.CouponCode = coupon;
+                reg.CouponAmount = couponAmount;
+            }
+
+            _seminarPersonRepository.EnsurePersistent(reg);
+            Message = string.Format(Messages.Saved, "coupon");
+
+            var url = Url.Action("AdminEdit", new { id = person.User.Id, seminarId = seminarId });
+            return Redirect(string.Format("{0}#registration", url));
+        }
+
+        [UserOnly]
+        [HttpPost]
+        public ActionResult CancelCoupon(int personId, int seminarId)
+        {
+            var person = _personRepository.GetNullableById(personId);
+
+            if (person == null)
+            {
+                Message = string.Format(Messages.NotFound, "Person", personId);
+                return this.RedirectToAction(a => a.Index());
+            }
+
+            var reg = person.GetLatestRegistration();
+            var seminar = _seminarService.GetCurrent();
+
+            // check if user is registered for the current seminar
+            if (reg.Seminar != seminar)
+            {
+                Message = "User is not a part of the current seminar.  Coupon cannot be created.";
+                return this.RedirectToAction(a => a.AdminEdit(person.User.Id, seminarId));
+            }
+
+            var result = _registrationService.CancelCoupon(seminar.RegistrationId.Value, reg.CouponCode);
+
+            if (result)
+            {
+                reg.CouponCode = null;
+                reg.CouponAmount = null;
+
+                _seminarPersonRepository.EnsurePersistent(reg);
+                Message = string.Format(Messages.Saved, "coupon");
+            }
+
+            var url = Url.Action("AdminEdit", new { id = person.User.Id, seminarId = seminarId });
+            return Redirect(string.Format("{0}#registration", url));
+        }
         #endregion
 
         #region Profile Editing Functions
@@ -230,83 +401,6 @@ namespace Agribusiness.Web.Controllers
             var viewModel = PersonViewModel.Create(Repository, person, user.LoweredUserName);
             return View(viewModel);
         }
-
-        /// <summary>
-        /// Update the biography
-        /// </summary>
-        /// <param name="personId">Person Id</param>
-        /// <param name="biography">Biography Text</param>
-        /// <returns></returns>
-        [HttpPost]
-        public ActionResult UpdateBiography(int personId, string biography)
-        {
-            var person = _personRepository.GetNullableById(personId);
-
-            if (person == null)
-            {
-                Message = string.Format(Messages.NotFound, "Person", personId);
-                return this.RedirectToAction(a => a.Index());
-            }
-
-            person.Biography = biography;
-
-            _personRepository.EnsurePersistent(person);
-            Message = string.Format(Messages.Saved, "Biography");
-            return this.RedirectToAction(a=>a.Edit(person.User.Id));
-        }
-
-        /// <summary>
-        /// Updating roles
-        /// </summary>
-        /// <param name="personId">Person Id</param>
-        /// <returns></returns>
-        [UserOnly]
-        [HttpPost]
-        public ActionResult UpdateRoles(int personId, List<string> roles)
-        {
-            var person = _personRepository.GetNullableById(personId);
-
-            if (person == null)
-            {
-                Message = string.Format(Messages.NotFound, "Person", personId);
-                return this.RedirectToAction(a => a.Index());
-            }
-
-            // merge the roles
-            var reg = person.GetLatestRegistration();
-            var seminar = _seminarService.GetCurrent();
-
-            // check if user is registered for the current seminar
-            if (reg.Seminar != seminar)
-            {
-                Message = "User is not a part of the current seminar.  Roles cannot be assigned.";
-                return this.RedirectToAction(a => a.Edit(person.User.Id));
-            }
-
-            var existingRoles = reg.SeminarRoles.Select(a => a.Id).ToList();
-
-            // add the roles
-            foreach (var a in roles)
-            {
-                var role = _seminarRoleRepository.GetNullableById(a);
-                if (role != null && !existingRoles.Contains(a))
-                {
-                    reg.SeminarRoles.Add(role);
-                }
-            }
-
-            // remove the ones they shouldn't have
-            var remove = reg.SeminarRoles.Where(a => !roles.ToList().Contains(a.Id)).ToList();
-            foreach (var a in remove)
-            {
-                reg.SeminarRoles.Remove(a);
-            }
-
-            Repository.OfType<SeminarPerson>().EnsurePersistent(reg);
-            Message = string.Format(Messages.Saved, "Seminar Roles");
-            return this.RedirectToAction(a => a.Edit(person.User.Id));
-        }
-
         #endregion
 
         #region Profile Picture Actions

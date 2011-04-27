@@ -1,4 +1,5 @@
 ﻿using Agribusiness.Web.Services;
+using Agribusiness.WS;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using UCDArch.Core.CommonValidator;
@@ -21,6 +22,8 @@ namespace Agribusiness.Web
             container.Register(Component.For<IPersonService>().ImplementedBy<PersonService>().Named("PersonService"));
             container.Register(Component.For<IFirmService>().ImplementedBy<FirmService>().Named("FirmService"));
             container.Register(Component.For<ISeminarService>().ImplementedBy<SeminarService>().Named("SeminarService"));
+
+            container.Register(Component.For<IRegistrationService>().ImplementedBy<RegistrationService>().Named("RegistrationService"));
         }
 
         private static void AddGenericRepositoriesTo(IWindsorContainer container)

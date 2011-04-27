@@ -36,6 +36,8 @@ namespace Agribusiness.Core.Domain
         public virtual string Title { get; set; }
         public virtual Firm Firm { get; set; }
         public virtual string CouponCode { get; set; }
+        [Range(0.0, Double.MaxValue)]
+        public virtual decimal? CouponAmount { get; set; }
         public virtual bool Registered { get; set; }
         public virtual bool Invite { get; set; }
         public virtual bool ContactInformationRelease { get; set; }
@@ -66,6 +68,7 @@ namespace Agribusiness.Core.Domain
             Map(x => x.Title);
             References(x => x.Firm);
             Map(x => x.CouponCode);
+            Map(x => x.CouponAmount);
             Map(x => x.Registered);
             Map(x => x.RegistrationCode).ReadOnly();
             Map(x => x.Invite);

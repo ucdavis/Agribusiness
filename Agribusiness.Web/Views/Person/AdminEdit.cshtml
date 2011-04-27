@@ -10,21 +10,43 @@
     <script type="text/javascript">
         $(function () {
             $("#tabs").tabs();
+
+            $("#cancel_coupon").click(function () { $(this).parent()[0].submit(); });
+
+            $("#coupon_dialog").dialog({ autoOpen: false, modal: true });
+
+            $("#update_coupon").click(function () { $("#coupon_dialog").dialog("open"); });
+            $("#cancel_update_coupon").click(function () { $("#coupon_dialog").dialog("close"); });
         });
     </script>
+
+    <style type="text/css">
+        .reg-navigation
+        {
+            float: right;
+            text-align: right;
+            width: 500px;
+        }
+        
+        .reg-navigation ul li
+        {
+            float: right;
+            margin-right: 1em;
+        }
+    </style>
 }
 
 @section SubPageNavigation
 {
     <ul class="navigation">
-        <li>@Html.ActionLink("Back to Attendee List", "Index", "Attendee", new {id=Model.SeminarId}, new {})</li>
+        <li>@Html.ActionLink("Back to Attendee List", "Index", "Attendee", new { id = Model.SeminarId }, new { })</li>
     </ul>
 }
 
 <div>
 <div class="profile_pic_container">
     <img src='@Url.Action("GetProfilePicture", new { id = Model.PersonViewModel.Person.Id })' />
-    @Html.ActionLink("Update Crop", "UpdateProfilePicture", new {id=Model.PersonViewModel.Person.Id, seminarId=Model.SeminarId})
+    @Html.ActionLink("Update Crop", "UpdateProfilePicture", new { id = Model.PersonViewModel.Person.Id, seminarId = Model.SeminarId })
 </div>
 
 <div class="profile_information_container">
@@ -47,14 +69,14 @@
         </div>
         <div id="biography">
     
-            @using (Html.BeginForm("UpdateBiography", "Person", FormMethod.Post)) 
+            @using (Html.BeginForm("UpdateBiography", "Person", FormMethod.Post))
             { 
-            
+                @Html.Hidden("seminarId", Model.SeminarId)
                 @Html.Hidden("personId", Model.PersonViewModel.Person.Id)
                 @Html.AntiForgeryToken()
             
                 <ul>
-                    <li><div class="editor-label">@Html.TextArea("biography", Model.PersonViewModel.Person.Biography, new { @style="height: 180px; width: 780px;" })</div>
+                    <li><div class="editor-label">@Html.TextArea("biography", Model.PersonViewModel.Person.Biography, new { @style = "height: 180px; width: 700px; border: 1px solid lightgray;" })</div>
                     </li>
                     <li><div class="editor-field">
                         <input type="submit" value="Save" class="button" />
@@ -66,7 +88,43 @@
         </div>
         <div id="registration">
     
-            <p>Registration information will be displayed here.  Eg. Is Registrated, Coupon Code, Invited</p>
+            <div class="reg-navigation">
+                <ul>
+                    <li>
+                        @using (Html.BeginForm("CancelCoupon", "Person", FormMethod.Post, new { @style="display:inline; margin: 0;" }))
+                        {
+                            @Html.Hidden("seminarId", Model.SeminarId)
+                            @Html.Hidden("personId", Model.PersonViewModel.Person.Id)
+                            @Html.AntiForgeryToken()
+
+                            <a href="javascript:;" id="cancel_coupon">Cancel Coupon</a>
+                        }
+                    </li>
+                    <li><a href="javascript:;" id="update_coupon">Update Coupon</a></li>
+                    <li><a href="javascript:;" id="refresh_status">Refresh Status</a></li>
+                </ul>
+            </div>
+
+            <div class="display-form">
+                <ul>
+                    <li><div class='display-label'>Registered:</div>
+                        <div class='display-details'>@(Model.PersonViewModel.SeminarPerson.Registered ? "Yes" : "No")</div>
+                    </li>
+                    <li><div class='display-label'>Coupon:</div>
+                        <div class='display-details'>
+                            @(!string.IsNullOrWhiteSpace(Model.PersonViewModel.SeminarPerson.CouponCode)
+                                            ? Model.PersonViewModel.SeminarPerson.CouponCode : "n/a")
+                        </div>
+                    </li>
+                    <li><div class='display-label'>Coupon Amount:</div>
+                        <div class='display-details'>@(Model.PersonViewModel.SeminarPerson.CouponAmount.HasValue
+                                            ? Model.PersonViewModel.SeminarPerson.CouponAmount.ToString() : "n/a")</div>
+                    </li>
+                    <li><div class='display-label'>need help here:</div>
+                        <div class='display-details'>@(Model.PersonViewModel.SeminarPerson.Invite ? "Invited" : "Applied")</div>
+                    </li>
+                </ul>
+            </div>
 
         </div>
         <div id="roles">
@@ -75,23 +133,24 @@
             {
                 using (Html.BeginForm("UpdateRoles", "Person", FormMethod.Post))
                 {
-                @Html.Hidden("personId", Model.PersonViewModel.Person.Id)
-                @Html.AntiForgeryToken()
+                    @Html.Hidden("seminarId", Model.SeminarId)
+                    @Html.Hidden("personId", Model.PersonViewModel.Person.Id)
+                    @Html.AntiForgeryToken()
 
-                <ul>
-                @foreach (var a in Model.SeminarRoles)
-                {
-                    <li>
-                    @{
-                    var check = Model.PersonViewModel.Person.GetLatestRegistration().SeminarRoles.Contains(a);
-                    var checkedTxt = check ? "checked" : string.Empty;
-                        }
-                    <input type="checkbox" name="roles" value='@a.Id' @checkedTxt />
-                    @a.Name - @a.Description
-                    </li>
-                }
-                    <li><input type="submit" value="Save" class="button" /></li>
-                </ul>
+                    <ul>
+                    @foreach (var a in Model.SeminarRoles)
+                    {
+                        <li>
+                        @{
+                        var check = Model.PersonViewModel.Person.GetLatestRegistration().SeminarRoles.Contains(a);
+                        var checkedTxt = check ? "checked" : string.Empty;
+                            }
+                        <input type="checkbox" name="roles" value='@a.Id' @checkedTxt />
+                        @a.Name - @a.Description
+                        </li>
+                    }
+                        <li><input type="submit" value="Save" class="button" /></li>
+                    </ul>
                 }
             }
             else
@@ -104,3 +163,26 @@
 </div>
 </div>
 <div style="clear:both;" />
+
+<div id="coupon_dialog" title="Update Coupon">
+
+    @using (Html.BeginForm("UpdateCoupon", "Person"))
+    { 
+        @Html.Hidden("seminarId", Model.SeminarId)
+        @Html.Hidden("personId", Model.PersonViewModel.Person.Id)
+        @Html.AntiForgeryToken()
+
+        <ul>
+            <li><div class="editor-label">Amount:</div>
+                <div class="editor-field">$@Html.TextBox("couponAmount")</div>
+            </li>
+            <li><div class="editor-label">&nbsp;</div>
+                <div class="editor-field">
+                    <input type="submit" type="class" value="Save" /> | 
+                    <a href="javascript:;" id="cancel_update_coupon">Cancel</a>
+                </div>
+            </li>
+        </ul>
+    }
+
+</div>
