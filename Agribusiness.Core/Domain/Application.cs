@@ -122,7 +122,7 @@ namespace Agribusiness.Core.Domain
             Map(x => x.MI);
             Map(x => x.LastName);
             Map(x => x.BadgeName);
-            Map(x => x.Photo);
+            Map(x => x.Photo).LazyLoad().CustomType("BinaryBlob");
             Map(x => x.ContentType);
             Map(x => x.AssistantName);
             Map(x => x.AssistantPhone);

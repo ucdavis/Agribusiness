@@ -39,8 +39,9 @@
         </ul>
 
         <div id="profile">
-            @using (Html.BeginForm("Edit", "Person", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("AdminEdit", "Person", FormMethod.Post, new { enctype = "multipart/form-data" }))
             { 
+                @Html.Hidden("seminarId", Model.SeminarId)
                 @Html.Partial("_PersonForm", Model.PersonViewModel)
             }
         </div>
