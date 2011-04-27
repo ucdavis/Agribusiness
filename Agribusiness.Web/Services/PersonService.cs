@@ -133,14 +133,13 @@ namespace Agribusiness.Web.Services
         {
             var displayPeople = new List<DisplayPerson>();
             
-            var firms = _firmService.GetAllFirms();
-
             foreach (var person in people)
             {
                 var reg = person.GetLatestRegistration();
                 if (reg != null)
                 {
-                    var firm = reg.Firm;
+                    // only give back a firm if it's not null
+                    var firm = !reg.Firm.Review ? reg.Firm : null;
                     displayPeople.Add(new DisplayPerson() { Firm = firm, Person = person, Title = reg.Title, Invite = reg.Invite, Registered = reg.Registered});
                 }
                 else

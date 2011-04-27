@@ -52,7 +52,7 @@ namespace Agribusiness.Web.Services
         public Firm GetFirm(Guid firmCode)
         {
             var firm = _firmRepository.Queryable
-                        .Where(a => !a.Review && a.Id == _firmRepository.Queryable.Where(b => b.FirmCode == firmCode)
+                        .Where(a => !a.Review && a.Id == _firmRepository.Queryable.Where(b => b.FirmCode == firmCode && !b.Review)
                                             .Select(b => b.Id).Max())
                         .FirstOrDefault();
 

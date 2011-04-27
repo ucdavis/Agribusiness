@@ -9,19 +9,16 @@
 
             @Html.ActionLink(Model.Person.FullName, "Profile", new { id = Model.Person.Id })
 
-        @if(Model.Firm != null){
-            
             <ul>
                 <li class="title">@Model.Title</li>
-                <li>@Model.Firm.Name</li>
-                <li class="description">@Model.Firm.Description</li>
+
+            @if(Model.Firm != null){
+                    <li>@Model.Firm.Name</li>
+                    <li class="description">@Model.Firm.Description</li>
+            }else{
+                <li>No firm has been defined for this person</li>
+            }
             </ul>
-            
-        }else{
-            
-            <p>No firm has been defined for this person</p>
-            
-        }
         </div>
     
     <hr class="list-divider" />

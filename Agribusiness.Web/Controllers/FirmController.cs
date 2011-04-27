@@ -55,27 +55,20 @@ namespace Agribusiness.Web.Controllers
         [HttpPost]
         public ActionResult Edit(int id, Firm firm)
         {
-            var newFirm = new Firm() {Review = false};
-
-            Mapper.Map(firm, newFirm);
-
-            ModelState.Clear();
-            newFirm.TransferValidationMessagesTo(ModelState);
+            firm.Review = false;
 
             if (ModelState.IsValid)
             {
-                _firmRepository.EnsurePersistent(newFirm);
+                _firmRepository.EnsurePersistent(firm);
                 Message = string.Format(Messages.Saved, "Firm");
 
                 return this.RedirectToAction(a => a.Index());
             }
-
-            var pendingfirm = _firmRepository.GetNullableById(id);
             
             // if review, get the last one, if it exists
             var origFirm = firm.Review ? (_firmService.GetFirm(firm.FirmCode)) : firm;
 
-            var viewModel = FirmViewModel.Create(Repository, pendingfirm, origFirm);
+            var viewModel = FirmViewModel.Create(Repository, firm, origFirm);
             return View(viewModel);            
         }
 
