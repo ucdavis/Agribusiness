@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Address_Business" xml:space="preserve">
+    <value>B</value>
+  </data>
+  <data name="Address_Courier" xml:space="preserve">
+    <value>C</value>
+  </data>
   <data name="Key_CatbertCritical" xml:space="preserve">
     <value>CatbertCritical</value>
   </data>

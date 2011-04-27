@@ -47,7 +47,7 @@
                 <td>@a.Person.MI</td>
                 <td>@a.Person.LastName</td>
                 <td>@a.Title</td>
-                <td>@a.Firm.Name</td>
+                <td>@(a.Firm != null ? a.Firm.Name : "Not Approved Yet")</td>
                 <td>@string.Join(", ", a.Person.GetLatestRegistration().SeminarRoles.Select(b=>b.Name))</td>
                 <td>@if (a.Registered) { <img src='@Url.Image("check.png")' alt='@string.Format("{0} has registered", a.Person.FullName)'  /> }</td>
             </tr>

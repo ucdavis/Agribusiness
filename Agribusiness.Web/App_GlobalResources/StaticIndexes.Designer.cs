@@ -61,6 +61,24 @@ namespace Agribusiness.Web.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to B.
+        /// </summary>
+        public static string Address_Business {
+            get {
+                return ResourceManager.GetString("Address_Business", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to C.
+        /// </summary>
+        public static string Address_Courier {
+            get {
+                return ResourceManager.GetString("Address_Courier", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CatbertCritical.
         /// </summary>
         public static string Key_CatbertCritical {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Agribusiness.Core.Domain;
+using Agribusiness.Web.App_GlobalResources;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Web.Helpers;
 
@@ -14,12 +15,14 @@ namespace Agribusiness.Web.Services
         private readonly IRepository<Seminar> _seminarRepository;
         private readonly IRepository<Person> _personRepository;
         private readonly IRepository<Firm> _firmRepository;
+        private readonly IRepositoryWithTypedId<AddressType, char> _addressTypeRepository;
 
-        public SeminarService(IRepository<Seminar> seminarRepository, IRepository<Person> personRepository, IRepository<Firm> firmRepository)
+        public SeminarService(IRepository<Seminar> seminarRepository, IRepository<Person> personRepository, IRepository<Firm> firmRepository, IRepositoryWithTypedId<AddressType, char> addressTypeRepository)
         {
             _seminarRepository = seminarRepository;
             _personRepository = personRepository;
             _firmRepository = firmRepository;
+            _addressTypeRepository = addressTypeRepository;
         }
 
         public Seminar GetCurrent()
@@ -56,6 +59,12 @@ namespace Agribusiness.Web.Services
             };
 
             person.AddSeminarPerson(seminarPerson);
+
+            // add in the address
+            var addrType = _addressTypeRepository.GetNullableById(StaticIndexes.Address_Business.ToCharArray()[0]);
+            var address = new Address(application.FirmAddressLine1, application.FirmAddressLine2, application.FirmCity
+                                      , application.FirmState, application.FirmZip, addrType, person);
+            person.AddAddress(address);
 
             person.TransferValidationMessagesTo(modelState);
             seminarPerson.TransferValidationMessagesTo(modelState);
