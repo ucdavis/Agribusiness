@@ -15,27 +15,39 @@
     </div>
 }
 else
-{ 
-
-    if (Model.Application.IsPending)
-    { 
-        <p>Your application is pending, you will be notified when a decision has been made.</p>
-    }
-    else
+{
+    // released provide real information
+    if (Model.Seminar.ReleaseToAttendees)
     {
-        if (Model.Application.IsApproved)
+        if (Model.Application.IsPending)
         { 
-            <p>
-                @string.Format("The upcoming seminar is on {0}, to download documents and see other attendees click ", Model.Seminar.Begin.ToShortDateString())
-                @Html.ActionLink("Here", "MySeminar", "Seminar", new {id=Model.SeminarPerson.Id}, new {})
-            </p>
+            <p>Your application is pending, you will be notified when a decision has been made.</p>
         }
         else
-        { 
-            <p>Your application has been rejected.</p>
+        {
+            if (Model.Application.IsApproved)
+            { 
+                <p>
+                    @string.Format("The upcoming seminar is on {0}, to download documents and see other attendees click ", Model.Seminar.Begin.ToShortDateString())
+                    @Html.ActionLink("Here", "MySeminar", "Seminar", new { id = Model.SeminarPerson.Id }, new { })
+                </p>
+            }
+            else
+            { 
+                <p>Your application has been rejected.</p>
+            }
         }
     }
-        
+    // not released just give pending status
+    else
+    {
+        <p>Your application is pending, you will be notified when a decision has been made.</p>
+    }
+
+
+
+
+
 }
 </fieldset>
 
@@ -68,5 +80,5 @@ else
 }
 else
 { 
-    @Html.Partial("_Message", new MessageModel(){IsError=false, Message="You have not been a part of any past seminars."})
+    @Html.Partial("_Message", new MessageModel() { IsError = false, Message = "You have not been a part of any past seminars." })
 }

@@ -124,8 +124,7 @@ namespace Agribusiness.Web.Services
             Check.Require(person != null, "person is required.");
             Check.Require(seminar != null, "seminar is required.");
 
-            return person.SeminarPeople.Select(a => a.Seminar).Contains(seminar);
-             
+            return person.SeminarPeople.Select(a => a.Seminar).Contains(seminar) && seminar.ReleaseToAttendees;
         }
 
         #region Helper Functions
