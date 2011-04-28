@@ -29,6 +29,7 @@ namespace Agribusiness.Web.Controllers
         private readonly IRepositoryWithTypedId<User, Guid> _userRepository;
         private readonly IRepositoryWithTypedId<SeminarRole, string> _seminarRoleRepository;
         private readonly IRepository<SeminarPerson> _seminarPersonRepository;
+        private readonly IRepository<Seminar> _seminarRepository;
         private readonly IPictureService _pictureService;
         private readonly IPersonService _personService;
         private readonly IFirmService _firmService;
@@ -37,13 +38,14 @@ namespace Agribusiness.Web.Controllers
         private readonly IMembershipService _membershipService;
 
         public PersonController(IRepository<Person> personRepository, IRepositoryWithTypedId<User, Guid> userRepository, IRepositoryWithTypedId<SeminarRole, string> seminarRoleRepository
-            , IRepository<SeminarPerson> seminarPersonRepository
+            , IRepository<SeminarPerson> seminarPersonRepository, IRepository<Seminar> seminarRepository
             , IPictureService pictureService, IPersonService personService, IFirmService firmService, ISeminarService seminarService, IRegistrationService registrationService)
         {
             _personRepository = personRepository;
             _userRepository = userRepository;
             _seminarRoleRepository = seminarRoleRepository;
             _seminarPersonRepository = seminarPersonRepository;
+            _seminarRepository = seminarRepository;
             _pictureService = pictureService;
             _personService = personService;
             _firmService = firmService;
@@ -76,17 +78,45 @@ namespace Agribusiness.Web.Controllers
         }
 
         #region Administration Functions
+        /// <summary>
+        /// Create a new attendee
+        /// </summary>
+        /// <param name="id">Seminar Id</param>
+        /// <returns></returns>
         [UserOnly]
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
-            var viewModel = PersonViewModel.Create(Repository);
+            var seminar = _seminarRepository.GetNullableById(id);
+
+            if (seminar == null)
+            {
+                Message = string.Format(Messages.NotFound, "seminar", id);
+                return this.RedirectToAction<SeminarController>(a => a.Index());
+            }
+
+            var viewModel = PersonViewModel.Create(Repository, seminar);
             return View(viewModel);
         }
 
+        /// <summary>
+        /// Create a new attendee
+        /// </summary>
+        /// <param name="id">Seminar Id</param>
+        /// <param name="personEditModel"></param>
+        /// <param name="profilepic"></param>
+        /// <returns></returns>
         [UserOnly]
         [HttpPost]
-        public ActionResult Create(PersonEditModel personEditModel, HttpPostedFileBase profilepic)
+        public ActionResult Create(int id, PersonEditModel personEditModel, HttpPostedFileBase profilepic)
         {
+            var seminar = _seminarRepository.GetNullableById(id);
+
+            if (seminar == null)
+            {
+                Message = string.Format(Messages.NotFound, "seminar", id);
+                return this.RedirectToAction<SeminarController>(a => a.Index());
+            }
+
             var person = personEditModel.Person;
 
             // create an account
@@ -102,6 +132,9 @@ namespace Agribusiness.Web.Controllers
 
                 person = SetPerson(personEditModel, ModelState, person, profilepic);
 
+                var seminarPerson = new SeminarPerson(seminar, person){Invite = true};
+                person.AddSeminarPerson(seminarPerson);
+
                 if (ModelState.IsValid)
                 {
                     _personRepository.EnsurePersistent(person);
@@ -114,7 +147,7 @@ namespace Agribusiness.Web.Controllers
                 ModelState.AddModelError("Create User", AccountValidation.ErrorCodeToString(createStatus));
             }
             
-            var viewModel = PersonViewModel.Create(Repository, person, personEditModel.Email);
+            var viewModel = PersonViewModel.Create(Repository, seminar, person, personEditModel.Email);
             viewModel.Addresses = personEditModel.Addresses;
             return View(viewModel);
         }
@@ -426,7 +459,7 @@ namespace Agribusiness.Web.Controllers
 
             var person = user.Person;
 
-            var viewModel = PersonViewModel.Create(Repository, person, user.LoweredUserName);
+            var viewModel = PersonViewModel.Create(Repository, null, person, user.LoweredUserName);
             return View(viewModel);
         }
 
@@ -465,7 +498,7 @@ namespace Agribusiness.Web.Controllers
                 if (profilepic != null) return this.RedirectToAction(a => a.UpdateProfilePicture(person.Id, null));
             }
 
-            var viewModel = PersonViewModel.Create(Repository, person, user.LoweredUserName);
+            var viewModel = PersonViewModel.Create(Repository, null, person, user.LoweredUserName);
             return View(viewModel);
         }
         #endregion

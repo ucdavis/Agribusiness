@@ -9,6 +9,14 @@
 { 
 	@Html.AntiForgeryToken()
 	
+    <fieldset>
+    
+        <p>Please only use this form to create new people that are not currently in the database.  This person will automatically be registered into
+            the @Model.Seminar.Year seminar.
+        </p>
+        
+    </fieldset>
+    
 	<fieldset>
 		<legend>Personal Information</legend>
 		<ul>
@@ -159,7 +167,7 @@
 			<li><div class="editor-label"><label>&nbsp;</label></div>
 				<div class="editor-field">
                 <input type="submit" value="save" class="button" /> |
-				@Html.ActionLink("Cancel", "Index")
+				@Html.ActionLink("Cancel", "Index", "Attendee", new { id=Model.Seminar.Id }, new { })
                 </div>
 			</li>
 		</ul>

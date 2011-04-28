@@ -17,6 +17,7 @@
 {
     <ul class="navigation">
         <li>@Html.ActionLink("Add Attendee", "Add", new {id=Model.Seminar.Id})</li>
+        <li>@Html.ActionLink("Create New Attendee", "Create", "Person", new {id=Model.Seminar.Id}, new {})</li>
         <li>@Html.ActionLink("Back to Seminar", "Details", "Seminar", new {id=Model.Seminar.Id}, new{}) </li>
     </ul>
 }

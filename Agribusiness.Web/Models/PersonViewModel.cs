@@ -17,10 +17,11 @@ namespace Agribusiness.Web.Models
         public IEnumerable<State> States { get; set; }
         public Person Person { get; set; }
         public string Email { get; set; }
+        public Seminar Seminar { get; set; }
 
         public SeminarPerson SeminarPerson { get; set; }
 
-        public static PersonViewModel Create(IRepository repository, Person person = null, string email = null)
+        public static PersonViewModel Create(IRepository repository, Seminar seminar = null, Person person = null, string email = null)
         {
             Check.Require(repository != null, "Repository must be supplied");
 
@@ -31,7 +32,8 @@ namespace Agribusiness.Web.Models
                 Contacts = repository.OfType<ContactType>().Queryable.Select( a => new Contact(){ContactType = a}).ToList(),
                 States = repository.OfType<State>().GetAll(),
                 SeminarPerson = person != null ? person.GetLatestRegistration() : null,
-                Email = email
+                Email = email,
+                Seminar = seminar
             };
 
             // find any addresses and replace them into the list
@@ -80,9 +82,10 @@ namespace Agribusiness.Web.Models
             Check.Require(repository != null, "Repository is required.");
             Check.Require(seminarService != null, "seminarService is required.");
 
+            var seminar = repository.OfType<Seminar>().GetNullableById(seminarId);
             var viewModel = new AdminPersonViewModel()
                                 {
-                                    PersonViewModel = PersonViewModel.Create(repository, person, email),
+                                    PersonViewModel = PersonViewModel.Create(repository, seminar, person, email),
                                     SeminarRoles = repository.OfType<SeminarRole>().Queryable,
                                     SeminarId = seminarId
                                 };
