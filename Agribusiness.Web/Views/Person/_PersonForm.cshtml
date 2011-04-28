@@ -2,7 +2,7 @@
 
 
 	@Html.AntiForgeryToken()
-	@Html.Hidden("seminarPersonId", Model.SeminarPerson.Id)
+	@Html.Hidden("seminarPersonId", Model.SeminarPerson != null ? Model.SeminarPerson.Id : -1)
 
 	<fieldset>
 		<legend>Personal Information</legend>
@@ -199,7 +199,15 @@
 			<li><div class="editor-label"><label>&nbsp;</label></div>
 				<div class="editor-field">
                 <input type="submit" value="save" class="button" /> |
-				@Html.ActionLink("Cancel", "Index")
+
+                @if (Model.SeminarPerson == null)
+                {
+                @Html.ActionLink("Cancel", "Index", "Attendee", new { id=Model.Seminar.Id }, new { })
+                }
+                else
+                { 
+                @Html.ActionLink("Cancel", "Index")
+                }
                 </div>
 			</li>
 		</ul>

@@ -109,6 +109,8 @@ namespace Agribusiness.Web.Controllers
         [HttpPost]
         public ActionResult Create(int id, PersonEditModel personEditModel, HttpPostedFileBase profilepic)
         {
+            ModelState.Clear();
+
             var seminar = _seminarRepository.GetNullableById(id);
 
             if (seminar == null)
@@ -719,7 +721,7 @@ namespace Agribusiness.Web.Controllers
         }
         private void SetCommodities(SeminarPerson seminarPerson, IList<Commodity> commodities)
         {
-            seminarPerson.Commodities.Clear();
+            if (seminarPerson.Commodities != null ) seminarPerson.Commodities.Clear();
 
             seminarPerson.Commodities = new List<Commodity>(commodities);
         }

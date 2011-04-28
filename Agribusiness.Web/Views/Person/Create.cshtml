@@ -7,7 +7,10 @@
 @Html.ValidationSummary("Please correct the following errors.")
 @using (Html.BeginForm("Create", "Person", FormMethod.Post, new { enctype = "multipart/form-data"}) )
 { 
-	@Html.AntiForgeryToken()
+    
+    @Html.Partial("_PersonForm")
+    
+@*	@Html.AntiForgeryToken()
 	
     <fieldset>
     
@@ -171,5 +174,5 @@
                 </div>
 			</li>
 		</ul>
-	</fieldset>
+	</fieldset>*@
 }
