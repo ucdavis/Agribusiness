@@ -11,8 +11,6 @@
         $(function () {
             $("#tabs").tabs();
 
-            $(".submitanchor").click(function () { $(this).parent()[0].submit(); });
-
             $("#coupon_dialog").dialog({ autoOpen: false, modal: true });
 
             $("#update_coupon").click(function () { $("#coupon_dialog").dialog("open"); });

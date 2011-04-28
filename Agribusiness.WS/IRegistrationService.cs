@@ -12,5 +12,6 @@ namespace Agribusiness.WS
         bool CancelCoupon(int itemId, string couponCode);
 
         void RefreshRegistration(int itemId, string registrationId, out string transactionId, out bool paid);
+        IList<RegistrationResult> RefreshAllRegistration(int itemId);
     }
 }

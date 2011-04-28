@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.ServiceModel;
 using Agribusiness.Core.Domain;
 using Agribusiness.WS.CrpService;
+using System.Linq;
 
 namespace Agribusiness.WS
 {
@@ -65,6 +67,15 @@ namespace Agribusiness.WS
 
             transactionId = null;
             paid = false;
+        }
+
+        public IList<RegistrationResult> RefreshAllRegistration(int itemId)
+        {
+            var client = InitializeClient();
+
+            var results = client.GetRegistrations(itemId);
+
+            return results.Select(a => new RegistrationResult(a.ReferenceId, a.TransactionNumber, a.Paid)).ToList();
         }
     }
 }

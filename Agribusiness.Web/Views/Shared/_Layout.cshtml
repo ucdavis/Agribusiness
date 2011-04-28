@@ -120,6 +120,7 @@
         $(function () {
             $(".datepicker").datepicker();
             $(".default_table").dataTable({ "bJQueryUI": true, "bPaginate": false });
+            $(".submitanchor").click(function () { $(this).parent()[0].submit(); });
         }); 
     </script>
 

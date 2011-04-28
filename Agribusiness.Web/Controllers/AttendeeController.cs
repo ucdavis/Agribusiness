@@ -5,6 +5,7 @@ using Agribusiness.Core.Domain;
 using Agribusiness.Web.Controllers.Filters;
 using Agribusiness.Web.Models;
 using Agribusiness.Web.Services;
+using Agribusiness.WS;
 using Resources;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Web.Controller;
@@ -24,14 +25,17 @@ namespace Agribusiness.Web.Controllers
         private readonly IRepository<SeminarPerson> _seminarPersonRepository;
         private readonly IRepository<Person> _personRepository;
         private readonly IPersonService _personService;
+        private readonly IRegistrationService _registrationService;
 
-        public AttendeeController(IRepository<Seminar> seminarRespository, IRepositoryWithTypedId<User, Guid> userRepository, IRepository<SeminarPerson> seminarPersonRepository, IRepository<Person> personRepository, IPersonService personService)
+        public AttendeeController(IRepository<Seminar> seminarRespository, IRepositoryWithTypedId<User, Guid> userRepository, IRepository<SeminarPerson> seminarPersonRepository
+                                , IRepository<Person> personRepository, IPersonService personService, IRegistrationService registrationService)
         {
             _seminarRespository = seminarRespository;
             _userRepository = userRepository;
             _seminarPersonRepository = seminarPersonRepository;
             _personRepository = personRepository;
             _personService = personService;
+            _registrationService = registrationService;
         }
 
         /// <summary>
@@ -39,6 +43,7 @@ namespace Agribusiness.Web.Controllers
         /// </summary>
         /// <param name="id">seminar id</param>
         /// <returns></returns>
+        [UserOnly]
         public ActionResult Index(int id)
         {
             var seminar = _seminarRespository.GetNullableById(id);
@@ -54,10 +59,51 @@ namespace Agribusiness.Web.Controllers
         }
 
         /// <summary>
+        /// Update all records of registration with data from crp
+        /// </summary>
+        /// <param name="id">Seminar Id</param>
+        /// <returns></returns>
+        [UserOnly]
+        [HttpPost]
+        public ActionResult UpdateAllRegistrations(int id)
+        {
+            var seminar = _seminarRespository.GetNullableById(id);
+
+            if (seminar == null)
+            {
+                Message = string.Format(Messages.NotFound, "seminar", id);
+                return this.RedirectToAction<SeminarController>(a => a.Index());
+            }
+
+            // make the remote call
+            var result = _registrationService.RefreshAllRegistration(seminar.RegistrationId.Value);
+
+            // load all of the seminar people
+            var seminarPeople = seminar.SeminarPeople;
+
+            foreach (var sp in seminarPeople)
+            {
+                var reg = result.Where(a => a.ReferenceId == sp.ReferenceId).FirstOrDefault();
+
+                if (reg != null)
+                {
+                    sp.TransactionId = reg.TransactionId;
+                    sp.Paid = reg.Paid;
+
+                    _seminarPersonRepository.EnsurePersistent(sp);
+                }
+            }
+
+            Message = "Registration status' for all attendees have been updated.";
+            return this.RedirectToAction(a => a.Index(id));
+        }
+
+        /// <summary>
         /// Add an attendee to a seminar
         /// </summary>
         /// <param name="id">Seminar Id</param>
         /// <returns></returns>
+        [UserOnly]
         public ActionResult Add(int id)
         {
             var seminar = _seminarRespository.GetNullableById(id);

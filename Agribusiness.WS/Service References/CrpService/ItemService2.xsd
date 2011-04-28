@@ -15,6 +15,7 @@
       <xs:element minOccurs="0" name="FirstName" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="LastName" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Paid" type="xs:boolean" />
+      <xs:element minOccurs="0" name="ReferenceId" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="ServiceQuestions" nillable="true" type="tns:ArrayOfServiceQuestion" />
       <xs:element minOccurs="0" name="TransactionNumber" nillable="true" type="xs:string" />
     </xs:sequence>

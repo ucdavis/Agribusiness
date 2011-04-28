@@ -16,6 +16,14 @@
 @section SubPageNavigation
 {
     <ul class="navigation">
+        <li>
+            @using(Html.BeginForm("UpdateAllRegistrations", "Attendee"))
+            {
+                @Html.AntiForgeryToken()
+                @Html.Hidden("id", Model.Seminar.Id)
+                <a href="javascript:;" class="submitanchor">Refresh Status</a>
+            }
+        </li>
         <li>@Html.ActionLink("Add Attendee", "Add", new {id=Model.Seminar.Id})</li>
         <li>@Html.ActionLink("Create New Attendee", "Create", "Person", new {id=Model.Seminar.Id}, new {})</li>
         <li>@Html.ActionLink("Back to Seminar", "Details", "Seminar", new {id=Model.Seminar.Id}, new{}) </li>
