@@ -2,7 +2,8 @@
 
 
 	@Html.AntiForgeryToken()
-	
+	@Html.Hidden("seminarPersonId", Model.SeminarPerson.Id)
+
 	<fieldset>
 		<legend>Personal Information</legend>
 		<ul>
@@ -165,6 +166,25 @@
         }
 	</fieldset>
 	
+    <fieldset>
+        <legend>Commodities</legend>
+
+        <ul class="commodities">
+        
+            @foreach (var c in Model.Commodities)
+            {
+                var selected = Model.SeminarPerson != null && Model.SeminarPerson.Commodities.Contains(c) ? "checked" : string.Empty;
+                
+                <li>
+                    <input type="checkbox" name="Commodities" value='@c.Id' @selected />
+                    @c.Name
+                </li>
+            }
+
+        </ul>
+
+    </fieldset>
+
 	<fieldset>
 		<legend>Profile Picture</legend>
 		<ul>
@@ -184,3 +204,13 @@
 			</li>
 		</ul>
 	</fieldset>
+
+
+<style type="text/css">
+    .commodities li
+    {
+        float:left;
+        display:inline-block;
+        width: 210px;
+    }
+</style>

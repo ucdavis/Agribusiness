@@ -15,6 +15,7 @@ namespace Agribusiness.Web.Models
         public IList<Address> Addresses { get; set; }
         public IList<Contact> Contacts { get; set; }
         public IEnumerable<State> States { get; set; }
+        public IEnumerable<Commodity> Commodities { get; set; }
         public Person Person { get; set; }
         public string Email { get; set; }
         public Seminar Seminar { get; set; }
@@ -33,7 +34,8 @@ namespace Agribusiness.Web.Models
                 States = repository.OfType<State>().GetAll(),
                 SeminarPerson = person != null ? person.GetLatestRegistration() : null,
                 Email = email,
-                Seminar = seminar
+                Seminar = seminar,
+                Commodities = repository.OfType<Commodity>().Queryable.Where(a=>a.IsActive).ToList()
             };
 
             // find any addresses and replace them into the list

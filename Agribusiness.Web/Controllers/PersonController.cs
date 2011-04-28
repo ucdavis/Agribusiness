@@ -130,9 +130,9 @@ namespace Agribusiness.Web.Controllers
                 var user = _userRepository.Queryable.Where(a => a.UserName == personEditModel.Email).FirstOrDefault();
                 person.User = user;
 
-                person = SetPerson(personEditModel, ModelState, person, profilepic);
-
                 var seminarPerson = new SeminarPerson(seminar, person){Invite = true};
+                
+                person = SetPerson(personEditModel, seminarPerson, ModelState, person, profilepic);
                 person.AddSeminarPerson(seminarPerson);
 
                 if (ModelState.IsValid)
@@ -179,15 +179,19 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction<AttendeeController>(a => a.Index(seminarId));
             }
 
-            var person = SetPerson(personEditModel, ModelState, user.Person, profilepic);
+            var seminarPerson = _seminarPersonRepository.GetNullableById(personEditModel.SeminarPersonId);
+            var person = SetPerson(personEditModel, seminarPerson, ModelState, user.Person, profilepic);
 
             if (ModelState.IsValid)
             {
                 _personRepository.EnsurePersistent(person);
+                _seminarPersonRepository.EnsurePersistent(seminarPerson);
                 Message = string.Format(Messages.Saved, "Person");
 
                 // send to crop photo if one was uploaded
                 if (profilepic != null) return this.RedirectToAction(a => a.UpdateProfilePicture(person.Id, seminarId));
+
+                return this.RedirectToAction(a => a.AdminEdit(person.User.Id, seminarId));
             }
 
             var viewModel = AdminPersonViewModel.Create(Repository, _seminarService, seminarId, user.Person, user.LoweredUserName);
@@ -487,7 +491,8 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction<ErrorController>(a => a.NotAuthorized());
             }
 
-            var person = SetPerson(personEditModel, ModelState, user.Person, profilepic);
+            var seminarPerson = _seminarPersonRepository.GetNullableById(personEditModel.SeminarPersonId);
+            var person = SetPerson(personEditModel, seminarPerson, ModelState, user.Person, profilepic);
 
             if (ModelState.IsValid)
             {
@@ -617,7 +622,7 @@ namespace Agribusiness.Web.Controllers
         #endregion
 
         #region Private Helpers
-        private Person SetPerson(PersonEditModel personEditModel, ModelStateDictionary modelState, Person person = null, HttpPostedFileBase profilePic = null)
+        private Person SetPerson(PersonEditModel personEditModel, SeminarPerson seminarPerson, ModelStateDictionary modelState, Person person = null, HttpPostedFileBase profilePic = null)
         {
             person = person ?? personEditModel.Person;
 
@@ -626,8 +631,9 @@ namespace Agribusiness.Web.Controllers
 
             SetAddresses(person, personEditModel.Addresses);
             SetContacts(person, personEditModel.Contacts);
+            SetCommodities(seminarPerson, personEditModel.Commodities);
 
-            // deal with the image
+            // deal with the image))
             if (profilePic != null)
             {
                 // blank out existing image files
@@ -710,6 +716,12 @@ namespace Agribusiness.Web.Controllers
                     if (origCt != null) person.Contacts.Remove(ct);
                 }
             }
+        }
+        private void SetCommodities(SeminarPerson seminarPerson, IList<Commodity> commodities)
+        {
+            seminarPerson.Commodities.Clear();
+
+            seminarPerson.Commodities = new List<Commodity>(commodities);
         }
         #endregion
     }
