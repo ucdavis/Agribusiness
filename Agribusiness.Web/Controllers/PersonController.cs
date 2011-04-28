@@ -94,7 +94,7 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction<SeminarController>(a => a.Index());
             }
 
-            var viewModel = PersonViewModel.Create(Repository, seminar);
+            var viewModel = PersonViewModel.Create(Repository, _firmService, seminar);
             return View(viewModel);
         }
 
@@ -149,7 +149,7 @@ namespace Agribusiness.Web.Controllers
                 ModelState.AddModelError("Create User", AccountValidation.ErrorCodeToString(createStatus));
             }
             
-            var viewModel = PersonViewModel.Create(Repository, seminar, person, personEditModel.Email);
+            var viewModel = PersonViewModel.Create(Repository, _firmService, seminar, person, personEditModel.Email);
             viewModel.Addresses = personEditModel.Addresses;
             return View(viewModel);
         }
@@ -165,7 +165,7 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction<AttendeeController>(a => a.Index(seminarId));
             }
 
-            var viewModel = AdminPersonViewModel.Create(Repository, _seminarService, seminarId, user.Person, user.LoweredUserName);
+            var viewModel = AdminPersonViewModel.Create(Repository, _firmService, _seminarService, seminarId, user.Person, user.LoweredUserName);
             return View(viewModel);
         }
 
@@ -196,7 +196,7 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction(a => a.AdminEdit(person.User.Id, seminarId));
             }
 
-            var viewModel = AdminPersonViewModel.Create(Repository, _seminarService, seminarId, user.Person, user.LoweredUserName);
+            var viewModel = AdminPersonViewModel.Create(Repository, _firmService, _seminarService, seminarId, user.Person, user.LoweredUserName);
             return View(viewModel);
         }
 
@@ -465,7 +465,7 @@ namespace Agribusiness.Web.Controllers
 
             var person = user.Person;
 
-            var viewModel = PersonViewModel.Create(Repository, null, person, user.LoweredUserName);
+            var viewModel = PersonViewModel.Create(Repository, _firmService, null, person, user.LoweredUserName);
             return View(viewModel);
         }
 
@@ -505,7 +505,7 @@ namespace Agribusiness.Web.Controllers
                 if (profilepic != null) return this.RedirectToAction(a => a.UpdateProfilePicture(person.Id, null));
             }
 
-            var viewModel = PersonViewModel.Create(Repository, null, person, user.LoweredUserName);
+            var viewModel = PersonViewModel.Create(Repository, _firmService, null, person, user.LoweredUserName);
             return View(viewModel);
         }
         #endregion
@@ -634,6 +634,8 @@ namespace Agribusiness.Web.Controllers
             SetAddresses(person, personEditModel.Addresses);
             SetContacts(person, personEditModel.Contacts);
             SetCommodities(seminarPerson, personEditModel.Commodities);
+
+            seminarPerson.Firm = personEditModel.Firm ?? new Firm(personEditModel.FirmName, personEditModel.FirmDescription);
 
             // deal with the image))
             if (profilePic != null)

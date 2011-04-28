@@ -167,6 +167,73 @@
 	</fieldset>
 	
     <fieldset>
+        <legend>Firm Information</legend>
+
+        <p style="margin-bottom: 2em;">
+            Please select your firm from the pop-up list and make any necessary changes below.  If your firm does not appear, select "Other" and fill in the requested information.
+        </p>
+
+        <div class="text_btn" id="selectFirm_btn">
+            <a href="javascript:;">Select a Firm</a>
+            <span style="color:Red;">*</span>
+        </div>
+        
+
+        <div id="firm_dialog" title="Select a Firm">
+            <p>
+            @this.Select("Firm").Options(Model.Firms, x => x.Id, x => x.Name).FirstOption("--Select a Firm--")
+            </p>
+        </div>
+
+
+        @{
+            // check and see if it's an existing firm, true if existing firm
+            var existing = Model.Firm.Id > 0;
+            // check if it's a new firm, true if not existing
+            var newFirm = Model.Firm.Id <= 0 && !string.IsNullOrWhiteSpace(Model.Firm.Name) && !string.IsNullOrWhiteSpace(Model.Firm.Description);
+
+            var displayExisting = !existing ? "display:none;" : "";
+            var displayNew = !newFirm ? "display:none;" : "";
+            
+            var combined = existing && newFirm ? "display:none;" : "";
+            
+            var existingFirmName = Model.Firm != null ? Model.Firm.Name : string.Empty;
+        }
+
+        <div class="display-form" id="existingFirmInformation" style='@displayExisting' >
+        @Html.Hidden("Firm", Model.Firm.Id)
+        <ul>
+            <li><div class="display-label">Firm Name:</div>
+                <div class="display-details"><span id="firmName">@existingFirmName</span></div>
+            </li>
+        </ul>
+        </div>
+
+        @* Only needed if firm name has not been selected *@
+        <ul id="firmInformation" style='@displayNew'>
+            <li><div class="editor-label required">Firm Name:<span>*</span></div>
+                <div class="editor-field">
+                    @Html.TextBox("FirmName", newFirm ? Model.Firm.Name : string.Empty)
+                </div>
+            </li>
+            <li><div class="editor-label required">Business Type/Firm Description:<span>*</span></div>
+                <div class="editor-field">
+                    @*<textarea name='Firm.Description' id='Firm_Description' value='@Model.Firm.Name' ></textarea>*@
+                    @Html.TextArea("FirmDescription", newFirm ? Model.Firm.Description : string.Empty)
+                </div>
+            </li>
+        </ul>
+
+        @* Job Information *@
+        <ul id="jobInformation" style='@combined'>
+            <li><div class="editor-label required">Job Title:<span>*</span></div>
+                <div class="editor-field">@Html.TextBoxFor(a=>a.SeminarPerson.Title)</div>
+            </li>
+        </ul>
+
+    </fieldset>
+
+    <fieldset>
         <legend>Commodities</legend>
 
         <ul class="commodities">
@@ -222,3 +289,60 @@
         width: 210px;
     }
 </style>
+
+<script type="text/javascript">
+    $(function () {
+        $("#firm_dialog").dialog({
+            autoOpen: false,
+            modal: true,
+            buttons: {
+                "Confirm": selectFirm,
+                Cancel: function () { $(this).dialog("close"); }
+            }
+        });
+
+        $("#selectFirm_btn").click(function () {
+            $("#firm_dialog").dialog("open");
+        });
+    });
+
+    function selectFirm() {
+
+        var dropDown = $(this).find("select");
+
+        // hide the existing firms
+        $("#existingFirmInformation").hide();
+        $("#firmInformation").hide();
+        $("#firmAddress").hide();
+        $("#jobInformation").hide();
+
+        // blank out the other txt boxes
+        $("#Firm").val("");
+        $("#Firm_Name").val("");
+        $("#Firm_Description").val("");
+
+        // make sure a firm has been selected
+        if (dropDown.val() != "" && dropDown.val() != "0") {
+
+            // display the correct form
+            $("#firmName").html($(dropDown).find(":selected").text());
+            $("#Firm").val($(dropDown).val());
+            $("#existingFirmInformation").show();
+
+        }
+        // selected other
+        else if (dropDown.val() == "0") {
+
+            $("#firmInformation").show();
+
+        }
+        // did not select a firm or other
+        else {
+            alert("no firm selected");
+            return;
+        }
+
+        $("#jobInformation").show();
+        $(this).dialog("close");
+    }
+</script>

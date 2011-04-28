@@ -16,13 +16,15 @@ namespace Agribusiness.Web.Models
         public IList<Contact> Contacts { get; set; }
         public IEnumerable<State> States { get; set; }
         public IEnumerable<Commodity> Commodities { get; set; }
+        public IEnumerable<Firm> Firms { get; set; }
         public Person Person { get; set; }
         public string Email { get; set; }
         public Seminar Seminar { get; set; }
 
         public SeminarPerson SeminarPerson { get; set; }
+        public Firm Firm { get; set; }
 
-        public static PersonViewModel Create(IRepository repository, Seminar seminar = null, Person person = null, string email = null)
+        public static PersonViewModel Create(IRepository repository, IFirmService firmService, Seminar seminar = null, Person person = null, string email = null, Firm firm = null)
         {
             Check.Require(repository != null, "Repository must be supplied");
 
@@ -35,8 +37,14 @@ namespace Agribusiness.Web.Models
                 SeminarPerson = person != null ? person.GetLatestRegistration() : null,
                 Email = email,
                 Seminar = seminar,
-                Commodities = repository.OfType<Commodity>().Queryable.Where(a=>a.IsActive).ToList()
+                Commodities = repository.OfType<Commodity>().Queryable.Where(a=>a.IsActive).ToList(),
+                Firm = firm ?? new Firm()
             };
+
+            if (firm == null && viewModel.SeminarPerson != null)
+            {
+                viewModel.Firm = viewModel.SeminarPerson.Firm;
+            }
 
             // find any addresses and replace them into the list
             if (person != null)
@@ -64,6 +72,12 @@ namespace Agribusiness.Web.Models
             viewModel.Addresses = viewModel.Addresses.OrderBy(a => a.AddressType.Id).ToList();
             viewModel.Contacts = viewModel.Contacts.OrderBy(a => a.ContactType.Id).ToList();
 
+            // get the firms and add the "Other" option
+            var firms = new List<Firm>(firmService.GetAllFirms());
+            firms.Add(new Firm() { Name = "Other (Not Listed)" });
+
+            viewModel.Firms = firms;
+
             return viewModel;
         }
     }
@@ -79,7 +93,7 @@ namespace Agribusiness.Web.Models
         public bool IsCurrentSeminar { get; set; }
         public int SeminarId { get; set; }
 
-        public static AdminPersonViewModel Create(IRepository repository, ISeminarService seminarService, int seminarId, Person person = null, string email = null)
+        public static AdminPersonViewModel Create(IRepository repository, IFirmService firmService, ISeminarService seminarService, int seminarId, Person person = null, string email = null)
         {
             Check.Require(repository != null, "Repository is required.");
             Check.Require(seminarService != null, "seminarService is required.");
@@ -87,7 +101,7 @@ namespace Agribusiness.Web.Models
             var seminar = repository.OfType<Seminar>().GetNullableById(seminarId);
             var viewModel = new AdminPersonViewModel()
                                 {
-                                    PersonViewModel = PersonViewModel.Create(repository, seminar, person, email),
+                                    PersonViewModel = PersonViewModel.Create(repository, firmService, seminar, person, email),
                                     SeminarRoles = repository.OfType<SeminarRole>().Queryable,
                                     SeminarId = seminarId
                                 };

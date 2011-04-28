@@ -14,6 +14,10 @@ namespace Agribusiness.Web.Models
         public IList<Contact> Contacts { get; set; }
         public IList<Commodity> Commodities { get; set; }
         public string Email { get; set; }
+        public Firm Firm { get; set; }
+
+        public string FirmName { get; set; }
+        public string FirmDescription { get; set; }
 
         public PersonEditModel()
         {

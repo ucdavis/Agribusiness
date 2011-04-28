@@ -32,8 +32,9 @@ namespace Agribusiness.Core.Domain
         public virtual Seminar Seminar { get; set; }
         [Required]
         public virtual Person Person { get; set; }
-
+        [Required]
         public virtual string Title { get; set; }
+        [Required]
         public virtual Firm Firm { get; set; }
         public virtual string CouponCode { get; set; }
         [Range(0.0, Double.MaxValue)]
@@ -69,7 +70,7 @@ namespace Agribusiness.Core.Domain
             References(x => x.Person);
 
             Map(x => x.Title);
-            References(x => x.Firm);
+            References(x => x.Firm).Cascade.All();
             Map(x => x.CouponCode);
             Map(x => x.CouponAmount);
             Map(x => x.Paid);
