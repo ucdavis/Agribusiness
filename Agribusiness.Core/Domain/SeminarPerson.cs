@@ -44,7 +44,7 @@ namespace Agribusiness.Core.Domain
 
         public virtual string RegistrationCode { get; private set; }
         [StringLength(20)]
-        public virtual string TransactionId { get; set; }
+        public virtual string ReferenceId { get; set; }
         public virtual string Comments { get; set; }
 
         public virtual IList<Session> Sessions { get; set; }
@@ -76,7 +76,7 @@ namespace Agribusiness.Core.Domain
             Map(x => x.RegistrationCode).ReadOnly();
             Map(x => x.Invite);
             Map(x => x.ContactInformationRelease);
-            Map(x => x.TransactionId);
+            Map(x => x.ReferenceId);
             Map(x => x.Comments);
 
             HasManyToMany(x => x.Sessions).ParentKeyColumn("SeminarPersonId")

@@ -352,7 +352,7 @@ namespace Agribusiness.Web.Controllers
             bool paid;
             _registrationService.RefreshRegistration(seminar.RegistrationId.Value, reg.RegistrationCode, out transactionId, out paid);
 
-            reg.TransactionId = transactionId;
+            reg.ReferenceId = transactionId;
             reg.Paid = paid;
 
             _seminarPersonRepository.EnsurePersistent(reg);

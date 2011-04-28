@@ -10,9 +10,11 @@
     [RegistrationCode]          AS            (right('0000'+CONVERT([varchar],[id],(0)),(6))),
     [Invite]                    BIT           NOT NULL,
     [ContactInformationRelease] BIT           NOT NULL,
-    [TransactionId]             VARCHAR (20)  NULL,
+    [ReferenceId]               VARCHAR (20)  NULL,
     [Comments]                  VARCHAR (MAX) NULL
 );
+
+
 
 
 
