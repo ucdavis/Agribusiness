@@ -350,9 +350,9 @@ namespace Agribusiness.Web.Controllers
             // make the web service call
             string transactionId;
             bool paid;
-            _registrationService.RefreshRegistration(seminar.RegistrationId.Value, reg.RegistrationCode, out transactionId, out paid);
+            _registrationService.RefreshRegistration(seminar.RegistrationId.Value, reg.ReferenceId, out transactionId, out paid);
 
-            reg.ReferenceId = transactionId;
+            reg.TransactionId = transactionId;
             reg.Paid = paid;
 
             _seminarPersonRepository.EnsurePersistent(reg);

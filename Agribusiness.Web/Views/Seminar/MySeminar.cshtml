@@ -31,8 +31,16 @@
             <div class="display-details">@Model.Seminar.Location</div>
         </li>
         <li><div class="display-label">Payment Status:</div>
-            @{ var paid = Model.SeminarPerson.Registered ? "Paid" : "Not Paid";}
-            <div class="display-details">@paid</div>
+            <div class="display-details">
+            @if (Model.SeminarPerson.Paid)
+            {
+                <text>Paid</text>
+            }
+            else
+            { 
+                <a href='@Model.CrpLink'>Click here to Pay</a>
+            }
+            </div>
         </li>
         @if (!string.IsNullOrWhiteSpace(Model.SeminarPerson.CouponCode))
         { 
