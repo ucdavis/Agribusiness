@@ -136,6 +136,7 @@
     </Compile>
     <Compile Include="Helpers\AutomapperConfig.cs" />
     <Compile Include="Helpers\FluentHelper.cs" />
+    <Compile Include="Models\AddAttendeeViewModel.cs" />
     <Compile Include="Models\AdminHomeViewModel.cs" />
     <Compile Include="Models\ApplicationViewModel.cs" />
     <Compile Include="Models\AssignToSessionViewModel.cs" />
@@ -358,6 +359,7 @@
     <None Include="CodeTemplates\AddView\CSHTML\ListDatatables.tt" />
     <None Include="CodeTemplates\AddView\CSHTML\ListTelerik.tt" />
     <Content Include="Views\Session\AddPerson.cshtml" />
+    <Content Include="Views\Attendee\Add.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">

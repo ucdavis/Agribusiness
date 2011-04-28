@@ -16,7 +16,7 @@
 @section SubPageNavigation
 {
     <ul class="navigation">
-        <li>Add Attendee</li>
+        <li>@Html.ActionLink("Add Attendee", "Add", new {id=Model.Seminar.Id})</li>
         <li>@Html.ActionLink("Back to Seminar", "Details", "Seminar", new {id=Model.Seminar.Id}, new{}) </li>
     </ul>
 }
