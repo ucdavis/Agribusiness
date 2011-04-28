@@ -132,10 +132,12 @@ namespace Agribusiness.Web.Controllers
                 var user = _userRepository.Queryable.Where(a => a.UserName == personEditModel.Email).FirstOrDefault();
                 person.User = user;
 
-                var seminarPerson = new SeminarPerson(seminar, person){Invite = true};
+                var seminarPerson = new SeminarPerson(seminar, person){Invite = true, Title = personEditModel.Title};
                 
                 person = SetPerson(personEditModel, seminarPerson, ModelState, person, profilepic);
                 person.AddSeminarPerson(seminarPerson);
+
+                seminarPerson.TransferValidationMessagesTo(ModelState);
 
                 if (ModelState.IsValid)
                 {

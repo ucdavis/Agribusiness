@@ -227,7 +227,7 @@
         @* Job Information *@
         <ul id="jobInformation" style='@combined'>
             <li><div class="editor-label required">Job Title:<span>*</span></div>
-                <div class="editor-field">@Html.TextBoxFor(a=>a.SeminarPerson.Title)</div>
+                <div class="editor-field">@Html.TextBox("Title", Model.SeminarPerson != null ? Model.SeminarPerson.Title : string.Empty)</div>
             </li>
         </ul>
 
