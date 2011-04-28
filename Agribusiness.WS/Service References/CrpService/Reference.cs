@@ -242,9 +242,6 @@ namespace Agribusiness.WS.CrpService {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IItemService/GetRegistrationByReference", ReplyAction="http://tempuri.org/IItemService/GetRegistrationByReferenceResponse")]
         Agribusiness.WS.CrpService.ServiceTransaction GetRegistrationByReference(int itemId, string registrationId);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IItemService/GetRegistrationById", ReplyAction="http://tempuri.org/IItemService/GetRegistrationByIdResponse")]
-        Agribusiness.WS.CrpService.ServiceTransaction GetRegistrationById(int transactionId);
-        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IItemService/GetRegistrations", ReplyAction="http://tempuri.org/IItemService/GetRegistrationsResponse")]
         Agribusiness.WS.CrpService.ServiceTransaction[] GetRegistrations(int itemId);
     }
@@ -286,10 +283,6 @@ namespace Agribusiness.WS.CrpService {
         
         public Agribusiness.WS.CrpService.ServiceTransaction GetRegistrationByReference(int itemId, string registrationId) {
             return base.Channel.GetRegistrationByReference(itemId, registrationId);
-        }
-        
-        public Agribusiness.WS.CrpService.ServiceTransaction GetRegistrationById(int transactionId) {
-            return base.Channel.GetRegistrationById(transactionId);
         }
         
         public Agribusiness.WS.CrpService.ServiceTransaction[] GetRegistrations(int itemId) {

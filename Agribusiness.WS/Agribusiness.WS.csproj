@@ -127,9 +127,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\CrpService\ItemService.disco" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Service References\CrpService\configuration91.svcinfo" />
   </ItemGroup>
   <ItemGroup>
