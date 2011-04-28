@@ -361,6 +361,36 @@ namespace Agribusiness.Web.Controllers
             var url = Url.Action("AdminEdit", new { id = person.User.Id, seminarId = seminarId });
             return Redirect(string.Format("{0}#registration", url));
         }
+
+        [UserOnly]
+        [HttpPost]
+        public ActionResult UpdateComments(int personId, int seminarId, string comments)
+        {
+            var person = _personRepository.GetNullableById(personId);
+
+            if (person == null)
+            {
+                Message = string.Format(Messages.NotFound, "Person", personId);
+                return this.RedirectToAction(a => a.Index());
+            }
+
+            var reg = person.GetLatestRegistration();
+            var seminar = _seminarService.GetCurrent();
+
+            // check if user is registered for the current seminar
+            if (reg.Seminar != seminar)
+            {
+                Message = "User is not a part of the current seminar.  Coupon cannot be created.";
+                return this.RedirectToAction(a => a.AdminEdit(person.User.Id, seminarId));
+            }
+
+            reg.Comments = comments;
+            _seminarPersonRepository.EnsurePersistent(reg);
+
+            Message = "Comments have been updated.";
+            var url = Url.Action("AdminEdit", new { id = person.User.Id, seminarId = seminarId });
+            return Redirect(string.Format("{0}#comments", url));
+        }
         #endregion
 
         #region Profile Editing Functions

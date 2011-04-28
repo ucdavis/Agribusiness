@@ -58,6 +58,7 @@
             <li><a href="#biography">Biography</a></li>
             <li><a href="#registration">Registration</a></li>
             <li><a href="#roles">Roles</a></li>
+            <li><a href="#comments">Comments</a></li>
         </ul>
 
         <div id="profile">
@@ -101,6 +102,8 @@
                         }
                     </li>
                     <li><a href="javascript:;" id="update_coupon">Update Coupon</a></li>
+                    @if (!string.IsNullOrWhiteSpace(Model.PersonViewModel.SeminarPerson.CouponCode))
+                    { 
                     <li>
                         @using (Html.BeginForm("UpdateRegistrationStatus", "Person", FormMethod.Post, new { @style = "display:inline; margin: 0;" }))
                         { 
@@ -111,6 +114,7 @@
                             <a href="javascript:;" id="refresh_status" class="submitanchor">Refresh Status</a>
                         }
                     </li>
+                    }
                 </ul>
             </div>
 
@@ -177,6 +181,23 @@
             else
             { 
             <p>@Model.PersonViewModel.Person.FullName is not registered for the current seminar.</p>
+            }
+        </div>
+        <div id="comments">
+            @using (Html.BeginForm("UpdateComments", "Person", FormMethod.Post))
+            { 
+                @Html.Hidden("seminarId", Model.SeminarId)
+                @Html.Hidden("personId", Model.PersonViewModel.Person.Id)
+                @Html.AntiForgeryToken()
+            
+                <ul>
+                    <li><div class="editor-label">@Html.TextArea("comments", Model.PersonViewModel.SeminarPerson.Comments, new { @style = "height: 180px; width: 700px; border: 1px solid lightgray;" })</div>
+                    </li>
+                    <li><div class="editor-field">
+                        <input type="submit" value="Save" class="button" />
+                        </div>
+                    </li>
+                </ul>
             }
         </div>
 
