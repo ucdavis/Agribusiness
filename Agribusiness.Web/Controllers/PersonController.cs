@@ -661,7 +661,7 @@ namespace Agribusiness.Web.Controllers
             return person;
         }
 
-        private void SetAddresses(Person person, IList<Address> addresses, ModelStateDictionary modelState)
+        private static void SetAddresses(Person person, IList<Address> addresses, ModelStateDictionary modelState)
         {
             // remove the blank address
             var remove = addresses.Where(a => !a.HasAddress()).ToList();
@@ -702,7 +702,7 @@ namespace Agribusiness.Web.Controllers
             }
 
         }
-        private void SetContacts(Person person, IList<Contact> contacts, ModelStateDictionary modelState)
+        private static void SetContacts(Person person, IList<Contact> contacts, ModelStateDictionary modelState)
         {
             // remove the blanks
             var remove = contacts.Where(a => !a.HasContact).ToList();
@@ -737,7 +737,7 @@ namespace Agribusiness.Web.Controllers
                 }
             }
         }
-        private void SetCommodities(SeminarPerson seminarPerson, IList<Commodity> commodities)
+        private static void SetCommodities(SeminarPerson seminarPerson, IList<Commodity> commodities)
         {
             if (seminarPerson.Commodities != null ) seminarPerson.Commodities.Clear();
 

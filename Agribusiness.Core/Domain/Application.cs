@@ -25,21 +25,27 @@ namespace Agribusiness.Core.Domain
 
         [Required]
         [StringLength(50)]
+        [Display(Name = "First Name")]
         public virtual string FirstName { get; set; }
         [StringLength(50)]
         public virtual string MI { get; set; }
         [Required]
         [StringLength(50)]
+        [Display(Name = "Last Name")]
         public virtual string LastName { get; set; }
         [StringLength(50)]
+        [Display(Name = "Badge Name")]
         public virtual string BadgeName { get; set; }
         public virtual byte[] Photo { get; set; }
         public virtual string ContentType { get; set; }
         [StringLength(100)]
+        [Display(Name = "Assistant Name")]
         public virtual string AssistantName { get; set; }
         [DataType(DataType.PhoneNumber)]
+        [Display(Name = "Assistant Phone")]
         public virtual string AssistantPhone { get; set; }
         [DataType(DataType.EmailAddress)]
+        [Display(Name ="Assistant Email")]
         public virtual string AssistantEmail { get; set; }
         public virtual string Expectations { get; set; }
 
@@ -49,31 +55,41 @@ namespace Agribusiness.Core.Domain
         [EitherOr(new string[]{"FirmName", "FirmDescription"})]
         public virtual Firm Firm { get; set; }
         [StringLength(200)]
+        [Display(Name = "Firm Name")]
         public virtual string FirmName { get; set; }
+        [Display(Name = "Business Type/Firm Description")]
         public virtual string FirmDescription { get; set; }
         [Required]
         [StringLength(100)]
+        [Display(Name = "Address Line 1")]
         public virtual string FirmAddressLine1 { get; set; }
         [StringLength(100)]
+        [Display(Name = "Address Line 2")]
         public virtual string FirmAddressLine2 { get; set; }
         [Required]
         [StringLength(50)]
+        [Display(Name = "City")]
         public virtual string FirmCity { get; set; }
         [Required]
+        [Display(Name="State")]
         public virtual State FirmState { get; set; }
         [Required]
         [StringLength(10)]
+        [Display(Name="Zip")]
         public virtual string FirmZip { get; set; }
         [Required]
         [DataType(DataType.PhoneNumber)]
+        [Display(Name = "Phone Number")]
         public virtual string FirmPhone { get; set; }
         [DataType(DataType.Url)]
         [StringLength(200)]
         public virtual string Website { get; set; }
         [Required]
+        [Display(Name = "Job Responsibilities")]
         public virtual string Responsibilities { get; set; }
         [StringLength(50)]
         [Required]
+        [Display(Name = "Job Title")]
         public virtual string JobTitle { get; set; }
 
         public virtual bool IsPending { get; set; }
