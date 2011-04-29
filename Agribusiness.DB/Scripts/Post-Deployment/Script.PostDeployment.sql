@@ -16,7 +16,7 @@ Post-Deployment Script Template
 
 if not exists (select * from AddressTypes where id = 'B')
 begin
-insert AddressTypes (id, Name) values ('B', 'Business')
+insert AddressTypes (id, Name, required) values ('B', 'Business', 1)
 end
 if not exists (select * from AddressTypes where id = 'C')
 begin

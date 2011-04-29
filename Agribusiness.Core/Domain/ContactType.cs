@@ -9,6 +9,8 @@ namespace Agribusiness.Core.Domain
         [Required]
         [StringLength(50)]
         public virtual string Name { get; set; }
+
+        public virtual bool Required { get; set; }
     }
 
     public class ContactTypeMap : ClassMap<ContactType>
@@ -19,6 +21,7 @@ namespace Agribusiness.Core.Domain
 
             Id(x => x.Id);
             Map(x => x.Name);
+            Map(x => x.Required);
         }
     }
 }

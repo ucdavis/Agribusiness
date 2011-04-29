@@ -641,5 +641,11 @@
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_ContactTypes_Required.defconst.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_AddressTypes_Required.defconst.sql">
+      <SubType>Code</SubType>
+    </Build>
   </ItemGroup>
 </Project>
