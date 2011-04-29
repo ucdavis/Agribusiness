@@ -7,9 +7,12 @@
 
 @section SubPageNavigation
 {
+    @if (User.IsInRole(Agribusiness.Web.Controllers.Filters.RoleNames.User))
+    { 
     <ul class="navigation">
             <li>@Html.ActionLink("Back to Details", "Details", new { id = Model.Person.Id })</li>
     </ul>
+    }
 }
 
 <div>

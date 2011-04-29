@@ -251,7 +251,7 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction<AuthorizedController>(a => a.Index());
             }
 
-            if (_personService.HasAccess(seminarPerson.Person, seminarPerson.Seminar))
+            if (!_personService.HasAccess(seminarPerson.Person, seminarPerson.Seminar))
             {
                 return this.RedirectToAction<ErrorController>(a => a.NotAuthorized());
             }
