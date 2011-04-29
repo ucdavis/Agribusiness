@@ -1,5 +1,6 @@
 ﻿@model Agribusiness.Web.Models.PersonViewModel
 
+    @Html.ValidationSummary(false)
 
 	@Html.AntiForgeryToken()
 	@Html.Hidden("seminarPersonId", Model.SeminarPerson != null ? Model.SeminarPerson.Id : -1)
@@ -94,16 +95,27 @@
 
         @for (int i = 0; i < Model.Contacts.Count(); i++ )
         { 
+            var required = Model.Contacts[i].ContactType.Required;
+            
             <h3>@Model.Contacts[i].ContactType.Name</h3>
             @Html.Hidden(string.Format("Contacts[{0}].ContactType", i), Model.Contacts[i].ContactType.Id)
             <ul>
-                <li><div class="editor-label">@Html.LabelFor(a => a.Contacts[i].FirstName)</div>
+                <li><div class="editor-label @(required ? "required" : string.Empty)">
+                        @Html.LabelFor(a => a.Contacts[i].FirstName)
+                        @if (required){<span>*</span>}
+                    </div>
                     <div class="editor-field">@Html.TextBox(string.Format("Contacts[{0}].FirstName", i), Model.Contacts[i].FirstName)</div>
                 </li>
-                <li><div class="editor-label">@Html.LabelFor(a => a.Contacts[i].LastName)</div>
+                <li><div class="editor-label @(required ? "required" : string.Empty)">
+                        @Html.LabelFor(a => a.Contacts[i].LastName)
+                        @if (required){<span>*</span>}
+                    </div>
                     <div class="editor-field">@Html.TextBox(string.Format("Contacts[{0}].LastName", i), Model.Contacts[i].LastName)</div>
                 </li>
-                <li><div class="editor-label">@Html.LabelFor(a => a.Contacts[i].Phone)</div>
+                <li><div class="editor-label @(required ? "required" : string.Empty)">
+                        @Html.LabelFor(a => a.Contacts[i].Phone)
+                        @if (required){<span>*</span>}
+                    </div>
                     <div class="editor-field">@Html.TextBox(string.Format("Contacts[{0}].Phone", i), Model.Contacts[i].Phone)</div>
                 </li>
                 <li><div class="editor-label">@Html.LabelFor(a => a.Contacts[i].Email)</div>
@@ -119,13 +131,16 @@
 
 		@for (int i = 0; i < Model.Addresses.Count(); i++)
 		{
+            var required = Model.Addresses[i].AddressType.Required;
+      
 			<h4>@string.Format("{0} Address", Model.Addresses[i].AddressType.Name)</h4>
   
 			<input type="hidden" id='@string.Format("Addresses_{0}__AddressType", i)' name='@string.Format("Addresses[{0}].AddressType", i)' value='@Model.Addresses[i].AddressType.Id' />
 			
 			<ul>
-				<li><div class="editor-label">
+				<li><div class="editor-label @(required ? "required" : string.Empty)">
                     @Html.LabelFor(a => a.Addresses[i].Line1)
+                    @if (required){<span>*</span>}
                     </div>
                     <div class="editor-field">
 					@Html.TextBox(string.Format("Addresses[{0}].Line1", i), Model.Addresses[i].Line1)
@@ -138,15 +153,17 @@
 					@Html.TextBox(string.Format("Addresses[{0}].Line2", i), Model.Addresses[i].Line2)
                     </div>
 				</li>
-				<li><div class="editor-label">
+				<li><div class="editor-label @(required ? "required" : string.Empty)">
                     @Html.LabelFor(a => a.Addresses[i].City)
+                    @if (required){<span>*</span>}
                     </div>
                     <div class="editor-field">
 					@Html.TextBox(string.Format("Addresses[{0}].City", i), Model.Addresses[i].City)
                     </div>
 				</li>
-				<li><div class="editor-label">
+				<li><div class="editor-label @(required ? "required" : string.Empty)">
                     @Html.LabelFor(a => a.Addresses[i].State)
+                    @if (required){<span>*</span>}
                     </div>
                     <div class="editor-field">
 					@{ var ss = Model.Addresses.ElementAtOrDefault(i);
@@ -155,8 +172,9 @@
 					@this.Select(string.Format("Addresses[{0}].State", i)).Options(Model.States, x => x.Id, x => x.Name).FirstOption("--Select a State--").Selected(selectedState)
                     </div>
 				</li>
-				<li><div class="editor-label">
+				<li><div class="editor-label @(required ? "required" : string.Empty)">
                     @Html.LabelFor(a => a.Addresses[i].Zip)
+                    @if (required){<span>*</span>}
                     </div>
                     <div class="editor-field">
 					@Html.TextBox(string.Format("Addresses[{0}].Zip", i), Model.Addresses[i].Zip)

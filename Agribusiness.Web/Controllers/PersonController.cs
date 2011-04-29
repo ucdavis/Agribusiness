@@ -628,13 +628,15 @@ namespace Agribusiness.Web.Controllers
         #region Private Helpers
         private Person SetPerson(PersonEditModel personEditModel, SeminarPerson seminarPerson, ModelStateDictionary modelState, Person person = null, HttpPostedFileBase profilePic = null)
         {
+            modelState.Clear();
+
             person = person ?? personEditModel.Person;
 
             // copy all the fields
             Mapper.Map(personEditModel, person);
 
-            SetAddresses(person, personEditModel.Addresses);
-            SetContacts(person, personEditModel.Contacts);
+            SetAddresses(person, personEditModel.Addresses, ModelState);
+            SetContacts(person, personEditModel.Contacts, ModelState);
             SetCommodities(seminarPerson, personEditModel.Commodities);
 
             seminarPerson.Firm = personEditModel.Firm ?? new Firm(personEditModel.FirmName, personEditModel.FirmDescription);
@@ -654,13 +656,12 @@ namespace Agribusiness.Web.Controllers
             }
 
             // run the validation
-            modelState.Clear();
             person.TransferValidationMessagesTo(modelState);
 
             return person;
         }
 
-        private void SetAddresses(Person person, IList<Address> addresses)
+        private void SetAddresses(Person person, IList<Address> addresses, ModelStateDictionary modelState)
         {
             // remove the blank address
             var remove = addresses.Where(a => !a.HasAddress()).ToList();
@@ -671,6 +672,13 @@ namespace Agribusiness.Web.Controllers
             {
                 var type = addr.AddressType;
                 var origAddress = person.Addresses.Where(a => a.AddressType == type).FirstOrDefault();
+
+                // run validation if required
+                if (type.Required)
+                {
+                    addr.Person = person;
+                    addr.TransferValidationMessagesTo(modelState);
+                }
 
                 // address was entered
                 if (addr.HasAddress())
@@ -694,7 +702,7 @@ namespace Agribusiness.Web.Controllers
             }
 
         }
-        private void SetContacts(Person person, IList<Contact> contacts)
+        private void SetContacts(Person person, IList<Contact> contacts, ModelStateDictionary modelState)
         {
             // remove the blanks
             var remove = contacts.Where(a => !a.HasContact).ToList();
@@ -705,6 +713,12 @@ namespace Agribusiness.Web.Controllers
             {
                 var type = ct.ContactType;
                 var origCt = person.Contacts.Where(a => a.ContactType == type).FirstOrDefault();
+
+                if (type.Required)
+                {
+                    ct.Person = person;
+                    ct.TransferValidationMessagesTo(modelState);
+                }
 
                 if (ct.HasContact)
                 {
