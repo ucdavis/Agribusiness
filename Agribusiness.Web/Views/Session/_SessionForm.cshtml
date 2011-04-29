@@ -27,6 +27,14 @@
             </div>
         </li>
         <li><div class="editor-label">
+                @Html.LabelFor(a=>a.Session.Description)
+            </div>
+            <div class="editor-field">
+                @Html.TextAreaFor(a=>a.Session.Description)
+                @Html.ValidationMessageFor(a=>a.Session.Description)
+            </div>
+        </li>
+        <li><div class="editor-label">
                 @Html.LabelFor(a => a.Session.Begin)
             </div>
             <div class="editor-field">

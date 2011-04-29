@@ -96,6 +96,7 @@ input.button {font-size: 1.2em; padding: 8px 15px 3px;}
 /* ---------------- */
 /*   display form   */
 /* ---------------- */
+fieldset.display-form {padding: 1em;}
 .display-form {margin:1em 0; text-align:left;}
 .display-form ul li {list-style-type:none;margin:10px 0;}
 .display-form ul li ul li{margin:2px 0;}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
+using System.Linq;
 
 namespace Agribusiness.Core.Domain
 {
@@ -55,7 +56,7 @@ namespace Agribusiness.Core.Domain
 
         public virtual string GetCommodityList()
         {
-            return string.Join(", ", Commodities);
+            return string.Join(", ", Commodities.Select(a=>a.Name));
         }
 
     }

@@ -111,7 +111,7 @@
                 {                    
                     var single = Model.Seminar.Sessions.Count(a=>a.Begin.Value.Hour == i && a.Begin.Value.Date == date.Date) == 1 ? "single" : string.Empty;
                        
-                    foreach (var session in Model.Seminar.Sessions.Where(a => a.Begin.Value.Hour == i))
+                    foreach (var session in Model.Seminar.Sessions.Where(a => a.Begin.Value.Hour == i && a.Begin.Value.Date == date.Date))
                     { 
                         <div class='session-item @single'><a class="add-all" data-id='@session.Id'>Add All</a>
                         <h4>@session.Name (@session.Begin.Value.ToShortTimeString())</h4>

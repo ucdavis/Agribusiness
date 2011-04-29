@@ -37,6 +37,7 @@ namespace Agribusiness.Core.Domain
         public virtual string Name { get; set; }
         [StringLength(50)]
         public virtual string Location { get; set; }
+        public virtual string Description { get; set; }
         [Before("End")]
         public virtual DateTime? Begin { get; set; }
         public virtual DateTime? End { get; set; }

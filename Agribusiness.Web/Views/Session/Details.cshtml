@@ -1,0 +1,47 @@
+﻿@model Agribusiness.Core.Domain.Session
+
+
+@{
+    ViewBag.Title = string.Format("Agribusiness {0} session", Model.Seminar.Year);
+    ViewBag.SubPageTitle = Model.Name;
+}
+
+@section SubPageNavigation
+{
+    <ul class='navigation'>
+        <li>@Html.ActionLink("Back to My Seminar", "MySeminar", "Seminar", new { id = Model.Seminar.Id }, new { })</li>
+    </ul>
+}
+
+<fieldset class="display-form">
+    <legend>Description</legend>
+
+    @(!string.IsNullOrWhiteSpace(Model.Description) ? Model.Description : "No description available.")
+</fieldset>
+
+<fieldset class="display-form">
+    <legend>Details:</legend>
+
+    <ul>
+        <li><div class="display-label">@Html.LabelFor(model=>model.Location)</div>
+            <div class="display-details">@Model.Location</div>
+        </li>
+        <li><div class="display-label">@Html.LabelFor(model=>model.Begin)</div>
+            <div class="display-details">@Model.BeginString</div>
+        </li>
+        <li><div class="display-label">@Html.LabelFor(model=>model.End)</div>
+            <div class="display-details">@Model.EndString</div>
+        </li>
+    </ul>
+
+</fieldset>
+
+@if (Model.SessionPeople.Count > 0)
+{
+    <fieldset class="display-form">
+        <legend>@Model.SessionType.PersonType</legend>
+
+        @string.Join(", ", Model.SessionPeople.Select(a=>a.Person.FullName))
+
+    </fieldset>
+}

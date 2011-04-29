@@ -360,6 +360,7 @@
     <None Include="CodeTemplates\AddView\CSHTML\ListTelerik.tt" />
     <Content Include="Views\Session\AddPerson.cshtml" />
     <Content Include="Views\Attendee\Add.cshtml" />
+    <Content Include="Views\Session\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">
