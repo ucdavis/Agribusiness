@@ -1,0 +1,35 @@
+﻿@model Agribusiness.Import.Controllers.FirmViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+
+<h3>Errors</h3>
+
+@foreach (var a in Model.Errors)
+{
+    <dl>
+        <dt>Record Id: @a.Key</dt>
+        <dd>@a.Value</dd>
+    </dl> 
+}
+
+<hr />
+<h3>Records</h3>
+
+@foreach (var a in Model.Firms)
+{ 
+    <fieldset>
+        <legend>@a.Name</legend>
+
+        <ul>
+            <li>
+                <div class="label">Description:</div>
+                <div class="value">@a.Description</div>
+            </li>
+        </ul>
+    </fieldset>
+}
