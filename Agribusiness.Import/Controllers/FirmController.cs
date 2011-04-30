@@ -6,11 +6,14 @@ using System.Web;
 using System.Web.Mvc;
 using Agribusiness.Import.Models;
 using NPOI.HSSF.UserModel;
+using NPOI.SS.UserModel;
 
 namespace Agribusiness.Import.Controllers
 {
     public class FirmController : Controller
     {
+        protected readonly AgribusinessContext Db = new AgribusinessContext();
+
         //
         // GET: /Firm/
 
@@ -18,54 +21,102 @@ namespace Agribusiness.Import.Controllers
         {
             var firms = new List<Firm>();
             var errors = new List<KeyValuePair<string, string>>();
-            
-            using (var stream = new FileStream(Server.MapPath("~/Assets/Firm.xls"), FileMode.Open))
+
+            var stream = new FileStream(Server.MapPath("~/Assets/Firm.xls"), FileMode.Open);
+            var workbook = new HSSFWorkbook(stream);
+            var sheet = workbook.GetSheetAt(0);
+
+            for (var i = sheet.FirstRowNum + 1; i <= sheet.LastRowNum; i++)
             {
-                var workbook = new HSSFWorkbook(stream);
-                var sheet = workbook.GetSheetAt(0);
+                var row = sheet.GetRow(i);
 
-                for (var i = sheet.FirstRowNum; i <= sheet.LastRowNum; i++)
+                try
                 {
-                    var row = sheet.GetRow(i);
+                    var test = ReadCell(row, 6);
 
-                    try
-                    {
-                        var firm = new Firm();
-                        firm.City = row.GetCell(0).ToString();      // a
-                        firm.Country = row.GetCell(1).ToString();   // b
-                        firm.State = row.GetCell(2).ToString();     // c
-                        firm.Address = row.GetCell(3).ToString();   // d
-                        firm.Zip = row.GetCell(4).ToString();       // e
-                        firm.IsPOBox = row.GetCell(5).ToString() == "yes" ? true : false;   // f
-                        firm.Fax = row.GetCell(6).ToString();       // g
-                        firm.Phone = row.GetCell(7).ToString();     // h
-                        firm.Ext = row.GetCell(8).ToString();       // i
-                        firm.Created = DateTime.Parse(row.GetCell(9).ToString());   // j
-                        firm.Modified = DateTime.Parse(row.GetCell(10).ToString()); // k
-                        firm.Description = row.GetCell(11).ToString();   // L
-                        firm.Financial = row.GetCell(12).ToString() == "yes" ? true : false;    // M
-                        firm.Id = Convert.ToInt32(row.GetCell(13)); // N
-                        firm.Name = row.GetCell(14).ToString();     // O
-                        firm.CreatedBy = row.GetCell(15).ToString();    // P
-                        firm.ModifiedBy = row.GetCell(16).ToString();   // Q
-                        firm.WebAddress = row.GetCell(17).ToString();   // R
+                    var firm = new Firm();
+                    firm.City = ReadCell(row, 0);           // a
+                    firm.Country = ReadCell(row, 1);        // b
+                    firm.State = ReadCell(row, 2);          // c
+                    firm.Address = ReadCell(row, 3);        // d
+                    firm.Zip = ReadCell(row, 4);            // e
+                    firm.IsPOBox = ReadBoolCell(row, 5);    // f
+                    firm.Fax = ReadCell(row, 6);            // g
+                    firm.Phone = ReadCell(row, 7);          // h
+                    firm.Ext = ReadCell(row, 8);            // i
+                    firm.Created = ReadDateCell(row, 9);    // j
+                    firm.Modified = ReadDateCell(row, 10);  // k
+                    firm.Description = ReadCell(row, 11);   // l
+                    firm.Financial = ReadBoolCell(row, 12); // m
+                    firm.Id = ReadIntCell(row, 13);         // n
+                    firm.Name = ReadCell(row, 14);          // o
+                    firm.CreatedBy = ReadCell(row, 15);     // p
+                    firm.ModifiedBy = ReadCell(row, 16);    // q
+                    firm.WebAddress = ReadCell(row, 17);    // r
 
-                        firms.Add(firm);
-                    }
-                    catch (Exception ex)
-                    {
-                        errors.Add(new KeyValuePair<string, string>(row.GetCell(13).ToString(), ex.Message));
-                    }
+                    firms.Add(firm);
 
+                    Db.Firms.Add(firm);
                 }
+                catch (Exception ex)
+                {
+                    errors.Add(new KeyValuePair<string, string>(row.GetCell(13).ToString(), ex.Message));
+                }
+
             }
+
+            Db.SaveChanges();
 
             var viewModel = FirmViewModel.Create(firms, errors);
             return View(viewModel);
         }
 
-    }
+        private string ReadCell(Row row, int index)
+        {
+            var val = row.GetCell(index);
 
+            return val != null ? val.ToString() : null;
+        }
+
+        private int? ReadIntCell(Row row, int index)
+        {
+            var val = row.GetCell(index);
+
+            int num;
+            if (val != null && int.TryParse(val.ToString(), out num))
+            {
+                return num;
+            }
+
+            return null;
+        }
+
+        private DateTime? ReadDateCell(Row row, int index)
+        {
+            var val = row.GetCell(index);
+
+            DateTime date;
+            if (val != null && DateTime.TryParse(val.ToString(), out date))
+            {
+                return date;
+            }
+
+            return null;
+        }
+
+        private bool? ReadBoolCell(Row row, int index)
+        {
+            var val = row.GetCell(index);
+
+            if (val != null)
+            {
+                return val.ToString() == "yes" ? true : false;
+            }
+
+            return null;
+        }
+    }
+   
     public class FirmViewModel
     {
         public IList<Firm> Firms { get; set; }

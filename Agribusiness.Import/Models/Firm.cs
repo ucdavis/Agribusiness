@@ -13,7 +13,7 @@ namespace Agribusiness.Import.Models
         public string State { get; set; }
         public string Address { get; set; }
         public string Zip { get; set; }
-        public bool IsPOBox { get; set; }
+        public bool? IsPOBox { get; set; }
 
         [DataType(DataType.Url)]
         public string Fax { get; set; }
@@ -21,13 +21,13 @@ namespace Agribusiness.Import.Models
         public string Phone { get; set; }
         public string Ext { get; set; }
 
-        public DateTime Created { get; set; }
-        public DateTime Modified { get; set; }
+        public DateTime? Created { get; set; }
+        public DateTime? Modified { get; set; }
 
         public string Description { get; set; }
-        public bool Financial { get; set; }
+        public bool? Financial { get; set; }
 
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         public string Name{ get; set; }
 

@@ -4,6 +4,14 @@
     ViewBag.Title = "Index";
 }
 
+<style type="text/css">
+    ul {list-style:none;}
+    dt {font-weight: bold;}
+ 
+    div.label {font-weight:bold;}
+    div.value {margin-bottom: .5em;}
+</style>
+
 <h2>Index</h2>
 
 
@@ -29,6 +37,42 @@
             <li>
                 <div class="label">Description:</div>
                 <div class="value">@a.Description</div>
+            </li>
+            <li>
+                <div class="label">Address:</div>            
+                <div class="value">@a.Address</div>            
+            </li>
+            <li>
+                <div class="label">City, State, Zip:</div>            
+                <div class="value">@string.Format("{0}, {1} {2}", a.City, a.State, a.Zip)</div>            
+            </li>
+            <li>
+                <div class="label">Country:</div>            
+                <div class="value">@a.Country</div>            
+            </li>
+            <li>
+                <div class="label">Is PO Box:</div>            
+                <div class="value">@a.IsPOBox</div>            
+            </li>
+            <li>
+                <div class="label">Phone:</div>            
+                <div class="value">@a.Phone  @a.Ext</div>            
+            </li>
+            <li>
+                <div class="label">Fax:</div>            
+                <div class="value">@a.Fax</div>            
+            </li>
+            <li>
+                <div class="label">Created:</div>            
+                <div class="value">@a.Created (@a.CreatedBy)</div>            
+            </li>
+            <li>
+                <div class="label">Modified:</div>            
+                <div class="value">@a.Modified (@a.ModifiedBy)</div>            
+            </li>
+            <li>
+                <div class="label">Web Address:</div>            
+                <div class="value">@a.WebAddress</div>            
             </li>
         </ul>
     </fieldset>
