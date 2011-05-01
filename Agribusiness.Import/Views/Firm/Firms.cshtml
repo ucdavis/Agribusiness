@@ -4,17 +4,12 @@
     ViewBag.Title = "Index";
 }
 
-<style type="text/css">
-    ul {list-style:none;}
-    dt {font-weight: bold;}
- 
-    div.label {font-weight:bold;}
-    div.value {margin-bottom: .5em;}
-</style>
 
 <h2>Index</h2>
 
-
+<div>
+<em>Imported Already?</em> @(Model.AlreadyImported ? "Yes" : "No")
+</div>
 <h3>Errors</h3>
 
 @foreach (var a in Model.Errors)

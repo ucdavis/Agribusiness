@@ -11,5 +11,6 @@ namespace Agribusiness.Import
     {
         public DbSet<Firm> Firms { get; set; }
         public DbSet<Tracking> Trackings { get; set; }
+        public DbSet<ContactFirms> ContactFirms { get; set; }
     }
 }

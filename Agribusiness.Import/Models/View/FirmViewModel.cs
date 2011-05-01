@@ -2,14 +2,13 @@
 
 namespace Agribusiness.Import.Models.View
 {
-    public class FirmViewModel
+    public class FirmViewModel : ViewModelBase
     {
         public IList<Firm> Firms { get; set; }
-        public IList<KeyValuePair<string, string>> Errors { get; set; }
-
-        public static FirmViewModel Create(IList<Firm> firms, IList<KeyValuePair<string, string>> errors)
+        
+        public static FirmViewModel Create(IList<Firm> firms, IList<KeyValuePair<string, string>> errors, bool alreadyImported)
         {
-            var viewModel = new FirmViewModel() {Firms = firms, Errors = errors};
+            var viewModel = new FirmViewModel() {Firms = firms, Errors = errors, AlreadyImported = alreadyImported};
             return viewModel;
         }
     }

@@ -72,7 +72,7 @@ namespace Agribusiness.Import.Controllers
 
             Db.SaveChanges();
 
-            var viewModel = FirmViewModel.Create(firms, errors);
+            var viewModel = FirmViewModel.Create(firms, errors, imported);
             return View(viewModel);
         }
 
@@ -139,7 +139,7 @@ namespace Agribusiness.Import.Controllers
 
             Db.SaveChanges();
 
-            var viewModel = FirmViewModel.Create(firms, errors);
+            var viewModel = FirmViewModel.Create(firms, errors, imported);
             return View(viewModel);
         }
     }

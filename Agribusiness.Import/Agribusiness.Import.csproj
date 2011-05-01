@@ -66,18 +66,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AgribusinessContext.cs" />
+    <Compile Include="Controllers\ApplicationController.cs" />
+    <Compile Include="Controllers\ContactFirmsController.cs" />
+    <Compile Include="Controllers\FirmController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\ExcelHelpers.cs" />
+    <Compile Include="Models\ContactFirms.cs" />
     <Compile Include="Models\DomainObject.cs" />
     <Compile Include="Models\Firm.cs" />
     <Compile Include="Models\Tracking.cs" />
+    <Compile Include="Models\View\ContactFirmViewModel.cs" />
     <Compile Include="Models\View\FirmViewModel.cs" />
+    <Compile Include="Models\View\ViewModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Main.css" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\themes\base\jquery-ui.css" />
@@ -126,14 +133,19 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Css\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\archived_Firm.xls" />
     <None Include="Assets\Firm.xls" />
-    <None Include="Assets\Firm.xlsx" />
-    <Content Include="Views\Home\Firms.cshtml" />
+    <Content Include="Views\Firm\Firms.cshtml" />
+    <Content Include="Views\Firm\ArchivedFirms.cshtml" />
+    <None Include="Assets\R_Contact_Firm.xls" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\ContactFirms\ContactFirms.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
