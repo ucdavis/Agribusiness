@@ -10,10 +10,6 @@ namespace Agribusiness.Import
     public class AgribusinessContext : DbContext
     {
         public DbSet<Firm> Firms { get; set; }
-    }
-
-    public class AgribusinessDbInitializer : DropCreateDatabaseAlways<AgribusinessContext>
-    {
-        
+        public DbSet<Tracking> Trackings { get; set; }
     }
 }

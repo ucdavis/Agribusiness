@@ -27,7 +27,7 @@ namespace Agribusiness.Import.Models
         public string Description { get; set; }
         public bool? Financial { get; set; }
 
-        public int? Id { get; set; }
+        public int? f_id { get; set; }
 
         public string Name{ get; set; }
 
