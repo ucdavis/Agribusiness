@@ -1,30 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Agribusiness.Import.Helpers;
 using Agribusiness.Import.Models;
-using NPOI.HSSF.UserModel;
-using NPOI.SS.UserModel;
+using Agribusiness.Import.Models.View;
 
 namespace Agribusiness.Import.Controllers
 {
-    public class FirmController : Controller
+    public class FirmController : ApplicationController
     {
-        protected readonly AgribusinessContext Db = new AgribusinessContext();
+        private readonly string _firmTable = "firms";
+        private readonly string _archiveFirmTable = "archiveFirms";
 
-        //
-        // GET: /Firm/
-
-        public ActionResult Index()
+        public ActionResult Firms()
         {
+            var imported = Db.Trackings.Where(a => a.Name == _firmTable).Any();
+
             var firms = new List<Firm>();
             var errors = new List<KeyValuePair<string, string>>();
 
-            var stream = new FileStream(Server.MapPath("~/Assets/Firm.xls"), FileMode.Open);
-            var workbook = new HSSFWorkbook(stream);
-            var sheet = workbook.GetSheetAt(0);
+            var sheet = ExcelHelpers.OpenWorkbook(Server.MapPath("~/Assets/Firm.xls"));
 
             for (var i = sheet.FirstRowNum + 1; i <= sheet.LastRowNum; i++)
             {
@@ -32,31 +29,33 @@ namespace Agribusiness.Import.Controllers
 
                 try
                 {
-                    var test = ReadCell(row, 6);
-
                     var firm = new Firm();
-                    firm.City = ReadCell(row, 0);           // a
-                    firm.Country = ReadCell(row, 1);        // b
-                    firm.State = ReadCell(row, 2);          // c
-                    firm.Address = ReadCell(row, 3);        // d
-                    firm.Zip = ReadCell(row, 4);            // e
-                    firm.IsPOBox = ReadBoolCell(row, 5);    // f
-                    firm.Fax = ReadCell(row, 6);            // g
-                    firm.Phone = ReadCell(row, 7);          // h
-                    firm.Ext = ReadCell(row, 8);            // i
-                    firm.Created = ReadDateCell(row, 9);    // j
-                    firm.Modified = ReadDateCell(row, 10);  // k
-                    firm.Description = ReadCell(row, 11);   // l
-                    firm.Financial = ReadBoolCell(row, 12); // m
-                    firm.Id = ReadIntCell(row, 13);         // n
-                    firm.Name = ReadCell(row, 14);          // o
-                    firm.CreatedBy = ReadCell(row, 15);     // p
-                    firm.ModifiedBy = ReadCell(row, 16);    // q
-                    firm.WebAddress = ReadCell(row, 17);    // r
+                    firm.City = ExcelHelpers.ReadCell(row, 0);           // a
+                    firm.Country = ExcelHelpers.ReadCell(row, 1);        // b
+                    firm.State = ExcelHelpers.ReadCell(row, 2);          // c
+                    firm.Address = ExcelHelpers.ReadCell(row, 3);        // d
+                    firm.Zip = ExcelHelpers.ReadCell(row, 4);            // e
+                    firm.IsPOBox = ExcelHelpers.ReadBoolCell(row, 5);    // f
+                    firm.Fax = ExcelHelpers.ReadCell(row, 6);            // g
+                    firm.Phone = ExcelHelpers.ReadCell(row, 7);          // h
+                    firm.Ext = ExcelHelpers.ReadCell(row, 8);            // i
+                    firm.Created = ExcelHelpers.ReadDateCell(row, 9);    // j
+                    firm.Modified = ExcelHelpers.ReadDateCell(row, 10);  // k
+                    firm.Description = ExcelHelpers.ReadCell(row, 11);   // l
+                    firm.Financial = ExcelHelpers.ReadBoolCell(row, 12); // m
+                    firm.f_id = ExcelHelpers.ReadIntCell(row, 13);         // n
+                    firm.Name = ExcelHelpers.ReadCell(row, 14);          // o
+                    firm.CreatedBy = ExcelHelpers.ReadCell(row, 15);     // p
+                    firm.ModifiedBy = ExcelHelpers.ReadCell(row, 16);    // q
+                    firm.WebAddress = ExcelHelpers.ReadCell(row, 17);    // r
 
                     firms.Add(firm);
 
-                    Db.Firms.Add(firm);
+                    if (!imported)
+                    {
+                        Db.Firms.Add(firm);
+                    }
+
                 }
                 catch (Exception ex)
                 {
@@ -65,67 +64,83 @@ namespace Agribusiness.Import.Controllers
 
             }
 
+            if (!imported)
+            {
+                var tracking = new Tracking() { Name = _firmTable };
+                Db.Trackings.Add(tracking);
+            }
+
             Db.SaveChanges();
 
             var viewModel = FirmViewModel.Create(firms, errors);
             return View(viewModel);
         }
 
-        private string ReadCell(Row row, int index)
+        public ActionResult ArchivedFirms()
         {
-            var val = row.GetCell(index);
+            var imported = Db.Trackings.Where(a => a.Name == _archiveFirmTable).Any();
 
-            return val != null ? val.ToString() : null;
-        }
+            var firms = new List<Firm>();
+            var errors = new List<KeyValuePair<string, string>>();
 
-        private int? ReadIntCell(Row row, int index)
-        {
-            var val = row.GetCell(index);
+            var sheet = ExcelHelpers.OpenWorkbook(Server.MapPath("~/Assets/Firm.xls"));
 
-            int num;
-            if (val != null && int.TryParse(val.ToString(), out num))
+            for (var i = sheet.FirstRowNum + 1; i <= sheet.LastRowNum; i++)
             {
-                return num;
+                var row = sheet.GetRow(i);
+
+                try
+                {
+                    var f_id = ExcelHelpers.ReadIntCell(row, 13);
+
+                    // check the existance
+                    if (Db.Firms.Any(a => a.f_id == f_id)) throw new Exception("Already exists");
+
+                    var firm = new Firm();
+                    firm.City = ExcelHelpers.ReadCell(row, 0);           // a
+                    firm.Country = ExcelHelpers.ReadCell(row, 1);        // b
+                    firm.State = ExcelHelpers.ReadCell(row, 2);          // c
+                    firm.Address = ExcelHelpers.ReadCell(row, 3);        // d
+                    firm.Zip = ExcelHelpers.ReadCell(row, 4);            // e
+                    firm.IsPOBox = ExcelHelpers.ReadBoolCell(row, 5);    // f
+                    firm.Fax = ExcelHelpers.ReadCell(row, 6);            // g
+                    firm.Phone = ExcelHelpers.ReadCell(row, 7);          // h
+                    firm.Ext = ExcelHelpers.ReadCell(row, 8);            // i
+                    firm.Created = ExcelHelpers.ReadDateCell(row, 9);    // j
+                    firm.Modified = ExcelHelpers.ReadDateCell(row, 10);  // k
+                    firm.Description = ExcelHelpers.ReadCell(row, 11);   // l
+                    firm.Financial = ExcelHelpers.ReadBoolCell(row, 12); // m
+                    firm.f_id = ExcelHelpers.ReadIntCell(row, 13);         // n
+                    firm.Name = ExcelHelpers.ReadCell(row, 14);          // o
+                    firm.CreatedBy = ExcelHelpers.ReadCell(row, 15);     // p
+                    firm.ModifiedBy = ExcelHelpers.ReadCell(row, 16);    // q
+                    firm.WebAddress = ExcelHelpers.ReadCell(row, 17);    // r
+
+                    firms.Add(firm);
+
+                    if (!imported)
+                    {
+                        Db.Firms.Add(firm);
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    errors.Add(new KeyValuePair<string, string>(ExcelHelpers.ReadIntCell(row, 13).ToString(), ex.Message));
+                }
+
             }
 
-            return null;
-        }
-
-        private DateTime? ReadDateCell(Row row, int index)
-        {
-            var val = row.GetCell(index);
-
-            DateTime date;
-            if (val != null && DateTime.TryParse(val.ToString(), out date))
+            if (!imported)
             {
-                return date;
+                var tracking = new Tracking() { Name = _archiveFirmTable };
+                Db.Trackings.Add(tracking);
             }
 
-            return null;
-        }
+            Db.SaveChanges();
 
-        private bool? ReadBoolCell(Row row, int index)
-        {
-            var val = row.GetCell(index);
-
-            if (val != null)
-            {
-                return val.ToString() == "yes" ? true : false;
-            }
-
-            return null;
-        }
-    }
-   
-    public class FirmViewModel
-    {
-        public IList<Firm> Firms { get; set; }
-        public IList<KeyValuePair<string, string>> Errors { get; set; }
-
-        public static FirmViewModel Create(IList<Firm> firms, IList<KeyValuePair<string, string>> errors)
-        {
-            var viewModel = new FirmViewModel() {Firms = firms, Errors = errors};
-            return viewModel;
+            var viewModel = FirmViewModel.Create(firms, errors);
+            return View(viewModel);
         }
     }
 }

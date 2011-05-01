@@ -6,7 +6,7 @@ using System.Web;
 
 namespace Agribusiness.Import.Models
 {
-    public class Firm
+    public class Firm : DomainObject
     {
         public string City { get; set; }
         public string Country { get; set; }
