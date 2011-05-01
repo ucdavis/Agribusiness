@@ -140,6 +140,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\archived_Firm.xls" />
+    <None Include="Assets\archived_R_Contact_Firm.xls" />
     <None Include="Assets\Firm.xls" />
     <Content Include="Views\Firm\Firms.cshtml" />
     <Content Include="Views\Firm\ArchivedFirms.cshtml" />
