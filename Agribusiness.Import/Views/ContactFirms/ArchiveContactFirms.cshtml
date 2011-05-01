@@ -1,4 +1,4 @@
-﻿@model ContactFirmViewModel
+﻿@model Agribusiness.Import.Models.View.ContactFirmViewModel
 
 @{
     ViewBag.Title = "ArchiveContactFirms";
@@ -25,7 +25,7 @@
 @foreach (var a in Model.ContactFirms)
 { 
     <fieldset>
-        <legend>@a.Name</legend>
+        <legend>@a.rcfId</legend>
 
         <ul>
             <li>
@@ -35,10 +35,6 @@
             <li>
                 <div class="label">Firm Id:</div>            
                 <div class="value">@a.FirmId</div>            
-            </li>
-            <li>
-                <div class="label">rcf Id:</div>            
-                <div class="value">@a.rcfId</div>
             </li>
         </ul>
     </fieldset>

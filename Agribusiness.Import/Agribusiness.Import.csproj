@@ -147,6 +147,7 @@
     <None Include="Assets\R_Contact_Firm.xls" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\ContactFirms\ContactFirms.cshtml" />
+    <Content Include="Views\ContactFirms\ArchiveContactFirms.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

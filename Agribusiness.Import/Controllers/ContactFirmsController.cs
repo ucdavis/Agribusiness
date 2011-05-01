@@ -20,7 +20,7 @@ namespace Agribusiness.Import.Controllers
             var cfirms = new List<ContactFirms>();
             var errors = new List<KeyValuePair<string, string>>();
 
-            var sheet = ExcelHelpers.OpenWorkbook(Server.MapPath("~/Assets/R_Conatct_Firm.xls"));
+            var sheet = ExcelHelpers.OpenWorkbook(Server.MapPath("~/Assets/R_Contact_Firm.xls"));
 
             for (var i = sheet.FirstRowNum + 1; i <= sheet.LastRowNum; i++)
             {
@@ -66,7 +66,7 @@ namespace Agribusiness.Import.Controllers
             var cfirms = new List<ContactFirms>();
             var errors = new List<KeyValuePair<string, string>>();
 
-            var sheet = ExcelHelpers.OpenWorkbook(Server.MapPath("~/Assets/archived_R_Conatct_Firm.xls"));
+            var sheet = ExcelHelpers.OpenWorkbook(Server.MapPath("~/Assets/archived_R_Contact_Firm.xls"));
 
             for (var i = sheet.FirstRowNum + 1; i <= sheet.LastRowNum; i++)
             {
