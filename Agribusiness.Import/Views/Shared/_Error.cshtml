@@ -1,0 +1,11 @@
+﻿@model IList<KeyValuePair<string, string>>
+
+<h3>Errors</h3>
+
+@foreach (var a in Model.Errors)
+{
+    <dl>
+        <dt>Record Id: @a.Key</dt>
+        <dd>@a.Value</dd>
+    </dl> 
+}

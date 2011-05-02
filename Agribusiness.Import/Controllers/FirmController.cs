@@ -59,7 +59,7 @@ namespace Agribusiness.Import.Controllers
             firms = new List<Firm>();
             errors = new List<KeyValuePair<string, string>>();
 
-            var sheet = ExcelHelpers.OpenWorkbook(Server.MapPath("~/Assets/Firm.xls"));
+            var sheet = ExcelHelpers.OpenWorkbook(Server.MapPath(file));
 
             for (var i = sheet.FirstRowNum + 1; i <= sheet.LastRowNum; i++)
             {

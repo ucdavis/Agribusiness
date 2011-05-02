@@ -10,65 +10,9 @@
 <div>
 <em>Imported Already?</em> @(Model.AlreadyImported ? "Yes" : "No")
 </div>
-<h3>Errors</h3>
 
-@foreach (var a in Model.Errors)
-{
-    <dl>
-        <dt>Record Id: @a.Key</dt>
-        <dd>@a.Value</dd>
-    </dl> 
-}
+@Html.Partial("_Error", Model.Errors)
 
 <hr />
-<h3>Records</h3>
 
-@foreach (var a in Model.Firms)
-{ 
-    <fieldset>
-        <legend>@a.Name</legend>
-
-        <ul>
-            <li>
-                <div class="label">Description:</div>
-                <div class="value">@a.Description</div>
-            </li>
-            <li>
-                <div class="label">Address:</div>            
-                <div class="value">@a.Address</div>            
-            </li>
-            <li>
-                <div class="label">City, State, Zip:</div>            
-                <div class="value">@string.Format("{0}, {1} {2}", a.City, a.State, a.Zip)</div>            
-            </li>
-            <li>
-                <div class="label">Country:</div>            
-                <div class="value">@a.Country</div>            
-            </li>
-            <li>
-                <div class="label">Is PO Box:</div>            
-                <div class="value">@a.IsPOBox</div>            
-            </li>
-            <li>
-                <div class="label">Phone:</div>            
-                <div class="value">@a.Phone  @a.Ext</div>            
-            </li>
-            <li>
-                <div class="label">Fax:</div>            
-                <div class="value">@a.Fax</div>            
-            </li>
-            <li>
-                <div class="label">Created:</div>            
-                <div class="value">@a.Created (@a.CreatedBy)</div>            
-            </li>
-            <li>
-                <div class="label">Modified:</div>            
-                <div class="value">@a.Modified (@a.ModifiedBy)</div>            
-            </li>
-            <li>
-                <div class="label">Web Address:</div>            
-                <div class="value">@a.WebAddress</div>            
-            </li>
-        </ul>
-    </fieldset>
-}
+@Html.Partial("_FirmList", Model.Firms)

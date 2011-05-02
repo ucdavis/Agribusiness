@@ -70,6 +70,7 @@
     <Compile Include="Controllers\ContactFirmsController.cs" />
     <Compile Include="Controllers\FirmController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SeminarController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -77,9 +78,11 @@
     <Compile Include="Models\ContactFirms.cs" />
     <Compile Include="Models\DomainObject.cs" />
     <Compile Include="Models\Firm.cs" />
+    <Compile Include="Models\Seminar.cs" />
     <Compile Include="Models\Tracking.cs" />
     <Compile Include="Models\View\ContactFirmViewModel.cs" />
     <Compile Include="Models\View\FirmViewModel.cs" />
+    <Compile Include="Models\View\SeminarViewModel.cs" />
     <Compile Include="Models\View\ViewModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -148,6 +151,9 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\ContactFirms\ContactFirms.cshtml" />
     <Content Include="Views\ContactFirms\ArchiveContactFirms.cshtml" />
+    <None Include="Assets\Seminar.xls" />
+    <Content Include="Views\Seminar\Seminar.cshtml" />
+    <Content Include="Views\Shared\_Error.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

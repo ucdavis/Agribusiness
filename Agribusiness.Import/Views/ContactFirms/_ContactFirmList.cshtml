@@ -1,0 +1,21 @@
+﻿@model IList<Agribusiness.Import.Models.ContactFirms>
+
+<h3>Records</h3>
+
+@foreach (var a in Model)
+{ 
+    <fieldset>
+        <legend>@a.rcfId</legend>
+
+        <ul>
+            <li>
+                <div class="label">Contact Id:</div>
+                <div class="value">@a.ContactId</div>
+            </li>
+            <li>
+                <div class="label">Firm Id:</div>            
+                <div class="value">@a.FirmId</div>            
+            </li>
+        </ul>
+    </fieldset>
+}
