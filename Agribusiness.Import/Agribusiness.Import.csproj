@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="AgribusinessContext.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
+    <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\ContactFirmsController.cs" />
     <Compile Include="Controllers\FirmController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -75,12 +76,14 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\ExcelHelpers.cs" />
+    <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\ContactFirms.cs" />
     <Compile Include="Models\DomainObject.cs" />
     <Compile Include="Models\Firm.cs" />
     <Compile Include="Models\Seminar.cs" />
     <Compile Include="Models\Tracking.cs" />
     <Compile Include="Models\View\ContactFirmViewModel.cs" />
+    <Compile Include="Models\View\ContactViewModel.cs" />
     <Compile Include="Models\View\FirmViewModel.cs" />
     <Compile Include="Models\View\SeminarViewModel.cs" />
     <Compile Include="Models\View\ViewModelBase.cs" />

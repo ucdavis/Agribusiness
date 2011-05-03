@@ -13,5 +13,6 @@ namespace Agribusiness.Import
         public DbSet<Tracking> Trackings { get; set; }
         public DbSet<ContactFirms> ContactFirms { get; set; }
         public DbSet<Seminar> Seminars { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
     }
 }
