@@ -37,7 +37,8 @@ namespace Agribusiness.Import
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
 
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<AgribusinessContext>());
+            //Database.SetInitializer(new DropCreateDatabaseIfModelChanges<AgribusinessContext>());
+            Database.SetInitializer(new DropCreateDatabaseAlways<AgribusinessContext>());
         }
     }
 }

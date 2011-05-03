@@ -15,5 +15,6 @@ namespace Agribusiness.Import
         public DbSet<Seminar> Seminars { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Commodity> Commodities { get; set; }
+        public DbSet<CommodityLink> CommodityLinks { get; set; }
     }
 }

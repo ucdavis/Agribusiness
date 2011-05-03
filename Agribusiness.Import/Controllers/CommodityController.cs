@@ -18,7 +18,7 @@ namespace Agribusiness.Import.Controllers
         {
             var imported = Db.Trackings.Where(a => a.Name == _commodityTable).Any();
 
-            var commodities = new List<Commodity>();
+            var commodities = new List<CommodityLink>();
             var errors = new List<KeyValuePair<string, string>>();
 
             ReadData("~/Assets/Commodity.xls", imported, commodities, errors);
@@ -38,7 +38,7 @@ namespace Agribusiness.Import.Controllers
         {
             var imported = Db.Trackings.Where(a => a.Name == _archiveCommodityTable).Any();
 
-            var commodities = new List<Commodity>();
+            var commodities = new List<CommodityLink>();
             var errors = new List<KeyValuePair<string, string>>();
 
             ReadData("~/Assets/archived_Commodity.xls", imported, commodities, errors);
@@ -54,7 +54,7 @@ namespace Agribusiness.Import.Controllers
             return View(viewModel);
         }
 
-        public void ReadData(string file, bool imported, List<Commodity> commodities, List<KeyValuePair<string, string>> errors)
+        public void ReadData(string file, bool imported, List<CommodityLink> commodities, List<KeyValuePair<string, string>> errors)
         {
             var sheet = ExcelHelpers.OpenWorkbook(Server.MapPath(file));
 
@@ -67,9 +67,9 @@ namespace Agribusiness.Import.Controllers
                     var m_id = ExcelHelpers.ReadIntCell(row, 4);
 
                     // check the existance
-                    if (Db.Commodities.Any(a => a.m_id == m_id)) throw new Exception("Already exists");
+                    if (Db.CommodityLinks.Any(a => a.m_id == m_id)) throw new Exception("Already exists");
 
-                    var commodity = new Commodity();
+                    var commodity = new CommodityLink();
 
                     commodity.DateCreated =     ExcelHelpers.ReadDateCell(row, 0);      // a
                     commodity.DateModified =    ExcelHelpers.ReadDateCell(row, 1);      // b
@@ -82,14 +82,17 @@ namespace Agribusiness.Import.Controllers
 
                     if (!string.IsNullOrWhiteSpace(commodity.Name))
                     {
-                        commodity.Commodities = commodity.Name.Split(',').ToList();
+                        foreach (var a in commodity.Name.Split(','))
+                        {
+                            commodity.AddCommodity(new Commodity(){Name=a.Trim()});
+                        }
                     }
-                    
+
                     commodities.Add(commodity);
 
                     if (!imported)
                     {
-                        Db.Commodities.Add(commodity);
+                        Db.CommodityLinks.Add(commodity);
                     }
 
                 }
