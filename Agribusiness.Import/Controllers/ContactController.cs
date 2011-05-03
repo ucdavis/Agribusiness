@@ -56,9 +56,6 @@ namespace Agribusiness.Import.Controllers
 
         private void ReadData(string file, bool imported, List<Contact> contacts, List<KeyValuePair<string, string>> errors)
         {
-            contacts = new List<Contact>();
-            errors = new List<KeyValuePair<string, string>>();
-
             var sheet = ExcelHelpers.OpenWorkbook(Server.MapPath(file));
 
             for (var i = sheet.FirstRowNum + 1; i <= sheet.LastRowNum; i++)

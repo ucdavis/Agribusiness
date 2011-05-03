@@ -21,7 +21,7 @@ namespace Agribusiness.Import.Controllers
             var cfirms = new List<ContactFirms>();
             var errors = new List<KeyValuePair<string, string>>();
 
-            ReadData("~/Assets/R_Contact_Firm.xls", imported, out cfirms, out errors);
+            ReadData("~/Assets/R_Contact_Firm.xls", imported, cfirms, errors);
 
 
             if (!imported)
@@ -42,7 +42,7 @@ namespace Agribusiness.Import.Controllers
             var cfirms = new List<ContactFirms>();
             var errors = new List<KeyValuePair<string, string>>();
 
-            ReadData("~/Assets/archived_R_Contact_Firm.xls", imported, out cfirms, out errors);
+            ReadData("~/Assets/archived_R_Contact_Firm.xls", imported, cfirms, errors);
 
             if (!imported)
             {
@@ -54,11 +54,8 @@ namespace Agribusiness.Import.Controllers
             return View(viewModel);
         }
 
-        private void ReadData(string file, bool imported, out List<ContactFirms> contactFirms, out List<KeyValuePair<string, string>> errors)
+        private void ReadData(string file, bool imported, List<ContactFirms> contactFirms, List<KeyValuePair<string, string>> errors)
         {
-            contactFirms = new List<ContactFirms>();
-            errors = new List<KeyValuePair<string, string>>();
-
             var sheet = ExcelHelpers.OpenWorkbook(Server.MapPath(file));
 
             for (var i = sheet.FirstRowNum + 1; i <= sheet.LastRowNum; i++)
