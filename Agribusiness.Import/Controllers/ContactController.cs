@@ -41,7 +41,7 @@ namespace Agribusiness.Import.Controllers
             var contacts = new List<Contact>();
             var errors = new List<KeyValuePair<string, string>>();
 
-            ReadData("~/Assets/ArchiveContact.xls", imported, contacts, errors);
+            ReadData("~/Assets/archived_Contact.xls", imported, contacts, errors);
 
             if (!imported)
             {
@@ -64,7 +64,7 @@ namespace Agribusiness.Import.Controllers
 
                 try
                 {
-                    var c_id = ExcelHelpers.ReadIntCell(row, -1);
+                    var c_id = ExcelHelpers.ReadIntCell(row, 48);
 
                     // check the existance
                     if (Db.Contacts.Any(a => a.c_Id == c_id)) throw new Exception("Already exists");
@@ -164,7 +164,7 @@ namespace Agribusiness.Import.Controllers
                 }
                 catch (Exception ex)
                 {
-                    errors.Add(new KeyValuePair<string, string>(ExcelHelpers.ReadIntCell(row, -1).ToString(), ex.Message));
+                    errors.Add(new KeyValuePair<string, string>(ExcelHelpers.ReadIntCell(row, 48).ToString(), ex.Message));
                 }
 
             }

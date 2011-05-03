@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="AgribusinessContext.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
+    <Compile Include="Controllers\CommodityController.cs" />
     <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\ContactFirmsController.cs" />
     <Compile Include="Controllers\FirmController.cs" />
@@ -76,12 +77,14 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\ExcelHelpers.cs" />
+    <Compile Include="Models\Commodity.cs" />
     <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\ContactFirms.cs" />
     <Compile Include="Models\DomainObject.cs" />
     <Compile Include="Models\Firm.cs" />
     <Compile Include="Models\Seminar.cs" />
     <Compile Include="Models\Tracking.cs" />
+    <Compile Include="Models\View\CommodityViewModel.cs" />
     <Compile Include="Models\View\ContactFirmViewModel.cs" />
     <Compile Include="Models\View\ContactViewModel.cs" />
     <Compile Include="Models\View\FirmViewModel.cs" />
@@ -145,10 +148,12 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\archived_Commodity.xls" />
     <None Include="Assets\archived_Contact.xls" />
     <None Include="Assets\archived_Firm.xls" />
     <None Include="Assets\archived_R_Contact_Firm.xls" />
     <None Include="Assets\archived_Seminar.xls" />
+    <None Include="Assets\Commodity.xls" />
     <None Include="Assets\Contact.xls" />
     <None Include="Assets\Firm.xls" />
     <Content Include="Views\Firm\Firms.cshtml" />
@@ -165,6 +170,7 @@
     <Content Include="Views\Seminar\ArchiveSeminar.cshtml" />
     <Content Include="Views\Contact\Contacts.cshtml" />
     <Content Include="Views\Contact\ArchiveContacts.cshtml" />
+    <Content Include="Views\Commodity\Commodity.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
