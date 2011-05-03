@@ -64,14 +64,17 @@ namespace Agribusiness.Import.Controllers
 
                 try
                 {
-                    var rcfId = ExcelHelpers.ReadIntCell(row, 2);
-                    if (Db.ContactFirms.Any(a => a.rcfId == rcfId)) throw new Exception("Already exists");
+                    //var rcfId = ExcelHelpers.ReadIntCell(row, 2);
+
+                    var c_id = ExcelHelpers.ReadIntCell(row, 0);
+
+                    if (Db.ContactFirms.Any(a => a.ContactId == c_id)) throw new Exception("Already exists");
                 
                     // check and see if we came across it already in this file
-                    var item = contactFirms.Where(a => a.rcfId == rcfId).FirstOrDefault();
+                    var item = contactFirms.Where(a => a.ContactId == c_id).FirstOrDefault();
                     if (item != null)
                     {
-                        errors.Add(new KeyValuePair<string, string>(rcfId.ToString(), "duplicate value, replacing old"));
+                        errors.Add(new KeyValuePair<string, string>(c_id.ToString(), "duplicate value, replacing old"));
 
                         // get the index to remove the first one
                         contactFirms.Remove(item);
