@@ -141,20 +141,21 @@ namespace Agribusiness.Import.Controllers
                     contact.Salutation =        ExcelHelpers.ReadCell(row, 54);     // bc
                     
                     contact.Notes =             ExcelHelpers.ReadCell(row, 55);     // bd
+                    contact.ArchiveComments =   ExcelHelpers.ReadCell(row, 56);     // be
 
-                    contact.CreatedBy =         ExcelHelpers.ReadCell(row, 56);     // be
-                    contact.UpdatedBy =         ExcelHelpers.ReadCell(row, 57);     // bf
-                    contact.ModifiedBy =        ExcelHelpers.ReadCell(row, 58);     // bg
+                    contact.CreatedBy =         ExcelHelpers.ReadCell(row, 57);     // bf
+                    contact.UpdatedBy =         ExcelHelpers.ReadCell(row, 58);     // bg
+                    contact.ModifiedBy =        ExcelHelpers.ReadCell(row, 59);     // bh
 
-                    contact.SpecialPreferences = ExcelHelpers.ReadCell(row, 59);    // bh
+                    contact.SpecialPreferences = ExcelHelpers.ReadCell(row, 60);    // bi
 
-                    contact.CurrentYearAccepted = ExcelHelpers.ReadBoolCell(row, 60);   // bi
-                    contact.CurrentYearInvitee = ExcelHelpers.ReadBoolCell(row, 61);// bj
-                    contact.HasPhoto =          ExcelHelpers.ReadBoolCell(row, 62); // bk
-                    contact.HasPhoto2 =         ExcelHelpers.ReadBoolCell(row, 63); // bl
-                    contact.LoginName =         ExcelHelpers.ReadCell(row, 64);     // bm
-                    contact.LoginName2 =        ExcelHelpers.ReadCell(row, 65);     // bn
-                    contact.Password =          ExcelHelpers.ReadCell(row, 66);     // bo
+                    contact.CurrentYearAccepted = ExcelHelpers.ReadBoolCell(row, 61);   // bj
+                    contact.CurrentYearInvitee = ExcelHelpers.ReadBoolCell(row, 62);// bk
+                    contact.HasPhoto =          ExcelHelpers.ReadBoolCell(row, 63); // bl
+                    contact.HasPhoto2 =         ExcelHelpers.ReadBoolCell(row, 64); // bm
+                    contact.LoginName =         ExcelHelpers.ReadCell(row, 65);     // bn
+                    contact.LoginName2 =        ExcelHelpers.ReadCell(row, 66);     // bo
+                    contact.Password =          ExcelHelpers.ReadCell(row, 67);     // bp
 
                     contacts.Add(contact);
 
