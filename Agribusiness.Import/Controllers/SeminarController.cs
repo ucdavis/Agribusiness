@@ -68,6 +68,16 @@ namespace Agribusiness.Import.Controllers
                     // check the existance
                     if (Db.Seminars.Any(a => a.s_Id == s_id)) throw new Exception("Already exists");
 
+                    // check and see if we came across it already in this file
+                    var item = seminars.Where(a => a.s_Id == s_id).FirstOrDefault();
+                    if (item != null)
+                    {
+                        errors.Add(new KeyValuePair<string, string>(s_id.ToString(), "duplicate value, replacing old"));
+
+                        // get the index to remove the first one
+                        seminars.Remove(item);
+                    }
+
                     var seminar = new Seminar();
 
                     seminar.ApplicationStatus = ExcelHelpers.ReadCell(row, 0);  // a
@@ -101,12 +111,6 @@ namespace Agribusiness.Import.Controllers
                     seminar.PreviousYear = ExcelHelpers.ReadIntCell(row, 24);   // y
 
                     seminars.Add(seminar);
-
-                    if (!imported)
-                    {
-                        Db.Seminars.Add(seminar);
-                    }
-
                 }
                 catch (Exception ex)
                 {
@@ -115,7 +119,18 @@ namespace Agribusiness.Import.Controllers
 
             }
 
-            Db.SaveChanges();
+            // save all the instances
+            if (!imported)
+            {
+                foreach (var a in seminars)
+                {
+                    Db.Seminars.Add(a);    
+                }
+                
+                Db.SaveChanges();
+            }
+
+            
         }
     }
 }

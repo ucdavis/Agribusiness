@@ -70,6 +70,16 @@ namespace Agribusiness.Import.Controllers
                     // check the existance
                     if (Db.Firms.Any(a => a.f_id == f_id)) throw new Exception("Already exists");
 
+                    // check and see if we came across it already in this file
+                    var item = firms.Where(a => a.f_id == f_id).FirstOrDefault();
+                    if (item != null)
+                    {
+                        errors.Add(new KeyValuePair<string, string>(f_id.ToString(), "duplicate value, replacing old"));
+
+                        // get the index to remove the first one
+                        firms.Remove(item);
+                    }
+
                     var firm = new Firm();
                     firm.City = ExcelHelpers.ReadCell(row, 0);           // a
                     firm.Country = ExcelHelpers.ReadCell(row, 1);        // b
@@ -92,11 +102,6 @@ namespace Agribusiness.Import.Controllers
 
                     firms.Add(firm);
 
-                    if (!imported)
-                    {
-                        Db.Firms.Add(firm);
-                    }
-
                 }
                 catch (Exception ex)
                 {
@@ -105,7 +110,20 @@ namespace Agribusiness.Import.Controllers
 
             }
 
-            Db.SaveChanges();
+
+            if (!imported)
+            {
+                foreach (var a in firms)
+                {
+                    Db.Firms.Add(a);    
+                }
+                
+
+                Db.SaveChanges();
+            }
+
+
+            
         }
     }
 }

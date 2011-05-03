@@ -66,17 +66,22 @@ namespace Agribusiness.Import.Controllers
                 {
                     var rcfId = ExcelHelpers.ReadIntCell(row, 2);
                     if (Db.ContactFirms.Any(a => a.rcfId == rcfId)) throw new Exception("Already exists");
+                
+                    // check and see if we came across it already in this file
+                    var item = contactFirms.Where(a => a.rcfId == rcfId).FirstOrDefault();
+                    if (item != null)
+                    {
+                        errors.Add(new KeyValuePair<string, string>(rcfId.ToString(), "duplicate value, replacing old"));
+
+                        // get the index to remove the first one
+                        contactFirms.Remove(item);
+                    }
 
                     var cfirm = new ContactFirms();
 
                     cfirm.ContactId = ExcelHelpers.ReadIntCell(row, 0);
                     cfirm.FirmId = ExcelHelpers.ReadIntCell(row, 1);
                     cfirm.rcfId = ExcelHelpers.ReadIntCell(row, 2);
-
-                    if (!imported)
-                    {
-                        Db.ContactFirms.Add(cfirm);
-                    }
 
                     contactFirms.Add(cfirm);
 
@@ -88,7 +93,18 @@ namespace Agribusiness.Import.Controllers
 
             }
 
-            Db.SaveChanges();
+            if (!imported)
+            {
+                foreach (var a in contactFirms)
+                {
+                    Db.ContactFirms.Add(a);    
+                }
+                
+
+                Db.SaveChanges();
+            }
+
+            
         }
     }
 }

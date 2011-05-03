@@ -69,6 +69,16 @@ namespace Agribusiness.Import.Controllers
                     // check the existance
                     if (Db.Contacts.Any(a => a.c_Id == c_id)) throw new Exception("Already exists");
 
+                    // check and see if we came across it already in this file
+                    var item = contacts.Where(a => a.c_Id == c_id).FirstOrDefault();
+                    if (item != null)
+                    {
+                        errors.Add(new KeyValuePair<string, string>(c_id.ToString(), "duplicate value, replacing old"));
+
+                        // get the index to remove the first one
+                        contacts.Remove(item);
+                    }
+
                     var contact = new Contact();
 
                     contact.Badge =             ExcelHelpers.ReadCell(row, 0);      // a
@@ -156,11 +166,6 @@ namespace Agribusiness.Import.Controllers
 
                     contacts.Add(contact);
 
-                    if (!imported)
-                    {
-                        Db.Contacts.Add(contact);
-                    }
-
                 }
                 catch (Exception ex)
                 {
@@ -169,7 +174,18 @@ namespace Agribusiness.Import.Controllers
 
             }
 
-            Db.SaveChanges();
+
+            if (!imported)
+            {
+                foreach (var a in contacts)
+                {
+                    Db.Contacts.Add(a);    
+                }
+
+                Db.SaveChanges();
+            }
+
+            
         }
     }
 }
