@@ -7,11 +7,21 @@
 <h2>ArchiveContactFirms</h2>
 
 <div>
-<em>Imported Already?</em> @(Model.AlreadyImported ? "Yes" : "No")
+    <ul>
+    <li>
+        <em>Imported Already?</em> @(Model.AlreadyImported ? "Yes" : "No")    
+    </li>
+    <li>
+        <em># Read:</em> @Model.ContactFirms.Count
+    </li>
+    <li>
+        <em># Error:</em> @Model.Errors.Count
+    </li>
+    </ul>
 </div>
 
 @Html.Partial("_Error", Model.Errors)
 
-<hr />
+@*<hr />
 
-@Html.Partial("_ContactFirmList", Model.ContactFirms)
+@Html.Partial("_ContactFirmList", Model.ContactFirms)*@

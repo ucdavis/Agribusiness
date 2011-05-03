@@ -6,4 +6,18 @@
 
 <h2>Seminar</h2>
 
+<div>
+    <ul>
+    <li>
+        <em>Imported Already?</em> @(Model.AlreadyImported ? "Yes" : "No")    
+    </li>
+    <li>
+        <em># Read:</em> @Model.Seminars.Count
+    </li>
+    <li>
+        <em># Error:</em> @Model.Errors.Count
+    </li>
+    </ul>
+</div>
+
 @Html.Partial("_Error", Model.Errors)

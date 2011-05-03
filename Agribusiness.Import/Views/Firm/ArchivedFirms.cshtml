@@ -8,11 +8,21 @@
 <h2>Index</h2>
 
 <div>
-<em>Imported Already?</em> @(Model.AlreadyImported ? "Yes" : "No")
+    <ul>
+    <li>
+        <em>Imported Already?</em> @(Model.AlreadyImported ? "Yes" : "No")    
+    </li>
+    <li>
+        <em># Read:</em> @Model.Firms.Count
+    </li>
+    <li>
+        <em># Error:</em> @Model.Errors.Count
+    </li>
+    </ul>
 </div>
 
 @Html.Partial("_Error", Model.Errors)
 
-<hr />
+@*<hr />
 
-@Html.Partial("_FirmList", Model.Firms)
+@Html.Partial("_FirmList", Model.Firms)*@
