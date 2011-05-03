@@ -1,13 +1,14 @@
 ﻿--------------------------
 -- Get the distinct years
 --------------------------
-
-
+/*
+insert into agribusiness.dbo.seminars (year, location, [begin], [end], releasetoattendees)
 select distinct [YEAR], 'n/a' location
 	, CAST(cast([year] as varchar(4)) + '-1-1' as datetime) [begin]
 	, CAST(cast([year] as varchar(4)) + '-1-2' as datetime) [end]
 	, 0 releaseToAttendees
-from seminars order by year
+from agribusinessarchive.dbo.seminars order by year
+*/
 
 --------------------------
 -- Get the list of contacts
