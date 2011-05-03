@@ -33,6 +33,26 @@ namespace Agribusiness.Import.Controllers
             return View(viewModel);
         }
 
+        public ActionResult ArchiveSeminar()
+        {
+            var imported = Db.Trackings.Where(a => a.Name == _ArchiveSeminarTable).Any();
+
+            var seminars = new List<Seminar>();
+            var errors = new List<KeyValuePair<string, string>>();
+
+            ReadData("~/Assets/archived_Seminar.xls", imported, seminars, errors);
+
+            if (!imported)
+            {
+                var tracking = new Tracking() { Name = _ArchiveSeminarTable };
+                Db.Trackings.Add(tracking);
+                Db.SaveChanges();
+            }
+
+            var viewModel = SeminarViewModel.Create(seminars, errors, imported);
+            return View(viewModel);
+        }
+
         private void ReadData(string file, bool imported, List<Seminar> seminars, List<KeyValuePair<string, string>> errors)
         {
             seminars = new List<Seminar>();
@@ -46,7 +66,7 @@ namespace Agribusiness.Import.Controllers
 
                 try
                 {
-                    var s_id = ExcelHelpers.ReadIntCell(row, 13);
+                    var s_id = ExcelHelpers.ReadIntCell(row, 7);
 
                     // check the existance
                     if (Db.Seminars.Any(a => a.s_Id == s_id)) throw new Exception("Already exists");
@@ -76,8 +96,12 @@ namespace Agribusiness.Import.Controllers
                     seminar.IsVendor = ExcelHelpers.ReadBoolCell(row, 18);      // s
                     seminar.Accepted = ExcelHelpers.ReadBoolCell(row, 19);      // t
                     seminar.ExpensesComped = ExcelHelpers.ReadBoolCell(row, 20);// u
-                    seminar.Year = ExcelHelpers.ReadIntCell(row, 21);           // v
-                    seminar.PreviousYear = ExcelHelpers.ReadIntCell(row, 22);   // w
+
+                    seminar.IsApplicant = ExcelHelpers.ReadBoolCell(row, 21);   // v
+                    seminar.IsInvitee = ExcelHelpers.ReadBoolCell(row, 22);     // w
+                    
+                    seminar.Year = ExcelHelpers.ReadIntCell(row, 23);           // x
+                    seminar.PreviousYear = ExcelHelpers.ReadIntCell(row, 24);   // y
 
                     seminars.Add(seminar);
 
@@ -89,7 +113,7 @@ namespace Agribusiness.Import.Controllers
                 }
                 catch (Exception ex)
                 {
-                    errors.Add(new KeyValuePair<string, string>(ExcelHelpers.ReadIntCell(row, 13).ToString(), ex.Message));
+                    errors.Add(new KeyValuePair<string, string>(ExcelHelpers.ReadIntCell(row, 7).ToString(), ex.Message));
                 }
 
             }

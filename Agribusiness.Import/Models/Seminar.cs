@@ -33,6 +33,9 @@ namespace Agribusiness.Import.Models
         public bool? Accepted { get; set; }
         public bool? ExpensesComped { get; set; }
 
+        public bool? IsApplicant { get; set; }
+        public bool? IsInvitee { get; set; }
+
         public int? Year { get; set; }
         public int? PreviousYear { get; set; }
     }
