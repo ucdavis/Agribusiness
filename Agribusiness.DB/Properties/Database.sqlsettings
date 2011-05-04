@@ -35,7 +35,7 @@
     <Parameterization>SIMPLE</Parameterization>
     <QuotedIdentifier>False</QuotedIdentifier>
     <ReadCommittedSnapshot>False</ReadCommittedSnapshot>
-    <Recovery>FULL</Recovery>
+    <Recovery>SIMPLE</Recovery>
     <RecursiveTriggersEnabled>False</RecursiveTriggersEnabled>
     <ServiceBrokerOption>DisableBroker</ServiceBrokerOption>
     <SupplementalLoggingOn>False</SupplementalLoggingOn>
