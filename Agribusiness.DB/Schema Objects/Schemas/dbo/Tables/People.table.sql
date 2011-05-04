@@ -14,6 +14,9 @@
     [OriginalPicture]    VARBINARY (MAX)  NULL,
     [MainProfilePicture] VARBINARY (MAX)  NULL,
     [ThumbnailPicture]   VARBINARY (MAX)  NULL,
-    [ContentType]        VARCHAR (20)     NULL
+    [ContentType]        VARCHAR (20)     NULL,
+    [archive_id]         UNIQUEIDENTIFIER NULL
 );
+
+
 

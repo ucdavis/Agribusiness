@@ -297,14 +297,14 @@ go
 -- Clean up
 --------------------------
 
-alter table agribusiness.dbo.people
-drop column archive_id
-go
+--alter table agribusiness.dbo.people
+--drop column archive_id
+--go
 
-alter table agribusiness.dbo.firms
-drop column archive_id
-go
+--alter table agribusiness.dbo.firms
+--drop column archive_id
+--go
 
-alter table agribusiness.dbo.seminarpeople
-drop column archive_id
-go
+--alter table agribusiness.dbo.seminarpeople
+--drop column archive_id
+--go

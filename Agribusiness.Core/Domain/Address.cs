@@ -68,11 +68,12 @@ namespace Agribusiness.Core.Domain
             Map(x => x.Line1);
             Map(x => x.Line2);
             Map(x => x.City);
-            References(x => x.State).Column("State");
+            Map(x => x.State);
             Map(x => x.Zip);
 
             References(x => x.AddressType);
             References(x => x.Person);
+            References(x => x.Country);
         }
     }
 }
