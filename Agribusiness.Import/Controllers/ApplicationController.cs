@@ -8,6 +8,6 @@ namespace Agribusiness.Import.Controllers
 {
     public class ApplicationController : Controller
     {
-        protected readonly AgribusinessContext Db = new AgribusinessContext();
+        protected static readonly AgribusinessContext Db = new AgribusinessContext();
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Hosting;
 using System.Web.Mvc;
 using Agribusiness.Import.Helpers;
 using Agribusiness.Import.Models;
@@ -11,10 +12,22 @@ namespace Agribusiness.Import.Controllers
 {
     public class FirmController : ApplicationController
     {
-        private readonly string _firmTable = "firms";
-        private readonly string _archiveFirmTable = "archiveFirms";
+        private static readonly string _firmTable = "firms";
+        private static readonly string _archiveFirmTable = "archiveFirms";
 
         public ActionResult Firms()
+        {
+            var viewModel = ReadFirms();
+            return View(viewModel);
+        }
+
+        public ActionResult ArchivedFirms()
+        {
+            var viewModel = ReadArchiveFirms();
+            return View(viewModel);
+        }
+
+        public static FirmViewModel ReadFirms()
         {
             var imported = Db.Trackings.Where(a => a.Name == _firmTable).Any();
 
@@ -31,10 +44,10 @@ namespace Agribusiness.Import.Controllers
             }
 
             var viewModel = FirmViewModel.Create(firms, errors, imported);
-            return View(viewModel);
+            return viewModel;
         }
 
-        public ActionResult ArchivedFirms()
+        public static FirmViewModel ReadArchiveFirms()
         {
             var imported = Db.Trackings.Where(a => a.Name == _archiveFirmTable).Any();
 
@@ -51,13 +64,13 @@ namespace Agribusiness.Import.Controllers
             }
 
             var viewModel = FirmViewModel.Create(firms, errors, imported);
-            return View(viewModel);
+            return viewModel;
         }
 
-        private void ReadData(string file, bool imported, List<Firm> firms, List<KeyValuePair<string, string>> errors)
+        private static void ReadData(string file, bool imported, List<Firm> firms, List<KeyValuePair<string, string>> errors)
         {
 
-            var sheet = ExcelHelpers.OpenWorkbook(Server.MapPath(file));
+            var sheet = ExcelHelpers.OpenWorkbook(HostingEnvironment.MapPath(file));
 
             for (var i = sheet.FirstRowNum + 1; i <= sheet.LastRowNum; i++)
             {
@@ -99,6 +112,22 @@ namespace Agribusiness.Import.Controllers
                     firm.CreatedBy = ExcelHelpers.ReadCell(row, 15);     // p
                     firm.ModifiedBy = ExcelHelpers.ReadCell(row, 16);    // q
                     firm.WebAddress = ExcelHelpers.ReadCell(row, 17);    // r
+
+                    // check the name against one that has already been created
+                    var db = Db.Firms.Where(a => a.Name == firm.Name).FirstOrDefault();
+                    var list = firms.Where(a => a.Name == firm.Name).FirstOrDefault();
+                    if (db != null)
+                    {
+                        firm.GroupId = db.GroupId;
+                    }
+                    else if (list != null)
+                    {
+                        firm.GroupId = db.GroupId;
+                    }
+                    else
+                    {
+                        firm.GroupId = Guid.NewGuid();
+                    }
 
                     firms.Add(firm);
 

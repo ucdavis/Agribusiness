@@ -1,0 +1,29 @@
+﻿@model List<Agribusiness.Import.Controllers.ImportResult>
+
+@{
+    ViewBag.Title = "ImportAll";
+}
+
+<h2>ImportAll</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>File</th>
+            <th># Read</th>
+            <th># Error</th>
+            <th>Previously Imported</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var a in Model)
+    { 
+        <tr>
+            <td>@a.File</td>
+            <td>@a.Read</td>
+            <td>@a.Error</td>
+            <td>@a.Imported</td>
+        </tr>
+    }
+    </tbody>
+</table>

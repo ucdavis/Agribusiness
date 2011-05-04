@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Hosting;
 using System.Web.Mvc;
 using Agribusiness.Import.Helpers;
 using Agribusiness.Import.Models;
@@ -11,10 +12,22 @@ namespace Agribusiness.Import.Controllers
 {
     public class ContactFirmsController : ApplicationController
     {
-        private readonly string _rContactFirm = "RContactFirm";
-        private readonly string _archiveRContactFirm = "ArchiveRContactFirm";
+        private static readonly string _rContactFirm = "RContactFirm";
+        private static readonly string _archiveRContactFirm = "ArchiveRContactFirm";
 
         public ActionResult ContactFirms()
+        {
+            var viewModel = ReadContactFirm();
+            return View(viewModel);
+        }
+
+        public ActionResult ArchiveContactFirms()
+        {
+            var viewModel = ReadArchiveContactFirm();
+            return View(viewModel);
+        }
+
+        public static ContactFirmViewModel ReadContactFirm()
         {
             var imported = Db.Trackings.Where(a => a.Name == _rContactFirm).Any();
 
@@ -32,10 +45,10 @@ namespace Agribusiness.Import.Controllers
             }
 
             var viewModel = ContactFirmViewModel.Create(cfirms, errors, imported);
-            return View(viewModel);
+            return viewModel;
         }
 
-        public ActionResult ArchiveContactFirms()
+        public static ContactFirmViewModel ReadArchiveContactFirm()
         {
             var imported = Db.Trackings.Where(a => a.Name == _archiveRContactFirm).Any();
 
@@ -51,12 +64,12 @@ namespace Agribusiness.Import.Controllers
             }
 
             var viewModel = ContactFirmViewModel.Create(cfirms, errors, imported);
-            return View(viewModel);
+            return viewModel;
         }
 
-        private void ReadData(string file, bool imported, List<ContactFirms> contactFirms, List<KeyValuePair<string, string>> errors)
+        private static void ReadData(string file, bool imported, List<ContactFirms> contactFirms, List<KeyValuePair<string, string>> errors)
         {
-            var sheet = ExcelHelpers.OpenWorkbook(Server.MapPath(file));
+            var sheet = ExcelHelpers.OpenWorkbook(HostingEnvironment.MapPath(file));
 
             for (var i = sheet.FirstRowNum + 1; i <= sheet.LastRowNum; i++)
             {

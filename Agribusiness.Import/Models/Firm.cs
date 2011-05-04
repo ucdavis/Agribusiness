@@ -36,5 +36,7 @@ namespace Agribusiness.Import.Models
 
         [DataType(DataType.Url)]
         public string WebAddress { get; set; }
+
+        public Guid GroupId { get; set; }
     }
 }

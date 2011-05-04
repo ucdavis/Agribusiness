@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Hosting;
 using System.Web.Mvc;
 using Agribusiness.Import.Helpers;
 using Agribusiness.Import.Models;
@@ -11,10 +12,22 @@ namespace Agribusiness.Import.Controllers
 {
     public class ContactController : ApplicationController
     {
-        private readonly string _contactTable = "ContactTable";
-        private readonly string _archiveContactTable = "ArchiveContactTable";
+        private static readonly string _contactTable = "ContactTable";
+        private static readonly string _archiveContactTable = "ArchiveContactTable";
 
         public ActionResult Contacts()
+        {
+            var viewModel = ReadContact();
+            return View(viewModel);
+        }
+
+        public ActionResult ArchiveContacts()
+        {
+            var viewModel = ReadArchiveContact();   
+            return View(viewModel);
+        }
+
+        public static ContactViewModel ReadContact()
         {
             var imported = Db.Trackings.Where(a => a.Name == _contactTable).Any();
 
@@ -31,10 +44,10 @@ namespace Agribusiness.Import.Controllers
             }
 
             var viewModel = ContactViewModel.Create(contacts, errors, imported);
-            return View(viewModel);
+            return viewModel;
         }
 
-        public ActionResult ArchiveContacts()
+        public static ContactViewModel ReadArchiveContact()
         {
             var imported = Db.Trackings.Where(a => a.Name == _archiveContactTable).Any();
 
@@ -51,12 +64,12 @@ namespace Agribusiness.Import.Controllers
             }
 
             var viewModel = ContactViewModel.Create(contacts, errors, imported);
-            return View(viewModel);
+            return viewModel;
         }
 
-        private void ReadData(string file, bool imported, List<Contact> contacts, List<KeyValuePair<string, string>> errors)
+        private static void ReadData(string file, bool imported, List<Contact> contacts, List<KeyValuePair<string, string>> errors)
         {
-            var sheet = ExcelHelpers.OpenWorkbook(Server.MapPath(file));
+            var sheet = ExcelHelpers.OpenWorkbook(HostingEnvironment.MapPath(file));
 
             for (var i = sheet.FirstRowNum + 1; i <= sheet.LastRowNum; i++)
             {

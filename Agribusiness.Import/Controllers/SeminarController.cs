@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.Hosting;
 using System.Web.Mvc;
 using Agribusiness.Import.Helpers;
 using Agribusiness.Import.Models;
@@ -10,10 +11,22 @@ namespace Agribusiness.Import.Controllers
 {
     public class SeminarController : ApplicationController
     {
-        private readonly string _seminarTable = "SeminarTable";
-        private readonly string _ArchiveSeminarTable = "ArchiveSeminarTable";
+        private static readonly string _seminarTable = "SeminarTable";
+        private static readonly string _ArchiveSeminarTable = "ArchiveSeminarTable";
 
         public ActionResult Seminar()
+        {
+            var viewModel = ReadSeminar();
+            return View(viewModel);
+        }
+
+        public ActionResult ArchiveSeminar()
+        {
+            var viewModel = ReadArchiveSeminar();
+            return View(viewModel);
+        }
+
+        public static SeminarViewModel ReadSeminar()
         {
             var imported = Db.Trackings.Where(a => a.Name == _seminarTable).Any();
 
@@ -30,10 +43,10 @@ namespace Agribusiness.Import.Controllers
             }
 
             var viewModel = SeminarViewModel.Create(seminars, errors, imported);
-            return View(viewModel);
+            return viewModel;
         }
 
-        public ActionResult ArchiveSeminar()
+        public static SeminarViewModel ReadArchiveSeminar()
         {
             var imported = Db.Trackings.Where(a => a.Name == _ArchiveSeminarTable).Any();
 
@@ -50,12 +63,12 @@ namespace Agribusiness.Import.Controllers
             }
 
             var viewModel = SeminarViewModel.Create(seminars, errors, imported);
-            return View(viewModel);
+            return viewModel;
         }
 
-        private void ReadData(string file, bool imported, List<Seminar> seminars, List<KeyValuePair<string, string>> errors)
+        private static void ReadData(string file, bool imported, List<Seminar> seminars, List<KeyValuePair<string, string>> errors)
         {
-            var sheet = ExcelHelpers.OpenWorkbook(Server.MapPath(file));
+            var sheet = ExcelHelpers.OpenWorkbook(HostingEnvironment.MapPath(file));
 
             for (var i = sheet.FirstRowNum + 1; i <= sheet.LastRowNum; i++)
             {

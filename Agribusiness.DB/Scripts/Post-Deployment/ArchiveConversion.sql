@@ -124,6 +124,15 @@ where emergencyname is not null
 */
 
 --------------------------
+-- Get Firms
+--------------------------
+
+--------------------------
 -- Get the seminar people
 --------------------------
 
+select ags.id seminarId, vc.personId, 'n/a' title, isnull(isapplicant, 0) applicant, isnull(isinvitee, 0) invitee, s.[year]
+from seminars s
+	inner join contacts c on s.contactId = c.c_id
+	inner join vcontacts vc on c.id = vc.contactId
+	inner join agribusiness.dbo.seminars ags on ags.[year] = s.[year]

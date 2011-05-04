@@ -172,6 +172,7 @@
     <Content Include="Views\Contact\ArchiveContacts.cshtml" />
     <Content Include="Views\Commodity\Commodity.cshtml" />
     <Content Include="Views\Commodity\ArchiveCommodity.cshtml" />
+    <Content Include="Views\Home\ImportAll.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

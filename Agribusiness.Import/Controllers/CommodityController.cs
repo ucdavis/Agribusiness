@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Hosting;
 using System.Web.Mvc;
 using Agribusiness.Import.Helpers;
 using Agribusiness.Import.Models;
@@ -11,10 +12,22 @@ namespace Agribusiness.Import.Controllers
 {
     public class CommodityController : ApplicationController
     {
-        private readonly string _commodityTable = "CommodityTable";
-        private readonly string _archiveCommodityTable = "ArchiveCommodityTable";
+        private static readonly string _commodityTable = "CommodityTable";
+        private static readonly string _archiveCommodityTable = "ArchiveCommodityTable";
 
         public ActionResult Commodity()
+        {
+            var viewModel = ReadCommodity();
+            return View(viewModel);
+        }
+
+        public ActionResult ArchiveCommodity()
+        {
+            var viewModel = ReadArchiveCommodity();
+            return View(viewModel);
+        }
+
+        public static CommodityViewModel ReadCommodity()
         {
             var imported = Db.Trackings.Where(a => a.Name == _commodityTable).Any();
 
@@ -31,10 +44,10 @@ namespace Agribusiness.Import.Controllers
             }
 
             var viewModel = CommodityViewModel.Create(commodities, errors, imported);
-            return View(viewModel);
+            return viewModel;
         }
 
-        public ActionResult ArchiveCommodity()
+        public static CommodityViewModel ReadArchiveCommodity()
         {
             var imported = Db.Trackings.Where(a => a.Name == _archiveCommodityTable).Any();
 
@@ -51,12 +64,12 @@ namespace Agribusiness.Import.Controllers
             }
 
             var viewModel = CommodityViewModel.Create(commodities, errors, imported);
-            return View(viewModel);
+            return viewModel;
         }
 
-        public void ReadData(string file, bool imported, List<CommodityLink> commodities, List<KeyValuePair<string, string>> errors)
+        public static void ReadData(string file, bool imported, List<CommodityLink> commodities, List<KeyValuePair<string, string>> errors)
         {
-            var sheet = ExcelHelpers.OpenWorkbook(Server.MapPath(file));
+            var sheet = ExcelHelpers.OpenWorkbook(HostingEnvironment.MapPath(file));
 
             for (var i = sheet.FirstRowNum + 1; i <= sheet.LastRowNum; i++)
             {
@@ -119,7 +132,7 @@ namespace Agribusiness.Import.Controllers
             }
         }
 
-        private string Capitalize(string input)
+        private static string Capitalize(string input)
         {
             if (string.IsNullOrEmpty(input)) return string.Empty;
             return input.Substring(0, 1).ToUpper() + input.Substring(1).ToLower();
