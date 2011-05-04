@@ -173,6 +173,8 @@ select groupid, isnull(name, 'unknown') name, isnull(description, 'n/a') descrip
 from agribusinessarchive.dbo.firms
 order by f_id
 
+go 
+
 /*
 -- validation query, f_id and id should be in increasing order
 select af.f_id, v.*
@@ -257,6 +259,8 @@ select sp.id, 'VD' from seminars s
 	inner join agribusiness.dbo.seminarpeople sp on sp.archive_id = s.id
 where s.isvendor = 1
 
+go
+
 --------------------------
 -- Copy the commodities
 --------------------------
@@ -276,4 +280,21 @@ from agribusinessarchive.dbo.commoditylinks cl
 			inner join agribusinessarchive.dbo.contacts c on s.contactid = c.c_id
 			inner join agribusiness.dbo.seminarpeople sp on sp.archive_id = s.id
 		) contactlink on contactlink.c_id = cf.contactid
-	
+
+go
+
+--------------------------
+-- Clean up
+--------------------------
+
+alter table agribusiness.dbo.people
+drop column archive_id
+go
+
+alter table agribusiness.dbo.firms
+drop column archive_id
+go
+
+alter table agribusiness.dbo.seminarpeople
+drop column archive_id
+go
