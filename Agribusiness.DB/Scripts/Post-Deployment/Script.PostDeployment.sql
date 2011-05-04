@@ -105,6 +105,9 @@ if not exists (select * from commodities where Name = 'Wood Products') begin ins
 if not exists (select * from commodities where Name = 'Wool') begin insert into commodities (name) values ('Wool') end
 if not exists (select * from commodities where Name = 'Raspberries') begin insert into commodities (name) values ('Raspberries') end
 
+/*
+	removed as of 5/4/2011
+
 if not exists (select * from states where id = 'AK') begin insert into states (id, name) values ('AK', 'ALASKA ') end
 if not exists (select * from states where id = 'AL') begin insert into states (id, name) values ('AL', 'ALABAMA') end
 if not exists (select * from states where id = 'AR') begin insert into states (id, name) values ('AR', 'ARKANSAS') end
@@ -158,6 +161,7 @@ if not exists (select * from states where id = 'WA') begin insert into states (i
 if not exists (select * from states where id = 'WI') begin insert into states (id, name) values ('WI', 'WISCONSIN') end
 if not exists (select * from states where id = 'WV') begin insert into states (id, name) values ('WV', 'WEST VIRGINIA') end
 if not exists (select * from states where id = 'WY') begin insert into states (id, name) values ('WY', 'WYOMING') end
+*/
 
 if not exists (select * from seminarroles where id = 'CA') begin insert into seminarroles (id, name, discount, description) values ('CA', 'Case Study Author', 10.00, 'Person writing a Case Study') end
 if not exists (select * from seminarroles where id = 'CE') begin insert into seminarroles (id, name, discount, description) values ('CE', 'Case Executive', 10.00, 'Executive attached to a Case Study') end
