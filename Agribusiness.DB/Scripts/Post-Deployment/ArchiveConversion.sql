@@ -219,7 +219,7 @@ select sp.id, 'DL' from seminars s
 where s.isdiscussiongrouplead = 1
 
 insert into seminarpeoplexseminarroles (seminarpersonid, seminarroleid)
-select sp.id, 'FD' from seminars s
+select sp.id, 'FT' from seminars s
 	inner join agribusiness.dbo.seminarpeople sp on sp.archive_id = s.id
 where s.isfaculty = 1
 

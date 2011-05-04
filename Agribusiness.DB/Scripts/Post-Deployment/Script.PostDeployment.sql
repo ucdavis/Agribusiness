@@ -165,6 +165,7 @@ if not exists (select * from seminarroles where id = 'DL') begin insert into sem
 if not exists (select * from seminarroles where id = 'FD') begin insert into seminarroles (id, name, discount, description) values ('FD', 'Faculty Director', 10.00, 'UCD appointed lead on the conference') end
 if not exists (select * from seminarroles where id = 'PN') begin insert into seminarroles (id, name, discount, description) values ('PN', 'Panelist', 10.00, 'One of a few speakers during a session') end
 if not exists (select * from seminarroles where id = 'PT') begin insert into seminarroles (id, name, discount, description) values ('PT', 'Participant', 10.00, 'Paying Attendee') end
+if not exists (select * from seminarroles where id = 'FT') begin insert into seminarroles (id, name, discount, description) values ('FT', 'Faculty', 10.00, 'Faculty') end
 if not exists (select * from seminarroles where id = 'SC') begin insert into seminarroles (id, name, discount, description) values ('SC', 'Steering Committee', 10.00, 'Appointed committee who makes decisions on themes for case studies and speakers') end
 if not exists (select * from seminarroles where id = 'SP') begin insert into seminarroles (id, name, discount, description) values ('SP', 'Speaker', 10.00, 'Paid Session Speaker') end
 if not exists (select * from seminarroles where id = 'ST') begin insert into seminarroles (id, name, discount, description) values ('ST', 'Staff', 10.00, 'Anyone Working on/at and Attending Conference') end
