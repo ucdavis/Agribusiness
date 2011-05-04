@@ -240,6 +240,11 @@ select sp.id, 'FT' from seminars s
 where s.isfaculty = 1
 
 insert into agribusiness.dbo.seminarpeoplexseminarroles (seminarpersonid, seminarroleid)
+select sp.id, 'SC' from seminars s
+	inner join agribusiness.dbo.seminarpeople sp on sp.archive_id = s.id
+where s.issteeringcommittee = 1
+
+insert into agribusiness.dbo.seminarpeoplexseminarroles (seminarpersonid, seminarroleid)
 select sp.id, 'PN' from seminars s
 	inner join agribusiness.dbo.seminarpeople sp on sp.archive_id = s.id
 where s.ispanelist = 1
@@ -269,7 +274,7 @@ select distinct name, 0 from agribusinessarchive.dbo.commodities
 where name not in (select name from agribusiness.dbo.commodities)
 
 insert into agribusiness.dbo.seminarpeopleXCommodities (seminarpersonid, commodityid)
-select contactLink.SeminarPersonId, ac.id
+select distinct contactLink.SeminarPersonId, ac.id
 from agribusinessarchive.dbo.commoditylinks cl
 	inner join agribusinessarchive.dbo.commodities c on c.commoditylink_id = cl.id
 	inner join agribusiness.dbo.commodities ac on ac.name = c.name

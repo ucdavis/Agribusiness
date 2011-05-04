@@ -92,6 +92,8 @@
         </div>
         <div id="registration">
     
+            @if (Model.IsCurrentSeminar)
+            { 
             <div class="reg-navigation">
                 <ul>
                     <li>
@@ -136,7 +138,7 @@
                         <div class='display-details'>@(registered ? Model.PersonViewModel.SeminarPerson.TransactionId : "Not Registered")</div>
                     </li>
                     <li><div class='display-label'>Status:</div>
-                        <div class='display-details'>@(registered ? (paid ? "Registered (Paid)" : "Registered (Not Paid)" ) : "n/a")</div>
+                        <div class='display-details'>@(registered ? (paid ? "Registered (Paid)" : "Registered (Not Paid)") : "n/a")</div>
                     </li>
                     <li><div class='display-label'>Coupon:</div>
                         <div class='display-details'>
@@ -153,7 +155,11 @@
                     </li>
                 </ul>
             </div>
-
+            }
+            else
+            { 
+            <p>@Model.PersonViewModel.Person.FullName is not registered for the current seminar.</p>
+            }
         </div>
         <div id="roles">
     

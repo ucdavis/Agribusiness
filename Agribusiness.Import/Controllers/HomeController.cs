@@ -18,6 +18,8 @@ namespace Agribusiness.Import.Controllers
 
         public ActionResult ImportAll()
         {
+            ViewBag.Start = DateTime.Now;
+
             var results = new List<ImportResult>();
 
             var firm = FirmController.ReadFirms();
@@ -44,6 +46,8 @@ namespace Agribusiness.Import.Controllers
             results.Add(new ImportResult() { File = "Commodity", Error = commodities.Errors.Count, Read = commodities.Commodities.Count, Imported = commodities.AlreadyImported });
             commodities = CommodityController.ReadArchiveCommodity();
             results.Add(new ImportResult() { File = "Archive Commodity", Error = commodities.Errors.Count, Read = commodities.Commodities.Count, Imported = commodities.AlreadyImported });
+
+            ViewBag.End = DateTime.Now;
 
             return View(results);
         }
