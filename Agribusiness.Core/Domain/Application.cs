@@ -79,6 +79,8 @@ namespace Agribusiness.Core.Domain
         [Display(Name="Zip")]
         public virtual string FirmZip { get; set; }
         [Required]
+        public virtual Country Country { get; set; }
+        [Required]
         [DataType(DataType.PhoneNumber)]
         [Display(Name = "Phone Number")]
         public virtual string FirmPhone { get; set; }
@@ -152,8 +154,9 @@ namespace Agribusiness.Core.Domain
             Map(x => x.FirmAddressLine1);
             Map(x => x.FirmAddressLine2);
             Map(x => x.FirmCity);
-            References(x => x.FirmState).Column("FirmState");
+            Map(x => x.FirmState);
             Map(x => x.FirmZip);
+            References(x => x.Country).Column("FirmCountry");
             Map(x => x.FirmPhone);
             Map(x => x.Website);
             Map(x => x.Responsibilities);

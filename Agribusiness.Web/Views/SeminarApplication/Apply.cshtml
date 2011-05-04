@@ -239,7 +239,7 @@
             </li>
             <li><div class="editor-label required">@Html.LabelFor(model=>model.Application.FirmState)<span>*</span></div>
                 <div class="editor-field">
-                    @this.Select("Application.FirmState").Options(Model.States,x=>x.Id,x=>x.Name).FirstOption("--Select a State--")
+                    @Html.TextBoxFor(a=>a.Application.FirmState)                    
                     @Html.ValidationMessageFor(a=>a.Application.FirmState)
                 </div>
             </li>
@@ -249,7 +249,12 @@
                     @Html.ValidationMessageFor(a=>a.Application.FirmZip)    
                 </div>
             </li>
-            
+            <li><div class="editor-label reuqired">@Html.LabelFor(a=>a.Application.Country)<span>*</span></div>
+                <div class="editor-field">
+                    @this.Select("Application.Country").Options(Model.Countries, x=>x.Id, x=>x.Name).FirstOption("--Select a Country--").Selected(Model.Application.Country != null ? Model.Application.Country.Id ? "USA")
+                    @Html.ValidationMessageFor(a=>a.Application.Country)
+                </div>
+            </li>
         </ul>
 
     </fieldset>

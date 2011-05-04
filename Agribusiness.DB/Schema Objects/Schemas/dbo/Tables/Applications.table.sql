@@ -16,8 +16,9 @@
     [FirmAddressLine1]          VARCHAR (100)    NULL,
     [FirmAddressLine2]          VARCHAR (100)    NULL,
     [FirmCity]                  VARCHAR (50)     NULL,
-    [FirmState]                 CHAR (2)         NULL,
+    [FirmState]                 VARCHAR (50)     NULL,
     [FirmZip]                   VARCHAR (10)     NULL,
+    [FirmCountry]               CHAR (3)         NULL,
     [FirmPhone]                 VARCHAR (15)     NULL,
     [Website]                   VARCHAR (200)    NULL,
     [Responsibilities]          VARCHAR (MAX)    NOT NULL,
@@ -31,6 +32,8 @@
     [DecisionReason]            VARCHAR (MAX)    NULL,
     [ContactInformationRelease] BIT              NOT NULL
 );
+
+
 
 
 
