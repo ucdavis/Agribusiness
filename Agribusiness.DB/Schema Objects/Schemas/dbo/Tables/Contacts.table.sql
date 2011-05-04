@@ -5,6 +5,9 @@
     [Phone]         VARCHAR (15) NOT NULL,
     [Email]         VARCHAR (50) NULL,
     [ContactTypeId] CHAR (1)     NOT NULL,
-    [PersonId]      INT          NOT NULL
+    [PersonId]      INT          NOT NULL,
+    [Ext]           VARCHAR (10) NULL
 );
+
+
 

@@ -3,6 +3,9 @@
     [FirmCode]    UNIQUEIDENTIFIER NOT NULL,
     [Name]        VARCHAR (200)    NOT NULL,
     [Description] VARCHAR (MAX)    NOT NULL,
-    [Review]      BIT              NOT NULL
+    [Review]      BIT              NOT NULL,
+    [WebAddress]  VARCHAR (200)    NULL
 );
+
+
 

@@ -224,37 +224,37 @@ go
 --------------------------
 -- Copy the seminar roles
 --------------------------
-insert into seminarpeoplexseminarroles (seminarpersonid, seminarroleid)
+insert into agribusiness.dbo.seminarpeoplexseminarroles (seminarpersonid, seminarroleid)
 select sp.id, 'CE' from seminars s
 	inner join agribusiness.dbo.seminarpeople sp on sp.archive_id = s.id
 where s.iscaseexecutive = 1
 
-insert into seminarpeoplexseminarroles (seminarpersonid, seminarroleid)
+insert into agribusiness.dbo.seminarpeoplexseminarroles (seminarpersonid, seminarroleid)
 select sp.id, 'DL' from seminars s
 	inner join agribusiness.dbo.seminarpeople sp on sp.archive_id = s.id
 where s.isdiscussiongrouplead = 1
 
-insert into seminarpeoplexseminarroles (seminarpersonid, seminarroleid)
+insert into agribusiness.dbo.seminarpeoplexseminarroles (seminarpersonid, seminarroleid)
 select sp.id, 'FT' from seminars s
 	inner join agribusiness.dbo.seminarpeople sp on sp.archive_id = s.id
 where s.isfaculty = 1
 
-insert into seminarpeoplexseminarroles (seminarpersonid, seminarroleid)
+insert into agribusiness.dbo.seminarpeoplexseminarroles (seminarpersonid, seminarroleid)
 select sp.id, 'PN' from seminars s
 	inner join agribusiness.dbo.seminarpeople sp on sp.archive_id = s.id
 where s.ispanelist = 1
 
-insert into seminarpeoplexseminarroles (seminarpersonid, seminarroleid)
+insert into agribusiness.dbo.seminarpeoplexseminarroles (seminarpersonid, seminarroleid)
 select sp.id, 'SP' from seminars s
 	inner join agribusiness.dbo.seminarpeople sp on sp.archive_id = s.id
 where s.isspeaker = 1
 
-insert into seminarpeoplexseminarroles (seminarpersonid, seminarroleid)
+insert into agribusiness.dbo.seminarpeoplexseminarroles (seminarpersonid, seminarroleid)
 select sp.id, 'ST' from seminars s
 	inner join agribusiness.dbo.seminarpeople sp on sp.archive_id = s.id
 where s.isstaff = 1
 
-insert into seminarpeoplexseminarroles (seminarpersonid, seminarroleid)
+insert into agribusiness.dbo.seminarpeoplexseminarroles (seminarpersonid, seminarroleid)
 select sp.id, 'VD' from seminars s
 	inner join agribusiness.dbo.seminarpeople sp on sp.archive_id = s.id
 where s.isvendor = 1
