@@ -16,8 +16,8 @@ namespace Agribusiness.Web.Models
         public Application Application { get; set; }
         public Seminar Seminar { get; set; }
         public IEnumerable<Commodity> Commodities { get; set; }
+        public IEnumerable<Country> Countries { get; set; }
         public IEnumerable<Firm> Firms { get; set; }
-        public IEnumerable<State> States { get; set; }
         public bool HasPhoto { get; set; }
 
         public static ApplicationViewModel Create(IRepository repository, IFirmService firmService, string userId, Application application = null)
@@ -30,7 +30,7 @@ namespace Agribusiness.Web.Models
                                     // always get the latest
                                     Seminar = repository.OfType<Seminar>().GetNullableById(repository.OfType<Seminar>().Queryable.Max(a=>a.Id)),
                                     Commodities = repository.OfType<Commodity>().Queryable.OrderBy(a=>a.Name).ToList(),
-                                    States = repository.OfType<State>().GetAll()
+                                    Countries = repository.OfType<Country>().GetAll()
                                 };
 
             var user = repository.OfType<User>().Queryable.Where(a => a.LoweredUserName == userId.ToLower()).FirstOrDefault();
