@@ -9,7 +9,7 @@ namespace Agribusiness.Core.Domain
         #region Constructors
         public Address() { }
 
-        public Address(string line1, string line2, string city, State state, string zip, AddressType addressType, Person person)
+        public Address(string line1, string line2, string city, string state, string zip, AddressType addressType, Person person)
         {
             Line1 = line1;
             // if this is blank, make it null
@@ -32,10 +32,13 @@ namespace Agribusiness.Core.Domain
         [StringLength(50)]
         public virtual string City { get; set; }
         [Required]
-        public virtual State State { get; set; }
+        [StringLength(50)]
+        public virtual string State { get; set; }
         [Required]
         [StringLength(10)]
         public virtual string Zip { get; set; }
+
+        public virtual Country Country { get; set; }
 
         [Required]
         public virtual AddressType AddressType { get; set; }

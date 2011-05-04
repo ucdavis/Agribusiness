@@ -34,6 +34,9 @@ namespace Agribusiness.Core.Domain
         [DataType(DataType.EmailAddress)]
         public virtual string Email { get; set; }
 
+        [StringLength(10)]
+        public virtual string Ext { get; set; }
+
         [Required]
         public virtual ContactType ContactType { get; set; }
         [Required]
@@ -66,6 +69,7 @@ namespace Agribusiness.Core.Domain
             Map(x => x.LastName);
             Map(x => x.Phone);
             Map(x => x.Email);
+            Map(x => x.Ext);
             References(x => x.ContactType);
             References(x => x.Person);
         }

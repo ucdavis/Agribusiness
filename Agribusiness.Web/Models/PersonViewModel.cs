@@ -14,7 +14,7 @@ namespace Agribusiness.Web.Models
     {
         public IList<Address> Addresses { get; set; }
         public IList<Contact> Contacts { get; set; }
-        public IEnumerable<State> States { get; set; }
+        public IEnumerable<Country> Countries { get; set; }
         public IEnumerable<Commodity> Commodities { get; set; }
         public IEnumerable<Firm> Firms { get; set; }
         public Person Person { get; set; }
@@ -33,7 +33,7 @@ namespace Agribusiness.Web.Models
                 Person = person ?? new Person(),
                 Addresses = repository.OfType<AddressType>().Queryable.Select(a => new Address() { AddressType = a}).ToList(),
                 Contacts = repository.OfType<ContactType>().Queryable.Select( a => new Contact(){ContactType = a}).ToList(),
-                States = repository.OfType<State>().GetAll(),
+                Countries = repository.OfType<Country>().GetAll(),
                 SeminarPerson = person != null ? person.GetLatestRegistration() : null,
                 Email = email,
                 Seminar = seminar,

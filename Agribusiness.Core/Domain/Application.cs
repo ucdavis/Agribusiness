@@ -72,7 +72,8 @@ namespace Agribusiness.Core.Domain
         public virtual string FirmCity { get; set; }
         [Required]
         [Display(Name="State")]
-        public virtual State FirmState { get; set; }
+        [StringLength(50)]
+        public virtual string FirmState { get; set; }
         [Required]
         [StringLength(10)]
         [Display(Name="Zip")]

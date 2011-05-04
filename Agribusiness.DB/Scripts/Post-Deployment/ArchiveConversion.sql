@@ -102,22 +102,27 @@ go
 
 
 insert into agribusiness.dbo.addresses(personId, city, country, state, line1, zip, addresstypeid)
-select personId, isnull(couriercity, 'n/a') city, couriercountry, isnull(courierstate, '') state, isnull(courierstreet, 'n/a') address, isnull(courierzip, 'n/a') zip, 'C'
+select personId, isnull(couriercity, 'n/a') city
+	, isnull(isnull(countries.id, couriercountry), 'USA') country
+	, isnull(courierstate, 'n/a') state
+	, isnull(courierstreet, 'n/a') address, isnull(courierzip, 'n/a') zip, 'C'
 from agribusinessarchive.dbo.contacts c
 	inner join agribusinessarchive.dbo.vContacts vc on vc.contactId = c.id
+	left outer join agribusiness.dbo.countries on couriercountry = countries.name
 where courierstreet is not null
-  and (couriercountry = 'USA' or couriercountry is null)
 
 go
 
 
 insert into agribusiness.dbo.addresses(personid, line1, city, country, state, zip, addresstypeid)
-select vc.personId, isnull(f.address, 'n/a') address, isnull(f.city, 'n/a') city, f.country, isnull(f.state, ''), isnull(f.zip, 'n/a') zip, 'B'
+select vc.personId, isnull(f.address, 'n/a') address, isnull(f.city, 'n/a') city
+	, isnull(isnull(countries.id, f.country), 'USA') country
+	, isnull(f.state, ''), isnull(f.zip, 'n/a') zip, 'B'
 from agribusinessArchive.dbo.contactfirms
 	inner join agribusinessArchive.dbo.firms f on f.f_id = contactfirms.firmid
 	inner join agribusinessArchive.dbo.contacts c on c.c_id = contactfirms.contactid
 	inner join agribusinessArchive.dbo.vContacts vc on vc.contactId = c.id
-where country = 'USA' or country is null
+	left outer join agribusiness.dbo.countries on f.country = countries.name
 
 go
 

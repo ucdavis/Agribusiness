@@ -68,6 +68,7 @@
     <Compile Include="Domain\Commodity.cs" />
     <Compile Include="Domain\Contact.cs" />
     <Compile Include="Domain\ContactType.cs" />
+    <Compile Include="Domain\Country.cs" />
     <Compile Include="Domain\Firm.cs" />
     <Compile Include="Domain\Person.cs" />
     <Compile Include="Domain\SeminarPerson.cs" />

@@ -130,8 +130,8 @@
         <legend>Addresses</legend>
 
 		@for (int i = 0; i < Model.Addresses.Count(); i++)
-		{
-            var required = Model.Addresses[i].AddressType.Required;
+  {
+      var required = Model.Addresses[i].AddressType.Required;
       
 			<h4>@string.Format("{0} Address", Model.Addresses[i].AddressType.Name)</h4>
   
@@ -140,7 +140,8 @@
 			<ul>
 				<li><div class="editor-label @(required ? "required" : string.Empty)">
                     @Html.LabelFor(a => a.Addresses[i].Line1)
-                    @if (required){<span>*</span>}
+                    @if (required)
+                    {<span>*</span>}
                     </div>
                     <div class="editor-field">
 					@Html.TextBox(string.Format("Addresses[{0}].Line1", i), Model.Addresses[i].Line1)
@@ -155,7 +156,8 @@
 				</li>
 				<li><div class="editor-label @(required ? "required" : string.Empty)">
                     @Html.LabelFor(a => a.Addresses[i].City)
-                    @if (required){<span>*</span>}
+                    @if (required)
+                    {<span>*</span>}
                     </div>
                     <div class="editor-field">
 					@Html.TextBox(string.Format("Addresses[{0}].City", i), Model.Addresses[i].City)
@@ -163,23 +165,37 @@
 				</li>
 				<li><div class="editor-label @(required ? "required" : string.Empty)">
                     @Html.LabelFor(a => a.Addresses[i].State)
-                    @if (required){<span>*</span>}
+                    @if (required)
+                    {<span>*</span>}
                     </div>
                     <div class="editor-field">
-					@{ var ss = Model.Addresses.ElementAtOrDefault(i);
-                        var selectedState = ss.State != null ? ss.State.Id : string.Empty;
+                        @Html.TextBox(string.Format("Addresses[{0}].State", i), Model.Addresses[i].State)
+					@*@{ var ss = Model.Addresses.ElementAtOrDefault(i);
+        var selectedState = ss.State != null ? ss.State.Id : string.Empty;
 					   }
-					@this.Select(string.Format("Addresses[{0}].State", i)).Options(Model.States, x => x.Id, x => x.Name).FirstOption("--Select a State--").Selected(selectedState)
+					@this.Select(string.Format("Addresses[{0}].State", i)).Options(Model.States, x => x.Id, x => x.Name).FirstOption("--Select a State--").Selected(selectedState)*@
                     </div>
 				</li>
 				<li><div class="editor-label @(required ? "required" : string.Empty)">
                     @Html.LabelFor(a => a.Addresses[i].Zip)
-                    @if (required){<span>*</span>}
+                    @if (required)
+                    {<span>*</span>}
                     </div>
                     <div class="editor-field">
 					@Html.TextBox(string.Format("Addresses[{0}].Zip", i), Model.Addresses[i].Zip)
                     </div>
 				</li>
+                <li><div class="editor-label @(required ? "required" : string.Empty)">
+                        @Html.LabelFor(a => a.Addresses[i].Country)
+                        @if (required)
+                        {<span>*</span>}
+                    </div>
+                    <div class="editor-field">
+                        @{  var ss = Model.Addresses.ElementAtOrDefault(i);
+                            var country = ss.Country;}
+                        @this.Select(string.Format("Address[{0}].Country", i)).Options(Model.Countries, x=>x.Id, x=>x.Name).FirstOption("--Select a Country--").Selected(country != null ? country.Id : "USA")
+                    </div>
+                </li>
 			</ul>
         }
 	</fieldset>
