@@ -242,3 +242,24 @@ insert into seminarpeoplexseminarroles (seminarpersonid, seminarroleid)
 select sp.id, 'VD' from seminars s
 	inner join agribusiness.dbo.seminarpeople sp on sp.archive_id = s.id
 where s.isvendor = 1
+
+--------------------------
+-- Copy the commodities
+--------------------------
+insert into agribusiness.dbo.commodities (Name, isactive)
+select distinct name, 0 from agribusinessarchive.dbo.commodities
+where name not in (select name from agribusiness.dbo.commodities)
+
+insert into agribusiness.dbo.seminarpeopleXCommodities (seminarpersonid, commodityid)
+select contactLink.SeminarPersonId, ac.id
+from agribusinessarchive.dbo.commoditylinks cl
+	inner join agribusinessarchive.dbo.commodities c on c.commoditylink_id = cl.id
+	inner join agribusiness.dbo.commodities ac on ac.name = c.name
+	inner join agribusinessarchive.dbo.contactfirms cf on cl.rcontactfirmid = cf.rcfid
+	inner join (	
+		select c.c_id, c.id, sp.id seminarPersonId
+		from agribusinessarchive.dbo.seminars s 
+			inner join agribusinessarchive.dbo.contacts c on s.contactid = c.c_id
+			inner join agribusiness.dbo.seminarpeople sp on sp.archive_id = s.id
+		) contactlink on contactlink.c_id = cf.contactid
+	
