@@ -122,7 +122,7 @@ namespace Agribusiness.Import.Controllers
                     }
                     else if (list != null)
                     {
-                        firm.GroupId = db.GroupId;
+                        firm.GroupId = list.GroupId;
                     }
                     else
                     {

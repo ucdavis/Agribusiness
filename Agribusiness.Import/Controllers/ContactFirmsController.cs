@@ -104,7 +104,7 @@ namespace Agribusiness.Import.Controllers
                 }
                 catch (Exception ex)
                 {
-                    errors.Add(new KeyValuePair<string, string>(row.GetCell(13).ToString(), ex.Message));
+                    errors.Add(new KeyValuePair<string, string>(row.GetCell(0).ToString(), ex.Message));
                 }
 
             }

@@ -171,9 +171,19 @@ order by firmcode, id
 -- Get the seminar people
 --------------------------
 
-insert into agribusiness.dbo.seminarpeople (seminarid, personId, title, firmid, paid, invite, contactinformationrelease, comments)
+alter table agribusiness.dbo.seminarpeople
+add archive_id uniqueidentifier null
+go
+
+create view vSeminars as
+select sp.id seminarPeopleId, s.id archiveId
+from agribusinessarchive.dbo.seminars s
+	inner join agribusiness.dbo.seminarpeople sp on s.id = sp.archive_id
+go
+
+insert into agribusiness.dbo.seminarpeople (seminarid, personId, title, firmid, paid, invite, contactinformationrelease, comments, archive_id)
 select distinct ags.id seminarId, vc.personId, 'n/a' title
-	, vf.firmId, 1 paid
+	, vf.firmId, s.isparticipant paid
 	, isnull(isinvitee, 0) invitee
 	, 0 contactInformationRelease
 	, case
@@ -181,6 +191,7 @@ select distinct ags.id seminarId, vc.personId, 'n/a' title
 		when notes is null and archivecomments is not null then '/* archive comments */' + archivecomments
 		else isnull(notes, '') + '/* archive comments after this --> */ ' + isnull(archivecomments, '')
 		end comments
+	, s.id
 from seminars s
 	inner join contacts c on s.contactId = c.c_id
 	inner join contactfirms cf on s.contactId = cf.contactid
@@ -188,3 +199,46 @@ from seminars s
 	inner join vfirms vf on f.id = vf.archiveId
 	inner join vcontacts vc on c.id = vc.contactId
 	inner join agribusiness.dbo.seminars ags on ags.[year] = s.[year]
+where (s.iscaseexecutive = 1 or s.isdiscussiongrouplead = 1 or s.isfaculty = 1
+		or s.issteeringcommittee = 1 or s.ispanelist = 1 or s.isparticipant = 1
+		or s.isspeaker = 1 or s.isstaff = 1 or s.isvendor = 1)
+
+go
+
+--------------------------
+-- Copy the seminar roles
+--------------------------
+insert into seminarpeoplexseminarroles (seminarpersonid, seminarroleid)
+select sp.id, 'CE' from seminars s
+	inner join agribusiness.dbo.seminarpeople sp on sp.archive_id = s.id
+where s.iscaseexecutive = 1
+
+insert into seminarpeoplexseminarroles (seminarpersonid, seminarroleid)
+select sp.id, 'DL' from seminars s
+	inner join agribusiness.dbo.seminarpeople sp on sp.archive_id = s.id
+where s.isdiscussiongrouplead = 1
+
+insert into seminarpeoplexseminarroles (seminarpersonid, seminarroleid)
+select sp.id, 'FD' from seminars s
+	inner join agribusiness.dbo.seminarpeople sp on sp.archive_id = s.id
+where s.isfaculty = 1
+
+insert into seminarpeoplexseminarroles (seminarpersonid, seminarroleid)
+select sp.id, 'PN' from seminars s
+	inner join agribusiness.dbo.seminarpeople sp on sp.archive_id = s.id
+where s.ispanelist = 1
+
+insert into seminarpeoplexseminarroles (seminarpersonid, seminarroleid)
+select sp.id, 'SP' from seminars s
+	inner join agribusiness.dbo.seminarpeople sp on sp.archive_id = s.id
+where s.isspeaker = 1
+
+insert into seminarpeoplexseminarroles (seminarpersonid, seminarroleid)
+select sp.id, 'ST' from seminars s
+	inner join agribusiness.dbo.seminarpeople sp on sp.archive_id = s.id
+where s.isstaff = 1
+
+insert into seminarpeoplexseminarroles (seminarpersonid, seminarroleid)
+select sp.id, 'VD' from seminars s
+	inner join agribusiness.dbo.seminarpeople sp on sp.archive_id = s.id
+where s.isvendor = 1
