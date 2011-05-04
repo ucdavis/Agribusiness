@@ -1,4 +1,18 @@
-﻿--------------------------
+﻿/*
+	Conversion for data imported into an archive using the Agribusiness.Import project
+	to the production database.
+
+	Written by Alan Lai
+	5/4/2011
+
+	Usage:
+		To use this, open up a query window in the AgribusinessArchive database.  And execute.
+
+	Notices:
+		Currently non-international addresses do not get copied.
+*/
+
+--------------------------
 -- Get the distinct years
 --------------------------
 
