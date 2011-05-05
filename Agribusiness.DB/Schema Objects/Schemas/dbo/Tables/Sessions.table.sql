@@ -5,6 +5,9 @@
     [Begin]         DATETIME      NULL,
     [End]           DATETIME      NULL,
     [SessionTypeId] CHAR (2)      NOT NULL,
-    [SeminarId]     INT           NOT NULL
+    [SeminarId]     INT           NOT NULL,
+    [Description]   VARCHAR (MAX) NULL
 );
+
+
 
