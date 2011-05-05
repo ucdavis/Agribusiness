@@ -114,8 +114,8 @@ namespace Agribusiness.Import.Controllers
                     firm.WebAddress = ExcelHelpers.ReadCell(row, 17);    // r
 
                     // check the name against one that has already been created
-                    var db = Db.Firms.Where(a => a.Name == firm.Name).FirstOrDefault();
-                    var list = firms.Where(a => a.Name == firm.Name).FirstOrDefault();
+                    var db = Db.Firms.Where(a => a.Name.Trim().ToLower() == firm.Name.Trim().ToLower()).FirstOrDefault();
+                    var list = firms.Where(a => a.Name.Trim().ToLower() == firm.Name.Trim().ToLower()).FirstOrDefault();
                     if (db != null)
                     {
                         firm.GroupId = db.GroupId;

@@ -50,7 +50,7 @@ set @date = getdate()
 
 declare @contactCursor cursor 
 set @contactCursor = cursor for
-	select id, lastname, firstname, mi, salutation, badge, substring(isnull(phone, 'n/a'), 15) phone, cellphone, fax, biography
+	select id, lastname, firstname, mi, salutation, badge, substring(isnull(phone, 'n/a'), 1, 15) phone, cellphone, fax, biography
 		 , isnull(email, firstname+'.'+lastname+'@fake.com') email, isnull(password, 'password') password
 	from contacts
 	where contacts.c_id in (
@@ -283,13 +283,13 @@ go
 --------------------------
 insert into agribusiness.dbo.commodities (Name, isactive)
 select distinct name, 0 from agribusinessarchive.dbo.commodities
-where name not in (select name from agribusiness.dbo.commodities)
+where lower(rtrim(ltrim(name))) not in (select lower(name) from agribusiness.dbo.commodities)
 
 insert into agribusiness.dbo.seminarpeopleXCommodities (seminarpersonid, commodityid)
 select distinct contactLink.SeminarPersonId, ac.id
 from agribusinessarchive.dbo.commoditylinks cl
 	inner join agribusinessarchive.dbo.commodities c on c.commoditylink_id = cl.id
-	inner join agribusiness.dbo.commodities ac on ac.name = c.name
+	inner join agribusiness.dbo.commodities ac on lower(ac.name) = lower(rtrim(ltrim(c.name)))
 	inner join agribusinessarchive.dbo.contactfirms cf on cl.rcontactfirmid = cf.rcfid
 	inner join (	
 		select c.c_id, c.id, sp.id seminarPersonId
