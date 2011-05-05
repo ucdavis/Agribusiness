@@ -162,7 +162,6 @@
             }
         </div>
         <div id="roles">
-    
             @if (Model.IsCurrentSeminar)
             {
                 using (Html.BeginForm("UpdateRoles", "Person", FormMethod.Post))
@@ -193,23 +192,29 @@
             }
         </div>
         <div id="comments">
-            @using (Html.BeginForm("UpdateComments", "Person", FormMethod.Post))
-            { 
-                @Html.Hidden("seminarId", Model.SeminarId)
-                @Html.Hidden("personId", Model.PersonViewModel.Person.Id)
-                @Html.AntiForgeryToken()
+            @if (Model.IsCurrentSeminar)
+            {
+                using (Html.BeginForm("UpdateComments", "Person", FormMethod.Post))
+                { 
+                    @Html.Hidden("seminarId", Model.SeminarId)
+                    @Html.Hidden("personId", Model.PersonViewModel.Person.Id)
+                    @Html.AntiForgeryToken()
             
-                <ul>
-                    <li><div class="editor-label">@Html.TextArea("comments", Model.PersonViewModel.SeminarPerson.Comments, new { @style = "height: 180px; width: 700px; border: 1px solid lightgray;" })</div>
-                    </li>
-                    <li><div class="editor-field">
-                        <input type="submit" value="Save" class="button" />
-                        </div>
-                    </li>
-                </ul>
+                    <ul>
+                        <li><div class="editor-label">@Html.TextArea("comments", Model.PersonViewModel.SeminarPerson.Comments, new { @style = "height: 180px; width: 700px; border: 1px solid lightgray;" })</div>
+                        </li>
+                        <li><div class="editor-field">
+                            <input type="submit" value="Save" class="button" />
+                            </div>
+                        </li>
+                    </ul>
+                }
+            }
+            else
+            { 
+                @Html.TextArea("comments", Model.PersonViewModel.SeminarPerson.Comments, new { @disabled="true", @style = "height: 180px; width: 700px; border: 1px solid lightgray;" })
             }
         </div>
-
     </div>
 </div>
 </div>
