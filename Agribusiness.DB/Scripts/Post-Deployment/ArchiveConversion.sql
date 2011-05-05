@@ -50,11 +50,11 @@ set @date = getdate()
 
 declare @contactCursor cursor 
 set @contactCursor = cursor for
-	select id, lastname, firstname, mi, salutation, badge, isnull(phone, 'n/a') phone, cellphone, fax, biography
+	select id, lastname, firstname, mi, salutation, badge, substring(isnull(phone, 'n/a'), 15) phone, cellphone, fax, biography
 		 , isnull(email, firstname+'.'+lastname+'@fake.com') email, isnull(password, 'password') password
 	from contacts
 	where contacts.c_id in (
-			select contactid from Seminars 
+			select contactid from Seminars s
 			where (s.iscaseexecutive = 1 or s.isdiscussiongrouplead = 1 or s.isfaculty = 1
 			or s.issteeringcommittee = 1 or s.ispanelist = 1 or s.isparticipant = 1
 			or s.isspeaker = 1 or s.isstaff = 1 or s.isvendor = 1))
@@ -89,6 +89,8 @@ begin
 		print @email
 	end
 
+	print @id
+
 	insert into agribusiness.dbo.people (archive_id, lastname, firstname, mi, salutation, badgename, phone, cellphone, fax, biography, userid)
 	values (@id, @lastname, @firstname, @mi, @salutation, @badge, @phone, @cell, @fax, @biography, @userid)
 	
@@ -106,7 +108,7 @@ go
 --------------------------
 
 
-insert into agribusiness.dbo.addresses(personId, city, country, state, line1, zip, addresstypeid)
+insert into agribusiness.dbo.addresses(personId, city, countryid, state, line1, zip, addresstypeid)
 select personId, isnull(couriercity, 'n/a') city
 	, isnull(isnull(countries.id, couriercountry), 'USA') country
 	, isnull(courierstate, 'n/a') state
@@ -119,7 +121,7 @@ where courierstreet is not null
 go
 
 
-insert into agribusiness.dbo.addresses(personid, line1, city, country, state, zip, addresstypeid)
+insert into agribusiness.dbo.addresses(personid, line1, city, countryid, state, zip, addresstypeid)
 select vc.personId, isnull(f.address, 'n/a') address, isnull(f.city, 'n/a') city
 	, isnull(isnull(countries.id, f.country), 'USA') country
 	, isnull(f.state, ''), isnull(f.zip, 'n/a') zip, 'B'
@@ -302,14 +304,18 @@ go
 -- Clean up
 --------------------------
 
---alter table agribusiness.dbo.people
---drop column archive_id
---go
+alter table agribusiness.dbo.people
+drop column archive_id
+go
 
---alter table agribusiness.dbo.firms
---drop column archive_id
---go
+alter table agribusiness.dbo.firms
+drop column archive_id
+go
 
---alter table agribusiness.dbo.seminarpeople
---drop column archive_id
---go
+alter table agribusiness.dbo.seminarpeople
+drop column archive_id
+go
+
+drop view dbo.vContacts
+drop view dbo.vFirms
+drop view dbo.vSeminars

@@ -4,9 +4,10 @@
     [Name]        VARCHAR (200)    NOT NULL,
     [Description] VARCHAR (MAX)    NOT NULL,
     [Review]      BIT              NOT NULL,
-    [WebAddress]  VARCHAR (200)    NULL,
-    [archive_id]  UNIQUEIDENTIFIER NULL
+    [WebAddress]  VARCHAR (200)    NULL
 );
+
+
 
 
 
