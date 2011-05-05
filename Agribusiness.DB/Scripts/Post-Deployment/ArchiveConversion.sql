@@ -53,6 +53,11 @@ set @contactCursor = cursor for
 	select id, lastname, firstname, mi, salutation, badge, isnull(phone, 'n/a') phone, cellphone, fax, biography
 		 , isnull(email, firstname+'.'+lastname+'@fake.com') email, isnull(password, 'password') password
 	from contacts
+	where contacts.c_id in (
+			select contactid from Seminars 
+			where (s.iscaseexecutive = 1 or s.isdiscussiongrouplead = 1 or s.isfaculty = 1
+			or s.issteeringcommittee = 1 or s.ispanelist = 1 or s.isparticipant = 1
+			or s.isspeaker = 1 or s.isstaff = 1 or s.isvendor = 1))
 
 open @contactCursor
 

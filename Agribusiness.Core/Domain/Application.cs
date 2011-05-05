@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Agribusiness.Core.Extensions;
+using DataAnnotationsExtensions;
 using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
 
@@ -45,6 +46,7 @@ namespace Agribusiness.Core.Domain
         [Display(Name = "Assistant Phone")]
         public virtual string AssistantPhone { get; set; }
         [DataType(DataType.EmailAddress)]
+        [Email]
         [Display(Name ="Assistant Email")]
         public virtual string AssistantEmail { get; set; }
         public virtual string Expectations { get; set; }
@@ -87,6 +89,7 @@ namespace Agribusiness.Core.Domain
         [StringLength(10)]
         public virtual string FirmPhoneExt { get; set; }
         [DataType(DataType.Url)]
+        [Url]
         [StringLength(200)]
         public virtual string Website { get; set; }
         [Required]
