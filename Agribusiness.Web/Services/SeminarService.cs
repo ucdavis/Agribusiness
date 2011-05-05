@@ -45,7 +45,8 @@ namespace Agribusiness.Web.Services
                 PhoneExt = application.FirmPhoneExt,
                 User = application.User,
                 OriginalPicture = application.Photo,
-                ContentType = application.ContentType
+                ContentType = application.ContentType,
+                CommunicationOption = application.CommunicationOption
             };
 
             var firm = application.Firm ?? new Firm(application.FirmName, application.FirmDescription);

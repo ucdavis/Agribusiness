@@ -117,28 +117,15 @@ namespace Agribusiness.Web.Controllers
 
         [HttpPost]
         [MembershipUserOnly]
-        public ActionResult Apply(Application application, int communicationOption, HttpPostedFileBase file)
+        public ActionResult Apply(Application application, HttpPostedFileBase file)
         {
             ModelState.Clear();
 
             application.Seminar = _seminarService.GetCurrent();
             application.User = Repository.OfType<User>().Queryable.Where(a => a.LoweredUserName == CurrentUser.Identity.Name.ToLower()).FirstOrDefault();
 
-            switch(communicationOption)
-            {
-                case (int)ContactOption.Assistant:
-                    application.ContactAssistant = true;
-                    break;
-                case (int)ContactOption.CCAssistant:
-                    application.CarbonCopyAssistant = true;
-                    break;
-                default:
-                    application.ContactAssistant = false;
-                    application.CarbonCopyAssistant = false;
-                    break;
-            }
-
-            if (application.ContactAssistant || application.CarbonCopyAssistant)
+            // requires assistant
+            if (application.CommunicationOption.RequiresAssistant)
             {
                 if (string.IsNullOrWhiteSpace(application.AssistantName))
                 {
@@ -166,12 +153,12 @@ namespace Agribusiness.Web.Controllers
 
             application.TransferValidationMessagesTo(ModelState);
 
-            if (ModelState.IsValid)
-            {
-                _applicationRepository.EnsurePersistent(application);
-                Message = string.Format(Messages.Saved, "Application");
-                return this.RedirectToAction<AuthorizedController>(a => a.Index());
-            }
+            //if (ModelState.IsValid)
+            //{
+            //    _applicationRepository.EnsurePersistent(application);
+            //    Message = string.Format(Messages.Saved, "Application");
+            //    return this.RedirectToAction<AuthorizedController>(a => a.Index());
+            //}
 
             var viewModel = ApplicationViewModel.Create(Repository, _firmService, CurrentUser.Identity.Name, application);
             return View(viewModel);

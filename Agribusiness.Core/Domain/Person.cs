@@ -71,6 +71,9 @@ namespace Agribusiness.Core.Domain
         public virtual byte[] ThumbnailPicture { get; set; }
         public virtual string ContentType { get; set; }
 
+        [Required]
+        public virtual CommunicationOption CommunicationOption { get; set; }
+
         #region Bags
         /// <summary>
         /// Gives a list of all the registration's a person has made
@@ -150,6 +153,8 @@ namespace Agribusiness.Core.Domain
             Map(x => x.MainProfilePicture).LazyLoad().CustomType("BinaryBlob");
             Map(x => x.ThumbnailPicture).LazyLoad().CustomType("BinaryBlob");
             Map(x => x.ContentType).LazyLoad();
+
+            References(x => x.CommunicationOption);
 
             References(x => x.User);
 

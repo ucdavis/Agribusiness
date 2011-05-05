@@ -31,8 +31,11 @@
     [DateSubmitted]             DATETIME         NOT NULL,
     [DateDecision]              DATETIME         NULL,
     [DecisionReason]            VARCHAR (MAX)    NULL,
-    [ContactInformationRelease] BIT              NOT NULL
+    [ContactInformationRelease] BIT              NOT NULL,
+    [CommunicationOptionId]     CHAR (2)         NOT NULL
 );
+
+
 
 
 

@@ -8,8 +8,6 @@ using UCDArch.Core.DomainModel;
 
 namespace Agribusiness.Core.Domain
 {
-    public enum ContactOption { Directly = 0, Assistant, CCAssistant }
-
     public class Application : DomainObject
     {
         public Application()
@@ -22,9 +20,6 @@ namespace Agribusiness.Core.Domain
             IsPending = true;
             IsApproved = false;
             DateSubmitted = DateTime.Now;
-
-            ContactAssistant = false;
-            CarbonCopyAssistant = false;
 
             Commodities = new List<Commodity>();
         }
@@ -116,18 +111,8 @@ namespace Agribusiness.Core.Domain
         /// </summary>
         public virtual bool ContactInformationRelease { get; set; }
 
-        /// <summary>
-        /// Whether or not to contact the assistant only
-        /// </summary>
-        public virtual bool ContactAssistant { get; set; }
-        /// <summary>
-        /// Whether or not to cc assistant on all communications but contact directly
-        /// </summary>
-        public virtual bool CarbonCopyAssistant { get; set; }
-        /// <summary>
-        /// Whether or not to only contact person directly, no assistant
-        /// </summary>
-        public virtual bool ContactDirectly { get; set; }
+        [Required]
+        public virtual CommunicationOption CommunicationOption { get; set; }
 
         [Required]
         public virtual User User { get; set; }
@@ -192,9 +177,7 @@ namespace Agribusiness.Core.Domain
             Map(x => x.DateDecision);
             Map(x => x.DecisionReason);
 
-            Map(x => x.ContactAssistant);
-            Map(x => x.CarbonCopyAssistant);
-            Map(x => x.ContactDirectly).ReadOnly();
+            References(x => x.CommunicationOption);
 
             References(x => x.User);
             References(x => x.Seminar);

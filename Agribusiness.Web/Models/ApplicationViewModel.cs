@@ -20,7 +20,7 @@ namespace Agribusiness.Web.Models
         public IEnumerable<Firm> Firms { get; set; }
         public bool HasPhoto { get; set; }
 
-        public List<KeyValuePair<int, string>> ContactOptions { get; set; }
+        public IEnumerable<CommunicationOption> CommunicationOptions { get; set; }
 
         public static ApplicationViewModel Create(IRepository repository, IFirmService firmService, string userId, Application application = null)
         {
@@ -32,7 +32,8 @@ namespace Agribusiness.Web.Models
                                     // always get the latest
                                     Seminar = repository.OfType<Seminar>().GetNullableById(repository.OfType<Seminar>().Queryable.Max(a=>a.Id)),
                                     Commodities = repository.OfType<Commodity>().Queryable.OrderBy(a=>a.Name).ToList(),
-                                    Countries = repository.OfType<Country>().GetAll()
+                                    Countries = repository.OfType<Country>().GetAll(),
+                                    CommunicationOptions = repository.OfType<CommunicationOption>().GetAll()
                                 };
 
             var user = repository.OfType<User>().Queryable.Where(a => a.LoweredUserName == userId.ToLower()).FirstOrDefault();
@@ -60,11 +61,6 @@ namespace Agribusiness.Web.Models
             firms.Add(new Firm(){Name="Other (Not Listed)"});
 
             viewModel.Firms = firms.OrderBy(a=>a.Name).ToList();
-
-            viewModel.ContactOptions = new List<KeyValuePair<int, string>>();
-            viewModel.ContactOptions.Add(new KeyValuePair<int, string>((int)ContactOption.Directly, "Contact Me Directly"));
-            viewModel.ContactOptions.Add(new KeyValuePair<int, string>((int)ContactOption.Assistant, "All Contact through Assistant"));
-            viewModel.ContactOptions.Add(new KeyValuePair<int, string>((int)ContactOption.Directly, "Contact Me Directly, CC Assistant"));
 
             return viewModel;
         }

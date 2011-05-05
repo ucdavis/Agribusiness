@@ -284,10 +284,10 @@
         <legend>Communication Option</legend>
 
         <ul>
-        @foreach(var a in Model.ContactOptions)
+        @foreach(var a in Model.CommunicationOptions)
         {
             <li>
-            <input type="radio" name="communicationOption" value='@a.Key' /> @a.Value
+            <input type="radio" name="Application.CommunicationOption" value='@a.Id' /> @a.Description
             </li>
         }
         </ul>

@@ -79,6 +79,33 @@ namespace Agribusiness.Web.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to AS.
+        /// </summary>
+        public static string Communication_Assistant {
+            get {
+                return ResourceManager.GetString("Communication_Assistant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CA.
+        /// </summary>
+        public static string Communication_CCAssistant {
+            get {
+                return ResourceManager.GetString("Communication_CCAssistant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DR.
+        /// </summary>
+        public static string Communication_Directly {
+            get {
+                return ResourceManager.GetString("Communication_Directly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CatbertCritical.
         /// </summary>
         public static string Key_CatbertCritical {

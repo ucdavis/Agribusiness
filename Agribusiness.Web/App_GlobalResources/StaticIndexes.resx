@@ -123,6 +123,15 @@
   <data name="Address_Courier" xml:space="preserve">
     <value>C</value>
   </data>
+  <data name="Communication_Assistant" xml:space="preserve">
+    <value>AS</value>
+  </data>
+  <data name="Communication_CCAssistant" xml:space="preserve">
+    <value>CA</value>
+  </data>
+  <data name="Communication_Directly" xml:space="preserve">
+    <value>DR</value>
+  </data>
   <data name="Key_CatbertCritical" xml:space="preserve">
     <value>CatbertCritical</value>
   </data>
