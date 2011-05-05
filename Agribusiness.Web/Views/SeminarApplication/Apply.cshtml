@@ -257,7 +257,7 @@
             </li>
             <li><div class="editor-label reuqired">@Html.LabelFor(a=>a.Application.Country)<span>*</span></div>
                 <div class="editor-field">
-                    @this.Select("Application.Country").Options(Model.Countries, x=>x.Id, x=>x.Name).FirstOption("--Select a Country--").Selected(Model.Application.Country != null ? Model.Application.Country.Id ? "USA")
+                    @this.Select("Application.Country").Options(Model.Countries, x=>x.Id, x=>x.Name).FirstOption("--Select a Country--").Selected(Model.Application.Country != null ? Model.Application.Country.Id : "USA")
                     @Html.ValidationMessageFor(a=>a.Application.Country)
                 </div>
             </li>

@@ -57,7 +57,7 @@ namespace Agribusiness.Web.Models
             var firms = new List<Firm>(firmService.GetAllFirms());
             firms.Add(new Firm(){Name="Other (Not Listed)"});
 
-            viewModel.Firms = firms;
+            viewModel.Firms = firms.OrderBy(a=>a.Name).ToList();
 
             return viewModel;
         }
