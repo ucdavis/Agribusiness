@@ -117,12 +117,44 @@ namespace Agribusiness.Web.Controllers
 
         [HttpPost]
         [MembershipUserOnly]
-        public ActionResult Apply(Application application, HttpPostedFileBase file)
+        public ActionResult Apply(Application application, int communicationOption, HttpPostedFileBase file)
         {
             ModelState.Clear();
 
             application.Seminar = _seminarService.GetCurrent();
             application.User = Repository.OfType<User>().Queryable.Where(a => a.LoweredUserName == CurrentUser.Identity.Name.ToLower()).FirstOrDefault();
+
+            switch(communicationOption)
+            {
+                case (int)ContactOption.Assistant:
+                    application.ContactAssistant = true;
+                    break;
+                case (int)ContactOption.CCAssistant:
+                    application.CarbonCopyAssistant = true;
+                    break;
+                default:
+                    application.ContactAssistant = false;
+                    application.CarbonCopyAssistant = false;
+                    break;
+            }
+
+            if (application.ContactAssistant || application.CarbonCopyAssistant)
+            {
+                if (string.IsNullOrWhiteSpace(application.AssistantName))
+                {
+                    ModelState.AddModelError("Assistant Name", "Becuase of your communication preference an Assistant Name is required.");
+                }
+
+                if (string.IsNullOrWhiteSpace(application.AssistantPhone))
+                {
+                    ModelState.AddModelError("Assistant Name", "Becuase of your communication preference an Assistant Phone is required.");
+                }
+
+                if (string.IsNullOrWhiteSpace(application.AssistantEmail))
+                {
+                    ModelState.AddModelError("Assistant Name", "Becuase of your communication preference an Assistant Email is required.");
+                }
+            }
 
             if (file != null)
             {

@@ -279,6 +279,21 @@
         </ul>
 
     </fieldset>
+    
+    <fieldset>
+        <legend>Communication Option</legend>
+
+        <ul>
+        @foreach(var a in Model.ContactOptions)
+        {
+            <li>
+            <input type="radio" name="communicationOption" value='@a.Key' /> @a.Value
+            </li>
+        }
+        </ul>
+
+    </fieldset>
+        
     <fieldset>
         <legend>Assistant</legend>
             <ul>

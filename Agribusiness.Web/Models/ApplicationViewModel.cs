@@ -20,6 +20,8 @@ namespace Agribusiness.Web.Models
         public IEnumerable<Firm> Firms { get; set; }
         public bool HasPhoto { get; set; }
 
+        public List<KeyValuePair<int, string>> ContactOptions { get; set; }
+
         public static ApplicationViewModel Create(IRepository repository, IFirmService firmService, string userId, Application application = null)
         {
             Check.Require(repository != null, "Repository must be supplied");
@@ -58,6 +60,11 @@ namespace Agribusiness.Web.Models
             firms.Add(new Firm(){Name="Other (Not Listed)"});
 
             viewModel.Firms = firms.OrderBy(a=>a.Name).ToList();
+
+            viewModel.ContactOptions = new List<KeyValuePair<int, string>>();
+            viewModel.ContactOptions.Add(new KeyValuePair<int, string>((int)ContactOption.Directly, "Contact Me Directly"));
+            viewModel.ContactOptions.Add(new KeyValuePair<int, string>((int)ContactOption.Assistant, "All Contact through Assistant"));
+            viewModel.ContactOptions.Add(new KeyValuePair<int, string>((int)ContactOption.Directly, "Contact Me Directly, CC Assistant"));
 
             return viewModel;
         }
