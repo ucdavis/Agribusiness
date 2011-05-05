@@ -215,6 +215,12 @@
                     @Html.ValidationMessageFor(a=>a.Application.FirmPhone)
                 </div>
             </li>
+            <li><div class="editor-label">@Html.LabelFor(model=>model.Application.FirmPhoneExt)</div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(a => a.Application.FirmPhoneExt)
+                    @Html.ValidationMessageFor(a =>a.Application.FirmPhoneExt)
+                </div>
+            </li>
         </ul>
 
         @* Always need to fill in the address information *@

@@ -20,6 +20,7 @@
     [FirmZip]                   VARCHAR (10)     NULL,
     [FirmCountry]               CHAR (3)         NULL,
     [FirmPhone]                 VARCHAR (15)     NULL,
+    [FirmPhoneExt]              VARCHAR (10)     NULL,
     [Website]                   VARCHAR (200)    NULL,
     [Responsibilities]          VARCHAR (MAX)    NOT NULL,
     [JobTitle]                  VARCHAR (50)     NOT NULL,
@@ -32,6 +33,8 @@
     [DecisionReason]            VARCHAR (MAX)    NULL,
     [ContactInformationRelease] BIT              NOT NULL
 );
+
+
 
 
 

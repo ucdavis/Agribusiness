@@ -23,6 +23,8 @@
         <li class="title">@Model.Title</li>
     </ul>
 
+    @if (Model.Firm != null)
+    { 
     <fieldset>
         <legend>Firm</legend>
 
@@ -35,7 +37,8 @@
             </li>
         </ul>
     </fieldset>
-
+    }
+    
     <fieldset>
         <legend>Contact Information</legend>
 
@@ -67,10 +70,13 @@
                     <div class="display-details">@a.City</div>
                 </li>
                 <li><div class="display-label">State:</div>
-                    <div class="display-details">@a.State.Name</div>
+                    <div class="display-details">@a.State</div>
                 </li>
                 <li><div class="display-label">Zip:</div>
                     <div class="display-details">@a.Zip</div>
+                </li>
+                <li><div class="display-label">Country:</div>
+                    <div class="display-details">@a.Country.Name</div>
                 </li>
             </ul>
         }

@@ -38,8 +38,8 @@ namespace Agribusiness.Core.Domain
         [StringLength(10)]
         public virtual string Zip { get; set; }
 
+        [Required]
         public virtual Country Country { get; set; }
-
         [Required]
         public virtual AddressType AddressType { get; set; }
         [Required]

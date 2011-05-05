@@ -42,6 +42,7 @@ namespace Agribusiness.Web.Services
                 FirstName = application.FirstName,
                 BadgeName = string.IsNullOrWhiteSpace(application.BadgeName) ? application.FirstName : application.BadgeName,
                 Phone = application.FirmPhone,
+                PhoneExt = application.FirmPhoneExt,
                 User = application.User,
                 OriginalPicture = application.Photo,
                 ContentType = application.ContentType

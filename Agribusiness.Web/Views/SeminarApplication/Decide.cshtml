@@ -125,7 +125,10 @@
 		</li>
 		<li>
 			<div class="display-label">Phone:</div>
-			<div class="display-details">@Model.FirmPhone</div>
+			<div class="display-details">
+                @Model.FirmPhone
+                @if (!string.IsNullOrWhiteSpace(Model.FirmPhoneExt)) { <tex>Ext. @Model.FirmPhoneExt</tex> }
+            </div>
 		</li>
 		<li>
 			<div class="display-label">Website:</div>

@@ -43,6 +43,9 @@ namespace Agribusiness.Core.Domain
         [Required]
         [DataType(DataType.PhoneNumber)]
         public virtual string Phone { get; set; }
+        [StringLength(10)]
+        [Display(Name="Extension")]
+        public virtual string PhoneExt { get; set; }
 
         // optional fields
         [StringLength(50)]
@@ -133,7 +136,8 @@ namespace Agribusiness.Core.Domain
             Map(x => x.LastName);
             Map(x => x.FirstName);
             Map(x => x.Phone);
-            
+            Map(x => x.PhoneExt);
+
             Map(x => x.MI);
             Map(x => x.Salutation);
             Map(x => x.BadgeName);

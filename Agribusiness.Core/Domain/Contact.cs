@@ -23,9 +23,11 @@ namespace Agribusiness.Core.Domain
         #region Mapped Fields
         [Required]
         [StringLength(50)]
+        [Display(Name="First Name")]
         public virtual string FirstName { get; set; }
         [Required]
         [StringLength(50)]
+        [Display(Name="Last Name")]
         public virtual string LastName { get; set; }
         [Required]
         [DataType(DataType.PhoneNumber)]
@@ -35,6 +37,7 @@ namespace Agribusiness.Core.Domain
         public virtual string Email { get; set; }
 
         [StringLength(10)]
+        [Display(Name="Extension")]
         public virtual string Ext { get; set; }
 
         [Required]

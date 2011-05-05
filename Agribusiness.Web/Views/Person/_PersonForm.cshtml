@@ -75,6 +75,9 @@
 				    @Html.ValidationMessageFor(a=>a.Person.Phone)
                 </div>
 			</li>
+            <li><div class="editor-label">@Html.LabelFor(a=>a.Person.PhoneExt)</div>
+                <div class="editor-field">@Html.TextBoxFor(a=>a.Person.PhoneExt)</div>
+            </li>
 			<li><div class="editor-label">
                     @Html.LabelFor(a=>a.Person.CellPhone)
                 </div>
@@ -98,6 +101,7 @@
             var required = Model.Contacts[i].ContactType.Required;
             
             <h3>@Model.Contacts[i].ContactType.Name</h3>
+                        
             @Html.Hidden(string.Format("Contacts[{0}].ContactType", i), Model.Contacts[i].ContactType.Id)
             <ul>
                 <li><div class="editor-label @(required ? "required" : string.Empty)">
@@ -118,6 +122,11 @@
                     </div>
                     <div class="editor-field">@Html.TextBox(string.Format("Contacts[{0}].Phone", i), Model.Contacts[i].Phone)</div>
                 </li>
+                <li><div class="editor-label">@Html.LabelFor(a=>a.Contacts[i].Ext)</div>
+                    <div class="editor-field">
+                        @Html.TextBox(string.Format("Contacts[{0}].Ext", i), Model.Contacts[i].Ext)
+                    </div>
+                </li>
                 <li><div class="editor-label">@Html.LabelFor(a => a.Contacts[i].Email)</div>
                     <div class="editor-field">@Html.TextBox(string.Format("Contacts[{0}].Email", i), Model.Contacts[i].Email)</div>
                 </li>
@@ -130,11 +139,16 @@
         <legend>Addresses</legend>
 
 		@for (int i = 0; i < Model.Addresses.Count(); i++)
-  {
-      var required = Model.Addresses[i].AddressType.Required;
+        {
+            var required = Model.Addresses[i].AddressType.Required;
       
 			<h4>@string.Format("{0} Address", Model.Addresses[i].AddressType.Name)</h4>
   
+            if(!string.IsNullOrWhiteSpace(Model.Addresses[i].AddressType.Description))
+            {
+                <p>@Model.Addresses[i].AddressType.Description</p>
+            }
+      
 			<input type="hidden" id='@string.Format("Addresses_{0}__AddressType", i)' name='@string.Format("Addresses[{0}].AddressType", i)' value='@Model.Addresses[i].AddressType.Id' />
 			
 			<ul>
@@ -170,10 +184,6 @@
                     </div>
                     <div class="editor-field">
                         @Html.TextBox(string.Format("Addresses[{0}].State", i), Model.Addresses[i].State)
-					@*@{ var ss = Model.Addresses.ElementAtOrDefault(i);
-        var selectedState = ss.State != null ? ss.State.Id : string.Empty;
-					   }
-					@this.Select(string.Format("Addresses[{0}].State", i)).Options(Model.States, x => x.Id, x => x.Name).FirstOption("--Select a State--").Selected(selectedState)*@
                     </div>
 				</li>
 				<li><div class="editor-label @(required ? "required" : string.Empty)">
@@ -193,7 +203,7 @@
                     <div class="editor-field">
                         @{  var ss = Model.Addresses.ElementAtOrDefault(i);
                             var country = ss.Country;}
-                        @this.Select(string.Format("Address[{0}].Country", i)).Options(Model.Countries, x=>x.Id, x=>x.Name).FirstOption("--Select a Country--").Selected(country != null ? country.Id : "USA")
+                        @this.Select(string.Format("Address[{0}].Country", i)).Options(Model.Countries, x => x.Id, x => x.Name).FirstOption("--Select a Country--").Selected(country != null ? country.Id : "USA")
                     </div>
                 </li>
 			</ul>
@@ -228,9 +238,9 @@
 
             var displayExisting = !existing ? "display:none;" : "";
             var displayNew = !newFirm ? "display:none;" : "";
-            
+
             var combined = existing && newFirm ? "display:none;" : "";
-            
+
             var existingFirmName = Model.Firm != null ? Model.Firm.Name : string.Empty;
         }
 
@@ -303,7 +313,7 @@
 
                 @if (Model.SeminarPerson == null)
                 {
-                @Html.ActionLink("Cancel", "Index", "Attendee", new { id=Model.Seminar.Id }, new { })
+                @Html.ActionLink("Cancel", "Index", "Attendee", new { id = Model.Seminar.Id }, new { })
                 }
                 else
                 { 

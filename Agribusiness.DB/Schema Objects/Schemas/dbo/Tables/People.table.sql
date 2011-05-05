@@ -6,6 +6,7 @@
     [Salutation]         VARCHAR (5)      NULL,
     [BadgeName]          VARCHAR (50)     NULL,
     [Phone]              VARCHAR (15)     NOT NULL,
+    [PhoneExt]           VARCHAR (10)     NULL,
     [CellPhone]          VARCHAR (15)     NULL,
     [Fax]                VARCHAR (15)     NULL,
     [Biography]          VARCHAR (MAX)    NULL,
@@ -17,6 +18,8 @@
     [ContentType]        VARCHAR (20)     NULL,
     [archive_id]         UNIQUEIDENTIFIER NULL
 );
+
+
 
 
 

@@ -7,8 +7,13 @@
     [Zip]           VARCHAR (15)  NOT NULL,
     [AddressTypeId] CHAR (1)      NOT NULL,
     [PersonId]      INT           NOT NULL,
-    [Country]       VARCHAR (50)  NULL
+    [CountryId]     CHAR (3)      NULL,
+    [Description]   VARCHAR (200) NULL
 );
+
+
+
+
 
 
 

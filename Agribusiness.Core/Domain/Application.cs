@@ -84,6 +84,8 @@ namespace Agribusiness.Core.Domain
         [DataType(DataType.PhoneNumber)]
         [Display(Name = "Phone Number")]
         public virtual string FirmPhone { get; set; }
+        [StringLength(10)]
+        public virtual string FirmPhoneExt { get; set; }
         [DataType(DataType.Url)]
         [StringLength(200)]
         public virtual string Website { get; set; }
@@ -158,6 +160,7 @@ namespace Agribusiness.Core.Domain
             Map(x => x.FirmZip);
             References(x => x.Country).Column("FirmCountry");
             Map(x => x.FirmPhone);
+            Map(x => x.FirmPhoneExt);
             Map(x => x.Website);
             Map(x => x.Responsibilities);
             Map(x => x.JobTitle);

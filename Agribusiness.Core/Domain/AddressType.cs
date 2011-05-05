@@ -10,6 +10,9 @@ namespace Agribusiness.Core.Domain
         [Required]
         public virtual string Name { get; set; }
 
+        [StringLength(200)]
+        public virtual string Description { get; set; }
+
         public virtual bool Required { get; set; }
     }
 
@@ -22,6 +25,7 @@ namespace Agribusiness.Core.Domain
             Id(x => x.Id);
             Map(x => x.Name);
             Map(x => x.Required);
+            Map(x => x.Description);
         }
     }
 }
