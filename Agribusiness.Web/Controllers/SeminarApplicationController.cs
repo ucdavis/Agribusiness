@@ -153,12 +153,12 @@ namespace Agribusiness.Web.Controllers
 
             application.TransferValidationMessagesTo(ModelState);
 
-            //if (ModelState.IsValid)
-            //{
-            //    _applicationRepository.EnsurePersistent(application);
-            //    Message = string.Format(Messages.Saved, "Application");
-            //    return this.RedirectToAction<AuthorizedController>(a => a.Index());
-            //}
+            if (ModelState.IsValid)
+            {
+                _applicationRepository.EnsurePersistent(application);
+                Message = string.Format(Messages.Saved, "Application");
+                return this.RedirectToAction<AuthorizedController>(a => a.Index());
+            }
 
             var viewModel = ApplicationViewModel.Create(Repository, _firmService, CurrentUser.Identity.Name, application);
             return View(viewModel);

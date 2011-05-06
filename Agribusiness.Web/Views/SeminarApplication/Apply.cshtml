@@ -98,7 +98,7 @@
 
 }
 
-@Html.ValidationSummary("Please correct the following errors:")
+@Html.ValidationSummary(false, "Please correct the following errors:")
 
 @using (Html.BeginForm("Apply", "SeminarApplication", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {

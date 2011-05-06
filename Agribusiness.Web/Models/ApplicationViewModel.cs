@@ -58,9 +58,8 @@ namespace Agribusiness.Web.Models
 
             // get the firms and add the "Other" option
             var firms = new List<Firm>(firmService.GetAllFirms());
-            firms.Add(new Firm(){Name="Other (Not Listed)"});
-
             viewModel.Firms = firms.OrderBy(a=>a.Name).ToList();
+            firms.Add(new Firm() { Name = "Other (Not Listed)" });
 
             return viewModel;
         }
