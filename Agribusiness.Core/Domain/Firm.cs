@@ -7,7 +7,10 @@ namespace Agribusiness.Core.Domain
 {
     public class Firm : DomainObject
     {
-        public Firm() { }
+        public Firm()
+        {
+            FirmCode = Guid.NewGuid();
+        }
 
         /// <summary>
         /// Constructor for creating/updating
@@ -32,6 +35,9 @@ namespace Agribusiness.Core.Domain
         public virtual string Description { get; set; }
 
         public virtual bool Review { get; set; }
+        [Display(Name="Web Address")]
+        [StringLength(200)]
+        public virtual string WebAddress { get; set; }
     }
 
     public class FirmMap : ClassMap<Firm>
@@ -43,6 +49,7 @@ namespace Agribusiness.Core.Domain
             Map(x => x.Description);
             Map(x => x.FirmCode);
             Map(x => x.Review);
+            Map(x => x.WebAddress);
         }
     }
 }
