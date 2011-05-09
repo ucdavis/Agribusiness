@@ -409,3 +409,21 @@ if not exists (select * from countries where id = 'YEM') begin insert into count
 if not exists (select * from countries where id = 'ZAF') begin insert into countries (id, name) values ('ZAF', 'South Africa') end
 if not exists (select * from countries where id = 'ZMB') begin insert into countries (id, name) values ('ZMB', 'Zambia') end
 if not exists (select * from countries where id = 'ZWE') begin insert into countries (id, name) values ('ZWE', 'Zimbabwe') end
+
+if not exists (select * from CommunicationOptions where id = 'AS') 
+begin
+	insert into CommunicationOptions(Id, Name, Description, RequiresAssistant)
+	values ('AS', 'Assistant', 'Send all communications to assistant', 1)
+end
+
+if not exists (select * from CommunicationOptions where id = 'CA')
+begin
+	insert into CommunicationOptions(Id, Name, Description, RequiresAssistant)
+	values('CA', 'Carbon Copy Assistant', 'CC all communications to assistant', 1)
+end
+
+if not exists (select * from CommunicationOptions where id = 'DR')
+begin
+	insert into CommunicationOptions(Id, Name, Description, RequiresAssistant)
+	values('DR', 'Directly', 'Contact Directly', 0)
+end
