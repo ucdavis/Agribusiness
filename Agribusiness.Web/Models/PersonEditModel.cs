@@ -18,6 +18,7 @@ namespace Agribusiness.Web.Models
 
         public string FirmName { get; set; }
         public string FirmDescription { get; set; }
+        public string FirmWebAddress { get; set; }
         public string Title { get; set; }
 
         public PersonEditModel()

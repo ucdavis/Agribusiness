@@ -266,6 +266,11 @@
                     @Html.TextArea("FirmDescription", newFirm ? Model.Firm.Description : string.Empty)
                 </div>
             </li>
+            <li><div class="editor-label">@Html.LabelFor(a=>a.Firm.WebAddress)</div>
+                <div class="editor-field">
+                    @Html.TextBox("FirmWebAddress", newFirm ? Model.Firm.WebAddress : string.Empty)
+                </div>
+            </li>
         </ul>
 
         @* Job Information *@
@@ -339,6 +344,7 @@
         $("#firm_dialog").dialog({
             autoOpen: false,
             modal: true,
+            width: 800,
             buttons: {
                 "Confirm": selectFirm,
                 Cancel: function () { $(this).dialog("close"); }

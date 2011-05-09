@@ -13,7 +13,39 @@
     </ul>
 }
 
-@using (Html.BeginForm())
+<table class="default_table nolasticon">
+
+    <thead>
+        <tr>
+            <th></th>
+            <th>First Name</th>
+            <th>MI</th>
+            <th>Last Name</th>
+            <th>Title</th>
+            <th>Firm</th>
+        </tr>
+    </thead>
+
+    <tbody>
+    @foreach (var a in Model.DisplayPeople)
+    { 
+        <tr>
+            <td>
+                <a href='@Url.Action("AddConfirm", new {id=Model.Seminar.Id, personId=a.Person.Id})'>
+                    <img src='@Url.Image("details.png")' alt='@string.Format("Select {0} to be added.", a.Person.FullName)' />
+                </a>
+            </td>
+            <td>@a.Person.FirstName</td>
+            <td>@a.Person.MI</td>
+            <td>@a.Person.LastName</td>
+            <td>@a.Title</td>
+            <td>@(a.Firm != null ? a.Firm.Name : "n/a")</td>
+        </tr>        
+    }
+    </tbody>
+</table>
+
+@*@using (Html.BeginForm())
 { 
     @Html.AntiForgeryToken()
     @Html.ValidationSummary()
@@ -38,4 +70,4 @@
         </ul>
 
     </fieldset>
-}
+}*@

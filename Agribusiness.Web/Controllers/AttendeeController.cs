@@ -9,6 +9,7 @@ using Agribusiness.WS;
 using Resources;
 using UCDArch.Core.PersistanceSupport;
 using MvcContrib;
+using UCDArch.Web.Helpers;
 
 namespace Agribusiness.Web.Controllers
 {
@@ -22,18 +23,23 @@ namespace Agribusiness.Web.Controllers
         private readonly IRepositoryWithTypedId<User, Guid> _userRepository;
         private readonly IRepository<SeminarPerson> _seminarPersonRepository;
         private readonly IRepository<Person> _personRepository;
+        private readonly IRepository<Firm> _firmRepository;
         private readonly IPersonService _personService;
         private readonly IRegistrationService _registrationService;
+        private readonly IFirmService _firmService;
 
         public AttendeeController(IRepository<Seminar> seminarRespository, IRepositoryWithTypedId<User, Guid> userRepository, IRepository<SeminarPerson> seminarPersonRepository
-                                , IRepository<Person> personRepository, IPersonService personService, IRegistrationService registrationService)
+                                , IRepository<Person> personRepository, IRepository<Firm> firmRepository
+                                , IPersonService personService, IRegistrationService registrationService, IFirmService firmService)
         {
             _seminarRespository = seminarRespository;
             _userRepository = userRepository;
             _seminarPersonRepository = seminarPersonRepository;
             _personRepository = personRepository;
+            _firmRepository = firmRepository;
             _personService = personService;
             _registrationService = registrationService;
+            _firmService = firmService;
         }
 
         /// <summary>
@@ -116,6 +122,7 @@ namespace Agribusiness.Web.Controllers
             return View(viewModel);
         }
 
+        /*
         [UserOnly]
         [HttpPost]
         public ActionResult Add(int id, int personId)
@@ -152,6 +159,86 @@ namespace Agribusiness.Web.Controllers
             }
 
             var viewModel = AddAttendeeViewModel.Create(Repository, _personService, seminar, person.Id);
+            return View(viewModel);
+        }
+        */
+
+        [UserOnly]
+        public ActionResult AddConfirm(int id, int personId)
+        {
+            var seminar = _seminarRespository.GetNullableById(id);
+            
+            if (seminar == null)
+            {
+                Message = string.Format(Messages.NotFound, "Seminar", id);
+                return this.RedirectToAction<SeminarController>(a => a.Index());
+            }
+
+            var person = _personRepository.GetNullableById(personId);
+
+            if (person == null)
+            {
+                Message = string.Format(Messages.NotFound, "person", personId);
+                return this.RedirectToAction(a => a.Add(id));
+            }
+            
+            var seminarPerson = person.GetLatestRegistration();
+
+            if (seminarPerson != null && seminarPerson.Seminar == seminar)
+            {
+                Message = string.Format("{0} is already part of this seminar and cannot be added.", person.FullName);
+                return this.RedirectToAction(a => a.Add(id));
+            }
+
+            var viewModel = AddConfirmViewModel.Create(Repository, _firmService, seminar, person, seminarPerson, seminarPerson != null ? seminarPerson.Firm : null);
+            return View(viewModel);
+        }
+
+        [UserOnly]
+        [HttpPost]
+        public ActionResult AddConfirm(int id, int personId, SeminarPerson seminarPerson, Firm firm)
+        {
+            var seminar = _seminarRespository.GetNullableById(id);
+
+            if (seminar == null)
+            {
+                Message = string.Format(Messages.NotFound, "Seminar", id);
+                return this.RedirectToAction<SeminarController>(a => a.Index());
+            }
+
+            var person = _personRepository.GetNullableById(personId);
+
+            if (person == null)
+            {
+                Message = string.Format(Messages.NotFound, "person", personId);
+                return this.RedirectToAction(a => a.Add(id));
+            }
+
+            if (firm.Id > 0)
+            {
+                seminarPerson.Firm = _firmRepository.GetNullableById(firm.Id);
+            }
+            else
+            {
+                seminarPerson.Firm = firm;
+            }
+
+            // fill in the values
+            seminarPerson.Person = person;
+            seminarPerson.Seminar = seminar;
+
+            ModelState.Clear();
+            seminarPerson.TransferValidationMessagesTo(ModelState);
+            seminarPerson.Firm.TransferValidationMessagesTo(ModelState);
+
+            if (ModelState.IsValid)
+            {
+                _seminarPersonRepository.EnsurePersistent(seminarPerson);
+                Message = string.Format("{0} has been added to the {1} seminar.", person.FullName, seminar.Year);
+                return this.RedirectToAction(a => a.Add(id));
+            }
+
+            var viewModel = AddConfirmViewModel.Create(Repository, _firmService, seminar, person, seminarPerson, seminarPerson.Firm);
             return View(viewModel);
         }
 

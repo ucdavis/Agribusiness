@@ -39,7 +39,7 @@ namespace Agribusiness.Web.Services
                            select b.Max(c => c.Id)).ToList();
 
             // get the firms
-            var firms = _firmRepository.Queryable.Where(a => firmIds.Contains(a.Id)).ToList();
+            var firms = _firmRepository.Queryable.Where(a => firmIds.Contains(a.Id)).OrderBy(a=>a.Name).ToList();
 
             return firms;
         }

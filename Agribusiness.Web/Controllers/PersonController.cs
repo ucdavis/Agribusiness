@@ -639,7 +639,7 @@ namespace Agribusiness.Web.Controllers
             SetContacts(person, personEditModel.Contacts, ModelState);
             SetCommodities(seminarPerson, personEditModel.Commodities);
 
-            seminarPerson.Firm = personEditModel.Firm ?? new Firm(personEditModel.FirmName, personEditModel.FirmDescription);
+            seminarPerson.Firm = personEditModel.Firm ?? new Firm(personEditModel.FirmName, personEditModel.FirmDescription) {WebAddress = personEditModel.FirmWebAddress};
 
             // deal with the image))
             if (profilePic != null)

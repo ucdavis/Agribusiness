@@ -73,6 +73,26 @@ namespace Agribusiness.Web.Services
         }
 
         /// <summary>
+        /// Gets a display list of people who are not currently in a specific seminar
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public IEnumerable<DisplayPerson> GetDisplayPeopleNotInSeminar(int id)
+        {
+            // ids of people who we need to exclude
+            var seminarPeeps = _seminarPersonRepository.Queryable.Where(a => a.Seminar.Id == id).Select(a=>a.Person.Id).ToList();
+
+            // people who are not in the current seminar
+            var people = _personRepository.Queryable.Where(a => !seminarPeeps.Contains(a.Id));
+
+            var test2 = people.ToList();
+
+
+            return GetDisplayPeeps(people);
+        }
+
+
+        /// <summary>
         /// Load's a person object from a user's login id
         /// 
         /// Should only be used on actions where someone is participating in seminar (not applicants)

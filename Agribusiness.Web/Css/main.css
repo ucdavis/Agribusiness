@@ -56,6 +56,9 @@ ul.copy, ol.copy{margin:0.5em 0 0.5em 5em;}
 #error_message, .field-validation-error  {border:2px solid #C83900; background-color:#fcf0f0;}
 #status_message {border:2px solid #E4C466; background-color:#fbf7eb;}
 
+.validation-summary-errors {margin: .5em 0 1em 20px; color:Red;}
+.validation-summary-errors ul {}
+
 /* ---------------------- */
 /*    main links          */
 /* ---------------------- */
@@ -93,10 +96,14 @@ form .text_field, form .text_area  {min-width:200px;}
 .required span, span.required {color:#FF0000;}
 input.button {font-size: 1.2em; padding: 8px 15px 3px;}
 
+div.editor-field input[type='text'], div.editor-field textarea {width: 200px;}
+
 /* ---------------- */
 /*   display form   */
 /* ---------------- */
-fieldset.display-form {padding: 1em;}
+fieldset.display-form {padding: 10px}
+fieldset.display-form ul {padding: 10px 50px 10px 100px;}
+fieldset.display-form ul ul {padding: 0;}
 .display-form {margin:1em 0; text-align:left;}
 .display-form ul li {list-style-type:none;margin:10px 0;}
 .display-form ul li ul li{margin:2px 0;}

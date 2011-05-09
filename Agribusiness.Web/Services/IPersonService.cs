@@ -12,6 +12,7 @@ namespace Agribusiness.Web.Services
         DisplayPerson GetDisplayPerson(Person person);
         IEnumerable<DisplayPerson> GetAllDisplayPeople();
         IEnumerable<DisplayPerson> GetDisplayPeopleForSeminar(int id);
+        IEnumerable<DisplayPerson> GetDisplayPeopleNotInSeminar(int id);
 
         Person LoadPerson(string loginId);
         bool HasAccess(string loginId, int seminarId);
