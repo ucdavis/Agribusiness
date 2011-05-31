@@ -36,6 +36,8 @@ namespace Agribusiness.Core.Domain
         public virtual DateTime DateTime { get; set; }
         [Required]
         public virtual string NotifiedBy { get; set; }
+
+        public virtual string Comments { get; set; }
     }
 
     public class NotificationTrackingMap : ClassMap<NotificationTracking>
@@ -53,6 +55,8 @@ namespace Agribusiness.Core.Domain
 
             Map(x => x.DateTime);
             Map(x => x.NotifiedBy);
+
+            Map(x => x.Comments);
         }
     }
 
