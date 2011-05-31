@@ -331,6 +331,41 @@ namespace Agribusiness.Web.Controllers
 
         [UserOnly]
         [HttpPost]
+        public ActionResult UpdateHotel(int personId, int seminarId, DateTime? checkin, DateTime? checkout, string confirmation)
+        {
+            var person = _personRepository.GetNullableById(personId);
+
+            if (person == null)
+            {
+                Message = string.Format(Messages.NotFound, "Person", personId);
+                return this.RedirectToAction(a => a.Index());
+            }
+
+            var reg = person.GetLatestRegistration();
+            var seminar = _seminarService.GetCurrent();
+
+            // check if user is registered for the current seminar
+            if (reg.Seminar != seminar)
+            {
+                Message = "User is not a part of the current seminar.  Coupon cannot be created.";
+                return this.RedirectToAction(a => a.AdminEdit(person.User.Id, seminarId));
+            }
+
+            // update the fields
+            reg.HotelCheckIn = checkin;
+            reg.HotelCheckOut = checkout;
+            reg.HotelConfirmation = confirmation;
+
+            // save
+            _seminarPersonRepository.EnsurePersistent(reg);
+
+            // redirect into the tab
+            var url = Url.Action("AdminEdit", new {id = person.User.Id, seminarId = seminarId});
+            return Redirect(string.Format("{0}#hotel", url));
+        }
+
+        [UserOnly]
+        [HttpPost]
         public ActionResult CancelCoupon(int personId, int seminarId)
         {
             var person = _personRepository.GetNullableById(personId);

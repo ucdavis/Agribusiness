@@ -45,7 +45,7 @@
     <file relUrl="bin/Spring.Aop.dll" publishTime="04/25/2011 07:41:56" />
     <file relUrl="Css/images/ui-bg_highlight-soft_0_014a81_1x100.png" publishTime="04/19/2011 07:55:31" />
     <file relUrl="Views/Session/Edit.cshtml" publishTime="04/26/2011 14:38:10" />
-    <file relUrl="bin/Agribusiness.Core.dll" publishTime="05/09/2011 12:30:36" />
+    <file relUrl="bin/Agribusiness.Core.dll" publishTime="05/09/2011 13:23:22" />
     <file relUrl="Scripts/jquery-1.4.4-vsdoc.js" publishTime="04/19/2011 07:55:31" />
     <file relUrl="bin/DataAnnotationsExtensions.dll" publishTime="04/19/2011 07:55:33" />
     <file relUrl="bin/Newtonsoft.Json.dll" publishTime="04/25/2011 07:41:56" />
@@ -66,7 +66,7 @@
     <file relUrl="Scripts/MicrosoftMvcValidation.js" publishTime="04/19/2011 07:55:31" />
     <file relUrl="Views/Shared/_Navigation.cshtml" publishTime="04/22/2011 11:18:02" />
     <file relUrl="bin/Spring.Core.dll" publishTime="04/25/2011 07:41:56" />
-    <file relUrl="Web.config" publishTime="05/09/2011 12:34:27" />
+    <file relUrl="Web.config" publishTime="05/09/2011 13:28:21" />
     <file relUrl="Views/Commodity/Edit.cshtml" publishTime="04/25/2011 12:46:39" />
     <file relUrl="bin/MvcContrib.FluentHtml.dll" publishTime="04/25/2011 07:41:56" />
     <file relUrl="Scripts/MicrosoftMvcValidation.debug.js" publishTime="04/19/2011 07:55:31" />
@@ -81,7 +81,7 @@
     <file relUrl="Images/logo-ucdavis.png" publishTime="04/19/2011 07:55:31" />
     <file relUrl="Css/themes/base/images/ui-bg_glass_75_e6e6e6_1x400.png" publishTime="04/19/2011 07:55:31" />
     <file relUrl="Images/logo-caes-long-cap.png" publishTime="04/19/2011 07:55:31" />
-    <file relUrl="bin/Agribusiness.WS.dll" publishTime="05/09/2011 12:30:36" />
+    <file relUrl="bin/Agribusiness.WS.dll" publishTime="05/09/2011 13:23:23" />
     <file relUrl="Css/themes/base/images/ui-icons_454545_256x240.png" publishTime="04/19/2011 07:55:31" />
     <file relUrl="Css/images/ui-icons_014a81_256x240.png" publishTime="04/19/2011 07:55:31" />
     <file relUrl="Scripts/jquery.bt.min.js" publishTime="05/09/2011 11:56:01" />
@@ -119,7 +119,7 @@
     <file relUrl="Views/CaseStudy/_CaseStudyForm.cshtml" publishTime="04/19/2011 07:55:32" />
     <file relUrl="Views/Public/Background.cshtml" publishTime="04/19/2011 07:55:32" />
     <file relUrl="Views/Shared/_Layout.cshtml" publishTime="04/28/2011 15:34:13" />
-    <file relUrl="Views/Web.config" publishTime="05/09/2011 12:34:27" />
+    <file relUrl="Views/Web.config" publishTime="05/09/2011 13:28:21" />
     <file relUrl="Views/Seminar/Edit.cshtml" publishTime="04/26/2011 11:51:19" />
     <file relUrl="Images/email.png" publishTime="04/19/2011 07:55:31" />
     <file relUrl="Images/check.png" publishTime="04/19/2011 10:00:39" />
@@ -165,7 +165,7 @@
     <file relUrl="Scripts/jquery.validate.min.js" publishTime="04/19/2011 07:55:31" />
     <file relUrl="Views/Account/Register.cshtml" publishTime="04/19/2011 07:55:32" />
     <file relUrl="Images/comment.png" publishTime="04/19/2011 07:55:31" />
-    <file relUrl="bin/Agribusiness.Web.dll" publishTime="05/09/2011 12:30:37" />
+    <file relUrl="bin/Agribusiness.Web.dll" publishTime="05/09/2011 13:23:28" />
     <file relUrl="Views/Public/ProgramOverview.cshtml" publishTime="04/19/2011 07:55:32" />
     <file relUrl="Scripts/jquery-ui.js" publishTime="04/19/2011 07:55:31" />
     <file relUrl="Scripts/jquery.unobtrusive-ajax.min.js" publishTime="04/19/2011 07:55:31" />

@@ -49,6 +49,14 @@ namespace Agribusiness.Core.Domain
         public virtual string TransactionId { get; set; }
         public virtual string Comments { get; set; }
 
+        [Display(Name="Check-In")]
+        public virtual DateTime? HotelCheckIn { get; set; }
+        [Display(Name="Check-Out")]
+        public virtual DateTime? HotelCheckOut { get; set; }
+        [StringLength(20)]
+        [Display(Name="Confirmation")]
+        public virtual string HotelConfirmation { get; set; }
+
         public virtual IList<Session> Sessions { get; set; }
         public virtual IList<SeminarRole> SeminarRoles { get; set; }
         public virtual IList<Commodity> Commodities { get; set; }
@@ -80,6 +88,10 @@ namespace Agribusiness.Core.Domain
             Map(x => x.ContactInformationRelease);
             Map(x => x.TransactionId);
             Map(x => x.Comments);
+
+            Map(x => x.HotelCheckIn);
+            Map(x => x.HotelCheckOut);
+            Map(x => x.HotelConfirmation);
 
             HasManyToMany(x => x.Sessions).ParentKeyColumn("SeminarPersonId")
                 .ChildKeyColumn("SessionId")
