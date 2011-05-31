@@ -11,8 +11,13 @@
     [Invite]                    BIT           NOT NULL,
     [ContactInformationRelease] BIT           NOT NULL,
     [TransactionId]             VARCHAR (20)  NULL,
-    [Comments]                  VARCHAR (MAX) NULL
+    [Comments]                  VARCHAR (MAX) NULL,
+    [HotelCheckIn]              DATE          NULL,
+    [HotelCheckOut]             DATE          NULL,
+    [HotelConfirmation]         VARCHAR (20)  NULL
 );
+
+
 
 
 

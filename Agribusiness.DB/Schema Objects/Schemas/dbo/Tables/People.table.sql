@@ -16,8 +16,11 @@
     [MainProfilePicture]    VARBINARY (MAX)  NULL,
     [ThumbnailPicture]      VARBINARY (MAX)  NULL,
     [ContentType]           VARCHAR (20)     NULL,
-    [CommunicationOptionId] CHAR (2)         NOT NULL
+    [CommunicationOptionId] CHAR (2)         NOT NULL,
+    [AutomatedNotification] BIT              NOT NULL
 );
+
+
 
 
 
