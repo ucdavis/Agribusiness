@@ -29,8 +29,10 @@ namespace Agribusiness.Core.Domain
         public virtual Person Person { get; set; }
         public virtual Application Application { get; set; }
         [Required]
+        [Display(Name="Method")]
         public virtual NotificationMethod NotificationMethod { get; set; }
         [Required]
+        [Display(Name="Type")]
         public virtual NotificationType NotificationType { get; set; }
 
         public virtual DateTime DateTime { get; set; }

@@ -63,6 +63,7 @@
             <li><a href="#roles">Roles</a></li>
             <li><a href="#hotel">Hotel</a></li>
             <li><a href="#comments">Comments</a></li>
+            <li><a href="#notifications">Notifications</a></li>
         </ul>
 
         <div id="profile">
@@ -258,6 +259,39 @@
             { 
                 @Html.TextArea("comments", Model.PersonViewModel.SeminarPerson.Comments, new { @disabled = "true", @style = "height: 250px; width: 700px; border: 1px solid lightgray;" })
             }
+        </div>
+        <div id="notifications">
+
+            <div class="reg-navigation">
+                <ul>
+                    <li>@Html.ActionLink("Add Notification", "Create", "Notification", new {personId = Model.PersonViewModel.Person.Id, seminarId = Model.SeminarId}, new {})</li>
+                </ul>
+            </div>
+
+            <div style="clear:both;"></div>
+
+            <table class="noicon default_table">
+                <thead>
+                    <tr>
+                        <th>Date/Time</th>
+                        <th>Method</th>
+                        <th>Type</th>
+                        <th>Comments</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var a in Model.PersonViewModel.Person.NotificationTrackings)
+                    { 
+                        <tr>
+                            <td>@a.DateTime.ToString("g")</td>
+                            <td>@a.NotificationMethod.Name</td>
+                            <td>@a.NotificationType.Name</td>
+                            <td>@a.Comments</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
         </div>
     </div>
 </div>

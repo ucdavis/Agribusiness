@@ -121,6 +121,7 @@ namespace Agribusiness.Core.Domain
 
         public virtual IList<Commodity> Commodities { get; set; }
 
+        public virtual IList<NotificationTracking> NotificationTrackings { get; set; }
 
         #region Calculated Fields
 
@@ -181,6 +182,8 @@ namespace Agribusiness.Core.Domain
 
             References(x => x.User);
             References(x => x.Seminar);
+
+            HasMany(a => a.NotificationTrackings).Inverse().Cascade.AllDeleteOrphan();
 
             HasManyToMany(x => x.Commodities).ParentKeyColumn("ApplicationId")
                 .ChildKeyColumn("CommodityId")

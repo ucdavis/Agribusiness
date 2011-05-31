@@ -90,6 +90,8 @@ namespace Agribusiness.Core.Domain
         public virtual IList<Contact> Contacts { get; set; }
         public virtual IList<CaseStudy> CaseStudyExecutive { get; set; }
         public virtual IList<CaseStudy> CaseStudyAuthor { get; set; }
+
+        public virtual IList<NotificationTracking> NotificationTrackings { get; set; }
         #endregion
         #endregion
 
@@ -168,6 +170,7 @@ namespace Agribusiness.Core.Domain
             HasMany(x => x.SeminarPeople).Inverse().Cascade.AllDeleteOrphan();
             HasMany(a => a.Addresses).Inverse().Cascade.AllDeleteOrphan();
             HasMany(a => a.Contacts).Inverse().Cascade.AllDeleteOrphan();
+            HasMany(a => a.NotificationTrackings).Inverse().Cascade.AllDeleteOrphan();
 
             HasManyToMany(x => x.CaseStudyExecutive)
                 .ParentKeyColumn("PersonId")

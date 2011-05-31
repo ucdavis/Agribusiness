@@ -1,0 +1,44 @@
+﻿@model NotificationTrackingViewModel
+
+@{
+    ViewBag.Title = "Create Notification Tracking";
+    ViewBag.SubPageTitle = "Create Notification Tracking";
+}
+
+@section SubPageNavigation{
+    <ul class="navigation">
+        <li>@Html.ActionLink("Back to Profile", "AdminEdit", "Person", new {id=Model.UserId, seminarId=Model.SeminarId}, new {})</li>
+    </ul>
+}
+
+@using (Html.BeginForm())
+{ 
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(a=>a.NotificationTracking.NotifiedBy)        
+    <fieldset>
+
+        <ul>
+            <li><div class="editor-label required">@Html.LabelFor(a=>a.NotificationTracking.NotificationMethod)<span>*</span></div>
+                <div class="editor-field">
+                    @this.Select("NotificationTracking.NotificationMethod").Selected(Model.NotificationTracking.NotificationMethod != null ? Model.NotificationTracking.NotificationMethod.Id : string.Empty).Options(Model.NotificationMethods, x=>x.Id, x=>x.Name).FirstOption("--Select a Method--")
+                </div>
+            </li>
+            <li><div class="editor-label required">@Html.LabelFor(a=>a.NotificationTracking.NotificationType)<span>*</span></div>
+                <div class="editor-field">
+                    @this.Select("NotificationTracking.NotificationType").Selected(Model.NotificationTracking.NotificationType != null ? Model.NotificationTracking.NotificationType.Id : string.Empty).Options(Model.NotificationTypes, x=>x.Id, x=>x.Name).FirstOption("--Select a Type--")
+                </div>
+            </li>
+            <li><div class="editor-label required">@Html.LabelFor(a=>a.NotificationTracking.Comments)</div>
+                <div class="editor-field">
+                    @Html.TextAreaFor(a=>a.NotificationTracking.Comments)
+                </div>
+            </li>
+            <li><div class="editor-label">&nbsp;</div>
+                <div class="editor-field">
+                    <input type="submit" class="button" value="Save" /> | @Html.ActionLink("Cancel", "AdminEdit", "Person", new {id=Model.UserId, seminarId=Model.SeminarId}, new {})
+                </div>
+            </li>
+        </ul>
+
+    </fieldset>
+}

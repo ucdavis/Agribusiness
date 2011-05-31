@@ -128,6 +128,7 @@
     <Compile Include="Controllers\Filters\RoleFilter.cs" />
     <Compile Include="Controllers\FirmController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\PersonController.cs" />
     <Compile Include="Controllers\PictureTestController.cs" />
     <Compile Include="Controllers\PublicController.cs" />
@@ -152,6 +153,7 @@
     <Compile Include="Models\FirmListViewModel.cs" />
     <Compile Include="Models\FirmViewModel.cs" />
     <Compile Include="Models\MySeminarViewModel.cs" />
+    <Compile Include="Models\NotificationTrackingViewModel.cs" />
     <Compile Include="Models\PersonEditModel.cs" />
     <Compile Include="Models\PersonListViewModel.cs" />
     <Compile Include="Models\ProfileViewModel.cs" />
@@ -368,6 +370,7 @@
     <Content Include="Web.Test.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
+    <Content Include="Views\Notification\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">
