@@ -410,6 +410,9 @@ if not exists (select * from countries where id = 'ZAF') begin insert into count
 if not exists (select * from countries where id = 'ZMB') begin insert into countries (id, name) values ('ZMB', 'Zambia') end
 if not exists (select * from countries where id = 'ZWE') begin insert into countries (id, name) values ('ZWE', 'Zimbabwe') end
 
+/*
+	Values for communication options
+*/
 if not exists (select * from CommunicationOptions where id = 'AS') 
 begin
 	insert into CommunicationOptions(Id, Name, Description, RequiresAssistant)
@@ -426,4 +429,68 @@ if not exists (select * from CommunicationOptions where id = 'DR')
 begin
 	insert into CommunicationOptions(Id, Name, Description, RequiresAssistant)
 	values('DR', 'Directly', 'Contact Directly', 0)
+end
+
+
+/*
+	Values for static notification methods/types
+*/
+if not exists (select * from NotificationMethods where id = 'E')
+begin
+	insert into NotificationMethods(Id, Name)
+	values ('E', 'EMail')
+end
+
+if not exists (select * from NotificationMethods where id = 'P')
+begin
+	insert into NotificationMethods(Id, Name)
+	values ('P', 'Phone')
+end
+
+if not exists (select * from NotificationMethods where id = 'L')
+begin
+	insert into NotificationMethods(Id, Name)
+	values ('L', 'Letter')
+end
+
+if not exists (select * from NotificationTypes where id = 'IL')
+begin
+	insert into NotificationTypes(Id, Name)
+	values ('IL', 'Invitation Letter')
+end
+
+if not exists (select * from NotificationTypes where id = 'RR')
+begin
+	insert into NotificationTypes(Id, Name)
+	values ('RR', 'Registration Reminders')
+end
+
+if not exists (select * from NotificationTypes where id = 'HR')
+begin
+	insert into NotificationTypes(Id, Name)
+	values ('HR', 'Hotel Reminder')
+end
+
+if not exists (select * from NotificationTypes where id = 'PR')
+begin
+	insert into NotificationTypes(Id, Name)
+	values ('PR', 'Payment Reminder')
+end
+
+if not exists (select * from NotificationTypes where id = 'AL')
+begin
+	insert into NotificationTypes(Id, Name)
+	values ('AL', 'Acceptance Letter')
+end
+
+if not exists (select * from NotificationTypes where id = 'AC')
+begin
+	insert into NotificationTypes(Id, Name, Display)
+	values ('AC', 'Application Confirmation', 0)
+end
+
+if not exists (select * from NotificationTypes where id = 'OT')
+begin
+	insert into NotificationTypes(Id, Name)
+	values ('OT', 'Other')
 end

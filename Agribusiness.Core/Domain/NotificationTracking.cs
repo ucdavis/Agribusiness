@@ -73,7 +73,13 @@ namespace Agribusiness.Core.Domain
 
     public class NotificationType : DomainObjectWithTypedId<string>
     {
+        public NotificationType()
+        {
+            Display = true;
+        }
+
         public virtual string Name { get; set; }
+        public virtual bool Display { get; set; }
     }
 
     public class NotificationTypeMap : ClassMap<NotificationType>
@@ -83,6 +89,7 @@ namespace Agribusiness.Core.Domain
             Id(x => x.Id);
 
             Map(x => x.Name);
+            Map(x => x.Display);
         }
     }
 }

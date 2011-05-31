@@ -726,5 +726,8 @@
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_NotificationTypes_Display.defconst.sql">
+      <SubType>Code</SubType>
+    </Build>
   </ItemGroup>
 </Project>
