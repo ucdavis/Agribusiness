@@ -91,8 +91,8 @@ begin
 
 	print @id
 
-	insert into agribusiness.dbo.people (archive_id, lastname, firstname, mi, salutation, badgename, phone, cellphone, fax, biography, userid, communicationoptionid)
-	values (@id, @lastname, @firstname, @mi, @salutation, @badge, @phone, @cell, @fax, @biography, @userid, 'DR')
+	insert into agribusiness.dbo.people (archive_id, lastname, firstname, mi, salutation, badgename, phone, cellphone, fax, biography, userid, communicationoptionid, automatednotification)
+	values (@id, @lastname, @firstname, @mi, @salutation, @badge, @phone, @cell, @fax, @biography, @userid, 'DR', 1)
 	
 	fetch next from @contactCursor into @id, @lastname, @firstname, @mi, @salutation, @badge, @phone, @cell, @fax, @biography, @email, @password
 end

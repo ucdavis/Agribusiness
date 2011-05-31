@@ -23,6 +23,7 @@ namespace Agribusiness.Core.Domain
         private void SetDefaults()
         {
             Invite = false;
+            AutomatedNotification = true;
 
             SeminarPeople = new List<SeminarPerson>();
             Addresses = new List<Address>();
@@ -73,6 +74,11 @@ namespace Agribusiness.Core.Domain
 
         [Required]
         public virtual CommunicationOption CommunicationOption { get; set; }
+
+        /// <summary>
+        /// Whether or not the system should automatically notify individual
+        /// </summary>
+        public virtual bool AutomatedNotification { get; set; }
 
         #region Bags
         /// <summary>
@@ -155,6 +161,7 @@ namespace Agribusiness.Core.Domain
             Map(x => x.ContentType).LazyLoad();
 
             References(x => x.CommunicationOption);
+            Map(x => x.AutomatedNotification);
 
             References(x => x.User);
 
