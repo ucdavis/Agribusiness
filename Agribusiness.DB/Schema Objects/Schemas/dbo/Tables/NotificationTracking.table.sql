@@ -7,8 +7,11 @@
     [DateTime]             DATETIME      NOT NULL,
     [NotifiedBy]           VARCHAR (50)  NOT NULL,
     [Comments]             VARCHAR (MAX) NULL,
-    [SeminarId]            INT           NOT NULL
+    [SeminarId]            INT           NOT NULL,
+    [EmailQueueId]         INT           NULL
 );
+
+
 
 
 
