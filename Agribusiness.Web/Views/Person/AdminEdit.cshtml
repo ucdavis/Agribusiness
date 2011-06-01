@@ -264,7 +264,8 @@
 
             <div class="reg-navigation">
                 <ul>
-                    <li>@Html.ActionLink("Add Notification", "Create", "Notification", new {personId = Model.PersonViewModel.Person.Id, seminarId = Model.SeminarId}, new {})</li>
+                    <li>@Html.ActionLink("Add Notification Tracking", "Create", "Notification", new {personId = Model.PersonViewModel.Person.Id, seminarId = Model.SeminarId}, new {})</li>
+                    <li>@Html.ActionLink("Send Notification", "Send", "Notification", new { personId = Model.PersonViewModel.Person.Id, seminarId = Model.SeminarId }, new { })</li>
                 </ul>
             </div>
 

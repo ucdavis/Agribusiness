@@ -144,6 +144,15 @@
   <data name="Key_Message" xml:space="preserve">
     <value>Messages</value>
   </data>
+  <data name="NotificationMethod_Email" xml:space="preserve">
+    <value>E</value>
+  </data>
+  <data name="NotificationMethod_Letter" xml:space="preserve">
+    <value>L</value>
+  </data>
+  <data name="NotificationMethod_Phone" xml:space="preserve">
+    <value>P</value>
+  </data>
   <data name="Role_CaseExecutive" xml:space="preserve">
     <value>CE</value>
   </data>

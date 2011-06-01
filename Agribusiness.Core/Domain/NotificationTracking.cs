@@ -43,6 +43,8 @@ namespace Agribusiness.Core.Domain
         public virtual string NotifiedBy { get; set; }
 
         public virtual string Comments { get; set; }
+
+        public virtual EmailQueue EmailQueue { get; set; }
     }
 
     public class NotificationTrackingMap : ClassMap<NotificationTracking>
@@ -63,6 +65,8 @@ namespace Agribusiness.Core.Domain
             Map(x => x.NotifiedBy);
 
             Map(x => x.Comments);
+
+            References(x => x.EmailQueue).Cascade.SaveUpdate();
         }
     }
 

@@ -1,0 +1,42 @@
+﻿@model Agribusiness.Web.Models.SendNotificationViewModel
+
+@{
+    ViewBag.Title = "Send Notification";
+    ViewBag.SubPageTitle = "Send Notification";
+}
+
+@section SubPageNavigation
+{
+    <ul class="navigation">
+        <li>@Html.ActionLink("Back to Profile", "AdminEdit", "Person", new {id=Model.NotificationTrackingViewModel.UserId, seminarId=Model.NotificationTrackingViewModel.SeminarId}, new {})</li>
+    </ul>
+}
+
+@Html.ValidationSummary(false)
+
+@using (Html.BeginForm())
+{ 
+    @Html.AntiForgeryToken()
+
+    @Html.Partial("_NotificationTracking", Model.NotificationTrackingViewModel)
+    
+    <fieldset>
+        <legend>Notification Message</legend>
+        <ul>
+            <li><div class="editor-label required">Subject<span>*</span></div>
+                <div class="editor-field">@Html.TextBoxFor(a=>a.EmailQueue.Subject)</div>
+            </li>
+            <li><div class="editor-label required">Body<span>*</span></div>
+                <div class="editor-field">@Html.TextAreaFor(a=>a.EmailQueue.Body)</div>
+            </li>
+            <li><div class="editor-label">&nbsp;</div>
+                <div class="editor-field">
+                    <input type="submit" class="button" value="Save" />
+                    |
+                    @Html.ActionLink("Cancel", "AdminEdit", "Person", new { id = Model.NotificationTrackingViewModel.UserId, seminarId = Model.NotificationTrackingViewModel.SeminarId }, new { })
+                </div>
+            </li>
+        </ul>
+    </fieldset>
+    
+}

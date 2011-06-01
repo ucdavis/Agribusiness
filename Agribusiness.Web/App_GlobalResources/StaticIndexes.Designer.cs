@@ -142,6 +142,33 @@ namespace Agribusiness.Web.App_GlobalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to E.
+        /// </summary>
+        public static string NotificationMethod_Email {
+            get {
+                return ResourceManager.GetString("NotificationMethod_Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to L.
+        /// </summary>
+        public static string NotificationMethod_Letter {
+            get {
+                return ResourceManager.GetString("NotificationMethod_Letter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to P.
+        /// </summary>
+        public static string NotificationMethod_Phone {
+            get {
+                return ResourceManager.GetString("NotificationMethod_Phone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CE.
         /// </summary>
         public static string Role_CaseExecutive {
