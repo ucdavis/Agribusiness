@@ -34,6 +34,9 @@ namespace Agribusiness.Core.Domain
         [Required]
         [Display(Name="Type")]
         public virtual NotificationType NotificationType { get; set; }
+        [Required]
+        [Display(Name="Seminar")]
+        public virtual Seminar Seminar { get; set; }
 
         public virtual DateTime DateTime { get; set; }
         [Required]
@@ -54,6 +57,7 @@ namespace Agribusiness.Core.Domain
             References(x => x.Application);
             References(x => x.NotificationMethod);
             References(x => x.NotificationType);
+            References(x => x.Seminar);
 
             Map(x => x.DateTime);
             Map(x => x.NotifiedBy);

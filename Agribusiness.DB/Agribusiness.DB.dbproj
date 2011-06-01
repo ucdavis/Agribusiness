@@ -729,5 +729,8 @@
     <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_NotificationTypes_Display.defconst.sql">
       <SubType>Code</SubType>
     </Build>
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_NotificationTracking_Seminars.fkey.sql">
+      <SubType>Code</SubType>
+    </Build>
   </ItemGroup>
 </Project>

@@ -6,8 +6,11 @@
     [NotificationTypeId]   CHAR (2)      NOT NULL,
     [DateTime]             DATETIME      NOT NULL,
     [NotifiedBy]           VARCHAR (50)  NOT NULL,
-    [Comments]             VARCHAR (MAX) NULL
+    [Comments]             VARCHAR (MAX) NULL,
+    [SeminarId]            INT           NOT NULL
 );
+
+
 
 
 
