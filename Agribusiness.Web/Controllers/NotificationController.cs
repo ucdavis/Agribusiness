@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using Agribusiness.Core.Domain;
 using Agribusiness.Web.Models;
+using Agribusiness.Web.Services;
 using Resources;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Web.Controller;
@@ -18,12 +19,14 @@ namespace Agribusiness.Web.Controllers
         private readonly IRepository<Person> _personRepository;
         private readonly IRepository<Seminar> _seminarRepository;
         private readonly IRepository<NotificationTracking> _notificationTrackingRepository;
+        private readonly ISeminarService _seminarService;
 
-        public NotificationController(IRepository<Person> personRepository, IRepository<Seminar> seminarRepository, IRepository<NotificationTracking> notificationTrackingRepository)
+        public NotificationController(IRepository<Person> personRepository, IRepository<Seminar> seminarRepository, IRepository<NotificationTracking> notificationTrackingRepository, ISeminarService seminarService)
         {
             _personRepository = personRepository;
             _seminarRepository = seminarRepository;
             _notificationTrackingRepository = notificationTrackingRepository;
+            _seminarService = seminarService;
         }
 
         public ActionResult Create(int personId, int seminarId)
@@ -38,6 +41,7 @@ namespace Agribusiness.Web.Controllers
 
             var viewModel = NotificationTrackingViewModel.Create(Repository, person.Id, seminarId, person.User.Id);
             viewModel.NotificationTracking.NotifiedBy = CurrentUser.Identity.Name;
+            viewModel.NotificationTracking.Seminar = _seminarService.GetCurrent();
             return View(viewModel);
         }
 
@@ -53,6 +57,7 @@ namespace Agribusiness.Web.Controllers
             }
 
             notificationTracking.Person = person;
+
 
             if (ModelState.IsValid)
             {

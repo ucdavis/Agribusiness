@@ -11,10 +11,13 @@
     </ul>
 }
 
+@Html.ValidationSummary(false)
+
 @using (Html.BeginForm())
 { 
     @Html.AntiForgeryToken()
-    @Html.HiddenFor(a=>a.NotificationTracking.NotifiedBy)        
+    @Html.HiddenFor(a=>a.NotificationTracking.NotifiedBy)      
+    @Html.Hidden("NotificationTracking.Seminar", Model.SeminarId)
     <fieldset>
 
         <ul>
