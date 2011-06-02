@@ -8,7 +8,18 @@
 
 @section SubPageNavigation{
     <ul class="navigation">
-        @*<li>@Html.ActionLink("Back to Profile", "AdminEdit", "Person", new {id=Model.UserId, seminarId=Model.SeminarId}, new {})</li>*@
+
+        <li>
+        @if (Model.People.Count == 1)
+        {
+            var userId = Model.People[0].User.Id;
+            @Html.ActionLink("Back to Profile", "AdminEdit", "Person", new { id = userId, seminarId = Model.Seminar.Id }, new { })
+        }
+        else
+        { 
+            @Html.ActionLink("Back to Seminar", "Details", "Seminar", new { id = Model.Seminar.Id }, new { })
+        }
+        </li>
     </ul>
 }
 

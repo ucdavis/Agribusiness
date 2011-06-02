@@ -91,6 +91,7 @@ namespace Agribusiness.Web.Controllers
                         var nt = new NotificationTracking();
                         // copy the fields
                         Mapper.Map(notificationTracking, nt);
+                        nt.Seminar = notificationTracking.Seminar;
                         // assign the person
                         nt.Person = person;
                         // add it to the list

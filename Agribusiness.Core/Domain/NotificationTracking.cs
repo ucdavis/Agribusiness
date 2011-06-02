@@ -55,11 +55,11 @@ namespace Agribusiness.Core.Domain
 
             Id(x => x.Id);
 
-            References(x => x.Person).Cascade.SaveUpdate();
-            References(x => x.Application).Cascade.SaveUpdate();
-            References(x => x.NotificationMethod).Cascade.SaveUpdate();
-            References(x => x.NotificationType).Cascade.SaveUpdate();
-            References(x => x.Seminar).Cascade.SaveUpdate();
+            References(x => x.Person);
+            References(x => x.Application);
+            References(x => x.NotificationMethod);
+            References(x => x.NotificationType);
+            References(x => x.Seminar);
 
             Map(x => x.DateTime);
             Map(x => x.NotifiedBy);

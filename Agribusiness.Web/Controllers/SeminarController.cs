@@ -26,8 +26,9 @@ namespace Agribusiness.Web.Controllers
         private readonly IRepository<SeminarPerson> _seminarPersonRepository;
         private readonly IFirmService _firmService;
         private readonly IPersonService _personService;
+        private readonly ISeminarService _seminarService;
 
-        public SeminarController(IRepository<Seminar> seminarRepository, IRepository<Session> sessionRepository, IRepository<Person> personRepository, IRepository<SeminarPerson> seminarPersonRepository, IFirmService firmService, IPersonService personService)
+        public SeminarController(IRepository<Seminar> seminarRepository, IRepository<Session> sessionRepository, IRepository<Person> personRepository, IRepository<SeminarPerson> seminarPersonRepository, IFirmService firmService, IPersonService personService, ISeminarService seminarService)
         {
             _seminarRepository = seminarRepository;
             _sessionRepository = sessionRepository;
@@ -35,6 +36,7 @@ namespace Agribusiness.Web.Controllers
             _seminarPersonRepository = seminarPersonRepository;
             _firmService = firmService;
             _personService = personService;
+            _seminarService = seminarService;
         }
 
         #region Administrative Functions
@@ -144,7 +146,7 @@ namespace Agribusiness.Web.Controllers
             if (seminar != null) return seminar;
 
             // otherwise just load the latest one
-            seminar = _seminarRepository.Queryable.LastOrDefault();
+            seminar = _seminarService.GetCurrent();
 
             return seminar;
         }
