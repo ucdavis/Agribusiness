@@ -2,13 +2,13 @@
 
 
     @Html.HiddenFor(a=>a.NotificationTracking.NotifiedBy)      
-    @*@Html.Hidden("NotificationTracking.Seminar", Model.SeminarId)*@
+    @Html.Hidden("NotificationTracking.Seminar", Model.Seminar.Id)
     <fieldset>
 
         <legend>Notification Type</legend>
 
         <ul>
-            <li><div class="editor-label">Name(s):</div>
+            <li><div class="editor-label required">Name(s)<span>*</span></div>
                 <div class="editor-field">
                     <div id="person-name-container">
                         @foreach (var a in Model.People)
@@ -19,7 +19,7 @@
                             </div>
                         }
                     </div>
-                    <span id="add-name" class="ui-icon ui-icon-circle-plus"></span>
+                    <span id="add-name" class="ui-icon ui-icon-circle-plus" style="display:inline-block;"></span>
                 </div>
             </li>
             <li><div class="editor-label required">@Html.LabelFor(a=>a.NotificationTracking.NotificationMethod)<span>*</span></div>
@@ -41,7 +41,16 @@
             { 
             <li><div class="editor-label">&nbsp;</div>
                 <div class="editor-field">
-                    <input type="submit" class="button" value="Save" /> | @*@Html.ActionLink("Cancel", "AdminEdit", "Person", new { id = Model.UserId, seminarId = Model.SeminarId }, new { })*@
+                    <input type="submit" class="button" value="Save" /> | 
+                    @if (Model.People.Count == 1)
+                    {
+                        var userId = Model.People[0].User.Id;
+                        @Html.ActionLink("Cancel", "AdminEdit", "Person", new { id = userId, seminarId = Model.Seminar.Id }, new { })
+                    }
+                    else
+                    { 
+                        @Html.ActionLink("Cancel", "Details", "Seminar", new { id = Model.Seminar.Id }, new { })
+                    }
                 </div>
             </li>
             }
@@ -51,19 +60,25 @@
 
     <div id="add-name-dialog" title="Add Person">
 
-        @this.MultiSelect("select-name").Options(Model.AllPeople,x=>x.Id,x=>x.FullName).Size(10)
+        @this.MultiSelect("select-name").Options(Model.AllPeople, x => x.Id, x => x.FullName).Size(10)
 
     </div>
 
     <style type="text/css">
     #person-name-container{border: 1px solid #014a81; padding: 10px; -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; min-width: 50px; min-height: 22px; }        
-    .person-name {border: 1px solid #014a81;-webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; padding:5px; text-decoration:none; font-weight:bold; font-size:0.9em; letter-spacing:.5px; text-transform:uppercase;}
+    .person-name {border: 1px solid #014a81;-webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; padding:5px; text-decoration:none; font-weight:bold; font-size:0.9em; letter-spacing:.5px; text-transform:uppercase;display:inline-block; margin-right:5px;}
     .remove-name {cursor:pointer;}
     </style>
 
+    <script type="text/javascript" src='@Url.Script("jquery.tmpl.min.js")'></script>
     <script type="text/javascript">
+
+        // template for adding people
+        var personNameTemplate = '<div class="person-name">${Name}<span class="ui-icon ui-icon-closethick remove-name" style="display:inline-block;"></span><input type="hidden" name="People" value="${id}"/></div>';
+
         $(function () {
-            $(".remove-name").click(function () {
+
+            $(".remove-name").live('click', function () {
                 var that = $(this).parents(".person-name");
                 that.effect("fade", function () { that.remove(); });
             });
@@ -79,8 +94,23 @@
             $("#add-name").click(function () { $("#add-name-dialog").dialog("open"); });
         });
 
+        // renders the new names added
         function addNames() {
+
+            var that = $(this);
+
+            // compile the markup
+            $.template("personTemplate", personNameTemplate);
+
             var select = $("#select-name");
-            $.each(select.find(":selected"), function (index, item) {  });
+            $.each(select.find(":selected"), function (index, item) {
+                var person = { Name: $(item).text(), id: $(item).val() };
+                $.tmpl("personTemplate", person).appendTo("#person-name-container");
+
+                that.dialog("close");
+            });
+
+            // clear the selected
+            $("#select-name").children().removeAttr("selected");
         }
     </script>

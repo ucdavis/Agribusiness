@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Agribusiness.Core.Domain;
 using Agribusiness.Web.App_GlobalResources;
 using Agribusiness.Web.Models;
 using Agribusiness.Web.Services;
+using AutoMapper;
 using Resources;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Web.Controller;
@@ -38,8 +40,7 @@ namespace Agribusiness.Web.Controllers
         /// <summary>
         /// Action for adding a tracking object, for notifications sent outside of the program
         /// </summary>
-        /// <param name="personId"></param>
-        /// <param name="seminarId"></param>
+        /// <param name="personId">If sending to a specific person</param>
         /// <returns></returns>
         public ActionResult Create(int? personId)
         {
@@ -57,34 +58,65 @@ namespace Agribusiness.Web.Controllers
             return View(viewModel);
         }
 
-        /*
+        /// <summary>
+        /// Create a notification tracking object
+        /// </summary>
+        /// <param name="seminarId"></param>
+        /// <param name="notificationTracking"></param>
+        /// <returns></returns>
         [HttpPost]
-        public ActionResult Create(int personId, int seminarId, NotificationTracking notificationTracking)
+        public ActionResult Create(List<int> people, NotificationTracking notificationTracking)
         {
-            var person = _personRepository.GetNullableById(personId);
-
-            if (person == null)
+            if (people == null || people.Count <= 0)
             {
-                Message = string.Format(Messages.NotFound, "Person", personId);
-                return this.RedirectToAction<PersonController>(a => a.Index());
+                ModelState.AddModelError("People", "No person has been selected to receive the notification.");
             }
 
-            notificationTracking.Person = person;
+            var peeps = new List<Person>();
 
             if (ModelState.IsValid)
             {
-                _notificationTrackingRepository.EnsurePersistent(notificationTracking);
+                foreach (var a in people)
+                {
+                    var person = _personRepository.GetNullableById(a);
+
+                    if (person == null)
+                    {
+                        ModelState.AddModelError("Person", string.Format("Person with id {0} could not be found.", a));
+                    }
+                    else
+                    {
+                        peeps.Add(person);
+
+                        var nt = new NotificationTracking();
+                        // copy the fields
+                        Mapper.Map(notificationTracking, nt);
+                        // assign the person
+                        nt.Person = person;
+                        // add it to the list
+                        _notificationTrackingRepository.EnsurePersistent(nt);
+                    }
+                }
 
                 Message = string.Format(Messages.Saved, "Notification tracking");
 
-                var url = Url.Action("AdminEdit", "Person", new { id = person.User.Id, seminarId = seminarId });
-                return Redirect(string.Format("{0}#notifications", url));
+                if (peeps.Count == 1)
+                {
+                    var person = peeps[0];
+
+                    var url = Url.Action("AdminEdit", "Person", new { id = person.User.Id, seminarId = _seminarService.GetCurrent().Id });
+                    return Redirect(string.Format("{0}#notifications", url));
+                }
+                
+                // redirect back to the seminar controller details
+                return this.RedirectToAction<SeminarController>(a => a.Details(null));
             }
 
-            var viewModel = NotificationTrackingViewModel.Create(Repository);
+            var viewModel = NotificationTrackingViewModel.Create(Repository, _seminarService, notificationTracking);
+            viewModel.People = peeps;
+
             return View(viewModel);
         }
-         */
 
         /*
         /// <summary>

@@ -224,6 +224,7 @@
     <Content Include="Scripts\jquery.dataTables.js" />
     <Content Include="Scripts\jquery.dataTables.min.js" />
     <Content Include="Scripts\jquery.Jcrop.min.js" />
+    <Content Include="Scripts\jquery.tmpl.min.js" />
     <Content Include="UCDArch.txt" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

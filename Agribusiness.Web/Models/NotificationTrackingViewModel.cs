@@ -14,6 +14,8 @@ namespace Agribusiness.Web.Models
         public virtual IList<NotificationMethod> NotificationMethods { get; set; }
         public virtual IList<NotificationType> NotificationTypes { get; set; }
 
+        public virtual Seminar Seminar { get; set; }
+
         /// <summary>
         /// List of selected people
         /// </summary>
@@ -32,7 +34,8 @@ namespace Agribusiness.Web.Models
                                     NotificationMethods = repository.OfType<NotificationMethod>().GetAll(), 
                                     NotificationTypes = repository.OfType<NotificationType>().GetAll(),
                                     People = new List<Person>(),
-                                    AllPeople = seminarService.GetCurrent().SeminarPeople.Select(a=>a.Person).ToList()
+                                    AllPeople = seminarService.GetCurrent().SeminarPeople.Select(a=>a.Person).ToList(),
+                                    Seminar = seminarService.GetCurrent()
                                 };
 
             if (person != null) viewModel.People.Add(person);
