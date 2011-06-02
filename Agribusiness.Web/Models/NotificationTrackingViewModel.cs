@@ -44,23 +44,23 @@ namespace Agribusiness.Web.Models
         }
     }
 
-    //public class SendNotificationViewModel
-    //{
-    //    public NotificationTrackingViewModel NotificationTrackingViewModel { get; set; }
-    //    public EmailQueue EmailQueue { get; set; }
+    public class SendNotificationViewModel
+    {
+        public NotificationTrackingViewModel NotificationTrackingViewModel { get; set; }
+        public EmailQueue EmailQueue { get; set; }
 
-    //    public static SendNotificationViewModel Create(IRepository repository, NotificationTrackingViewModel notificationTrackingViewModel, EmailQueue emailQueue = null)
-    //    {
-    //        Check.Require(repository != null, "Repository is required.");
-    //        Check.Require(notificationTrackingViewModel != null, "notificationTrackingViewModel is required.");
+        public static SendNotificationViewModel Create(IRepository repository, NotificationTrackingViewModel notificationTrackingViewModel, EmailQueue emailQueue = null)
+        {
+            Check.Require(repository != null, "Repository is required.");
+            Check.Require(notificationTrackingViewModel != null, "notificationTrackingViewModel is required.");
 
-    //        var viewModel = new SendNotificationViewModel()
-    //                            {
-    //                                NotificationTrackingViewModel = notificationTrackingViewModel,
-    //                                EmailQueue = emailQueue ?? new EmailQueue(notificationTrackingViewModel.Person)
-    //                            };
+            var viewModel = new SendNotificationViewModel()
+                                {
+                                    NotificationTrackingViewModel = notificationTrackingViewModel,
+                                    EmailQueue = emailQueue ?? new EmailQueue()
+                                };
 
-    //        return viewModel;
-    //    }
-    //}
+            return viewModel;
+        }
+    }
 }

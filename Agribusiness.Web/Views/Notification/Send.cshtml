@@ -5,12 +5,22 @@
     ViewBag.SubPageTitle = "Send Notification";
 }
 
-@section SubPageNavigation
-{
+@section SubPageNavigation{
     <ul class="navigation">
-        <li>@Html.ActionLink("Back to Profile", "AdminEdit", "Person", new {id=Model.NotificationTrackingViewModel.UserId, seminarId=Model.NotificationTrackingViewModel.SeminarId}, new {})</li>
+        <li>
+        @if (Model.NotificationTrackingViewModel.People.Count == 1)
+        {
+            var userId = Model.NotificationTrackingViewModel.People[0].User.Id;
+            @Html.ActionLink("Back to Profile", "AdminEdit", "Person", new { id = userId, seminarId = Model.NotificationTrackingViewModel.Seminar.Id }, new { })
+        }
+        else
+        { 
+            @Html.ActionLink("Back to Seminar", "Details", "Seminar", new { id = Model.NotificationTrackingViewModel.Seminar.Id }, new { })
+        }
+        </li>
     </ul>
 }
+
 
 @Html.ValidationSummary(false)
 
@@ -33,7 +43,15 @@
                 <div class="editor-field">
                     <input type="submit" class="button" value="Save" />
                     |
-                    @Html.ActionLink("Cancel", "AdminEdit", "Person", new { id = Model.NotificationTrackingViewModel.UserId, seminarId = Model.NotificationTrackingViewModel.SeminarId }, new { })
+                    @if (Model.NotificationTrackingViewModel.People.Count == 1)
+                    {
+                        var userId = Model.NotificationTrackingViewModel.People[0].User.Id;
+                        @Html.ActionLink("Cancel", "AdminEdit", "Person", new { id = userId, seminarId = Model.NotificationTrackingViewModel.Seminar.Id }, new { })
+                    }
+                    else
+                    { 
+                        @Html.ActionLink("Cancel", "Details", "Seminar", new { id = Model.NotificationTrackingViewModel.Seminar.Id }, new { })
+                    }
                 </div>
             </li>
         </ul>
