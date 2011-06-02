@@ -6,6 +6,8 @@ using UCDArch.Core.CommonValidator;
 using UCDArch.Core.DataAnnotationsValidator.CommonValidatorAdapter;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Data.NHibernate;
+using INotificationService = Agribusiness.Web.Services.INotificationService;
+using NotificationService = Agribusiness.Web.Services.NotificationService;
 
 namespace Agribusiness.Web
 {
@@ -24,6 +26,7 @@ namespace Agribusiness.Web
             container.Register(Component.For<ISeminarService>().ImplementedBy<SeminarService>().Named("SeminarService"));
 
             container.Register(Component.For<IRegistrationService>().ImplementedBy<RegistrationService>().Named("RegistrationService"));
+            container.Register(Component.For<INotificationService>().ImplementedBy<NotificationService>().Named("NotificationService"));
         }
 
         private static void AddGenericRepositoriesTo(IWindsorContainer container)

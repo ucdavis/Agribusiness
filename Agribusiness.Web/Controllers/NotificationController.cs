@@ -26,16 +26,18 @@ namespace Agribusiness.Web.Controllers
         private readonly IRepository<NotificationTracking> _notificationTrackingRepository;
         private readonly IRepositoryWithTypedId<NotificationMethod, string> _notificationMethodRepository;
         private readonly ISeminarService _seminarService;
+        private readonly INotificationService _notificationService;
 
         public NotificationController(IRepository<Person> personRepository, IRepository<Seminar> seminarRepository, IRepository<NotificationTracking> notificationTrackingRepository
                                     , IRepositoryWithTypedId<NotificationMethod, string> notificationMethodRepository
-                                    , ISeminarService seminarService)
+                                    , ISeminarService seminarService, INotificationService notificationService)
         {
             _personRepository = personRepository;
             _seminarRepository = seminarRepository;
             _notificationTrackingRepository = notificationTrackingRepository;
             _notificationMethodRepository = notificationMethodRepository;
             _seminarService = seminarService;
+            _notificationService = notificationService;
         }
 
         /// <summary>
@@ -127,6 +129,7 @@ namespace Agribusiness.Web.Controllers
         }
         
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult Send(List<int> people, NotificationTracking notificationTracking, EmailQueue emailQueue)
         {
             if (people == null || people.Count <= 0)
@@ -212,6 +215,7 @@ namespace Agribusiness.Web.Controllers
                         var eq = new EmailQueue();
 
                         Mapper.Map(emailQueue, eq);
+                        eq.Body = _notificationService.GenerateNotification(eq.Body, person, notificationTracking.Seminar.Id);
 
                         eq.Person = person;
                         nt.EmailQueue = eq;
