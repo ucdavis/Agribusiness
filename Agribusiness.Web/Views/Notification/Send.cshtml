@@ -50,27 +50,6 @@
             });
         });
     </script>
-
-    <style type="text/css">
-    #tokens
-    {
-        background-color: #F4F4F4;
-        border: 1px solid #666666;
-        border-radius: 5px 5px 5px 5px;
-        color: #FFFFFF;
-        display: inline-block;
-        float:right;
-        line-height: normal;
-        margin-left: 10px;
-        width: 200px;
-        min-height: 2em;
-    }
-    
-    #tokens ul
-    {
-        margin: 10px;
-    }
-    </style>
 }
 
 @Html.ValidationSummary(false)
@@ -89,13 +68,7 @@
             </li>
             <li><div class="editor-label required">Body<span>*</span></div>
                 <div class="editor-field" style="width: 85%;">
-                    <div id="tokens">
-                        <ul>
-                            <li><a href="javascript:;" class="token" data-value="{Name}">Name</a></li>
-                            <li><a href="javascript:;" class="token" data-value="{SeminarBeginDate}">Seminar Begin Date</a></li>
-                            <li><a href="javascript:;" class="token" data-value="{SeminarEndDate}">Seminar End Date</a></li>
-                        </ul>
-                    </div>
+                    @Html.Partial("_TemplateTokens")
                     @Html.TextAreaFor(a=>a.EmailQueue.Body)
                 </div>
             </li>

@@ -635,6 +635,7 @@
     <Content Include="Views\Template\Create.cshtml" />
     <Content Include="Views\Template\Edit.cshtml" />
     <Content Include="Views\Template\_TemplateForm.cshtml" />
+    <Content Include="Views\Shared\_TemplateTokens.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">

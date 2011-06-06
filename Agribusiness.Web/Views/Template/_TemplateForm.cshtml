@@ -27,7 +27,8 @@
 				@Html.LabelFor(model => model.Template.BodyText) 
                 <span>*</span>
 			</div>
-			<div class="editor-field">
+			<div class="editor-field" style="width:85%;">
+                @Html.Partial("_TemplateTokens")
 				@Html.TextAreaFor(model => model.Template.BodyText)
 				@Html.ValidationMessageFor(model => model.Template.BodyText)
 			</div>
@@ -64,6 +65,11 @@
             theme_advanced_toolbar_align : "left",
             theme_advanced_statusbar_location : "bottom",
             theme_advanced_resizing : false,
+        });
+
+        $(".token").click(function(){
+            var val = $(this).data("value");
+            $('#Template_BodyText').tinymce().execCommand('mceInsertContent',false,val);
         });
     });
 </script>
