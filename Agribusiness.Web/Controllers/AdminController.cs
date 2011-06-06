@@ -1,15 +1,5 @@
-﻿using System;
-using System.Linq;
-using System.Web.Mvc;
-using Agribusiness.Core.Domain;
+﻿using System.Web.Mvc;
 using Agribusiness.Web.Controllers.Filters;
-using AutoMapper;
-using Resources;
-using UCDArch.Core.PersistanceSupport;
-using UCDArch.Web.Controller;
-using UCDArch.Web.Helpers;
-using UCDArch.Core.Utils;
-using MvcContrib;
 
 namespace Agribusiness.Web.Controllers
 {
@@ -19,11 +9,8 @@ namespace Agribusiness.Web.Controllers
     [UserOnly]
     public class AdminController : ApplicationController
     {
-        private readonly IRepository<Commodity> _commodityRepository;
-
-        public AdminController(IRepository<Commodity> commodityRepository)
+        public AdminController()
         {
-            _commodityRepository = commodityRepository;
         }
 
         //

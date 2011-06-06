@@ -135,6 +135,7 @@
     <Compile Include="Controllers\SeminarApplicationController.cs" />
     <Compile Include="Controllers\SeminarController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
+    <Compile Include="Controllers\TemplateController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -158,6 +159,7 @@
     <Compile Include="Models\PersonListViewModel.cs" />
     <Compile Include="Models\ProfileViewModel.cs" />
     <Compile Include="Models\SessionPersonViewModel.cs" />
+    <Compile Include="Models\TemplateViewModel.cs" />
     <Compile Include="Services\FirmService.cs" />
     <Compile Include="Services\IFirmService.cs" />
     <Compile Include="Services\INotificationService.cs" />
@@ -598,6 +600,16 @@
     <Content Include="Views\Commodity\Create.cshtml" />
     <Content Include="Views\Commodity\Edit.cshtml" />
     <Content Include="Views\Commodity\Delete.cshtml" />
+    <Content Include="Views\Session\AddPerson.cshtml" />
+    <Content Include="Views\Attendee\Add.cshtml" />
+    <Content Include="Views\Session\Details.cshtml" />
+    <Content Include="Views\Attendee\AddConfirm.cshtml" />
+    <Content Include="Web.Test.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Notification\Create.cshtml" />
+    <Content Include="Views\Notification\Send.cshtml" />
+    <Content Include="Views\Notification\_NotificationTracking.cshtml" />
     <None Include="CodeTemplates\AddView\AspxCSharp\Create.tt" />
     <None Include="CodeTemplates\AddView\AspxCSharp\CreateViewModel.tt" />
     <None Include="CodeTemplates\AddView\AspxCSharp\Delete.tt" />
@@ -618,16 +630,11 @@
     <None Include="CodeTemplates\AddView\CSHTML\List.tt" />
     <None Include="CodeTemplates\AddView\CSHTML\ListDatatables.tt" />
     <None Include="CodeTemplates\AddView\CSHTML\ListTelerik.tt" />
-    <Content Include="Views\Session\AddPerson.cshtml" />
-    <Content Include="Views\Attendee\Add.cshtml" />
-    <Content Include="Views\Session\Details.cshtml" />
-    <Content Include="Views\Attendee\AddConfirm.cshtml" />
-    <Content Include="Web.Test.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Views\Notification\Create.cshtml" />
-    <Content Include="Views\Notification\Send.cshtml" />
-    <Content Include="Views\Notification\_NotificationTracking.cshtml" />
+    <Content Include="Views\Template\Details.cshtml" />
+    <Content Include="Views\Template\Index.cshtml" />
+    <Content Include="Views\Template\Create.cshtml" />
+    <Content Include="Views\Template\Edit.cshtml" />
+    <Content Include="Views\Template\_TemplateForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">

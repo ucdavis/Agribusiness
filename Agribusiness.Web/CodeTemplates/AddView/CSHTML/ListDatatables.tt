@@ -108,7 +108,7 @@ if (pkName != null) {
 #>
 			<td>
 
-				<a href='@Url.Action("Details", new { /* id=item.<#=pkName #> */ })'>
+				<a href='@Url.Action("Details", new { /* id=item.<#= pkName #> */ })'>
 					<img src='@Url.Image("details.png")' />
 				</a>
 				<a href='@Url.Action("Edit", new { /* id=item.<#= pkName #> */ })'>
@@ -128,7 +128,7 @@ foreach (ModelProperty property in properties) {
 	}
 }
 #>
-
+		<#
 		if (pkName != null) {
 		#>
 					<td>

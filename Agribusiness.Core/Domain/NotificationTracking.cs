@@ -94,6 +94,7 @@ namespace Agribusiness.Core.Domain
 
         public virtual string Name { get; set; }
         public virtual bool Display { get; set; }
+        public virtual bool SendAll { get; set; }
     }
 
     public class NotificationTypeMap : ClassMap<NotificationType>
@@ -104,6 +105,7 @@ namespace Agribusiness.Core.Domain
 
             Map(x => x.Name);
             Map(x => x.Display);
+            Map(x => x.SendAll);
         }
     }
 }
