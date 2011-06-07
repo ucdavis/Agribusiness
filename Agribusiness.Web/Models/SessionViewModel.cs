@@ -13,7 +13,7 @@ namespace Agribusiness.Web.Models
     {
         public Session Session { get; set; }
         public IEnumerable<SessionType> SessionTypes { get; set; }
-        public int SeminarId { get; set; }
+        public Seminar Seminar { get; set; }
 
         public SelectList SessionTypesList { get; set; }
 
@@ -22,12 +22,12 @@ namespace Agribusiness.Web.Models
             Check.Require(repository != null, "Repository must be supplied");
 			
             var viewModel = new SessionViewModel
-                                {
-                                    Session = session ?? new Session(), 
-                                    SeminarId = seminarId,
+                                { 
+                                    Session = session ?? new Session(),
+                                    Seminar = repository.OfType<Seminar>().GetNullableById(seminarId),
                                     SessionTypes = repository.OfType<SessionType>().GetAll()
                                 };
- 
+
             viewModel.SessionTypesList = new SelectList(viewModel.SessionTypes, "Id", "Name", viewModel.Session.SessionType == null ? string.Empty : viewModel.Session.SessionType.Id);
 
             return viewModel;
