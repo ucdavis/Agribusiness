@@ -14,6 +14,7 @@ using AutoMapper;
 using Resources;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
+using UCDArch.Web.ActionResults;
 using UCDArch.Web.Helpers;
 using MvcContrib;
 
@@ -467,6 +468,26 @@ namespace Agribusiness.Web.Controllers
             var url = Url.Action("AdminEdit", new { id = person.User.Id, seminarId = seminarId });
             return Redirect(string.Format("{0}#comments", url));
         }
+
+        [UserOnly]
+        [HttpPost]
+        public JsonNetResult UpdateAutomatedNotification(int personId, int seminarId, bool automatedNotification)
+        {
+            var person = _personRepository.GetNullableById(personId);
+
+            if (person == null)
+            {
+                Message = string.Format(Messages.NotFound, "Person", personId);
+                return new JsonNetResult(Message);
+            }
+
+            person.AutomatedNotification = automatedNotification;
+
+            _personRepository.EnsurePersistent(person);
+
+            return new JsonNetResult(string.Empty);
+        }
+
         #endregion
 
         #region Profile Editing Functions

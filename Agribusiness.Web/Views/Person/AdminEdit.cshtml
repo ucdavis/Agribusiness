@@ -15,6 +15,26 @@
 
             $("#update_coupon").click(function () { $("#coupon_dialog").dialog("open"); });
             $("#cancel_update_coupon").click(function () { $("#coupon_dialog").dialog("close"); });
+
+            $("#PersonViewModel_Person_AutomatedNotification").change(function () {
+
+                var url = '@Url.Action("UpdateAutomatedNotification", "Person")';
+
+                var selected = $(this)[0].checked;
+                var personId = '@Model.PersonViewModel.Person.Id';
+                var seminarId = @Model.SeminarId;
+                var antiForgery = $("input[name='__RequestVerificationToken']").val();
+
+                $.post(url, {personId: personId, seminarId: seminarId, automatedNotification: selected, __RequestVerificationToken: antiForgery }, function(result){
+                    if (result == "") {
+                        alert("preference updated");
+                    }
+                    else {
+                        alert(result);
+                    }
+                });
+
+            });
         });
     </script>
 
@@ -271,27 +291,47 @@
 
             <div style="clear:both;"></div>
 
-            <table class="noicon default_table">
-                <thead>
-                    <tr>
-                        <th style="width: 130px;">Date/Time</th>
-                        <th>Method</th>
-                        <th>Type</th>
-                        <th>Comments</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var a in Model.PersonViewModel.Person.NotificationTrackings)
-                    { 
+            <fieldset style="padding: 1em;">
+            
+                <legend>Preferences</legend>
+
+                <ul>
+                    <li>
+                        @Html.CheckBoxFor(a=>a.PersonViewModel.Person.AutomatedNotification) Include in automated messages.  Unchecking this will not exclude this person from receiving reminder and confirmation emails.
+                    </li>
+                </ul>
+            
+            </fieldset>
+
+            <fieldset style="padding: 1em;">
+                
+                <legend>History</legend>
+
+                <table class="noicon default_table">
+                    <thead>
                         <tr>
-                            <td>@a.DateTime.ToString("g")</td>
-                            <td>@a.NotificationMethod.Name</td>
-                            <td>@a.NotificationType.Name</td>
-                            <td>@a.Comments</td>
+                            <th style="width: 130px;">Date/Time</th>
+                            <th>Method</th>
+                            <th>Type</th>
+                            <th>Comments</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var a in Model.PersonViewModel.Person.NotificationTrackings)
+                        { 
+                            <tr>
+                                <td>@a.DateTime.ToString("g")</td>
+                                <td>@a.NotificationMethod.Name</td>
+                                <td>@a.NotificationType.Name</td>
+                                <td>@a.Comments</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </fieldset>
+
+            
 
         </div>
     </div>
