@@ -1,5 +1,6 @@
-﻿@model IQueryable<Agribusiness.Core.Domain.Template>
+﻿@using Agribusiness.Web.Helpers
 
+@model IQueryable<Agribusiness.Core.Domain.Template>
 
 @{
 	ViewBag.Title = "Templates";
@@ -13,6 +14,15 @@
 	</ul>
 }
 
+@section ScriptContent
+{
+    <style type="text/css">
+        .bodyText p
+        {
+            margin: .5em 0;
+        }
+    </style>
+}
 
 <table class='default_table'>
 	<thead>
@@ -47,7 +57,9 @@
 			</td>
 
 			<td>
-				@item.BodyText
+                <div class="bodyText">
+				@Html.HtmlEncode(item.BodyText)
+                </div>
 			</td>
 
 			<td>

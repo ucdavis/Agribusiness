@@ -141,6 +141,8 @@
     </Compile>
     <Compile Include="Helpers\AutomapperConfig.cs" />
     <Compile Include="Helpers\FluentHelper.cs" />
+    <Compile Include="Helpers\HtmlHelperExtensions.cs" />
+    <Compile Include="Helpers\StringExtension.cs" />
     <Compile Include="Models\AddAttendeeViewModel.cs" />
     <Compile Include="Models\AdminHomeViewModel.cs" />
     <Compile Include="Models\ApplicationViewModel.cs" />

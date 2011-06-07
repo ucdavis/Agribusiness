@@ -31,7 +31,7 @@ namespace Agribusiness.Web.Controllers
         // GET: /Template/
         public ActionResult Index()
         {
-            var templateList = _templateRepository.Queryable;
+            var templateList = _templateRepository.Queryable.Where(a=>a.IsActive);
 
             return View(templateList);
         }
