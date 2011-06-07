@@ -68,6 +68,12 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.ReportViewer.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\Bin\Microsoft.ReportViewer.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WebForms, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\Bin\Microsoft.ReportViewer.WebForms.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Web.Mvc">
       <HintPath>..\Bin\Microsoft.Web.Mvc.dll</HintPath>
     </Reference>
@@ -132,6 +138,7 @@
     <Compile Include="Controllers\PersonController.cs" />
     <Compile Include="Controllers\PictureTestController.cs" />
     <Compile Include="Controllers\PublicController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\SeminarApplicationController.cs" />
     <Compile Include="Controllers\SeminarController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
@@ -160,6 +167,7 @@
     <Compile Include="Models\PersonEditModel.cs" />
     <Compile Include="Models\PersonListViewModel.cs" />
     <Compile Include="Models\ProfileViewModel.cs" />
+    <Compile Include="Models\ReportViewModel.cs" />
     <Compile Include="Models\SessionPersonViewModel.cs" />
     <Compile Include="Models\TemplateViewModel.cs" />
     <Compile Include="Services\FirmService.cs" />
@@ -639,6 +647,7 @@
     <Content Include="Views\Template\_TemplateForm.cshtml" />
     <Content Include="Views\Shared\_TemplateTokens.cshtml" />
     <Content Include="Views\Notification\Index.cshtml" />
+    <Content Include="Views\Report\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">
