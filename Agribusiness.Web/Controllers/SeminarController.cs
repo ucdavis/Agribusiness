@@ -125,7 +125,7 @@ namespace Agribusiness.Web.Controllers
             }
 
             var viewModel = SeminarViewModel.Create(Repository, seminar);
-           //viewModel.PopulateDisplayPeople(_firmService);
+            viewModel.IsCurrent = _seminarService.GetCurrent() == seminar;
             viewModel.DisplayPeople = _personService.GetDisplayPeopleForSeminar(seminar.Id);
 
             return View(viewModel);

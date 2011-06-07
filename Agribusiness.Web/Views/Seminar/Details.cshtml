@@ -14,9 +14,12 @@
         <li>
             @Html.ActionLink("Attendees", "Index", "Attendee", new { id= Model.Seminar.Id }, new { })
         </li>
-        <li>
-            @Html.ActionLink("Notifications", "Index", "Notification", new {}, new {})
-        </li>
+        @if (Model.IsCurrent)
+        { 
+            <li>
+            @Html.ActionLink("Notifications", "Index", "Notification", new { }, new { })
+            </li>
+        }
         <li>
             @Html.ActionLink("Edit", "Edit", "Seminar", new { id = Model.Seminar.Id }, new { })
         </li>

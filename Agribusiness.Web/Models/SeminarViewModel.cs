@@ -14,6 +14,11 @@ namespace Agribusiness.Web.Models
     {
         public Seminar Seminar { get; set; }
 
+        /// <summary>
+        /// Is this the current seminar?
+        /// </summary>
+        public bool IsCurrent { get; set; }
+
         // used to display the details of the semianr
         public IEnumerable<DisplayPerson> DisplayPeople { get; set; }
 
