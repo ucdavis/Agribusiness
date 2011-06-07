@@ -6,6 +6,11 @@ namespace Agribusiness.Core.Domain
 {
     public class Template : DomainObject
     {
+        public Template()
+        {
+            IsActive = true;
+        }
+
         [Required]
         public virtual string BodyText { get; set; }
         public virtual bool IsActive { get; set; }

@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using Agribusiness.Core.Domain;
 using Agribusiness.Web.Controllers.Filters;
 using Agribusiness.Web.Models;
 using AutoMapper;
 using UCDArch.Core.PersistanceSupport;
+using UCDArch.Web.ActionResults;
 using UCDArch.Web.Controller;
 using UCDArch.Web.Helpers;
 
@@ -17,12 +19,14 @@ namespace Agribusiness.Web.Controllers
     public class TemplateController : ApplicationController
     {
 	    private readonly IRepository<Template> _templateRepository;
+        private readonly IRepositoryWithTypedId<NotificationType, string> _notificationTypeRepository;
 
-        public TemplateController(IRepository<Template> templateRepository)
+        public TemplateController(IRepository<Template> templateRepository, IRepositoryWithTypedId<NotificationType, string> notificationTypeRepository)
         {
             _templateRepository = templateRepository;
+            _notificationTypeRepository = notificationTypeRepository;
         }
-    
+
         //
         // GET: /Template/
         public ActionResult Index()
@@ -55,6 +59,7 @@ namespace Agribusiness.Web.Controllers
         //
         // POST: /Template/Create
         [AcceptVerbs(HttpVerbs.Post)]
+        [ValidateInput(false)]
         public ActionResult Create(Template template)
         {
             var templateToCreate = new Template();
@@ -63,6 +68,13 @@ namespace Agribusiness.Web.Controllers
 
             if (ModelState.IsValid)
             {
+                // inactivate all old templates
+                foreach (var t in _templateRepository.Queryable.Where(a => a.NotificationType == templateToCreate.NotificationType))
+                {
+                    t.IsActive = false;
+                    _templateRepository.EnsurePersistent(t);
+                }
+
                 _templateRepository.EnsurePersistent(templateToCreate);
 
                 Message = "Template Created Successfully";
@@ -95,16 +107,22 @@ namespace Agribusiness.Web.Controllers
         //
         // POST: /Template/Edit/5
         [AcceptVerbs(HttpVerbs.Post)]
+        [ValidateInput(false)]
         public ActionResult Edit(int id, Template template)
         {
-            var templateToEdit = _templateRepository.GetNullableById(id);
-
-            if (templateToEdit == null) return RedirectToAction("Index");
+            var templateToEdit = new Template();
 
             Mapper.Map(template, templateToEdit);
 
             if (ModelState.IsValid)
             {
+                // inactivate all old templates
+                foreach (var t in _templateRepository.Queryable.Where(a => a.NotificationType == templateToEdit.NotificationType))
+                {
+                    t.IsActive = false;
+                    _templateRepository.EnsurePersistent(t);
+                }
+
                 _templateRepository.EnsurePersistent(templateToEdit);
 
                 Message = "Template Edited Successfully";
@@ -118,6 +136,24 @@ namespace Agribusiness.Web.Controllers
 
                 return View(viewModel);
             }
+        }
+
+        /// <summary>
+        /// Load the text of the template, by notification type id
+        /// </summary>
+        /// <param name="id">Notification Type Id</param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonNetResult LoadTemplate(string id)
+        {
+            var template = _templateRepository.Queryable.Where(a => a.NotificationType.Id == id && a.IsActive).OrderByDescending(a => a.Id).FirstOrDefault();
+
+            if (template == null)
+            {
+                return new JsonNetResult(string.Empty);
+            }
+
+            return new JsonNetResult(template.BodyText);
         }
     }
 }

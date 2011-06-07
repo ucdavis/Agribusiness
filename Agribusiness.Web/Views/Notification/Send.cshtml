@@ -48,7 +48,22 @@
                 var val = $(this).data("value");
                 $('#EmailQueue_Body').tinymce().execCommand('mceInsertContent',false,val);
             });
+
+            $("#NotificationTracking_NotificationType").change(function(){
+                var typeId = $(this).val();
+                var antiForgeryToken = $("input[name='__RequestVerificationToken']").val();
+                var url = '@Url.Action("LoadTemplate", "Template")';
+
+                $.post(url, {id: typeId, __RequestVerificationToken: antiForgeryToken}, function(result){
+                    if (result != "")
+                    {
+                        $("#EmailQueue_Body").tinymce().execCommand('mceReplaceContent', false, result);
+                    }
+                });
+            });
         });
+
+        function success(){debugger;}
     </script>
 }
 

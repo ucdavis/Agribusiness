@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Agribusiness.Core.Domain;
 using Agribusiness.Web.App_GlobalResources;
+using Agribusiness.Web.Controllers.Filters;
 using Agribusiness.Web.Models;
 using Agribusiness.Web.Services;
 using AutoMapper;
@@ -19,6 +20,7 @@ namespace Agribusiness.Web.Controllers
     /// <summary>
     /// Controller for the Notification class
     /// </summary>
+    [UserOnly]
     public class NotificationController : ApplicationController
     {
         private readonly IRepository<Person> _personRepository;
