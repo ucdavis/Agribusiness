@@ -1,0 +1,17 @@
+﻿@model DisplayPerson
+
+@{
+    ViewBag.Title = string.Format("{0}'s Profile", Model.Person.FullName);
+
+    ViewBag.ShowContact = Model.Person.ContactInformationRelease;
+}
+
+@section SubPageNavigation
+{
+    <ul class="navigation">
+        <li>@Html.ActionLink("Download Contact Card", "GetvCard", "Person", new { id = Model.Person.Id }, new { })</li>
+        <li>@Html.ActionLink("Back to List", "BySeminar", new {id=Model.Seminar.Id})</li>
+    </ul>
+}
+
+@Html.Partial("_Profile")

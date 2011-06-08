@@ -36,11 +36,13 @@ namespace Agribusiness.Web.Controllers
         private readonly IFirmService _firmService;
         private readonly ISeminarService _seminarService;
         private readonly IRegistrationService _registrationService;
+        private readonly IvCardService _vCardService;
         private readonly IMembershipService _membershipService;
 
         public PersonController(IRepository<Person> personRepository, IRepositoryWithTypedId<User, Guid> userRepository, IRepositoryWithTypedId<SeminarRole, string> seminarRoleRepository
             , IRepository<SeminarPerson> seminarPersonRepository, IRepository<Seminar> seminarRepository
-            , IPictureService pictureService, IPersonService personService, IFirmService firmService, ISeminarService seminarService, IRegistrationService registrationService)
+            , IPictureService pictureService, IPersonService personService, IFirmService firmService, ISeminarService seminarService, IRegistrationService registrationService
+            , IvCardService vCardService)
         {
             _personRepository = personRepository;
             _userRepository = userRepository;
@@ -52,6 +54,7 @@ namespace Agribusiness.Web.Controllers
             _firmService = firmService;
             _seminarService = seminarService;
             _registrationService = registrationService;
+            _vCardService = vCardService;
 
             _membershipService = new AccountMembershipService();
         }
@@ -77,6 +80,23 @@ namespace Agribusiness.Web.Controllers
             var displayPerson = _personService.GetDisplayPerson(person);
             return View(displayPerson);
         }
+
+        /// <summary>
+        /// Get a vcard for a person
+        /// </summary>
+        /// <param name="id">Person Id</param>
+        /// <returns></returns>
+        public FileResult GetvCard(int id)
+        {
+            var person = _personRepository.GetNullableById(id);
+
+            if (person == null) { return File(new byte[0], "text/x-vcard"); }
+
+            var vCard = _vCardService.Create(person);
+
+            return File(vCard, "text/x-vcard", string.Format("{0}.vcf", person.FullName.Replace(" ", "").Replace(".", "")));
+        }
+
 
         #region Administration Functions
         /// <summary>

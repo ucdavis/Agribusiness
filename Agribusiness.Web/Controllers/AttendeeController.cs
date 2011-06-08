@@ -278,11 +278,24 @@ namespace Agribusiness.Web.Controllers
         /// Profile page for attendees to view
         /// </summary>
         /// <param name="id">Person Id</param>
+        /// <param name="seminarId"></param>
         /// <returns></returns>
         [MembershipUserOnly]
-        public ActionResult Profile(int id)
+        public ActionResult Profile(int id, int seminarId)
         {
-            return View();
+            var person = _personRepository.GetNullableById(id);
+
+            if (person == null)
+            {
+                Message = string.Format(Messages.NotFound, "person", id);
+                return this.RedirectToAction(a => a.BySeminar(seminarId));
+            }
+
+            var displayPerson = _personService.GetDisplayPerson(person);
+
+            TempData["SeminarId"] = seminarId;
+
+            return View(displayPerson);
         }
         #endregion
     }

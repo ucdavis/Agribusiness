@@ -1,6 +1,6 @@
 ﻿@model Agribusiness.Web.Models.DisplayPerson
 
-    <div class="list-item">
+    @*<div class="list-item">
         <div class="list_pic_container">
             <img src='@Url.Action("GetThumbnail", "Person", new { id = Model.Person.Id })' alt='string.Format("{0}''s Profile Picture", @Model.Person.FullName)' />
         </div>
@@ -19,7 +19,57 @@
                 <li>No firm has been defined for this person</li>
             }
             </ul>
+
+
+            <img src='@Url.Image("icon_vcard.gif")' alt="vcard icon" />
+            @Html.ActionLink("Download Contact Card", "GetvCard", "Person", new {id=Model.Person.Id}, new {})
+
         </div>
     
     <hr class="list-divider" />
-    </div>
+    </div>*@
+
+    <section class="list-item">
+
+        <aside class="list-item-picture">
+            <img src='@Url.Action("GetThumbnail", "Person", new { id = Model.Person.Id })' alt='string.Format("{0}''s Profile Picture", @Model.Person.FullName)' />
+        </aside>
+    
+        <section class="list-item-body">
+
+            <header class="list-item-name">
+                @Html.ActionLink(Model.Person.FullName, "Profile", new { id = Model.Person.Id, seminarId = Model.Seminar.Id })
+            </header>
+
+            <article class="list-item-title">
+                @Model.Title
+            </article>
+
+            <article class="list-item-firm">
+                <ul>
+                    @if (Model.Firm != null)
+                    { 
+                        <li class="list-item-firm-name">@Model.Firm.Name</li>
+                        <li class="list-item-firm-description">@Model.Firm.Description</li>
+                    }
+                    else
+                    { 
+                        <li>No firm has been defined for this person</li>
+                    }            
+                </ul>
+            </article>
+
+            <footer class="list-item-vcard">
+                <a href='@Url.Action("GetvCard", "Person", new { id=Model.Person.Id })'>
+                    <img src='@Url.Image("icon_vcard.png")' alt="vcard icon" style="top: 10px;" />
+                    Download Contact Card
+                </a>
+            </footer>
+
+        </section>
+
+        <div style="clear:both;"></div>
+
+    </section>
+
+    

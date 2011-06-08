@@ -30,6 +30,8 @@ namespace Agribusiness.Web.Models
         public string Title { get; set; }
         public Firm Firm { get; set; }
 
+        public Seminar Seminar { get; set; }
+
         public bool Invite { get; set; }
         public bool Registered { get; set; }
     }

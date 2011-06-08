@@ -46,7 +46,8 @@ namespace Agribusiness.Web.Services
                 User = application.User,
                 OriginalPicture = application.Photo,
                 ContentType = application.ContentType,
-                CommunicationOption = application.CommunicationOption
+                CommunicationOption = application.CommunicationOption,
+                ContactInformationRelease = application.ContactInformationRelease
             };
 
             var firm = application.Firm ?? new Firm(application.FirmName, application.FirmDescription);
@@ -56,7 +57,6 @@ namespace Agribusiness.Web.Services
                 Seminar = application.Seminar,
                 Title = application.JobTitle,
                 Firm = firm,
-                ContactInformationRelease = application.ContactInformationRelease,
                 Commodities = new List<Commodity>(application.Commodities)
             };
 

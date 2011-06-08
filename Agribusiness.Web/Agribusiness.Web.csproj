@@ -107,6 +107,9 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Thought.vCards">
+      <HintPath>..\Bin\Thought.vCards.dll</HintPath>
+    </Reference>
     <Reference Include="UCDArch">
       <HintPath>..\Bin\UCDArch.dll</HintPath>
     </Reference>
@@ -188,6 +191,7 @@
       <DependentUpon>StaticIndexes.resx</DependentUpon>
     </Compile>
     <Compile Include="Services\ISeminarService.cs" />
+    <Compile Include="Services\IvCardService.cs" />
     <Compile Include="Services\NotificationService.cs" />
     <Compile Include="Services\PersonService.cs" />
     <Compile Include="Services\PictureService.cs" />
@@ -215,6 +219,8 @@
     <Content Include="Css\main.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Images\icon_vcard.gif" />
+    <Content Include="Images\icon_vcard.png" />
     <Content Include="Images\loading.gif" />
     <Content Include="Images\search.png" />
     <Content Include="Scripts\jquery.bt.min.js" />
@@ -648,6 +654,8 @@
     <Content Include="Views\Shared\_TemplateTokens.cshtml" />
     <Content Include="Views\Notification\Index.cshtml" />
     <Content Include="Views\Report\Index.cshtml" />
+    <Content Include="Views\Attendee\Profile.cshtml" />
+    <Content Include="Views\Shared\_Profile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">

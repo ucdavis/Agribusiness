@@ -79,6 +79,10 @@ namespace Agribusiness.Core.Domain
         /// Whether or not the system should automatically notify individual
         /// </summary>
         public virtual bool AutomatedNotification { get; set; }
+        /// <summary>
+        /// Whether they authorize release of contact information
+        /// </summary>
+        public virtual bool ContactInformationRelease { get; set; }
 
         #region Bags
         /// <summary>
@@ -164,6 +168,7 @@ namespace Agribusiness.Core.Domain
 
             References(x => x.CommunicationOption);
             Map(x => x.AutomatedNotification);
+            Map(x => x.ContactInformationRelease);
 
             References(x => x.User);
 

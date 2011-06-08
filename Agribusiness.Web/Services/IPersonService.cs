@@ -9,7 +9,7 @@ namespace Agribusiness.Web.Services
 {
     public interface IPersonService
     {
-        DisplayPerson GetDisplayPerson(Person person);
+        DisplayPerson GetDisplayPerson(Person person, Seminar seminar = null);
         IEnumerable<DisplayPerson> GetAllDisplayPeople();
         IEnumerable<DisplayPerson> GetDisplayPeopleForSeminar(int id);
         IEnumerable<DisplayPerson> GetDisplayPeopleNotInSeminar(int id);

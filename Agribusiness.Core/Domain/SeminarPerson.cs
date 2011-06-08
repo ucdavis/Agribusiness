@@ -42,8 +42,7 @@ namespace Agribusiness.Core.Domain
         public virtual decimal? CouponAmount { get; set; }
         public virtual bool Paid { get; set; }
         public virtual bool Invite { get; set; }
-        public virtual bool ContactInformationRelease { get; set; }
-
+        
         public virtual string ReferenceId { get; private set; }
         [StringLength(20)]
         public virtual string TransactionId { get; set; }
@@ -85,7 +84,7 @@ namespace Agribusiness.Core.Domain
             Map(x => x.Paid);
             Map(x => x.ReferenceId).ReadOnly();
             Map(x => x.Invite);
-            Map(x => x.ContactInformationRelease);
+            
             Map(x => x.TransactionId);
             Map(x => x.Comments);
 

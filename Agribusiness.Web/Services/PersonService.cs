@@ -35,15 +35,16 @@ namespace Agribusiness.Web.Services
         /// <param name="person"></param>
         /// <param name="firms">List of firms, there should only be one instance of each firm in this list</param>
         /// <returns></returns>
-        public DisplayPerson GetDisplayPerson(Person person)
+        public DisplayPerson GetDisplayPerson(Person person, Seminar seminar = null)
         {
             Check.Require(person != null, "person is required.");
 
             var displayPerson = new DisplayPerson() {Person = person};
 
-            var reg = person.GetLatestRegistration();
+            var reg = seminar == null ? person.GetLatestRegistration() : person.SeminarPeople.Where(a=>a.Seminar == seminar).FirstOrDefault();
             if (reg == null) return displayPerson;
 
+            displayPerson.Seminar = reg.Seminar;
             displayPerson.Firm = reg.Firm;
             displayPerson.Title = reg.Title;
             return displayPerson;
@@ -84,8 +85,6 @@ namespace Agribusiness.Web.Services
 
             // people who are not in the current seminar
             var people = _personRepository.Queryable.Where(a => !seminarPeeps.Contains(a.Id));
-
-            var test2 = people.ToList();
 
 
             return GetDisplayPeeps(people);
@@ -159,11 +158,11 @@ namespace Agribusiness.Web.Services
                 {
                     // only give back a firm if it's not null
                     var firm = !reg.Firm.Review ? reg.Firm : null;
-                    displayPeople.Add(new DisplayPerson() { Firm = firm, Person = person, Title = reg.Title, Invite = reg.Invite, Registered = reg.Paid});
+                    displayPeople.Add(new DisplayPerson() { Firm = firm, Person = person, Title = reg.Title, Invite = reg.Invite, Registered = reg.Paid, Seminar = reg.Seminar});
                 }
                 else
                 {
-                    displayPeople.Add(new DisplayPerson() { Person = person });
+                    displayPeople.Add(new DisplayPerson() { Person = person});
                 }
             }
 

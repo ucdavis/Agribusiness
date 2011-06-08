@@ -47,6 +47,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bin", "Bin", "{16225D2D-13C
 		Bin\Spring.Core.dll = Bin\Spring.Core.dll
 		Bin\System.Data.SQLite.DLL = Bin\System.Data.SQLite.DLL
 		Bin\Telerik.Web.Mvc.dll = Bin\Telerik.Web.Mvc.dll
+		Bin\Thought.vCards.dll = Bin\Thought.vCards.dll
+		Bin\Thought.vCards.pdb = Bin\Thought.vCards.pdb
 		Bin\UCDArch.dll = Bin\UCDArch.dll
 		Bin\xVal.dll = Bin\xVal.dll
 	EndProjectSection
