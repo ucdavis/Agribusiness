@@ -649,6 +649,11 @@ namespace Agribusiness.Web.Controllers
                     return this.RedirectToAction(a => a.AdminEdit(person.User.Id, seminarId.Value));
                 }
 
+                if (CurrentUser.Identity.Name.Contains("@"))
+                {
+                    return this.RedirectToAction(a => a.Edit(null));
+                }
+
                 return this.RedirectToAction(a => a.Index());
             }
 

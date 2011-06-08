@@ -39,6 +39,7 @@ namespace Agribusiness.Web.Helpers
                 .ForMember(x => x.Phone, x => x.MapFrom(a => a.Person.Phone))
                 .ForMember(x => x.CellPhone, x => x.MapFrom(a => a.Person.CellPhone))
                 .ForMember(x => x.Fax, x => x.MapFrom(a => a.Person.Fax))
+                .ForMember(x => x.ContactInformationRelease, x => x.MapFrom(a=>a.Person.ContactInformationRelease))
                 .ForMember(x => x.Addresses, x => x.Ignore())
                 .ForMember(x => x.Contacts, x => x.Ignore());
 

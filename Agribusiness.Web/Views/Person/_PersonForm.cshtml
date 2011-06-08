@@ -203,7 +203,7 @@
                     <div class="editor-field">
                         @{  var ss = Model.Addresses.ElementAtOrDefault(i);
                             var country = ss.Country;}
-                        @this.Select(string.Format("Address[{0}].Country", i)).Options(Model.Countries, x => x.Id, x => x.Name).FirstOption("--Select a Country--").Selected(country != null ? country.Id : "USA")
+                        @this.Select(string.Format("Addresses[{0}].Country", i)).Options(Model.Countries, x => x.Id, x => x.Name).FirstOption("--Select a Country--").Selected(country != null ? country.Id : "USA")
                     </div>
                 </li>
 			</ul>
@@ -310,7 +310,24 @@
 		</ul>
 	</fieldset>
 	
+    <fieldset>
+    
+        <legend>Contact Information Release</legend>
+
+        <p>
+        I authorize the UC Davis Agribusiness Executive Seminar to share my contact information through this website with other attendees.  Information that will be
+        shared include Email, Phone, Address and Web Site.  
+        </p>
+
+        <p style="margin-top: 1em;">
+            @Html.EditorFor(a=>a.Person.ContactInformationRelease) 
+            <text>I Agree</text>
+        </p>
+
+    </fieldset>
+
 	<fieldset>
+        <legend>Save</legend>
 		<ul>
 			<li><div class="editor-label"><label>&nbsp;</label></div>
 				<div class="editor-field">

@@ -71,6 +71,7 @@ namespace Agribusiness.Web.Services
 
             // prepare the writer to write the vcard output
             var writer = new vCardStandardWriter();
+            writer.EmbedInternetImages = false;
             writer.EmbedLocalImages = true;
             writer.Options = vCardStandardWriterOptions.IgnoreCommas;
 
