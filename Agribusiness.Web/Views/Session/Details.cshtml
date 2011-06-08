@@ -4,12 +4,17 @@
 @{
     ViewBag.Title = string.Format("Agribusiness {0} session", Model.Seminar.Year);
     ViewBag.SubPageTitle = Model.Name;
+    
+    var seminarPerson = (SeminarPerson)TempData["SeminarPerson"];
+    var seminarPersonId = seminarPerson != null ? seminarPerson.Id : -1;
 }
 
 @section SubPageNavigation
 {
+    
+
     <ul class='navigation'>
-        <li>@Html.ActionLink("Back to My Seminar", "MySeminar", "Seminar", new { id = Model.Seminar.Id }, new { })</li>
+        <li>@Html.ActionLink("Back to My Seminar", "MySeminar", "Seminar", new { id = seminarPersonId }, new { })</li>
     </ul>
 }
 

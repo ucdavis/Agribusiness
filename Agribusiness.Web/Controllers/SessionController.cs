@@ -225,6 +225,8 @@ namespace Agribusiness.Web.Controllers
 
             if (user == null || !_personService.HasAccess(user.Person, session.Seminar)) return this.RedirectToAction<ErrorController>(a => a.NotAuthorized());
 
+            TempData["SeminarPerson"] = user.Person.SeminarPeople.Where(a => a.Seminar == session.Seminar).FirstOrDefault();
+
             return View(session);
         }
         #endregion
