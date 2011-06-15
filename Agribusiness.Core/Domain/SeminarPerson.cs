@@ -55,6 +55,8 @@ namespace Agribusiness.Core.Domain
         [StringLength(20)]
         [Display(Name="Confirmation")]
         public virtual string HotelConfirmation { get; set; }
+        public virtual RoomType RoomType { get; set; }
+        public virtual string HotelComments { get; set; }
 
         public virtual IList<Session> Sessions { get; set; }
         public virtual IList<SeminarRole> SeminarRoles { get; set; }
@@ -91,6 +93,8 @@ namespace Agribusiness.Core.Domain
             Map(x => x.HotelCheckIn);
             Map(x => x.HotelCheckOut);
             Map(x => x.HotelConfirmation);
+            References(x => x.RoomType);
+            Map(x => x.HotelComments);
 
             HasManyToMany(x => x.Sessions).ParentKeyColumn("SeminarPersonId")
                 .ChildKeyColumn("SessionId")

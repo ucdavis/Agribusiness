@@ -352,7 +352,8 @@ namespace Agribusiness.Web.Controllers
 
         [UserOnly]
         [HttpPost]
-        public ActionResult UpdateHotel(int personId, int seminarId, DateTime? checkin, DateTime? checkout, string confirmation)
+        //public ActionResult UpdateHotel(int personId, int seminarId, DateTime? checkin, DateTime? checkout, string confirmation, RoomType room, string hotelComments)
+        public ActionResult UpdateHotel(int personId, int seminarId, HotelPostModel hotelPostModel)
         {
             var person = _personRepository.GetNullableById(personId);
 
@@ -373,9 +374,11 @@ namespace Agribusiness.Web.Controllers
             }
 
             // update the fields
-            reg.HotelCheckIn = checkin;
-            reg.HotelCheckOut = checkout;
-            reg.HotelConfirmation = confirmation;
+            reg.HotelCheckIn = hotelPostModel.CheckIn;
+            reg.HotelCheckOut = hotelPostModel.CheckOut;
+            reg.HotelConfirmation = hotelPostModel.Confirmation;
+            reg.RoomType = hotelPostModel.RoomType;
+            reg.HotelComments = hotelPostModel.Comments;
 
             // save
             _seminarPersonRepository.EnsurePersistent(reg);

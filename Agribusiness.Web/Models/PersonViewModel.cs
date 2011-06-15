@@ -90,6 +90,7 @@ namespace Agribusiness.Web.Models
         public PersonViewModel PersonViewModel { get; set; }
 
         public IQueryable<SeminarRole> SeminarRoles { get; set; }
+        public IQueryable<RoomType> RoomTypes { get; set; }
         public bool IsCurrentSeminar { get; set; }
         public int SeminarId { get; set; }
 
@@ -103,6 +104,7 @@ namespace Agribusiness.Web.Models
                                 {
                                     PersonViewModel = PersonViewModel.Create(repository, firmService, seminar, person, email),
                                     SeminarRoles = repository.OfType<SeminarRole>().Queryable,
+                                    RoomTypes = repository.OfType<RoomType>().Queryable.Where(a=>a.IsActive),
                                     SeminarId = seminarId
                                 };
 

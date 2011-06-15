@@ -165,6 +165,7 @@
     <Compile Include="Models\CommodityViewModel.cs" />
     <Compile Include="Models\FirmListViewModel.cs" />
     <Compile Include="Models\FirmViewModel.cs" />
+    <Compile Include="Models\HotelPostModel.cs" />
     <Compile Include="Models\MySeminarViewModel.cs" />
     <Compile Include="Models\NotificationTrackingViewModel.cs" />
     <Compile Include="Models\PersonEditModel.cs" />

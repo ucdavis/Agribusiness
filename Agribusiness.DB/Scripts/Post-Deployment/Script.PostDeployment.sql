@@ -494,3 +494,24 @@ begin
 	insert into NotificationTypes(Id, Name)
 	values ('OT', 'Other')
 end
+
+if not exists (select * from roomtypes where name = 'Deluxe Ocean View Corner Room with Balcony')  
+begin  insert into roomtypes (name) values ('Deluxe Ocean View Corner Room with Balcony')  end
+if not exists (select * from roomtypes where name = 'Deluxe Ocean View Room with Balcony')  
+begin  insert into roomtypes (name) values ('Deluxe Ocean View Room with Balcony')  end
+if not exists (select * from roomtypes where name = 'Deluxe Ocean View Room No Balcony') 
+ begin  insert into roomtypes (name) values ('Deluxe Ocean View Room No Balcony')  end
+if not exists (select * from roomtypes where name = 'Inland View Room with Balcony')  
+begin  insert into roomtypes (name) values ('Inland View Room with Balcony')  end
+if not exists (select * from roomtypes where name = 'Inland View Room No Balcony')  
+begin  insert into roomtypes (name) values ('Inland View Room No Balcony')  end
+if not exists (select * from roomtypes where name = 'Presidential Suite')  
+begin  insert into roomtypes (name) values ('Presidential Suite')  end
+if not exists (select * from roomtypes where name = 'Grand Bay Suite')  
+begin  insert into roomtypes (name) values ('Grand Bay Suite')  end
+if not exists (select * from roomtypes where name = 'Cannery Row Suite')  
+begin  insert into roomtypes (name) values ('Cannery Row Suite')  end
+if not exists (select * from roomtypes where name = 'Spa Terrace')  
+begin  insert into roomtypes (name) values ('Spa Terrace')  end
+if not exists (select * from roomtypes where name = 'Executive Suites')  
+begin  insert into roomtypes (name) values ('Executive Suites')  end
