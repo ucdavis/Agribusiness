@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <publishData>
-  <publishProfile publishUrl="\\hughman\wwwroot\Agribusiness" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="Test" publishMethod="FileSystem" replaceMatchingFiles="True" userName="" savePWD="False" userPWD="" SelectedForPublish="True">
-    <file relUrl="bin/Agribusiness.Web.dll" publishTime="06/16/2011 10:42:00" />
+  <publishProfile publishUrl="\\hughman\wwwroot\Agribusiness" deleteExistingFiles="True" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="Test" publishMethod="FileSystem" replaceMatchingFiles="False" userName="" savePWD="False" userPWD="" SelectedForPublish="True">
+    <file relUrl="bin/Agribusiness.Web.dll" publishTime="06/17/2011 08:27:39" />
     <file relUrl="Scripts/tiny_mce/plugins/print/editor_plugin.js" publishTime="06/02/2011 13:18:13" />
     <file relUrl="Scripts/jquery-ui.js" publishTime="04/19/2011 07:55:31" />
     <file relUrl="bin/UCDArch.dll" publishTime="04/25/2011 07:41:57" />
@@ -16,7 +16,7 @@
     <file relUrl="Scripts/tiny_mce/plugins/table/editor_plugin_src.js" publishTime="06/02/2011 13:18:14" />
     <file relUrl="Scripts/jquery-ui.min.js" publishTime="04/19/2011 07:55:31" />
     <file relUrl="Scripts/tiny_mce/plugins/advlink/langs/en_dlg.js" publishTime="06/02/2011 13:18:13" />
-    <file relUrl="bin/Agribusiness.Core.dll" publishTime="06/15/2011 15:16:39" />
+    <file relUrl="bin/Agribusiness.Core.dll" publishTime="06/17/2011 08:27:37" />
     <file relUrl="Views/Shared/_LogOnPartial.cshtml" publishTime="04/19/2011 07:55:32" />
     <file relUrl="Views/PictureTest/Index.cshtml" publishTime="04/19/2011 07:55:32" />
     <file relUrl="Scripts/tiny_mce/themes/advanced/skins/o2k7/img/button_bg_black.png" publishTime="06/02/2011 13:18:14" />
@@ -146,7 +146,7 @@
     <file relUrl="Scripts/tiny_mce/plugins/spellchecker/css/content.css" publishTime="06/02/2011 13:18:14" />
     <file relUrl="Scripts/tiny_mce/plugins/xhtmlxtras/del.htm" publishTime="06/02/2011 13:18:14" />
     <file relUrl="Scripts/tiny_mce/plugins/media/media.htm" publishTime="06/02/2011 13:18:13" />
-    <file relUrl="bin/Agribusiness.WS.dll" publishTime="06/16/2011 10:41:58" />
+    <file relUrl="bin/Agribusiness.WS.dll" publishTime="06/17/2011 08:27:38" />
     <file relUrl="Scripts/tiny_mce/themes/advanced/img/quicktime.gif" publishTime="06/02/2011 13:18:14" />
     <file relUrl="Scripts/tiny_mce/plugins/emotions/langs/en_dlg.js" publishTime="06/02/2011 13:18:13" />
     <file relUrl="Views/Account/ChangePasswordSuccess.cshtml" publishTime="04/19/2011 07:55:32" />
@@ -186,7 +186,7 @@
     <file relUrl="Scripts/tiny_mce/themes/advanced/skins/o2k7/ui_black.css" publishTime="06/02/2011 13:18:15" />
     <file relUrl="Scripts/tiny_mce/themes/simple/editor_template_src.js" publishTime="06/02/2011 13:18:15" />
     <file relUrl="Scripts/tiny_mce/plugins/advimage/langs/en_dlg.js" publishTime="06/02/2011 13:18:13" />
-    <file relUrl="Views/Web.config" publishTime="06/08/2011 14:11:44" />
+    <file relUrl="Views/Web.config" publishTime="06/17/2011 08:27:50" />
     <file relUrl="Scripts/tiny_mce/themes/advanced/img/realmedia.gif" publishTime="06/02/2011 13:18:14" />
     <file relUrl="Views/SeminarApplication/Decide.cshtml" publishTime="05/06/2011 07:51:29" />
     <file relUrl="Scripts/tiny_mce/plugins/table/editor_plugin.js" publishTime="06/02/2011 13:18:14" />
@@ -407,7 +407,7 @@
     <file relUrl="Scripts/tiny_mce/plugins/fullpage/js/fullpage.js" publishTime="06/02/2011 13:18:13" />
     <file relUrl="Scripts/tiny_mce/plugins/insertdatetime/editor_plugin.js" publishTime="06/02/2011 13:18:13" />
     <file relUrl="Views/Commodity/Edit.cshtml" publishTime="04/25/2011 12:46:39" />
-    <file relUrl="Web.config" publishTime="06/08/2011 14:11:43" />
+    <file relUrl="Web.config" publishTime="06/17/2011 08:27:50" />
     <file relUrl="Css/anytimec.css" publishTime="04/19/2011 07:55:31" />
     <file relUrl="Css/themes/base/images/ui-bg_flat_75_ffffff_40x100.png" publishTime="04/19/2011 07:55:31" />
     <file relUrl="Views/Seminar/MySeminar.cshtml" publishTime="04/29/2011 11:28:53" />
