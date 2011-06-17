@@ -657,6 +657,7 @@
     <Content Include="Views\Report\Index.cshtml" />
     <Content Include="Views\Attendee\Profile.cshtml" />
     <Content Include="Views\Shared\_Profile.cshtml" />
+    <Content Include="Views\Error\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">
