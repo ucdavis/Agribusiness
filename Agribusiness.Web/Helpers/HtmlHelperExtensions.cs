@@ -1,14 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 
 namespace Agribusiness.Web.Helpers
 {
     public static class HtmlHelperExtensions
     {
+        #region Recaptcha
+        public static string GenerateCaptcha(this HtmlHelper helper)
+        {
+
+            var captchaControl = new Recaptcha.RecaptchaControl
+            {
+                ID = "recaptcha",
+                Theme = "clean",
+                PublicKey = ConfigurationManager.AppSettings["RecaptchaPublicKey"],
+                PrivateKey = ConfigurationManager.AppSettings["RecaptchaPrivateKey"]
+            };
+
+            var htmlWriter = new HtmlTextWriter(new StringWriter());
+
+            captchaControl.RenderControl(htmlWriter);
+
+            return htmlWriter.InnerWriter.ToString();
+        }
+        #endregion
+
+        #region Html Encoder      
         private const string HtmlTag = @"&lt;{0}&gt;";
         private const string Span = "span";
         private const string SpanEncodedStyled = @"&lt;span style=&quot;{0}&quot;&gt;";
@@ -260,6 +284,7 @@ namespace Agribusiness.Web.Helpers
 
             return currentLocation;
         }
+        #endregion
     }
 
     public class TagMarker

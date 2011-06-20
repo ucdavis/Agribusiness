@@ -1,0 +1,91 @@
+﻿@using Agribusiness.Web.Helpers;
+@model InformationRequest
+
+@{
+    ViewBag.Title = "More Information";
+    ViewBag.SugPageTitle = "More Information";
+}
+
+@using (Html.BeginForm()) { 
+
+    <fieldset>
+    
+        <legend>Request More Information</legend>
+
+        <ul>
+            <li><div class="editor-label required">
+                    @Html.LabelFor(a=>a.Name)
+                    <span>*</span>
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(a=>a.Name)
+                    @Html.ValidationMessageFor(a=>a.Name)
+                </div>
+            </li>
+            <li><div class="editor-label required">
+                    @Html.LabelFor(a=>a.Title)
+                    <span>*</span>
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(a=>a.Title)
+                    @Html.ValidationMessageFor(a=>a.Title)
+                </div>
+            </li>
+            <li><div class="editor-label required">
+                    @Html.LabelFor(a=>a.Company)
+                    <span>*</span>
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(a=>a.Company)
+                    @Html.ValidationMessageFor(a=>a.Company)
+                </div>
+            </li>
+            <li><div class="editor-label required">
+                    @Html.LabelFor(a=>a.Email)
+                    <span>*</span>
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(a=>a.Email)
+                    @Html.ValidationMessageFor(a=>a.Email)
+                </div>
+            </li>
+            <li><div class="editor-label required">
+                    @Html.LabelFor(a=>a.Commodity)
+                    <span>*</span>
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(a=>a.Commodity)
+                    @Html.ValidationMessageFor(a=>a.Commodity)
+                </div>
+            </li>
+            <li><div class="editor-label required">
+                    @Html.LabelFor(a=>a.Location)
+                    <span>*</span>
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(a=>a.Location)
+                    @Html.ValidationMessageFor(a=>a.Location)
+                </div>
+            </li>
+            <li><div class="editor-label">&nbsp;</div>
+                <div class="editor-field">
+                @{var captcha = Html.GenerateCaptcha();}
+                @Html.Raw(captcha)
+                </div>
+            </li>
+            <li>
+                <div class="editor-label">&nbsp;</div>
+                <div class="editor-field">
+                    <input type="submit" value="Submit" class="button" />
+                </div>
+            </li>
+        </ul>
+
+    </fieldset>
+    
+    
+    
+    
+    
+}
+

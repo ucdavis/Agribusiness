@@ -86,6 +86,9 @@
     <Reference Include="NHibernate.ByteCode.Spring">
       <HintPath>..\Bin\NHibernate.ByteCode.Spring.dll</HintPath>
     </Reference>
+    <Reference Include="Recaptcha">
+      <HintPath>..\Bin\Recaptcha.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.WebPages" />
     <Reference Include="System.Web.Helpers" />
@@ -133,6 +136,7 @@
     <Compile Include="Controllers\CaseStudyController.cs" />
     <Compile Include="Controllers\CommodityController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\Filters\CaptchaValidatorAttribute.cs" />
     <Compile Include="Controllers\Filters\CatbertMessagesAttribute.cs" />
     <Compile Include="Controllers\Filters\RoleFilter.cs" />
     <Compile Include="Controllers\FirmController.cs" />
@@ -658,6 +662,8 @@
     <Content Include="Views\Attendee\Profile.cshtml" />
     <Content Include="Views\Shared\_Profile.cshtml" />
     <Content Include="Views\Error\Index.cshtml" />
+    <Content Include="Views\Public\ContactUs.cshtml" />
+    <Content Include="Views\Public\MoreInformation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">
