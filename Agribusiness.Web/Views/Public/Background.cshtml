@@ -1,6 +1,5 @@
 ﻿@{
     ViewBag.Title = "Background Information";
-    ViewBag.SubPageTitle = "Background Information";
 }
 
 @section ScriptContent
@@ -10,6 +9,17 @@
         h3 {margin-top: 1em;}
     </style>
 }
+
+@section SubPageNavigation
+{
+    <ul class="navigation">
+        <li>@Html.ActionLink("Steering Committee", "SteeringCommittee", "Public")</li>
+        <li>@Html.ActionLink("Case Studies", "CaseExamples", "Public")</li>
+        <li>@Html.ActionLink("Venue", "Venue", "Public")</li>
+    </ul>
+}
+
+<h2>Background Information</h2>
 
 <p>The 2010 seminar will be the sixteenth in a series that began in 1989 as a collaboration between Wells Fargo Bank, led by Bill Henderson, Executive Vice President, and the Department of Agricultural and Resource Economics at the University of California, Davis. Chester O. McCorkle, UCD Professor Emeritus, directed the seminar from 1989 through 2003 when Roberta Cook became the Faculty Director. Dr. Cook is an Extension Marketing Economist in the Department of Agricultural and Resource Economics at the University of California, Davis.</p>
 

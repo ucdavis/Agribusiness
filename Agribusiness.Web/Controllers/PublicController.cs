@@ -36,11 +36,6 @@ namespace Agribusiness.Web.Controllers
         {
             return View();
         }
-
-        public ActionResult McCorkleFund()
-        {
-            return View();
-        }
     }
 
 }

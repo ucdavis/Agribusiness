@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
+using Agribusiness.Web.Controllers.Filters;
 using Agribusiness.Web.Models;
 using UCDArch.Web.Authentication;
 using MvcContrib;
@@ -76,13 +77,14 @@ namespace Agribusiness.Web.Controllers
         // **************************************
         // URL: /Account/Register
         // **************************************
-
+        [UserOnly]
         public ActionResult Register()
         {
             ViewBag.PasswordLength = MembershipService.MinPasswordLength;
             return View();
         }
 
+        [UserOnly]
         [HttpPost]
         public ActionResult Register(RegisterModel model)
         {
