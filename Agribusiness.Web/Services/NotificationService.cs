@@ -94,7 +94,11 @@ namespace Agribusiness.Web.Services
             // replace the value
             switch(parameter.ToLower())
             {
-                case "name":
+                case"badgename":
+                    return string.IsNullOrWhiteSpace(person.BadgeName) ? person.FirstName : person.BadgeName;
+                case "firstname":
+                    return person.FirstName;
+                case "fullname":
                     return person.FullName;
                 case "seminarbegindate":
                     return _seminar.Begin.ToString("g");
