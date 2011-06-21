@@ -33,7 +33,7 @@ namespace Agribusiness.Web.Controllers
             var pendingApplications = Repository.OfType<Application>().Queryable.Where(a => a.IsPending).Count();
             var peopleMissingPicture = Repository.OfType<Person>().Queryable.Where(a=>a.OriginalPicture == null).Count();
             var firmsRequiringReview = Repository.OfType<Firm>().Queryable.Where(a => a.Review).Count();
-
+            var pendingInformationRequests = Repository.OfType<InformationRequest>().Queryable.Where(a => !a.Responded).Count();
             var message = new StringBuilder();
 
             if (pendingApplications > 0)
@@ -49,6 +49,11 @@ namespace Agribusiness.Web.Controllers
             if (firmsRequiringReview > 0)
             {
                 message.Append(string.Format("There are {0} firms waiting approval.", firmsRequiringReview));
+            }
+
+            if (pendingInformationRequests > 0)
+            {
+                message.Append(string.Format("There are {0} pending information requests.", pendingInformationRequests));
             }
 
             return View(message);

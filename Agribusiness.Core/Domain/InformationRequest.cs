@@ -11,6 +11,7 @@ namespace Agribusiness.Core.Domain
         public InformationRequest()
         {
             SubmittedDateTime = DateTime.Now;
+            Responded = false;
         }
 
         [Required]
@@ -33,6 +34,7 @@ namespace Agribusiness.Core.Domain
         public virtual string Location { get; set; }
 
         public virtual DateTime SubmittedDateTime { get; set; }
+        public virtual bool Responded { get; set; }
 
         [Required]
         public virtual Seminar Seminar { get; set; }
@@ -51,6 +53,7 @@ namespace Agribusiness.Core.Domain
             Map(x => x.Commodity);
             Map(x => x.Location);
             Map(x => x.SubmittedDateTime);
+            Map(x => x.Responded);
 
             References(x => x.Seminar);
         }

@@ -141,6 +141,7 @@
     <Compile Include="Controllers\Filters\RoleFilter.cs" />
     <Compile Include="Controllers\FirmController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InformationRequestController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\PersonController.cs" />
     <Compile Include="Controllers\PictureTestController.cs" />
@@ -664,6 +665,7 @@
     <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\Public\ContactUs.cshtml" />
     <Content Include="Views\Public\MoreInformation.cshtml" />
+    <Content Include="Views\InformationRequest\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">
