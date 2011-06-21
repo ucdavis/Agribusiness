@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using DataAnnotationsExtensions;
 using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
@@ -7,6 +8,11 @@ namespace Agribusiness.Core.Domain
 {
     public class InformationRequest : DomainObject
     {
+        public InformationRequest()
+        {
+            SubmittedDateTime = DateTime.Now;
+        }
+
         [Required]
         [StringLength(100)]
         public virtual string Name { get; set; }
@@ -26,6 +32,8 @@ namespace Agribusiness.Core.Domain
         [StringLength(50)]
         public virtual string Location { get; set; }
 
+        public virtual DateTime SubmittedDateTime { get; set; }
+
         [Required]
         public virtual Seminar Seminar { get; set; }
     }
@@ -42,6 +50,7 @@ namespace Agribusiness.Core.Domain
             Map(x => x.Email);
             Map(x => x.Commodity);
             Map(x => x.Location);
+            Map(x => x.SubmittedDateTime);
 
             References(x => x.Seminar);
         }

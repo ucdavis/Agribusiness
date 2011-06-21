@@ -6,11 +6,24 @@
     ViewBag.SugPageTitle = "More Information";
 }
 
+@section SubPageNavigation
+{
+    <ul class="navigation">
+        <li>@Html.ActionLink("Back to Home", "Index", "Home")</li>
+    </ul>
+}
+
+@Html.ValidationSummary(false, "Please correct the following errors:")
+
 @using (Html.BeginForm()) { 
 
+    @Html.AntiForgeryToken()
+    
     <fieldset>
     
         <legend>Request More Information</legend>
+
+        <p>Please fill out this form and someone will contact you with more details.</p>
 
         <ul>
             <li><div class="editor-label required">
@@ -77,15 +90,13 @@
                 <div class="editor-label">&nbsp;</div>
                 <div class="editor-field">
                     <input type="submit" value="Submit" class="button" />
+                    |
+                    @Html.ActionLink("Cancel", "Index", "Home")
                 </div>
             </li>
         </ul>
 
     </fieldset>
-    
-    
-    
-    
-    
+
 }
 
