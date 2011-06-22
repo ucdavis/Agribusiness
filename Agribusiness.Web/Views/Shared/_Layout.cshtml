@@ -96,7 +96,11 @@
 	Version #: @ViewBag.Version
 	</li>
     <li>
-        <img src='@Url.Content("~/Images/caes_wf_blue.jpg")' />
+        <img id="_sponsorImage" src="@Url.Content("~/Images/caes_wf_blue.jpg")" usemap="#_sponsorMap" alt="Sponsors" />
+        <map id="_sponsorMap" name="_sponsorMap">
+        <area shape="rect" coords="0,0,58,55" href="http://wellsfargo.com" alt="Wells Fargo" title="Wells Fargo"    />
+        <area shape="rect" coords="57,0,266,55" href="http://caes.ucdavis.edu" alt="College of Agricultural & Environmental Sciences" title="College of Agricultural & Environmental Sciences"    />
+        </map>
     </li>
 	@*<li>
 	Developed By The College Of Agricultural And Environmental Science Dean's Office
