@@ -49,7 +49,7 @@ namespace Agribusiness.Web.Models
         public NotificationTrackingViewModel NotificationTrackingViewModel { get; set; }
         public EmailQueue EmailQueue { get; set; }
 
-        public static SendNotificationViewModel Create(IRepository repository, NotificationTrackingViewModel notificationTrackingViewModel, EmailQueue emailQueue = null)
+        public static SendNotificationViewModel Create(IRepository repository, NotificationTrackingViewModel notificationTrackingViewModel, EmailQueue emailQueue = null, string email = null)
         {
             Check.Require(repository != null, "Repository is required.");
             Check.Require(notificationTrackingViewModel != null, "notificationTrackingViewModel is required.");
@@ -57,7 +57,7 @@ namespace Agribusiness.Web.Models
             var viewModel = new SendNotificationViewModel()
                                 {
                                     NotificationTrackingViewModel = notificationTrackingViewModel,
-                                    EmailQueue = emailQueue ?? new EmailQueue()
+                                    EmailQueue = emailQueue ?? new EmailQueue() { FromAddress = email}
                                 };
 
             return viewModel;

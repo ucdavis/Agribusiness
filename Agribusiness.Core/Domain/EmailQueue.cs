@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using DataAnnotationsExtensions;
 using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
 
@@ -40,6 +41,14 @@ namespace Agribusiness.Core.Domain
         public virtual string Body { get; set; }
 
         public virtual int? ErrorCode { get; set; }
+
+        /// <summary>
+        /// Optionally set the from address to use, otherwise it defualts to the automated email
+        /// </summary>
+        [StringLength(50)]
+        [Email]
+        [DataType(DataType.EmailAddress)]
+        public virtual string FromAddress { get; set; }
     }
 
     public class EmailQueueMap : ClassMap<EmailQueue>
@@ -58,6 +67,7 @@ namespace Agribusiness.Core.Domain
             Map(x => x.Subject);
             Map(x => x.Body);
             Map(x => x.ErrorCode);
+            Map(x => x.FromAddress);
         }
     }
 }

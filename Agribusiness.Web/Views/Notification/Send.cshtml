@@ -78,6 +78,11 @@
     <fieldset>
         <legend>Notification Message</legend>
         <ul>
+            <li><div class="editor-label">From Address</div>
+                <div class="editor-field">@Html.TextBoxFor(a=>a.EmailQueue.FromAddress)
+                    <span><em>*If blank, emails will be sent from automatedemail@caes.ucdavis.edu</em></span>
+                </div>
+            </li>
             <li><div class="editor-label required">Subject<span>*</span></div>
                 <div class="editor-field">@Html.TextBoxFor(a=>a.EmailQueue.Subject)</div>
             </li>
