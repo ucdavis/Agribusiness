@@ -6,6 +6,9 @@
     [SentDateTime] DATETIME      NULL,
     [Subject]      VARCHAR (100) NULL,
     [Body]         VARCHAR (MAX) NULL,
-    [ErrorCode]    INT           NULL
+    [ErrorCode]    INT           NULL,
+    [FromAddress]  VARCHAR (50)  NULL
 );
+
+
 
