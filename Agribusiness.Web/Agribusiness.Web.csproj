@@ -77,6 +77,9 @@
     <Reference Include="Microsoft.Web.Mvc">
       <HintPath>..\Bin\Microsoft.Web.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="Moxiecode.TinyMCE">
+      <HintPath>..\Bin\Moxiecode.TinyMCE.dll</HintPath>
+    </Reference>
     <Reference Include="MvcContrib">
       <HintPath>..\Bin\MvcContrib.dll</HintPath>
     </Reference>
