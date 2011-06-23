@@ -78,10 +78,11 @@ namespace Agribusiness.Web.Controllers
         // URL: /Account/Register
         // **************************************
         [UserOnly]
-        public ActionResult Register()
+        public ActionResult Register(string email)
         {
             ViewBag.PasswordLength = MembershipService.MinPasswordLength;
-            return View();
+            var model = new RegisterModel(){Email = email, UserName = email};
+            return View(model);
         }
 
         [UserOnly]
@@ -107,7 +108,7 @@ namespace Agribusiness.Web.Controllers
                 if (createStatus == MembershipCreateStatus.Success)
                 {
                     FormsService.SignIn(model.UserName, false /* createPersistentCookie */);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "InformationRequest");
                 }
                 else
                 {
