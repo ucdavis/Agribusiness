@@ -69,6 +69,11 @@ namespace Agribusiness.Web.Helpers
 
             CreateMap<Template, Template>()
                 .ForMember(x => x.Id, x => x.Ignore());
+
+            CreateMap<InformationRequest, InformationRequest>()
+                .ForMember(x => x.Id, x => x.Ignore())
+                .ForMember(x => x.SubmittedDateTime, x=> x.Ignore())
+                .ForMember(x => x.InformationRequestNotes, x=>x.Ignore());
         }
         
     }

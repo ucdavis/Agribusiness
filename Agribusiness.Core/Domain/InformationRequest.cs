@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using DataAnnotationsExtensions;
 using FluentNHibernate.Mapping;
@@ -12,6 +13,8 @@ namespace Agribusiness.Core.Domain
         {
             SubmittedDateTime = DateTime.Now;
             Responded = false;
+
+            InformationRequestNotes = new List<InformationRequestNote>();
         }
 
         [Required]
@@ -25,6 +28,8 @@ namespace Agribusiness.Core.Domain
         public virtual string Company { get; set; }
         [Required]
         [StringLength(50)]
+        [Email]
+        [DataType(DataType.EmailAddress)]
         public virtual string Email { get; set; }
         [Required]
         [StringLength(200)]
@@ -38,6 +43,8 @@ namespace Agribusiness.Core.Domain
 
         [Required]
         public virtual Seminar Seminar { get; set; }
+
+        public virtual IEnumerable<InformationRequestNote> InformationRequestNotes { get; set; }
     }
 
     public class InformationRequestMap : ClassMap<InformationRequest>
@@ -56,6 +63,8 @@ namespace Agribusiness.Core.Domain
             Map(x => x.Responded);
 
             References(x => x.Seminar);
+
+            HasMany(a => a.InformationRequestNotes).Inverse().Cascade.AllDeleteOrphan();
         }
     }
 }
