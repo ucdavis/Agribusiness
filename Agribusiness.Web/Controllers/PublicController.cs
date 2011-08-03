@@ -9,6 +9,7 @@ using UCDArch.Web.Controller;
 using UCDArch.Web.Helpers;
 using UCDArch.Core.Utils;
 using MvcContrib;
+using MvcContrib;
 
 namespace Agribusiness.Web.Controllers
 {
@@ -28,36 +29,44 @@ namespace Agribusiness.Web.Controllers
 
         public ActionResult Background()
         {
+            return this.RedirectToAction<HomeController>(a => a.ComingSoon());
+
             return View();
         }
 
         public ActionResult SteeringCommittee()
         {
+            return this.RedirectToAction<HomeController>(a => a.ComingSoon());
             return View();
         }
 
         public ActionResult ProgramOverview()
         {
+            return this.RedirectToAction<HomeController>(a => a.ComingSoon());
             return View();
         }
 
         public ActionResult CaseExamples()
         {
+            return this.RedirectToAction<HomeController>(a => a.ComingSoon());
             return View();
         }
 
         public ActionResult Venue()
         {
+            return this.RedirectToAction<HomeController>(a => a.ComingSoon());
             return View();
         }
 
         public ActionResult ContactUs()
         {
+            return this.RedirectToAction<HomeController>(a => a.ComingSoon());
             return View();
         }
 
         public ActionResult MoreInformation()
         {
+            return this.RedirectToAction<HomeController>(a => a.ComingSoon());
             return View(new InformationRequest());
         }
 
@@ -65,6 +74,7 @@ namespace Agribusiness.Web.Controllers
         [HttpPost]
         public ActionResult MoreInformation(InformationRequest informationRequest)
         {
+            return this.RedirectToAction<HomeController>(a => a.ComingSoon());
             ModelState.Clear();
 
             informationRequest.Seminar = _seminarService.GetCurrent();

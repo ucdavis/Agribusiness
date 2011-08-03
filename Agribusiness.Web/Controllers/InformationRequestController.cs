@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using Agribusiness.Core.Domain;
+using Agribusiness.Web.Controllers.Filters;
 using AutoMapper;
 using Resources;
 using UCDArch.Core.PersistanceSupport;
@@ -13,6 +14,7 @@ namespace Agribusiness.Web.Controllers
     /// <summary>
     /// Controller for the InformationRequest class
     /// </summary>
+    [UserOnly]
     public class InformationRequestController : ApplicationController
     {
 	    private readonly IRepository<InformationRequest> _informationrequestRepository;

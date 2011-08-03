@@ -42,6 +42,7 @@ namespace Agribusiness.Web.Controllers
         /// </summary>
         /// <param name="seminarId"></param>
         /// <returns></returns>
+        [UserOnly]
         public ActionResult Create(int seminarId)
         {
             var seminar = _seminarRepository.GetNullableById(seminarId);
@@ -57,6 +58,7 @@ namespace Agribusiness.Web.Controllers
         }
 
         [HttpPost]
+        [UserOnly]
         public ActionResult Create(int seminarId, CaseStudy caseStudy, HttpPostedFileBase file)
         {
             var seminar = Repository.OfType<Seminar>().GetNullableById(seminarId);
@@ -89,7 +91,8 @@ namespace Agribusiness.Web.Controllers
             var viewModel = CaseStudyViewModel.Create(Repository, seminar, caseStudy);
             return View(viewModel);
         }
-
+        
+        [UserOnly]
         public ActionResult Edit(int id, int seminarId)
         {
             var seminar = _seminarRepository.GetNullableById(seminarId);
@@ -110,6 +113,7 @@ namespace Agribusiness.Web.Controllers
         /// Either adding a Author or Case Executive
         /// </summary>
         /// <returns></returns>
+        [UserOnly]
         public ActionResult AddPerson(int id)
         {
             var caseStudy = _casestudyRepository.GetNullableById(id);
@@ -125,6 +129,7 @@ namespace Agribusiness.Web.Controllers
         }
 
         [HttpPost]
+        [UserOnly]
         public ActionResult AddPerson(int id, int seminarPersonId, string personType)
         {
             var caseStudy = _casestudyRepository.GetNullableById(id);
@@ -180,6 +185,7 @@ namespace Agribusiness.Web.Controllers
         }
 
         [HttpPost]
+        [UserOnly]
         public RedirectToRouteResult RemovePerson(int id, int seminarPersonId, string personType)
         {
             var caseStudy = _casestudyRepository.GetNullableById(id);
@@ -254,6 +260,7 @@ namespace Agribusiness.Web.Controllers
         }
         #endregion
 
+        [Authorize]
         public ActionResult Download(int id)
         {
             var caseStudy = _casestudyRepository.GetNullableById(id);

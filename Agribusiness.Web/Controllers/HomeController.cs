@@ -7,6 +7,7 @@ using Agribusiness.Web.Models;
 using Agribusiness.Web.Services;
 using UCDArch.Web.Attributes;
 using System;
+using MvcContrib;
 
 namespace Agribusiness.Web.Controllers
 {
@@ -22,6 +23,8 @@ namespace Agribusiness.Web.Controllers
 
         public ActionResult Index()
         {
+            return this.RedirectToAction(a => a.ComingSoon());
+
             var seminar = _seminarService.GetCurrent();
 
             return View(seminar);
@@ -60,6 +63,13 @@ namespace Agribusiness.Web.Controllers
         }
 
         public ActionResult About()
+        {
+            return this.RedirectToAction(a => a.ComingSoon());
+
+            return View();
+        }
+
+        public ActionResult ComingSoon()
         {
             return View();
         }

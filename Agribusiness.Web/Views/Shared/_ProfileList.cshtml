@@ -38,7 +38,19 @@
         <section class="list-item-body">
 
             <header class="list-item-name">
+
+                @if (Model.Seminar != null)
+                { 
                 @Html.ActionLink(Model.Person.FullName, "Profile", new { id = Model.Person.Id, seminarId = Model.Seminar.Id })
+                @Html.ActionLink("Edit", "AdminEdit", new { id = Model.Person.User.Id, seminarId = Model.Seminar.Id })
+                }
+                else
+                { 
+                    <text>@Model.Person.FullName (No Seminar)</text>
+                }
+               
+               
+
             </header>
 
             <article class="list-item-title">
@@ -60,7 +72,7 @@
             </article>
 
             <footer class="list-item-vcard">
-                <a href='@Url.Action("GetvCard", "Person", new { id=Model.Person.Id })'>
+                <a href='@Url.Action("GetvCard", "Person", new { id = Model.Person.Id })'>
                     <img src='@Url.Image("icon_vcard.png")' alt="vcard icon" style="top: 10px;" />
                     Download Contact Card
                 </a>
