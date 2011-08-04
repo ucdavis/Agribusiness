@@ -57,10 +57,16 @@ article.list-item-firm li.list-item-firm-description
     margin: .25em 0 ;
 }
 
-footer.list-item-vcard
+aside.list-item-vcard
 {
     float: right;
     font-size: small;
+    text-align: right;
+    
+    background-color: #E8E8E8;
+    border: 1px solid #0068B7;
+    padding: .5em;
+    text-align: right;
 }
 
 /*

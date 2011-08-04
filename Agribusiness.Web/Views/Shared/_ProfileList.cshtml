@@ -41,8 +41,7 @@
 
                 @if (Model.Seminar != null)
                 { 
-                @Html.ActionLink(Model.Person.FullName, "Profile", new { id = Model.Person.Id, seminarId = Model.Seminar.Id })
-                @Html.ActionLink("Edit", "AdminEdit", new { id = Model.Person.User.Id, seminarId = Model.Seminar.Id })
+                    @Html.ActionLink(Model.Person.FullName, "Profile", new { id = Model.Person.Id, seminarId = Model.Seminar.Id })
                 }
                 else
                 { 
@@ -71,12 +70,25 @@
                 </ul>
             </article>
 
-            <footer class="list-item-vcard">
+            <aside class="list-item-vcard">
                 <a href='@Url.Action("GetvCard", "Person", new { id = Model.Person.Id })'>
                     <img src='@Url.Image("icon_vcard.png")' alt="vcard icon" style="top: 10px;" />
                     Download Contact Card
                 </a>
-            </footer>
+
+                @if (Model.Seminar != null && User.IsInRole(Agribusiness.Web.Controllers.Filters.RoleNames.User))
+                { 
+                    <br />
+                    <br />
+                    
+                    <a href='@Url.Action("AdminEdit", "Person", new {id=Model.Person.User.Id, seminarId=Model.Seminar.Id})'>
+                        <img src='@Url.Image("edit.png")' alt="Edit" style="height: 20px; width: 20px;" />
+                        Edit
+                    </a>
+                }
+                
+
+            </aside>
 
         </section>
 

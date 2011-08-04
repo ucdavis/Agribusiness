@@ -78,6 +78,7 @@ namespace Agribusiness.Core.Domain
 
             Map(x => x.Year);
             Map(x => x.Location);
+            Map(x => x.LocationLink);
             Map(x => x.Begin).Column("`Begin`");
             Map(x => x.End).Column("`End`");
             Map(x => x.RegistrationBegin);
