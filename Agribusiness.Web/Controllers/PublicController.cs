@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using Agribusiness.Core.Domain;
+using Agribusiness.Web.App_GlobalResources;
 using Agribusiness.Web.Controllers.Filters;
 using Agribusiness.Web.Services;
 using Resources;
@@ -19,54 +21,58 @@ namespace Agribusiness.Web.Controllers
     public class PublicController : ApplicationController
     {
         private readonly IRepository<InformationRequest> _informationRequestRepository;
+        private readonly IRepositoryWithTypedId<SeminarRole, string> _seminarRoleRepository;
         private readonly ISeminarService _seminarService;
 
-        public PublicController(IRepository<InformationRequest> informationRequestRepository, ISeminarService seminarService)
+        public PublicController(IRepository<InformationRequest> informationRequestRepository, IRepositoryWithTypedId<SeminarRole, string> seminarRoleRepository , ISeminarService seminarService)
         {
             _informationRequestRepository = informationRequestRepository;
+            _seminarRoleRepository = seminarRoleRepository;
             _seminarService = seminarService;
         }
 
         public ActionResult Background()
         {
-            return this.RedirectToAction<HomeController>(a => a.ComingSoon());
-
             return View();
         }
 
         public ActionResult SteeringCommittee()
         {
-            return this.RedirectToAction<HomeController>(a => a.ComingSoon());
+            var seminar = _seminarService.GetCurrent();
+            var role = _seminarRoleRepository.GetNullableById(StaticIndexes.Role_SteeringCommittee);
+
+            if (seminar != null && role != null)
+            {
+                var committee = seminar.SeminarPeople.Where(a => a.SeminarRoles.Contains(role)).OrderBy(a => a.Person.LastName);
+
+                return View(committee.ToList());
+            }
+
             return View();
         }
 
         public ActionResult ProgramOverview()
         {
-            return this.RedirectToAction<HomeController>(a => a.ComingSoon());
             return View();
         }
 
         public ActionResult CaseExamples()
         {
-            return this.RedirectToAction<HomeController>(a => a.ComingSoon());
             return View();
         }
 
         public ActionResult Venue()
         {
-            return this.RedirectToAction<HomeController>(a => a.ComingSoon());
             return View();
         }
 
         public ActionResult ContactUs()
         {
-            return this.RedirectToAction<HomeController>(a => a.ComingSoon());
             return View();
         }
 
         public ActionResult MoreInformation()
         {
-            return this.RedirectToAction<HomeController>(a => a.ComingSoon());
             return View(new InformationRequest());
         }
 
@@ -74,7 +80,6 @@ namespace Agribusiness.Web.Controllers
         [HttpPost]
         public ActionResult MoreInformation(InformationRequest informationRequest)
         {
-            return this.RedirectToAction<HomeController>(a => a.ComingSoon());
             ModelState.Clear();
 
             informationRequest.Seminar = _seminarService.GetCurrent();

@@ -4,48 +4,57 @@
 {
     <style type="text/css">
         p {margin-top: 1em;}
+        
+        .seminar-info
+        {
+            margin: 1em;
+            font-weight: bold;
+            margin: 2em 2em 2em 0;
+            list-style: none outside none;
+        }
     </style>
 }
 
 @section SubPageNavigation
 {
-    <ul class="navigation">
-        <li>@Html.ActionLink("Steering Committee", "SteeringCommittee", "Public")</li>
-        <li>@Html.ActionLink("Case Studies", "CaseExamples", "Public")</li>
-        <li>@Html.ActionLink("Venue", "Venue", "Public")</li>
-    </ul>
+    @Html.Partial("_PublicSubNavigation")
 }
 
 
 <img src='@Url.Content("~/Images/collage.jpg")' alt="Collage of Agricultural images" />
 
-<p>The UC Davis Agribusiness Executive Seminar brings together experienced top executives to discuss strategic issues and current trends facing agribusiness in an ever-changing environment. The program objective is to enhance strategic thinking, thus improving our participants’ ability to identify, analyze and address opportunities and challenges in their businesses. The seminar also provides an unusual opportunity for informal exchange among industry leaders. This is a by-invitation-only event.</p>
-
 <p>
-    <strong>
-
-        @if (Model == null)
-        { 
-            <text>There is no current seminar.</text>
-        }
-        else
-        { 
-            <p>
-                @Model.Begin.ToString("g") through @Model.End.ToString("g")<br />
-                @if (string.IsNullOrWhiteSpace(Model.LocationLink))
-                {
-                    <text>@Model.Location</text>
-                }
-                else
-                {
-                    <a href='@Model.LocationLink'>@Model.Location</a>
-                }
-            </p>
-        }
-    </strong>
+    @if (Model == null)
+    { 
+        <text>There is no current seminar.</text>
+    }
+    else
+    { 
+        <p>
+        The UC Davis Agribusiness Executive Seminar brings together experienced top executives to discuss strategic issues and current trends facing agribusiness in an ever-changing environment. The program objective is to enhance strategic thinking, thus improving our participants’ ability to identify, analyze, and address opportunities and challenges in their businesses. The seminar also provides an unusual opportunity for informal exchange among industry leaders. Participants are invited to attend based on competitive applications. This is a by-invitation-only event.
+        </p>
+            
+        <p>
+        For more information on the seminar, please click @Html.ActionLink("here", "MoreInformation", "Public").
+        </p>
+            
+        <ul class="seminar-info">
+            <li>@(string.Format("{0} Seminar", Model.Year))</li>
+            <li>@(string.Format("{0} through {1}", Model.Begin.ToString("f"), Model.End.ToString("f")))</li>
+            <li>
+            @if (string.IsNullOrWhiteSpace(Model.LocationLink))
+            {
+                <text>@Model.Location</text>
+            }
+            else
+            {
+                <a href='@Model.LocationLink'>@Model.Location</a>
+            }
+            </li>
+            <li>@(string.Format("Seminar fee: ${0}", "xxxx"))</li>
+        </ul>
+    }
 </p>
-
-<p>@Html.ActionLink("Click here to Request More Information", "MoreInformation", "Public")</p>
 
 <p>Sponsored by:<br />
     College of Agricultural and Environmental Sciences, UC Davis and Wells Fargo Bank

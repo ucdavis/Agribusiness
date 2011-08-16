@@ -23,8 +23,6 @@ namespace Agribusiness.Web.Controllers
 
         public ActionResult Index()
         {
-            return this.RedirectToAction(a => a.ComingSoon());
-
             var seminar = _seminarService.GetCurrent();
 
             return View(seminar);
@@ -63,13 +61,6 @@ namespace Agribusiness.Web.Controllers
         }
 
         public ActionResult About()
-        {
-            return this.RedirectToAction(a => a.ComingSoon());
-
-            return View();
-        }
-
-        public ActionResult ComingSoon()
         {
             return View();
         }

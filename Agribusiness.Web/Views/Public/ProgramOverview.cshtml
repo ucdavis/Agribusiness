@@ -4,12 +4,18 @@
 
 @section SubPageNavigation
 {
-    <ul class="navigation">
-        <li>@Html.ActionLink("Steering Committee", "SteeringCommittee", "Public")</li>
-        <li>@Html.ActionLink("Case Studies", "CaseExamples", "Public")</li>
-        <li>@Html.ActionLink("Venue", "Venue", "Public")</li>
-    </ul>
+    @Html.Partial("_PublicSubNavigation")
 }
 
-<h2>ProgramOverview</h2>
+<h2>Seminar Information</h2>
 
+<ul>
+    <li>Detailed Program for the 2012 Seminar <em>available in October 2011</em></li>
+    <li>2012 Seminar Brochure <em>available in October 2011</em></li>
+    <li>@Html.ActionLink("Click here to see past Seminar Cast Studies and Issue Papers", "CaseExamples")</li>
+</ul>
+
+<div id="coming-soon">
+2012 UC Davis Agribusiness Executive Seminar
+<em>Coming in October 2012</em>
+</div>

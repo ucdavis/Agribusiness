@@ -685,6 +685,8 @@
     <Content Include="Views\Shared\EditorTemplates\Color.cshtml" />
     <Content Include="Views\InformationRequest\AddNote.cshtml" />
     <Content Include="Views\Home\ComingSoon.cshtml" />
+    <Content Include="Views\Shared\_PublicSubNavigation.cshtml" />
+    <Content Include="Views\Public\SteeringCommittee.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">
