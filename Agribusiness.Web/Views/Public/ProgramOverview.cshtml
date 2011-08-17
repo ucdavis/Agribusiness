@@ -1,5 +1,6 @@
 ﻿@{
-    ViewBag.Title = "ProgramOverview";
+    ViewBag.Title = "Program Overview";
+    ViewBag.SubPageTitle = "Seminar Information";
 }
 
 @section SubPageNavigation
@@ -7,9 +8,27 @@
     @Html.Partial("_PublicSubNavigation")
 }
 
-<h2>Seminar Information</h2>
+@section ScriptContent
+{
+    <style type="text/css">
+        ul.seminar-details {margin: 1em; list-style: none;}
+        ul.seminar-details li {margin: 1em 0; font-size: 1.25em;}
 
-<ul>
+        #coming-soon
+        {
+        text-align: center;
+        border: 1px solid #014A81;
+        padding: 1.5em;
+        margin-top: 2em;
+        font-size: 1.5em;
+        font-weight: bold;
+        color: #014A81;
+        }
+
+    </style>
+}
+
+<ul class="seminar-details">
     <li>Detailed Program for the 2012 Seminar <em>available in October 2011</em></li>
     <li>2012 Seminar Brochure <em>available in October 2011</em></li>
     <li>@Html.ActionLink("Click here to see past Seminar Cast Studies and Issue Papers", "CaseExamples")</li>

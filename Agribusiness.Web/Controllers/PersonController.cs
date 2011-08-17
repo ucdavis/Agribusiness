@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using Agribusiness.Core.Domain;
+using Agribusiness.Web.App_GlobalResources;
 using Agribusiness.Web.Controllers.Filters;
 using Agribusiness.Web.Models;
 using Agribusiness.Web.Services;
@@ -707,6 +708,7 @@ namespace Agribusiness.Web.Controllers
 
             return File(img, "image/jpeg");
         }
+
         #endregion
 
         #region Private Helpers

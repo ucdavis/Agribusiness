@@ -1,8 +1,11 @@
-﻿@model IEnumerable<SeminarPerson>
+﻿@model IEnumerable<DisplayPerson>
 
 
 @{
     ViewBag.Title = "Steering Committee";
+    ViewBag.SubPageTitle = "Steering Committee";
+
+    ViewBag.PublicProfile = true;
 }
 
 @section SubPageNavigation
@@ -10,20 +13,7 @@
     @Html.Partial("_PublicSubNavigation")
 }
 
-<h2>Steering Committee</h2>
-
-<table class="noicon">
-    <tbody>
-        @foreach (var person in Model)
-        {
-            <tr>
-                <td>@person.Person.FirstName</td>
-                <td>@person.Person.LastName</td>
-                <td>@person.Title</td>
-                <td>@person.Firm.Name</td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-
+@foreach (var person in Model)
+{
+    @Html.Partial("_ProfileList", person)
+}

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using Agribusiness.Core.Domain;
@@ -48,7 +49,7 @@ namespace Agribusiness.Web.Controllers
             {
                 var committee = seminar.SeminarPeople.Where(a => a.SeminarRoles.Contains(role)).OrderBy(a => a.Person.LastName);
 
-                return View(committee.ToList());
+                return View(committee.Select(a => new DisplayPerson() {Firm = a.Firm, Person = a.Person, Title = a.Title, Seminar = seminar}).ToList());
             }
 
             return View();
@@ -79,6 +80,10 @@ namespace Agribusiness.Web.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Contact information for organizers
+        /// </summary>
+        /// <returns></returns>
         public ActionResult ContactUs()
         {
             return View();
@@ -106,6 +111,29 @@ namespace Agribusiness.Web.Controllers
             }
 
             return View(informationRequest);
+        }
+
+        public ActionResult GetPublicThumbnail(int id)
+        {
+            var person = Repository.OfType<Person>().GetById(id);
+
+            if (person.MainProfilePicture != null) return File(person.ThumbnailPicture, person.ContentType);
+
+            // check to make sure it is ok
+            // for now only committee members can be downloaded from this action
+            var committeeRole = Repository.OfType<SeminarRole>().Queryable.Where(a => a.Id == StaticIndexes.Role_SteeringCommittee).FirstOrDefault();
+            var isCommitteeMember = Repository.OfType<SeminarPerson>().Queryable.Where(a => a.SeminarRoles.Contains(committeeRole) && a.Person == person).Any();
+
+            // not authorized to release this peroson's image
+            if (!isCommitteeMember) return File(new byte[0], string.Empty);
+
+            // load the default image
+            var fs = new FileStream(Server.MapPath("~/Images/profileplaceholder_thumb.jpg"), FileMode.Open, FileAccess.Read);
+            var img = new byte[fs.Length];
+            fs.Read(img, 0, img.Length);
+            fs.Close();
+
+            return File(img, "image/jpeg");
         }
     }
 
