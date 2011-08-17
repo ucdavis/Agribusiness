@@ -34,3 +34,4 @@ _ReSharper*/
 Web.Debug.config
 Web.Release.config
 Web.Test.config
+*.dbmdl
