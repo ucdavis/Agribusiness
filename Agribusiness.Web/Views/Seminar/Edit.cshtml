@@ -89,16 +89,20 @@
 
                 @foreach (var cs in Model.Seminar.CaseStudies) { 
                 <tr>
-                    <td><a href='@Url.Action("Download", "CaseStudy", new { id=cs.Id })'>
+                    <td>
+                        @if (cs.File != null)
+                        {
+                        <a href='@Url.Action("Download", "CaseStudy", new { id = cs.Id })'>
                             <img src='@Url.Content("~/Images/details.png")' alt="download case study" />
-                        </a>
-                        <a href='@Url.Action("Edit", "CaseStudy", new {id=cs.Id,seminarId=Model.Seminar.Id})'>
+                        </a>        
+                        }
+                        <a href='@Url.Action("Edit", "CaseStudy", new { id = cs.Id, seminarId = Model.Seminar.Id })'>
                             <img src='@Url.Content("~/Images/edit.png")' alt="edit case study" />
                         </a>
                     </td>
                     <td>@cs.Name</td>
                     <td>@cs.Description</td>
-                    <td>@cs.Session.Name</td>
+                    <td>@(cs.Session != null ? cs.Session.Name : "n/a")</td>
                 </tr>                
                 }
 

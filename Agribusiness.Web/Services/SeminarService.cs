@@ -28,7 +28,16 @@ namespace Agribusiness.Web.Services
         public Seminar GetCurrent()
         {
             // get the seminar with the highest id
-            var seminar = _seminarRepository.Queryable.Where(x => x.Id == (_seminarRepository.Queryable.Max(y => y.Id))).FirstOrDefault();
+            //var seminar = _seminarRepository.Queryable.Where(x => x.Id == (_seminarRepository.Queryable.Max(y => y.Id))).FirstOrDefault();
+
+            // get the max year
+            var year = _seminarRepository.Queryable.Max(x => x.Year);
+
+            // get the max id with the max year
+            var maxid = _seminarRepository.Queryable.Where(x => x.Year == year).Max(x => x.Id);
+
+            // get that seminar
+            var seminar = _seminarRepository.Queryable.Where(x => x.Id == maxid).FirstOrDefault();
 
             return seminar;
         }

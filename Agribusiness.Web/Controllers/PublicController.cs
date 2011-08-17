@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using Agribusiness.Core.Domain;
 using Agribusiness.Web.App_GlobalResources;
 using Agribusiness.Web.Controllers.Filters;
+using Agribusiness.Web.Models;
 using Agribusiness.Web.Services;
 using Resources;
 using UCDArch.Core.PersistanceSupport;
@@ -22,12 +23,14 @@ namespace Agribusiness.Web.Controllers
     {
         private readonly IRepository<InformationRequest> _informationRequestRepository;
         private readonly IRepositoryWithTypedId<SeminarRole, string> _seminarRoleRepository;
+        private readonly IRepository<CaseStudy> _caseStudyRepository;
         private readonly ISeminarService _seminarService;
 
-        public PublicController(IRepository<InformationRequest> informationRequestRepository, IRepositoryWithTypedId<SeminarRole, string> seminarRoleRepository , ISeminarService seminarService)
+        public PublicController(IRepository<InformationRequest> informationRequestRepository, IRepositoryWithTypedId<SeminarRole, string> seminarRoleRepository, IRepository<CaseStudy> caseStudyRepository, ISeminarService seminarService)
         {
             _informationRequestRepository = informationRequestRepository;
             _seminarRoleRepository = seminarRoleRepository;
+            _caseStudyRepository = caseStudyRepository;
             _seminarService = seminarService;
         }
 
@@ -56,9 +59,15 @@ namespace Agribusiness.Web.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Display a list of all previous case examples
+        /// </summary>
+        /// <returns></returns>
         public ActionResult CaseExamples()
         {
-            return View();
+            var viewModel = CaseExampleViewModel.Create(_caseStudyRepository, _seminarService);
+
+            return View(viewModel);
         }
 
         public ActionResult Venue()

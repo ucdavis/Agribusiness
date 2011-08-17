@@ -10,7 +10,7 @@ namespace Agribusiness.Core.Domain
     public class CaseStudy : DomainObject
     {
         #region Constructors
-        public CaseStudy() { }
+        public CaseStudy() { SetDefaults(); }
 
         public CaseStudy(string name, byte[] file, Seminar seminar, Session session)
         {
@@ -26,6 +26,11 @@ namespace Agribusiness.Core.Domain
         {
             CaseExecutives =  new List<SeminarPerson>();
             CaseAuthors = new List<SeminarPerson>();
+
+            IsPublic = false;
+
+            DateCreated = DateTime.Now;
+            LastUpdate = DateTime.Now;
         }
 
         #endregion
@@ -36,9 +41,18 @@ namespace Agribusiness.Core.Domain
         public virtual string Name { get; set; }
 
         public virtual string Description { get; set; }
-        [Required]
+
         public virtual byte[] File { get; set; }
-        
+        public virtual string ContentType { get; set; }
+
+        /// <summary>
+        /// Display the name of this case study publicly?
+        /// </summary>
+        public virtual bool IsPublic { get; set; }
+
+        public virtual DateTime DateCreated { get; set; }
+        public virtual DateTime LastUpdate { get; set; }
+
         public virtual Seminar Seminar { get; set; }
         public virtual Session Session { get; set; }
 
@@ -68,6 +82,10 @@ namespace Agribusiness.Core.Domain
             Map(x => x.Name);
             Map(x => x.Description);
             Map(x => x.File).Column("`File`").LazyLoad().CustomType("BinaryBlob");
+
+            Map(x => x.IsPublic);
+            Map(x => x.DateCreated);
+            Map(x => x.LastUpdate);
 
             References(x => x.Seminar);
             References(x => x.Session);

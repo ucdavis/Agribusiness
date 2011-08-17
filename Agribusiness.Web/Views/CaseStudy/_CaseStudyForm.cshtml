@@ -52,6 +52,11 @@
                 @this.Select("CaseStudy.Session").Options(Model.Seminar.Sessions, x => x.Id, x => x.Name).FirstOption("--Select a Session--").Selected(Model.CaseStudy.Session != null ? Model.CaseStudy.Id.ToString() : string.Empty)
                 </div>
             </li>
+            <li><div class="editor-label">@Html.LabelFor(a => a.CaseStudy.IsPublic)</div>
+                <div class="editor-field">@Html.CheckBoxFor(a => a.CaseStudy.IsPublic)
+                    <em>Display the name of this case study publicly</em>
+                </div>
+            </li>
             <li>
                 <div class="editor-label"><label>&nbsp;</label></div>
                 <div class="editor-field">

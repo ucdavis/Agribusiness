@@ -68,6 +68,7 @@ namespace Agribusiness.Web.Controllers
                 var reader = new BinaryReader(file.InputStream);
                 var data = reader.ReadBytes(file.ContentLength);
                 caseStudy.File = data;
+                caseStudy.ContentType = file.ContentType;
             }
 
             if (seminar == null)
@@ -77,7 +78,7 @@ namespace Agribusiness.Web.Controllers
             }
 
             caseStudy.Seminar = seminar;
-
+            
             ModelState.Clear();
             caseStudy.TransferValidationMessagesTo(ModelState);
 
