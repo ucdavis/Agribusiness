@@ -53,6 +53,7 @@ namespace Agribusiness.Core.Domain
         public virtual DateTime? RegistrationDeadline { get; set; }
 
         public virtual bool ReleaseToAttendees { get; set; }
+        public virtual decimal? Cost { get; set; }
 
         // optional fields
         [StringLength(20)]
@@ -86,6 +87,7 @@ namespace Agribusiness.Core.Domain
             Map(x => x.RegistrationPassword);
             Map(x => x.RegistrationId);
             Map(x => x.ReleaseToAttendees);
+            Map(x => x.Cost);
 
             HasMany(x => x.Sessions).Inverse().Cascade.AllDeleteOrphan();
             HasMany(x => x.SeminarPeople).Inverse().Cascade.AllDeleteOrphan();

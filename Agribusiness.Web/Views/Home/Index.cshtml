@@ -51,7 +51,16 @@
                 <a href='@Model.LocationLink'>@Model.Location</a>
             }
             </li>
-            <li>@(string.Format("Seminar fee: ${0}", "xxxx"))</li>
+            <li>
+            @if (Model.Cost.HasValue)
+            {
+            @(string.Format("Seminar fee: ${0}", string.Format("{0:0.00}", Model.Cost)))
+            }
+            else
+            {
+                 <text>Seminar fee: n/a</text>
+            }
+            </li>
         </ul>
     }
 </p>
