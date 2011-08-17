@@ -70,6 +70,10 @@ namespace Agribusiness.Web.Controllers
             return View(viewModel);
         }
 
+        /// <summary>
+        /// Information on the Seminar venue
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Venue()
         {
             return View();

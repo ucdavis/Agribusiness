@@ -689,6 +689,7 @@
     <Content Include="Views\Shared\_PublicSubNavigation.cshtml" />
     <Content Include="Views\Public\SteeringCommittee.cshtml" />
     <Content Include="Views\Public\CaseExamples.cshtml" />
+    <Content Include="Views\Public\Venue.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">

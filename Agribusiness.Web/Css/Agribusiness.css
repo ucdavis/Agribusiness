@@ -147,3 +147,32 @@ div.dataTables_wrapper table
 
 .css_right { float:right;}
 .clear { clear: both; }
+
+
+/* ---------------------------- */
+/* vCard Styling                */
+/* ---------------------------- */
+.vcard
+{
+margin: 1em;
+padding: 1em;
+}
+.vcard .fn
+{
+font-size: 1.5em;
+font-weight: bold;
+margin-bottom: 7px;
+color: #014A81;
+}
+.vcard .org, .vcard .adr
+{
+    margin-bottom: 4px;
+}
+.vcard .title
+{
+font-style: italic;
+}
+.vcard .email .value 
+{
+font-weight: bold;
+}
