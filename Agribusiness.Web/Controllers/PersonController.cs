@@ -726,6 +726,7 @@ namespace Agribusiness.Web.Controllers
             SetCommodities(seminarPerson, personEditModel.Commodities);
 
             seminarPerson.Firm = personEditModel.Firm ?? new Firm(personEditModel.FirmName, personEditModel.FirmDescription) {WebAddress = personEditModel.FirmWebAddress};
+            seminarPerson.Title = personEditModel.Title;
 
             // deal with the image))
             if (profilePic != null)
