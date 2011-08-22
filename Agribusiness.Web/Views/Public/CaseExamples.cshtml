@@ -45,13 +45,20 @@
 The Seminar revolves around the discussion of company case studies and papers that explore important issues facing agriculture. A list of past cases and issues provides a sense of the content of the seminar.
 </p>
 
-<h3>Past Case Studies and Issue Papers have included:</h3>
+<h3 style="font-weight: normal;">Past Case Studies and Issue Papers have included:</h3>
 
 @foreach (var year in Model.CaseStudies.Select(a => a.Seminar.Year).OrderBy(a => a).Distinct())
 {
     <fieldset class="seminar-group">
     
-        <legend>@string.Format("{0} California Agribusiness Executive Seminar", year)</legend>
+        @if (year >= 2012)
+        {
+            <legend>@string.Format("{0} UC Davis Agribusiness Executive Seminar", year)</legend>
+        }
+        else
+        {
+            <legend>@string.Format("{0} California Agribusiness Executive Seminar", year)</legend>    
+        }
 
         <ul>
             @foreach (var caseStudy in Model.CaseStudies.Where(a => a.Seminar.Year == year).OrderBy(a => a.Name))
