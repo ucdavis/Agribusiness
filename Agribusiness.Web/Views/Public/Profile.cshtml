@@ -1,0 +1,26 @@
+﻿@model Agribusiness.Core.Domain.SeminarPerson
+
+@section ScriptContent
+{
+    <style type="text/css">
+    
+        #profile-name {color: #014A81;}
+        #biography {margin-top: 1em;}
+    
+    </style>
+}
+
+@section SubPageNavigation
+{
+    @Html.Partial("_PublicSubNavigation")
+}
+
+<div id="profile-pic">
+    <img src="@Url.Action("GetPublicPicture", new {id=Model.Person.Id} )" alt="@(string.Format("{0} profile picture", Model.Person.FullName))"/>
+</div>
+
+<h2 id="profile-name">@Model.Person.FullName</h2>
+
+<div id="biography">
+@Html.Raw(@Model.Person.Biography)
+</div>

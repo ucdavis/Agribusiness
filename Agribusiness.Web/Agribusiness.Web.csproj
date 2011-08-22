@@ -692,7 +692,7 @@
     <Content Include="Views\Public\SteeringCommittee.cshtml" />
     <Content Include="Views\Public\CaseExamples.cshtml" />
     <Content Include="Views\Public\Venue.cshtml" />
-    <Content Include="Views\Public\AcademicDirector.cshtml" />
+    <Content Include="Views\Public\Profile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">

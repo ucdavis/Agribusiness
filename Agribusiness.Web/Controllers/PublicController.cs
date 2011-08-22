@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using Agribusiness.Core.Domain;
@@ -7,12 +6,8 @@ using Agribusiness.Web.App_GlobalResources;
 using Agribusiness.Web.Controllers.Filters;
 using Agribusiness.Web.Models;
 using Agribusiness.Web.Services;
-using Resources;
 using UCDArch.Core.PersistanceSupport;
-using UCDArch.Web.Controller;
 using UCDArch.Web.Helpers;
-using UCDArch.Core.Utils;
-using MvcContrib;
 using MvcContrib;
 
 namespace Agribusiness.Web.Controllers
@@ -92,16 +87,37 @@ namespace Agribusiness.Web.Controllers
         /// <summary>
         /// Display a short bio and picture of the current Academic Director for the seminar
         /// </summary>
+        /// <param name="id">Id of the person we want to display</param>
         /// <returns></returns>
-        public ActionResult AcademicDirector()
+        public ActionResult Profile(int id)
         {
-            var seminar = _seminarService.GetCurrent();
-            var adRole = _seminarRoleRepository.GetById(StaticIndexes.Role_FacultyDirector);
-            
-            // should really only get one back, at this point anyways
-            var person = seminar.SeminarPeople.Where(a => a.SeminarRoles.Contains(adRole)).FirstOrDefault();
+            // load up the person
+            var person = Repository.OfType<Person>().GetNullableById(id);
 
-            return View(person);
+            if (person != null)
+            {
+                // get the last registration
+                var seminarPerson = person.GetLatestRegistration();
+
+                // is this person in the public roles of either faculty directory or steering committee?
+                var roles = seminarPerson.SeminarRoles.Select(a => a.Id);
+                if (roles.Contains(StaticIndexes.Role_FacultyDirector))
+                {
+                    ViewBag.Title = "Academic Director";
+
+                    return View(seminarPerson);
+                }
+
+                if (roles.Contains(StaticIndexes.Role_SteeringCommittee))
+                {
+                    ViewBag.Title = "Steering Committee Member";
+
+                    return View(seminarPerson);
+                }
+            }
+
+            // unkown error, but really, trying to access profile that should not be public
+            return this.RedirectToAction<ErrorController>(a => a.Index());
         }
 
         /// <summary>
@@ -148,6 +164,35 @@ namespace Agribusiness.Web.Controllers
 
             // load the default image
             var fs = new FileStream(Server.MapPath("~/Images/profileplaceholder_thumb.png"), FileMode.Open, FileAccess.Read);
+            var img = new byte[fs.Length];
+            fs.Read(img, 0, img.Length);
+            fs.Close();
+
+            return File(img, "image/png");
+        }
+
+        public ActionResult GetPublicPicture(int id)
+        {
+            var person = Repository.OfType<Person>().GetById(id);
+
+            // no result anyways
+            if (person == null)
+            {
+                return File(new byte[0], string.Empty);
+            }
+
+            // for now only committee members can be downloaded from this action
+            var committeeRole = Repository.OfType<SeminarRole>().Queryable.Where(a => a.Id == StaticIndexes.Role_SteeringCommittee).FirstOrDefault();
+            var isCommitteeMember = Repository.OfType<SeminarPerson>().Queryable.Where(a => a.SeminarRoles.Contains(committeeRole) && a.Person == person).Any();
+
+            // not authorized to release this peroson's image
+            if (!isCommitteeMember) return File(new byte[0], string.Empty);
+
+            // has picture return that
+            if (person.MainProfilePicture != null) return File(person.MainProfilePicture, person.ContentType);
+
+            // load the default image
+            var fs = new FileStream(Server.MapPath("~/Images/profilepicplaceholder.png"), FileMode.Open, FileAccess.Read);
             var img = new byte[fs.Length];
             fs.Read(img, 0, img.Length);
             fs.Close();
