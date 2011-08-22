@@ -232,7 +232,8 @@ namespace Agribusiness.Web.Controllers
         /// <returns></returns>
         [UserOnly]
         [HttpPost]
-        public ActionResult UpdateBiography(int personId, int seminarId, string biography)
+        [ValidateInput(false)]
+        public ActionResult UpdateBiography(int personId, int seminarId, string biographytxt)
         {
             var person = _personRepository.GetNullableById(personId);
 
@@ -242,7 +243,7 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction(a => a.Index());
             }
 
-            person.Biography = biography;
+            person.Biography = biographytxt;
 
             _personRepository.EnsurePersistent(person);
             Message = string.Format(Messages.Saved, "Biography");
