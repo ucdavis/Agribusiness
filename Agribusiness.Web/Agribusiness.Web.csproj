@@ -232,6 +232,8 @@
     <Content Include="Images\icon_vcard.gif" />
     <Content Include="Images\icon_vcard.png" />
     <Content Include="Images\loading.gif" />
+    <Content Include="Images\profilepicplaceholder.png" />
+    <Content Include="Images\profileplaceholder_thumb.png" />
     <Content Include="Images\search.png" />
     <Content Include="Scripts\jquery.bt.min.js" />
     <Content Include="Images\button_delete_red.png" />

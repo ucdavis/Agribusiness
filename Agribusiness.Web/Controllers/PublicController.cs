@@ -128,12 +128,12 @@ namespace Agribusiness.Web.Controllers
             if (!isCommitteeMember) return File(new byte[0], string.Empty);
 
             // load the default image
-            var fs = new FileStream(Server.MapPath("~/Images/profileplaceholder_thumb.jpg"), FileMode.Open, FileAccess.Read);
+            var fs = new FileStream(Server.MapPath("~/Images/profileplaceholder_thumb.png"), FileMode.Open, FileAccess.Read);
             var img = new byte[fs.Length];
             fs.Read(img, 0, img.Length);
             fs.Close();
 
-            return File(img, "image/jpeg");
+            return File(img, "image/png");
         }
     }
 

@@ -671,12 +671,12 @@ namespace Agribusiness.Web.Controllers
             if (person.OriginalPicture != null) return File(person.OriginalPicture, person.ContentType);
 
             // load the default image
-            var fs = new FileStream(Server.MapPath("~/Images/profilepicplaceholder.jpg"), FileMode.Open, FileAccess.Read);
+            var fs = new FileStream(Server.MapPath("~/Images/profilepicplaceholder.png"), FileMode.Open, FileAccess.Read);
             var img = new byte[fs.Length];
             fs.Read(img, 0, img.Length);
             fs.Close();
 
-            return File(img, "image/jpeg");
+            return File(img, "image/png");
         }
 
         public ActionResult GetProfilePicture(int id)
@@ -686,12 +686,12 @@ namespace Agribusiness.Web.Controllers
             if (person.MainProfilePicture != null) return File(person.MainProfilePicture, person.ContentType);
 
             // load the default image
-            var fs = new FileStream(Server.MapPath("~/Images/profilepicplaceholder.jpg"), FileMode.Open, FileAccess.Read);
+            var fs = new FileStream(Server.MapPath("~/Images/profilepicplaceholder.png"), FileMode.Open, FileAccess.Read);
             var img = new byte[fs.Length];
             fs.Read(img, 0, img.Length);
             fs.Close();
 
-            return File(img, "image/jpeg");
+            return File(img, "image/png");
         }
 
         public ActionResult GetThumbnail(int id)
@@ -701,12 +701,12 @@ namespace Agribusiness.Web.Controllers
             if (person.MainProfilePicture != null) return File(person.ThumbnailPicture, person.ContentType);
 
             // load the default image
-            var fs = new FileStream(Server.MapPath("~/Images/profileplaceholder_thumb.jpg"), FileMode.Open, FileAccess.Read);
+            var fs = new FileStream(Server.MapPath("~/Images/profileplaceholder_thumb.png"), FileMode.Open, FileAccess.Read);
             var img = new byte[fs.Length];
             fs.Read(img, 0, img.Length);
             fs.Close();
 
-            return File(img, "image/jpeg");
+            return File(img, "image/png");
         }
 
         #endregion
