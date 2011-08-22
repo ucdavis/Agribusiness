@@ -5,11 +5,13 @@
 @{
     ViewBag.Title = "Create Session";
     ViewBag.SubPageTitle = "Create Session";
+    ViewBag.Restrict = true;
 }
 
 @section ScriptContent{
 
-    @Html.Partial("_SessionFormScripts", Model.Seminar)
+    @*@Html.Partial("_SessionFormScripts", Model.Seminar)*@
+    @Html.Partial("_DateTimePickerScripts", Model.Seminar)
 
 }
 

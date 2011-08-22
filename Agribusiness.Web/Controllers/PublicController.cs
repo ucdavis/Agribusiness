@@ -89,6 +89,25 @@ namespace Agribusiness.Web.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Display a short bio and picture of the current Academic Director for the seminar
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult AcademicDirector()
+        {
+            var seminar = _seminarService.GetCurrent();
+            var adRole = _seminarRoleRepository.GetById(StaticIndexes.Role_FacultyDirector);
+            
+            // should really only get one back, at this point anyways
+            var person = seminar.SeminarPeople.Where(a => a.SeminarRoles.Contains(adRole)).FirstOrDefault();
+
+            return View(person);
+        }
+
+        /// <summary>
+        /// Page for people to request more information
+        /// </summary>
+        /// <returns></returns>
         public ActionResult MoreInformation()
         {
             return View(new InformationRequest());

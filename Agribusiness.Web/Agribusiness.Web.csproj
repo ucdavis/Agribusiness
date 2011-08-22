@@ -595,7 +595,7 @@
     <Content Include="Views\Shared\EditorTemplates\DateAndTime.cshtml" />
     <Content Include="Views\Session\Edit.cshtml" />
     <Content Include="Views\Session\_SessionForm.cshtml" />
-    <Content Include="Views\Session\_SessionFormScripts.cshtml" />
+    <Content Include="Views\Shared\_DateTimePickerScripts.cshtml" />
     <Content Include="Views\Seminar\Details.cshtml" />
     <Content Include="Views\Person\Index.cshtml" />
     <Content Include="Views\PictureTest\Index.cshtml" />
@@ -692,6 +692,7 @@
     <Content Include="Views\Public\SteeringCommittee.cshtml" />
     <Content Include="Views\Public\CaseExamples.cshtml" />
     <Content Include="Views\Public\Venue.cshtml" />
+    <Content Include="Views\Public\AcademicDirector.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">

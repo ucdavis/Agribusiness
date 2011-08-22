@@ -3,11 +3,13 @@
 @{
     ViewBag.Title = "Edit Session";
     ViewBag.SubPageTitle = "Edit Session";
+    ViewBag.Restrict = true;
 }
 
 @section ScriptContent{
 
-    @Html.Partial("_SessionFormScripts", Model.Seminar)
+    @*@Html.Partial("_SessionFormScripts", Model.Seminar)*@
+    @Html.Partial("_DateTimePickerScripts", Model.Seminar)
 
     <script type="text/javascript">
         $(function () {

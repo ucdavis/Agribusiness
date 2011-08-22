@@ -5,6 +5,7 @@
 @{
     ViewBag.Title = "Edit Seminar";
     ViewBag.SubPageTitle = "Edit Seminar";
+    ViewBag.Restrict = false;
 }
 
 @section SubPageNavigation {
@@ -25,6 +26,7 @@
 }
 
 @section ScriptContent{
+    @Html.Partial("_DateTimePickerScripts", Model.Seminar)
 }
 
 @Html.Partial("_SeminarForm")
