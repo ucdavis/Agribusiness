@@ -228,7 +228,7 @@ namespace Agribusiness.Web.Controllers
         /// Update the biography
         /// </summary>
         /// <param name="personId">Person Id</param>
-        /// <param name="biography">Biography Text</param>
+        /// <param name="biographytxt">Html formatted, Biography Text</param>
         /// <returns></returns>
         [UserOnly]
         [HttpPost]
