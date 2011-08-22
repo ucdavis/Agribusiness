@@ -289,11 +289,11 @@
       </PropertyElementName>
       <PropertyElementName>
         <Name>TargetDatabaseName</Name>
-        <Value>agribusiness</Value>
+        <Value>Agribusiness</Value>
       </PropertyElementName>
       <PropertyElementName>
         <Name>TargetConnectionString</Name>
-        <Value>Data Source=donbot;Initial Catalog=agribusiness;Integrated Security=True;Pooling=False</Value>
+        <Value>Data Source=terry;Initial Catalog=Agribusiness;Integrated Security=True;Pooling=False</Value>
       </PropertyElementName>
       <PropertyElementName>
         <Name>VerifyDeployment</Name>
@@ -306,14 +306,6 @@
       <PropertyElementName>
         <Name>BuildtimeContributorsMustExist</Name>
         <Value>True</Value>
-      </PropertyElementName>
-      <PropertyElementName>
-        <Name>Microsoft.Data.Schema.Sql.SchemaModel.ISqlPermissionStatement</Name>
-        <Value>ExcludedType</Value>
-      </PropertyElementName>
-      <PropertyElementName>
-        <Name>Microsoft.Data.Schema.Sql.SchemaModel.ISqlExtendedProperty</Name>
-        <Value>ExcludedType</Value>
       </PropertyElementName>
     </ConfigurationOptionsElement>
   </SchemaCompareSettingsService>
