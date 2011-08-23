@@ -34,6 +34,7 @@ namespace Agribusiness.Core.Domain
         [Required]
         public virtual Person Person { get; set; }
         [Required]
+        [StringLength(200)]
         public virtual string Title { get; set; }
         [Required]
         public virtual Firm Firm { get; set; }
