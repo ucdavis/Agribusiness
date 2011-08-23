@@ -60,6 +60,9 @@ The Seminar revolves around the discussion of company case studies and papers th
             <legend>@string.Format("{0} California Agribusiness Executive Seminar", year)</legend>    
         }
 
+        <div>@year, @(year >= 2012 ? "yay" : "nay")</div>
+
+
         <ul>
             @foreach (var caseStudy in Model.CaseStudies.Where(a => a.Seminar.Year == year).OrderBy(a => a.Name))
             {
@@ -75,7 +78,7 @@ The Seminar revolves around the discussion of company case studies and papers th
 {
     <fieldset class="seminar-group">
     
-        <legend>@string.Format("{0} California Agribusiness Executive Seminar", Model.CurrentSeminar.Year)</legend>
+        <legend>@string.Format("{0} UC Davis Agribusiness Executive Seminar", Model.CurrentSeminar.Year)</legend>
 
         <p><em>Coming in October 2011</em></p>
 
