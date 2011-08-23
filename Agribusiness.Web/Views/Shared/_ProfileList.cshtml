@@ -42,7 +42,11 @@
                     @if (Model.Firm != null)
                     { 
                         <li class="list-item-firm-name">@Model.Firm.Name</li>
-                        <li class="list-item-firm-description">@Model.Firm.Description</li>
+                        if (!(bool)ViewBag.PublicProfile)
+                        {
+                             <li class="list-item-firm-description">@Model.Firm.Description</li>
+                        }
+                        
                     }
                     else
                     { 
