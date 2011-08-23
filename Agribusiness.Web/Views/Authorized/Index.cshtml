@@ -3,16 +3,31 @@
 @{
     ViewBag.Title = "Index";
     ViewBag.SubPageTitle = "";
+
+    // build the current seminar information
+    var seminarInfo = string.Format("{0} {1}-{2}, {3} at the {4}", Model.Seminar.Begin.ToString("MMMM"), Model.Seminar.Begin.Day, Model.Seminar.End.Day, Model.Seminar.Begin.Year, Model.Seminar.Location);
 }
 
-<fieldset>
+@section ScriptContent
+{
+    <style type="text/css">
+        #welcome-msg, #current-seminar, #application {margin-bottom: 1em;}
+        h3 {margin-bottom: .5em;}
+    </style>
+}
+
+<div id="welcome-msg">@string.Format("Welcome {0}!", Model.Person.FullName)</div>
+
+<div id="current-seminar">Thank you for your interest in the UC Davis Agribusiness Executive Seminar.  We hope you'll join us @seminarInfo</div>
+
+<div id="application">
+
 @if (Model.Application == null)
 {
-    <p>Come join us on @Model.Seminar.Begin.ToShortDateString() for the California Agribusiness Executive Seminar.</p>
+    <h3>Apply</h3>
     
-    <div class="text_btn">
-        @Html.ActionLink("Apply", "Apply", "SeminarApplication")
-    </div>
+    <p>Please @Html.ActionLink("click here", "Apply", "SeminarApplication") to begin the application process.</p>
+    <p>(Note, participation is strictly limited to those with the background interests to contribute most fully to the discussion at this year's seminar.  Application does not imply acceptance for participation.</p>
 }
 else
 {
@@ -44,7 +59,8 @@ else
         <p>Your application is pending, you will be notified when a decision has been made.</p>
     }
 }
-</fieldset>
+
+</div>
 
 <h3>Past Seminars</h3>
 @if (Model.SeminarPeople.Any())
@@ -75,5 +91,5 @@ else
 }
 else
 { 
-    @Html.Partial("_Message", new MessageModel() { IsError = false, Message = "You have not been a part of any past seminars." })
+    <p>We welcome you to attend your first seminar.  If you have any questions, please feel free to @Html.ActionLink("contact us", "ContactUs", "Public")</p>
 }
