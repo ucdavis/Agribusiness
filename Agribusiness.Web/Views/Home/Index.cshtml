@@ -54,7 +54,7 @@
             <li>
             @if (Model.Cost.HasValue)
             {
-            @(string.Format("Seminar fee: ${0}", string.Format("{0:0.00}", Model.Cost)))
+            @(string.Format("Seminar fee: {0}", string.Format("{0:C}", Model.Cost)))
             }
             else
             {
