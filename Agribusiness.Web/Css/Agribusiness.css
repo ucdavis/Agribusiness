@@ -4,14 +4,61 @@
 /* Profile List Styling  */
 /* --------------------- */
 
-section.list-item
+.list-item
+{
+border-bottom: 1px solid #0068B7;
+padding: 1em;
+margin-bottom: 1em;
+}
+
+.list-item-picture
+{
+display: block;
+width: 165px;
+float: left;
+}
+
+.list-item-body
+{
+float:left;
+width: 800px;
+}
+
+.list-item-name
+{
+font-weight: bold;
+font-size: large;
+}
+
+.list-item-title
+{
+margin-top: .5em;
+font-style: italic;
+}
+
+.list-item-firm-name
+{
+margin: 1em 0 .5em 0;
+font-weight: bold;
+}
+
+.list-item-vcard
+{
+float: right;
+border: 1px solid #0068B7;
+padding: 1em;
+margin-top: 2em;
+background-color: #EEEEEE;
+}
+/*
+.list-item
 {
     border-bottom: 1px solid #0068B7;
     margin-bottom: 1em;
     padding-bottom: 1em;
 }
 
-aside.list-item-picture
+.list-item-picture
 {
     width: 165px;
     margin: 1em;
@@ -68,7 +115,7 @@ aside.list-item-vcard
     padding: .5em;
     text-align: right;
 }
-
+*/
 /*
 .list-item{margin-top: 1em;}
 
