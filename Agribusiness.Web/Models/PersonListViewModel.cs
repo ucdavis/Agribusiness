@@ -10,6 +10,8 @@ namespace Agribusiness.Web.Models
     public class PersonListViewModel
     {
         public IEnumerable<DisplayPerson> People { get; set; }
+        public bool Desc { get; set; }
+        public string SortBy { get; set; }
 
         public static PersonListViewModel Create(IRepository<Person> personRepository, IPersonService personService)
         {

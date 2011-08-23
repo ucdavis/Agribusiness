@@ -13,7 +13,72 @@
     </ul>
 }
 
-@foreach (var a in Model.People.OrderBy(a=>a.Person.LastName))
+@section ScriptContent
+{
+    <style type="text/css">
+    
+        .filter-container { border-bottom: 1px solid black; margin-bottom: 1.5em; padding: 1em;}
+        .filter-container ul {list-style: none;}
+        .filter-container ul li {float: left; margin-left: 20px; display: inline-block;}
+        .filter-container .ui-icon {display: inline-block;}
+    
+    </style>
+}
+
+<div class="filter-container">
+
+<ul>
+    <li>
+        @Html.ActionLink("First Name", "Index", new { sortby = "firstname", desc = Model.SortBy == "firstname" && !Model.Desc })
+        @if (Model.SortBy == "firstname")
+        {
+            if (Model.Desc)
+            {
+                <div class="ui-icon ui-icon-circle-arrow-s"></div>
+            }
+            else
+            {
+                <div class="ui-icon ui-icon-circle-arrow-n"></div>
+            }
+        }
+        |
+    </li>
+    <li>@Html.ActionLink("Last Name", "Index", new { sortby = "lastname", desc = Model.SortBy == "lastname" && !Model.Desc })
+        @if (Model.SortBy == "lastname")
+        {
+            if (Model.Desc)
+            {
+                <div class="ui-icon ui-icon-circle-arrow-s"></div>
+            }
+            else
+            {
+                <div class="ui-icon ui-icon-circle-arrow-n"></div>
+            }
+        }
+        |
+    </li>
+    <li>@Html.ActionLink("Firm", "Index", new { sortby = "firm", desc=Model.SortBy == "firstname" && !Model.Desc })
+        @if (Model.SortBy == "firm")
+        {
+            if (Model.Desc)
+            {
+                <div class="ui-icon ui-icon-circle-arrow-s"></div>
+            }
+            else
+            {
+                <div class="ui-icon ui-icon-circle-arrow-n"></div>
+            }
+        }    
+    </li>
+</ul>
+
+<div style="clear:both;"></div>
+
+</div>
+
+
+
+@foreach (var a in Model.People)
 { 
     @Html.Partial("_ProfileList", a)
 }
