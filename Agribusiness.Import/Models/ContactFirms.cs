@@ -10,5 +10,7 @@ namespace Agribusiness.Import.Models
         public int? ContactId { get; set; }
         public int? FirmId { get; set; }
         public int? rcfId { get; set; }
+
+        public string Title { get; set; }
     }
 }

@@ -261,6 +261,9 @@ namespace Agribusiness.Web.Controllers
         [HttpPost]
         public ActionResult UpdateRoles(int personId, int seminarId, List<string> roles)
         {
+            // just catch if no roles
+            roles = roles ?? new List<string>();
+
             var person = _personRepository.GetNullableById(personId);
 
             if (person == null)

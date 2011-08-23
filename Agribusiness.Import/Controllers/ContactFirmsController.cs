@@ -98,6 +98,7 @@ namespace Agribusiness.Import.Controllers
                     cfirm.ContactId = ExcelHelpers.ReadIntCell(row, 0);
                     cfirm.FirmId = ExcelHelpers.ReadIntCell(row, 1);
                     cfirm.rcfId = ExcelHelpers.ReadIntCell(row, 2);
+                    cfirm.Title = ExcelHelpers.ReadCell(row, 3);
 
                     contactFirms.Add(cfirm);
 

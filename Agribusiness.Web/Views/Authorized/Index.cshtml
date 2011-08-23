@@ -18,7 +18,7 @@
 
 <div id="welcome-msg">@string.Format("Welcome {0}!", Model.Person.FullName)</div>
 
-<div id="current-seminar">Thank you for your interest in the UC Davis Agribusiness Executive Seminar.  We hope you'll join us @seminarInfo</div>
+<div id="current-seminar">Thank you for your interest in the UC Davis Agribusiness Executive Seminar.  We hope you'll join us @seminarInfo.</div>
 
 <div id="application">
 
@@ -27,7 +27,7 @@
     <h3>Apply</h3>
     
     <p>Please @Html.ActionLink("click here", "Apply", "SeminarApplication") to begin the application process.</p>
-    <p>(Note, participation is strictly limited to those with the background interests to contribute most fully to the discussion at this year's seminar.  Application does not imply acceptance for participation.</p>
+    <p>(Note, participation is strictly limited to those with the background interests to contribute most fully to the discussion at this year's seminar.  Application does not imply acceptance for participation.)</p>
 }
 else
 {
@@ -49,7 +49,7 @@ else
             }
             else
             { 
-                <p>Your application has been rejected.</p>
+                <p>Your application has not been accepted.</p>
             }
         }
     }
@@ -91,5 +91,5 @@ else
 }
 else
 { 
-    <p>We welcome you to attend your first seminar.  If you have any questions, please feel free to @Html.ActionLink("contact us", "ContactUs", "Public")</p>
+    <p>We welcome you to attend your first seminar.  If you have any questions, please feel free to @Html.ActionLink("contact us", "ContactUs", "Public").</p>
 }
