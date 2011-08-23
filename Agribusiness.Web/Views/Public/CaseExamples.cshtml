@@ -60,9 +60,6 @@ The Seminar revolves around the discussion of company case studies and papers th
             <legend>@string.Format("{0} California Agribusiness Executive Seminar", year)</legend>    
         }
 
-        <div>@year, @(year >= 2012 ? "yay" : "nay")</div>
-
-
         <ul>
             @foreach (var caseStudy in Model.CaseStudies.Where(a => a.Seminar.Year == year).OrderBy(a => a.Name))
             {
