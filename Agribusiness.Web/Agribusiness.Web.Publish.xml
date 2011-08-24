@@ -470,10 +470,11 @@
     <file relUrl="Scripts/tiny_mce/themes/advanced/js/anchor.js" publishTime="06/02/2011 13:18:14" />
     <file relUrl="Views/Shared/_ProfileList.cshtml" publishTime="08/17/2011 14:36:08" />
   </publishProfile>
-  <publishProfile publishUrl="\\glurmo\Agribusiness" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="Release" publishMethod="FileSystem" replaceMatchingFiles="True" userName="" savePWD="False" userPWD="" SelectedForPublish="False">
+  <publishProfile publishUrl="\\glurmo\Agribusiness" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="Release" publishMethod="FileSystem" replaceMatchingFiles="True" userName="" savePWD="False" userPWD="" SelectedForPublish="True">
     <file relUrl="Css/images/ui-icons_014a81_256x240.png" publishTime="04/19/2011 07:55:31" />
-    <file relUrl="bin/Agribusiness.Web.dll" publishTime="08/04/2011 11:23:13" />
-    <file relUrl="Views/Public/ContactUs.cshtml" publishTime="06/20/2011 14:43:02" />
+    <file relUrl="bin/Agribusiness.Web.dll" publishTime="08/23/2011 15:23:29" />
+    <file relUrl="Views/Public/ContactUs.cshtml" publishTime="08/23/2011 09:46:11" />
+    <file relUrl="Views/Shared/_DateTimePickerScripts.cshtml" publishTime="08/22/2011 09:05:44" />
     <file relUrl="Scripts/tiny_mce/plugins/print/editor_plugin.js" publishTime="06/02/2011 13:18:13" />
     <file relUrl="Scripts/jquery-ui.js" publishTime="04/19/2011 07:55:31" />
     <file relUrl="bin/UCDArch.dll" publishTime="04/25/2011 07:41:57" />
@@ -501,6 +502,7 @@
     <file relUrl="Scripts/tiny_mce/themes/advanced/js/source_editor.js" publishTime="06/02/2011 13:18:14" />
     <file relUrl="Scripts/tiny_mce/themes/advanced/img/shockwave.gif" publishTime="06/02/2011 13:18:14" />
     <file relUrl="Scripts/tiny_mce/plugins/template/template.htm" publishTime="06/02/2011 13:18:14" />
+    <file relUrl="Images/profileplaceholder_thumb.png" publishTime="08/22/2011 08:27:20" />
     <file relUrl="Scripts/tiny_mce/plugins/preview/editor_plugin.js" publishTime="06/02/2011 13:18:13" />
     <file relUrl="Scripts/tiny_mce/plugins/table/css/row.css" publishTime="06/02/2011 13:18:14" />
     <file relUrl="Scripts/tiny_mce/themes/advanced/img/pagebreak.gif" publishTime="06/02/2011 13:18:14" />
@@ -565,12 +567,14 @@
     <file relUrl="Views/Shared/EditorTemplates/DateTime-Local.cshtml" publishTime="06/23/2011 08:16:02" />
     <file relUrl="Scripts/tiny_mce/themes/advanced/skins/default/content.css" publishTime="06/02/2011 13:18:14" />
     <file relUrl="Images/comment.png" publishTime="04/19/2011 07:55:31" />
+    <file relUrl="Views/Public/Venue.cshtml" publishTime="08/17/2011 14:06:09" />
     <file relUrl="Scripts/tiny_mce/plugins/advimage/css/advimage.css" publishTime="06/02/2011 13:18:13" />
     <file relUrl="Scripts/tiny_mce/themes/advanced/image.htm" publishTime="06/02/2011 13:18:14" />
-    <file relUrl="Views/Public/ProgramOverview.cshtml" publishTime="06/20/2011 13:32:32" />
+    <file relUrl="Views/Public/ProgramOverview.cshtml" publishTime="08/23/2011 09:48:24" />
     <file relUrl="Scripts/tiny_mce/plugins/advimage/editor_plugin.js" publishTime="06/02/2011 13:18:13" />
     <file relUrl="Scripts/tiny_mce/plugins/xhtmlxtras/cite.htm" publishTime="06/02/2011 13:18:14" />
     <file relUrl="Scripts/tiny_mce/plugins/xhtmlxtras/js/del.js" publishTime="06/02/2011 13:18:14" />
+    <file relUrl="Views/Public/CaseExamples.cshtml" publishTime="08/23/2011 09:44:05" />
     <file relUrl="Views/Template/Create.cshtml" publishTime="06/06/2011 07:50:35" />
     <file relUrl="Scripts/tiny_mce/plugins/paste/js/pastetext.js" publishTime="06/02/2011 13:18:13" />
     <file relUrl="Scripts/tiny_mce/plugins/style/props.htm" publishTime="06/02/2011 13:18:14" />
@@ -593,7 +597,7 @@
     <file relUrl="Scripts/tiny_mce/plugins/searchreplace/searchreplace.htm" publishTime="06/02/2011 13:18:14" />
     <file relUrl="Scripts/tiny_mce/plugins/autolink/editor_plugin.js" publishTime="06/02/2011 13:18:13" />
     <file relUrl="Scripts/tiny_mce/plugins/emotions/img/smiley-kiss.gif" publishTime="06/02/2011 13:18:13" />
-    <file relUrl="Views/Seminar/Details.cshtml" publishTime="06/07/2011 08:15:12" />
+    <file relUrl="Views/Seminar/Details.cshtml" publishTime="08/23/2011 15:28:06" />
     <file relUrl="Scripts/jquery.validate.unobtrusive.min.js" publishTime="04/19/2011 07:55:31" />
     <file relUrl="Scripts/tiny_mce/plugins/lists/editor_plugin_src.js" publishTime="06/02/2011 13:18:13" />
     <file relUrl="Views/Person/UpdateProfilePicture.cshtml" publishTime="04/20/2011 08:09:36" />
@@ -604,7 +608,7 @@
     <file relUrl="Scripts/tiny_mce/plugins/advimage/image.htm" publishTime="06/02/2011 13:18:13" />
     <file relUrl="Scripts/tiny_mce/plugins/wordcount/editor_plugin_src.js" publishTime="06/02/2011 13:18:14" />
     <file relUrl="Scripts/tiny_mce/plugins/xhtmlxtras/editor_plugin.js" publishTime="06/02/2011 13:18:14" />
-    <file relUrl="bin/Agribusiness.Core.dll" publishTime="08/04/2011 11:23:00" />
+    <file relUrl="bin/Agribusiness.Core.dll" publishTime="08/23/2011 07:28:51" />
     <file relUrl="Views/SeminarApplication/Index.cshtml" publishTime="04/20/2011 11:03:48" />
     <file relUrl="Scripts/tiny_mce/plugins/template/langs/en_dlg.js" publishTime="06/02/2011 13:18:14" />
     <file relUrl="Scripts/tiny_mce/themes/advanced/skins/default/img/buttons.png" publishTime="06/02/2011 13:18:14" />
@@ -620,7 +624,7 @@
     <file relUrl="Views/Firm/Edit.cshtml" publishTime="04/21/2011 07:49:07" />
     <file relUrl="Scripts/tiny_mce/plugins/xhtmlxtras/del.htm" publishTime="06/02/2011 13:18:14" />
     <file relUrl="Scripts/tiny_mce/plugins/media/media.htm" publishTime="06/02/2011 13:18:13" />
-    <file relUrl="bin/Agribusiness.WS.dll" publishTime="08/04/2011 11:23:09" />
+    <file relUrl="bin/Agribusiness.WS.dll" publishTime="08/23/2011 15:23:28" />
     <file relUrl="Scripts/tiny_mce/themes/advanced/img/quicktime.gif" publishTime="06/02/2011 13:18:14" />
     <file relUrl="Scripts/tiny_mce/plugins/emotions/langs/en_dlg.js" publishTime="06/02/2011 13:18:13" />
     <file relUrl="Views/Account/ChangePasswordSuccess.cshtml" publishTime="04/19/2011 07:55:32" />
@@ -642,18 +646,19 @@
     <file relUrl="Css/themes/base/images/ui-icons_454545_256x240.png" publishTime="04/19/2011 07:55:31" />
     <file relUrl="Views/Shared/_Profile.cshtml" publishTime="06/08/2011 11:27:10" />
     <file relUrl="Css/images/ui-icons_c83900_256x240.png" publishTime="04/19/2011 07:55:31" />
-    <file relUrl="Views/Seminar/_SeminarForm.cshtml" publishTime="04/25/2011 14:49:40" />
-    <file relUrl="bin/Agribusiness.Core.pdb" publishTime="08/04/2011 11:23:00" />
+    <file relUrl="Views/Seminar/_SeminarForm.cshtml" publishTime="08/22/2011 09:00:32" />
+    <file relUrl="bin/Agribusiness.Core.pdb" publishTime="08/23/2011 07:28:51" />
     <file relUrl="Scripts/tiny_mce/plugins/inlinepopups/skins/clearlooks2/window.css" publishTime="06/02/2011 13:18:13" />
     <file relUrl="Scripts/tiny_mce/plugins/advlink/editor_plugin.js" publishTime="06/02/2011 13:18:13" />
     <file relUrl="Scripts/tiny_mce/plugins/bbcode/editor_plugin.js" publishTime="06/02/2011 13:18:13" />
+    <file relUrl="Images/profilepicplaceholder.png" publishTime="08/22/2011 08:27:20" />
     <file relUrl="Scripts/tiny_mce/plugins/paste/pasteword.htm" publishTime="06/02/2011 13:18:13" />
     <file relUrl="bin/DataAnnotationsExtensions.ClientValidation.dll" publishTime="04/19/2011 07:55:33" />
     <file relUrl="Scripts/tiny_mce/plugins/table/css/table.css" publishTime="06/02/2011 13:18:14" />
     <file relUrl="Scripts/tiny_mce/plugins/emotions/img/smiley-cry.gif" publishTime="06/02/2011 13:18:13" />
     <file relUrl="Scripts/tiny_mce/plugins/emotions/img/smiley-money-mouth.gif" publishTime="06/02/2011 13:18:13" />
     <file relUrl="Global.asax" publishTime="04/19/2011 07:55:31" />
-    <file relUrl="bin/Agribusiness.Web.pdb" publishTime="08/04/2011 11:23:13" />
+    <file relUrl="bin/Agribusiness.Web.pdb" publishTime="08/23/2011 15:23:29" />
     <file relUrl="Css/anytimec.css" publishTime="04/19/2011 07:55:31" />
     <file relUrl="Scripts/tiny_mce/themes/advanced/charmap.htm" publishTime="06/02/2011 13:18:14" />
     <file relUrl="Scripts/tiny_mce/plugins/print/editor_plugin_src.js" publishTime="06/02/2011 13:18:13" />
@@ -669,9 +674,8 @@
     <file relUrl="Scripts/tiny_mce/jquery.tinymce.js" publishTime="06/02/2011 13:18:12" />
     <file relUrl="Scripts/jquery.dataTables.min.js" publishTime="04/19/2011 07:55:31" />
     <file relUrl="Css/jquery-ui-1.8.11.caes.css" publishTime="04/19/2011 07:55:31" />
-    <file relUrl="Views/Shared/_Navigation.cshtml" publishTime="06/21/2011 09:32:20" />
-    <file relUrl="Views/Person/AdminEdit.cshtml" publishTime="06/15/2011 15:25:20" />
-    <file relUrl="Views/Session/_SessionFormScripts.cshtml" publishTime="06/07/2011 16:00:27" />
+    <file relUrl="Views/Shared/_Navigation.cshtml" publishTime="08/16/2011 15:27:06" />
+    <file relUrl="Views/Person/AdminEdit.cshtml" publishTime="08/22/2011 14:47:27" />
     <file relUrl="Images/search.png" publishTime="04/20/2011 13:59:20" />
     <file relUrl="Css/jquery.bt.css" publishTime="04/20/2011 13:03:31" />
     <file relUrl="Scripts/tiny_mce/plugins/style/css/props.css" publishTime="06/02/2011 13:18:14" />
@@ -697,7 +701,7 @@
     <file relUrl="Scripts/tiny_mce/plugins/emotions/editor_plugin.js" publishTime="06/02/2011 13:18:13" />
     <file relUrl="Css/images/ui-bg_flat_75_ffffff_40x100.png" publishTime="04/19/2011 07:55:31" />
     <file relUrl="Scripts/tiny_mce/plugins/tabfocus/editor_plugin_src.js" publishTime="06/02/2011 13:18:14" />
-    <file relUrl="Views/Seminar/Edit.cshtml" publishTime="04/26/2011 11:51:19" />
+    <file relUrl="Views/Seminar/Edit.cshtml" publishTime="08/22/2011 09:09:33" />
     <file relUrl="Images/check.png" publishTime="04/19/2011 10:00:39" />
     <file relUrl="bin/Common.Logging.dll" publishTime="04/25/2011 07:41:56" />
     <file relUrl="Scripts/tiny_mce/plugins/bbcode/editor_plugin_src.js" publishTime="06/02/2011 13:18:13" />
@@ -705,7 +709,7 @@
     <file relUrl="Scripts/tiny_mce/plugins/table/langs/en_dlg.js" publishTime="06/02/2011 13:18:14" />
     <file relUrl="Views/Attendee/AddConfirm.cshtml" publishTime="05/09/2011 09:29:01" />
     <file relUrl="Scripts/tiny_mce/plugins/advhr/js/rule.js" publishTime="06/02/2011 13:18:13" />
-    <file relUrl="Views/Person/Index.cshtml" publishTime="04/28/2011 11:06:51" />
+    <file relUrl="Views/Person/Index.cshtml" publishTime="08/23/2011 15:18:14" />
     <file relUrl="Views/Attendee/Profile.cshtml" publishTime="06/08/2011 11:31:54" />
     <file relUrl="Views/Shared/EditorTemplates/Time.cshtml" publishTime="06/23/2011 08:15:58" />
     <file relUrl="Views/Seminar/AssignToSessions.cshtml" publishTime="04/29/2011 11:26:17" />
@@ -717,7 +721,7 @@
     <file relUrl="Scripts/jquery.unobtrusive-ajax.min.js" publishTime="04/19/2011 07:55:31" />
     <file relUrl="Scripts/tiny_mce/plugins/inlinepopups/skins/clearlooks2/img/horizontal.gif" publishTime="06/02/2011 13:18:13" />
     <file relUrl="Views/Firm/Index.cshtml" publishTime="04/21/2011 07:13:34" />
-    <file relUrl="Views/CaseStudy/_CaseStudyForm.cshtml" publishTime="04/19/2011 07:55:32" />
+    <file relUrl="Views/CaseStudy/_CaseStudyForm.cshtml" publishTime="08/17/2011 08:28:14" />
     <file relUrl="Images/details.png" publishTime="04/19/2011 07:55:31" />
     <file relUrl="Scripts/tiny_mce/plugins/table/js/merge_cells.js" publishTime="06/02/2011 13:18:14" />
     <file relUrl="bin/Thought.vCards.pdb" publishTime="06/08/2011 08:14:55" />
@@ -764,7 +768,7 @@
     <file relUrl="Views/Shared/EditorTemplates/DateTime.cshtml" publishTime="04/19/2011 07:55:32" />
     <file relUrl="Scripts/tiny_mce/plugins/inlinepopups/editor_plugin.js" publishTime="06/02/2011 13:18:13" />
     <file relUrl="Scripts/tiny_mce/plugins/inlinepopups/skins/clearlooks2/img/confirm.gif" publishTime="06/02/2011 13:18:13" />
-    <file relUrl="Views/Session/Edit.cshtml" publishTime="06/07/2011 15:58:17" />
+    <file relUrl="Views/Session/Edit.cshtml" publishTime="08/22/2011 09:07:57" />
     <file relUrl="Css/themes/base/images/ui-bg_glass_65_ffffff_1x400.png" publishTime="04/19/2011 07:55:31" />
     <file relUrl="Scripts/tiny_mce/themes/advanced/shortcuts.htm" publishTime="06/02/2011 13:18:14" />
     <file relUrl="Scripts/tiny_mce/plugins/advhr/css/advhr.css" publishTime="06/02/2011 13:18:13" />
@@ -772,13 +776,15 @@
     <file relUrl="Scripts/tiny_mce/plugins/table/merge_cells.htm" publishTime="06/02/2011 13:18:14" />
     <file relUrl="Scripts/tiny_mce/plugins/table/js/table.js" publishTime="06/02/2011 13:18:14" />
     <file relUrl="Views/Template/Index.cshtml" publishTime="06/07/2011 08:04:55" />
+    <file relUrl="Views/Public/SteeringCommittee.cshtml" publishTime="08/17/2011 14:54:28" />
     <file relUrl="Views/Notification/_NotificationTracking.cshtml" publishTime="06/02/2011 14:45:21" />
     <file relUrl="Views/Commodity/Index.cshtml" publishTime="04/22/2011 11:53:43" />
     <file relUrl="Scripts/tiny_mce/plugins/xhtmlxtras/js/cite.js" publishTime="06/02/2011 13:18:14" />
     <file relUrl="Scripts/tiny_mce/plugins/xhtmlxtras/css/popup.css" publishTime="06/02/2011 13:18:14" />
     <file relUrl="Images/delete.png" publishTime="04/19/2011 07:55:31" />
     <file relUrl="Css/main.css" publishTime="08/04/2011 11:25:49" />
-    <file relUrl="Views/Home/Index.cshtml" publishTime="06/23/2011 14:27:31" />
+    <file relUrl="Views/Public/Profile.cshtml" publishTime="08/22/2011 15:32:14" />
+    <file relUrl="Views/Home/Index.cshtml" publishTime="08/23/2011 15:27:11" />
     <file relUrl="Scripts/MicrosoftMvcAjax.debug.js" publishTime="04/19/2011 07:55:31" />
     <file relUrl="Scripts/tiny_mce/themes/simple/skins/default/ui.css" publishTime="06/02/2011 13:18:15" />
     <file relUrl="packages.config" publishTime="06/23/2011 08:16:05" />
@@ -791,7 +797,7 @@
     <file relUrl="Views/CaseStudy/AddPerson.cshtml" publishTime="04/19/2011 07:55:32" />
     <file relUrl="Scripts/tiny_mce/plugins/xhtmlxtras/editor_plugin_src.js" publishTime="06/02/2011 13:18:14" />
     <file relUrl="Scripts/tiny_mce/themes/advanced/skins/o2k7/img/button_bg.png" publishTime="06/02/2011 13:18:14" />
-    <file relUrl="Views/Session/Create.cshtml" publishTime="06/07/2011 15:57:08" />
+    <file relUrl="Views/Session/Create.cshtml" publishTime="08/22/2011 09:07:27" />
     <file relUrl="Scripts/tiny_mce/themes/advanced/img/flash.gif" publishTime="06/02/2011 13:18:14" />
     <file relUrl="Scripts/tiny_mce/themes/advanced/color_picker.htm" publishTime="06/02/2011 13:18:14" />
     <file relUrl="Scripts/tiny_mce/plugins/table/css/cell.css" publishTime="06/02/2011 13:18:14" />
@@ -802,7 +808,7 @@
     <file relUrl="Views/Seminar/GetDetails.cshtml" publishTime="04/25/2011 15:14:53" />
     <file relUrl="Views/Notification/Create.cshtml" publishTime="06/02/2011 10:35:24" />
     <file relUrl="Scripts/tiny_mce/plugins/save/editor_plugin_src.js" publishTime="06/02/2011 13:18:13" />
-    <file relUrl="Views/Web.config" publishTime="08/04/2011 11:23:24" />
+    <file relUrl="Views/Web.config" publishTime="08/23/2011 15:23:31" />
     <file relUrl="Scripts/tiny_mce/themes/simple/skins/default/content.css" publishTime="06/02/2011 13:18:15" />
     <file relUrl="Css/themes/base/images/ui-bg_glass_95_fef1ec_1x400.png" publishTime="04/19/2011 07:55:31" />
     <file relUrl="Scripts/tiny_mce/plugins/media/langs/en_dlg.js" publishTime="06/02/2011 13:18:13" />
@@ -847,7 +853,7 @@
     <file relUrl="Views/Attendee/BySeminar.cshtml" publishTime="06/08/2011 11:05:21" />
     <file relUrl="Views/Shared/EditorTemplates/Date.cshtml" publishTime="06/23/2011 08:16:03" />
     <file relUrl="Scripts/tiny_mce/plugins/searchreplace/js/searchreplace.js" publishTime="06/02/2011 13:18:14" />
-    <file relUrl="Views/Seminar/Create.cshtml" publishTime="04/19/2011 07:55:32" />
+    <file relUrl="Views/Seminar/Create.cshtml" publishTime="08/22/2011 09:06:42" />
     <file relUrl="Scripts/jquery-1.4.4-vsdoc.js" publishTime="04/19/2011 07:55:31" />
     <file relUrl="Scripts/anytimec.js" publishTime="04/19/2011 07:55:31" />
     <file relUrl="Views/Shared/_LogOnPartial.cshtml" publishTime="04/19/2011 07:55:32" />
@@ -866,7 +872,7 @@
     <file relUrl="Scripts/tiny_mce/themes/advanced/img/trans.gif" publishTime="06/02/2011 13:18:14" />
     <file relUrl="Scripts/tiny_mce/plugins/autosave/langs/en.js" publishTime="06/02/2011 13:18:13" />
     <file relUrl="Scripts/tiny_mce/themes/advanced/js/color_picker.js" publishTime="06/02/2011 13:18:14" />
-    <file relUrl="Css/Agribusiness.css" publishTime="08/03/2011 15:49:01" />
+    <file relUrl="Css/Agribusiness.css" publishTime="08/23/2011 14:32:09" />
     <file relUrl="Scripts/tiny_mce/plugins/advhr/editor_plugin_src.js" publishTime="06/02/2011 13:18:13" />
     <file relUrl="Scripts/tiny_mce/plugins/emotions/emotions.htm" publishTime="06/02/2011 13:18:13" />
     <file relUrl="Scripts/tiny_mce/themes/advanced/img/iframe.gif" publishTime="06/02/2011 13:18:14" />
@@ -877,13 +883,14 @@
     <file relUrl="Scripts/tiny_mce/plugins/xhtmlxtras/langs/en_dlg.js" publishTime="06/02/2011 13:18:14" />
     <file relUrl="Views/_ViewStart.cshtml" publishTime="04/19/2011 07:55:32" />
     <file relUrl="Scripts/tiny_mce/plugins/visualchars/editor_plugin_src.js" publishTime="06/02/2011 13:18:14" />
+    <file relUrl="Views/Shared/_PublicSubNavigation.cshtml" publishTime="08/16/2011 15:27:47" />
     <file relUrl="Scripts/tiny_mce/plugins/autoresize/editor_plugin_src.js" publishTime="06/02/2011 13:18:13" />
     <file relUrl="Views/Seminar/Index.cshtml" publishTime="04/20/2011 11:09:05" />
     <file relUrl="Views/Shared/EditorTemplates/EmailAddress.cshtml" publishTime="06/23/2011 08:16:01" />
     <file relUrl="Scripts/tiny_mce/plugins/paste/editor_plugin_src.js" publishTime="06/02/2011 13:18:13" />
     <file relUrl="Scripts/tiny_mce/plugins/template/blank.htm" publishTime="06/02/2011 13:18:14" />
     <file relUrl="Scripts/tiny_mce/themes/advanced/skins/o2k7/img/button_bg_silver.png" publishTime="06/02/2011 13:18:14" />
-    <file relUrl="Views/Public/Background.cshtml" publishTime="06/20/2011 13:32:28" />
+    <file relUrl="Views/Public/Background.cshtml" publishTime="08/23/2011 07:26:36" />
     <file relUrl="Scripts/jquery.validate.min.js" publishTime="04/19/2011 07:55:31" />
     <file relUrl="Views/Shared/EditorTemplates/Week.cshtml" publishTime="06/23/2011 08:15:56" />
     <file relUrl="Scripts/MicrosoftAjax.js" publishTime="04/19/2011 07:55:31" />
@@ -900,7 +907,7 @@
     <file relUrl="Scripts/tiny_mce/plugins/insertdatetime/editor_plugin.js" publishTime="06/02/2011 13:18:13" />
     <file relUrl="Views/CaseStudy/Create.cshtml" publishTime="04/19/2011 07:55:32" />
     <file relUrl="Views/Commodity/Edit.cshtml" publishTime="04/25/2011 12:46:39" />
-    <file relUrl="Web.config" publishTime="08/04/2011 11:23:24" />
+    <file relUrl="Web.config" publishTime="08/23/2011 15:23:31" />
     <file relUrl="Scripts/MicrosoftMvcValidation.debug.js" publishTime="04/19/2011 07:55:31" />
     <file relUrl="Views/Shared/EditorTemplates/Search.cshtml" publishTime="06/23/2011 08:15:59" />
     <file relUrl="Css/themes/base/images/ui-bg_flat_75_ffffff_40x100.png" publishTime="04/19/2011 07:55:31" />
@@ -924,21 +931,21 @@
     <file relUrl="Scripts/tiny_mce/plugins/emotions/img/smiley-embarassed.gif" publishTime="06/02/2011 13:18:13" />
     <file relUrl="Scripts/tiny_mce/plugins/legacyoutput/editor_plugin.js" publishTime="06/02/2011 13:18:13" />
     <file relUrl="Scripts/tiny_mce/themes/advanced/skins/o2k7/dialog.css" publishTime="06/02/2011 13:18:14" />
-    <file relUrl="Views/Authorized/Index.cshtml" publishTime="04/28/2011 08:13:59" />
+    <file relUrl="Views/Authorized/Index.cshtml" publishTime="08/23/2011 09:51:10" />
     <file relUrl="Scripts/tiny_mce/plugins/example/editor_plugin.js" publishTime="06/02/2011 13:18:13" />
     <file relUrl="Scripts/tiny_mce/plugins/advimage/img/sample.gif" publishTime="06/02/2011 13:18:13" />
     <file relUrl="Scripts/tiny_mce/plugins/pagebreak/editor_plugin.js" publishTime="06/02/2011 13:18:13" />
     <file relUrl="Views/Account/LogOn.cshtml" publishTime="08/03/2011 13:55:40" />
     <file relUrl="Scripts/tiny_mce/plugins/advlink/editor_plugin_src.js" publishTime="06/02/2011 13:18:13" />
     <file relUrl="Images/icon_vcard.gif" publishTime="06/08/2011 10:14:52" />
-    <file relUrl="bin/Agribusiness.WS.pdb" publishTime="08/04/2011 11:23:09" />
+    <file relUrl="bin/Agribusiness.WS.pdb" publishTime="08/23/2011 15:23:28" />
     <file relUrl="Css/images/ui-icons_222222_256x240.png" publishTime="04/19/2011 07:55:31" />
     <file relUrl="Scripts/tiny_mce/themes/advanced/skins/highcontrast/ui.css" publishTime="06/02/2011 13:18:14" />
     <file relUrl="Views/Person/Profile.cshtml" publishTime="06/08/2011 11:27:50" />
     <file relUrl="Scripts/tiny_mce/themes/advanced/js/anchor.js" publishTime="06/02/2011 13:18:14" />
-    <file relUrl="Views/Shared/_ProfileList.cshtml" publishTime="08/03/2011 15:43:22" />
+    <file relUrl="Views/Shared/_ProfileList.cshtml" publishTime="08/23/2011 14:25:56" />
   </publishProfile>
-  <publishProfile publishUrl="\\hughman\wwwroot\agribusinessprod" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="TestProd" publishMethod="FileSystem" replaceMatchingFiles="True" userName="" savePWD="False" userPWD="" SelectedForPublish="True">
+  <publishProfile publishUrl="\\hughman\wwwroot\agribusinessprod" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="TestProd" publishMethod="FileSystem" replaceMatchingFiles="True" userName="" savePWD="False" userPWD="" SelectedForPublish="False">
     <file relUrl="bin/Agribusiness.Web.dll" publishTime="08/23/2011 15:23:29" />
     <file relUrl="Views/Shared/_DateTimePickerScripts.cshtml" publishTime="08/22/2011 09:05:44" />
     <file relUrl="Scripts/tiny_mce/plugins/print/editor_plugin.js" publishTime="06/02/2011 13:18:13" />

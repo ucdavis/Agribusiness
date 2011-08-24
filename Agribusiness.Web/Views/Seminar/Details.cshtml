@@ -21,6 +21,9 @@
             </li>
         }
         <li>
+            @Html.ActionLink("Mailing Lists", "Index", "MailingList", new {seminarId = Model.Seminar.Id}, new {})
+        </li>
+        <li>
             @Html.ActionLink("Edit", "Edit", "Seminar", new { id = Model.Seminar.Id }, new { })
         </li>
         <li>

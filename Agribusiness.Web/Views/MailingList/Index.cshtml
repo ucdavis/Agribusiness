@@ -1,0 +1,106 @@
+﻿@model IEnumerable<Agribusiness.Core.Domain.MailingList>
+
+
+@{
+	ViewBag.Title = "Mailing Lists";
+    ViewBag.SubPageTitle = "Mailing Lists";
+}
+
+@section SubPageNavigation
+{
+	<ul class='navigation'>
+
+        @if (ViewBag.SeminarId != null)
+        {
+            <li>@Html.ActionLink("Create New", "Create", new{seminarId = (int)ViewBag.SeminarId})</li>
+        }
+        else
+        {
+            <li>@Html.ActionLink("Create New", "Create")</li>    
+        }
+		
+	</ul>
+}
+
+
+<table class='dt-table'>
+	<thead>
+		<tr>
+			<th></th>
+
+			<th>
+				Name
+			</th>
+
+			<th>
+				DateCreated
+			</th>
+
+			<th>
+				DateUpdated
+			</th>
+
+            <th>
+                # People
+            </th>
+
+			<th></th>
+
+		</tr>
+	</thead>
+	<tbody>
+@{ var odd = false; }
+@foreach (var item in Model)
+{
+		<tr class="@(odd ? "odd" : "even")">
+
+			<td>
+				<a href='@Url.Action("Details", new { id = item.Id })'>
+					<img src='@Url.Image("details.png")' />
+				</a>
+				<a href='@Url.Action("Edit", new { id = item.Id })'>
+					<img src='@Url.Image("edit.png")' />
+				</a>
+			</td>
+
+			<td>
+				@item.Name
+			</td>
+
+			<td>
+				@String.Format("{0:g}", item.DateCreated)
+			</td>
+
+			<td>
+				@String.Format("{0:g}", item.DateUpdated)
+			</td>
+
+            <td>
+                @item.People.Count
+            </td>
+		
+			<td>
+				<a href='@Url.Action("Delete", new { id = item.Id })'>
+					<img src='@Url.Image("delete.png")' />
+				</a>
+			</td>
+		
+
+		</tr>
+		odd = !odd;
+}
+	</tbody>
+</table>
+
+<script type="text/javascript">
+	$(function () {
+		$(".dt-table").dataTable({
+			"bJQueryUI": true //Use the jquery ui skin
+			//"aaSorting": [[ 3, "asc" ]] //Add default sorting
+		});
+	});
+</script>
+
+
+
+

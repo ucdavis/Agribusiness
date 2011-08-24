@@ -871,6 +871,17 @@ namespace Agribusiness.Web.Controllers
             seminarPerson.Commodities = new List<Commodity>(commodities);
         }
         #endregion
+
+        #region Ajax Search
+        [UserOnly]
+        public JsonNetResult SearchPerson(string searchTerm)
+        {
+            var result = _personRepository.Queryable.Where(a => a.FirstName.Contains(searchTerm) || a.LastName.Contains(searchTerm))
+                            .OrderBy(a => a.LastName).Select(a => new { Id = a.Id, Label = string.Format("{0} {1}", a.FirstName, a.LastName)}).ToList();
+
+            return new JsonNetResult(result);
+        }
+        #endregion
     }
 
     public class FilterRule

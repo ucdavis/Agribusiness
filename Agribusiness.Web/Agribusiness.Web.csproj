@@ -145,6 +145,7 @@
     <Compile Include="Controllers\FirmController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InformationRequestController.cs" />
+    <Compile Include="Controllers\MailingListController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\PersonController.cs" />
     <Compile Include="Controllers\PictureTestController.cs" />
@@ -175,6 +176,7 @@
     <Compile Include="Models\FirmListViewModel.cs" />
     <Compile Include="Models\FirmViewModel.cs" />
     <Compile Include="Models\HotelPostModel.cs" />
+    <Compile Include="Models\MailingListViewModel.cs" />
     <Compile Include="Models\MySeminarViewModel.cs" />
     <Compile Include="Models\NotificationTrackingViewModel.cs" />
     <Compile Include="Models\PersonEditModel.cs" />
@@ -224,6 +226,7 @@
     <Content Include="Css\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Css\images\ui-icons_fffff_256x240.png" />
     <Content Include="Css\jquery-ui-1.8.11.caes.css" />
+    <Content Include="Css\jquery.AutoCompleteSelect.css" />
     <Content Include="Css\jquery.bt.css" />
     <Content Include="Css\jquery.Jcrop.css" />
     <Content Include="Css\main.css" />
@@ -235,6 +238,7 @@
     <Content Include="Images\profilepicplaceholder.png" />
     <Content Include="Images\profileplaceholder_thumb.png" />
     <Content Include="Images\search.png" />
+    <Content Include="Scripts\jquery.AutoCompleteSelect.js" />
     <Content Include="Scripts\jquery.bt.min.js" />
     <Content Include="Images\button_delete_red.png" />
     <Content Include="Images\caes_wf_blue.jpg" />
@@ -693,6 +697,12 @@
     <Content Include="Views\Public\CaseExamples.cshtml" />
     <Content Include="Views\Public\Venue.cshtml" />
     <Content Include="Views\Public\Profile.cshtml" />
+    <Content Include="Views\MailingList\Index.cshtml" />
+    <Content Include="Views\MailingList\Create.cshtml" />
+    <Content Include="Views\MailingList\_MailingListForm.cshtml" />
+    <Content Include="Views\MailingList\Edit.cshtml" />
+    <Content Include="Views\MailingList\Delete.cshtml" />
+    <Content Include="Views\MailingList\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">
