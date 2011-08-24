@@ -50,93 +50,12 @@ padding: 1em;
 margin-top: 2em;
 background-color: #EEEEEE;
 }
-/*
-.list-item
+
+.list-item-vcard a
 {
-    border-bottom: 1px solid #0068B7;
-    margin-bottom: 1em;
-    padding-bottom: 1em;
+    margin-left: 20px;
 }
 
-.list-item-picture
-{
-    width: 165px;
-    margin: 1em;
-    float: left;
-}
-
-header.list-item-name
-{
-    font-weight: bold;
-    font-size: large;
-}
-
-section.list-item-body
-{
-    width: 830px;
-    float: right;
-}
-
-article.list-item-title
-{
-    margin: .5em 0;
-    font-style: italic;
-    color: #0068B7;
-}
-
-article.list-item-firm
-{
-    margin: 1em 0;
-}
-
-article.list-item-firm ul
-{
-    list-style: none;
-}
-
-article.list-item-firm li.list-item-firm-name
-{
-    font-weight: bold;
-}
-
-article.list-item-firm li.list-item-firm-description
-{
-    margin: .25em 0 ;
-}
-
-aside.list-item-vcard
-{
-    float: right;
-    font-size: small;
-    text-align: right;
-    
-    background-color: #E8E8E8;
-    border: 1px solid #0068B7;
-    padding: .5em;
-    text-align: right;
-}
-*/
-/*
-.list-item{margin-top: 1em;}
-
-.list_pic_container
-{
-    display: inline-block;
-    margin: 1em;
-    width: 165px;    
-}
-.list_information_container
-{
-    display: inline-block;
-    vertical-align: top;
-}
-
-.list_information_container a {font-size: large; font-weight: bold;}
-.list_information_container ul {list-style: none;}
-.list_information_container .title { margin-top: .5em; font-weight: bold; }
-.list_information_container .description { margin-top: 1em; }
-.list-divider {margin: 1em 0 2em 0;}
-*/
 
 /* ---------------- */
 /* Profile Styling  */

@@ -64,7 +64,7 @@ namespace Agribusiness.Web.Controllers
         // GET: /Person/
         public ActionResult Index(FilterRule filter)
         {
-            var viewModel = PersonListViewModel.Create(_personRepository, _personService);
+            var viewModel = PersonListViewModel.Create(_personRepository, _personService, _seminarService);
 
             if (filter != null)
             {

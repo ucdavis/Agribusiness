@@ -2,8 +2,10 @@
 using System.Linq;
 using System.Web.Mvc;
 using Agribusiness.Core.Domain;
+using Agribusiness.Web.Controllers.Filters;
 using Agribusiness.Web.Models;
 using UCDArch.Core.PersistanceSupport;
+using UCDArch.Web.ActionResults;
 using UCDArch.Web.Controller;
 using UCDArch.Web.Helpers;
 using MvcContrib;
@@ -13,6 +15,7 @@ namespace Agribusiness.Web.Controllers
     /// <summary>
     /// Controller for the MailingList class
     /// </summary>
+    [UserOnly]
     public class MailingListController : ApplicationController
     {
 	    private readonly IRepository<MailingList> _mailinglistRepository;
@@ -135,5 +138,43 @@ namespace Agribusiness.Web.Controllers
 
             return RedirectToAction("Index");
         }
+
+        #region Ajax Actions
+        /// <summary>
+        /// Gets a list of mailing list to show in a drop down
+        /// </summary>
+        /// <param name="seminarId"></param>
+        /// <returns></returns>
+        public JsonNetResult GetList(int seminarId)
+        {
+            var result = _mailinglistRepository.Queryable.Where(a => a.Seminar == null || a.Seminar.Id == seminarId);
+
+            return new JsonNetResult(result.Select(a => new {Id=a.Id, Label=a.Name}));
+        }
+        /// <summary>
+        /// Add a person into the mailing list
+        /// </summary>
+        /// <param name="mailingListId"></param>
+        /// <param name="personId"></param>
+        /// <returns></returns>
+        public JsonNetResult AddToList(int mailingListId, int personId)
+        {
+            var mailingList = _mailinglistRepository.GetNullableById(mailingListId);
+            var person = Repository.OfType<Person>().GetNullableById(personId);
+
+            if (mailingList == null || person == null)
+            {
+                return new JsonNetResult(false);
+            }
+
+            if (!mailingList.People.Contains(person))
+            {
+                mailingList.People.Add(person);
+                _mailinglistRepository.EnsurePersistent(mailingList);
+            }
+
+            return new JsonNetResult(true);
+        }
+        #endregion
     }
 }

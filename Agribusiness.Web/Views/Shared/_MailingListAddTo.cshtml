@@ -1,0 +1,69 @@
+﻿@model Seminar
+
+<div id="mailinglist-dialog" title="Add to Mailing List">
+    <input type="hidden" id="mailinglist-personid"/>
+    <ul>
+        <li><span class="label">Person:</span>
+            <span id="mailinglist-name"></span>
+        </li>
+        <li><span class="label">Mailing List:</span>
+            <select id="mailinglist-select" name="mailinglist-select">
+                <option value="">--Select a Mailing List--</option>
+            </select>
+        </li>
+    </ul>
+</div>
+
+@Html.AntiForgeryToken()
+
+<script type="text/javascript">
+
+    $(function () {
+
+        // preload all the mailing list values in the select list
+        var loadurl = '@Url.Action("GetList", "MailingList")';
+        $.getJSON(loadurl, { seminarId: @Model.Id }, function(result) {
+            $.each(result, function(index, item) {
+                $("#mailinglist-select").append($("<option>").val(item.Id).html(item.Label));
+            });
+        });
+
+        // set the dialog
+        $("#mailinglist-dialog").dialog({
+                autoOpen: false, modal: true,
+                buttons: {
+                    "Save": function () {
+                        var saveUrl = '@Url.Action("AddToList", "MailingList")';
+                        
+                        var personId = $("#mailinglist-personid").val();
+                        var listId = $("#mailinglist-select").val();
+                        var key = $('input[name="__RequestVerificationToken"]').val();
+                        
+                        $.post(saveUrl, { mailingListId: listId, personId: personId, __RequestVerificationToken: key }, function(result) {
+                            
+                            if (result) {alert("User added to mailing list.");}
+                            else {alert("Error adding user to mailing list.");}
+
+                        });
+                    },
+                    "Cancel": function () { $(this).dialog("close");}
+                }
+            });
+
+        // click event to bring up mailing list
+        $(".mailinglist-add").click(function() {
+            $("#mailinglist-dialog").dialog("open");
+
+            $("#mailinglist-personid").val($(this).data("personid"));
+            $("#mailinglist-select").val("");
+            $("#mailinglist-name").html($(this).data("name"));
+        });
+        
+    });
+
+</script>
+
+<style type="text/css">
+    #mailinglist-dialog ul {list-style: none;}
+    #mailinglist-dialog span.label {font-weight: bold; display: inline-block; width: 100px;}
+</style>

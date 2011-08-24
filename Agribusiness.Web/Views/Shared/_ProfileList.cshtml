@@ -70,12 +70,14 @@
 
                 @if (Model.Seminar != null && User.IsInRole(Agribusiness.Web.Controllers.Filters.RoleNames.User))
                 { 
-                    <br />
-                    <br />
-                    
                     <a href='@Url.Action("AdminEdit", "Person", new { id = Model.Person.User.Id, seminarId = Model.Seminar.Id })'>
                         <img src='@Url.Image("edit.png")' alt="Edit" style="height: 20px; width: 20px;" />
                         Edit
+                    </a>
+                    
+                    <a href="javascript:;" class="mailinglist-add" data-personid="@Model.Person.Id" data-name="@Model.Person.FullName">
+                        <img src='@Url.Image("mail_add.png")' alt="Add to Mailing List" style="height: 20px; width: 20px;" />
+                        Add to Mailing List
                     </a>
                 }
             </aside>                
