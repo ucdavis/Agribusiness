@@ -13,6 +13,8 @@ namespace Agribusiness.Web.Models
         public virtual NotificationTracking NotificationTracking { get; set; }
         public virtual IList<NotificationMethod> NotificationMethods { get; set; }
         public virtual IList<NotificationType> NotificationTypes { get; set; }
+        public IEnumerable<MailingList> MailingLists { get; set; }
+        public MailingList MailingList { get; set; }
 
         public virtual Seminar Seminar { get; set; }
 
@@ -25,7 +27,7 @@ namespace Agribusiness.Web.Models
         /// </summary>
         public virtual IList<Person> AllPeople { get; set; }
 
-        public static NotificationTrackingViewModel Create(IRepository repository, ISeminarService seminarService, NotificationTracking notificationTracking = null, Person person = null)
+        public static NotificationTrackingViewModel Create(IRepository repository, ISeminarService seminarService, NotificationTracking notificationTracking = null, Person person = null, MailingList mailingList = null)
         {
             Check.Require(repository != null, "Repository is required.");
 
@@ -35,7 +37,9 @@ namespace Agribusiness.Web.Models
                                     NotificationTypes = repository.OfType<NotificationType>().GetAll(),
                                     People = new List<Person>(),
                                     AllPeople = seminarService.GetCurrent().SeminarPeople.Select(a=>a.Person).ToList(),
-                                    Seminar = seminarService.GetCurrent()
+                                    Seminar = seminarService.GetCurrent(),
+                                    MailingLists = repository.OfType<MailingList>().GetAll(),
+                                    MailingList = mailingList
                                 };
 
             if (person != null) viewModel.People.Add(person);

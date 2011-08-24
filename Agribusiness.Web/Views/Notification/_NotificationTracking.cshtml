@@ -8,6 +8,11 @@
         <legend>Notification Type</legend>
 
         <ul>
+            <li><div class="editor-label">Mailing List</div>
+                <div class="editor-field">
+                    @this.Select("mailingListId").Options(Model.MailingLists, x => x.Id, x => x.Name).FirstOption("--Select Mailing List--").Selected(Model.MailingList != null ? Model.MailingList.Id : 0)
+                </div>
+            </li>
             <li><div class="editor-label required">Name(s)<span>*</span></div>
                 <div class="editor-field">
                     <div id="person-name-container">

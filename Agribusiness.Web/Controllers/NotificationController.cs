@@ -137,9 +137,9 @@ namespace Agribusiness.Web.Controllers
         
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Send(List<int> people, NotificationTracking notificationTracking, EmailQueue emailQueue)
+        public ActionResult Send(List<int> people, NotificationTracking notificationTracking, EmailQueue emailQueue, int? mailingListId)
         {
-            if (people == null || people.Count <= 0)
+            if ((people == null || people.Count <= 0) && !mailingListId.HasValue)
             {
                 ModelState.AddModelError("People", "No person has been selected to receive the notification.");
             }
@@ -149,10 +149,13 @@ namespace Agribusiness.Web.Controllers
             ModelState.Clear();
             notificationTracking.TransferValidationMessagesTo(ModelState);
 
+            var mailingList = mailingListId.HasValue ? Repository.OfType<MailingList>().GetNullableById(mailingListId.Value) : null;
+
             // save the objects if we are good);););
             if (ModelState.IsValid)
             {
-                tracking = ProcessTracking(ModelState, people, notificationTracking, emailQueue);
+                
+                tracking = ProcessTracking(ModelState, people, notificationTracking, emailQueue, mailingList);
 
                 foreach (var a in tracking)
                 {
@@ -174,7 +177,7 @@ namespace Agribusiness.Web.Controllers
             }
 
             // not good, hand the page back
-            var ntViewModel = NotificationTrackingViewModel.Create(Repository, _seminarService, notificationTracking);
+            var ntViewModel = NotificationTrackingViewModel.Create(Repository, _seminarService, notificationTracking, mailingList:mailingList );
             ntViewModel.People = tracking.Select(a => a.Person).ToList();
 
             var viewModel = SendNotificationViewModel.Create(Repository, ntViewModel, emailQueue);
@@ -189,48 +192,58 @@ namespace Agribusiness.Web.Controllers
         /// <param name="notificationTracking"></param>
         /// <param name="emailQueue">(Optional)</param>
         /// <returns></returns>
-        protected List<NotificationTracking> ProcessTracking(ModelStateDictionary modelState, List<int> people, NotificationTracking notificationTracking, EmailQueue emailQueue = null)
+        protected List<NotificationTracking> ProcessTracking(ModelStateDictionary modelState, List<int> people, NotificationTracking notificationTracking, EmailQueue emailQueue = null, MailingList mailingList = null)
         {
-            Check.Require(people != null, "people is required.");
-            Check.Require(people.Count > 0, "Must have at least one person.");
+            Check.Require(people != null || mailingList != null, "people is required.");
+            //Check.Require(people.Count > 0, "Must have at least one person.");
             Check.Require(notificationTracking != null, "notificationTracking is required.");
 
-            var peeps = new List<Person>();
+            mailingList = mailingList ?? new MailingList();
+            people = people ?? new List<int>();
+
+            // build the list of people to send to
+            var peeps = _personRepository.Queryable.Where(a => people.Contains(a.Id)).ToList();
+            peeps.AddRange(mailingList.People);
+
             var tracking = new List<NotificationTracking>();
 
-            foreach (var a in people)
+            foreach (var person in peeps.Distinct())
             {
-                var person = _personRepository.GetNullableById(a);
+                //var person = _personRepository.GetNullableById(a);
 
-                if (person == null)
+                //if (person == null)
+                //{
+                //    ModelState.AddModelError("Person", string.Format("Person with id {0} could not be found.", a));
+                //}
+                //else
+                //{
+                var nt = new NotificationTracking();
+                // copy the fields
+                Mapper.Map(notificationTracking, nt);
+                nt.Seminar = notificationTracking.Seminar;
+                // assign the person
+                nt.Person = person;
+
+                if (emailQueue != null)
                 {
-                    ModelState.AddModelError("Person", string.Format("Person with id {0} could not be found.", a));
+                    var eq = new EmailQueue();
+
+                    Mapper.Map(emailQueue, eq);
+                    eq.Body = _notificationService.GenerateNotification(eq.Body, person, notificationTracking.Seminar.Id);
+
+                    eq.Person = person;
+                    nt.EmailQueue = eq;
                 }
-                else
-                {
-                    peeps.Add(person);
 
-                    var nt = new NotificationTracking();
-                    // copy the fields
-                    Mapper.Map(notificationTracking, nt);
-                    nt.Seminar = notificationTracking.Seminar;
-                    // assign the person
-                    nt.Person = person;
+                // add it to the list
+                tracking.Add(nt);
+                //}
+            }
 
-                    if (emailQueue != null)
-                    {
-                        var eq = new EmailQueue();
-
-                        Mapper.Map(emailQueue, eq);
-                        eq.Body = _notificationService.GenerateNotification(eq.Body, person, notificationTracking.Seminar.Id);
-
-                        eq.Person = person;
-                        nt.EmailQueue = eq;
-                    }
-
-                    // add it to the list
-                    tracking.Add(nt);
-                }
+            // add errors for those not in the list
+            foreach (var id in people.Where(x => !peeps.Select(a => a.Id).Contains(x)))
+            {
+                ModelState.AddModelError("Person", string.Format("Person with id {0} could not be found.", id));
             }
 
             return tracking;
