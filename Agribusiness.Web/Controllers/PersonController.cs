@@ -66,7 +66,7 @@ namespace Agribusiness.Web.Controllers
         {
             var viewModel = PersonListViewModel.Create(_personRepository, _personService, _seminarService);
 
-            if (filter != null)
+            if (!string.IsNullOrWhiteSpace(filter.FilterBy) && !string.IsNullOrWhiteSpace(filter.SortBy))
             {
                 if (!string.IsNullOrWhiteSpace(filter.SortBy))
                 {
@@ -208,15 +208,17 @@ namespace Agribusiness.Web.Controllers
         }
 
         [UserOnly]
-        public ActionResult AdminEdit(Guid id, int seminarId)
+        public ActionResult AdminEdit(Guid id, int? seminarId, bool? allList)
         {
             var user = _userRepository.GetNullableById(id);
 
             if (user == null)
             {
                 Message = string.Format(Messages.NotFound, "user", id);
-                return this.RedirectToAction<AttendeeController>(a => a.Index(seminarId));
+                return this.RedirectToAction<PersonController>(a => a.Index(null));
             }
+
+            ViewBag.AllList = allList ?? false;
 
             var viewModel = AdminPersonViewModel.Create(Repository, _firmService, _seminarService, seminarId, user.Person, user.LoweredUserName);
             return View(viewModel);
@@ -246,7 +248,7 @@ namespace Agribusiness.Web.Controllers
                 // send to crop photo if one was uploaded
                 if (profilepic != null) return this.RedirectToAction(a => a.UpdateProfilePicture(person.Id, seminarId));
 
-                return this.RedirectToAction(a => a.AdminEdit(person.User.Id, seminarId));
+                return this.RedirectToAction(a => a.AdminEdit(person.User.Id, seminarId, null));
             }
 
             var viewModel = AdminPersonViewModel.Create(Repository, _firmService, _seminarService, seminarId, user.Person, user.LoweredUserName);
@@ -309,7 +311,7 @@ namespace Agribusiness.Web.Controllers
             if (reg.Seminar != seminar)
             {
                 Message = "User is not a part of the current seminar.  Roles cannot be assigned.";
-                return this.RedirectToAction(a => a.AdminEdit(person.User.Id, seminarId));
+                return this.RedirectToAction(a => a.AdminEdit(person.User.Id, seminarId, null));
             }
 
             var existingRoles = reg.SeminarRoles.Select(a => a.Id).ToList();
@@ -357,7 +359,7 @@ namespace Agribusiness.Web.Controllers
             if (reg.Seminar != seminar)
             {
                 Message = "User is not a part of the current seminar.  Coupon cannot be created.";
-                return this.RedirectToAction(a => a.AdminEdit(person.User.Id, seminarId));
+                return this.RedirectToAction(a => a.AdminEdit(person.User.Id, seminarId, null));
             }
 
             // check for a current coupon
@@ -404,7 +406,7 @@ namespace Agribusiness.Web.Controllers
             if (reg.Seminar != seminar)
             {
                 Message = "User is not a part of the current seminar.  Coupon cannot be created.";
-                return this.RedirectToAction(a => a.AdminEdit(person.User.Id, seminarId));
+                return this.RedirectToAction(a => a.AdminEdit(person.User.Id, seminarId, null));
             }
 
             // update the fields
@@ -441,7 +443,7 @@ namespace Agribusiness.Web.Controllers
             if (reg.Seminar != seminar)
             {
                 Message = "User is not a part of the current seminar.  Coupon cannot be created.";
-                return this.RedirectToAction(a => a.AdminEdit(person.User.Id, seminarId));
+                return this.RedirectToAction(a => a.AdminEdit(person.User.Id, seminarId, null));
             }
 
             var result = _registrationService.CancelCoupon(seminar.RegistrationId.Value, reg.CouponCode);
@@ -478,7 +480,7 @@ namespace Agribusiness.Web.Controllers
             if (reg.Seminar != seminar)
             {
                 Message = "User is not a part of the current seminar.  Coupon cannot be created.";
-                return this.RedirectToAction(a => a.AdminEdit(person.User.Id, seminarId));
+                return this.RedirectToAction(a => a.AdminEdit(person.User.Id, seminarId, null));
             }
 
             // make the web service call
@@ -515,7 +517,7 @@ namespace Agribusiness.Web.Controllers
             if (reg.Seminar != seminar)
             {
                 Message = "User is not a part of the current seminar.  Coupon cannot be created.";
-                return this.RedirectToAction(a => a.AdminEdit(person.User.Id, seminarId));
+                return this.RedirectToAction(a => a.AdminEdit(person.User.Id, seminarId, null));
             }
 
             reg.Comments = comments;
@@ -683,7 +685,7 @@ namespace Agribusiness.Web.Controllers
 
                 if (seminarId.HasValue)
                 {
-                    return this.RedirectToAction(a => a.AdminEdit(person.User.Id, seminarId.Value));
+                    return this.RedirectToAction(a => a.AdminEdit(person.User.Id, seminarId.Value, null));
                 }
 
                 if (CurrentUser.Identity.Name.Contains("@"))

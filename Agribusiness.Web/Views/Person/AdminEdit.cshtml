@@ -7,37 +7,42 @@
 
 @section ScriptContent
 {
-
     <script type="text/javascript" src='@Url.Script("tiny_mce/jquery.tinymce.js")'></script>
 
     <script type="text/javascript">
         $(function () {
             $("#tabs").tabs();
 
-            $("#coupon_dialog").dialog({ autoOpen: false, modal: true });
+            @if(Model.SeminarId != null)
+            {
+                <text>
+                $("#coupon_dialog").dialog({ autoOpen: false, modal: true });
 
-            $("#update_coupon").click(function () { $("#coupon_dialog").dialog("open"); });
-            $("#cancel_update_coupon").click(function () { $("#coupon_dialog").dialog("close"); });
+                $("#update_coupon").click(function () { $("#coupon_dialog").dialog("open"); });
+                $("#cancel_update_coupon").click(function () { $("#coupon_dialog").dialog("close"); });
 
-            $("#PersonViewModel_Person_AutomatedNotification").change(function () {
+                $("#PersonViewModel_Person_AutomatedNotification").change(function () {
 
-                var url = '@Url.Action("UpdateAutomatedNotification", "Person")';
+                    var url = '@Url.Action("UpdateAutomatedNotification", "Person")';
 
-                var selected = $(this)[0].checked;
-                var personId = '@Model.PersonViewModel.Person.Id';
-                var seminarId = @Model.SeminarId;
-                var antiForgery = $("input[name='__RequestVerificationToken']").val();
+                    var selected = $(this)[0].checked;
+                    var personId = '@Model.PersonViewModel.Person.Id';
+                    var seminarId = @Model.SeminarId;
+                    var antiForgery = $("input[name='__RequestVerificationToken']").val();
 
-                $.post(url, {personId: personId, seminarId: seminarId, automatedNotification: selected, __RequestVerificationToken: antiForgery }, function(result){
-                    if (result == "") {
-                        alert("preference updated");
-                    }
-                    else {
-                        alert(result);
-                    }
-                });
+                    $.post(url, {personId: personId, seminarId: seminarId, automatedNotification: selected, __RequestVerificationToken: antiForgery }, function(result){
+                        if (result == "") {
+                            alert("preference updated");
+                        }
+                        else {
+                            alert(result);
+                        }
+                    });
 
-            });
+                });   
+                </text>
+            }
+
 
             $("#biographytxt").tinymce({ 
                 
@@ -87,7 +92,18 @@
 @section SubPageNavigation
 {
     <ul class="navigation">
-        <li>@Html.ActionLink("Back to Attendee List", "Index", "Attendee", new { id = Model.SeminarId }, new { })</li>
+        @if ((bool)ViewBag.AllList)
+        {
+            <li>@Html.ActionLink("Back to People List", "Index")</li>
+        }
+        else if (Model.SeminarId != null)
+        {
+            <li>@Html.ActionLink("Back to Attendee List", "Index", "Attendee", new { id = Model.SeminarId }, new { })</li>    
+        }
+        else
+        {
+            <li>@Html.ActionLink("Back to People List", "Index")</li>
+        }
     </ul>
 }
 
@@ -104,10 +120,13 @@
         <ul>
             <li><a href="#profile">Profile</a></li>
             <li><a href="#biography">Biography</a></li>
-            <li><a href="#registration">Registration</a></li>
-            <li><a href="#roles">Roles</a></li>
-            <li><a href="#hotel">Hotel</a></li>
-            <li><a href="#comments">Comments</a></li>
+            @if (Model.SeminarId != null)
+            {
+                <li><a href="#registration">Registration</a></li>
+                <li><a href="#roles">Roles</a></li>
+                <li><a href="#hotel">Hotel</a></li>
+                <li><a href="#comments">Comments</a></li>    
+            }
             <li><a href="#notifications">Notifications</a></li>
         </ul>
 
@@ -137,6 +156,8 @@
             }
 
         </div>
+        @if (Model.SeminarId != null)
+        {
         <div id="registration">
     
             @if (Model.IsCurrentSeminar)
@@ -249,37 +270,37 @@
                     
                     <fieldset>
                         <ul>
-                            <li><div class="editor-label">@Html.LabelFor(a=>a.PersonViewModel.SeminarPerson.HotelCheckIn)</div>
+                            <li><div class="editor-label">@Html.LabelFor(a => a.PersonViewModel.SeminarPerson.HotelCheckIn)</div>
                                 <div class="editor-field">
                                     @*@Html.EditorFor(a=>a.PersonViewModel.SeminarPerson.HotelCheckIn)*@
-                                    @Html.TextBox("hotelPostModel.CheckIn", Model.PersonViewModel.SeminarPerson.HotelCheckIn.HasValue ? Model.PersonViewModel.SeminarPerson.HotelCheckIn.Value.ToString("d") : string.Empty, new {@class="datepicker"})
-                                    @Html.ValidationMessageFor(a=>a.PersonViewModel.SeminarPerson.HotelCheckIn)
+                                    @Html.TextBox("hotelPostModel.CheckIn", Model.PersonViewModel.SeminarPerson.HotelCheckIn.HasValue ? Model.PersonViewModel.SeminarPerson.HotelCheckIn.Value.ToString("d") : string.Empty, new { @class = "datepicker" })
+                                    @Html.ValidationMessageFor(a => a.PersonViewModel.SeminarPerson.HotelCheckIn)
                                 </div>
                             </li>
-                            <li><div class="editor-label">@Html.LabelFor(a=>a.PersonViewModel.SeminarPerson.HotelCheckOut)</div>
+                            <li><div class="editor-label">@Html.LabelFor(a => a.PersonViewModel.SeminarPerson.HotelCheckOut)</div>
                                 <div class="editor-field">
                                     @*@Html.EditorFor(a=>a.PersonViewModel.SeminarPerson.HotelCheckOut)*@
                                     @Html.TextBox("hotelPostModel.CheckOut", Model.PersonViewModel.SeminarPerson.HotelCheckOut.HasValue ? Model.PersonViewModel.SeminarPerson.HotelCheckOut.Value.ToString("d") : string.Empty, new { @class = "datepicker" })
-                                    @Html.ValidationMessageFor(a=>a.PersonViewModel.SeminarPerson.HotelCheckOut)
+                                    @Html.ValidationMessageFor(a => a.PersonViewModel.SeminarPerson.HotelCheckOut)
                                 </div>
                             </li>
-                            <li><div class="editor-label">@Html.LabelFor(a=>a.PersonViewModel.SeminarPerson.HotelConfirmation)</div>
+                            <li><div class="editor-label">@Html.LabelFor(a => a.PersonViewModel.SeminarPerson.HotelConfirmation)</div>
                                 <div class="editor-field">
                                     @*@Html.EditorFor(a=>a.PersonViewModel.SeminarPerson.HotelConfirmation)*@
                                     @Html.TextBox("hotelPostModel.Confirmation", Model.PersonViewModel.SeminarPerson.HotelConfirmation)
-                                    @Html.ValidationMessageFor(a=>a.PersonViewModel.SeminarPerson.HotelConfirmation)
+                                    @Html.ValidationMessageFor(a => a.PersonViewModel.SeminarPerson.HotelConfirmation)
                                 </div>
                             </li>
-                            <li><div class="editor-label">@Html.LabelFor(a=>a.PersonViewModel.SeminarPerson.RoomType)</div>
+                            <li><div class="editor-label">@Html.LabelFor(a => a.PersonViewModel.SeminarPerson.RoomType)</div>
                                 <div class="editor-field">
-                                    @this.Select("hotelPostModel.RoomType").Options(Model.RoomTypes, x=>x.Id, x=>x.Name).Selected(Model.PersonViewModel.SeminarPerson.RoomType != null ? Model.PersonViewModel.SeminarPerson.RoomType.Id.ToString() : string.Empty).FirstOption("--Select a Room Type--")
-                                    @Html.ValidationMessageFor(a=>a.PersonViewModel.SeminarPerson.RoomType)
+                                    @this.Select("hotelPostModel.RoomType").Options(Model.RoomTypes, x => x.Id, x => x.Name).Selected(Model.PersonViewModel.SeminarPerson.RoomType != null ? Model.PersonViewModel.SeminarPerson.RoomType.Id.ToString() : string.Empty).FirstOption("--Select a Room Type--")
+                                    @Html.ValidationMessageFor(a => a.PersonViewModel.SeminarPerson.RoomType)
                                 </div>
                             </li>
-                            <li><div class="editor-label">@Html.LabelFor(a=>a.PersonViewModel.SeminarPerson.HotelComments)</div>
+                            <li><div class="editor-label">@Html.LabelFor(a => a.PersonViewModel.SeminarPerson.HotelComments)</div>
                                 <div class="editor-field">
                                     @Html.TextArea("hotelPostModel.Comments", Model.PersonViewModel.SeminarPerson.HotelComments, new { @style = "height: 150px; width: 425px; border: 1px solid lightgray;" })
-                                    @Html.ValidationMessageFor(a=>a.PersonViewModel.SeminarPerson.HotelComments)
+                                    @Html.ValidationMessageFor(a => a.PersonViewModel.SeminarPerson.HotelComments)
                                 </div>
                             </li>
                             <li><div class="editor-label">&nbsp;</div>
@@ -316,12 +337,14 @@
             { 
                 @Html.TextArea("comments", Model.PersonViewModel.SeminarPerson.Comments, new { @disabled = "true", @style = "height: 250px; width: 700px; border: 1px solid lightgray;" })
             }
-        </div>
+        </div>    
+        }
+        
         <div id="notifications">
 
             <div class="reg-navigation">
                 <ul>
-                    <li>@Html.ActionLink("Add Notification Tracking", "Create", "Notification", new {personId = Model.PersonViewModel.Person.Id, seminarId = Model.SeminarId}, new {})</li>
+                    <li>@Html.ActionLink("Add Notification Tracking", "Create", "Notification", new { personId = Model.PersonViewModel.Person.Id, seminarId = Model.SeminarId }, new { })</li>
                     <li>@Html.ActionLink("Send Notification", "Send", "Notification", new { personId = Model.PersonViewModel.Person.Id, seminarId = Model.SeminarId }, new { })</li>
                 </ul>
             </div>
@@ -334,7 +357,7 @@
 
                 <ul>
                     <li>
-                        @Html.CheckBoxFor(a=>a.PersonViewModel.Person.AutomatedNotification) Include in automated messages.  Unchecking this will not exclude this person from receiving reminder and confirmation emails.
+                        @Html.CheckBoxFor(a => a.PersonViewModel.Person.AutomatedNotification) Include in automated messages.  Unchecking this will not exclude this person from receiving reminder and confirmation emails.
                     </li>
                 </ul>
             
@@ -376,6 +399,8 @@
 </div>
 <div style="clear:both;" />
 
+@if (Model.SeminarId != null)
+{
 <div id="coupon_dialog" title="Update Coupon">
 
     @using (Html.BeginForm("UpdateCoupon", "Person"))
@@ -397,4 +422,5 @@
         </ul>
     }
 
-</div>
+</div>    
+}

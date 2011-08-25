@@ -333,7 +333,7 @@
 				<div class="editor-field">
                 <input type="submit" value="save" class="button" /> |
 
-                @if (Model.SeminarPerson == null)
+                @if (Model.SeminarPerson == null && Model.Seminar != null)
                 {
                 @Html.ActionLink("Cancel", "Index", "Attendee", new { id = Model.Seminar.Id }, new { })
                 }
