@@ -68,13 +68,6 @@ namespace Agribusiness.Web.Controllers
 
             if (filter != null)
             {
-                //if (!string.IsNullOrWhiteSpace(filter.FilterBy))
-                //{
-
-
-                //    viewModel.People = viewModel.People.Where(a => a.Person.FirstName.Contains(filter.FilterBy) || a.Person.LastName.Contains(filter.FilterBy) || a.Title.Contains(filter.FilterBy)).ToList(); //|| a.Firm.Name.Contains(filter.FilterBy) || a.Firm.Description.Contains(filter.FilterBy)).ToList();
-                //}
-
                 if (!string.IsNullOrWhiteSpace(filter.SortBy))
                 {
                     switch (filter.SortBy.ToLower())
