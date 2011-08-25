@@ -17,11 +17,13 @@
 {
     <style type="text/css">
     
-        .filter-container { border-bottom: 1px solid black; margin-bottom: 1.5em; padding: 1em;}
+        .filter-container { border-bottom: 1px solid #0068B7; margin-bottom: 1.5em; padding: 1em;}
         .filter-container ul {list-style: none;}
-        .filter-container ul li {float: left; margin-left: 20px; display: inline-block;}
-        .filter-container .ui-icon {display: inline-block;}
-    
+        .filter-container ul li {float: left; margin-left: 20px; display: inline-block; }
+        .filter-container .filter-link-container {vertical-align: bottom; height: 20px; border-right: 1px solid #0068B7; }
+        .filter-container .filter-link-container .ui-icon {display: inline-block; margin-right: 10px;}
+        .filter-container .filter-link-container .ui-icon-nothing {background-image: none; margin-right: 0px;}
+        
     </style>
 }
 
@@ -29,49 +31,75 @@
 
 <ul>
     <li>
-        <div>
-        @Html.ActionLink("First Name", "Index", new { sortby = "firstname", desc = Model.SortBy == "firstname" && !Model.Desc })
-        @if (Model.SortBy == "firstname")
-        {
-            if (Model.Desc)
+        <div class="filter-link-container">
+        <a href="@Url.Action("Index", new { sortby = "firstname", desc = Model.SortBy == "firstname" && !Model.Desc })">
+        
+            First Name
+            @if (Model.SortBy == "firstname")
             {
-                <div class="ui-icon ui-icon-circle-arrow-s"></div>
+                if (Model.Desc)
+                {
+                    <span class="ui-icon ui-icon-triangle-1-s"></span>
+                }
+                else
+                {
+                    <span class="ui-icon ui-icon-triangle-1-n"></span>
+                }
             }
             else
             {
-                <div class="ui-icon ui-icon-circle-arrow-n"></div>
+                <span class="ui-icon ui-icon-nothing"></span>
             }
-        }
-        </div>        
-    </li>
-    <li><div>
-        @Html.ActionLink("Last Name", "Index", new { sortby = "lastname", desc = Model.SortBy == "lastname" && !Model.Desc })
-        @if (Model.SortBy == "lastname")
-        {
-            if (Model.Desc)
-            {
-                <div class="ui-icon ui-icon-circle-arrow-s"></div>
-            }
-            else
-            {
-                <div class="ui-icon ui-icon-circle-arrow-n"></div>
-            }
-        }
+
+        </a>
         </div>
     </li>
-    <li><div>
-        @Html.ActionLink("Firm", "Index", new { sortby = "firm", desc=Model.SortBy == "firstname" && !Model.Desc })
-        @if (Model.SortBy == "firm")
-        {
-            if (Model.Desc)
+    <li>
+        <div class="filter-link-container">
+        <a href="@Url.Action("Index", new { sortby = "lastname", desc = Model.SortBy == "lastname" && !Model.Desc })">
+        
+            Last Name
+            @if (Model.SortBy == "lastname")
             {
-                <div class="ui-icon ui-icon-circle-arrow-s"></div>
+                if (Model.Desc)
+                {
+                    <span class="ui-icon ui-icon-triangle-1-s"></span>
+                }
+                else
+                {
+                    <span class="ui-icon ui-icon-triangle-1-n"></span>
+                }
             }
             else
             {
-                <div class="ui-icon ui-icon-circle-arrow-n"></div>
+                <span class="ui-icon ui-icon-nothing"></span>
             }
-        }    
+
+        </a>
+        </div>
+    </li>
+    <li>
+        <div class="filter-link-container">
+        <a href="@Url.Action("Index", new { sortby = "firm", desc = Model.SortBy == "firm" && !Model.Desc })">
+        
+            Firm
+            @if (Model.SortBy == "firm")
+            {
+                if (Model.Desc)
+                {
+                    <span class="ui-icon ui-icon-triangle-1-s"></span>
+                }
+                else
+                {
+                    <span class="ui-icon ui-icon-triangle-1-n"></span>
+                }
+            }
+            else
+            {
+                <span class="ui-icon ui-icon-nothing"></span>
+            }
+
+        </a>
         </div>
     </li>
 </ul>

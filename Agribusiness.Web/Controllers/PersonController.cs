@@ -66,7 +66,7 @@ namespace Agribusiness.Web.Controllers
         {
             var viewModel = PersonListViewModel.Create(_personRepository, _personService, _seminarService);
 
-            if (!string.IsNullOrWhiteSpace(filter.FilterBy) && !string.IsNullOrWhiteSpace(filter.SortBy))
+            if (!string.IsNullOrWhiteSpace(filter.FilterBy) || !string.IsNullOrWhiteSpace(filter.SortBy))
             {
                 if (!string.IsNullOrWhiteSpace(filter.SortBy))
                 {
