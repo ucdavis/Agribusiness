@@ -235,6 +235,7 @@
     <Content Include="Images\icon_vcard.gif" />
     <Content Include="Images\icon_vcard.png" />
     <Content Include="Images\loading.gif" />
+    <Content Include="Images\logo-agribusiness.png" />
     <Content Include="Images\mail_add.png" />
     <Content Include="Images\profilepicplaceholder.png" />
     <Content Include="Images\profileplaceholder_thumb.png" />
