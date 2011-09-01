@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Agribusiness.Core.Domain;
@@ -98,9 +99,37 @@ namespace Agribusiness.Web.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Edit(int id, MailingList mailinglist)
         {
+            var existingMailingList = _mailinglistRepository.GetNullableById(id);
+
+            if (existingMailingList == null)
+            {
+                Message = "Unable to locate mailing list.";
+                return this.RedirectToAction(a => a.Index(null));
+            }
+
+            // transfer values
+            AutoMapper.Mapper.Map(mailinglist, existingMailingList);
+            existingMailingList.Seminar = mailinglist.Seminar;
+
+            // find the ones to delete
+            var peopleToDelete = existingMailingList.People.Where(person => !mailinglist.People.Contains(person)).ToList();
+
+            foreach (var person in peopleToDelete)
+            {
+                existingMailingList.People.Remove(person);
+            }
+
+            // add in the new ones
+            var peopletoAdd = mailinglist.People.Where(a => !existingMailingList.People.Contains(a)).ToList();
+
+            foreach (var person in peopletoAdd)
+            {
+                existingMailingList.People.Add(person);
+            }
+
             if (ModelState.IsValid)
             {
-                _mailinglistRepository.EnsurePersistent(mailinglist);
+                _mailinglistRepository.EnsurePersistent(existingMailingList);
 
                 Message = "MailingList Edited Successfully";
 

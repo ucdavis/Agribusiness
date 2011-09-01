@@ -44,7 +44,7 @@ namespace Agribusiness.Core.Domain
             Id(x => x.Id);
 
             Map(x => x.Name);
-            References(x => x.Seminar);
+            References(x => x.Seminar).Cascade.None();
             Map(x => x.DateCreated);
             Map(x => x.DateUpdated);
 
