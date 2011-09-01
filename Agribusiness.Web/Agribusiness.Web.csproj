@@ -210,6 +210,7 @@
     <Compile Include="Services\SeminarService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Images\logo-agribusiness.jpg" />
     <Content Include="Css\Agribusiness.css" />
     <Content Include="Css\anytimec.css" />
     <Content Include="Css\images\ui-bg_flat_0_aaaaaa_40x100.png" />
