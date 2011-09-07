@@ -35,3 +35,4 @@ Web.Debug.config
 Web.Release.config
 Web.Test.config
 *.dbmdl
+Agribusiness.DB/Agribusiness.DB.dbmdl
