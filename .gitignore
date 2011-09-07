@@ -36,3 +36,5 @@ Web.Release.config
 Web.Test.config
 *.dbmdl
 Agribusiness.DB/Agribusiness.DB.dbmdl
+Agribusiness.Import/bin/*
+Agribusiness.Web/bin/*
