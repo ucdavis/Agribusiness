@@ -38,3 +38,5 @@ Web.Test.config
 Agribusiness.DB/Agribusiness.DB.dbmdl
 Agribusiness.Import/bin/*
 Agribusiness.Web/bin/*
+Agribusiness.Core/bin/*
+Agribusiness.WS/bin/*
