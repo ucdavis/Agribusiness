@@ -1,5 +1,8 @@
-﻿using System.IO;
+﻿using System;
+using System.Configuration;
+using System.IO;
 using System.Linq;
+using System.Net.Mail;
 using System.Web.Mvc;
 using Agribusiness.Core.Domain;
 using Agribusiness.Web.App_GlobalResources;
@@ -142,6 +145,27 @@ namespace Agribusiness.Web.Controllers
             {
                 _informationRequestRepository.EnsurePersistent(informationRequest);
                 Message = string.Format("Your request for information has been submitted.");
+
+                try
+                {
+                    var client = new SmtpClient();
+                    var message = new MailMessage();
+                    var emails = ConfigurationManager.AppSettings["NotificationUsers"].Split(';');
+
+                    message.From = new MailAddress("automatedemail@caes.ucdavis.edu", "CA&ES Automated Email");
+                    foreach (var email in emails)
+                    {
+                        message.To.Add(email);    
+                    }
+                    message.Subject = "Information Request Received";
+                    message.Body = "A new information request has been received.";
+                    client.Send(message);
+                }
+                catch (Exception ex)
+                {
+                    // do nothing
+                }
+
                 return this.RedirectToAction<HomeController>(a => a.Index());
             }
 
