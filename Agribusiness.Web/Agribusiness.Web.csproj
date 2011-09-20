@@ -125,11 +125,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppStart_RegisterClientValidationExtensions.cs" />
-    <Compile Include="App_GlobalResources\MailingLists.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MailingLists.resx</DependentUpon>
-    </Compile>
     <Compile Include="App_GlobalResources\Messages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -717,10 +712,6 @@
     <Content Include="App_GlobalResources\Messages.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Messages.Designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="App_GlobalResources\MailingLists.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>MailingLists.Designer.cs</LastGenOutput>
     </Content>
     <EmbeddedResource Include="App_GlobalResources\StaticIndexes.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

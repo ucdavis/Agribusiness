@@ -91,6 +91,7 @@
     <Compile Include="Extensions\BeforeAfterValidation.cs" />
     <Compile Include="Extensions\EitherOrValidation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\MailingLists.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

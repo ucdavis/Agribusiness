@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using FluentNHibernate.Mapping;
 using FluentNHibernate.MappingModel;
 using UCDArch.Core.DomainModel;
@@ -29,7 +30,11 @@ namespace Agribusiness.Core.Domain
             People = new List<Person>();
         }
 
+        [Required]
+        [StringLength(100)]
         public virtual string Name { get; set; }
+        public virtual string Description { get; set; }
+        [Required]
         public virtual Seminar Seminar { get; set; }
         public virtual DateTime DateCreated { get; set; }
         public virtual DateTime DateUpdated { get; set; }
@@ -44,6 +49,7 @@ namespace Agribusiness.Core.Domain
             Id(x => x.Id);
 
             Map(x => x.Name);
+            Map(x => x.Description);
             References(x => x.Seminar).Cascade.None();
             Map(x => x.DateCreated);
             Map(x => x.DateUpdated);
