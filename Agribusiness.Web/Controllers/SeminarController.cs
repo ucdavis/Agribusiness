@@ -69,15 +69,15 @@ namespace Agribusiness.Web.Controllers
             {
                 _seminarRepository.EnsurePersistent(seminar);
 
-                var mlInvitation = new MailingList(MailingLists.Invitation, seminar);
-                var mlRegistered = new MailingList(MailingLists.Registered, seminar);
-                var mlAttending = new MailingList(MailingLists.Attending, seminar);
-                var mlPaymentReminder = new MailingList(MailingLists.PaymentReminder, seminar);
-                var mlHotelReminder = new MailingList(MailingLists.HotelReminder, seminar);
-                var mlPhotoReminder = new MailingList(MailingLists.PhotoReminder, seminar);
-                var mlBioReminder = new MailingList(MailingLists.BioReminder, seminar);
-                var mlApplied = new MailingList(MailingLists.Applied, seminar);
-                var mlDenied = new MailingList(MailingLists.Denied, seminar);
+                var mlInvitation = new MailingList(MailingLists.Invitation, seminar) {Description = MailingLists.InvitationDescription };
+                var mlRegistered = new MailingList(MailingLists.Registered, seminar) {Description = MailingLists.RegisteredDescription };
+                var mlAttending = new MailingList(MailingLists.Attending, seminar) {Description = MailingLists.AttendingDescription };
+                var mlPaymentReminder = new MailingList(MailingLists.PaymentReminder, seminar) {Description = MailingLists.PaymentReminderDescription };
+                var mlHotelReminder = new MailingList(MailingLists.HotelReminder, seminar) {Description = MailingLists.HotelReminderDescription };
+                var mlPhotoReminder = new MailingList(MailingLists.PhotoReminder, seminar) {Description = MailingLists.PhotoReminderDescription };
+                var mlBioReminder = new MailingList(MailingLists.BioReminder, seminar) {Description = MailingLists.BioReminderDescription };
+                var mlApplied = new MailingList(MailingLists.Applied, seminar) {Description = MailingLists.AppliedDescription };
+                var mlDenied = new MailingList(MailingLists.Denied, seminar) {Description = MailingLists.DeniedDescription };
 
                 _mailingListRepository.EnsurePersistent(mlInvitation);
                 _mailingListRepository.EnsurePersistent(mlRegistered);
