@@ -39,12 +39,14 @@
                 // create the controls
                 var $searchContainer = $("<div>").addClass("ac-searchContainer");
                 var $searchBox = $("<input>").addClass("ac-searchBox").attr("placeholder", settings.placeholder);
+                var $addAllBtn = $("<button>").addClass("button").html("Add All").button();
                 var $loadingIcon = $("<div>").html("&nbsp;").addClass("ac-loading").hide();
                 var $selectedContainer = $("<div>").addClass("ac-selectedContainer");
 
                 // append the controls
                 $searchContainer.append($searchBox);
                 $searchContainer.append($loadingIcon);
+                $searchContainer.append($addAllBtn);
                 $container.append($searchContainer);
                 $container.append($selectedContainer);
 
@@ -96,6 +98,19 @@
                         $searchBox.val("");
 
                     }
+
+                });
+
+                $searchBox.siblings("button").click(function () {
+
+                    $.getJSON(settings.dataUrl, { searchTerm: "" }, function (data) {
+
+                        var data = $.map(data, function (item, index) { return { label: item.Label, value: item.Id }; });
+                        $.each(data, function (index, item) { addSelected($selectedContainer, $multiselect, data.value, data.label); });
+
+                    });
+
+                    return false;
 
                 });
 
@@ -179,7 +194,7 @@
         } // end of the auto complete select
 
     }); // end of $.fn.extend
-    
-    
-    
+
+
+
 })(jQuery);
