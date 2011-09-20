@@ -24,16 +24,18 @@ namespace Agribusiness.Web.Controllers
         private readonly IRepository<Session> _sessionRepository;
         private readonly IRepository<Person> _personRepository;
         private readonly IRepository<SeminarPerson> _seminarPersonRepository;
+        private readonly IRepository<MailingList> _mailingListRepository;
         private readonly IFirmService _firmService;
         private readonly IPersonService _personService;
         private readonly ISeminarService _seminarService;
 
-        public SeminarController(IRepository<Seminar> seminarRepository, IRepository<Session> sessionRepository, IRepository<Person> personRepository, IRepository<SeminarPerson> seminarPersonRepository, IFirmService firmService, IPersonService personService, ISeminarService seminarService)
+        public SeminarController(IRepository<Seminar> seminarRepository, IRepository<Session> sessionRepository, IRepository<Person> personRepository, IRepository<SeminarPerson> seminarPersonRepository, IRepository<MailingList> mailingListRepository, IFirmService firmService, IPersonService personService, ISeminarService seminarService)
         {
             _seminarRepository = seminarRepository;
             _sessionRepository = sessionRepository;
             _personRepository = personRepository;
             _seminarPersonRepository = seminarPersonRepository;
+            _mailingListRepository = mailingListRepository;
             _firmService = firmService;
             _personService = personService;
             _seminarService = seminarService;
@@ -65,6 +67,27 @@ namespace Agribusiness.Web.Controllers
             if (ModelState.IsValid)
             {
                 _seminarRepository.EnsurePersistent(seminar);
+
+                var mlInvitation = new MailingList(MailingLists.Invitation, seminar);
+                var mlRegistered = new MailingList(MailingLists.Registered, seminar);
+                var mlAttending = new MailingList(MailingLists.Attending, seminar);
+                var mlPaymentReminder = new MailingList(MailingLists.PaymentReminder, seminar);
+                var mlHotelReminder = new MailingList(MailingLists.HotelReminder, seminar);
+                var mlPhotoReminder = new MailingList(MailingLists.PhotoReminder, seminar);
+                var mlBioReminder = new MailingList(MailingLists.BioReminder, seminar);
+                var mlApplied = new MailingList(MailingLists.Applied, seminar);
+                var mlDenied = new MailingList(MailingLists.Denied, seminar);
+
+                _mailingListRepository.EnsurePersistent(mlInvitation);
+                _mailingListRepository.EnsurePersistent(mlRegistered);
+                _mailingListRepository.EnsurePersistent(mlAttending);
+                _mailingListRepository.EnsurePersistent(mlPaymentReminder);
+                _mailingListRepository.EnsurePersistent(mlHotelReminder);
+                _mailingListRepository.EnsurePersistent(mlPhotoReminder);
+                _mailingListRepository.EnsurePersistent(mlBioReminder);
+                _mailingListRepository.EnsurePersistent(mlApplied);
+                _mailingListRepository.EnsurePersistent(mlDenied);
+
                 Message = string.Format(Messages.Saved, "Seminar");
                 return this.RedirectToAction(a => a.Index());
             }
