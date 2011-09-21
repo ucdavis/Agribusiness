@@ -24,13 +24,15 @@ namespace Agribusiness.Web.Controllers
         private readonly IRepositoryWithTypedId<SeminarRole, string> _seminarRoleRepository;
         private readonly IRepository<CaseStudy> _caseStudyRepository;
         private readonly ISeminarService _seminarService;
+        private readonly INotificationService _notificationService;
 
-        public PublicController(IRepository<InformationRequest> informationRequestRepository, IRepositoryWithTypedId<SeminarRole, string> seminarRoleRepository, IRepository<CaseStudy> caseStudyRepository, ISeminarService seminarService)
+        public PublicController(IRepository<InformationRequest> informationRequestRepository, IRepositoryWithTypedId<SeminarRole, string> seminarRoleRepository, IRepository<CaseStudy> caseStudyRepository, ISeminarService seminarService, INotificationService notificationService)
         {
             _informationRequestRepository = informationRequestRepository;
             _seminarRoleRepository = seminarRoleRepository;
             _caseStudyRepository = caseStudyRepository;
             _seminarService = seminarService;
+            _notificationService = notificationService;
         }
 
         public ActionResult Background()
@@ -146,25 +148,11 @@ namespace Agribusiness.Web.Controllers
                 _informationRequestRepository.EnsurePersistent(informationRequest);
                 Message = string.Format("Your request for information has been submitted.");
 
-                try
-                {
-                    var client = new SmtpClient();
-                    var message = new MailMessage();
-                    var emails = ConfigurationManager.AppSettings["NotificationUsers"].Split(';');
+                // send the information request notification to admin
+                _notificationService.SendInformationRequestNotification(informationRequest);
 
-                    message.From = new MailAddress("automatedemail@caes.ucdavis.edu", "CA&ES Automated Email");
-                    foreach (var email in emails)
-                    {
-                        message.To.Add(email);    
-                    }
-                    message.Subject = "Information Request Received";
-                    message.Body = "A new information request has been received.";
-                    client.Send(message);
-                }
-                catch (Exception ex)
-                {
-                    // do nothing
-                }
+                // queue an email for the person requesting information
+                _notificationService.SendInformationRequestConfirmatinon(informationRequest.Email);
 
                 return this.RedirectToAction<HomeController>(a => a.Index());
             }

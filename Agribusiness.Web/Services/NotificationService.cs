@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
+using System.Net.Mail;
 using System.Web;
 using Agribusiness.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
@@ -12,13 +14,15 @@ namespace Agribusiness.Web.Services
     {
         private readonly IRepository<Seminar> _seminarRepository;
         private readonly ISeminarService _seminarService;
+        private readonly IRepository<EmailQueue> _emailQueueRepository;
 
         private Seminar _seminar;
 
-        public NotificationService(IRepository<Seminar> seminarRepository,ISeminarService seminarService)
+        public NotificationService(IRepository<Seminar> seminarRepository,ISeminarService seminarService, IRepository<EmailQueue> emailQueueRepository)
         {
             _seminarRepository = seminarRepository;
             _seminarService = seminarService;
+            _emailQueueRepository = emailQueueRepository;
         }
 
         public string GenerateNotification(string template, Person person, int? seminarId = null)
@@ -92,9 +96,9 @@ namespace Agribusiness.Web.Services
             parameter = parameter.Substring(1, length - 2);
 
             // replace the value
-            switch(parameter.ToLower())
+            switch (parameter.ToLower())
             {
-                case"badgename":
+                case "badgename":
                     return string.IsNullOrWhiteSpace(person.BadgeName) ? person.FirstName : person.BadgeName;
                 case "firstname":
                     return person.FirstName;
@@ -108,5 +112,50 @@ namespace Agribusiness.Web.Services
 
             throw new ArgumentException("Invalid parameter was passed.");
         }
+
+        public void SendInformationRequestNotification(InformationRequest informationRequest)
+        {
+            // send the notification email to the admin
+            try
+            {
+                var client = new SmtpClient();
+                var message = new MailMessage();
+                var emails = ConfigurationManager.AppSettings["NotificationUsers"].Split(';');
+
+                message.From = new MailAddress("automatedemail@caes.ucdavis.edu", "CA&ES Automated Email");
+                foreach (var email in emails)
+                {
+                    message.To.Add(email);
+                }
+                message.Subject = "Information Request Received";
+                message.Body = string.Format("A new information request has been received for the following person:<br/>{0}<br/>{1}", informationRequest.Name, informationRequest.Email);
+                client.Send(message);
+            }
+            catch (Exception ex)
+            {
+                // do nothing
+            }
+        }
+
+        public void SendInformationRequestConfirmatinon(string email)
+        {
+            var subject = "Information Request Received";
+            var body = "Thank you for your interest in the UC Davis Agribusiness Executive Seminar. We have received your request for information regarding the seminar. We will contact you with more details soon.";
+
+            try
+            {
+
+                var client = new SmtpClient();
+                var message = new MailMessage("automatedemail@caes.ucdavis.edu", email, subject, body);
+
+                client.Send(message);
+            }
+            catch (Exception ex)
+            {
+                // do nothing
+            }
+        }
+
+
     }
 }

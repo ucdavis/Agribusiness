@@ -8,6 +8,25 @@ namespace Agribusiness.Web.Services
 {
     public interface INotificationService
     {
+        /// <summary>
+        /// Generate the notification while filling in the token fields
+        /// </summary>
+        /// <param name="template"></param>
+        /// <param name="person">Person that the notification is being sent to</param>
+        /// <param name="seminarId">Seminar associated with message when available</param>
+        /// <returns></returns>
         string GenerateNotification(string template, Person person, int? seminarId = null);
+
+        /// <summary>
+        /// Sends the notification to the admin about an information request submission.
+        /// </summary>
+        /// <param name="informationRequest"></param>
+        void SendInformationRequestNotification(InformationRequest informationRequest);
+
+        /// <summary>
+        /// Queue the confirmation message to the person requesting information
+        /// </summary>
+        /// <param name="email"></param>
+        void SendInformationRequestConfirmatinon(string email);
     }
 }
