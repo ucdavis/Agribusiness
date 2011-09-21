@@ -135,15 +135,15 @@ namespace Agribusiness.Web.Controllers
         /// <param name="id">Seminar Id</param>
         /// <returns></returns>
         [UserOnly]
-        public ActionResult Create(int id)
+        public ActionResult Create(int? id)
         {
-            var seminar = _seminarRepository.GetNullableById(id);
+            var seminar = _seminarRepository.GetNullableById(id.HasValue ? id.Value : 0);
 
-            if (seminar == null)
-            {
-                Message = string.Format(Messages.NotFound, "seminar", id);
-                return this.RedirectToAction<SeminarController>(a => a.Index());
-            }
+            //if (seminar == null)
+            //{
+            //    Message = string.Format(Messages.NotFound, "seminar", id);
+            //    return this.RedirectToAction<SeminarController>(a => a.Index());
+            //}
 
             var viewModel = PersonViewModel.Create(Repository, _firmService, seminar);
             return View(viewModel);
@@ -158,17 +158,17 @@ namespace Agribusiness.Web.Controllers
         /// <returns></returns>
         [UserOnly]
         [HttpPost]
-        public ActionResult Create(int id, PersonEditModel personEditModel, HttpPostedFileBase profilepic)
+        public ActionResult Create(int? id, PersonEditModel personEditModel, HttpPostedFileBase profilepic)
         {
             ModelState.Clear();
 
-            var seminar = _seminarRepository.GetNullableById(id);
+            var seminar = _seminarRepository.GetNullableById(id.HasValue ? id.Value : 0);
 
-            if (seminar == null)
-            {
-                Message = string.Format(Messages.NotFound, "seminar", id);
-                return this.RedirectToAction<SeminarController>(a => a.Index());
-            }
+            //if (seminar == null)
+            //{
+            //    Message = string.Format(Messages.NotFound, "seminar", id);
+            //    return this.RedirectToAction<SeminarController>(a => a.Index());
+            //}
 
             var person = personEditModel.Person;
 
@@ -183,13 +183,16 @@ namespace Agribusiness.Web.Controllers
                 var user = _userRepository.Queryable.Where(a => a.UserName == personEditModel.Email).FirstOrDefault();
                 person.User = user;
 
-                var seminarPerson = new SeminarPerson(seminar, person){Invite = true, Title = personEditModel.Title};
-                
+                SeminarPerson seminarPerson = null;
+                if (seminar != null)
+                {
+                    seminarPerson = new SeminarPerson(seminar, person) { Invite = true, Title = personEditModel.Title };
+                    person.AddSeminarPerson(seminarPerson);
+                    seminarPerson.TransferValidationMessagesTo(ModelState);
+                }
+
                 person = SetPerson(personEditModel, seminarPerson, ModelState, person, profilepic);
-                person.AddSeminarPerson(seminarPerson);
-
-                seminarPerson.TransferValidationMessagesTo(ModelState);
-
+                
                 if (ModelState.IsValid)
                 {
                     _personRepository.EnsurePersistent(person);

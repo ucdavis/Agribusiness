@@ -1,7 +1,5 @@
 ﻿@model Agribusiness.Web.Models.PersonViewModel
 
-    @Html.ValidationSummary(false)
-
 	@Html.AntiForgeryToken()
 	@Html.Hidden("seminarPersonId", Model.SeminarPerson != null ? Model.SeminarPerson.Id : -1)
 
@@ -210,7 +208,9 @@
         }
 	</fieldset>
 	
-    <fieldset>
+    @if (Model.Seminar != null)
+    {
+     <fieldset>
         <legend>Firm Information</legend>
 
         <p style="margin-bottom: 2em;">
@@ -299,7 +299,9 @@
 
         </ul>
 
-    </fieldset>
+    </fieldset>       
+    }
+
 
 	<fieldset>
 		<legend>Profile Picture</legend>
