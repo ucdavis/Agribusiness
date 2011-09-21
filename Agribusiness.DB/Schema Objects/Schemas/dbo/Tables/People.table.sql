@@ -5,10 +5,10 @@
     [MI]                        VARCHAR (50)     NULL,
     [Salutation]                VARCHAR (5)      NULL,
     [BadgeName]                 VARCHAR (50)     NULL,
-    [Phone]                     VARCHAR (15)     NOT NULL,
+    [Phone]                     VARCHAR (25)     NOT NULL,
     [PhoneExt]                  VARCHAR (10)     NULL,
-    [CellPhone]                 VARCHAR (15)     NULL,
-    [Fax]                       VARCHAR (15)     NULL,
+    [CellPhone]                 VARCHAR (25)     NULL,
+    [Fax]                       VARCHAR (25)     NULL,
     [Biography]                 VARCHAR (MAX)    NULL,
     [Invite]                    BIT              NOT NULL,
     [UserId]                    UNIQUEIDENTIFIER NOT NULL,
@@ -20,6 +20,8 @@
     [AutomatedNotification]     BIT              NOT NULL,
     [ContactInformationRelease] BIT              NOT NULL
 );
+
+
 
 
 
