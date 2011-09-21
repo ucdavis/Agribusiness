@@ -63,6 +63,7 @@ namespace Agribusiness.Core.Domain
         public virtual IList<Session> Sessions { get; set; }
         public virtual IList<SeminarPerson> SeminarPeople { get; set; }
         public virtual IList<CaseStudy> CaseStudies { get; set; }
+        public virtual IList<MailingList> MailingLists { get; set; }
         #endregion
 
         /// <summary>
@@ -92,6 +93,7 @@ namespace Agribusiness.Core.Domain
             HasMany(x => x.Sessions).Inverse().Cascade.AllDeleteOrphan();
             HasMany(x => x.SeminarPeople).Inverse().Cascade.AllDeleteOrphan();
             HasMany(x => x.CaseStudies).Inverse().Cascade.AllDeleteOrphan();
+            HasMany(x => x.MailingLists).Inverse().Cascade.AllDeleteOrphan();
         }
     }
 }

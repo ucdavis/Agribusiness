@@ -24,10 +24,13 @@
 
 @if (Model.Application == null)
 {
+    if (Model.Invited)
+    {
     <h3>Apply</h3>
     
     <p>Please @Html.ActionLink("click here", "Apply", "SeminarApplication") to begin the application process.</p>
-    <p>(Note, participation is strictly limited to those with the background interests to contribute most fully to the discussion at this year's seminar.  Application does not imply acceptance for participation.)</p>
+    <p>(Note, participation is strictly limited to those with the background interests to contribute most fully to the discussion at this year's seminar.  Application does not imply acceptance for participation.)</p>        
+    }
 }
 else
 {

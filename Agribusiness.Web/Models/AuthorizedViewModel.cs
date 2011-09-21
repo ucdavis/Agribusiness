@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Agribusiness.Core.Domain;
+using Agribusiness.Core.Resources;
 using Agribusiness.Web.Services;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
@@ -23,6 +24,8 @@ namespace Agribusiness.Web.Models
         public SeminarPerson SeminarPerson { get; set; }
         public Person Person { get; set; }
 
+        public bool Invited { get; set; }
+
         public static AuthorizedViewModel Create(IRepository repository, ISeminarService seminarService, string userId)
         {
             Check.Require(repository != null, "Repository is required.");
@@ -36,6 +39,9 @@ namespace Agribusiness.Web.Models
             // load seminar
             var seminar = seminarService.GetCurrent();
 
+            // has this person been invited to the current seminar?
+            var invited = seminar.MailingLists.Where(a => a.Name == MailingLists.Invitation && a.People.Where(b => b.User.UserName == userId).Any()).Any();
+
             var viewModel = new AuthorizedViewModel()
                                 {
                                     Seminar = seminar,
@@ -43,7 +49,8 @@ namespace Agribusiness.Web.Models
                                     Application = user.Applications.Where(a => a.Seminar == seminar).FirstOrDefault(),
                                     SeminarPeople = person != null ? person.SeminarPeople.Where(a=>a.Seminar.Id != seminar.Id).ToList() : new List<SeminarPerson>(),
                                     SeminarPerson = person != null ? person.SeminarPeople.Where(a=> a.Seminar.Id == seminar.Id).FirstOrDefault() : null,
-                                    Person = person
+                                    Person = person,
+                                    Invited = invited
                                 };
 
             return viewModel;
