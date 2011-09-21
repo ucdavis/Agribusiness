@@ -106,7 +106,7 @@
                     $.getJSON(settings.dataUrl, { searchTerm: "" }, function (data) {
 
                         var data = $.map(data, function (item, index) { return { label: item.Label, value: item.Id }; });
-                        $.each(data, function (index, item) { addSelected($selectedContainer, $multiselect, data.value, data.label); });
+                        $.each(data, function (index, item) { debugger;  addSelected($selectedContainer, $multiselect, item.value, item.label); });
 
                     });
 
