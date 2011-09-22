@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using Agribusiness.Core.Domain;
+using Agribusiness.Core.Resources;
 using Agribusiness.Web.Controllers.Filters;
 using Agribusiness.Web.Models;
 using Agribusiness.Web.Services;
@@ -27,10 +28,11 @@ namespace Agribusiness.Web.Controllers
         private readonly IPersonService _personService;
         private readonly IRegistrationService _registrationService;
         private readonly IFirmService _firmService;
+        private readonly Agribusiness.Web.Services.INotificationService _notificationService;
 
         public AttendeeController(IRepository<Seminar> seminarRespository, IRepositoryWithTypedId<User, Guid> userRepository, IRepository<SeminarPerson> seminarPersonRepository
                                 , IRepository<Person> personRepository, IRepository<Firm> firmRepository
-                                , IPersonService personService, IRegistrationService registrationService, IFirmService firmService)
+                                , IPersonService personService, IRegistrationService registrationService, IFirmService firmService, Agribusiness.Web.Services.INotificationService notificationService)
         {
             _seminarRespository = seminarRespository;
             _userRepository = userRepository;
@@ -40,6 +42,7 @@ namespace Agribusiness.Web.Controllers
             _personService = personService;
             _registrationService = registrationService;
             _firmService = firmService;
+            _notificationService = notificationService;
         }
 
         /// <summary>
@@ -93,6 +96,12 @@ namespace Agribusiness.Web.Controllers
                 {
                     sp.TransactionId = reg.TransactionId;
                     sp.Paid = reg.Paid;
+
+                    // remove from the payment reminder mailing lists
+                    if (sp.Paid)
+                    {
+                        _notificationService.RemoveFromMailingList(sp.Seminar, sp.Person, MailingLists.PaymentReminder);
+                    }
 
                     _seminarPersonRepository.EnsurePersistent(sp);
                 }
@@ -235,6 +244,15 @@ namespace Agribusiness.Web.Controllers
             {
                 _seminarPersonRepository.EnsurePersistent(seminarPerson);
                 Message = string.Format("{0} has been added to the {1} seminar.", person.FullName, seminar.Year);
+
+                _notificationService.AddToMailingList(seminar, person, MailingLists.Registered);
+
+                // add user to the reminder emails
+                _notificationService.AddToMailingList(seminar, person, MailingLists.PaymentReminder);
+                _notificationService.AddToMailingList(seminar, person, MailingLists.HotelReminder);
+                _notificationService.AddToMailingList(seminar, person, MailingLists.BioReminder);
+                _notificationService.AddToMailingList(seminar, person, MailingLists.PhotoReminder);
+
                 return this.RedirectToAction(a => a.Add(id));
             }
 

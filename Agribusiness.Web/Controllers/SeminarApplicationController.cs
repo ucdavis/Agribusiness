@@ -91,6 +91,13 @@ namespace Agribusiness.Web.Controllers
                 if (isApproved)
                 {
                     _notificationService.AddToMailingList(application.Seminar, person, MailingLists.Registered);
+
+                    // add user to the reminder emails
+                    _notificationService.AddToMailingList(application.Seminar, person, MailingLists.PaymentReminder);
+                    _notificationService.AddToMailingList(application.Seminar, person, MailingLists.HotelReminder);
+                    _notificationService.AddToMailingList(application.Seminar, person, MailingLists.BioReminder);
+                    _notificationService.AddToMailingList(application.Seminar, person, MailingLists.PhotoReminder);
+
                 }
 
                 return this.RedirectToAction<SeminarApplicationController>(a => a.Index());
