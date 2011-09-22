@@ -19,11 +19,13 @@ namespace Agribusiness.Web.Controllers
     {
 	    private readonly IRepository<Invitation> _invitationRepository;
         private readonly ISeminarService _seminarService;
+        private readonly INotificationService _notificationService;
 
-        public InvitationController(IRepository<Invitation> invitationRepository, ISeminarService seminarService)
+        public InvitationController(IRepository<Invitation> invitationRepository, ISeminarService seminarService, INotificationService notificationService)
         {
             _invitationRepository = invitationRepository;
             _seminarService = seminarService;
+            _notificationService = notificationService;
         }
 
         /// <summary>
@@ -92,12 +94,7 @@ namespace Agribusiness.Web.Controllers
                 _invitationRepository.EnsurePersistent(invitation);
 
                 // add to the mailing list too
-                var ml = seminar.MailingLists.Where(a => a.Name == MailingLists.Invitation).FirstOrDefault();
-
-                if (ml != null)
-                {
-                    ml.AddPerson(person);
-                }
+                _notificationService.AddToMailingList(seminar, person, MailingLists.Invitation);
 
                 return true;
             }
@@ -204,13 +201,7 @@ namespace Agribusiness.Web.Controllers
 
             var person = invitationToDelete.Person;
             var seminar = invitationToDelete.Seminar;
-            var ml = seminar.MailingLists.Where(a => a.Name == MailingLists.Invitation).FirstOrDefault();
-
-            if (ml != null)
-            {
-                ml.People.Remove(person);
-                Repository.OfType<MailingList>().EnsurePersistent(ml);
-            }
+            _notificationService.RemoveFromMailingList(seminar, person, MailingLists.Invitation);
 
             _invitationRepository.Remove(invitationToDelete);
 

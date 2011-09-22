@@ -25,12 +25,14 @@ namespace Agribusiness.Web.Controllers
         private readonly IRepository<Application> _applicationRepository;
         private readonly IFirmService _firmService;
         private readonly ISeminarService _seminarService;
+        private readonly INotificationService _notificationService;
 
-        public SeminarApplicationController(IRepository<Application> applicationRepository, IFirmService firmService, ISeminarService seminarService)
+        public SeminarApplicationController(IRepository<Application> applicationRepository, IFirmService firmService, ISeminarService seminarService, INotificationService notificationService)
         {
             _applicationRepository = applicationRepository;
             _firmService = firmService;
             _seminarService = seminarService;
+            _notificationService = notificationService;
         }
 
         [UserOnly]
@@ -88,13 +90,7 @@ namespace Agribusiness.Web.Controllers
 
                 if (isApproved)
                 {
-                    // add to the registered mailing list
-                    var mailingList = Repository.OfType<MailingList>().Queryable.Where(a => a.Seminar == application.Seminar && a.Name == MailingLists.Registered).FirstOrDefault();
-                    if (mailingList != null)
-                    {
-                        mailingList.AddPerson(person);
-                        Repository.OfType<MailingList>().EnsurePersistent(mailingList);
-                    }    
+                    _notificationService.AddToMailingList(application.Seminar, person, MailingLists.Registered);
                 }
 
                 return this.RedirectToAction<SeminarApplicationController>(a => a.Index());

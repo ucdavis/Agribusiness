@@ -15,14 +15,16 @@ namespace Agribusiness.Web.Services
         private readonly IRepository<Seminar> _seminarRepository;
         private readonly ISeminarService _seminarService;
         private readonly IRepository<EmailQueue> _emailQueueRepository;
+        private readonly IRepository<MailingList> _mailingListRepository;
 
         private Seminar _seminar;
 
-        public NotificationService(IRepository<Seminar> seminarRepository,ISeminarService seminarService, IRepository<EmailQueue> emailQueueRepository)
+        public NotificationService(IRepository<Seminar> seminarRepository,ISeminarService seminarService, IRepository<EmailQueue> emailQueueRepository, IRepository<MailingList> mailingListRepository)
         {
             _seminarRepository = seminarRepository;
             _seminarService = seminarService;
             _emailQueueRepository = emailQueueRepository;
+            _mailingListRepository = mailingListRepository;
         }
 
         public string GenerateNotification(string template, Person person, int? seminarId = null)
@@ -156,6 +158,28 @@ namespace Agribusiness.Web.Services
             }
         }
 
+        public void AddToMailingList(Seminar seminar, Person person, string mailingListName)
+        {
+            var mailingList = seminar.MailingLists.Where(a => a.Name == mailingListName).FirstOrDefault();
 
+            if (mailingList != null)
+            {
+                mailingList.AddPerson(person);    
+
+                _mailingListRepository.EnsurePersistent(mailingList);
+            }
+        }
+
+        public void RemoveFromMailingList(Seminar seminar, Person person, string mailingListName)
+        {
+            var mailingList = seminar.MailingLists.Where(a => a.Name == mailingListName).FirstOrDefault();
+
+            if (mailingList != null)
+            {
+                mailingList.People.Remove(person);
+
+                _mailingListRepository.EnsurePersistent(mailingList);
+            }
+        }
     }
 }

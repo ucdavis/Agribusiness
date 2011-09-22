@@ -28,5 +28,21 @@ namespace Agribusiness.Web.Services
         /// </summary>
         /// <param name="email"></param>
         void SendInformationRequestConfirmatinon(string email);
+
+        /// <summary>
+        /// Add person to the mailing list
+        /// </summary>
+        /// <param name="seminar"></param>
+        /// <param name="person"></param>
+        /// <param name="mailingListName"></param>
+        void AddToMailingList(Seminar seminar, Person person, string mailingListName);
+
+        /// <summary>
+        /// Remove person from mailing list
+        /// </summary>
+        /// <param name="seminar"></param>
+        /// <param name="person"></param>
+        /// <param name="mailingListName"></param>
+        void RemoveFromMailingList(Seminar seminar, Person person, string mailingListName);
     }
 }
