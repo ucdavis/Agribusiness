@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using Agribusiness.Core.Domain;
+using Agribusiness.Core.Resources;
 using Agribusiness.Web.App_GlobalResources;
 using Agribusiness.Web.Controllers.Filters;
 using Agribusiness.Web.Models;
@@ -18,6 +19,7 @@ using UCDArch.Core.Utils;
 using UCDArch.Web.ActionResults;
 using UCDArch.Web.Helpers;
 using MvcContrib;
+using INotificationService = Agribusiness.Web.Services.INotificationService;
 
 namespace Agribusiness.Web.Controllers
 {
@@ -38,12 +40,13 @@ namespace Agribusiness.Web.Controllers
         private readonly ISeminarService _seminarService;
         private readonly IRegistrationService _registrationService;
         private readonly IvCardService _vCardService;
+        private readonly INotificationService _notificationService;
         private readonly IMembershipService _membershipService;
 
         public PersonController(IRepository<Person> personRepository, IRepositoryWithTypedId<User, Guid> userRepository, IRepositoryWithTypedId<SeminarRole, string> seminarRoleRepository
             , IRepository<SeminarPerson> seminarPersonRepository, IRepository<Seminar> seminarRepository
             , IPictureService pictureService, IPersonService personService, IFirmService firmService, ISeminarService seminarService, IRegistrationService registrationService
-            , IvCardService vCardService)
+            , IvCardService vCardService, INotificationService notificationService)
         {
             _personRepository = personRepository;
             _userRepository = userRepository;
@@ -56,6 +59,7 @@ namespace Agribusiness.Web.Controllers
             _seminarService = seminarService;
             _registrationService = registrationService;
             _vCardService = vCardService;
+            _notificationService = notificationService;
 
             _membershipService = new AccountMembershipService();
         }
@@ -282,6 +286,15 @@ namespace Agribusiness.Web.Controllers
             _personRepository.EnsurePersistent(person);
             Message = string.Format(Messages.Saved, "Biography");
 
+            if (!string.IsNullOrWhiteSpace(biographytxt))
+            {
+                var seminar = _seminarRepository.GetNullableById(seminarId);
+                if (seminar != null)
+                {
+                    _notificationService.RemoveFromMailingList(seminar, person, MailingLists.BioReminder);    
+                }
+            }
+
             var url = Url.Action("AdminEdit", new {id = person.User.Id, seminarId = seminarId});
             return Redirect(string.Format("{0}#biography", url));
         }
@@ -418,6 +431,11 @@ namespace Agribusiness.Web.Controllers
             reg.HotelConfirmation = hotelPostModel.Confirmation;
             reg.RoomType = hotelPostModel.RoomType;
             reg.HotelComments = hotelPostModel.Comments;
+
+            if (!string.IsNullOrWhiteSpace(reg.HotelConfirmation))
+            {
+                _notificationService.RemoveFromMailingList(seminar, person, MailingLists.HotelReminder);
+            }
 
             // save
             _seminarPersonRepository.EnsurePersistent(reg);
@@ -685,6 +703,15 @@ namespace Agribusiness.Web.Controllers
             {
                 Message = string.Format(Messages.Saved, "Person");
                 _personRepository.EnsurePersistent(person);
+
+                if (person.OriginalPicture != null && seminarId.HasValue)
+                {
+                    var seminar = _seminarRepository.GetNullableById(seminarId.Value);
+                    if (seminar != null)
+                    {
+                        _notificationService.RemoveFromMailingList(seminar, person, MailingLists.PhotoReminder);    
+                    }
+                }
 
                 if (seminarId.HasValue)
                 {

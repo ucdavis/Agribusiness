@@ -250,8 +250,9 @@ namespace Agribusiness.Web.Controllers
                 // add user to the reminder emails
                 _notificationService.AddToMailingList(seminar, person, MailingLists.PaymentReminder);
                 _notificationService.AddToMailingList(seminar, person, MailingLists.HotelReminder);
-                _notificationService.AddToMailingList(seminar, person, MailingLists.BioReminder);
-                _notificationService.AddToMailingList(seminar, person, MailingLists.PhotoReminder);
+
+                if (string.IsNullOrWhiteSpace(person.Biography)) _notificationService.AddToMailingList(seminar, person, MailingLists.BioReminder);
+                if (person.OriginalPicture == null) _notificationService.AddToMailingList(seminar, person, MailingLists.PhotoReminder);
 
                 return this.RedirectToAction(a => a.Add(id));
             }
