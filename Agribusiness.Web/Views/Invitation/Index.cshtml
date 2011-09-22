@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Agribusiness.Core.Domain.Invitation>
+
+@{
+	ViewBag.Title = "Invitation List";
+}
+
+
+@section SubPageNavigation
+{
+	<ul class='navigation'>
+        <li>
+            @using (Html.BeginForm("AddAll", "Invitation", new {id=ViewBag.SeminarId}))
+            {
+                @Html.AntiForgeryToken()
+                <a href="javascript:;" class="add-all-button">Add All People</a>
+            }
+        </li>
+	</ul>
+}
+
+
+@section ScriptContent
+{
+    <script type="text/javascript">
+
+        $(function () {
+            $(".add-all-button").click(function () { $(this).parents("form").submit(); return false; });
+        });
+
+    </script>
+}
+
+<table class='default_table'>
+	<thead>
+		<tr>
+			<th></th>
+            <th>First Name</th>
+            <th>Last Name</th>
+			<th>
+				Title
+			</th>
+			<th>
+				FirmName
+			</th>
+
+			<th></th>
+
+		</tr>
+	</thead>
+	<tbody>
+@{ var odd = false; }
+@foreach (var item in Model) {
+		<tr class="@(odd ? "odd": "even")">
+			<td>
+				<a href='@Url.Action("Edit", new {id=item.Id})'>
+					<img src='@Url.Image("edit.png")' />
+				</a>
+			</td>
+            <td>@item.Person.FirstName</td>
+            <td>@item.Person.LastName</td>
+			<td>
+				@item.Title
+			</td>
+			<td>
+				@item.FirmName
+			</td>
+			<td>
+				<a href='@Url.Action("Delete", new { id = item.Id })'>
+					<img src='@Url.Image("delete.png")' />
+				</a>
+			</td>
+		
+		</tr>
+		odd = !odd;
+}
+	</tbody>
+</table>

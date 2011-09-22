@@ -77,6 +77,7 @@
     <Compile Include="Domain\Firm.cs" />
     <Compile Include="Domain\InformationRequest.cs" />
     <Compile Include="Domain\InformationRequestNote.cs" />
+    <Compile Include="Domain\Invitation.cs" />
     <Compile Include="Domain\MailingList.cs" />
     <Compile Include="Domain\NotificationTracking.cs" />
     <Compile Include="Domain\Person.cs" />

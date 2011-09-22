@@ -145,6 +145,7 @@
     <Compile Include="Controllers\FirmController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InformationRequestController.cs" />
+    <Compile Include="Controllers\InvitationController.cs" />
     <Compile Include="Controllers\MailingListController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\PersonController.cs" />
@@ -707,6 +708,10 @@
     <Content Include="Views\MailingList\Delete.cshtml" />
     <Content Include="Views\MailingList\Details.cshtml" />
     <Content Include="Views\Shared\_MailingListAddTo.cshtml" />
+    <Content Include="Views\Invitation\Index.cshtml" />
+    <Content Include="Views\Invitation\Edit.cshtml" />
+    <Content Include="Views\Invitation\Delete.cshtml" />
+    <Content Include="Views\Invitation\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">

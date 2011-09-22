@@ -1,0 +1,58 @@
+﻿@model Agribusiness.Core.Domain.Invitation
+
+@{
+	ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@section SubPageNavigation
+{
+	<ul class="navigation">
+		<li>@Html.ActionLink("Back to List", "Index")</li>
+	</ul>
+}
+
+@using (Html.BeginForm()) {
+	@Html.AntiForgeryToken()
+	@Html.ValidationSummary(true)
+<fieldset>
+	<legend>Invitation</legend>
+	<p>All required fields are in <strong>bold</strong> and have a red <span class="required">*</span> next to the field label.</p>
+	<ul>
+        <li>
+            <div class="editor-label">Person:</div>
+            <div class="editor-field">@Model.Person.FullName</div>
+        </li>
+		<li>
+			<div class="editor-label">
+				@Html.LabelFor(model => model.Title) 
+			</div>
+			<div class="editor-field">
+				@Html.EditorFor(model => model.Title)
+				@Html.ValidationMessageFor(model => model.Title)
+			</div>
+		</li>
+		<li>
+			<div class="editor-label">
+				@Html.LabelFor(model => model.FirmName) 
+			</div>
+			<div class="editor-field">
+				@Html.EditorFor(model => model.FirmName)
+				@Html.ValidationMessageFor(model => model.FirmName)
+			</div>
+		</li>
+		@Html.HiddenFor(model => model.Id)
+		<li>
+			@* For the clear and submit buttons an empty label is required. Example: <label>&nbsp;</label> *@
+			<div class="editor-label">&nbsp;</div>
+			<div class="editor-field">
+			<input class="button" type="submit" value="Edit" /> | @Html.ActionLink("Cancel", "Index", new {id=Model.Seminar.Id})
+			</div>
+		</li>
+	</ul>
+</fieldset>
+}
+
+
+
