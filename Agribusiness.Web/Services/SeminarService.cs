@@ -42,7 +42,7 @@ namespace Agribusiness.Web.Services
             return seminar;
         }
 
-        public void CreateSeminarPerson(Application application, ModelStateDictionary modelState)
+        public Person CreateSeminarPerson(Application application, ModelStateDictionary modelState)
         {
             var person = application.User.Person ?? new Person()
             {
@@ -84,7 +84,13 @@ namespace Agribusiness.Web.Services
             {
                 _firmRepository.EnsurePersistent(firm);
                 _personRepository.EnsurePersistent(person);
+
+                return person;
             }
+
+            return null;
         }
+
+
     }
 }

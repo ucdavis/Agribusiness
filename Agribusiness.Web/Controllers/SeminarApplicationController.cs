@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using Agribusiness.Core.Domain;
+using Agribusiness.Core.Resources;
 using Agribusiness.Web.Controllers.Filters;
 using Agribusiness.Web.Models;
 using Agribusiness.Web.Services;
@@ -71,16 +72,31 @@ namespace Agribusiness.Web.Controllers
 
             application.TransferValidationMessagesTo(ModelState);
 
+            Person person = null;
+
             if (ModelState.IsValid)
             {
-                _seminarService.CreateSeminarPerson(application, ModelState);
+                person = _seminarService.CreateSeminarPerson(application, ModelState);
             }
 
             // check if model state is still valid, might have changed on create
             if (ModelState.IsValid)
             {
+                // save the application
                 _applicationRepository.EnsurePersistent(application);
                 Message = string.Format("Application for {0} has been {1}", application.FullName, isApproved ? "Approved" : "Denied");
+
+                if (isApproved)
+                {
+                    // add to the registered mailing list
+                    var mailingList = Repository.OfType<MailingList>().Queryable.Where(a => a.Seminar == application.Seminar && a.Name == MailingLists.Registered).FirstOrDefault();
+                    if (mailingList != null)
+                    {
+                        mailingList.AddPerson(person);
+                        Repository.OfType<MailingList>().EnsurePersistent(mailingList);
+                    }    
+                }
+
                 return this.RedirectToAction<SeminarApplicationController>(a => a.Index());
             }
 
