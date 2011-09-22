@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Web.Mvc;
 using Agribusiness.Core.Domain;
+using Agribusiness.Core.Resources;
+using Agribusiness.Web.Services;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Web.Controller;
 using UCDArch.Web.Helpers;
@@ -16,12 +18,14 @@ namespace Agribusiness.Web.Controllers
     public class InvitationController : ApplicationController
     {
 	    private readonly IRepository<Invitation> _invitationRepository;
+        private readonly ISeminarService _seminarService;
 
-        public InvitationController(IRepository<Invitation> invitationRepository)
+        public InvitationController(IRepository<Invitation> invitationRepository, ISeminarService seminarService)
         {
             _invitationRepository = invitationRepository;
+            _seminarService = seminarService;
         }
-    
+
         /// <summary>
         /// Invitation list for a seminar
         /// </summary>
@@ -74,7 +78,7 @@ namespace Agribusiness.Web.Controllers
         /// <param name="person"></param>
         /// <param name="title"></param>
         /// <param name="firmname"></param>
-        private void AddToInvitationList(Seminar seminar, Person person, string title = null, string firmname = null)
+        private bool AddToInvitationList(Seminar seminar, Person person, string title = null, string firmname = null)
         {
             Check.Require(person != null, "person is required.");
             Check.Require(seminar != null, "seminar is required.");
@@ -86,21 +90,35 @@ namespace Agribusiness.Web.Controllers
             {
                 var invitation = new Invitation(person){Title=title, FirmName = firmname, Seminar = seminar};
                 _invitationRepository.EnsurePersistent(invitation);
+
+                // add to the mailing list too
+                var ml = seminar.MailingLists.Where(a => a.Name == MailingLists.Invitation).FirstOrDefault();
+
+                if (ml != null)
+                {
+                    ml.AddPerson(person);
+                }
+
+                return true;
             }
+
+            return false;
         }
 
         /// <summary>
         /// Add a person to the invitation list
         /// </summary>
         /// <returns></returns>
-        public ActionResult Create(int personId, int seminarId)
+        public ActionResult Create(int personId)
         {
             var person = Repository.OfType<Person>().GetNullableById(personId);
-            var seminar = Repository.OfType<Seminar>().GetNullableById(seminarId);
+            var seminar = _seminarService.GetCurrent();
 
             if (person == null || seminar == null) return this.RedirectToAction<ErrorController>(a => a.Index());
 
-            var invitation = new Invitation(person) {Seminar = seminar};
+            var reg = person.GetLatestRegistration();
+
+            var invitation = new Invitation(person) {Seminar = seminar, Title=reg.Title, FirmName = reg.Firm.Name};
 
             return View(invitation);
         }
@@ -108,27 +126,26 @@ namespace Agribusiness.Web.Controllers
         //
         // POST: /Invitation/Create
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Create(Invitation invitation)
+        public ActionResult Create(int personId, Invitation invitation)
         {
-            var invitationToCreate = new Invitation();
+            var person = Repository.OfType<Person>().GetNullableById(personId);
+            var seminar = _seminarService.GetCurrent();
 
-            TransferValues(invitation, invitationToCreate);
+            if (person == null || seminar == null) return this.RedirectToAction<ErrorController>(a => a.Index());
 
-            if (ModelState.IsValid)
+            if (AddToInvitationList(seminar, person, invitation.Title, invitation.FirmName))
             {
-                _invitationRepository.EnsurePersistent(invitationToCreate);
-
                 Message = "Invitation Created Successfully";
 
-                return RedirectToAction("Index");
+                return this.RedirectToAction<PersonController>(a => a.AdminEdit(person.User.Id, null, true));
             }
-            else
-            {
-                var viewModel = InvitationViewModel.Create(Repository);
-                viewModel.Invitation = invitation;
+            
+            Message = "Person already on invitation list.";
 
-                return View(viewModel);
-            }
+            invitation.Person = person;
+            invitation.Seminar = seminar;
+
+            return View(invitation);
         }
 
         //
@@ -185,11 +202,21 @@ namespace Agribusiness.Web.Controllers
 
             if (invitationToDelete == null) return RedirectToAction("Index");
 
+            var person = invitationToDelete.Person;
+            var seminar = invitationToDelete.Seminar;
+            var ml = seminar.MailingLists.Where(a => a.Name == MailingLists.Invitation).FirstOrDefault();
+
+            if (ml != null)
+            {
+                ml.People.Remove(person);
+                Repository.OfType<MailingList>().EnsurePersistent(ml);
+            }
+
             _invitationRepository.Remove(invitationToDelete);
 
             Message = "Invitation Removed Successfully";
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new {id=seminar.Id});
         }
         
         /// <summary>

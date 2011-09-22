@@ -61,6 +61,12 @@ background-color: #EEEEEE;
 /* Profile Styling  */
 /* ---------------- */
 .profile_pic_container { margin-left: 15px; width: 165px; display:inline-block;}
+.profile_links {
+    background-color: #EEEEEE;
+    border: 1px solid #0068B7;
+    padding: .5em;
+}
+.profile_links ul { list-style: none;}
 
 .profile_information_container { margin-left: 40px; width: 780px; vertical-align: top;display:inline-block;}
 .profile_information_container h2 { color: #014A81; margin-top: 0; }

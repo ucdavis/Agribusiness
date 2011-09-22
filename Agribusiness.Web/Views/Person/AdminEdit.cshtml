@@ -110,7 +110,22 @@
 <div>
 <div class="profile_pic_container">
     <img src='@Url.Action("GetProfilePicture", new { id = Model.PersonViewModel.Person.Id })' />
-    @Html.ActionLink("Update Crop", "UpdateProfilePicture", new { id = Model.PersonViewModel.Person.Id, seminarId = Model.SeminarId })
+
+    <div class="profile_links" >
+    <ul>
+        <li>@Html.ActionLink("Update Crop", "UpdateProfilePicture", new { id = Model.PersonViewModel.Person.Id, seminarId = Model.SeminarId })</li>
+        @if (Model.Invited)
+        {
+            <li>Already Invited</li>
+        }
+        else
+        {
+            <li>@Html.ActionLink("Invite To Seminar", "Create", "Invitation", new { personId = Model.PersonViewModel.Person.Id }, new { })</li>    
+        }
+        
+    </ul>
+    </div>
+
 </div>
 
 <div class="profile_information_container">
@@ -396,6 +411,9 @@
         </div>
     </div>
 </div>
+
+
+
 </div>
 <div style="clear:both;" />
 

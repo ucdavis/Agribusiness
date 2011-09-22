@@ -40,6 +40,14 @@ namespace Agribusiness.Core.Domain
         public virtual DateTime DateUpdated { get; set; }
 
         public virtual IList<Person> People { get; set; }
+
+        public virtual void AddPerson(Person person)
+        {
+            if (!People.Contains(person))
+            {
+                People.Add(person);
+            }
+        }
     }
 
     public class MailingListMap : ClassMap<MailingList>

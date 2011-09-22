@@ -93,6 +93,7 @@ namespace Agribusiness.Web.Models
         public IQueryable<RoomType> RoomTypes { get; set; }
         public bool IsCurrentSeminar { get; set; }
         public int? SeminarId { get; set; }
+        public bool Invited { get; set; }
 
         public static AdminPersonViewModel Create(IRepository repository, IFirmService firmService, ISeminarService seminarService, int? seminarId, Person person = null, string email = null)
         {
@@ -105,7 +106,8 @@ namespace Agribusiness.Web.Models
                                     PersonViewModel = PersonViewModel.Create(repository, firmService, seminar, person, email),
                                     SeminarRoles = repository.OfType<SeminarRole>().Queryable,
                                     RoomTypes = repository.OfType<RoomType>().Queryable.Where(a=>a.IsActive),
-                                    SeminarId = seminarId
+                                    SeminarId = seminarId,
+                                    Invited = seminarService.GetCurrent().Invitations.Where(a => a.Person == person).Any()
                                 };
 
             // determine if last reg is the current seminar
@@ -114,8 +116,6 @@ namespace Agribusiness.Web.Models
                 viewModel.IsCurrentSeminar = seminar == seminarService.GetCurrent();
             }
             
-            //viewModel.IsCurrentSeminar = viewModel.PersonViewModel.SeminarPerson.Seminar == seminarService.GetCurrent();
-
             return viewModel;
         }
     }

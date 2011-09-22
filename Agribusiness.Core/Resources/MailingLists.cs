@@ -4,15 +4,15 @@
     {
 
         // Names
-        public static string Invitation = "Invitation";
-        public static string Registered = "Registered";
-        public static string Attending = "Attending";
-        public static string PaymentReminder = "Payment Reminder";
-        public static string HotelReminder = "Hotel Reminder";
-        public static string PhotoReminder = "Photo Reminder";
-        public static string BioReminder = "Bio Reminder";
-        public static string Applied = "Applied";
-        public static string Denied = "Denied";
+        public static string Invitation = "Sys-Invitation";
+        public static string Registered = "Sys-Registered";
+        public static string Attending = "Sys-Attending";
+        public static string PaymentReminder = "Sys-Payment Reminder";
+        public static string HotelReminder = "Sys-Hotel Reminder";
+        public static string PhotoReminder = "Sys-Photo Reminder";
+        public static string BioReminder = "Sys-Bio Reminder";
+        public static string Applied = "Sys-Applied";
+        public static string Denied = "Sys-Denied";
 
         // Descriptions
         public static string InvitationDescription = "List of people to invite";
