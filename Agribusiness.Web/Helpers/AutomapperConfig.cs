@@ -20,7 +20,9 @@ namespace Agribusiness.Web.Helpers
                 .ForMember(x => x.Id, x => x.Ignore())
                 .ForMember(x => x.Sessions, x => x.Ignore())
                 .ForMember(x => x.SeminarPeople, x => x.Ignore())
-                .ForMember(x => x.CaseStudies, x => x.Ignore());
+                .ForMember(x => x.CaseStudies, x => x.Ignore())
+                .ForMember(x => x.MailingLists, x => x.Ignore())
+                .ForMember(x => x.Invitations, x => x.Ignore());
             
             CreateMap<Session, Session>()
                 .ForMember(x => x.Id, x => x.Ignore())

@@ -18,8 +18,11 @@
     [ContentType]               VARCHAR (20)     NULL,
     [CommunicationOptionId]     CHAR (2)         NOT NULL,
     [AutomatedNotification]     BIT              NOT NULL,
-    [ContactInformationRelease] BIT              NOT NULL
+    [ContactInformationRelease] BIT              NOT NULL,
+    [archive_id]                UNIQUEIDENTIFIER NULL
 );
+
+
 
 
 

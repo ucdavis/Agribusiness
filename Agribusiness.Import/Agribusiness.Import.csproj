@@ -151,6 +151,9 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\agbiz2010invitees.xls" />
+    <None Include="Assets\agbizallcontacts.xls" />
+    <None Include="Assets\agbizcontactswoassistants.xls" />
     <None Include="Assets\archived_Commodity.xls" />
     <None Include="Assets\archived_Contact.xls" />
     <None Include="Assets\archived_Firm.xls" />

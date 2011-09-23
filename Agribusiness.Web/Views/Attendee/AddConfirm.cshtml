@@ -108,7 +108,7 @@
                     </div>
                     
                     <span id="new-firm-name" style="@(newFirm ? "" : "display:none;")">
-                        @Html.TextBox("Firm.Name", newFirm ? Model.Firm.Name : string.Empty)
+                        @Html.TextBox("Firm.Name", !newFirm ? Model.Firm.Name : string.Empty)
                     </span>
                     
                     <a href="javascript:;" id="change-firm">[Change Firm]</a>
@@ -118,13 +118,13 @@
             </li>
             <li id="firm-description" style="@(newFirm ? "" : "display:none;")"><div class="editor-label">@Html.LabelFor(a=>a.Firm.Description)</div>
                 <div class="editor-field">
-                    @Html.TextArea("Firm.Description", newFirm ? Model.Firm.Description : string.Empty)
+                    @Html.TextArea("Firm.Description", !newFirm ? Model.Firm.Description : string.Empty)
                 </div>            
             </li>
             <li id="firm-webaddress" style="@(newFirm ? "" : "display:none;")">
                 <div class="editor-label">@Html.LabelFor(a=>a.Firm.WebAddress)</div>
                 <div class="editor-field">
-                    @Html.TextBox("Firm.WebAddress", newFirm ? Model.Firm.WebAddress : string.Empty)
+                    @Html.TextBox("Firm.WebAddress", !newFirm ? Model.Firm.WebAddress : string.Empty)
                 </div>
             </li>
         </ul>
