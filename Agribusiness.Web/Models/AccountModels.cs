@@ -88,6 +88,8 @@ namespace Agribusiness.Web.Models
         bool ChangePassword(string userName, string oldPassword, string newPassword);
 
         bool ResetPassword(string userName);
+
+        string ResetPasswordNoEmail(string userName);
     }
 
     public class AccountMembershipService : IMembershipService
@@ -174,6 +176,21 @@ namespace Agribusiness.Web.Models
             catch (Exception)
             {
                 return false;
+            }
+        }
+
+        public string ResetPasswordNoEmail(string userName)
+        {
+            try
+            {
+                var user = _provider.GetUser(userName, false);
+                var newPassword = user.ResetPassword();
+                
+                return newPassword;
+            }
+            catch (Exception)
+            {
+                return string.Empty;
             }
         }
     }

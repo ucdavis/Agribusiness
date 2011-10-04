@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Web;
 using Agribusiness.Core.Domain;
+using Agribusiness.Web.Models;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
 
@@ -16,6 +17,8 @@ namespace Agribusiness.Web.Services
         private readonly ISeminarService _seminarService;
         private readonly IRepository<EmailQueue> _emailQueueRepository;
         private readonly IRepository<MailingList> _mailingListRepository;
+        private AccountMembershipService _membershipService;
+        
 
         public NotificationService(IRepository<Seminar> seminarRepository,ISeminarService seminarService, IRepository<EmailQueue> emailQueueRepository, IRepository<MailingList> mailingListRepository)
         {
@@ -23,9 +26,11 @@ namespace Agribusiness.Web.Services
             _seminarService = seminarService;
             _emailQueueRepository = emailQueueRepository;
             _mailingListRepository = mailingListRepository;
+
+            if (_membershipService == null) { _membershipService = new AccountMembershipService(); }
         }
 
-        public string GenerateNotification(string template, Person person, int? seminarId = null, Invitation invitation = null)
+        public string GenerateNotification(string template, Person person, int? seminarId = null, Invitation invitation = null, string password = null)
         {
             Seminar seminar;
 
@@ -38,7 +43,7 @@ namespace Agribusiness.Web.Services
                 seminar = _seminarService.GetCurrent();
             }
 
-            var helper = new NotificationGeneratorHelper(person, seminar, invitation);
+            var helper = new NotificationGeneratorHelper(person, seminar, invitation, password);
 
             return HandleBody(template, helper);
         }
@@ -184,6 +189,9 @@ namespace Agribusiness.Web.Services
                     return helper.FirmName;
                 case "username":
                     return helper.UserName;
+                case "password":
+                    var password = _membershipService.ResetPasswordNoEmail(helper.UserName);
+                    return password;
             }
 
             throw new ArgumentException("Invalid parameter was passed.");
@@ -197,7 +205,7 @@ namespace Agribusiness.Web.Services
             
         }
 
-        public NotificationGeneratorHelper(Person person, Seminar seminar, Invitation invitation = null)
+        public NotificationGeneratorHelper(Person person, Seminar seminar, Invitation invitation = null, string password = null)
         {
             var reg = person.GetLatestRegistration();
 
@@ -211,6 +219,7 @@ namespace Agribusiness.Web.Services
             FirmName = invitation != null ? invitation.FirmName : (reg != null && reg.Firm != null ? reg.Firm.Name : string.Empty);
 
             UserName = person.User.UserName;
+            Password = password;
         }
 
         public string FirstName { get; set; }
@@ -226,5 +235,6 @@ namespace Agribusiness.Web.Services
         public string FirmName { get; set; }
 
         public string UserName { get; set; }
+        public string Password { get; set; }
     }
 }

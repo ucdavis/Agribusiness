@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Security;
 using Agribusiness.Core.Domain;
 using Agribusiness.Core.Resources;
+using Agribusiness.Web.Models;
 using Agribusiness.Web.Services;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Web.Controller;
@@ -21,7 +23,7 @@ namespace Agribusiness.Web.Controllers
         private readonly ISeminarService _seminarService;
         private readonly INotificationService _notificationService;
 
-        public InvitationController(IRepository<Invitation> invitationRepository, ISeminarService seminarService, INotificationService notificationService)
+        public InvitationController(IRepository<Invitation> invitationRepository, ISeminarService seminarService, INotificationService notificationService )
         {
             _invitationRepository = invitationRepository;
             _seminarService = seminarService;

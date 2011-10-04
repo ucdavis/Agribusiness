@@ -15,7 +15,7 @@ namespace Agribusiness.Web.Services
         /// <param name="person">Person that the notification is being sent to</param>
         /// <param name="seminarId">Seminar associated with message when available</param>
         /// <returns></returns>
-        string GenerateNotification(string template, Person person, int? seminarId = null, Invitation invitation = null);
+        string GenerateNotification(string template, Person person, int? seminarId = null, Invitation invitation = null, string password = null);
 
         /// <summary>
         /// Sends the notification to the admin about an information request submission.
