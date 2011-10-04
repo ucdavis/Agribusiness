@@ -115,7 +115,7 @@ namespace Agribusiness.Web.Controllers
 
             var reg = person.GetLatestRegistration();
 
-            var invitation = new Invitation(person) {Seminar = seminar, Title=reg.Title, FirmName = reg.Firm.Name};
+            var invitation = new Invitation(person) {Seminar = seminar, Title= reg != null ? reg.Title : string.Empty, FirmName = reg != null && reg.Firm != null ? reg.Firm.Name : string.Empty};
 
             return View(invitation);
         }

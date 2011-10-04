@@ -17,8 +17,6 @@ namespace Agribusiness.Web.Services
         private readonly IRepository<EmailQueue> _emailQueueRepository;
         private readonly IRepository<MailingList> _mailingListRepository;
 
-        private Seminar _seminar;
-
         public NotificationService(IRepository<Seminar> seminarRepository,ISeminarService seminarService, IRepository<EmailQueue> emailQueueRepository, IRepository<MailingList> mailingListRepository)
         {
             _seminarRepository = seminarRepository;
@@ -27,92 +25,22 @@ namespace Agribusiness.Web.Services
             _mailingListRepository = mailingListRepository;
         }
 
-        public string GenerateNotification(string template, Person person, int? seminarId = null)
+        public string GenerateNotification(string template, Person person, int? seminarId = null, Invitation invitation = null)
         {
+            Seminar seminar;
+
             if (seminarId.HasValue)
             {
-                _seminar = _seminarRepository.GetNullableById(seminarId.Value);
+                seminar = _seminarRepository.GetNullableById(seminarId.Value);
             }
             else
             {
-                _seminar = _seminarService.GetCurrent();
+                seminar = _seminarService.GetCurrent();
             }
 
-            return HandleBody(template, person);
-        }
+            var helper = new NotificationGeneratorHelper(person, seminar, invitation);
 
-        /// <summary>
-        /// Takes the template text from the database and converts it to the finalized text
-        /// </summary>
-        /// <param name="body">Template text from the db</param>
-        /// <returns>Completed text ready for exporting</returns>
-        private string HandleBody(string body, Person person)
-        {
-            Check.Require(_seminar != null, "_seminar is required.");
-            Check.Require(person != null, "person is required.");
-
-            // Begin actual processing function
-            string tempbody = "";
-            string parameter;
-
-            // Find the beginning of a replacement string
-            int begindex = body.IndexOf("{");
-            int endindex;
-            while (begindex >= 0)
-            {
-                // Copy the text that comes before the replacement string to temp
-                tempbody = tempbody + body.Substring(0, begindex);
-                // Removes the first part from the string before the {
-                body = body.Substring(begindex);
-
-                // Find the end of a replacement string
-                endindex = body.IndexOf("}");
-
-                // Pulls the text between {}
-                parameter = body.Substring(0, endindex + 1);
-                // removes the parameter substring
-                body = body.Substring(endindex + 1);
-
-                tempbody = tempbody + replaceParameter(parameter, person);
-
-                // Find the beginning of a replacement string
-                begindex = body.IndexOf("{");
-            }
-
-            // Gets the remaining text from the template after the last tag
-            tempbody = tempbody + body;
-
-            return tempbody;
-        }
-
-        /// <summary>
-        /// Returns the string data that should be replaced into the template text
-        /// to create the final letter for the students.
-        /// </summary>
-        /// <param name="parameter">The parameter name.</param>
-        /// <returns>Value that should replace the parameter</returns>
-        private string replaceParameter(string parameter, Person person)
-        {
-            // Trim the {}
-            int length = parameter.Length;
-            parameter = parameter.Substring(1, length - 2);
-
-            // replace the value
-            switch (parameter.ToLower())
-            {
-                case "badgename":
-                    return string.IsNullOrWhiteSpace(person.BadgeName) ? person.FirstName : person.BadgeName;
-                case "firstname":
-                    return person.FirstName;
-                case "fullname":
-                    return person.FullName;
-                case "seminarbegindate":
-                    return _seminar.Begin.ToString("g");
-                case "seminarenddate":
-                    return _seminar.End.ToString("g");
-            }
-
-            throw new ArgumentException("Invalid parameter was passed.");
+            return HandleBody(template, helper);
         }
 
         public void SendInformationRequestNotification(InformationRequest informationRequest)
@@ -181,5 +109,116 @@ namespace Agribusiness.Web.Services
                 _mailingListRepository.EnsurePersistent(mailingList);
             }
         }
+
+        /// <summary>
+        /// Takes the template text from the database and converts it to the finalized text
+        /// </summary>
+        /// <param name="body">Template text from the db</param>
+        /// <returns>Completed text ready for exporting</returns>
+        private string HandleBody(string body, NotificationGeneratorHelper helper)
+        {
+            Check.Require(helper != null, "helper is required.");
+
+            // Begin actual processing function
+            string tempbody = "";
+            string parameter;
+
+            // Find the beginning of a replacement string
+            int begindex = body.IndexOf("{");
+            int endindex;
+            while (begindex >= 0)
+            {
+                // Copy the text that comes before the replacement string to temp
+                tempbody = tempbody + body.Substring(0, begindex);
+                // Removes the first part from the string before the {
+                body = body.Substring(begindex);
+
+                // Find the end of a replacement string
+                endindex = body.IndexOf("}");
+
+                // Pulls the text between {}
+                parameter = body.Substring(0, endindex + 1);
+                // removes the parameter substring
+                body = body.Substring(endindex + 1);
+
+                tempbody = tempbody + replaceParameter(parameter, helper);
+
+                // Find the beginning of a replacement string
+                begindex = body.IndexOf("{");
+            }
+
+            // Gets the remaining text from the template after the last tag
+            tempbody = tempbody + body;
+
+            return tempbody;
+        }
+
+        /// <summary>
+        /// Returns the string data that should be replaced into the template text
+        /// to create the final letter for the students.
+        /// </summary>
+        /// <param name="parameter">The parameter name.</param>
+        /// <returns>Value that should replace the parameter</returns>
+        private string replaceParameter(string parameter, NotificationGeneratorHelper helper)
+        {
+            // Trim the {}
+            int length = parameter.Length;
+            parameter = parameter.Substring(1, length - 2);
+
+            // replace the value
+            switch (parameter.ToLower())
+            {
+                case "badgename":
+                    return string.IsNullOrWhiteSpace(helper.BadgeName) ? helper.FirstName : helper.BadgeName;
+                case "firstname":
+                    return helper.FirmName;
+                case "fullname":
+                    return helper.FullName;
+                case "seminarbegindate":
+                    return helper.SeminarBegin;
+                case "seminarenddate":
+                    return helper.SeminarEnd;
+                case "title":
+                    return helper.Title;
+                case "firmname":
+                    return helper.FirmName;
+            }
+
+            throw new ArgumentException("Invalid parameter was passed.");
+        }
+    }
+
+    public class NotificationGeneratorHelper
+    {
+        public NotificationGeneratorHelper()
+        {
+            
+        }
+
+        public NotificationGeneratorHelper(Person person, Seminar seminar, Invitation invitation = null)
+        {
+            var reg = person.GetLatestRegistration();
+
+            BadgeName = person.BadgeName;
+            FirstName = person.FirstName;
+            LastName = person.LastName;
+            FullName = person.FullName;
+            SeminarBegin = seminar.Begin.ToString("g");
+            SeminarEnd = seminar.End.ToString("g");
+            Title = invitation != null ? invitation.Title : (reg != null ? reg.Title : string.Empty);
+            FirmName = invitation != null ? invitation.FirmName : (reg != null && reg.Firm != null ? reg.Firm.Name : string.Empty);
+        }
+
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string FullName { get; set; }
+
+        public string BadgeName { get; set; }
+
+        public string SeminarBegin { get; set; }
+        public string SeminarEnd { get; set; }
+
+        public string Title { get; set; }
+        public string FirmName { get; set; }
     }
 }

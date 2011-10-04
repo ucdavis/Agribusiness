@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Agribusiness.Core.Domain;
+using Agribusiness.Core.Resources;
 using Agribusiness.Web.App_GlobalResources;
 using Agribusiness.Web.Controllers.Filters;
 using Agribusiness.Web.Models;
@@ -154,7 +155,6 @@ namespace Agribusiness.Web.Controllers
             // save the objects if we are good);););
             if (ModelState.IsValid)
             {
-                
                 tracking = ProcessTracking(ModelState, people, notificationTracking, emailQueue, mailingList);
 
                 foreach (var a in tracking)
@@ -195,7 +195,6 @@ namespace Agribusiness.Web.Controllers
         protected List<NotificationTracking> ProcessTracking(ModelStateDictionary modelState, List<int> people, NotificationTracking notificationTracking, EmailQueue emailQueue = null, MailingList mailingList = null)
         {
             Check.Require(people != null || mailingList != null, "people is required.");
-            //Check.Require(people.Count > 0, "Must have at least one person.");
             Check.Require(notificationTracking != null, "notificationTracking is required.");
 
             mailingList = mailingList ?? new MailingList();
@@ -209,14 +208,6 @@ namespace Agribusiness.Web.Controllers
 
             foreach (var person in peeps.Distinct())
             {
-                //var person = _personRepository.GetNullableById(a);
-
-                //if (person == null)
-                //{
-                //    ModelState.AddModelError("Person", string.Format("Person with id {0} could not be found.", a));
-                //}
-                //else
-                //{
                 var nt = new NotificationTracking();
                 // copy the fields
                 Mapper.Map(notificationTracking, nt);
@@ -229,7 +220,15 @@ namespace Agribusiness.Web.Controllers
                     var eq = new EmailQueue();
 
                     Mapper.Map(emailQueue, eq);
-                    eq.Body = _notificationService.GenerateNotification(eq.Body, person, notificationTracking.Seminar.Id);
+
+                    Invitation invitation = null;
+                    if (mailingList.Name == MailingLists.Invitation)
+                    {
+                        // get the invitation object
+                        invitation = Repository.OfType<Invitation>().Queryable.Where(a => a.Person == person && a.Seminar == notificationTracking.Seminar).FirstOrDefault();
+                    }
+
+                    eq.Body = _notificationService.GenerateNotification(eq.Body, person, notificationTracking.Seminar.Id, invitation);
 
                     eq.Person = person;
                     nt.EmailQueue = eq;
@@ -237,7 +236,6 @@ namespace Agribusiness.Web.Controllers
 
                 // add it to the list
                 tracking.Add(nt);
-                //}
             }
 
             // add errors for those not in the list

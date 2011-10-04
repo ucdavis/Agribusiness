@@ -228,6 +228,9 @@ namespace Agribusiness.Web.Controllers
             ViewBag.AllList = allList ?? false;
 
             var viewModel = AdminPersonViewModel.Create(Repository, _firmService, _seminarService, seminarId, user.Person, user.LoweredUserName);
+
+            if (viewModel.PersonViewModel.SeminarPerson == null) viewModel.SeminarId = null;
+
             return View(viewModel);
         }
 
