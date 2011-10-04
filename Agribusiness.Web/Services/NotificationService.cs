@@ -182,6 +182,8 @@ namespace Agribusiness.Web.Services
                     return helper.Title;
                 case "firmname":
                     return helper.FirmName;
+                case "username":
+                    return helper.UserName;
             }
 
             throw new ArgumentException("Invalid parameter was passed.");
@@ -207,6 +209,8 @@ namespace Agribusiness.Web.Services
             SeminarEnd = seminar.End.ToString("g");
             Title = invitation != null ? invitation.Title : (reg != null ? reg.Title : string.Empty);
             FirmName = invitation != null ? invitation.FirmName : (reg != null && reg.Firm != null ? reg.Firm.Name : string.Empty);
+
+            UserName = person.User.UserName;
         }
 
         public string FirstName { get; set; }
@@ -220,5 +224,7 @@ namespace Agribusiness.Web.Services
 
         public string Title { get; set; }
         public string FirmName { get; set; }
+
+        public string UserName { get; set; }
     }
 }
