@@ -168,44 +168,46 @@ namespace Agribusiness.Web.Controllers
 
             var seminar = _seminarRepository.GetNullableById(id.HasValue ? id.Value : 0);
 
-            //if (seminar == null)
-            //{
-            //    Message = string.Format(Messages.NotFound, "seminar", id);
-            //    return this.RedirectToAction<SeminarController>(a => a.Index());
-            //}
-
             var person = personEditModel.Person;
 
-            // create an account
-            var createStatus =  _membershipService.CreateUser(personEditModel.Email
-                                          , Guid.NewGuid().ToString().Replace("-", string.Empty).Substring(0, 10)
-                                          , personEditModel.Email);
+            var user = _userRepository.Queryable.Where(a => a.UserName == personEditModel.Email).FirstOrDefault();
+            person.User = user;
 
-            // save only if user creation was successful
-            if (createStatus == MembershipCreateStatus.Success)
+            SeminarPerson seminarPerson = null;
+            if (seminar != null)
             {
-                var user = _userRepository.Queryable.Where(a => a.UserName == personEditModel.Email).FirstOrDefault();
-                person.User = user;
+                seminarPerson = new SeminarPerson(seminar, person) { Invite = true, Title = personEditModel.Title };
+                person.AddSeminarPerson(seminarPerson);
+                seminarPerson.TransferValidationMessagesTo(ModelState);
+            }
 
-                SeminarPerson seminarPerson = null;
-                if (seminar != null)
-                {
-                    seminarPerson = new SeminarPerson(seminar, person) { Invite = true, Title = personEditModel.Title };
-                    person.AddSeminarPerson(seminarPerson);
-                    seminarPerson.TransferValidationMessagesTo(ModelState);
-                }
+            person = SetPerson(personEditModel, seminarPerson, ModelState, person, profilepic);
 
-                person = SetPerson(personEditModel, seminarPerson, ModelState, person, profilepic);
-                
-                if (ModelState.IsValid)
+            ModelState.Remove("Person.User");
+
+            if (ModelState.IsValid)
+            {
+
+                // try to create the user
+                var createStatus = _membershipService.CreateUser(personEditModel.Email
+                                              , Guid.NewGuid().ToString().Replace("-", string.Empty).Substring(0, 10)
+                                              , personEditModel.Email);
+
+                // retrieve the user to assign
+                var createdUser = _userRepository.Queryable.Where(a => a.LoweredUserName == personEditModel.Email).FirstOrDefault();
+                person.User = createdUser;
+
+                // save only if user creation was successful
+                if (createStatus == MembershipCreateStatus.Success)
                 {
+                    // we're good save the person object
                     _personRepository.EnsurePersistent(person);
                     Message = string.Format(Messages.Saved, "Person");
-                    return this.RedirectToAction(a => a.UpdateProfilePicture(person.Id, null));
+
+                    if (person.OriginalPicture != null) return this.RedirectToAction(a => a.UpdateProfilePicture(person.Id, null));
+                    else return this.RedirectToAction(a => a.AdminEdit(createdUser.Id, null, null));
                 }
-            }
-            else
-            {
+
                 ModelState.AddModelError("Create User", AccountValidation.ErrorCodeToString(createStatus));
             }
             
@@ -791,10 +793,14 @@ namespace Agribusiness.Web.Controllers
 
             SetAddresses(person, personEditModel.Addresses, ModelState);
             SetContacts(person, personEditModel.Contacts, ModelState);
-            SetCommodities(seminarPerson, personEditModel.Commodities);
 
-            seminarPerson.Firm = personEditModel.Firm ?? new Firm(personEditModel.FirmName, personEditModel.FirmDescription) {WebAddress = personEditModel.FirmWebAddress};
-            seminarPerson.Title = personEditModel.Title;
+            if (seminarPerson != null)
+            {
+                SetCommodities(seminarPerson, personEditModel.Commodities);
+
+                seminarPerson.Firm = personEditModel.Firm ?? new Firm(personEditModel.FirmName, personEditModel.FirmDescription) { WebAddress = personEditModel.FirmWebAddress };
+                seminarPerson.Title = personEditModel.Title;    
+            }
 
             // deal with the image))
             if (profilePic != null)
@@ -894,7 +900,8 @@ namespace Agribusiness.Web.Controllers
         }
         private static void SetCommodities(SeminarPerson seminarPerson, IList<Commodity> commodities)
         {
-            if (seminarPerson.Commodities != null ) seminarPerson.Commodities.Clear();
+
+            if ( seminarPerson.Commodities != null ) seminarPerson.Commodities.Clear();
 
             seminarPerson.Commodities = new List<Commodity>(commodities);
         }

@@ -302,6 +302,18 @@
     </fieldset>       
     }
 
+    <fieldset>
+        <legend>Communication Options</legend>
+
+        <ul>
+            <li><div class="editor-label">&nbsp;</div>
+                <div class="editor-field">
+                    @this.Select("Person.CommunicationOption").Options(Model.CommunicationOptions, x=>x.Id,x=>x.Name).FirstOption("--Select Communication Option--").Selected(Model.Person.CommunicationOption!= null ? Model.Person.CommunicationOption.Id : string.Empty)
+                </div>
+            </li>
+        </ul>
+
+    </fieldset>
 
 	<fieldset>
 		<legend>Profile Picture</legend>
