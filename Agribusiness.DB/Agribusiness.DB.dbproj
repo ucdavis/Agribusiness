@@ -883,5 +883,11 @@
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
+    <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\usp_ProcessEmails.proc.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Schemas\dbo\Views\vEmailQueue.view.sql">
+      <SubType>Code</SubType>
+    </Build>
   </ItemGroup>
 </Project>
