@@ -33,10 +33,11 @@ set @cursor = cursor for
 		--, c.assistantname, c.assistantphone, c.assistantext, c.assistantemail, c.assistantemailpreferred, c.assistantemailpreferredcc
 		, assistantemailpreferred, assistantemailpreferredcc
 		, ai.[title], ai.firm
-	from agbizinvitees ai
-		left outer join contacts c on ai.[first name] = c.firstname and ai.[last name] = c.lastname
+	from AgbizInviteesFinal ai
+		left outer join contacts c on (ai.[first name] = c.firstname and ai.[last name] = c.lastname) or ((ai.[email address] = c.email))
 	where c.currentyear in (select max(icontacts.currentyear) from contacts icontacts where c.firstname = icontacts.firstname and c.lastname = icontacts.lastname)
 		and c.currentseminaryear = 2012
+	order by [last name]
 
 open @cursor
 
@@ -88,6 +89,57 @@ end
 close @cursor
 deallocate @cursor
 
+set @cursor = cursor for
+	select ai.[first name], ai.[last name], isnull(ai.[email address], ltrim(rtrim(ai.[first name])) + '.' + ltrim(rtrim(ai.[last name])) + '@') email
+		, ai.title, ai.firm, isnull(ai.phone, 'n/a')
+	from agbizinviteesfinal ai
+	where ai.[first name]+ai.[last name] not in ( select firstname+lastname from agribusiness.dbo.people )
+
+open @cursor
+
+fetch next from @cursor into @firstname, @lastname, @email, @title, @firm, @phone
+
+while(@@FETCH_STATUS = 0)
+begin
+
+		-- create the user account
+	set @userid = null
+	
+	set @salt = convert(nvarchar(255), newid())
+	set @date = getdate()
+	
+	EXEC	@return_value = [Agribusiness].[dbo].[aspnet_Membership_CreateUser]
+		@ApplicationName = N'Agribusiness',
+		@UserName = @email,
+		@Password = 'password',
+		@PasswordSalt = @salt,
+		@Email = @email,
+		@PasswordQuestion = N'Q',
+		@PasswordAnswer = N'A',
+		@IsApproved = 1,
+		@CurrentTimeUtc = @date,
+		@CreateDate = @date,
+		@UserId = @UserId OUTPUT
+
+	if (@userid is not null)
+	begin
+
+		insert into agribusiness.dbo.people(lastname, firstname, mi, communicationoptionid, userid, phone)
+		values (@lastname, @firstname, @mi, 'DR', @userid, @phone)
+
+		set @personid = (select max(id) from agribusiness.dbo.people where lastname = @lastname and firstname = @firstname)
+		
+		insert into agribusiness.dbo.invitations (personid, title, firmname, seminarid) values (@personid, @title, @firm, @seminarid)
+
+	end
+
+	fetch next from @cursor into @firstname, @lastname, @email, @title, @firm, @phone
+
+end
+
+close @cursor
+deallocate @cursor
+
 -----------------------------------------
 -- Convert Addresses
 -----------------------------------------
@@ -101,14 +153,14 @@ update agbizinvitees set [courier's country] = 'MEX' where [courier's country] =
 update agbizinvitees set [courier's country] = 'CHL' where [courier's country] = 'Chile'
 
 insert into agribusiness.dbo.addresses (personid, line1, city, state, countryid, zip, addresstypeid)
-select distinct p.id, ai.[firm's address], isnulL(ai.[firm's city], 'n/a'), isnull(ai.[firm's state], 'n/a'), ai.[firm's country], isnull(ai.[firm's zip], 'n/a'), 'B'
-from agbizinvitees ai
+select distinct p.id, ai.[firm's address], isnulL(ai.[firm's city], 'n/a'), isnull(ai.[ state], 'n/a'), ai.[firm's country], isnull(ai.[zip], 'n/a'), 'B'
+from agbizinviteesfinal ai
 	inner join agribusiness.dbo.people p on ai.[first name] = p.firstname and ai.[last name] = p.lastname
 where [firm's address] is not null
 
 insert into agribusiness.dbo.addresses (personid, line1, city, state, countryid, zip, addresstypeid)
 select distinct p.id, ai.[courier address], isnull(ai.[Courier Ciy], 'n/a'), isnull(ai.[courier state], 'n/a'), ai.[courier's country], isnull(ai.[courier zip code], 'n/a'), 'C'
-from agbizinvitees ai
+from agbizinviteesfinal ai
 	inner join agribusiness.dbo.people p on ai.[first name] = p.firstname and ai.[last name] = p.lastname
 where [courier address] is not null
 
@@ -119,8 +171,8 @@ insert into agribusiness.dbo.contacts (firstname, lastname, phone, ext, email, c
 select distinct ltrim(rtrim(reverse(substring(reverse(assistantname), charindex(' ', reverse(assistantname)) + 1, len(assistantname))))) firstname
 	, ltrim(rtrim(reverse(substring(reverse(assistantname),1,charindex(' ',reverse(assistantname)))))) lastname
 	, isnull(assistantphone, 'n/a'), assistantext, assistantemail, 'A', p.id
-from agbizinvitees ai
-	inner join contacts c on ai.[first name] = c.firstname and ai.[last name] = c.lastname
+from agbizinviteesfinal ai
+	inner join contacts c on (ai.[first name] = c.firstname and ai.[last name] = c.lastname) or (ai.[email address] = c.email)
 	inner join agribusiness.dbo.people p on ai.[first name] = p.firstname and ai.[last name] = p.lastname
 where assistantname is not null
 
