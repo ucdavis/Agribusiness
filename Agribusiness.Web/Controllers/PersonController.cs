@@ -238,14 +238,14 @@ namespace Agribusiness.Web.Controllers
 
         [UserOnly]
         [HttpPost]
-        public ActionResult AdminEdit(Guid id, int seminarId, PersonEditModel personEditModel, HttpPostedFileBase profilepic)
+        public ActionResult AdminEdit(Guid id, int? seminarId, PersonEditModel personEditModel, HttpPostedFileBase profilepic)
         {
             var user = _userRepository.GetNullableById(id);
             
             if (user == null)
             {
                 Message = string.Format(Messages.NotFound, "user", id);
-                return this.RedirectToAction<AttendeeController>(a => a.Index(seminarId));
+                return this.RedirectToAction<AttendeeController>(a => a.Index(seminarId.HasValue?seminarId.Value : _seminarService.GetCurrent().Id));
             }
 
             var seminarPerson = _seminarPersonRepository.GetNullableById(personEditModel.SeminarPersonId);
@@ -254,7 +254,7 @@ namespace Agribusiness.Web.Controllers
             if (ModelState.IsValid)
             {
                 _personRepository.EnsurePersistent(person);
-                _seminarPersonRepository.EnsurePersistent(seminarPerson);
+                if (seminarPerson != null) _seminarPersonRepository.EnsurePersistent(seminarPerson);
                 Message = string.Format(Messages.Saved, "Person");
 
                 // send to crop photo if one was uploaded
