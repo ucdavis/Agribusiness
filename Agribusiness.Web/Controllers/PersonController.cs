@@ -517,6 +517,13 @@ namespace Agribusiness.Web.Controllers
             reg.TransactionId = transactionId;
             reg.Paid = paid;
 
+            if (reg.Paid)
+            {
+                _notificationService.RemoveFromMailingList(seminar, person, MailingLists.Registered);
+                _notificationService.RemoveFromMailingList(seminar, person, MailingLists.PaymentReminder);
+                _notificationService.AddToMailingList(seminar, person, MailingLists.Attending);
+            }
+
             _seminarPersonRepository.EnsurePersistent(reg);
 
             Message = "Registration information has been updated.";

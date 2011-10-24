@@ -183,6 +183,8 @@ namespace Agribusiness.Web.Services
                     return helper.SeminarBegin;
                 case "seminarenddate":
                     return helper.SeminarEnd;
+                case "seminardeadline":
+                    return helper.SeminarDeadline;
                 case "title":
                     return helper.Title;
                 case "firmname":
@@ -215,6 +217,7 @@ namespace Agribusiness.Web.Services
             FullName = person.FullName;
             SeminarBegin = seminar.Begin.ToString("g");
             SeminarEnd = seminar.End.ToString("g");
+            SeminarDeadline = seminar.RegistrationDeadlineString;
             Title = invitation != null ? invitation.Title : (reg != null ? reg.Title : string.Empty);
             FirmName = invitation != null ? invitation.FirmName : (reg != null && reg.Firm != null ? reg.Firm.Name : string.Empty);
 
@@ -230,6 +233,7 @@ namespace Agribusiness.Web.Services
 
         public string SeminarBegin { get; set; }
         public string SeminarEnd { get; set; }
+        public string SeminarDeadline { get; set; }
 
         public string Title { get; set; }
         public string FirmName { get; set; }

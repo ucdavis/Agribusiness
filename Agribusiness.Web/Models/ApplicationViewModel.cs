@@ -17,12 +17,12 @@ namespace Agribusiness.Web.Models
         public Seminar Seminar { get; set; }
         public IEnumerable<Commodity> Commodities { get; set; }
         public IEnumerable<Country> Countries { get; set; }
-        public IEnumerable<Firm> Firms { get; set; }
+        public IList<Firm> Firms { get; set; }
         public bool HasPhoto { get; set; }
 
         public IEnumerable<CommunicationOption> CommunicationOptions { get; set; }
 
-        public static ApplicationViewModel Create(IRepository repository, IFirmService firmService, string userId, Application application = null)
+        public static ApplicationViewModel Create(IRepository repository, IFirmService firmService, ISeminarService seminarService, string userId, Application application = null)
         {
             Check.Require(repository != null, "Repository must be supplied");
 
@@ -30,7 +30,7 @@ namespace Agribusiness.Web.Models
                                 {
                                     Application = application ?? new Application(),
                                     // always get the latest
-                                    Seminar = repository.OfType<Seminar>().GetNullableById(repository.OfType<Seminar>().Queryable.Max(a=>a.Id)),
+                                    Seminar = seminarService.GetCurrent(),
                                     Commodities = repository.OfType<Commodity>().Queryable.OrderBy(a=>a.Name).ToList(),
                                     Countries = repository.OfType<Country>().GetAll(),
                                     CommunicationOptions = repository.OfType<CommunicationOption>().GetAll()
@@ -45,13 +45,15 @@ namespace Agribusiness.Web.Models
             if (person != null)
             {
                 var seminarPeople = person.GetLatestRegistration();
+                if (seminarPeople != null)
+                {
+                    application.FirstName = person.FirstName;
+                    application.MI = person.MI;
+                    application.LastName = person.LastName;
+                    application.BadgeName = person.BadgeName;
 
-                application.FirstName = person.FirstName;
-                application.MI = person.MI;
-                application.LastName = person.LastName;
-                application.BadgeName = person.BadgeName;
-
-                application.Firm = seminarPeople.Firm;
+                    application.Firm = seminarPeople.Firm;    
+                }
             }
 
             viewModel.HasPhoto = user.Person != null && user.Person.MainProfilePicture != null;
@@ -59,7 +61,7 @@ namespace Agribusiness.Web.Models
             // get the firms and add the "Other" option
             var firms = new List<Firm>(firmService.GetAllFirms());
             viewModel.Firms = firms.OrderBy(a=>a.Name).ToList();
-            firms.Add(new Firm() { Name = "Other (Not Listed)" });
+            viewModel.Firms.Add(new Firm() { Name = "Other (Not Listed)" });
 
             return viewModel;
         }

@@ -101,6 +101,8 @@ namespace Agribusiness.Web.Controllers
                     if (sp.Paid)
                     {
                         _notificationService.RemoveFromMailingList(sp.Seminar, sp.Person, MailingLists.PaymentReminder);
+                        _notificationService.RemoveFromMailingList(sp.Seminar, sp.Person, MailingLists.Registered);
+                        _notificationService.AddToMailingList(sp.Seminar, sp.Person, MailingLists.Attending);
                     }
 
                     _seminarPersonRepository.EnsurePersistent(sp);

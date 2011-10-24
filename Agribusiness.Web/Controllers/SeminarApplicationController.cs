@@ -95,11 +95,15 @@ namespace Agribusiness.Web.Controllers
                     // add user to the reminder emails
                     _notificationService.AddToMailingList(application.Seminar, person, MailingLists.PaymentReminder);
                     _notificationService.AddToMailingList(application.Seminar, person, MailingLists.HotelReminder);
-
-                    if (string.IsNullOrWhiteSpace(person.Biography)) _notificationService.AddToMailingList(application.Seminar, person, MailingLists.BioReminder);
                     if (person.OriginalPicture == null) _notificationService.AddToMailingList(application.Seminar, person, MailingLists.PhotoReminder);
-
+                    if (string.IsNullOrWhiteSpace(person.Biography)) _notificationService.AddToMailingList(application.Seminar, person, MailingLists.BioReminder);
                 }
+                else
+                {
+                    _notificationService.AddToMailingList(application.Seminar, person, MailingLists.Denied);
+                }
+
+                _notificationService.RemoveFromMailingList(application.Seminar, person, MailingLists.Applied);
 
                 return this.RedirectToAction<SeminarApplicationController>(a => a.Index());
             }
@@ -131,7 +135,7 @@ namespace Agribusiness.Web.Controllers
         [MembershipUserOnly]
         public ActionResult Apply()
         {
-            var viewModel = ApplicationViewModel.Create(Repository, _firmService, CurrentUser.Identity.Name);
+            var viewModel = ApplicationViewModel.Create(Repository, _firmService, _seminarService, CurrentUser.Identity.Name);
             return View(viewModel);
         }
 
@@ -145,23 +149,31 @@ namespace Agribusiness.Web.Controllers
             application.User = Repository.OfType<User>().Queryable.Where(a => a.LoweredUserName == CurrentUser.Identity.Name.ToLower()).FirstOrDefault();
 
             // requires assistant
-            if (application.CommunicationOption.RequiresAssistant)
+            if (application.CommunicationOption == null)
             {
-                if (string.IsNullOrWhiteSpace(application.AssistantName))
-                {
-                    ModelState.AddModelError("Assistant Name", "Becuase of your communication preference an Assistant Name is required.");
-                }
-
-                if (string.IsNullOrWhiteSpace(application.AssistantPhone))
-                {
-                    ModelState.AddModelError("Assistant Name", "Becuase of your communication preference an Assistant Phone is required.");
-                }
-
-                if (string.IsNullOrWhiteSpace(application.AssistantEmail))
-                {
-                    ModelState.AddModelError("Assistant Name", "Becuase of your communication preference an Assistant Email is required.");
-                }
+                ModelState.AddModelError("Communication Option", "No communication option was selected.");
             }
+            else
+            {
+                if (application.CommunicationOption.RequiresAssistant)
+                {
+                    if (string.IsNullOrWhiteSpace(application.AssistantName))
+                    {
+                        ModelState.AddModelError("Assistant Name", "Becuase of your communication preference an Assistant Name is required.");
+                    }
+
+                    if (string.IsNullOrWhiteSpace(application.AssistantPhone))
+                    {
+                        ModelState.AddModelError("Assistant Name", "Becuase of your communication preference an Assistant Phone is required.");
+                    }
+
+                    if (string.IsNullOrWhiteSpace(application.AssistantEmail))
+                    {
+                        ModelState.AddModelError("Assistant Name", "Becuase of your communication preference an Assistant Email is required.");
+                    }
+                }    
+            }
+            
 
             if (file != null)
             {
@@ -176,11 +188,16 @@ namespace Agribusiness.Web.Controllers
             if (ModelState.IsValid)
             {
                 _applicationRepository.EnsurePersistent(application);
+
+                // deal with the mailing list
+                _notificationService.RemoveFromMailingList(application.Seminar, application.User.Person, MailingLists.Invitation);
+                _notificationService.AddToMailingList(application.Seminar, application.User.Person, MailingLists.Applied);
+
                 Message = string.Format(Messages.Saved, "Application");
                 return this.RedirectToAction<AuthorizedController>(a => a.Index());
             }
 
-            var viewModel = ApplicationViewModel.Create(Repository, _firmService, CurrentUser.Identity.Name, application);
+            var viewModel = ApplicationViewModel.Create(Repository, _firmService, _seminarService, CurrentUser.Identity.Name, application);
             return View(viewModel);
         }
         #endregion
