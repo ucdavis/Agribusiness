@@ -17,8 +17,7 @@ while(@@FETCH_STATUS = 0)
 begin
 
 	exec msdb.dbo.sp_send_dbmail
-		@profile_name = 'Agribusiness',
-		@from_address = @from,
+		@from_address = 'agribusiness@ucdavis.edu',
 		@reply_to = 'agribusiness@ucdavis.edu',
 		@recipients = @email,
 		@subject = @subject,
