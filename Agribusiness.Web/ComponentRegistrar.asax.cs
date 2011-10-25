@@ -27,6 +27,7 @@ namespace Agribusiness.Web
 
             container.Register(Component.For<IRegistrationService>().ImplementedBy<RegistrationService>().Named("RegistrationService"));
             container.Register(Component.For<INotificationService>().ImplementedBy<NotificationService>().Named("NotificationService"));
+            container.Register(Component.For<IEventService>().ImplementedBy<EventService>().Named("EventService"));
             container.Register(Component.For<IvCardService>().ImplementedBy<vCardService>().Named("vCardService"));
         }
 

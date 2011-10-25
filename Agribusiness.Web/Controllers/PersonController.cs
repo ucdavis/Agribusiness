@@ -40,13 +40,13 @@ namespace Agribusiness.Web.Controllers
         private readonly ISeminarService _seminarService;
         private readonly IRegistrationService _registrationService;
         private readonly IvCardService _vCardService;
-        private readonly INotificationService _notificationService;
+        private readonly IEventService _eventService;
         private readonly IMembershipService _membershipService;
 
         public PersonController(IRepository<Person> personRepository, IRepositoryWithTypedId<User, Guid> userRepository, IRepositoryWithTypedId<SeminarRole, string> seminarRoleRepository
             , IRepository<SeminarPerson> seminarPersonRepository, IRepository<Seminar> seminarRepository
             , IPictureService pictureService, IPersonService personService, IFirmService firmService, ISeminarService seminarService, IRegistrationService registrationService
-            , IvCardService vCardService, INotificationService notificationService)
+            , IvCardService vCardService,IEventService eventService)
         {
             _personRepository = personRepository;
             _userRepository = userRepository;
@@ -59,7 +59,7 @@ namespace Agribusiness.Web.Controllers
             _seminarService = seminarService;
             _registrationService = registrationService;
             _vCardService = vCardService;
-            _notificationService = notificationService;
+            _eventService = eventService;
 
             _membershipService = new AccountMembershipService();
         }
@@ -291,14 +291,7 @@ namespace Agribusiness.Web.Controllers
             _personRepository.EnsurePersistent(person);
             Message = string.Format(Messages.Saved, "Biography");
 
-            if (!string.IsNullOrWhiteSpace(biographytxt))
-            {
-                var seminar = _seminarRepository.GetNullableById(seminarId);
-                if (seminar != null)
-                {
-                    _notificationService.RemoveFromMailingList(seminar, person, MailingLists.BioReminder);    
-                }
-            }
+            _eventService.BioUpdate(person);
 
             var url = Url.Action("AdminEdit", new {id = person.User.Id, seminarId = seminarId});
             return Redirect(string.Format("{0}#biography", url));
@@ -437,10 +430,7 @@ namespace Agribusiness.Web.Controllers
             reg.RoomType = hotelPostModel.RoomType;
             reg.HotelComments = hotelPostModel.Comments;
 
-            if (!string.IsNullOrWhiteSpace(reg.HotelConfirmation))
-            {
-                _notificationService.RemoveFromMailingList(seminar, person, MailingLists.HotelReminder);
-            }
+            _eventService.HotelUpdate(person);
 
             // save
             _seminarPersonRepository.EnsurePersistent(reg);
@@ -517,14 +507,9 @@ namespace Agribusiness.Web.Controllers
             reg.TransactionId = transactionId;
             reg.Paid = paid;
 
-            if (reg.Paid)
-            {
-                _notificationService.RemoveFromMailingList(seminar, person, MailingLists.Registered);
-                _notificationService.RemoveFromMailingList(seminar, person, MailingLists.PaymentReminder);
-                _notificationService.AddToMailingList(seminar, person, MailingLists.Attending);
-            }
-
             _seminarPersonRepository.EnsurePersistent(reg);
+
+            _eventService.Paid(person);
 
             Message = "Registration information has been updated.";
             var url = Url.Action("AdminEdit", new { id = person.User.Id, seminarId = seminarId });
@@ -716,14 +701,7 @@ namespace Agribusiness.Web.Controllers
                 Message = string.Format(Messages.Saved, "Person");
                 _personRepository.EnsurePersistent(person);
 
-                if (person.OriginalPicture != null && seminarId.HasValue)
-                {
-                    var seminar = _seminarRepository.GetNullableById(seminarId.Value);
-                    if (seminar != null)
-                    {
-                        _notificationService.RemoveFromMailingList(seminar, person, MailingLists.PhotoReminder);    
-                    }
-                }
+                _eventService.PhotoUpdate(person);
 
                 if (seminarId.HasValue)
                 {

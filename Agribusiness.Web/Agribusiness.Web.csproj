@@ -186,7 +186,9 @@
     <Compile Include="Models\ReportViewModel.cs" />
     <Compile Include="Models\SessionPersonViewModel.cs" />
     <Compile Include="Models\TemplateViewModel.cs" />
+    <Compile Include="Services\EventService.cs" />
     <Compile Include="Services\FirmService.cs" />
+    <Compile Include="Services\IEventService.cs" />
     <Compile Include="Services\IFirmService.cs" />
     <Compile Include="Services\INotificationService.cs" />
     <Compile Include="Services\IPersonService.cs" />
@@ -518,7 +520,9 @@
     <Content Include="Scripts\tiny_mce\utils\mctabs.js" />
     <Content Include="Scripts\tiny_mce\utils\validate.js" />
     <Content Include="UCDArch.txt" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

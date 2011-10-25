@@ -26,13 +26,15 @@ namespace Agribusiness.Web.Controllers
         private readonly IFirmService _firmService;
         private readonly ISeminarService _seminarService;
         private readonly INotificationService _notificationService;
+        private readonly IEventService _eventService;
 
-        public SeminarApplicationController(IRepository<Application> applicationRepository, IFirmService firmService, ISeminarService seminarService, INotificationService notificationService)
+        public SeminarApplicationController(IRepository<Application> applicationRepository, IFirmService firmService, ISeminarService seminarService, INotificationService notificationService, IEventService eventService)
         {
             _applicationRepository = applicationRepository;
             _firmService = firmService;
             _seminarService = seminarService;
             _notificationService = notificationService;
+            _eventService = eventService;
         }
 
         [UserOnly]
@@ -90,20 +92,12 @@ namespace Agribusiness.Web.Controllers
 
                 if (isApproved)
                 {
-                    _notificationService.AddToMailingList(application.Seminar, person, MailingLists.Registered);
-
-                    // add user to the reminder emails
-                    _notificationService.AddToMailingList(application.Seminar, person, MailingLists.PaymentReminder);
-                    _notificationService.AddToMailingList(application.Seminar, person, MailingLists.HotelReminder);
-                    if (person.OriginalPicture == null) _notificationService.AddToMailingList(application.Seminar, person, MailingLists.PhotoReminder);
-                    if (string.IsNullOrWhiteSpace(person.Biography)) _notificationService.AddToMailingList(application.Seminar, person, MailingLists.BioReminder);
+                    _eventService.Accepted(person);
                 }
                 else
                 {
-                    _notificationService.AddToMailingList(application.Seminar, person, MailingLists.Denied);
+                   _eventService.Denied(person);
                 }
-
-                _notificationService.RemoveFromMailingList(application.Seminar, person, MailingLists.Applied);
 
                 return this.RedirectToAction<SeminarApplicationController>(a => a.Index());
             }
@@ -189,9 +183,7 @@ namespace Agribusiness.Web.Controllers
             {
                 _applicationRepository.EnsurePersistent(application);
 
-                // deal with the mailing list
-                _notificationService.RemoveFromMailingList(application.Seminar, application.User.Person, MailingLists.Invitation);
-                _notificationService.AddToMailingList(application.Seminar, application.User.Person, MailingLists.Applied);
+                _eventService.Apply(application.User.Person);
 
                 Message = string.Format(Messages.Saved, "Application");
                 return this.RedirectToAction<AuthorizedController>(a => a.Index());

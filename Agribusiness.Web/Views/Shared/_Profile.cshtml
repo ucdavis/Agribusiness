@@ -67,7 +67,7 @@
                     <div class="display-details">@a.Zip</div>
                 </li>
                 <li><div class="display-label">Country:</div>
-                    <div class="display-details">@a.Country.Name</div>
+                    <div class="display-details">@(a.Country != null ? a.Country.Name : "n/a")</div>
                 </li>
             </ul>
         }

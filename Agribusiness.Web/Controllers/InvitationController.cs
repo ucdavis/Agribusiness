@@ -22,12 +22,14 @@ namespace Agribusiness.Web.Controllers
 	    private readonly IRepository<Invitation> _invitationRepository;
         private readonly ISeminarService _seminarService;
         private readonly INotificationService _notificationService;
+        private readonly IEventService _eventService;
 
-        public InvitationController(IRepository<Invitation> invitationRepository, ISeminarService seminarService, INotificationService notificationService )
+        public InvitationController(IRepository<Invitation> invitationRepository, ISeminarService seminarService, INotificationService notificationService, IEventService eventService )
         {
             _invitationRepository = invitationRepository;
             _seminarService = seminarService;
             _notificationService = notificationService;
+            _eventService = eventService;
         }
 
         /// <summary>
@@ -95,8 +97,7 @@ namespace Agribusiness.Web.Controllers
                 var invitation = new Invitation(person){Title=title, FirmName = firmname, Seminar = seminar};
                 _invitationRepository.EnsurePersistent(invitation);
 
-                // add to the mailing list too
-                _notificationService.AddToMailingList(seminar, person, MailingLists.Invitation);
+                _eventService.Invite(person);
 
                 return true;
             }
