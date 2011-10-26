@@ -5,7 +5,7 @@
 -----------------------------------------
 
 -- null out emails that don't exist
-update agbizinvitees
+update AgbizInviteesFinal
 set [email address] = null
 where len([email address]) < 5
 
@@ -145,12 +145,12 @@ deallocate @cursor
 -----------------------------------------
 
 -- convert the codes that are not usa
-update agbizinvitees set [firm's country] = 'CAN' where [firm's country] = 'Canada'
-update agbizinvitees set [firm's country] = 'MEX' where [firm's country] = 'Mexico'
-update agbizinvitees set [firm's country] = 'CHL' where [firm's country] = 'Chile'
+update AgbizInviteesFinal set [firm's country] = 'CAN' where [firm's country] = 'Canada'
+update AgbizInviteesFinal set [firm's country] = 'MEX' where [firm's country] = 'Mexico'
+update AgbizInviteesFinal set [firm's country] = 'CHL' where [firm's country] = 'Chile'
 
-update agbizinvitees set [courier's country] = 'MEX' where [courier's country] = 'Mexico'
-update agbizinvitees set [courier's country] = 'CHL' where [courier's country] = 'Chile'
+update AgbizInviteesFinal set [courier's country] = 'MEX' where [courier's country] = 'Mexico'
+update AgbizInviteesFinal set [courier's country] = 'CHL' where [courier's country] = 'Chile'
 
 insert into agribusiness.dbo.addresses (personid, line1, city, state, countryid, zip, addresstypeid)
 select distinct p.id, ai.[firm's address], isnulL(ai.[firm's city], 'n/a'), isnull(ai.[ state], 'n/a'), ai.[firm's country], isnull(ai.[zip], 'n/a'), 'B'
