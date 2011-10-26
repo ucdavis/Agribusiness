@@ -40,7 +40,8 @@ namespace Agribusiness.Web.Models
             var seminar = seminarService.GetCurrent();
 
             // has this person been invited to the current seminar?
-            var invited = seminar.MailingLists.Where(a => a.Name == MailingLists.Invitation && a.People.Where(b => b.User.UserName == userId).Any()).Any();
+            //var invited = seminar.MailingLists.Where(a => a.Name == MailingLists.Invitation && a.People.Where(b => b.User.UserName == userId).Any()).Any();
+            var invited = seminar.Invitations.Where(a => a.Person.User.UserName == userId).Any();
 
             var viewModel = new AuthorizedViewModel()
                                 {

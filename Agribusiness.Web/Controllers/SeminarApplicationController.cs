@@ -27,14 +27,16 @@ namespace Agribusiness.Web.Controllers
         private readonly ISeminarService _seminarService;
         private readonly INotificationService _notificationService;
         private readonly IEventService _eventService;
+        private readonly IPictureService _pictureService;
 
-        public SeminarApplicationController(IRepository<Application> applicationRepository, IFirmService firmService, ISeminarService seminarService, INotificationService notificationService, IEventService eventService)
+        public SeminarApplicationController(IRepository<Application> applicationRepository, IFirmService firmService, ISeminarService seminarService, INotificationService notificationService, IEventService eventService, IPictureService pictureService)
         {
             _applicationRepository = applicationRepository;
             _firmService = firmService;
             _seminarService = seminarService;
             _notificationService = notificationService;
             _eventService = eventService;
+            _pictureService = pictureService;
         }
 
         [UserOnly]
@@ -214,7 +216,8 @@ namespace Agribusiness.Web.Controllers
                 return File(img, "image/jpeg");    
             }
 
-            return File(application.Photo, application.ContentType);
+            var resized = _pictureService.MakeMainProfile(application.Photo);
+            return File(resized, application.ContentType);
         }
     }
 }
