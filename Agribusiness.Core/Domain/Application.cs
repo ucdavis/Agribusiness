@@ -102,6 +102,7 @@ namespace Agribusiness.Core.Domain
 
         public virtual bool IsPending { get; set; }
         public virtual bool IsApproved { get; set; }
+        [Display(Name="Date Submitted")]
         public virtual DateTime DateSubmitted { get; set; }
         public virtual DateTime? DateDecision { get; set; }
         public virtual string DecisionReason { get; set; }
