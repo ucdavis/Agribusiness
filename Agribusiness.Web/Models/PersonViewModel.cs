@@ -81,7 +81,7 @@ namespace Agribusiness.Web.Models
             firms.Add(new Firm() { Name = "Other (Not Listed)" });
 
             viewModel.Firms = firms;
-            viewModel.UserName = person.User.UserName;
+            if (viewModel.Person.User != null) viewModel.UserName = viewModel.Person.User.UserName;
 
             return viewModel;
         }
