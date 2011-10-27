@@ -167,13 +167,14 @@ namespace Agribusiness.Web.Models
                 var body = string.Format("Your password has been reset to : {0} <br/><br/>Please log in immediately and change your password.", newPassword);
                 
                 var client = new SmtpClient();
-                var message = new MailMessage("automatedemail@caes.ucdavis.edu", userName, "Agribusiness Password Reset", body);
+                var message = new MailMessage("automatedemail@caes.ucdavis.edu", user.Email, "Agribusiness Password Reset", body);
+                message.IsBodyHtml = true;
 
                 client.Send(message);
 
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return false;
             }

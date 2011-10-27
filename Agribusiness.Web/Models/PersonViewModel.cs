@@ -25,6 +25,8 @@ namespace Agribusiness.Web.Models
         public SeminarPerson SeminarPerson { get; set; }
         public Firm Firm { get; set; }
 
+        public string UserName { get; set; }
+
         public static PersonViewModel Create(IRepository repository, IFirmService firmService, Seminar seminar = null, Person person = null, string email = null, Firm firm = null)
         {
             Check.Require(repository != null, "Repository must be supplied");
@@ -79,6 +81,7 @@ namespace Agribusiness.Web.Models
             firms.Add(new Firm() { Name = "Other (Not Listed)" });
 
             viewModel.Firms = firms;
+            viewModel.UserName = person.User.UserName;
 
             return viewModel;
         }

@@ -20,6 +20,7 @@ using UCDArch.Web.ActionResults;
 using UCDArch.Web.Helpers;
 using MvcContrib;
 using INotificationService = Agribusiness.Web.Services.INotificationService;
+using Membership = Agribusiness.Core.Domain.Membership;
 
 namespace Agribusiness.Web.Controllers
 {
@@ -34,6 +35,7 @@ namespace Agribusiness.Web.Controllers
         private readonly IRepositoryWithTypedId<SeminarRole, string> _seminarRoleRepository;
         private readonly IRepository<SeminarPerson> _seminarPersonRepository;
         private readonly IRepository<Seminar> _seminarRepository;
+        private readonly IRepositoryWithTypedId<Membership, Guid> _membershipRepository;
         private readonly IPictureService _pictureService;
         private readonly IPersonService _personService;
         private readonly IFirmService _firmService;
@@ -44,7 +46,7 @@ namespace Agribusiness.Web.Controllers
         private readonly IMembershipService _membershipService;
 
         public PersonController(IRepository<Person> personRepository, IRepositoryWithTypedId<User, Guid> userRepository, IRepositoryWithTypedId<SeminarRole, string> seminarRoleRepository
-            , IRepository<SeminarPerson> seminarPersonRepository, IRepository<Seminar> seminarRepository
+            , IRepository<SeminarPerson> seminarPersonRepository, IRepository<Seminar> seminarRepository, IRepositoryWithTypedId<Agribusiness.Core.Domain.Membership, Guid>  membershipRepository
             , IPictureService pictureService, IPersonService personService, IFirmService firmService, ISeminarService seminarService, IRegistrationService registrationService
             , IvCardService vCardService,IEventService eventService)
         {
@@ -53,6 +55,7 @@ namespace Agribusiness.Web.Controllers
             _seminarRoleRepository = seminarRoleRepository;
             _seminarPersonRepository = seminarPersonRepository;
             _seminarRepository = seminarRepository;
+            _membershipRepository = membershipRepository;
             _pictureService = pictureService;
             _personService = personService;
             _firmService = firmService;
@@ -170,7 +173,7 @@ namespace Agribusiness.Web.Controllers
 
             var person = personEditModel.Person;
 
-            var user = _userRepository.Queryable.Where(a => a.UserName == personEditModel.Email).FirstOrDefault();
+            var user = _userRepository.Queryable.Where(a => a.UserName == personEditModel.UserName).FirstOrDefault();
             person.User = user;
 
             SeminarPerson seminarPerson = null;
@@ -189,12 +192,12 @@ namespace Agribusiness.Web.Controllers
             {
 
                 // try to create the user
-                var createStatus = _membershipService.CreateUser(personEditModel.Email
+                var createStatus = _membershipService.CreateUser(personEditModel.UserName
                                               , Guid.NewGuid().ToString().Replace("-", string.Empty).Substring(0, 10)
                                               , personEditModel.Email);
 
                 // retrieve the user to assign
-                var createdUser = _userRepository.Queryable.Where(a => a.LoweredUserName == personEditModel.Email).FirstOrDefault();
+                var createdUser = _userRepository.Queryable.Where(a => a.LoweredUserName == personEditModel.UserName).FirstOrDefault();
                 person.User = createdUser;
 
                 // save only if user creation was successful
@@ -229,7 +232,7 @@ namespace Agribusiness.Web.Controllers
 
             ViewBag.AllList = allList ?? false;
 
-            var viewModel = AdminPersonViewModel.Create(Repository, _firmService, _seminarService, seminarId, user.Person, user.LoweredUserName);
+            var viewModel = AdminPersonViewModel.Create(Repository, _firmService, _seminarService, seminarId, user.Person, user.Email);
 
             if (viewModel.PersonViewModel.SeminarPerson == null) viewModel.SeminarId = null;
 
@@ -251,9 +254,16 @@ namespace Agribusiness.Web.Controllers
             var seminarPerson = _seminarPersonRepository.GetNullableById(personEditModel.SeminarPersonId);
             var person = SetPerson(personEditModel, seminarPerson, ModelState, user.Person, profilepic);
 
+            var membership = user.Membership;
+            user.SetUserName(personEditModel.UserName);
+            membership.SetEmail(personEditModel.Email);
+
             if (ModelState.IsValid)
             {
                 _personRepository.EnsurePersistent(person);
+                _userRepository.EnsurePersistent(user);
+                _membershipRepository.EnsurePersistent(membership);
+
                 if (seminarPerson != null) _seminarPersonRepository.EnsurePersistent(seminarPerson);
                 Message = string.Format(Messages.Saved, "Person");
 
@@ -263,7 +273,7 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction(a => a.AdminEdit(person.User.Id, seminarId, null));
             }
 
-            var viewModel = AdminPersonViewModel.Create(Repository, _firmService, _seminarService, seminarId, user.Person, user.LoweredUserName);
+            var viewModel = AdminPersonViewModel.Create(Repository, _firmService, _seminarService, seminarId, user.Person, user.Email);
             return View(viewModel);
         }
 
@@ -385,7 +395,7 @@ namespace Agribusiness.Web.Controllers
             }
 
             // create new coupon
-            var coupon = _registrationService.GenerateCoupon(seminar.RegistrationId.Value, person.User.LoweredUserName, couponAmount);
+            var coupon = _registrationService.GenerateCoupon(seminar.RegistrationId.Value, person.User.Email, couponAmount);
 
             if (!string.IsNullOrWhiteSpace(coupon))
             {
@@ -600,7 +610,7 @@ namespace Agribusiness.Web.Controllers
 
             var person = user.Person;
 
-            var viewModel = PersonViewModel.Create(Repository, _firmService, null, person, user.LoweredUserName);
+            var viewModel = PersonViewModel.Create(Repository, _firmService, null, person, user.Email);
             return View(viewModel);
         }
 
@@ -631,16 +641,31 @@ namespace Agribusiness.Web.Controllers
             var seminarPerson = _seminarPersonRepository.GetNullableById(personEditModel.SeminarPersonId);
             var person = SetPerson(personEditModel, seminarPerson, ModelState, user.Person, profilepic);
 
+            var membership = user.Membership;
+            membership.SetEmail(personEditModel.Email);
+
             if (ModelState.IsValid)
             {
                 _personRepository.EnsurePersistent(person);
+                _membershipRepository.EnsurePersistent(membership);
+
                 Message = string.Format(Messages.Saved, "Person");
+
+                if (personEditModel.UserName != CurrentUser.Identity.Name.ToLower())
+                {
+                    user.SetUserName(personEditModel.UserName);
+                    _userRepository.EnsurePersistent(user);
+
+                    var formsService = new FormsAuthenticationService();
+                    formsService.SignOut();
+                    formsService.SignIn(user.LoweredUserName, false);
+                }
 
                 // send to crop photo if one was uploaded
                 if (profilepic != null) return this.RedirectToAction(a => a.UpdateProfilePicture(person.Id, null));
             }
 
-            var viewModel = PersonViewModel.Create(Repository, _firmService, null, person, user.LoweredUserName);
+            var viewModel = PersonViewModel.Create(Repository, _firmService, null, person, user.Email);
             return View(viewModel);
         }
         #endregion

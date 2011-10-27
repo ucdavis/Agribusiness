@@ -55,6 +55,9 @@
 		<legend>Contact Information</legend>
 
 		<ul>
+            <li><div class="editor-label">Username</div>
+                <div class="editor-field">@Html.EditorFor(a => a.UserName)</div>
+            </li>
             <li><div class="editor-label required">
                     @Html.LabelFor(a=>a.Email)
                     <span>*</span>

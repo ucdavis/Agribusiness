@@ -96,7 +96,7 @@ form .text_field, form .text_area  {min-width:200px;}
 .required span, span.required {color:#FF0000;}
 input.button {font-size: 1.2em; padding: 8px 15px 3px;}
 
-div.editor-field input[type='text'], div.editor-field input[type='email'], div.editor-field input[type='url'], div.editor-field textarea, div.editor-field select, div.editor-field input[type='tel'] {min-width: 200px;}
+div.editor-field input[type='text'], div.editor-field input[type='email'], div.editor-field input[type='url'], div.editor-field textarea, div.editor-field select, div.editor-field input[type='tel'] {min-width: 200px;padding: .4em;}
 
 /* ---------------- */
 /*   display form   */

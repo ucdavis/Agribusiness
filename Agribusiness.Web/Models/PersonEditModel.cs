@@ -15,6 +15,7 @@ namespace Agribusiness.Web.Models
         public IList<Commodity> Commodities { get; set; }
         public string Email { get; set; }
         public Firm Firm { get; set; }
+        public string UserName { get; set; }
 
         public string FirmName { get; set; }
         public string FirmDescription { get; set; }
@@ -27,5 +28,7 @@ namespace Agribusiness.Web.Models
             Contacts = new List<Contact>();
             Commodities = new List<Commodity>();
         }
+
+        
     }
 }
