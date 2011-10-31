@@ -29,7 +29,6 @@ namespace Agribusiness.Core.Domain
         [StringLength(50)]
         [Display(Name="Last Name")]
         public virtual string LastName { get; set; }
-        [Required]
         [DataType(DataType.PhoneNumber)]
         public virtual string Phone { get; set; }
         [Email]
