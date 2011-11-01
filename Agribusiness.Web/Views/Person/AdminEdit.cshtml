@@ -144,6 +144,7 @@
         <div id="profile">
             @using (Html.BeginForm("AdminEdit", "Person", FormMethod.Post, new { enctype = "multipart/form-data" }))
             { 
+                @Html.ValidationSummary(false)
                 @Html.Hidden("seminarId", Model.SeminarId)
                 @Html.Partial("_PersonForm", Model.PersonViewModel)
             }

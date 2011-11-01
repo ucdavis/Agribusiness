@@ -43,7 +43,8 @@ namespace Agribusiness.Web.Helpers
                 .ForMember(x => x.Fax, x => x.MapFrom(a => a.Person.Fax))
                 .ForMember(x => x.ContactInformationRelease, x => x.MapFrom(a=>a.Person.ContactInformationRelease))
                 .ForMember(x => x.Addresses, x => x.Ignore())
-                .ForMember(x => x.Contacts, x => x.Ignore());
+                .ForMember(x => x.Contacts, x => x.Ignore())
+                .ForMember(x => x.CommunicationOption, x=>x.MapFrom(a =>a.Person.CommunicationOption));
 
             CreateMap<Address, Address>()
                 .ForMember(x => x.Id, x => x.Ignore())

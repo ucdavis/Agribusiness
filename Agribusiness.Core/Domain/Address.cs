@@ -35,7 +35,7 @@ namespace Agribusiness.Core.Domain
         [StringLength(50)]
         public virtual string State { get; set; }
         [Required]
-        [StringLength(10)]
+        [StringLength(15)]
         public virtual string Zip { get; set; }
 
         [Required]

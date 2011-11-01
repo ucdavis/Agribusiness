@@ -241,7 +241,7 @@ namespace Agribusiness.Web.Controllers
 
         [UserOnly]
         [HttpPost]
-        public ActionResult AdminEdit(Guid id, int? seminarId, PersonEditModel personEditModel, HttpPostedFileBase profilepic)
+        public ActionResult AdminEdit(Guid id, int? seminarId, bool? allList, PersonEditModel personEditModel, HttpPostedFileBase profilepic)
         {
             var user = _userRepository.GetNullableById(id);
             
@@ -273,6 +273,7 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction(a => a.AdminEdit(person.User.Id, seminarId, null));
             }
 
+            ViewBag.AllList =  allList ?? false;
             var viewModel = AdminPersonViewModel.Create(Repository, _firmService, _seminarService, seminarId, user.Person, user.Email);
             return View(viewModel);
         }
