@@ -16,13 +16,15 @@ namespace Agribusiness.Web.Services
         private readonly IRepository<Person> _personRepository;
         private readonly IRepository<Firm> _firmRepository;
         private readonly IRepositoryWithTypedId<AddressType, char> _addressTypeRepository;
+        private readonly IRepositoryWithTypedId<ContactType, char> _contactTypeRepository;
 
-        public SeminarService(IRepository<Seminar> seminarRepository, IRepository<Person> personRepository, IRepository<Firm> firmRepository, IRepositoryWithTypedId<AddressType, char> addressTypeRepository)
+        public SeminarService(IRepository<Seminar> seminarRepository, IRepository<Person> personRepository, IRepository<Firm> firmRepository, IRepositoryWithTypedId<AddressType, char> addressTypeRepository, IRepositoryWithTypedId<ContactType, char> contactTypeRepository)
         {
             _seminarRepository = seminarRepository;
             _personRepository = personRepository;
             _firmRepository = firmRepository;
             _addressTypeRepository = addressTypeRepository;
+            _contactTypeRepository = contactTypeRepository;
         }
 
         public Seminar GetCurrent()
@@ -77,6 +79,29 @@ namespace Agribusiness.Web.Services
                                       , application.FirmState, application.FirmZip, addrType, person);
             person.AddAddress(address);
 
+            // transfer the assistant information
+            var assistantType = _contactTypeRepository.GetNullableById('A');
+            var assistant = person.Contacts.Where(a => a.ContactType == assistantType).FirstOrDefault();
+            
+            if (!string.IsNullOrWhiteSpace(application.AssistantFirstName) && !string.IsNullOrWhiteSpace(application.AssistantLastName) && (!string.IsNullOrWhiteSpace(application.AssistantPhone) || !string.IsNullOrWhiteSpace(application.AssistantEmail)))
+            {
+                if (assistant != null)
+                {
+                    assistant.FirstName = application.AssistantFirstName;
+                    assistant.LastName = application.AssistantLastName;
+                    assistant.Email = application.AssistantEmail;
+                    assistant.Phone = application.AssistantPhone;    
+                }
+                else
+                {
+                    var newAssistant = new Contact(application.AssistantFirstName, application.AssistantLastName, application.AssistantPhone, assistantType, person);
+                    newAssistant.Email = application.AssistantEmail;
+
+                    person.AddContact(newAssistant);
+                }
+                
+            }
+            
             person.TransferValidationMessagesTo(modelState);
             seminarPerson.TransferValidationMessagesTo(modelState);
 
