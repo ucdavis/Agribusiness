@@ -289,11 +289,11 @@
       </PropertyElementName>
       <PropertyElementName>
         <Name>TargetDatabaseName</Name>
-        <Value>agribusiness</Value>
+        <Value>Agribusiness</Value>
       </PropertyElementName>
       <PropertyElementName>
         <Name>TargetConnectionString</Name>
-        <Value>Data Source=donbot;Initial Catalog=agribusiness;Integrated Security=True;Pooling=False</Value>
+        <Value>Data Source=.\sqlexpress;Initial Catalog=agribusiness;Integrated Security=True;Pooling=False</Value>
       </PropertyElementName>
       <PropertyElementName>
         <Name>VerifyDeployment</Name>
@@ -309,126 +309,12 @@
       </PropertyElementName>
     </ConfigurationOptionsElement>
   </SchemaCompareSettingsService>
-  <ExcludedSourceElements>
-    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100File, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>Agribusiness</Name>
-    </SelectedItem>
-    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100File, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>Agribusiness_log</Name>
-    </SelectedItem>
-  </ExcludedSourceElements>
+  <ExcludedSourceElements />
   <ExcludedTargetElements>
     <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100PermissionStatement, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Name>
       </Name>
       <ScriptHashCode>-1123893095</ScriptHashCode>
-    </SelectedItem>
-    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100File, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>agribusiness</Name>
-    </SelectedItem>
-    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100File, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>agribusiness_log</Name>
-    </SelectedItem>
-    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100User, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>prodapp</Name>
-    </SelectedItem>
-    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100User, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>testapp</Name>
-    </SelectedItem>
-    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100PermissionStatement, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>
-      </Name>
-      <ScriptHashCode>-1123893095</ScriptHashCode>
-    </SelectedItem>
-    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100PermissionStatement, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>
-      </Name>
-      <ParentItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100Schema, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-        <Name>dbo</Name>
-      </ParentItem>
-      <ScriptHashCode>286723306</ScriptHashCode>
-    </SelectedItem>
-    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100PermissionStatement, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>
-      </Name>
-      <ParentItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100Schema, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-        <Name>dbo</Name>
-      </ParentItem>
-      <ScriptHashCode>834038911</ScriptHashCode>
-    </SelectedItem>
-    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100PermissionStatement, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>
-      </Name>
-      <ParentItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100Schema, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-        <Name>dbo</Name>
-      </ParentItem>
-      <ScriptHashCode>-383358852</ScriptHashCode>
-    </SelectedItem>
-    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100PermissionStatement, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>
-      </Name>
-      <ParentItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100Schema, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-        <Name>dbo</Name>
-      </ParentItem>
-      <ScriptHashCode>1583066820</ScriptHashCode>
-    </SelectedItem>
-    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100PermissionStatement, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>
-      </Name>
-      <ScriptHashCode>-951564201</ScriptHashCode>
-    </SelectedItem>
-    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100PermissionStatement, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>
-      </Name>
-      <ScriptHashCode>-64561170</ScriptHashCode>
-    </SelectedItem>
-    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100PermissionStatement, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>
-      </Name>
-      <ParentItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100Schema, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-        <Name>dbo</Name>
-      </ParentItem>
-      <ScriptHashCode>-1783466625</ScriptHashCode>
-    </SelectedItem>
-    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100PermissionStatement, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>
-      </Name>
-      <ParentItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100Schema, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-        <Name>dbo</Name>
-      </ParentItem>
-      <ScriptHashCode>457411873</ScriptHashCode>
-    </SelectedItem>
-    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100PermissionStatement, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>
-      </Name>
-      <ParentItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100Schema, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-        <Name>dbo</Name>
-      </ParentItem>
-      <ScriptHashCode>933709115</ScriptHashCode>
-    </SelectedItem>
-    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100PermissionStatement, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>
-      </Name>
-      <ParentItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100Schema, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-        <Name>dbo</Name>
-      </ParentItem>
-      <ScriptHashCode>-334839413</ScriptHashCode>
-    </SelectedItem>
-    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100PermissionStatement, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>
-      </Name>
-      <ParentItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100Schema, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-        <Name>dbo</Name>
-      </ParentItem>
-      <ScriptHashCode>204279552</ScriptHashCode>
-    </SelectedItem>
-    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100PermissionStatement, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>
-      </Name>
-      <ParentItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100Schema, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-        <Name>dbo</Name>
-      </ParentItem>
-      <ScriptHashCode>2026110926</ScriptHashCode>
     </SelectedItem>
   </ExcludedTargetElements>
 </SchemaComparison>
