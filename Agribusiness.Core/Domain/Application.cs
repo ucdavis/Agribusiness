@@ -40,8 +40,11 @@ namespace Agribusiness.Core.Domain
         public virtual byte[] Photo { get; set; }
         public virtual string ContentType { get; set; }
         [StringLength(100)]
-        [Display(Name = "Assistant Name")]
-        public virtual string AssistantName { get; set; }
+        [Display(Name = "Assistant First Name")]
+        public virtual string AssistantFirstName { get; set; }
+        [StringLength(50)]
+        [Display(Name="Assistant Last Name")]
+        public virtual string AssistantLastName { get; set; }
         [DataType(DataType.PhoneNumber)]
         [Display(Name = "Assistant Phone")]
         public virtual string AssistantPhone { get; set; }
@@ -153,7 +156,8 @@ namespace Agribusiness.Core.Domain
             Map(x => x.BadgeName);
             Map(x => x.Photo).LazyLoad().CustomType("BinaryBlob");
             Map(x => x.ContentType);
-            Map(x => x.AssistantName);
+            Map(x => x.AssistantFirstName);
+            Map(x => x.AssistantLastName);
             Map(x => x.AssistantPhone);
             Map(x => x.AssistantEmail);
             Map(x => x.Expectations);

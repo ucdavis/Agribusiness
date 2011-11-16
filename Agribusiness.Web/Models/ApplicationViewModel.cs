@@ -44,15 +44,28 @@ namespace Agribusiness.Web.Models
             // if person is not null, there should be at least one registration (seminar person)
             if (person != null)
             {
+                viewModel.Application.FirstName = person.FirstName;
+                viewModel.Application.MI = person.MI;
+                viewModel.Application.LastName = person.LastName;
+                viewModel.Application.BadgeName = person.BadgeName;
+
+                viewModel.Application.CommunicationOption = person.CommunicationOption;
+                viewModel.Application.ContactInformationRelease = person.ContactInformationRelease;
+
+                // copy assistant information
+                var assistant = person.Contacts.Where(a => a.ContactType.Id == 'A').FirstOrDefault();
+
+                if (assistant != null)
+                {
+                    viewModel.Application.AssistantEmail = assistant.Email;
+                    viewModel.Application.AssistantFirstName = assistant.FirstName;
+                    viewModel.Application.AssistantLastName = assistant.LastName;
+                }
+
                 var seminarPeople = person.GetLatestRegistration();
                 if (seminarPeople != null)
                 {
-                    application.FirstName = person.FirstName;
-                    application.MI = person.MI;
-                    application.LastName = person.LastName;
-                    application.BadgeName = person.BadgeName;
-
-                    application.Firm = seminarPeople.Firm;    
+                    viewModel.Application.Firm = seminarPeople.Firm;    
                 }
             }
 

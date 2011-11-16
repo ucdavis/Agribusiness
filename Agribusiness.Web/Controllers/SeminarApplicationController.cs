@@ -153,7 +153,7 @@ namespace Agribusiness.Web.Controllers
             {
                 if (application.CommunicationOption.RequiresAssistant)
                 {
-                    if (string.IsNullOrWhiteSpace(application.AssistantName))
+                    if (string.IsNullOrWhiteSpace(application.FirstName) && string.IsNullOrWhiteSpace(application.LastName))
                     {
                         ModelState.AddModelError("Assistant Name", "Becuase of your communication preference an Assistant Name is required.");
                     }

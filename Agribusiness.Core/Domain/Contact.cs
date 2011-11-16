@@ -59,6 +59,12 @@ namespace Agribusiness.Core.Domain
                     );
             }
         }
+
+        public virtual string FullName
+        {
+            get { return string.Format("{0} {1}", FirstName, LastName); }
+        }
+
     }
 
     public class ContactMap : ClassMap<Contact>

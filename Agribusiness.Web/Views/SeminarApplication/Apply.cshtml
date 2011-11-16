@@ -284,12 +284,19 @@
         <legend>Communication Option</legend>
 
         <ul>
-        @foreach(var a in Model.CommunicationOptions)
+        @*@foreach(var a in Model.CommunicationOptions)
         {
             <li>
             <input type="radio" name="Application.CommunicationOption" value='@a.Id' /> @a.Description
             </li>
-        }
+        }*@
+
+        <li>
+            <div class="editor-label">&nbsp;</div>
+            <div class="editor-field">
+            @this.Select("Application.CommunicationOption").Options(Model.CommunicationOptions, x=>x.Id, x=>x.Name).FirstOption("--Select Communication Option--").Selected(Model.Application.CommunicationOption != null ? Model.Application.CommunicationOption.Id : string.Empty)    
+            </div>
+        </li>
         </ul>
 
     </fieldset>
@@ -299,11 +306,20 @@
             <ul>
     		    <li>
 			    <div class="editor-label">
-				    @Html.LabelFor(model => model.Application.AssistantName) 
+				    @Html.LabelFor(model => model.Application.AssistantFirstName) 
 			    </div>
 			    <div class="editor-field">
-				    @Html.EditorFor(model => model.Application.AssistantName)
-				    @Html.ValidationMessageFor(model => model.Application.AssistantName)
+				    @Html.EditorFor(model => model.Application.AssistantFirstName)
+				    @Html.ValidationMessageFor(model => model.Application.AssistantFirstName)
+			    </div>
+		    </li>
+    		    <li>
+			    <div class="editor-label">
+				    @Html.LabelFor(model => model.Application.AssistantLastName) 
+			    </div>
+			    <div class="editor-field">
+				    @Html.EditorFor(model => model.Application.AssistantLastName)
+				    @Html.ValidationMessageFor(model => model.Application.AssistantLastName)
 			    </div>
 		    </li>
 		    <li>
@@ -380,10 +396,18 @@
         shared include Email, Phone, Address and Web Site.  
         </p>
 
-        <p style="margin-top: 1em;">
-            @Html.CheckBoxFor(a=>a.Application.ContactInformationRelease) 
-            <text>I Agree</text>
-        </p>
+
+        <ul>
+            <li>
+                <div class="editor-label">&nbsp;</div>
+                <div class="editor-field">
+                    @Html.CheckBoxFor(a=>a.Application.ContactInformationRelease) 
+                    <text>I Agree</text>    
+                </div>
+            </li>
+        </ul>
+
+            
     </fieldset>
     
     <fieldset>
