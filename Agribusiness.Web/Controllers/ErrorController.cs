@@ -24,5 +24,10 @@ namespace Agribusiness.Web.Controllers
             return View();
         }
 
+        public ActionResult FileNotFound()
+        {
+            return View();
+        }
+
     }
 }

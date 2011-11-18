@@ -5,6 +5,7 @@ using Agribusiness.Core.Domain;
 using Agribusiness.Web.Controllers;
 using Agribusiness.Web.Helpers;
 using Castle.Windsor;
+using Elmah;
 using Microsoft.Practices.ServiceLocation;
 using UCDArch.Data.NHibernate;
 using UCDArch.Web.IoC;
@@ -43,6 +44,27 @@ namespace Agribusiness.Web
             ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(container));
 
             return container;
+        }
+
+        void ErrorLog_Filtering(object sender, ExceptionFilterEventArgs args)
+        {
+            Filter(args);
+        }
+
+        void ErrorMail_Filtering(object sender, ExceptionFilterEventArgs args)
+        {
+            Filter(args);
+        }
+
+        void Filter(ExceptionFilterEventArgs args)
+        {
+            if (args.Exception.GetBaseException() is HttpRequestValidationException)
+                args.Dismiss();
+
+            if (args.Exception.GetBaseException().Message.Contains("does not implement IController"))
+            {
+                args.Dismiss();
+            }
         }
     }
 }
