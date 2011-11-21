@@ -9,6 +9,7 @@
     [RegistrationId]       INT           NULL,
     [RegistrationBegin]    DATE          NULL,
     [RegistrationDeadline] DATE          NULL,
+	[AcceptanceDate]	   DATE			 NULL,
     [ReleaseToAttendees]   BIT           NOT NULL,
     [Cost]                 MONEY         NULL
 );

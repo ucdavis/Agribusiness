@@ -51,6 +51,8 @@ namespace Agribusiness.Core.Domain
         public virtual DateTime? RegistrationBegin { get; set; }
         [Before("Begin")]
         public virtual DateTime? RegistrationDeadline { get; set; }
+        
+        public virtual DateTime? AcceptanceDate { get; set; }
 
         public virtual bool ReleaseToAttendees { get; set; }
         public virtual decimal? Cost { get; set; }

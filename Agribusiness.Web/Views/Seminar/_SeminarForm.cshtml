@@ -63,6 +63,12 @@
                 @Html.ValidationMessageFor(a => a.Seminar.RegistrationDeadline)
             </div>
         </li>
+        <li><div class="editor-label">@Html.LabelFor(a => a.Seminar.AcceptanceDate)</div>
+            <div class="editor-field">
+                @Html.EditorFor(a=> a.Seminar.AcceptanceDate)
+                @Html.ValidationMessageFor(a => a.Seminar.AcceptanceDate)
+            </div>
+        </li>
         <li><div class="editor-label">
                 <label for="RegistrationPassword">Registration Password:</label>
             </div>

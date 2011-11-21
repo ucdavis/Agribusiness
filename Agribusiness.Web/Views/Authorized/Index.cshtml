@@ -13,6 +13,8 @@
     <style type="text/css">
         #welcome-msg, #current-seminar, #application {margin-bottom: 1em;}
         h3 {margin-bottom: .5em;}
+        
+        .text_btn { margin: 2em 0;}
     </style>
 }
 
@@ -29,7 +31,13 @@
     <h3>Apply</h3>
     
     <p>Please @Html.ActionLink("click here", "Apply", "SeminarApplication") to begin the application process.</p>
-    <p>(Note, participation is strictly limited to those with the background interests to contribute most fully to the discussion at this year's seminar.  Application does not imply acceptance for participation.)</p>        
+    @*<p>(Note, participation is strictly limited to those with the background interests to contribute most fully to the discussion at this year's seminar.  Application does not imply acceptance for participation.)</p>        *@
+    
+    <p style="margin-bottom: 1em;">(Participation is strictly limited. Application does not imply acceptance for participation.)</p>
+    
+    <div class="text_btn" >
+    <a href='@Url.Action("Apply", "SeminarApplication")'>Click here to Apply</a>
+    </div>
     }
 }
 else
@@ -59,7 +67,7 @@ else
     // not released just give pending status
     else
     {
-        <p>Your application is pending, you will be notified when a decision has been made.</p>
+        <p>Your application is pending, you will be notified @(Model.Seminar.AcceptanceDate.HasValue ? string.Format("by {0}.", @Model.Seminar.AcceptanceDate.Value.ToString("d")) : "when a decision has been made.")</p>
     }
 }
 

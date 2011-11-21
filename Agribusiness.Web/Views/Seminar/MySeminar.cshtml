@@ -16,8 +16,8 @@
 @section SubPageNavigation
 {
     <ul class="navigation">
-        <li>@Html.ActionLink("Attendees", "BySeminar", "Attendee", new {id=Model.Seminar.Id}, new {})</li>
-        <li>@Html.ActionLink("Case Studies", "BySeminar", "CaseStudy", new { id = Model.Seminar.Id}, new { })</li>
+        <li>@Html.ActionLink("Attendees", "BySeminar", "Attendee", new { id = Model.Seminar.Id }, new { })</li>
+        <li>@Html.ActionLink("Case Studies", "BySeminar", "CaseStudy", new { id = Model.Seminar.Id }, new { })</li>
     </ul>
 }
 
@@ -51,7 +51,14 @@
     </ul>
 </div>
 
-<h3>Your Sessions</h3>
+
+@if (Model.SeminarPerson.Sessions.Count == 0)
+{
+    <p style="margin: 2em 0;">Program schedule and breakout session assignments will be available soon.</p>
+}
+else
+{
+    <h3>Your Sessions</h3>
     <table>
         <thead> 
             <tr>
@@ -70,7 +77,7 @@
             { 
                 <tr>
                     <td>
-                        <a href="@Url.Action("Details", "Session", new {id=a.Id})">
+                        <a href="@Url.Action("Details", "Session", new { id = a.Id })">
                             <img src='@Url.Content("~/Images/details.png")' alt="View details for session" />
                         </a>
                     </td>
@@ -85,3 +92,4 @@
 
         </tbody>
     </table>
+}

@@ -20,6 +20,7 @@ namespace Agribusiness.Core.Domain
             IsPending = true;
             IsApproved = false;
             DateSubmitted = DateTime.Now;
+            ContactInformationRelease = false;
 
             Commodities = new List<Commodity>();
         }
