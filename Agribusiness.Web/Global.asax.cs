@@ -65,6 +65,11 @@ namespace Agribusiness.Web
             {
                 args.Dismiss();
             }
+
+            if (args.Exception.GetBaseException().Message.Contains("Server cannot modify cookies after HTTP headers have been sent."))
+            {
+                args.Dismiss();
+            }
         }
     }
 }
