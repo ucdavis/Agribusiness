@@ -214,6 +214,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app_offline2.htm" />
+    <Content Include="Css\fileuploader.css" />
     <Content Include="Images\logo-agribusiness.jpg" />
     <Content Include="Css\Agribusiness.css" />
     <Content Include="Css\anytimec.css" />
@@ -245,6 +246,7 @@
     <Content Include="Images\profilepicplaceholder.png" />
     <Content Include="Images\profileplaceholder_thumb.png" />
     <Content Include="Images\search.png" />
+    <Content Include="Scripts\fileuploader.js" />
     <Content Include="Scripts\jquery.AutoCompleteSelect.js" />
     <Content Include="Scripts\jquery.bt.min.js" />
     <Content Include="Images\button_delete_red.png" />

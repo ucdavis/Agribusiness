@@ -67,6 +67,7 @@
     <Compile Include="Domain\AddressType.cs" />
     <Compile Include="Domain\Address.cs" />
     <Compile Include="Domain\Application.cs" />
+    <Compile Include="Domain\Attachment.cs" />
     <Compile Include="Domain\CaseStudy.cs" />
     <Compile Include="Domain\Commodity.cs" />
     <Compile Include="Domain\CommunicationOption.cs" />

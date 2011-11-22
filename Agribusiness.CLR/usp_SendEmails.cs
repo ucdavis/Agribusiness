@@ -46,21 +46,6 @@ public partial class StoredProcedures
                     var email = reader.GetString(4);
 
                     emails.Add(new Email(id, from, email, subject, body));
-
-                    //var msg = new MailMessage();
-                    //msg.From = new MailAddress(from);
-                    ////var to = email.Split(';');
-                    ////foreach(var t in to) msg.To.Add(t);
-                    //msg.To.Add("anlai@ucdavis.edu");
-                    //msg.Subject = subject;
-                    //msg.Body = body;
-                    //msg.IsBodyHtml = true;
-
-                    //// send the message
-                    //client.Send(msg);
-
-                    //// execute the update
-                    //updateList.Add(id);
                 }
             }
 
@@ -96,6 +81,7 @@ public partial class StoredProcedures
                 msg.To.Add("anlai@ucdavis.edu");
                 msg.Subject = email.Subject;
                 msg.Body = email.Body;
+                msg.IsBodyHtml = true;
 
                 foreach (var a in email.Attachments)
                 {
@@ -103,12 +89,8 @@ public partial class StoredProcedures
                 }
 
                 client.Send(msg);
-            }
 
-            // execute an update on the record
-            foreach (var id in updateList)
-            {
-                var update = new SqlCommand(string.Format(UpdateQueueQuery, id), connection);
+                var update = new SqlCommand(string.Format(UpdateQueueQuery, email.Id), connection);
                 update.ExecuteNonQuery();
             }
 

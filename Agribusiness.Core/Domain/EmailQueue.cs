@@ -27,6 +27,8 @@ namespace Agribusiness.Core.Domain
         {
             Created = DateTime.Now;
             Pending = true;
+
+            Attachments = new List<Attachment>();
         }
 
         [Required]
@@ -49,6 +51,8 @@ namespace Agribusiness.Core.Domain
         [Email]
         [DataType(DataType.EmailAddress)]
         public virtual string FromAddress { get; set; }
+
+        public virtual IList<Attachment> Attachments { get; set; }
     }
 
     public class EmailQueueMap : ClassMap<EmailQueue>
@@ -68,6 +72,8 @@ namespace Agribusiness.Core.Domain
             Map(x => x.Body);
             Map(x => x.ErrorCode);
             Map(x => x.FromAddress);
+
+            HasManyToMany(x => x.Attachments).ParentKeyColumn("EmailQueueId").ChildKeyColumn("AttachmentId").Table("EmailQueueXAttachments").Cascade.SaveUpdate();
         }
     }
 }

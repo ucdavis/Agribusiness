@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using Agribusiness.Core.Domain;
@@ -12,6 +13,7 @@ using AutoMapper;
 using Resources;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
+using UCDArch.Web.Attributes;
 using UCDArch.Web.Controller;
 using UCDArch.Web.Helpers;
 using MvcContrib;
@@ -28,17 +30,19 @@ namespace Agribusiness.Web.Controllers
         private readonly IRepository<Seminar> _seminarRepository;
         private readonly IRepository<NotificationTracking> _notificationTrackingRepository;
         private readonly IRepositoryWithTypedId<NotificationMethod, string> _notificationMethodRepository;
+        private readonly IRepository<Attachment> _attachmentRepository;
         private readonly ISeminarService _seminarService;
         private readonly INotificationService _notificationService;
 
         public NotificationController(IRepository<Person> personRepository, IRepository<Seminar> seminarRepository, IRepository<NotificationTracking> notificationTrackingRepository
-                                    , IRepositoryWithTypedId<NotificationMethod, string> notificationMethodRepository
+                                    , IRepositoryWithTypedId<NotificationMethod, string> notificationMethodRepository, IRepository<Attachment> attachmentRepository
                                     , ISeminarService seminarService, INotificationService notificationService)
         {
             _personRepository = personRepository;
             _seminarRepository = seminarRepository;
             _notificationTrackingRepository = notificationTrackingRepository;
             _notificationMethodRepository = notificationMethodRepository;
+            _attachmentRepository = attachmentRepository;
             _seminarService = seminarService;
             _notificationService = notificationService;
         }
@@ -87,7 +91,7 @@ namespace Agribusiness.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                tracking = ProcessTracking(ModelState, people, notificationTracking);
+                tracking = ProcessTracking(ModelState, people, notificationTracking, new int[0]);
 
                 foreach (var a in tracking)
                 {
@@ -138,7 +142,7 @@ namespace Agribusiness.Web.Controllers
         
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Send(List<int> people, NotificationTracking notificationTracking, EmailQueue emailQueue, int? mailingListId)
+        public ActionResult Send(List<int> people, NotificationTracking notificationTracking, EmailQueue emailQueue, int? mailingListId, int[] attachmentIds)
         {
             if ((people == null || people.Count <= 0) && !mailingListId.HasValue)
             {
@@ -155,7 +159,7 @@ namespace Agribusiness.Web.Controllers
             // save the objects if we are good);););
             if (ModelState.IsValid)
             {
-                tracking = ProcessTracking(ModelState, people, notificationTracking, emailQueue, mailingList);
+                tracking = ProcessTracking(ModelState, people, notificationTracking, attachmentIds, emailQueue, mailingList);
 
                 foreach (var a in tracking)
                 {
@@ -183,7 +187,39 @@ namespace Agribusiness.Web.Controllers
             var viewModel = SendNotificationViewModel.Create(Repository, ntViewModel, emailQueue);
             return View(viewModel);
         }
-        
+     
+        [HttpPost]
+        [BypassAntiForgeryToken]
+        public JsonResult SaveAttachment()
+        {
+            try
+            {
+
+                var request = ControllerContext.HttpContext.Request;
+                var fileName = request["qqfile"];
+                var contentType = request.Headers["X-File-Type"];
+
+                byte[] contents;
+
+                using (var reader = new BinaryReader(request.InputStream))
+                {
+                    contents = reader.ReadBytes((int) request.InputStream.Length);
+                }
+
+                // save the attachment
+                var attachment = new Attachment() {Contents = contents, ContentType = contentType, FileName = fileName};
+                _attachmentRepository.EnsurePersistent(attachment);
+
+                return Json(new {id = attachment.Id, fileName = fileName, success=true});
+            }
+            catch (Exception)
+            {
+                return Json(false);
+            }
+
+            return Json(false);
+        }
+
         /// <summary>
         /// Create all the notification tracking objects and email queue if provided
         /// </summary>
@@ -192,7 +228,7 @@ namespace Agribusiness.Web.Controllers
         /// <param name="notificationTracking"></param>
         /// <param name="emailQueue">(Optional)</param>
         /// <returns></returns>
-        protected List<NotificationTracking> ProcessTracking(ModelStateDictionary modelState, List<int> people, NotificationTracking notificationTracking, EmailQueue emailQueue = null, MailingList mailingList = null)
+        protected List<NotificationTracking> ProcessTracking(ModelStateDictionary modelState, List<int> people, NotificationTracking notificationTracking, int[] attachmentIds, EmailQueue emailQueue = null, MailingList mailingList = null)
         {
             Check.Require(people != null || mailingList != null, "people is required.");
             Check.Require(notificationTracking != null, "notificationTracking is required.");
@@ -229,7 +265,11 @@ namespace Agribusiness.Web.Controllers
                     }
 
                     eq.Body = _notificationService.GenerateNotification(eq.Body, person, notificationTracking.Seminar.Id, invitation);
-
+                    
+                    // add attachments
+                    var attachments = _attachmentRepository.Queryable.Where(a => attachmentIds.Contains(a.Id)).ToList();
+                    foreach(var a in attachments) eq.Attachments.Add(a);
+                    
                     eq.Person = person;
                     nt.EmailQueue = eq;
                 }
