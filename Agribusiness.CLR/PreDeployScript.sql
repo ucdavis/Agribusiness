@@ -2,10 +2,10 @@
 -- Grant permissions
 -- =================================================
 
-USE [master]
+--USE [master]
 
-GRANT EXTERNAL ACCESS ASSEMBLY TO [AESDEAN\TestApp]
-GO 
+--GRANT EXTERNAL ACCESS ASSEMBLY TO [AESDEAN\TestApp]
+--GO 
 
-ALTER DATABASE Agribusiness SET TRUSTWORTHY ON;
-GO
+--ALTER DATABASE Agribusiness SET TRUSTWORTHY ON;
+--GO
