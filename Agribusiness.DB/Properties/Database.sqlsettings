@@ -40,7 +40,7 @@
     <ServiceBrokerOption>DisableBroker</ServiceBrokerOption>
     <SupplementalLoggingOn>False</SupplementalLoggingOn>
     <TornPageDetection>False</TornPageDetection>
-    <Trustworthy>False</Trustworthy>
+    <Trustworthy>True</Trustworthy>
     <UpdateOptions>READ_WRITE</UpdateOptions>
     <VardecimalStorageFormatOn>True</VardecimalStorageFormatOn>
   </Properties>
