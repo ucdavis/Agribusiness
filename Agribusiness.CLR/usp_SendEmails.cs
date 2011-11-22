@@ -77,8 +77,8 @@ public partial class StoredProcedures
             {
                 var msg = new MailMessage();
                 msg.From = new MailAddress(email.From);
-                //foreach(var to in email.To) msg.To.Add(to);
-                msg.To.Add("anlai@ucdavis.edu");
+                foreach(var to in email.To) msg.To.Add(to);
+                //msg.To.Add("anlai@ucdavis.edu");
                 msg.Subject = email.Subject;
                 msg.Body = email.Body;
                 msg.IsBodyHtml = true;

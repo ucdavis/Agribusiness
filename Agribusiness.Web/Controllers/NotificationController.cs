@@ -156,7 +156,7 @@ namespace Agribusiness.Web.Controllers
 
             var mailingList = mailingListId.HasValue ? Repository.OfType<MailingList>().GetNullableById(mailingListId.Value) : null;
 
-            // save the objects if we are good);););
+            // save the objects if we are good
             if (ModelState.IsValid)
             {
                 tracking = ProcessTracking(ModelState, people, notificationTracking, attachmentIds, emailQueue, mailingList);
