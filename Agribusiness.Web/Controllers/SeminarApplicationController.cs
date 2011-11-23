@@ -185,7 +185,7 @@ namespace Agribusiness.Web.Controllers
             {
                 _applicationRepository.EnsurePersistent(application);
 
-                _eventService.Apply(application.User.Person);
+                _eventService.Apply(application.User.Person, application);
 
                 //Message = string.Format(Messages.Saved, "Application");
                 //Message = "Thank you for successfully submitting your application.  Applicants will be notified of acceptance by January 13, 2012.";

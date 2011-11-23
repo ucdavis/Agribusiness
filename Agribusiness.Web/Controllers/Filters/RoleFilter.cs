@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using System.Web.Mvc;
+using Agribusiness.Web.Models;
 
 namespace Agribusiness.Web.Controllers.Filters
 {
@@ -17,12 +18,19 @@ namespace Agribusiness.Web.Controllers.Filters
         {
             var userName = httpContext.User.Identity.Name;
 
-            if (IsValidEmail(userName))
-            {
-                return true;
-            }
+            var membership = new AccountMembershipService();
 
-            return false;
+            var result = membership.IsValidUser(userName);
+
+            return result;
+
+
+            //if (IsValidEmail(userName))
+            //{
+            //    return true;
+            //}
+
+            //return false;
         }
 
         /// <summary>

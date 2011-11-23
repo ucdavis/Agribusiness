@@ -90,6 +90,7 @@ namespace Agribusiness.Web.Models
         bool ResetPassword(string userName);
 
         string ResetPasswordNoEmail(string userName);
+        bool IsValidUser(string userName);
     }
 
     public class AccountMembershipService : IMembershipService
@@ -193,6 +194,13 @@ namespace Agribusiness.Web.Models
             {
                 return string.Empty;
             }
+        }
+
+        public bool IsValidUser(string userName)
+        {
+            var user = _provider.GetUser(userName, false);
+
+            return user != null;
         }
     }
 

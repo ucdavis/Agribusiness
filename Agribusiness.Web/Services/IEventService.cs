@@ -9,7 +9,7 @@ namespace Agribusiness.Web.Services
     public interface IEventService
     {
         void Invite(Person person);
-        void Apply(Person person);
+        void Apply(Person person, Application application);
         void Accepted(Person person);
         void Denied(Person person);
         void Paid(Person person);

@@ -44,5 +44,11 @@ namespace Agribusiness.Web.Services
         /// <param name="person"></param>
         /// <param name="mailingListName"></param>
         void RemoveFromMailingList(Seminar seminar, Person person, string mailingListName);
+
+        /// <summary>
+        /// Add to the email queue a confirmation email on application submission
+        /// </summary>
+        /// <returns></returns>
+        void GenerateConfirmation(Application application);
     }
 }

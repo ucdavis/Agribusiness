@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Data.SqlTypes;
 using System.IO;
 using System.Net.Mail;
 using Microsoft.SqlServer.Server;
@@ -21,16 +18,14 @@ public partial class StoredProcedures
     [SqlProcedure]
     public static void usp_SendEmails()
     {
-        var client = new SmtpClient("smtp.ucdavis.edu");
-        
-        using (SqlConnection connection = new SqlConnection("context connection=true"))
+        var client = new SmtpClient(SmtpServer);
+
+        using (var connection = new SqlConnection("context connection=true"))
         {
             connection.Open();
 
             var cmd = new SqlCommand(EmailQueueQuery, connection);
             var reader = cmd.ExecuteReader();
-
-            var updateList = new List<int>();
 
             var emails = new List<Email>();
 
@@ -73,11 +68,11 @@ public partial class StoredProcedures
                 }
             }
 
-            foreach(var email in emails)
+            foreach (var email in emails)
             {
                 var msg = new MailMessage();
                 msg.From = new MailAddress(email.From);
-                foreach(var to in email.To) msg.To.Add(to);
+                foreach (var to in email.To) msg.To.Add(to);
                 //msg.To.Add("anlai@ucdavis.edu");
                 msg.Subject = email.Subject;
                 msg.Body = email.Body;

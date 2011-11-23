@@ -25,13 +25,16 @@ namespace Agribusiness.Web.Services
             _notificationService.AddToMailingList(seminar, person, MailingLists.Invitation);
         }
 
-        public void Apply(Person person)
+        public void Apply(Person person, Application application)
         {
             var seminar = _seminarService.GetCurrent();
 
             // deal with the mailing list
             _notificationService.RemoveFromMailingList(seminar, person, MailingLists.Invitation);
             _notificationService.AddToMailingList(seminar, person, MailingLists.Applied);
+
+            // send email to confirm application
+            _notificationService.GenerateConfirmation(application);
         }
 
         public void Accepted(Person person)

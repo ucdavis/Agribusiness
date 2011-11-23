@@ -175,6 +175,9 @@
     <NotInBuild Include="Schema Objects\Database Level Objects\Assemblies\Agribusiness.CLR.dll">
       <SubType>NotInBuild</SubType>
     </NotInBuild>
+    <NotInBuild Include="Schema Objects\Database Level Objects\Assemblies\Agribusiness_1.CLR.dll">
+      <SubType>NotInBuild</SubType>
+    </NotInBuild>
   </ItemGroup>
   <ItemGroup>
     <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_Applications_DateSubmitted.defconst.sql">
@@ -920,11 +923,11 @@
     </Build>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Agribusiness.CLR, Version=1.0.4343.18858, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="Agribusiness.CLR, Version=1.0.4344.14594, Culture=neutral, PublicKeyToken=null">
       <Name>Agribusiness.CLR</Name>
-      <AssemblyName>Agribusiness.CLR.dll</AssemblyName>
+      <AssemblyName>Agribusiness_1.CLR.dll</AssemblyName>
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Schema Objects\Database Level Objects\Assemblies\Agribusiness.CLR.dll</HintPath>
+      <HintPath>Schema Objects\Database Level Objects\Assemblies\Agribusiness_1.CLR.dll</HintPath>
       <Private>True</Private>
       <SqlAssemblyName>Agribusiness.CLR</SqlAssemblyName>
       <SqlOwnerName>dbo</SqlOwnerName>

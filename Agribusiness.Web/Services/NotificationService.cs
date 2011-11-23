@@ -115,6 +115,29 @@ namespace Agribusiness.Web.Services
             }
         }
 
+        public void GenerateConfirmation(Application application)
+        {
+            var seminar = application.Seminar;
+            var person = application.User.Person;
+
+            var body =
+                string.Format(
+                    "Thank you for submitting your application to the UC Davis Agribusiness Executive Seminar.  Your application has been received and will be reviewed for admission. Applicants will be notified of admission decisions {0}.  If you have any questions, please feel free to contact Chris Akins at crakins@ucdavis.edu or visit the website at http://agribusiness.ucdavis.edu.",
+                    seminar.AcceptanceDate.HasValue
+                        ? string.Format("by {0}", seminar.AcceptanceDate.Value.ToString("d"))
+                        : "in the near future");
+
+            var emailQueue = new EmailQueue(person)
+                                 {
+                                     Body = body,
+                                     FromAddress = "agribusiness@ucdavis.edu",
+                                     Subject = "UC Davis Agribusiness Executive Seminar Application Confirmation"
+                                 };
+
+            _emailQueueRepository.EnsurePersistent(emailQueue);
+
+        }
+
         /// <summary>
         /// Takes the template text from the database and converts it to the finalized text
         /// </summary>

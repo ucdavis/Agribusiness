@@ -47,7 +47,12 @@ else
     {
         if (Model.Application.IsPending)
         { 
-            <p>Your application is pending, you will be notified when a decision has been made.</p>
+            
+            <p>
+                Thank you for submitting your application to the UC Davis Agribusiness Executive Seminar.  Your application has been received and will be reviewed for admission. Applicants will be notified of admission decisions @(Model.Seminar.AcceptanceDate.HasValue ? string.Format("by {0}", Model.Seminar.AcceptanceDate.Value.ToString("d")) : "in the near future.")).  If you have any questions, please feel free to contact Chris Akins at <a href="emailto:crakins@ucdavis.edu">crakins@ucdavis.edu</a>.
+            </p>
+            
+            @*<p>Your application is pending, you will be notified when a decision has been made.</p>*@
         }
         else
         {
@@ -60,14 +65,20 @@ else
             }
             else
             { 
-                <p>Your application has not been accepted.</p>
+                <p>
+                Thank you for your interest in the @Model.Seminar.Year UC Davis Agribusiness Executive Seminar. We received your application, but I am really sorry to inform you that we are at capacity. We are limited in the number of people we can accept due to the room size. We will keep your application for future consideration. Thank you your interest. 
+                </p>
             }
         }
     }
     // not released just give pending status
     else
     {
-        <p>Your application is pending, you will be notified @(Model.Seminar.AcceptanceDate.HasValue ? string.Format("by {0}.", @Model.Seminar.AcceptanceDate.Value.ToString("d")) : "when a decision has been made.")</p>
+        @*<p>Your application is pending, you will be notified @(Model.Seminar.AcceptanceDate.HasValue ? string.Format("by {0}.", @Model.Seminar.AcceptanceDate.Value.ToString("d")) : "when a decision has been made.")</p>*@
+    
+        <p>
+            Thank you for submitting your application to the UC Davis Agribusiness Executive Seminar.  Your application has been received and will be reviewed for admission. Applicants will be notified of admission decisions @(Model.Seminar.AcceptanceDate.HasValue ? string.Format("by {0}", Model.Seminar.AcceptanceDate.Value.ToString("d")) : "in the near future.")).  If you have any questions, please feel free to contact Chris Akins at <a href="emailto:crakins@ucdavis.edu">crakins@ucdavis.edu</a>.
+        </p>
     }
 }
 
