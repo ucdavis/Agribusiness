@@ -28,8 +28,9 @@ namespace Agribusiness.Web.Controllers
         private readonly INotificationService _notificationService;
         private readonly IEventService _eventService;
         private readonly IPictureService _pictureService;
+        private readonly IPersonService _personService;
 
-        public SeminarApplicationController(IRepository<Application> applicationRepository, IFirmService firmService, ISeminarService seminarService, INotificationService notificationService, IEventService eventService, IPictureService pictureService)
+        public SeminarApplicationController(IRepository<Application> applicationRepository, IFirmService firmService, ISeminarService seminarService, INotificationService notificationService, IEventService eventService, IPictureService pictureService, IPersonService personService)
         {
             _applicationRepository = applicationRepository;
             _firmService = firmService;
@@ -37,6 +38,7 @@ namespace Agribusiness.Web.Controllers
             _notificationService = notificationService;
             _eventService = eventService;
             _pictureService = pictureService;
+            _personService = personService;
         }
 
         [UserOnly]
@@ -82,7 +84,7 @@ namespace Agribusiness.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                person = _seminarService.CreateSeminarPerson(application, ModelState);
+                person = _personService.CreateSeminarPerson(application, ModelState);
             }
 
             // check if model state is still valid, might have changed on create

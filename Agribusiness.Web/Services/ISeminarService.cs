@@ -11,6 +11,6 @@ namespace Agribusiness.Web.Services
     {
         Seminar GetCurrent();
 
-        Person CreateSeminarPerson(Application application, ModelStateDictionary modelState);
+        
     }
 }

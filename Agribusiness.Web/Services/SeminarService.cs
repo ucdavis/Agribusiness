@@ -44,77 +44,7 @@ namespace Agribusiness.Web.Services
             return seminar;
         }
 
-        public Person CreateSeminarPerson(Application application, ModelStateDictionary modelState)
-        {
-            var person = application.User.Person ?? new Person()
-            {
-                LastName = application.LastName,
-                MI = application.MI,
-                FirstName = application.FirstName,
-                BadgeName = string.IsNullOrWhiteSpace(application.BadgeName) ? application.FirstName : application.BadgeName,
-                Phone = application.FirmPhone,
-                PhoneExt = application.FirmPhoneExt,
-                User = application.User,
-                OriginalPicture = application.Photo,
-                ContentType = application.ContentType,
-                CommunicationOption = application.CommunicationOption,
-                ContactInformationRelease = application.ContactInformationRelease
-            };
-
-            var firm = application.Firm ?? new Firm(application.FirmName, application.FirmDescription);
-
-            var seminarPerson = new SeminarPerson()
-            {
-                Seminar = application.Seminar,
-                Title = application.JobTitle,
-                Firm = firm,
-                Commodities = new List<Commodity>(application.Commodities)
-            };
-
-            person.AddSeminarPerson(seminarPerson);
-
-            // add in the address
-            var addrType = _addressTypeRepository.GetNullableById(StaticIndexes.Address_Business.ToCharArray()[0]);
-            var address = new Address(application.FirmAddressLine1, application.FirmAddressLine2, application.FirmCity
-                                      , application.FirmState, application.FirmZip, addrType, person);
-            person.AddAddress(address);
-
-            // transfer the assistant information
-            var assistantType = _contactTypeRepository.GetNullableById('A');
-            var assistant = person.Contacts.Where(a => a.ContactType == assistantType).FirstOrDefault();
-            
-            if (!string.IsNullOrWhiteSpace(application.AssistantFirstName) && !string.IsNullOrWhiteSpace(application.AssistantLastName) && (!string.IsNullOrWhiteSpace(application.AssistantPhone) || !string.IsNullOrWhiteSpace(application.AssistantEmail)))
-            {
-                if (assistant != null)
-                {
-                    assistant.FirstName = application.AssistantFirstName;
-                    assistant.LastName = application.AssistantLastName;
-                    assistant.Email = application.AssistantEmail;
-                    assistant.Phone = application.AssistantPhone;    
-                }
-                else
-                {
-                    var newAssistant = new Contact(application.AssistantFirstName, application.AssistantLastName, application.AssistantPhone, assistantType, person);
-                    newAssistant.Email = application.AssistantEmail;
-
-                    person.AddContact(newAssistant);
-                }
-                
-            }
-            
-            person.TransferValidationMessagesTo(modelState);
-            seminarPerson.TransferValidationMessagesTo(modelState);
-
-            if (modelState.IsValid)
-            {
-                _firmRepository.EnsurePersistent(firm);
-                _personRepository.EnsurePersistent(person);
-
-                return person;
-            }
-
-            return null;
-        }
+        
 
 
     }

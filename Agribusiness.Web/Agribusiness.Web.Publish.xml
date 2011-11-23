@@ -2,7 +2,7 @@
 <publishData>
   <publishProfile publishUrl="\\hughman\wwwroot\Agribusiness" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="Test" publishMethod="FileSystem" replaceMatchingFiles="True" userName="" savePWD="False" userPWD="" SelectedForPublish="True">
     <file relUrl="Views/MailingList/Index.cshtml" publishTime="09/20/2011 08:24:43" />
-    <file relUrl="bin/Agribusiness.Web.dll" publishTime="11/23/2011 13:40:19" />
+    <file relUrl="bin/Agribusiness.Web.dll" publishTime="11/23/2011 14:12:26" />
     <file relUrl="Views/MailingList/Edit.cshtml" publishTime="09/20/2011 08:24:43" />
     <file relUrl="Views/Shared/_DateTimePickerScripts.cshtml" publishTime="09/20/2011 08:24:44" />
     <file relUrl="Scripts/tiny_mce/themes/simple/skins/o2k7/content.css" publishTime="09/20/2011 08:24:43" />
@@ -478,7 +478,7 @@
     <file relUrl="Scripts/tiny_mce/plugins/emotions/img/smiley-embarassed.gif" publishTime="09/20/2011 08:24:41" />
     <file relUrl="Scripts/tiny_mce/plugins/legacyoutput/editor_plugin.js" publishTime="09/20/2011 08:24:42" />
     <file relUrl="Images/details.png" publishTime="09/20/2011 08:24:41" />
-    <file relUrl="Views/Authorized/Index.cshtml" publishTime="11/23/2011 13:32:13" />
+    <file relUrl="Views/Authorized/Index.cshtml" publishTime="11/23/2011 14:12:11" />
     <file relUrl="Scripts/tiny_mce/plugins/example/editor_plugin.js" publishTime="09/20/2011 08:24:41" />
     <file relUrl="Scripts/tiny_mce/plugins/advimage/img/sample.gif" publishTime="09/20/2011 08:24:41" />
     <file relUrl="Scripts/tiny_mce/plugins/pagebreak/editor_plugin.js" publishTime="09/20/2011 08:24:42" />

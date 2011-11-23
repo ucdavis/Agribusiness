@@ -11,11 +11,13 @@ namespace Agribusiness.Web.Services
     {
         private readonly INotificationService _notificationService;
         private readonly ISeminarService _seminarService;
+        private readonly IPersonService _personService;
 
-        public EventService(INotificationService notificationService, ISeminarService seminarService)
+        public EventService(INotificationService notificationService, ISeminarService seminarService, IPersonService personService)
         {
             _notificationService = notificationService;
             _seminarService = seminarService;
+            _personService = personService;
         }
 
         public void Invite(Person person)
@@ -35,6 +37,9 @@ namespace Agribusiness.Web.Services
 
             // send email to confirm application
             _notificationService.GenerateConfirmation(application);
+
+            // update the person's record
+            _personService.UpdatePerson(person, application);
         }
 
         public void Accepted(Person person)

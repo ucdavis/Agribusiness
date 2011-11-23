@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using Agribusiness.Core.Domain;
+using Agribusiness.Web.App_GlobalResources;
 using Agribusiness.Web.Controllers;
 using Agribusiness.Web.Models;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
+using UCDArch.Web.Helpers;
 
 namespace Agribusiness.Web.Services
 {
@@ -18,9 +21,11 @@ namespace Agribusiness.Web.Services
         private readonly IRepository<Seminar> _seminarRepository;
         private readonly IRepositoryWithTypedId<User, Guid> _userRepository;
         private readonly IFirmService _firmService;
+        private readonly IRepositoryWithTypedId<AddressType, char> _addressTypeRepository;
+        private readonly IRepositoryWithTypedId<ContactType, char> _contactTypeRepository;
         private AccountMembershipService _membershipService;
 
-        public PersonService(IRepository<Firm> firmRepository, IRepository<Person> personRepository, IRepository<SeminarPerson> seminarPersonRepository, IRepository<Seminar> seminarRepository, IRepositoryWithTypedId<User, Guid> userRepository, IFirmService firmService)
+        public PersonService(IRepository<Firm> firmRepository, IRepository<Person> personRepository, IRepository<SeminarPerson> seminarPersonRepository, IRepository<Seminar> seminarRepository, IRepositoryWithTypedId<User, Guid> userRepository, IFirmService firmService, IRepositoryWithTypedId<AddressType, char> addressTypeRepository, IRepositoryWithTypedId<ContactType, char> contactTypeRepository)
         {
             _firmRepository = firmRepository;
             _personRepository = personRepository;
@@ -28,6 +33,8 @@ namespace Agribusiness.Web.Services
             _seminarRepository = seminarRepository;
             _userRepository = userRepository;
             _firmService = firmService;
+            _addressTypeRepository = addressTypeRepository;
+            _contactTypeRepository = contactTypeRepository;
 
             _membershipService = new AccountMembershipService();
         }
@@ -164,6 +171,55 @@ namespace Agribusiness.Web.Services
 
         }
 
+        public Person CreateSeminarPerson(Application application, ModelStateDictionary modelState)
+        {
+            var person = SetPerson(application, application.User.Person);
+
+            var firm = application.Firm ?? new Firm(application.FirmName, application.FirmDescription);
+
+            var seminarPerson = new SeminarPerson()
+            {
+                Seminar = application.Seminar,
+                Title = application.JobTitle,
+                Firm = firm,
+                Commodities = new List<Commodity>(application.Commodities)
+            };
+
+            person.AddSeminarPerson(seminarPerson);
+
+            UpdateAddress(person, application);
+
+            UpdateAssistant(person, application);
+
+            person.TransferValidationMessagesTo(modelState);
+            seminarPerson.TransferValidationMessagesTo(modelState);
+
+            if (modelState.IsValid)
+            {
+                _firmRepository.EnsurePersistent(firm);
+                _personRepository.EnsurePersistent(person);
+
+                return person;
+            }
+
+            return null;
+        }
+
+        public void UpdatePerson(Person person, Application application)
+        {
+            // copy the primary information
+            person = SetPerson(application, person);
+
+            // fill in the address information
+            UpdateAddress(person, application);
+
+            // fill in the assistant information
+            UpdateAssistant(person, application);
+
+            // save
+            _personRepository.EnsurePersistent(person);
+        }
+
         #region Helper Functions
         private IEnumerable<DisplayPerson> GetDisplayPeeps(IEnumerable<Person> people)
         {
@@ -185,6 +241,93 @@ namespace Agribusiness.Web.Services
             }
 
             return displayPeople;
+        }
+
+        private Person SetPerson(Application application, Person person = null)
+        {
+            if (person == null)
+            {
+                person = new Person()
+                {
+                    LastName = application.LastName,
+                    MI = application.MI,
+                    FirstName = application.FirstName,
+                    BadgeName = string.IsNullOrWhiteSpace(application.BadgeName) ? application.FirstName : application.BadgeName,
+                    Phone = application.FirmPhone,
+                    PhoneExt = application.FirmPhoneExt,
+                    User = application.User,
+                    OriginalPicture = application.Photo,
+                    ContentType = application.ContentType,
+                    CommunicationOption = application.CommunicationOption,
+                    ContactInformationRelease = application.ContactInformationRelease
+                };    
+            }
+            else
+            {
+                person.LastName = application.LastName;
+                person.MI = application.MI;
+                person.FirstName = application.FirstName;
+                person.BadgeName = string.IsNullOrWhiteSpace(application.BadgeName)
+                                       ? application.FirstName
+                                       : application.BadgeName;
+                person.Phone = application.FirmPhone;
+                person.PhoneExt = application.FirmPhoneExt;
+                person.User = application.User;
+                person.OriginalPicture = application.Photo;
+                person.ContentType = application.ContentType;
+                person.CommunicationOption = application.CommunicationOption;
+                person.ContactInformationRelease = application.ContactInformationRelease;
+            }
+            
+            return person;
+        }
+
+        // Create or update the person's business address if exists
+        private void UpdateAddress(Person person, Application application)
+        {
+            // check if the person already has the address
+            var address = person.Addresses.Where(a => a.AddressType.Id == StaticIndexes.Address_Business.ToCharArray()[0]).FirstOrDefault();
+
+            if (address == null)
+            {
+                address = new Address(application.FirmAddressLine1, application.FirmAddressLine2, application.FirmCity, application.FirmState, application.FirmZip, _addressTypeRepository.GetNullableById(StaticIndexes.Address_Business.ToCharArray()[0]), person);
+                person.AddAddress(address);
+            }
+            else
+            {
+                // update the existing address
+                address.Line1 = application.FirmAddressLine1;
+                address.Line2 = application.FirmAddressLine2;
+                address.City = application.FirmCity;
+                address.State = application.FirmState;
+                address.Zip = application.FirmZip;
+            }
+        }
+
+        private void UpdateAssistant(Person person, Application application)
+        {
+            // transfer the assistant information
+            var assistantType = _contactTypeRepository.GetNullableById('A');
+            var assistant = person.Contacts.Where(a => a.ContactType == assistantType).FirstOrDefault();
+
+            if (!string.IsNullOrWhiteSpace(application.AssistantFirstName) && !string.IsNullOrWhiteSpace(application.AssistantLastName) && (!string.IsNullOrWhiteSpace(application.AssistantPhone) || !string.IsNullOrWhiteSpace(application.AssistantEmail)))
+            {
+                if (assistant != null)
+                {
+                    assistant.FirstName = application.AssistantFirstName;
+                    assistant.LastName = application.AssistantLastName;
+                    assistant.Email = application.AssistantEmail;
+                    assistant.Phone = application.AssistantPhone;
+                }
+                else
+                {
+                    var newAssistant = new Contact(application.AssistantFirstName, application.AssistantLastName, application.AssistantPhone, assistantType, person);
+                    newAssistant.Email = application.AssistantEmail;
+
+                    person.AddContact(newAssistant);
+                }
+
+            }
         }
         #endregion
     }

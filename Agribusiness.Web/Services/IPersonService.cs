@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web.Mvc;
 using Agribusiness.Core.Domain;
 using Agribusiness.Web.Models;
 
@@ -20,5 +21,8 @@ namespace Agribusiness.Web.Services
         bool HasAccess(Person person, Seminar seminar);
 
         List<KeyValuePair<Person, string>> ResetPasswords(List<Person> people);
+
+        Person CreateSeminarPerson(Application application, ModelStateDictionary modelState);
+        void UpdatePerson(Person person, Application application);
     }
 }

@@ -86,6 +86,21 @@ namespace Agribusiness.Web.Helpers
                 .ForMember(x => x.Seminar, x => x.Ignore())
                 .ForMember(x => x.People, x => x.Ignore());
 
+            CreateMap<Application, Person>()
+                .ForMember(x => x.FirstName, x=> x.MapFrom(a=>a.FirstName))
+                .ForMember(x => x.MI, x => x.MapFrom(a => a.MI))
+                .ForMember(x => x.LastName, x=>x.MapFrom(a=>a.LastName))
+                .ForMember(x => x.BadgeName, x => x.MapFrom(a => a.BadgeName))
+
+                .ForMember(x => x.Phone, x => x.MapFrom(a => a.FirmPhone))
+                .ForMember(x => x.PhoneExt, x => x.MapFrom(a => a.FirmPhoneExt))
+
+                .ForMember(x => x.CommunicationOption, x => x.MapFrom(a => a.CommunicationOption))
+                .ForMember(x => x.OriginalPicture, x => x.MapFrom(a => a.Photo))
+
+                .ForMember(x => x.ContactInformationRelease, x => x.MapFrom(a => a.ContactInformationRelease))
+                ;
+
         }
         
     }
