@@ -68,7 +68,8 @@ namespace Agribusiness.Web.Helpers
 
             CreateMap<EmailQueue, EmailQueue>()
                 .ForMember(x => x.Id, x => x.Ignore())
-                .ForMember(x => x.Person, x => x.Ignore());
+                .ForMember(x => x.Person, x => x.Ignore())
+                .ForMember(x => x.Attachments, x=>x.Ignore());
 
             CreateMap<Template, Template>()
                 .ForMember(x => x.Id, x => x.Ignore());

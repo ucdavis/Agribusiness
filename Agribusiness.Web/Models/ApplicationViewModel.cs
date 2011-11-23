@@ -19,10 +19,11 @@ namespace Agribusiness.Web.Models
         public IEnumerable<Country> Countries { get; set; }
         public IList<Firm> Firms { get; set; }
         public bool HasPhoto { get; set; }
+        public bool SeminarTerms { get; set; }
 
         public IEnumerable<CommunicationOption> CommunicationOptions { get; set; }
 
-        public static ApplicationViewModel Create(IRepository repository, IFirmService firmService, ISeminarService seminarService, string userId, Application application = null)
+        public static ApplicationViewModel Create(IRepository repository, IFirmService firmService, ISeminarService seminarService, string userId, Application application = null, bool seminarTerms = false)
         {
             Check.Require(repository != null, "Repository must be supplied");
 
@@ -33,7 +34,8 @@ namespace Agribusiness.Web.Models
                                     Seminar = seminarService.GetCurrent(),
                                     Commodities = repository.OfType<Commodity>().Queryable.OrderBy(a=>a.Name).ToList(),
                                     Countries = repository.OfType<Country>().GetAll(),
-                                    CommunicationOptions = repository.OfType<CommunicationOption>().GetAll()
+                                    CommunicationOptions = repository.OfType<CommunicationOption>().GetAll(),
+                                    SeminarTerms = seminarTerms
                                 };
 
             var user = repository.OfType<User>().Queryable.Where(a => a.LoweredUserName == userId.ToLower()).FirstOrDefault();

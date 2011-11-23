@@ -137,7 +137,7 @@ namespace Agribusiness.Web.Controllers
 
         [HttpPost]
         [MembershipUserOnly]
-        public ActionResult Apply(Application application, HttpPostedFileBase file)
+        public ActionResult Apply(Application application, HttpPostedFileBase file, bool seminarTerms)
         {
             ModelState.Clear();
 
@@ -181,6 +181,8 @@ namespace Agribusiness.Web.Controllers
 
             application.TransferValidationMessagesTo(ModelState);
 
+            if (!seminarTerms) ModelState.AddModelError("Seminar Terms", "Agreeing to the seminar terms are required.");
+
             if (ModelState.IsValid)
             {
                 _applicationRepository.EnsurePersistent(application);
@@ -202,7 +204,7 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction<AuthorizedController>(a => a.Index());
             }
 
-            var viewModel = ApplicationViewModel.Create(Repository, _firmService, _seminarService, CurrentUser.Identity.Name, application);
+            var viewModel = ApplicationViewModel.Create(Repository, _firmService, _seminarService, CurrentUser.Identity.Name, application, seminarTerms);
             return View(viewModel);
         }
         #endregion

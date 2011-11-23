@@ -421,9 +421,10 @@
         <ul>
             <li><div class="editor-label">&nbsp;</div>
                 <div class="editor-field">
-                    @Html.CheckBox("SeminarTerms", false, new {@class="require"})
+                    @Html.CheckBox("SeminarTerms", Model.SeminarTerms, new {@class="required"})
 
-                    <div>I Understand the terms of this application listed above.</div>
+                    <span>I Understand the terms of this application listed above.</span>
+                    @Html.ValidationMessage("SeminarTerms")
                 </div>
             </li>
         </ul>
