@@ -44,6 +44,28 @@
     </script>
 }
 
+@if (HttpContext.Current.Session["Passwords"] != null)
+{
+    var contents = (KeyValuePair<DateTime, byte[]>) HttpContext.Current.Session["Passwords"];
+    if (contents.Key.AddMinutes(10) > DateTime.Now)
+    {
+        <div style="margin: 1em; padding: 1em; border: 1px solid #C83900; background-color: #fcf0f0;">
+
+            <p>A password file has been generated from the mailing list used.  You have until @contents.Key.AddMinutes(10) to download the file.  The file can only be downloaded once and will be erased once downloaded.</p>
+
+            <div class="text_btn">
+            @Html.ActionLink("Please click here to Download", "DownloadPasswordFile", "Notification")
+            </div>
+
+        </div>            
+    }
+    else
+    {
+        HttpContext.Current.Session["Passwords"] = null;
+    }
+}
+
+
 <h3>Details</h3>
     <div class="display-form">
     <ul>
@@ -75,7 +97,7 @@
             <div class="display-details">@Html.DisplayFor(a => a.Seminar.RegistrationId)</div>
         </li>
         <li><div class="display-label">Cost:</div>
-            <div class="display-details">@string.Format("{0:C}",Model.Seminar.Cost)</div>
+            <div class="display-details">@string.Format("{0:C}", Model.Seminar.Cost)</div>
         </li>
     </ul>
     </div>

@@ -172,7 +172,7 @@ namespace Agribusiness.Web.Controllers
 
                 Message = string.Format(Messages.Saved, "Notification tracking");
 
-                if (tracking.Count == 1)
+                if (tracking.Count == 1 && !mailingListId.HasValue)
                 {
                     var person = tracking[0].Person;
 
@@ -280,10 +280,13 @@ namespace Agribusiness.Web.Controllers
                     }
 
                     eq.Body = _notificationService.GenerateNotification(eq.Body, person, notificationTracking.Seminar.Id, invitation, password);
-                    
-                    // add attachments
-                    var attachments = _attachmentRepository.Queryable.Where(a => attachmentIds.Contains(a.Id)).ToList();
-                    foreach(var a in attachments) eq.Attachments.Add(a);
+
+                    if (attachmentIds != null)
+                    {
+                        // add attachments
+                        var attachments = _attachmentRepository.Queryable.Where(a => attachmentIds.Contains(a.Id)).ToList();
+                        foreach (var a in attachments) eq.Attachments.Add(a);                        
+                    }
                     
                     eq.Person = person;
                     nt.EmailQueue = eq;
@@ -304,7 +307,7 @@ namespace Agribusiness.Web.Controllers
             return tracking;
         }
 
-        private bool GeneratePasswordReport(List<KeyValuePair<Person, string>> passwords, List<Invitation> invitations )
+        private void GeneratePasswordReport(List<KeyValuePair<Person, string>> passwords, List<Invitation> invitations )
         {
              try
             {
@@ -368,8 +371,23 @@ namespace Agribusiness.Web.Controllers
 
                 //return this.RedirectToAction<HomeController>(a => a.AdminHome());
             }
+        }
 
-            return true;
+        public FileResult DownloadPasswordFile()
+        {
+            if (ControllerContext.HttpContext.Session["Passwords"] != null)
+            {
+                var contents = (KeyValuePair<DateTime, byte[]>)ControllerContext.HttpContext.Session["Passwords"];
+
+                if (contents.Key.AddMinutes(10) > DateTime.Now)
+                {
+                    ControllerContext.HttpContext.Session["Passwords"] = null;
+                    return File(contents.Value, "application/vnd.ms-excel", "AgbizPasswords.xls");
+                }
+            }
+
+            ControllerContext.HttpContext.Session["Passwords"] = null;
+            return File(new byte[0], "text/plain");
         }
     }
 }
