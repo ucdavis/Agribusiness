@@ -89,6 +89,7 @@ namespace Agribusiness.Core.Domain
             Map(x => x.RegistrationBegin);
             Map(x => x.RegistrationDeadline);
             Map(x => x.RegistrationPassword);
+            Map(x => x.AcceptanceDate);
             Map(x => x.RegistrationId);
             Map(x => x.ReleaseToAttendees);
             Map(x => x.Cost);
