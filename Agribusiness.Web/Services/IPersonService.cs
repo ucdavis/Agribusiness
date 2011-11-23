@@ -18,5 +18,7 @@ namespace Agribusiness.Web.Services
         bool HasAccess(string loginId, int seminarId);
         bool HasAccess(string loginId, Seminar seminar);
         bool HasAccess(Person person, Seminar seminar);
+
+        List<KeyValuePair<Person, string>> ResetPasswords(List<Person> people);
     }
 }

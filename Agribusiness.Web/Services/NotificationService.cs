@@ -192,8 +192,11 @@ namespace Agribusiness.Web.Services
                 case "username":
                     return helper.UserName;
                 case "password":
-                    var password = _membershipService.ResetPasswordNoEmail(helper.UserName);
-                    return password;
+
+                    return helper.Password ?? _membershipService.ResetPasswordNoEmail(helper.UserName);
+
+                    //var password = _membershipService.ResetPasswordNoEmail(helper.UserName);
+                    ///return password;
             }
 
             throw new ArgumentException("Invalid parameter was passed.");

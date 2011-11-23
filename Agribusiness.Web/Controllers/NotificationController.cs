@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using Agribusiness.Core.Domain;
 using Agribusiness.Core.Resources;
@@ -10,6 +11,7 @@ using Agribusiness.Web.Controllers.Filters;
 using Agribusiness.Web.Models;
 using Agribusiness.Web.Services;
 using AutoMapper;
+using NPOI.HSSF.UserModel;
 using Resources;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
@@ -33,10 +35,11 @@ namespace Agribusiness.Web.Controllers
         private readonly IRepository<Attachment> _attachmentRepository;
         private readonly ISeminarService _seminarService;
         private readonly INotificationService _notificationService;
+        private readonly IPersonService _personService;
 
         public NotificationController(IRepository<Person> personRepository, IRepository<Seminar> seminarRepository, IRepository<NotificationTracking> notificationTrackingRepository
                                     , IRepositoryWithTypedId<NotificationMethod, string> notificationMethodRepository, IRepository<Attachment> attachmentRepository
-                                    , ISeminarService seminarService, INotificationService notificationService)
+                                    , ISeminarService seminarService, INotificationService notificationService, IPersonService personService)
         {
             _personRepository = personRepository;
             _seminarRepository = seminarRepository;
@@ -45,6 +48,7 @@ namespace Agribusiness.Web.Controllers
             _attachmentRepository = attachmentRepository;
             _seminarService = seminarService;
             _notificationService = notificationService;
+            _personService = personService;
         }
 
         public ActionResult Index()
@@ -241,6 +245,12 @@ namespace Agribusiness.Web.Controllers
             peeps.AddRange(mailingList.People);
 
             var tracking = new List<NotificationTracking>();
+            var passwords = new List<KeyValuePair<Person, string>>();
+            var invitations = new List<Invitation>();
+            if (mailingList.Name == MailingLists.Invitation)
+            {
+                passwords = _personService.ResetPasswords(peeps);
+            }
 
             foreach (var person in peeps.Distinct())
             {
@@ -258,13 +268,18 @@ namespace Agribusiness.Web.Controllers
                     Mapper.Map(emailQueue, eq);
 
                     Invitation invitation = null;
+                    string password = null;
                     if (mailingList.Name == MailingLists.Invitation)
                     {
                         // get the invitation object
                         invitation = Repository.OfType<Invitation>().Queryable.Where(a => a.Person == person && a.Seminar == notificationTracking.Seminar).FirstOrDefault();
+                        invitations.Add(invitation);
+
+                        // get the person object
+                        password = passwords.Where(a => a.Key == person).Select(a=>a.Value).FirstOrDefault();
                     }
 
-                    eq.Body = _notificationService.GenerateNotification(eq.Body, person, notificationTracking.Seminar.Id, invitation);
+                    eq.Body = _notificationService.GenerateNotification(eq.Body, person, notificationTracking.Seminar.Id, invitation, password);
                     
                     // add attachments
                     var attachments = _attachmentRepository.Queryable.Where(a => attachmentIds.Contains(a.Id)).ToList();
@@ -284,7 +299,77 @@ namespace Agribusiness.Web.Controllers
                 ModelState.AddModelError("Person", string.Format("Person with id {0} could not be found.", id));
             }
 
+            if (mailingList.Name == MailingLists.Invitation) GeneratePasswordReport(passwords, invitations);
+
             return tracking;
+        }
+
+        private bool GeneratePasswordReport(List<KeyValuePair<Person, string>> passwords, List<Invitation> invitations )
+        {
+             try
+            {
+                // Opening the Excel template...
+                var fs = new FileStream(Server.MapPath(@"~\Content\NPOITemplate.xls"), FileMode.Open, FileAccess.Read);
+
+                // Getting the complete workbook...
+                var templateWorkbook = new HSSFWorkbook(fs, true);
+
+                // Getting the worksheet by its name...
+                var sheet = templateWorkbook.GetSheetAt(0);// GetSheet("Sheet1");
+
+                // Getting the row... 0 is the first row. aka title row
+                var dataRow = sheet.CreateRow(0);
+                dataRow.CreateCell(0).SetCellValue("Last Name");
+                dataRow.CreateCell(1).SetCellValue("First Name");
+                dataRow.CreateCell(2).SetCellValue("User Name");
+                dataRow.CreateCell(3).SetCellValue("Password");
+                dataRow.CreateCell(4).SetCellValue("Title");
+                dataRow.CreateCell(5).SetCellValue("Firm");
+ 
+                // go through ever record and write out the spreadsheet
+                passwords = passwords.OrderBy(a => a.Key.LastName).ToList();
+
+                for(var i = 0; i < passwords.Count; i++)
+                {
+                    var password = passwords[i];
+                    dataRow = sheet.CreateRow(i + 1);
+
+                    var invitation = invitations.Where(a => a.Person == password.Key).FirstOrDefault();
+                    var seminarPerson = password.Key.GetLatestRegistration();
+
+                    // fill the data
+                    dataRow.CreateCell(0).SetCellValue(password.Key.LastName);
+                    dataRow.CreateCell(1).SetCellValue(password.Key.FirstName);
+                    dataRow.CreateCell(2).SetCellValue(password.Key.User.LoweredUserName);
+                    dataRow.CreateCell(3).SetCellValue(password.Value);
+                    dataRow.CreateCell(4).SetCellValue(invitation != null ? invitation.Title : (seminarPerson != null ? seminarPerson.Title : "n/a"));
+                    dataRow.CreateCell(5).SetCellValue(invitation != null ? invitation.FirmName : (seminarPerson != null ? seminarPerson.Firm.Name : "n/a"));
+                }
+                
+                // Forcing formula recalculation...
+                sheet.ForceFormulaRecalculation = true;
+
+                var ms = new MemoryStream();
+
+                // Writing the workbook content to the FileStream...
+                templateWorkbook.Write(ms);
+
+                // Sending the server processed data back to the user computer...
+                //return File(ms.ToArray(), "application/vnd.ms-excel", fileName);
+                //HttpContext.Session["Passwords"] = ms.ToArray();
+
+                ControllerContext.HttpContext.Session["Passwords"] = new KeyValuePair<DateTime, byte[]>(DateTime.Now, ms.ToArray());
+            }
+            catch (Exception ex)
+            {
+                throw;
+
+                //Message = "Error Creating Excel Report " + ex.Message;
+
+                //return this.RedirectToAction<HomeController>(a => a.AdminHome());
+            }
+
+            return true;
         }
     }
 }

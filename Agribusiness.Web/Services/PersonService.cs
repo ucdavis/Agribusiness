@@ -18,6 +18,7 @@ namespace Agribusiness.Web.Services
         private readonly IRepository<Seminar> _seminarRepository;
         private readonly IRepositoryWithTypedId<User, Guid> _userRepository;
         private readonly IFirmService _firmService;
+        private AccountMembershipService _membershipService;
 
         public PersonService(IRepository<Firm> firmRepository, IRepository<Person> personRepository, IRepository<SeminarPerson> seminarPersonRepository, IRepository<Seminar> seminarRepository, IRepositoryWithTypedId<User, Guid> userRepository, IFirmService firmService)
         {
@@ -27,6 +28,8 @@ namespace Agribusiness.Web.Services
             _seminarRepository = seminarRepository;
             _userRepository = userRepository;
             _firmService = firmService;
+
+            _membershipService = new AccountMembershipService();
         }
 
         /// <summary>
@@ -144,6 +147,21 @@ namespace Agribusiness.Web.Services
             Check.Require(seminar != null, "seminar is required.");
 
             return person.SeminarPeople.Any(a => a.Seminar == seminar) && seminar.ReleaseToAttendees;
+        }
+
+        public List<KeyValuePair<Person, string>> ResetPasswords(List<Person> people)
+        {
+
+            var result = new List<KeyValuePair<Person, string>>();
+
+            foreach (var person in people)
+            {
+                var password = _membershipService.ResetPasswordNoEmail(person.User.UserName);
+                result.Add(new KeyValuePair<Person, string>(person, password));
+            }
+
+            return result;
+
         }
 
         #region Helper Functions
