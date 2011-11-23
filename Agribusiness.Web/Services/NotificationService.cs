@@ -124,7 +124,7 @@ namespace Agribusiness.Web.Services
                 string.Format(
                     "Thank you for submitting your application to the UC Davis Agribusiness Executive Seminar.  Your application has been received and will be reviewed for admission. Applicants will be notified of admission decisions {0}.  If you have any questions, please feel free to contact Chris Akins at crakins@ucdavis.edu or visit the website at http://agribusiness.ucdavis.edu.",
                     seminar.AcceptanceDate.HasValue
-                        ? string.Format("by {0}", seminar.AcceptanceDate.Value.ToString("d"))
+                        ? string.Format("by {0}", string.Format("{0: MMMM dd, yyyy}", seminar.AcceptanceDate.Value))
                         : "in the near future");
 
             var emailQueue = new EmailQueue(person)
