@@ -724,9 +724,9 @@
     <Content Include="Views\Invitation\Create.cshtml" />
     <Content Include="Views\Error\FileNotFound.cshtml" />
     <None Include="Content\NPOITemplate.xls" />
-    <None Include="Doc\2012-Brochure.pdf">
+    <Content Include="Doc\2012-Brochure.pdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">
