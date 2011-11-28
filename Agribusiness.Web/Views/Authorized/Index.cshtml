@@ -11,16 +11,22 @@
 @section ScriptContent
 {
     <style type="text/css">
-        #welcome-msg, #current-seminar, #application {margin-bottom: 1em;}
+        #welcome-msg, #current-seminar, #application, #brochure {margin-bottom: 1em;}
         h3 {margin-bottom: .5em;}
         
         .text_btn { margin: 2em 0;}
+        
+        p {margin: 1em 0;}
     </style>
 }
 
 <div id="welcome-msg">@string.Format("Welcome {0}!", Model.Person.FullName)</div>
 
 <div id="current-seminar">Thank you for your interest in the UC Davis Agribusiness Executive Seminar.  We hope you'll join us @seminarInfo.</div>
+
+<div id="brochure">
+    <a href='@Url.Content("~/Doc/2012-Brochure.pdf")'>2012 Seminar Brochure</a>
+</div>
 
 <div id="application">
 
@@ -30,13 +36,21 @@
     {
     <h3>Apply</h3>
     
-    <p>Please @Html.ActionLink("click here", "Apply", "SeminarApplication") to begin the application process.</p>
+    @*<p>Please @Html.ActionLink("click here", "Apply", "SeminarApplication") to begin the application process.</p>*@
     @*<p>(Note, participation is strictly limited to those with the background interests to contribute most fully to the discussion at this year's seminar.  Application does not imply acceptance for participation.)</p>        *@
     
-    <p style="margin-bottom: 1em;">(Participation is strictly limited. Application does not imply acceptance for participation.)</p>
+    <p>
+        There are two ways to apply, online or by mail.  To begin the application process online, click on the Apply Online button below.  To apply by mail, download and print the application by clicking on the Apply by Mail button below.
+    </p>
+    
+    <p style="margin-bottom: 1em;"><em>(Participation is strictly limited. Application does not imply acceptance for participation.)</em></p>
     
     <div class="text_btn" >
-    <a href='@Url.Action("Apply", "SeminarApplication")'>Click here to Apply</a>
+    <a href='@Url.Action("Apply", "SeminarApplication")'>Click here to Apply Online</a>
+    </div>
+    
+    <div class="text_btn">
+    <a href="@Url.Content("~/Doc/2012-Application.pdf")">Click here to Apply by Mail</a>
     </div>
     }
 }
@@ -52,6 +66,13 @@ else
                 Thank you for submitting your application to the UC Davis Agribusiness Executive Seminar.  Your application has been received and will be reviewed for admission. Applicants will be notified of admission decisions @(Model.Seminar.AcceptanceDate.HasValue ? string.Format("by {0}", string.Format("{0: MMMM dd, yyyy}",Model.Seminar.AcceptanceDate.Value)) : "in the near future.")).  If you have any questions, please feel free to contact Chris Akins at <a href="mailto:crakins@ucdavis.edu">crakins@ucdavis.edu</a>.
             </p>
             
+            <p>
+                To reserve a room, please contact <a href="@Url.Action("Venue", "Public")">Monterey Plaza Hotel & Spa</a> at (800) 334-3999 and identify yourself as a UC Davis Agribusiness Executive Seminar participant to receive the special conference rate of $216/night. Please make your reservation by February 7, 2012.
+            </p>
+    
+   
+            <p>Participants should plan to arrive at the hotel by 1 p.m. Sunday, March 4, 2012. The opening session starts at 1:30 p.m. Check-in time is 4:00 p.m. and the hotel will store luggage in the meantime. We will conclude on Tuesday, March 6, 2012, at 3:45 p.m.</p>
+    
             @*<p>Your application is pending, you will be notified when a decision has been made.</p>*@
         }
         else
@@ -59,8 +80,15 @@ else
             if (Model.Application.IsApproved)
             { 
                 <p>
-                    @string.Format("The upcoming seminar is on {0}, to download documents and see other attendees click ", Model.Seminar.Begin.ToShortDateString())
-                    @Html.ActionLink("Here", "MySeminar", "Seminar", new { id = Model.SeminarPerson.Id }, new { })
+                    @*@string.Format("The upcoming seminar is on {0}, to download documents and see other attendees click ", Model.Seminar.Begin.ToShortDateString())
+                    @Html.ActionLink("Here", "MySeminar", "Seminar", new { id = Model.SeminarPerson.Id }, new { })*@
+
+                    Congratulations! You have been accepted for the March 4-6, 2012 UC Agribusiness Executive Seminar! Below is additional information for you to review. Please contact <a href="mailto:crakins@ucdavis.edu">Chris Akins</a> if you have questions. 
+
+                    <div class="text_btn">
+                        @Html.ActionLink("2012 Seminar Information", "MySeminar", "Seminar", new { id = Model.SeminarPerson.Id }, new { })
+                    </div>
+
                 </p>
             }
             else

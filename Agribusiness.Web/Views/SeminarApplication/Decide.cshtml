@@ -6,7 +6,7 @@
 }
 
 @section SubPageNavigation
-{
+{<a href="../Person/">../Person/</a>
     <ul class="navigation">
         <li>@Html.ActionLink("Back to List", "Index")</li>
     </ul>
@@ -43,6 +43,8 @@
                 });
 
             });
+
+            $("a.button").button();
         });
     </script>
 }
@@ -198,7 +200,7 @@
         @Html.TextArea("Reason", Model.DecisionReason, new { @style="height: 100px; width: 700px;" })
         <br />
         <div>
-            <a href="javascript:;" id="saveComments">Save Comments</a>
+            <a href="javascript:;" id="saveComments" class="button" style="color: white;">Save Comments</a>
             <span id="commentsLoading"><img src='@Url.Image("loading.gif")' alt="Saving Comment Indicator" /></span>
             <span id="commentsResult"></span>
         </div>
