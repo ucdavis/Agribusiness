@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <publishData>
-  <publishProfile publishUrl="\\hughman\wwwroot\Agribusiness" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="Test" publishMethod="FileSystem" replaceMatchingFiles="True" userName="" savePWD="False" userPWD="" SelectedForPublish="True">
+  <publishProfile publishUrl="\\hughman\wwwroot\Agribusiness" deleteExistingFiles="True" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="Test" publishMethod="FileSystem" replaceMatchingFiles="False" userName="" savePWD="False" userPWD="" SelectedForPublish="True">
     <file relUrl="Views/MailingList/Index.cshtml" publishTime="09/20/2011 08:24:43" />
     <file relUrl="bin/Agribusiness.Web.dll" publishTime="11/27/2011 20:23:53" />
     <file relUrl="Views/MailingList/Edit.cshtml" publishTime="09/20/2011 08:24:43" />
@@ -285,7 +285,7 @@
     <file relUrl="Scripts/jquery.validate.js" publishTime="09/20/2011 08:24:41" />
     <file relUrl="Scripts/tiny_mce/plugins/emotions/img/smiley-foot-in-mouth.gif" publishTime="09/20/2011 08:24:41" />
     <file relUrl="Scripts/tiny_mce/plugins/template/css/template.css" publishTime="09/20/2011 08:24:42" />
-    <file relUrl="Views/Notification/Send.cshtml" publishTime="11/22/2011 09:52:13" />
+    <file relUrl="Views/Notification/Send.cshtml" publishTime="11/27/2011 20:23:13" />
     <file relUrl="Scripts/tiny_mce/plugins/inlinepopups/skins/clearlooks2/img/alert.gif" publishTime="09/20/2011 08:24:42" />
     <file relUrl="Views/Home/About.cshtml" publishTime="09/20/2011 08:24:43" />
     <file relUrl="Scripts/tiny_mce/themes/advanced/js/charmap.js" publishTime="09/20/2011 08:24:42" />
@@ -353,7 +353,7 @@
     <file relUrl="Css/themes/base/images/ui-bg_glass_95_fef1ec_1x400.png" publishTime="09/20/2011 08:24:40" />
     <file relUrl="Scripts/tiny_mce/plugins/media/langs/en_dlg.js" publishTime="09/20/2011 08:24:42" />
     <file relUrl="Images/logo-agribusiness.png" publishTime="09/20/2011 08:24:41" />
-    <file relUrl="Css/main.css" publishTime="11/15/2011 17:18:49" />
+    <file relUrl="Css/main.css" publishTime="11/28/2011 07:38:33" />
     <file relUrl="Scripts/tiny_mce/plugins/xhtmlxtras/acronym.htm" publishTime="09/20/2011 08:24:42" />
     <file relUrl="Css/themes/base/images/ui-bg_glass_55_fbf9ee_1x400.png" publishTime="09/20/2011 08:24:40" />
     <file relUrl="Scripts/tiny_mce/plugins/emotions/img/smiley-cool.gif" publishTime="09/20/2011 08:24:41" />
