@@ -361,6 +361,9 @@ namespace Agribusiness.Web.Controllers
                 //return File(ms.ToArray(), "application/vnd.ms-excel", fileName);
                 //HttpContext.Session["Passwords"] = ms.ToArray();
 
+
+                ControllerContext.HttpContext.Session.Remove("Passwords");
+
                 ControllerContext.HttpContext.Session["Passwords"] = new KeyValuePair<DateTime, byte[]>(DateTime.Now, ms.ToArray());
             }
             catch (Exception ex)
@@ -381,12 +384,13 @@ namespace Agribusiness.Web.Controllers
 
                 if (contents.Key.AddMinutes(10) > DateTime.Now)
                 {
-                    ControllerContext.HttpContext.Session["Passwords"] = null;
+                    ControllerContext.HttpContext.Session.Remove("Passwords");
                     return File(contents.Value, "application/vnd.ms-excel", "AgbizPasswords.xls");
                 }
+
             }
 
-            ControllerContext.HttpContext.Session["Passwords"] = null;
+            ControllerContext.HttpContext.Session.Remove("Passwords");
             return File(new byte[0], "text/plain");
         }
     }
