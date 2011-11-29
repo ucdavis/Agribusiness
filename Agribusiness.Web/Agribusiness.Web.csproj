@@ -723,7 +723,9 @@
     <Content Include="Views\Invitation\Delete.cshtml" />
     <Content Include="Views\Invitation\Create.cshtml" />
     <Content Include="Views\Error\FileNotFound.cshtml" />
-    <None Include="Content\NPOITemplate.xls" />
+    <Content Include="Content\NPOITemplate.xls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Doc\2012-Brochure.pdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
