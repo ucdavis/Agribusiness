@@ -328,6 +328,12 @@ namespace Agribusiness.Web.Controllers
                 dataRow.CreateCell(3).SetCellValue("Password");
                 dataRow.CreateCell(4).SetCellValue("Title");
                 dataRow.CreateCell(5).SetCellValue("Firm");
+                dataRow.CreateCell(6).SetCellValue("Line 1");
+                dataRow.CreateCell(7).SetCellValue("Line 2");
+                dataRow.CreateCell(8).SetCellValue("City");
+                dataRow.CreateCell(9).SetCellValue("State");
+                dataRow.CreateCell(10).SetCellValue("Zip");
+                dataRow.CreateCell(11).SetCellValue("Country");
  
                 // go through ever record and write out the spreadsheet
                 passwords = passwords.OrderBy(a => a.Key.LastName).ToList();
@@ -347,6 +353,38 @@ namespace Agribusiness.Web.Controllers
                     dataRow.CreateCell(3).SetCellValue(password.Value);
                     dataRow.CreateCell(4).SetCellValue(invitation != null ? invitation.Title : (seminarPerson != null ? seminarPerson.Title : "n/a"));
                     dataRow.CreateCell(5).SetCellValue(invitation != null ? invitation.FirmName : (seminarPerson != null ? seminarPerson.Firm.Name : "n/a"));
+
+                    try
+                    {
+                        // try to get the courier address
+                        var address = invitation.Person.Addresses.Where(a => a.AddressType.Id == 'C').FirstOrDefault();
+                        if (address == null) address = invitation.Person.Addresses.Where(a => a.AddressType.Id == 'B').FirstOrDefault();
+
+                        if (address != null)
+                        {
+                            dataRow.CreateCell(6).SetCellValue(address.Line1);
+                            dataRow.CreateCell(7).SetCellValue(address.Line2);
+                            dataRow.CreateCell(8).SetCellValue(address.City);
+                            dataRow.CreateCell(9).SetCellValue(address.State);
+                            dataRow.CreateCell(10).SetCellValue(address.Zip);
+                            dataRow.CreateCell(11).SetCellValue(address.Country != null ? address.Country.Name : "n/a");
+                        }
+                        else
+                        {
+                            dataRow.CreateCell(6).SetCellValue("n/a");
+                            dataRow.CreateCell(7).SetCellValue("n/a");
+                            dataRow.CreateCell(8).SetCellValue("n/a");
+                            dataRow.CreateCell(9).SetCellValue("n/a");
+                            dataRow.CreateCell(10).SetCellValue("n/a");
+                            dataRow.CreateCell(11).SetCellValue("n/a");
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        //do nothing
+                    }
+
+                
                 }
                 
                 // Forcing formula recalculation...
