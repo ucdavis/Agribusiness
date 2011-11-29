@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Agribusiness.Core.Domain;
+using Agribusiness.Core.Resources;
 using Agribusiness.Web.Controllers.Filters;
 using Agribusiness.Web.Models;
+using Agribusiness.Web.Services;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Web.ActionResults;
 using UCDArch.Web.Controller;
@@ -20,10 +22,26 @@ namespace Agribusiness.Web.Controllers
     public class MailingListController : ApplicationController
     {
 	    private readonly IRepository<MailingList> _mailinglistRepository;
+        private readonly IRepository<Seminar> _seminarRepository;
+        private readonly ISeminarService _seminarService;
+        private List<string> _systemLists;
 
-        public MailingListController(IRepository<MailingList> mailinglistRepository)
+        public MailingListController(IRepository<MailingList> mailinglistRepository, IRepository<Seminar> seminarRepository, ISeminarService seminarService)
         {
             _mailinglistRepository = mailinglistRepository;
+            _seminarRepository = seminarRepository;
+            _seminarService = seminarService;
+
+            _systemLists = new List<string>();
+            _systemLists.Add(MailingLists.Applied);
+            _systemLists.Add(MailingLists.Attending);
+            _systemLists.Add(MailingLists.BioReminder);
+            _systemLists.Add(MailingLists.Denied);
+            _systemLists.Add(MailingLists.HotelReminder);
+            _systemLists.Add(MailingLists.Invitation);
+            _systemLists.Add(MailingLists.PaymentReminder);
+            _systemLists.Add(MailingLists.PhotoReminder);
+            _systemLists.Add(MailingLists.Registered);
         }
     
         /// <summary>
@@ -65,6 +83,15 @@ namespace Agribusiness.Web.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Create(MailingList mailinglist, int? seminarId)
         {
+            // make sure it's not a system mailing list
+            if (_systemLists.Contains(mailinglist.Name)) ModelState.AddModelError("Name", "The name is the same as a system defined mailing list.");
+
+            // make sure one doesn't already exist
+            if (mailinglist.Seminar.MailingLists.Any(a => a.Name == mailinglist.Name))
+            {
+                ModelState.AddModelError("Name", string.Format("A mailing list with the same name already exists for the {0} seminar.", mailinglist.Seminar.Year));
+            }
+
             if (ModelState.IsValid)
             {
                 _mailinglistRepository.EnsurePersistent(mailinglist);
@@ -87,7 +114,19 @@ namespace Agribusiness.Web.Controllers
         {
             var mailinglist = _mailinglistRepository.GetNullableById(id);
 
-            if (mailinglist == null) return RedirectToAction("Index");
+            if (mailinglist == null)
+            {
+                Message = "Unable to locate mailing list.";
+                return RedirectToAction("Index");
+            }
+
+            // check to make sure it's not a system mailing list
+            if (_systemLists.Contains(mailinglist.Name))
+            {
+                Message = "Unable to edit system mailing list.";
+                // redirect to index
+                return this.RedirectToAction(a => a.Index(mailinglist.Seminar.Id));
+            }
 
 			var viewModel = MailingListViewModel.Create(Repository, mailinglist, mailinglist.Seminar != null ? mailinglist.Seminar.Id : (int?)null);
 
@@ -105,6 +144,14 @@ namespace Agribusiness.Web.Controllers
             {
                 Message = "Unable to locate mailing list.";
                 return this.RedirectToAction(a => a.Index(null));
+            }
+
+            // check to make sure it's not a system mailing list
+            if (_systemLists.Contains(mailinglist.Name))
+            {
+                Message = "Unable to edit system mailing list.";
+                // redirect to index
+                return this.RedirectToAction(a => a.Index(mailinglist.Seminar.Id));
             }
 
             // transfer values
@@ -149,6 +196,14 @@ namespace Agribusiness.Web.Controllers
 
             if (mailinglist == null) return RedirectToAction("Index");
 
+            // check to make sure it's not a system mailing list
+            if (_systemLists.Contains(mailinglist.Name))
+            {
+                Message = "Unable to edit system mailing list.";
+                // redirect to index
+                return this.RedirectToAction(a => a.Index(mailinglist.Seminar.Id));
+            }
+
             return View(mailinglist);
         }
 
@@ -160,6 +215,14 @@ namespace Agribusiness.Web.Controllers
 			var mailinglistToDelete = _mailinglistRepository.GetNullableById(id);
 
             if (mailinglistToDelete == null) return RedirectToAction("Index");
+
+            // check to make sure it's not a system mailing list
+            if (_systemLists.Contains(mailinglist.Name))
+            {
+                Message = "Unable to edit system mailing list.";
+                // redirect to index
+                return this.RedirectToAction(a => a.Index(mailinglist.Seminar.Id));
+            }
 
             _mailinglistRepository.Remove(mailinglistToDelete);
 
