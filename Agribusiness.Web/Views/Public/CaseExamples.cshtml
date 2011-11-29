@@ -45,9 +45,36 @@
 The Seminar revolves around the discussion of company case studies and issue papers that explore important issues facing agriculture. A list of past cases and issues provides a sense of the content of the seminar.
 </p>
 
+<!-- No Case Studies for the current seminar -->
+@if(Model.CurrentSeminar.CaseStudies.Count == 0)
+{
+    <fieldset class="seminar-group">
+    
+        <legend>@string.Format("{0} UC Davis Agribusiness Executive Seminar", Model.CurrentSeminar.Year)</legend>
+
+        <p><em>Coming in October 2011</em></p>
+
+    </fieldset>
+}
+else
+{
+    <fieldset class="seminar-group">
+    
+        <legend>@string.Format("{0} UC Davis Agribusiness Executive Seminar", Model.CurrentSeminar.Year)</legend>
+
+        <ul>
+            @foreach (var caseStudy in Model.CurrentSeminar.CaseStudies)
+            {
+                <li>@caseStudy.Name</li>
+            }
+        </ul>
+
+    </fieldset>
+}
+
 <h3 style="font-weight: normal;">Past Case Studies and Issue Papers have included:</h3>
 
-@foreach (var year in Model.CaseStudies.Select(a => a.Seminar.Year).OrderBy(a => a).Distinct())
+@foreach (var year in Model.CaseStudies.Where(a => a.Seminar.Year != Model.CurrentSeminar.Year).Select(a => a.Seminar.Year).OrderBy(a => a).Distinct())
 {
     <fieldset class="seminar-group">
     
@@ -66,18 +93,6 @@ The Seminar revolves around the discussion of company case studies and issue pap
                 <li>@caseStudy.Name</li>
             }
         </ul>
-
-    </fieldset>
-}
-
-<!-- No Case Studies for the current seminar -->
-@if (!Model.CaseStudies.Select(a => a.Seminar.Year).Contains(Model.CurrentSeminar.Year))
-{
-    <fieldset class="seminar-group">
-    
-        <legend>@string.Format("{0} UC Davis Agribusiness Executive Seminar", Model.CurrentSeminar.Year)</legend>
-
-        <p><em>Coming in October 2011</em></p>
 
     </fieldset>
 }

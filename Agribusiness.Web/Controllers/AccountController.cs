@@ -4,8 +4,10 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
+using Agribusiness.Core.Domain;
 using Agribusiness.Web.Controllers.Filters;
 using Agribusiness.Web.Models;
+using UCDArch.Core.PersistanceSupport;
 using UCDArch.Web.Authentication;
 using MvcContrib;
 
@@ -13,6 +15,12 @@ namespace Agribusiness.Web.Controllers
 {
     public class AccountController : ApplicationController
     {
+        private readonly IRepository<User> _userRepository;
+
+        public AccountController(IRepository<User> userRepository)
+        {
+            _userRepository = userRepository;
+        }
 
         public IFormsAuthenticationService FormsService { get; set; }
         public IMembershipService MembershipService { get; set; }
@@ -159,8 +167,16 @@ namespace Agribusiness.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult ResetPassword(string userName)
+        public ActionResult ResetPassword(string userName, string email)
         {
+            // lookup by email
+            if (string.IsNullOrEmpty(userName) && !string.IsNullOrWhiteSpace(email))
+            {
+                var user = _userRepository.Queryable.Where(a => a.Membership.Email == email).FirstOrDefault();
+
+                if (user != null) userName = user.LoweredUserName;
+            }
+
             if (MembershipService.ResetPassword(userName))
             {
                 Message = "Your password has been reset, please check your email";

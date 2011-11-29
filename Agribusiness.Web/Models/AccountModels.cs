@@ -87,7 +87,7 @@ namespace Agribusiness.Web.Models
         MembershipCreateStatus CreateUser(string userName, string password, string email);
         bool ChangePassword(string userName, string oldPassword, string newPassword);
 
-        bool ResetPassword(string userName);
+        bool ResetPassword(string userName, string email = null);
 
         string ResetPasswordNoEmail(string userName);
         bool IsValidUser(string userName);
@@ -157,7 +157,7 @@ namespace Agribusiness.Web.Models
             }
         }
 
-        public bool ResetPassword(string userName)
+        public bool ResetPassword(string userName, string email = null)
         {
             try
             {
