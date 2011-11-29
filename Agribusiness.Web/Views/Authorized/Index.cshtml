@@ -50,7 +50,7 @@
     </div>
     
     <div class="text_btn">
-    <a href="@Url.Content("~/Doc/2012-Application.pdf")">Click here to Apply by Mail</a>
+        <a href="@Url.Content("~/Doc/2012-Application.pdf")">Click here to Apply by Mail</a>
     </div>
     }
 }
@@ -105,7 +105,7 @@ else
         @*<p>Your application is pending, you will be notified @(Model.Seminar.AcceptanceDate.HasValue ? string.Format("by {0}.", @Model.Seminar.AcceptanceDate.Value.ToString("d")) : "when a decision has been made.")</p>*@
     
         <p>
-            Thank you for submitting your application to the UC Davis Agribusiness Executive Seminar.  Your application has been received and will be reviewed for admission. Applicants will be notified of admission decisions @(Model.Seminar.AcceptanceDate.HasValue ? string.Format("by {0}", string.Format("{0: MMMM dd, yyyy}", Model.Seminar.AcceptanceDate.Value)) : "in the near future.")).  If you have any questions, please feel free to contact Chris Akins at <a href="emailto:crakins@ucdavis.edu">crakins@ucdavis.edu</a>.
+            Thank you for submitting your application to the UC Davis Agribusiness Executive Seminar.  Your application has been received and will be reviewed for admission. Applicants will be notified of admission decisions @(Model.Seminar.AcceptanceDate.HasValue ? string.Format("by {0}", string.Format("{0: MMMM dd, yyyy}", Model.Seminar.AcceptanceDate.Value)) : "in the near future.")).  If you have any questions, please feel free to contact Chris Akins at <a href="mailto:crakins@ucdavis.edu">crakins@ucdavis.edu</a>.
         </p>
     }
 }

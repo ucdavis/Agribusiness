@@ -2,37 +2,37 @@
 
 AS
 
-declare @cursor cursor
+--declare @cursor cursor
 
-declare @id int, @subject varchar(100), @body varchar(max), @from varchar(50), @email varchar(max)
+--declare @id int, @subject varchar(100), @body varchar(max), @from varchar(50), @email varchar(max)
 
-set @cursor = cursor for
-	select id, subject, body, fromaddress, email from vEmailQueue
+--set @cursor = cursor for
+--	select id, subject, body, fromaddress, email from vEmailQueue
 	
-open @cursor
+--open @cursor
 
-fetch next from @cursor into @id, @subject, @body, @from, @email
+--fetch next from @cursor into @id, @subject, @body, @from, @email
 
-while(@@FETCH_STATUS = 0)
-begin
+--while(@@FETCH_STATUS = 0)
+--begin
 
-	exec msdb.dbo.sp_send_dbmail
-		@profile_name = 'Agribusiness',
-		@from_address = 'agribusiness@ucdavis.edu',
-		@reply_to = 'agribusiness@ucdavis.edu',
-		@recipients = @email,
-		@subject = @subject,
-		@body = @body,
-		@body_format= 'HTML'
+--	exec msdb.dbo.sp_send_dbmail
+--		@profile_name = 'Agribusiness',
+--		@from_address = 'agribusiness@ucdavis.edu',
+--		@reply_to = 'agribusiness@ucdavis.edu',
+--		@recipients = @email,
+--		@subject = @subject,
+--		@body = @body,
+--		@body_format= 'HTML'
 
-	update emailqueue set pending = 0, SentDateTime = getdate() where id = @id
+--	update emailqueue set pending = 0, SentDateTime = getdate() where id = @id
 
-	fetch next from @cursor into @id, @subject, @body, @from, @email
+--	fetch next from @cursor into @id, @subject, @body, @from, @email
 
-end
+--end
 
-close @cursor
-deallocate @cursor
+--close @cursor
+--deallocate @cursor
 
 
 

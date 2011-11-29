@@ -273,6 +273,7 @@ namespace Agribusiness.Web.Controllers
                     {
                         // get the invitation object
                         invitation = Repository.OfType<Invitation>().Queryable.Where(a => a.Person == person && a.Seminar == notificationTracking.Seminar).FirstOrDefault();
+                        
                         invitations.Add(invitation);
 
                         // get the person object

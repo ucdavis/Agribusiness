@@ -239,7 +239,7 @@ namespace Agribusiness.Web.Controllers
         /// <returns></returns>
         public JsonNetResult GetList(int seminarId)
         {
-            var result = _mailinglistRepository.Queryable.Where(a => a.Seminar == null || a.Seminar.Id == seminarId);
+            var result = _mailinglistRepository.Queryable.Where(a => (a.Seminar == null || a.Seminar.Id == seminarId) && !_systemLists.Contains(a.Name));
 
             return new JsonNetResult(result.Select(a => new {Id=a.Id, Label=a.Name}));
         }
@@ -255,6 +255,12 @@ namespace Agribusiness.Web.Controllers
             var person = Repository.OfType<Person>().GetNullableById(personId);
 
             if (mailingList == null || person == null)
+            {
+                return new JsonNetResult(false);
+            }
+
+            // check to make sure it's not a system mailing list
+            if (_systemLists.Contains(mailingList.Name))
             {
                 return new JsonNetResult(false);
             }

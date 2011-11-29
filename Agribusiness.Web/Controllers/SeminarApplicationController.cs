@@ -196,11 +196,11 @@ namespace Agribusiness.Web.Controllers
 
                 if (application.Seminar.AcceptanceDate.HasValue)
                 {
-                    Message = string.Format("Thank you for successfully submitting your application.  Applicants will be notified of acceptance by {0}", application.Seminar.AcceptanceDate.Value.ToString("d"));
+                    Message = string.Format("Thank you for successfully submitting your application.<br/>  Applicants will be notified of acceptance by {0}", application.Seminar.AcceptanceDate.Value.ToString("d"));
                 }
                 else
                 {
-                    Message = "Thank you for successfully submitting your application.  Applicants will be notified in the near future.";
+                    Message = "Thank you for successfully submitting your application.<br/>  Applicants will be notified in the near future.";
                 }
 
                 return this.RedirectToAction<AuthorizedController>(a => a.Index());
