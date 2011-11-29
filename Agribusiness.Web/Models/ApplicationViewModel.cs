@@ -32,7 +32,7 @@ namespace Agribusiness.Web.Models
                                     Application = application ?? new Application(),
                                     // always get the latest
                                     Seminar = seminarService.GetCurrent(),
-                                    Commodities = repository.OfType<Commodity>().Queryable.OrderBy(a=>a.Name).ToList(),
+                                    Commodities = repository.OfType<Commodity>().Queryable.Where(a=>a.IsActive).OrderBy(a=>a.Name).ToList(),
                                     Countries = repository.OfType<Country>().GetAll(),
                                     CommunicationOptions = repository.OfType<CommunicationOption>().GetAll(),
                                     SeminarTerms = seminarTerms

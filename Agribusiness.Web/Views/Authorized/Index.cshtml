@@ -20,6 +20,8 @@
     </style>
 }
 
+<hr style="width: .5px solid lightgray; margin-bottom: 1em;"/>
+
 <div id="welcome-msg">@string.Format("Welcome {0}!", Model.Person.FullName)</div>
 
 <div id="current-seminar">Thank you for your interest in the UC Davis Agribusiness Executive Seminar.  We hope you'll join us @seminarInfo.</div>
@@ -63,7 +65,7 @@ else
         { 
             
             <p>
-                Thank you for submitting your application to the UC Davis Agribusiness Executive Seminar.  Your application has been received and will be reviewed for admission. Applicants will be notified of admission decisions @(Model.Seminar.AcceptanceDate.HasValue ? string.Format("by {0}", string.Format("{0: MMMM dd, yyyy}",Model.Seminar.AcceptanceDate.Value)) : "in the near future.")).  If you have any questions, please feel free to contact Chris Akins at <a href="mailto:crakins@ucdavis.edu">crakins@ucdavis.edu</a>.
+                Thank you for submitting your application to the UC Davis Agribusiness Executive Seminar.  Your application has been received and will be reviewed for admission. Applicants will be notified of admission decisions @(Model.Seminar.AcceptanceDate.HasValue ? string.Format("by {0}", string.Format("{0: MMMM dd, yyyy}",Model.Seminar.AcceptanceDate.Value)) : "in the near future.").  If you have any questions, please feel free to contact Chris Akins at <a href="mailto:crakins@ucdavis.edu">crakins@ucdavis.edu</a>.
             </p>
             
             <p>
