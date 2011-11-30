@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
 using System.Net.Mail;
@@ -70,23 +71,36 @@ public partial class StoredProcedures
 
             foreach (var email in emails)
             {
-                var msg = new MailMessage();
-                msg.From = new MailAddress(email.From);
-                foreach (var to in email.To) msg.To.Add(to);
-                //msg.To.Add("anlai@ucdavis.edu");
-                msg.Subject = email.Subject;
-                msg.Body = email.Body;
-                msg.IsBodyHtml = true;
-
-                foreach (var a in email.Attachments)
+                try
                 {
-                    msg.Attachments.Add(new System.Net.Mail.Attachment(a.Data, a.FileName, a.ContentType));
+                    var msg = new MailMessage();
+                    msg.From = new MailAddress(email.From);
+                    foreach (var to in email.To)
+                    {
+                        if (!string.IsNullOrEmpty(to.Trim())) msg.To.Add(to.Trim());
+                    }
+                    //msg.To.Add("anlai@ucdavis.edu");
+                    msg.Subject = email.Subject;
+                    msg.Body = email.Body;
+                    msg.IsBodyHtml = true;
+
+                    foreach (var a in email.Attachments)
+                    {
+                        msg.Attachments.Add(new System.Net.Mail.Attachment(a.Data, a.FileName, a.ContentType));
+                    }
+
+                    client.Send(msg);
+
+                    var update = new SqlCommand(string.Format(UpdateQueueQuery, email.Id), connection);
+                    update.ExecuteNonQuery();
+                }
+                catch (Exception exception)
+                {
+                    var ex = new Exception(string.Format("Error with email id {0} and address |{1}|", email.Id, email.To[0]), exception);
+
+                    throw ex;
                 }
 
-                client.Send(msg);
-
-                var update = new SqlCommand(string.Format(UpdateQueueQuery, email.Id), connection);
-                update.ExecuteNonQuery();
             }
 
         }
