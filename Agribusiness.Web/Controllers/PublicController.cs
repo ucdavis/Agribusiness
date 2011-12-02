@@ -160,20 +160,25 @@ namespace Agribusiness.Web.Controllers
             return View(informationRequest);
         }
 
-        public ActionResult GetPublicThumbnail(int id)
+        public ActionResult GetPublicThumbnail(int? id)
         {
-            var person = Repository.OfType<Person>().GetById(id);
+            if(id != null)
+            {
+                var person = Repository.OfType<Person>().GetById(id.Value);
 
-            if (person.MainProfilePicture != null) return File(person.ThumbnailPicture, person.ContentType);
 
-            // check to make sure it is ok
-            // for now only committee members can be downloaded from this action
-            var committeeRole = Repository.OfType<SeminarRole>().Queryable.Where(a => a.Id == StaticIndexes.Role_SteeringCommittee).FirstOrDefault();
-            var isCommitteeMember = Repository.OfType<SeminarPerson>().Queryable.Where(a => a.SeminarRoles.Contains(committeeRole) && a.Person == person).Any();
+                if (person.MainProfilePicture != null)
+                    return File(person.ThumbnailPicture, person.ContentType);
 
-            // not authorized to release this peroson's image
-            if (!isCommitteeMember) return File(new byte[0], string.Empty);
+                // check to make sure it is ok
+                // for now only committee members can be downloaded from this action
+                var committeeRole = Repository.OfType<SeminarRole>().Queryable.Where(a => a.Id == StaticIndexes.Role_SteeringCommittee).FirstOrDefault();
+                var isCommitteeMember = Repository.OfType<SeminarPerson>().Queryable.Where(a => a.SeminarRoles.Contains(committeeRole) && a.Person == person).Any();
 
+                // not authorized to release this person's image
+                if (!isCommitteeMember)
+                    return File(new byte[0], string.Empty);
+            }
             // load the default image
             var fs = new FileStream(Server.MapPath("~/Images/profileplaceholder_thumb.png"), FileMode.Open, FileAccess.Read);
             var img = new byte[fs.Length];
@@ -183,26 +188,31 @@ namespace Agribusiness.Web.Controllers
             return File(img, "image/png");
         }
 
-        public ActionResult GetPublicPicture(int id)
+        public ActionResult GetPublicPicture(int? id)
         {
-            var person = Repository.OfType<Person>().GetById(id);
-
-            // no result anyways
-            if (person == null)
+            if(id != null)
             {
-                return File(new byte[0], string.Empty);
+                var person = Repository.OfType<Person>().GetById(id.Value);
+
+
+                // no result anyways
+                if (person == null)
+                {
+                    return File(new byte[0], string.Empty);
+                }
+
+                // for now only committee members can be downloaded from this action
+                var committeeRole = Repository.OfType<SeminarRole>().Queryable.Where(a => a.Id == StaticIndexes.Role_SteeringCommittee).FirstOrDefault();
+                var isCommitteeMember = Repository.OfType<SeminarPerson>().Queryable.Where(a => a.SeminarRoles.Contains(committeeRole) && a.Person == person).Any();
+
+                // not authorized to release this person's image
+                if (!isCommitteeMember)
+                    return File(new byte[0], string.Empty);
+
+                // has picture return that
+                if (person.MainProfilePicture != null)
+                    return File(person.MainProfilePicture, person.ContentType);
             }
-
-            // for now only committee members can be downloaded from this action
-            var committeeRole = Repository.OfType<SeminarRole>().Queryable.Where(a => a.Id == StaticIndexes.Role_SteeringCommittee).FirstOrDefault();
-            var isCommitteeMember = Repository.OfType<SeminarPerson>().Queryable.Where(a => a.SeminarRoles.Contains(committeeRole) && a.Person == person).Any();
-
-            // not authorized to release this peroson's image
-            if (!isCommitteeMember) return File(new byte[0], string.Empty);
-
-            // has picture return that
-            if (person.MainProfilePicture != null) return File(person.MainProfilePicture, person.ContentType);
-
             // load the default image
             var fs = new FileStream(Server.MapPath("~/Images/profilepicplaceholder.png"), FileMode.Open, FileAccess.Read);
             var img = new byte[fs.Length];

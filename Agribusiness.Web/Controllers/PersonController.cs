@@ -760,12 +760,15 @@ namespace Agribusiness.Web.Controllers
             return View(person);
         }
 
-        public ActionResult GetOriginalPicture(int id)
+        public ActionResult GetOriginalPicture(int? id)
         {
-            var person = Repository.OfType<Person>().GetById(id);
+            if(id != null)
+            {
+                var person = Repository.OfType<Person>().GetById(id.Value);
 
-            if (person.OriginalPicture != null) return File(person.OriginalPicture, person.ContentType);
-
+                if (person.OriginalPicture != null)
+                    return File(person.OriginalPicture, person.ContentType);
+            }
             // load the default image
             var fs = new FileStream(Server.MapPath("~/Images/profilepicplaceholder.png"), FileMode.Open, FileAccess.Read);
             var img = new byte[fs.Length];
@@ -775,12 +778,15 @@ namespace Agribusiness.Web.Controllers
             return File(img, "image/png");
         }
 
-        public ActionResult GetProfilePicture(int id)
+        public ActionResult GetProfilePicture(int? id)
         {
-            var person = Repository.OfType<Person>().GetById(id);
+            if(id != null)
+            {
+                var person = Repository.OfType<Person>().GetById(id.Value);
 
-            if (person.MainProfilePicture != null) return File(person.MainProfilePicture, person.ContentType);
-
+                if (person.MainProfilePicture != null)
+                    return File(person.MainProfilePicture, person.ContentType);
+            }
             // load the default image
             var fs = new FileStream(Server.MapPath("~/Images/profilepicplaceholder.png"), FileMode.Open, FileAccess.Read);
             var img = new byte[fs.Length];
@@ -790,11 +796,18 @@ namespace Agribusiness.Web.Controllers
             return File(img, "image/png");
         }
 
-        public ActionResult GetThumbnail(int id)
+        public ActionResult GetThumbnail(int? id)
         {
-            var person = Repository.OfType<Person>().GetById(id);
+            if(id != null)
+            {
+                var person = Repository.OfType<Person>().GetById(id.Value);
 
-            if (person.MainProfilePicture != null) return File(person.ThumbnailPicture, person.ContentType);
+                if(person.MainProfilePicture != null)
+                {
+                    return File(person.ThumbnailPicture, person.ContentType);
+                }
+            }
+
 
             // load the default image
             var fs = new FileStream(Server.MapPath("~/Images/profileplaceholder_thumb.png"), FileMode.Open, FileAccess.Read);
