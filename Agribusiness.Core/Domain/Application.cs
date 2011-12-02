@@ -92,8 +92,8 @@ namespace Agribusiness.Core.Domain
         public virtual string FirmPhone { get; set; }
         [StringLength(10)]
         public virtual string FirmPhoneExt { get; set; }
-        [DataType(DataType.Url)]
-        [Url]
+        //[DataType(DataType.Url)]
+        //[Url]
         [StringLength(200)]
         public virtual string Website { get; set; }
         [Required]

@@ -347,7 +347,13 @@
 
 	<fieldset>
         <legend>Save</legend>
-		<ul>
+        <ul>
+        @if(ViewBag.Admin != null && ViewBag.Admin == true)
+        {
+            <li>
+                @Html.CheckBox("resetPassword") Reset Password!!!
+            </li>
+        }
 			<li><div class="editor-label"><label>&nbsp;</label></div>
 				<div class="editor-field">
                 <input type="submit" value="save" class="button" /> |
