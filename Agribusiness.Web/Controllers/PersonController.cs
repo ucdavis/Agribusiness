@@ -767,7 +767,7 @@ namespace Agribusiness.Web.Controllers
                 var person = Repository.OfType<Person>().GetById(id.Value);
 
                 if (person.OriginalPicture != null)
-                    return File(person.OriginalPicture, person.ContentType);
+                    return File(person.OriginalPicture, person.ContentType ?? "image/png");
             }
             // load the default image
             var fs = new FileStream(Server.MapPath("~/Images/profilepicplaceholder.png"), FileMode.Open, FileAccess.Read);
@@ -785,7 +785,7 @@ namespace Agribusiness.Web.Controllers
                 var person = Repository.OfType<Person>().GetById(id.Value);
 
                 if (person.MainProfilePicture != null)
-                    return File(person.MainProfilePicture, person.ContentType);
+                    return File(person.MainProfilePicture, person.ContentType ?? "image/png");
             }
             // load the default image
             var fs = new FileStream(Server.MapPath("~/Images/profilepicplaceholder.png"), FileMode.Open, FileAccess.Read);
@@ -804,7 +804,7 @@ namespace Agribusiness.Web.Controllers
 
                 if(person.MainProfilePicture != null)
                 {
-                    return File(person.ThumbnailPicture, person.ContentType);
+                    return File(person.ThumbnailPicture, person.ContentType ?? "image/png");
                 }
             }
 

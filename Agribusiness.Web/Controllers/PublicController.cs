@@ -168,7 +168,7 @@ namespace Agribusiness.Web.Controllers
 
 
                 if (person.MainProfilePicture != null)
-                    return File(person.ThumbnailPicture, person.ContentType);
+                    return File(person.ThumbnailPicture, person.ContentType ?? "image/png");
 
                 // check to make sure it is ok
                 // for now only committee members can be downloaded from this action
@@ -211,7 +211,7 @@ namespace Agribusiness.Web.Controllers
 
                 // has picture return that
                 if (person.MainProfilePicture != null)
-                    return File(person.MainProfilePicture, person.ContentType);
+                    return File(person.MainProfilePicture, person.ContentType ?? "image/png");
             }
             // load the default image
             var fs = new FileStream(Server.MapPath("~/Images/profilepicplaceholder.png"), FileMode.Open, FileAccess.Read);
