@@ -20,7 +20,8 @@ Thumbs.db
 *.ilk
 *.log
 *.xlsx
-#*.xls
+!NPOITemplate.xls
+*.xls
 *.csv
 [Bb]in
 [Dd]ebug*/
