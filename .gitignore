@@ -20,7 +20,7 @@ Thumbs.db
 *.ilk
 *.log
 *.xlsx
-*.xls
+#*.xls
 *.csv
 [Bb]in
 [Dd]ebug*/
