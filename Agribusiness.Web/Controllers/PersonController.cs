@@ -591,6 +591,31 @@ namespace Agribusiness.Web.Controllers
             return new JsonNetResult(string.Empty);
         }
 
+        [UserOnly]
+        [HttpPost]
+        public ActionResult ResetPassword(int id)
+        {
+            var person = _personRepository.GetNullableById(id);
+
+            if (person != null)
+            {
+                var password = _membershipService.ResetPasswordNoEmail(person.User.LoweredUserName);
+
+                if (string.IsNullOrWhiteSpace(password))
+                {
+                    Message = "Password reset failed.";
+                }
+                else
+                {
+                    Message = string.Format("Password has been reset to {0}", password);    
+                }
+
+                return this.RedirectToAction("AdminEdit", new { id = person.User.Id });
+            }
+
+            return this.RedirectToAction("Index");
+        }
+
         #endregion
 
         #region Profile Editing Functions

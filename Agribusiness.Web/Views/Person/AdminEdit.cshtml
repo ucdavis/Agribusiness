@@ -64,6 +64,16 @@
                     theme_advanced_resizing : false
                     
                 });
+
+            $("#submit-password-reset").click(function() {
+                
+                if (confirm("Are you sure you want to reset the user's password?")) {
+
+                    $(this).parents("form").submit();
+                    
+                }
+                
+            });
             
         });
     </script>
@@ -119,9 +129,22 @@
             <li>@Html.ActionLink("Invite To Seminar", "Create", "Invitation", new { personId = Model.PersonViewModel.Person.Id }, new { })</li>    
         }
         
+        <li>
+        
+            @using(Html.BeginForm("ResetPassword", "Person", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" value="@Model.PersonViewModel.Person.Id"/>
+                @*<input type="submit" value="Reset Password"/>*@
+                
+                <a href="javascript:;" id="submit-password-reset">Reset Password</a>
+                
+            }
+
+        </li>
+
     </ul>
     </div>
-
 </div>
 
 <div class="profile_information_container">
