@@ -211,8 +211,10 @@
         }
 	</fieldset>
 	
-
-     <fieldset>
+    
+    @if (Model.Seminar != null)
+    {
+<fieldset>
         <legend>Firm Information</legend>
 
         <p style="margin-bottom: 2em;">
@@ -283,8 +285,7 @@
         </ul>
 
     </fieldset>
-        @if (Model.Seminar != null)
-    {
+
     <fieldset>
         <legend>Commodities</legend>
 
@@ -348,12 +349,6 @@
 	<fieldset>
         <legend>Save</legend>
         <ul>
-        @if(ViewBag.Admin != null && ViewBag.Admin == true)
-        {
-            <li>
-                @Html.CheckBox("resetPassword") Reset Password!!!
-            </li>
-        }
 			<li><div class="editor-label"><label>&nbsp;</label></div>
 				<div class="editor-field">
                 <input type="submit" value="save" class="button" /> |
