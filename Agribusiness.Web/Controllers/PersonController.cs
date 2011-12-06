@@ -173,7 +173,7 @@ namespace Agribusiness.Web.Controllers
 
             var person = personEditModel.Person;
 
-            var user = _userRepository.Queryable.Where(a => a.UserName == personEditModel.UserName).FirstOrDefault();
+            var user = _userRepository.Queryable.Where(a => a.LoweredUserName == personEditModel.UserName.ToLower()).FirstOrDefault();
             person.User = user;
 
             SeminarPerson seminarPerson = null;
@@ -197,7 +197,7 @@ namespace Agribusiness.Web.Controllers
                                               , personEditModel.Email);
 
                 // retrieve the user to assign
-                var createdUser = _userRepository.Queryable.Where(a => a.LoweredUserName == personEditModel.UserName).FirstOrDefault();
+                var createdUser = _userRepository.Queryable.Where(a => a.LoweredUserName == personEditModel.UserName.ToLower()).FirstOrDefault();
                 person.User = createdUser;
 
                 // save only if user creation was successful
