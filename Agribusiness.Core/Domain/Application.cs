@@ -111,6 +111,9 @@ namespace Agribusiness.Core.Domain
         public virtual DateTime? DateDecision { get; set; }
         public virtual string DecisionReason { get; set; }
 
+        public virtual string OtherCommodity { get; set; }
+        public virtual string OtherFirmType { get; set; }
+
         /// <summary>
         /// Whether or not attendee has authorized release of personal contact information.
         /// </summary>

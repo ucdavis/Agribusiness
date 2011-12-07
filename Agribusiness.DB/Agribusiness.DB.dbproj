@@ -178,6 +178,9 @@
     <NotInBuild Include="Schema Objects\Database Level Objects\Assemblies\Agribusiness_1.CLR.dll">
       <SubType>NotInBuild</SubType>
     </NotInBuild>
+    <NotInBuild Include="Schema Objects\Database Level Objects\Assemblies\Agribusiness_2.CLR.dll">
+      <SubType>NotInBuild</SubType>
+    </NotInBuild>
   </ItemGroup>
   <ItemGroup>
     <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_Applications_DateSubmitted.defconst.sql">
@@ -921,13 +924,22 @@
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\usp_SendEmails.proc.sql">
       <SubType>Code</SubType>
     </Build>
+    <Build Include="Schema Objects\Schemas\dbo\Tables\FirmTypes.table.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_FirmTypes_IsActive.defconst.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Application_FirmType.fkey.sql">
+      <SubType>Code</SubType>
+    </Build>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Agribusiness.CLR, Version=1.0.4344.14594, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="Agribusiness.CLR, Version=1.0.4358.14065, Culture=neutral, PublicKeyToken=null">
       <Name>Agribusiness.CLR</Name>
-      <AssemblyName>Agribusiness_1.CLR.dll</AssemblyName>
+      <AssemblyName>Agribusiness_2.CLR.dll</AssemblyName>
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Schema Objects\Database Level Objects\Assemblies\Agribusiness_1.CLR.dll</HintPath>
+      <HintPath>Schema Objects\Database Level Objects\Assemblies\Agribusiness_2.CLR.dll</HintPath>
       <Private>True</Private>
       <SqlAssemblyName>Agribusiness.CLR</SqlAssemblyName>
       <SqlOwnerName>dbo</SqlOwnerName>

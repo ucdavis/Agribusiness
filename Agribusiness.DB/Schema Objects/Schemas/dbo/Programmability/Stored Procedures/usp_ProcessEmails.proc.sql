@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[usp_ProcessEmails]
+﻿/*CREATE PROCEDURE [dbo].[usp_ProcessEmails]
 
 AS
 
@@ -36,4 +36,4 @@ AS
 
 
 
-RETURN 0
+RETURN 0*/

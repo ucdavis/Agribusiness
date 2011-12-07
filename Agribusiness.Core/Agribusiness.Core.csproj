@@ -76,6 +76,7 @@
     <Compile Include="Domain\Country.cs" />
     <Compile Include="Domain\EmailQueue.cs" />
     <Compile Include="Domain\Firm.cs" />
+    <Compile Include="Domain\FirmType.cs" />
     <Compile Include="Domain\InformationRequest.cs" />
     <Compile Include="Domain\InformationRequestNote.cs" />
     <Compile Include="Domain\Invitation.cs" />
