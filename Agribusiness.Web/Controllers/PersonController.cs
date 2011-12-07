@@ -231,7 +231,6 @@ namespace Agribusiness.Web.Controllers
             }
 
             ViewBag.AllList = allList ?? false;
-            ViewBag.Admin = true;
 
             var viewModel = AdminPersonViewModel.Create(Repository, _firmService, _seminarService, seminarId, user.Person, user.Email);
 
@@ -242,9 +241,8 @@ namespace Agribusiness.Web.Controllers
 
         [UserOnly]
         [HttpPost]
-        public ActionResult AdminEdit(Guid id, int? seminarId, bool? allList, PersonEditModel personEditModel, HttpPostedFileBase profilepic, bool resetPassword = false)
+        public ActionResult AdminEdit(Guid id, int? seminarId, bool? allList, PersonEditModel personEditModel, HttpPostedFileBase profilepic)
         {
-            ViewBag.Admin = true;
             var user = _userRepository.GetNullableById(id);
             
             if (user == null)
@@ -268,19 +266,6 @@ namespace Agribusiness.Web.Controllers
 
                 if (seminarPerson != null) _seminarPersonRepository.EnsurePersistent(seminarPerson);
                 Message = string.Format(Messages.Saved, "Person");
-
-                if(resetPassword)
-                {
-                    var pass = _membershipService.ResetPasswordNoEmail(personEditModel.UserName);
-                    if(string.IsNullOrWhiteSpace(pass))
-                    {
-                        Message = string.Format("{0} Update Password Failed!", Message);
-                    }
-                    else
-                    {
-                        Message = string.Format("{0} New Password {1}", Message, pass);
-                    }
-                }
 
                 // send to crop photo if one was uploaded
                 if (profilepic != null) return this.RedirectToAction(a => a.UpdateProfilePicture(person.Id, seminarId));
