@@ -70,6 +70,11 @@ namespace Agribusiness.Web
             {
                 args.Dismiss();
             }
+            
+            if (args.Exception.GetBaseException().Message.Contains("Cannot redirect after HTTP headers have been sent."))
+            {
+                args.Dismiss();
+            }
         }
     }
 }
