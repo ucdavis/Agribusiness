@@ -33,7 +33,12 @@
     [DateDecision]              DATETIME         NULL,
     [DecisionReason]            VARCHAR (MAX)    NULL,
     [ContactInformationRelease] BIT              NOT NULL,
-    [CommunicationOptionId]     CHAR (2)         NOT NULL
+    [CommunicationOptionId]     CHAR (2)         NOT NULL,
+
+	[OtherCommodity]			VARCHAR (MAX)	 NULL,
+	[FirmTypeId]				INT				 NULL,
+	[OtherFirmType]				VARCHAR (MAX)	 NULL
+	
 );
 
 

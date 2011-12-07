@@ -23,9 +23,14 @@
             height: 25px;
         }
         
-        input[type='text'], textarea, select
+        input[type='text'], textarea
         {
             width: 250px;
+        }
+        
+        select
+        {
+            width: 262px;
         }
         
         textarea
@@ -36,6 +41,20 @@
         form fieldset div.editor-label, .display-form div.display-label
         {
             width: 150px;
+        }
+        
+        
+        #commodity-other-container
+        {
+            clear: both;
+            width: 350px;
+        }
+
+        #Application_OtherCommodity
+        {
+            margin-left: 20px;
+            padding: .4em;
+            min-width: 200px;
         }
     </style>
 
@@ -52,6 +71,23 @@
 
             $("#selectFirm_btn").click(function () {
                 $("#firm_dialog").dialog("open");
+            });
+
+            $("#Application_FirmType").change(function () {
+
+                if ($(this).find(":selected").text() == "Other") {
+                    $("#firmtype-other").show();
+                }
+                else {
+                    $("#firmtype-other").hide();
+                }
+            });
+
+            $("#Application_OtherCommodity").bind("focus blur keyup", function () {
+
+                if ($(this).val() != "") { $("#commodity-other").attr("checked", "checked"); }
+                else $("#commodity-other").removeAttr("checked");
+
             });
         });
 
@@ -168,15 +204,15 @@
 
 
         @{
-            var existing = Model.Application.Firm == null;
-            var newFirm = string.IsNullOrWhiteSpace(Model.Application.FirmName) && string.IsNullOrWhiteSpace(Model.Application.FirmDescription);
+    var existing = Model.Application.Firm == null;
+    var newFirm = string.IsNullOrWhiteSpace(Model.Application.FirmName) && string.IsNullOrWhiteSpace(Model.Application.FirmDescription);
 
-            var displayExisting = existing ? "display:none;" : "";
-            var displayNew = newFirm ? "display:none;" : "";
-            
-            var combined = existing && newFirm ? "display:none;" : "";
-            
-            var existingFirmName = Model.Application.Firm != null ? Model.Application.Firm.Name : string.Empty;
+    var displayExisting = existing ? "display:none;" : "";
+    var displayNew = newFirm ? "display:none;" : "";
+
+    var combined = existing && newFirm ? "display:none;" : "";
+
+    var existingFirmName = Model.Application.Firm != null ? Model.Application.Firm.Name : string.Empty;
         }
 
         <div class="display-form" id="existingFirmInformation" style='@displayExisting' >
@@ -185,7 +221,7 @@
         @Html.Hidden("Application.Firm", Model.Application.Firm != null ? Model.Application.Firm.Id.ToString() : string.Empty)
 
         <ul>
-            <li><div class="display-label">@Html.LabelFor(model=>model.Application.FirmName)</div>
+            <li><div class="display-label">@Html.LabelFor(model => model.Application.FirmName)</div>
                 <div class="display-details"><span id="firmName">@existingFirmName</span></div>
             </li>
         </ul>
@@ -193,76 +229,84 @@
 
         @* Only needed if firm name has not been selected *@
         <ul id="firmInformation" style='@displayNew'>
-            <li><div class="editor-label required">@Html.LabelFor(model=>model.Application.FirmName)<span>*</span></div>
+            <li><div class="editor-label required">@Html.LabelFor(model => model.Application.FirmName)<span>*</span></div>
                 <div class="editor-field">@Html.TextBox("Application.FirmName", Model.Application.FirmName)</div>
             </li>
-            <li><div class="editor-label required">@Html.LabelFor(model=>model.Application.FirmDescription)<span>*</span></div>
+            <li><div class="editor-label required">@Html.LabelFor(model => model.Application.FirmDescription)<span>*</span></div>
                 <div class="editor-field">@Html.TextArea("Application.FirmDescription", Model.Application.FirmDescription)</div>
             </li>
         </ul>
 
         @* Job Information *@
         <ul id="jobInformation" style='@combined'>
-
-            <li><div class="editor-label">@Html.LabelFor(model=>model.Application.Website)</div>
-                <div class="editor-field">@Html.TextBoxFor(a=>a.Application.Website)</div>
-            </li>
-            <li><div class="editor-label required">@Html.LabelFor(model=>model.Application.JobTitle)<span>*</span></div>
-                <div class="editor-field">@Html.TextBoxFor(a=>a.Application.JobTitle)</div>
-            </li>
-            <li><div class="editor-label required">@Html.LabelFor(model=>model.Application.Responsibilities)<span>*</span></div>
-                <div class="editor-field">@Html.TextAreaFor(a=>a.Application.Responsibilities)</div>
-            </li>
-            <li><div class="editor-label required">@Html.LabelFor(model=>model.Application.FirmPhone)<span>*</span></div>
+            <li><div class="editor-label required">@Html.LabelFor(model => model.Application.FirmType)<span>*</span></div>
                 <div class="editor-field">
-                    @Html.TextBoxFor(a => a.Application.FirmPhone, new { placeholder="eg. (555) 555-5555" })
-                    @Html.ValidationMessageFor(a=>a.Application.FirmPhone)
+                    @this.Select("Application.FirmType").Options(Model.FirmTypes, x => x.Id, x => x.Name).FirstOption("--Select Firm Type--").Selected(Model.Application.FirmType != null ? Model.Application.FirmType.Id.ToString() : string.Empty)
+
+                    <span id="firmtype-other" style="display:none;">
+                        @Html.TextBoxFor(model => model.Application.OtherFirmType)
+                    </span>
                 </div>
             </li>
-            <li><div class="editor-label">@Html.LabelFor(model=>model.Application.FirmPhoneExt)</div>
+            <li><div class="editor-label">@Html.LabelFor(model => model.Application.Website)</div>
+                <div class="editor-field">@Html.TextBoxFor(a => a.Application.Website)</div>
+            </li>
+            <li><div class="editor-label required">@Html.LabelFor(model => model.Application.JobTitle)<span>*</span></div>
+                <div class="editor-field">@Html.TextBoxFor(a => a.Application.JobTitle)</div>
+            </li>
+            <li><div class="editor-label required">@Html.LabelFor(model => model.Application.Responsibilities)<span>*</span></div>
+                <div class="editor-field">@Html.TextAreaFor(a => a.Application.Responsibilities)</div>
+            </li>
+            <li><div class="editor-label required">@Html.LabelFor(model => model.Application.FirmPhone)<span>*</span></div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(a => a.Application.FirmPhone, new { placeholder = "eg. (555) 555-5555" })
+                    @Html.ValidationMessageFor(a => a.Application.FirmPhone)
+                </div>
+            </li>
+            <li><div class="editor-label">@Html.LabelFor(model => model.Application.FirmPhoneExt)</div>
                 <div class="editor-field">
                     @Html.TextBoxFor(a => a.Application.FirmPhoneExt)
-                    @Html.ValidationMessageFor(a =>a.Application.FirmPhoneExt)
+                    @Html.ValidationMessageFor(a => a.Application.FirmPhoneExt)
                 </div>
             </li>
         </ul>
 
         @* Always need to fill in the address information *@
         <ul id="firmAddress" style='@combined'>
-            <li><div class="editor-label required">@Html.LabelFor(model=>model.Application.FirmAddressLine1)<span>*</span></div>
+            <li><div class="editor-label required">@Html.LabelFor(model => model.Application.FirmAddressLine1)<span>*</span></div>
                 <div class="editor-field">
-                    @Html.TextBoxFor(a=>a.Application.FirmAddressLine1)
-                    @Html.ValidationMessageFor(a=>a.Application.FirmAddressLine1)
+                    @Html.TextBoxFor(a => a.Application.FirmAddressLine1)
+                    @Html.ValidationMessageFor(a => a.Application.FirmAddressLine1)
                 </div>
             </li>
-            <li><div class="editor-label">@Html.LabelFor(model=>model.Application.FirmAddressLine2)</div>
+            <li><div class="editor-label">@Html.LabelFor(model => model.Application.FirmAddressLine2)</div>
                 <div class="editor-field">
-                    @Html.TextBoxFor(a=>a.Application.FirmAddressLine2)
-                    @Html.ValidationMessageFor(a=>a.Application.FirmAddressLine2)
+                    @Html.TextBoxFor(a => a.Application.FirmAddressLine2)
+                    @Html.ValidationMessageFor(a => a.Application.FirmAddressLine2)
                 </div>
             </li>
-            <li><div class="editor-label required">@Html.LabelFor(model=>model.Application.FirmCity)<span>*</span></div>
+            <li><div class="editor-label required">@Html.LabelFor(model => model.Application.FirmCity)<span>*</span></div>
                 <div class="editor-field">
-                    @Html.TextBoxFor(a=>a.Application.FirmCity)
-                    @Html.ValidationMessageFor(a=>a.Application.FirmCity)
+                    @Html.TextBoxFor(a => a.Application.FirmCity)
+                    @Html.ValidationMessageFor(a => a.Application.FirmCity)
                 </div>
             </li>
-            <li><div class="editor-label required">@Html.LabelFor(model=>model.Application.FirmState)<span>*</span></div>
+            <li><div class="editor-label required">@Html.LabelFor(model => model.Application.FirmState)<span>*</span></div>
                 <div class="editor-field">
-                    @Html.TextBoxFor(a=>a.Application.FirmState)                    
-                    @Html.ValidationMessageFor(a=>a.Application.FirmState)
+                    @Html.TextBoxFor(a => a.Application.FirmState)                    
+                    @Html.ValidationMessageFor(a => a.Application.FirmState)
                 </div>
             </li>
-            <li><div class="editor-label required">@Html.LabelFor(model=>model.Application.FirmZip)<span>*</span></div>
+            <li><div class="editor-label required">@Html.LabelFor(model => model.Application.FirmZip)<span>*</span></div>
                 <div class="editor-field">
-                    @Html.TextBoxFor(a=>a.Application.FirmZip)
-                    @Html.ValidationMessageFor(a=>a.Application.FirmZip)    
+                    @Html.TextBoxFor(a => a.Application.FirmZip)
+                    @Html.ValidationMessageFor(a => a.Application.FirmZip)    
                 </div>
             </li>
-            <li><div class="editor-label reuqired">@Html.LabelFor(a=>a.Application.Country)<span>*</span></div>
+            <li><div class="editor-label reuqired">@Html.LabelFor(a => a.Application.Country)<span>*</span></div>
                 <div class="editor-field">
-                    @this.Select("Application.Country").Options(Model.Countries, x=>x.Id, x=>x.Name).FirstOption("--Select a Country--").Selected(Model.Application.Country != null ? Model.Application.Country.Id : "USA")
-                    @Html.ValidationMessageFor(a=>a.Application.Country)
+                    @this.Select("Application.Country").Options(Model.Countries, x => x.Id, x => x.Name).FirstOption("--Select a Country--").Selected(Model.Application.Country != null ? Model.Application.Country.Id : "USA")
+                    @Html.ValidationMessageFor(a => a.Application.Country)
                 </div>
             </li>
         </ul>
@@ -280,6 +324,11 @@
                     @c.Name
                 </li>
             }
+
+            <li id="commodity-other-container">
+                <input type="checkbox" id="commodity-other" @(!string.IsNullOrWhiteSpace(Model.Application.OtherCommodity) ? "checked" : string.Empty) /> <span>Other</span>
+                @Html.TextBoxFor(model=>model.Application.OtherCommodity)
+            </li>
         </ul>
 
     </fieldset>
@@ -300,7 +349,7 @@
         <li>
             <div class="editor-label">&nbsp;</div>
             <div class="editor-field">
-            @this.Select("Application.CommunicationOption").Options(Model.CommunicationOptions, x=>x.Id, x=>x.Name).FirstOption("--Select Communication Option--").Selected(Model.Application.CommunicationOption != null ? Model.Application.CommunicationOption.Id : string.Empty)    
+            @this.Select("Application.CommunicationOption").Options(Model.CommunicationOptions, x => x.Id, x => x.Name).FirstOption("--Select Communication Option--").Selected(Model.Application.CommunicationOption != null ? Model.Application.CommunicationOption.Id : string.Empty)    
             </div>
         </li>
         </ul>
@@ -386,7 +435,7 @@
         </p>
 
         <ul>
-            <li><div class="editor-label">&nbsp;</div>
+            <li><div class="editor-label"><img src="@Url.Action("GetThumbnail", "Person", new { id = Model.PersonId })" alt="Profile Picture" /></div>
                 <div class="editor-field">
                     <input type="file" id="file" name="file" />
                 </div>
@@ -407,7 +456,7 @@
             <li>
                 <div class="editor-label">&nbsp;</div>
                 <div class="editor-field">
-                    @Html.CheckBoxFor(a=>a.Application.ContactInformationRelease) 
+                    @Html.CheckBoxFor(a => a.Application.ContactInformationRelease) 
                     <text>I Agree</text>    
                 </div>
             </li>
@@ -425,7 +474,7 @@
         <ul>
             <li><div class="editor-label">&nbsp;</div>
                 <div class="editor-field">
-                    @Html.CheckBox("SeminarTerms", Model.SeminarTerms, new {@class="required"})
+                    @Html.CheckBox("SeminarTerms", Model.SeminarTerms, new { @class = "required" })
 
                     <span>I Understand the terms of this application listed above.</span>
                     @Html.ValidationMessage("SeminarTerms")

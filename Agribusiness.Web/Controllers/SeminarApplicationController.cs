@@ -183,6 +183,11 @@ namespace Agribusiness.Web.Controllers
 
             application.TransferValidationMessagesTo(ModelState);
 
+            if (application.FirmType != null && application.FirmType.Name == "Other" && string.IsNullOrWhiteSpace(application.OtherFirmType))
+            {
+                ModelState.AddModelError("Firm Type", "Please define Firm Type.");
+            }
+
             if (!seminarTerms) ModelState.AddModelError("Seminar Terms", "Agreeing to the seminar terms are required.");
 
             if (ModelState.IsValid)
@@ -201,6 +206,11 @@ namespace Agribusiness.Web.Controllers
                 else
                 {
                     Message = "Thank you for successfully submitting your application.<br/>  Applicants will be notified in the near future.";
+                }
+
+                if (application.Photo != null)
+                {
+                    return this.RedirectToAction("UpdateProfilePicture", "Person", new {id = application.User.Person.Id});
                 }
 
                 return this.RedirectToAction<AuthorizedController>(a => a.Index());

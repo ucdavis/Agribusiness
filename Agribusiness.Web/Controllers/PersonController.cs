@@ -735,7 +735,7 @@ namespace Agribusiness.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdateProfilePicture(int id, int? seminarId, int x, int y, int height, int width)
+        public ActionResult UpdateProfilePicture(int id, int? seminarId, int? x, int? y, int? height, int? width)
         {
             var person = _personRepository.GetNullableById(id);
 
@@ -745,14 +745,21 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction(a => a.Index(null));
             }
 
+            // ensure that a crop has been specified
+            if (!x.HasValue || !y.HasValue || !height.HasValue || !width.HasValue)
+            {
+                Message = "Please specify a crop of the picture by clicking and dragging the box over the crop you would like.";
+                return View(person);
+            }
+
             // validate this is the person or is a person in user role
             if (person.User.LoweredUserName != CurrentUser.Identity.Name.ToLower() && !Roles.IsUserInRole(RoleNames.User))
             {
                 return this.RedirectToAction<ErrorController>(a => a.NotAuthorized());
             }
-            
+
             // crop the image
-            var cropped = _pictureService.Crop(person.OriginalPicture, x, y, width, height);
+            var cropped = _pictureService.Crop(person.OriginalPicture, x.Value, y.Value, width.Value, height.Value);
 
             // get the main profile picture
             person.MainProfilePicture = _pictureService.MakeMainProfile(cropped);
@@ -774,7 +781,7 @@ namespace Agribusiness.Web.Controllers
                     return this.RedirectToAction(a => a.AdminEdit(person.User.Id, seminarId.Value, null));
                 }
 
-                if (CurrentUser.Identity.Name.Contains("@"))
+                if (_userRepository.Queryable.Where(a => a.LoweredUserName == CurrentUser.Identity.Name.ToLower()).Any())
                 {
                     return this.RedirectToAction(a => a.Edit(null));
                 }

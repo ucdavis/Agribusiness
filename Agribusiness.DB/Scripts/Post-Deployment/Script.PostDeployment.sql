@@ -33,77 +33,93 @@ begin
 insert ContactTypes (id, Name) values ('E', 'Emergency')
 end
 
-
-if not exists (select * from commodities where Name = 'Agricultural Chemicals') begin insert into commodities (name) values ('Agricultural Chemicals') end
-if not exists (select * from commodities where Name = 'Alfalfa') begin insert into commodities (name) values ('Alfalfa') end
-if not exists (select * from commodities where Name = 'Almonds') begin insert into commodities (name) values ('Almonds') end
-if not exists (select * from commodities where Name = 'Artichokes') begin insert into commodities (name) values ('Artichokes') end
-if not exists (select * from commodities where Name = 'Asparagus') begin insert into commodities (name) values ('Asparagus') end
-if not exists (select * from commodities where Name = 'Avocados') begin insert into commodities (name) values ('Avocados') end
-if not exists (select * from commodities where Name = 'Beef') begin insert into commodities (name) values ('Beef') end
-if not exists (select * from commodities where Name = 'Berries') begin insert into commodities (name) values ('Berries') end
-if not exists (select * from commodities where Name = 'Beveages') begin insert into commodities (name) values ('Beveages') end
-if not exists (select * from commodities where Name = 'Biofuels') begin insert into commodities (name) values ('Biofuels') end
-if not exists (select * from commodities where Name = 'Potatoes') begin insert into commodities (name) values ('Potatoes') end
-if not exists (select * from commodities where Name = 'Blueberries') begin insert into commodities (name) values ('Blueberries') end
-if not exists (select * from commodities where Name = 'Bottled Water') begin insert into commodities (name) values ('Bottled Water') end
-if not exists (select * from commodities where Name = 'Broccoli, Fresh') begin insert into commodities (name) values ('Broccoli, Fresh') end
-if not exists (select * from commodities where Name = 'Carrots') begin insert into commodities (name) values ('Carrots') end
-if not exists (select * from commodities where Name = 'Cherries') begin insert into commodities (name) values ('Cherries') end
 if not exists (select * from commodities where Name = 'Citrus') begin insert into commodities (name) values ('Citrus') end
-if not exists (select * from commodities where Name = 'Consumer Packaged Foods') begin insert into commodities (name) values ('Consumer Packaged Foods') end
-if not exists (select * from commodities where Name = 'Cotton') begin insert into commodities (name) values ('Cotton') end
-if not exists (select * from commodities where Name = 'Dairy') begin insert into commodities (name) values ('Dairy') end
-if not exists (select * from commodities where Name = 'Dates') begin insert into commodities (name) values ('Dates') end
-if not exists (select * from commodities where Name = 'Dressings') begin insert into commodities (name) values ('Dressings') end
-if not exists (select * from commodities where Name = 'Eggs') begin insert into commodities (name) values ('Eggs') end
-if not exists (select * from commodities where Name = 'Field Crops') begin insert into commodities (name) values ('Field Crops') end
-if not exists (select * from commodities where Name = 'Floral') begin insert into commodities (name) values ('Floral') end
-if not exists (select * from commodities where Name = 'Food, Processed') begin insert into commodities (name) values ('Food, Processed') end
-if not exists (select * from commodities where Name = 'Fruit, Fresh') begin insert into commodities (name) values ('Fruit, Fresh') end
-if not exists (select * from commodities where Name = 'Fruits, Processed') begin insert into commodities (name) values ('Fruits, Processed') end
-if not exists (select * from commodities where Name = 'Fruits and Vegetables, Frozen') begin insert into commodities (name) values ('Fruits and Vegetables, Frozen') end
-if not exists (select * from commodities where Name = 'Garlic') begin insert into commodities (name) values ('Garlic') end
-if not exists (select * from commodities where Name = 'Grains') begin insert into commodities (name) values ('Grains') end
-if not exists (select * from commodities where Name = 'Grapes, Raisins') begin insert into commodities (name) values ('Grapes, Raisins') end
-if not exists (select * from commodities where Name = 'Grapes, Table') begin insert into commodities (name) values ('Grapes, Table') end
-if not exists (select * from commodities where Name = 'Grapes, Wine') begin insert into commodities (name) values ('Grapes, Wine') end
-if not exists (select * from commodities where Name = 'Ice Cream') begin insert into commodities (name) values ('Ice Cream') end
-if not exists (select * from commodities where Name = 'Juice') begin insert into commodities (name) values ('Juice') end
-if not exists (select * from commodities where Name = 'Leafy Greens, Fresh') begin insert into commodities (name) values ('Leafy Greens, Fresh') end
-if not exists (select * from commodities where Name = 'Lemons') begin insert into commodities (name) values ('Lemons') end
-if not exists (select * from commodities where Name = 'Lettuce') begin insert into commodities (name) values ('Lettuce') end
-if not exists (select * from commodities where Name = 'Nectarines') begin insert into commodities (name) values ('Nectarines') end
-if not exists (select * from commodities where Name = 'Nutraceuticals / Functional Foods') begin insert into commodities (name) values ('Nutraceuticals / Functional Foods') end
-if not exists (select * from commodities where Name = 'Nuts') begin insert into commodities (name) values ('Nuts') end
-if not exists (select * from commodities where Name = 'Oats') begin insert into commodities (name) values ('Oats') end
-if not exists (select * from commodities where Name = 'Olives') begin insert into commodities (name) values ('Olives') end
-if not exists (select * from commodities where Name = 'Packaged Salads') begin insert into commodities (name) values ('Packaged Salads') end
-if not exists (select * from commodities where Name = 'Peaches') begin insert into commodities (name) values ('Peaches') end
-if not exists (select * from commodities where Name = 'Pears') begin insert into commodities (name) values ('Pears') end
+if not exists (select * from commodities where Name = 'Other Tree Fruit') begin insert into commodities (name) values ('Other Tree Fruit') end
 if not exists (select * from commodities where Name = 'Pistachios') begin insert into commodities (name) values ('Pistachios') end
-if not exists (select * from commodities where Name = 'Plant Oils') begin insert into commodities (name) values ('Plant Oils') end
-if not exists (select * from commodities where Name = 'Plums') begin insert into commodities (name) values ('Plums') end
-if not exists (select * from commodities where Name = 'Pomegranates') begin insert into commodities (name) values ('Pomegranates') end
-if not exists (select * from commodities where Name = 'Pork') begin insert into commodities (name) values ('Pork') end
-if not exists (select * from commodities where Name = 'Produce, Fresh') begin insert into commodities (name) values ('Produce, Fresh') end
-if not exists (select * from commodities where Name = 'Prunes') begin insert into commodities (name) values ('Prunes') end
-if not exists (select * from commodities where Name = 'Raisins') begin insert into commodities (name) values ('Raisins') end
-if not exists (select * from commodities where Name = 'Rice') begin insert into commodities (name) values ('Rice') end
-if not exists (select * from commodities where Name = 'Seeds') begin insert into commodities (name) values ('Seeds') end
-if not exists (select * from commodities where Name = 'Strawberries') begin insert into commodities (name) values ('Strawberries') end
-if not exists (select * from commodities where Name = 'Sauces') begin insert into commodities (name) values ('Sauces') end
-if not exists (select * from commodities where Name = 'Tomato Products') begin insert into commodities (name) values ('Tomato Products') end
-if not exists (select * from commodities where Name = 'Tomatoes, Fresh') begin insert into commodities (name) values ('Tomatoes, Fresh') end
-if not exists (select * from commodities where Name = 'Value-Added') begin insert into commodities (name) values ('Value-Added') end
-if not exists (select * from commodities where Name = 'Vegetables, Fresh') begin insert into commodities (name) values ('Vegetables, Fresh') end
-if not exists (select * from commodities where Name = 'Vegetables, Greenhouse') begin insert into commodities (name) values ('Vegetables, Greenhouse') end
+if not exists (select * from commodities where Name = 'Almonds') begin insert into commodities (name) values ('Almonds') end
 if not exists (select * from commodities where Name = 'Walnuts') begin insert into commodities (name) values ('Walnuts') end
-if not exists (select * from commodities where Name = 'Wheat') begin insert into commodities (name) values ('Wheat') end
+if not exists (select * from commodities where Name = 'Dairy') begin insert into commodities (name) values ('Dairy') end
+if not exists (select * from commodities where Name = 'Fresh Vegetables and Produce') begin insert into commodities (name) values ('Fresh Vegetables and Produce') end
+if not exists (select * from commodities where Name = 'Processing Tomatoes') begin insert into commodities (name) values ('Processing Tomatoes') end
+if not exists (select * from commodities where Name = 'Other Processing Vegetables') begin insert into commodities (name) values ('Other Processing Vegetables') end
+if not exists (select * from commodities where Name = 'Raisin Grapes') begin insert into commodities (name) values ('Raisin Grapes') end
+if not exists (select * from commodities where Name = 'Wine Grapes') begin insert into commodities (name) values ('Wine Grapes') end
+if not exists (select * from commodities where Name = 'Table Grapes') begin insert into commodities (name) values ('Table Grapes') end
 if not exists (select * from commodities where Name = 'Wine') begin insert into commodities (name) values ('Wine') end
-if not exists (select * from commodities where Name = 'Wood Products') begin insert into commodities (name) values ('Wood Products') end
-if not exists (select * from commodities where Name = 'Wool') begin insert into commodities (name) values ('Wool') end
-if not exists (select * from commodities where Name = 'Raspberries') begin insert into commodities (name) values ('Raspberries') end
+if not exists (select * from commodities where Name = 'Eggs') begin insert into commodities (name) values ('Eggs') end
+if not exists (select * from commodities where Name = 'Poultry') begin insert into commodities (name) values ('Poultry') end
+if not exists (select * from commodities where Name = 'Cattle and Other Livestock') begin insert into commodities (name) values ('Cattle and Other Livestock') end
+if not exists (select * from commodities where Name = 'Flowers and Foliage ') begin insert into commodities (name) values ('Flowers and Foliage ') end
+if not exists (select * from commodities where Name = 'Other Nursery and Greenhouse') begin insert into commodities (name) values ('Other Nursery and Greenhouse') end
+if not exists (select * from commodities where Name = 'Berries') begin insert into commodities (name) values ('Berries') end
+if not exists (select * from commodities where Name = 'Corn') begin insert into commodities (name) values ('Corn') end
+if not exists (select * from commodities where Name = 'Alfalfa') begin insert into commodities (name) values ('Alfalfa') end
+if not exists (select * from commodities where Name = 'Wheat') begin insert into commodities (name) values ('Wheat') end
+if not exists (select * from commodities where Name = 'Cotton') begin insert into commodities (name) values ('Cotton') end
+if not exists (select * from commodities where Name = 'Other Field Crops') begin insert into commodities (name) values ('Other Field Crops') end
+if not exists (select * from commodities where Name = 'Seeds') begin insert into commodities (name) values ('Seeds') end
+if not exists (select * from commodities where Name = 'Biofuels') begin insert into commodities (name) values ('Biofuels') end
+
+
+/*
+	Removed as of 12/7/2011, By order of Dan
+*/
+--if not exists (select * from commodities where Name = 'Agricultural Chemicals') begin insert into commodities (name) values ('Agricultural Chemicals') end
+--if not exists (select * from commodities where Name = 'Almonds') begin insert into commodities (name) values ('Almonds') end
+--if not exists (select * from commodities where Name = 'Artichokes') begin insert into commodities (name) values ('Artichokes') end
+--if not exists (select * from commodities where Name = 'Asparagus') begin insert into commodities (name) values ('Asparagus') end
+--if not exists (select * from commodities where Name = 'Avocados') begin insert into commodities (name) values ('Avocados') end
+--if not exists (select * from commodities where Name = 'Beef') begin insert into commodities (name) values ('Beef') end
+--if not exists (select * from commodities where Name = 'Berries') begin insert into commodities (name) values ('Berries') end
+--if not exists (select * from commodities where Name = 'Beveages') begin insert into commodities (name) values ('Beveages') end
+--if not exists (select * from commodities where Name = 'Potatoes') begin insert into commodities (name) values ('Potatoes') end
+--if not exists (select * from commodities where Name = 'Blueberries') begin insert into commodities (name) values ('Blueberries') end
+--if not exists (select * from commodities where Name = 'Bottled Water') begin insert into commodities (name) values ('Bottled Water') end
+--if not exists (select * from commodities where Name = 'Broccoli, Fresh') begin insert into commodities (name) values ('Broccoli, Fresh') end
+--if not exists (select * from commodities where Name = 'Carrots') begin insert into commodities (name) values ('Carrots') end
+--if not exists (select * from commodities where Name = 'Cherries') begin insert into commodities (name) values ('Cherries') end
+--if not exists (select * from commodities where Name = 'Consumer Packaged Foods') begin insert into commodities (name) values ('Consumer Packaged Foods') end
+--if not exists (select * from commodities where Name = 'Dates') begin insert into commodities (name) values ('Dates') end
+--if not exists (select * from commodities where Name = 'Dressings') begin insert into commodities (name) values ('Dressings') end
+--if not exists (select * from commodities where Name = 'Field Crops') begin insert into commodities (name) values ('Field Crops') end
+--if not exists (select * from commodities where Name = 'Floral') begin insert into commodities (name) values ('Floral') end
+--if not exists (select * from commodities where Name = 'Food, Processed') begin insert into commodities (name) values ('Food, Processed') end
+--if not exists (select * from commodities where Name = 'Fruit, Fresh') begin insert into commodities (name) values ('Fruit, Fresh') end
+--if not exists (select * from commodities where Name = 'Fruits, Processed') begin insert into commodities (name) values ('Fruits, Processed') end
+--if not exists (select * from commodities where Name = 'Fruits and Vegetables, Frozen') begin insert into commodities (name) values ('Fruits and Vegetables, Frozen') end
+--if not exists (select * from commodities where Name = 'Garlic') begin insert into commodities (name) values ('Garlic') end
+--if not exists (select * from commodities where Name = 'Grains') begin insert into commodities (name) values ('Grains') end
+--if not exists (select * from commodities where Name = 'Ice Cream') begin insert into commodities (name) values ('Ice Cream') end
+--if not exists (select * from commodities where Name = 'Juice') begin insert into commodities (name) values ('Juice') end
+--if not exists (select * from commodities where Name = 'Leafy Greens, Fresh') begin insert into commodities (name) values ('Leafy Greens, Fresh') end
+--if not exists (select * from commodities where Name = 'Lemons') begin insert into commodities (name) values ('Lemons') end
+--if not exists (select * from commodities where Name = 'Lettuce') begin insert into commodities (name) values ('Lettuce') end
+--if not exists (select * from commodities where Name = 'Nectarines') begin insert into commodities (name) values ('Nectarines') end
+--if not exists (select * from commodities where Name = 'Nutraceuticals / Functional Foods') begin insert into commodities (name) values ('Nutraceuticals / Functional Foods') end
+--if not exists (select * from commodities where Name = 'Nuts') begin insert into commodities (name) values ('Nuts') end
+--if not exists (select * from commodities where Name = 'Oats') begin insert into commodities (name) values ('Oats') end
+--if not exists (select * from commodities where Name = 'Olives') begin insert into commodities (name) values ('Olives') end
+--if not exists (select * from commodities where Name = 'Packaged Salads') begin insert into commodities (name) values ('Packaged Salads') end
+--if not exists (select * from commodities where Name = 'Peaches') begin insert into commodities (name) values ('Peaches') end
+--if not exists (select * from commodities where Name = 'Pears') begin insert into commodities (name) values ('Pears') end
+--if not exists (select * from commodities where Name = 'Plant Oils') begin insert into commodities (name) values ('Plant Oils') end
+--if not exists (select * from commodities where Name = 'Plums') begin insert into commodities (name) values ('Plums') end
+--if not exists (select * from commodities where Name = 'Pomegranates') begin insert into commodities (name) values ('Pomegranates') end
+--if not exists (select * from commodities where Name = 'Pork') begin insert into commodities (name) values ('Pork') end
+--if not exists (select * from commodities where Name = 'Produce, Fresh') begin insert into commodities (name) values ('Produce, Fresh') end
+--if not exists (select * from commodities where Name = 'Prunes') begin insert into commodities (name) values ('Prunes') end
+--if not exists (select * from commodities where Name = 'Raisins') begin insert into commodities (name) values ('Raisins') end
+--if not exists (select * from commodities where Name = 'Rice') begin insert into commodities (name) values ('Rice') end
+--if not exists (select * from commodities where Name = 'Seeds') begin insert into commodities (name) values ('Seeds') end
+--if not exists (select * from commodities where Name = 'Strawberries') begin insert into commodities (name) values ('Strawberries') end
+--if not exists (select * from commodities where Name = 'Sauces') begin insert into commodities (name) values ('Sauces') end
+--if not exists (select * from commodities where Name = 'Tomatoes, Fresh') begin insert into commodities (name) values ('Tomatoes, Fresh') end
+--if not exists (select * from commodities where Name = 'Value-Added') begin insert into commodities (name) values ('Value-Added') end
+--if not exists (select * from commodities where Name = 'Vegetables, Fresh') begin insert into commodities (name) values ('Vegetables, Fresh') end
+--if not exists (select * from commodities where Name = 'Vegetables, Greenhouse') begin insert into commodities (name) values ('Vegetables, Greenhouse') end
+--if not exists (select * from commodities where Name = 'Wood Products') begin insert into commodities (name) values ('Wood Products') end
+--if not exists (select * from commodities where Name = 'Wool') begin insert into commodities (name) values ('Wool') end
+--if not exists (select * from commodities where Name = 'Raspberries') begin insert into commodities (name) values ('Raspberries') end
 
 /*
 	removed as of 5/4/2011
@@ -515,3 +531,40 @@ if not exists (select * from roomtypes where name = 'Spa Terrace')
 begin  insert into roomtypes (name) values ('Spa Terrace')  end
 if not exists (select * from roomtypes where name = 'Executive Suites')  
 begin  insert into roomtypes (name) values ('Executive Suites')  end
+
+
+
+if not exists (select * from FirmTypes where Name = 'Ag. Production')
+begin
+	insert into FirmTypes (Name) values ('Ag. Production')
+end
+
+if not exists (select * from FirmTypes where Name = 'Processing and Marketing')
+begin
+	insert into FirmTypes (Name) values ('Processing and Marketing')
+end
+
+if not exists (select * from FirmTypes where Name = 'Farm Inputs')
+begin
+	insert into FirmTypes (Name) values ('Farm Inputs')
+end
+
+if not exists (select * from FirmTypes where Name = 'Financial Services')
+begin
+	insert into FirmTypes (Name) values ('Financial Services')
+end
+
+if not exists (select * from FirmTypes where Name = 'Other Farm Services')
+begin
+	insert into FirmTypes (Name) values ('Other Farm Services')
+end
+
+if not exists (select * from FirmTypes where Name = 'Restaurants and Food Service')
+begin
+	insert into FirmTypes (Name) values ('Restaurants and Food Service')
+end
+
+if not exists (select * from FirmTypes where Name = 'Retail')
+begin
+	insert into FirmTypes (Name) values ('Retail')
+end

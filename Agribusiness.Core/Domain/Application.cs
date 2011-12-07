@@ -90,6 +90,7 @@ namespace Agribusiness.Core.Domain
         [DataType(DataType.PhoneNumber)]
         [Display(Name = "Phone Number")]
         public virtual string FirmPhone { get; set; }
+        [Display(Name="Extension")]
         [StringLength(10)]
         public virtual string FirmPhoneExt { get; set; }
         //[DataType(DataType.Url)]
@@ -112,6 +113,8 @@ namespace Agribusiness.Core.Domain
         public virtual string DecisionReason { get; set; }
 
         public virtual string OtherCommodity { get; set; }
+        [Display(Name="Firm Type")]
+        public virtual FirmType FirmType { get; set; }
         public virtual string OtherFirmType { get; set; }
 
         /// <summary>
@@ -186,6 +189,10 @@ namespace Agribusiness.Core.Domain
             Map(x => x.DateSubmitted);
             Map(x => x.DateDecision);
             Map(x => x.DecisionReason);
+
+            Map(x => x.OtherCommodity);
+            References(x => x.FirmType);
+            Map(x => x.OtherFirmType);
 
             References(x => x.CommunicationOption);
 
