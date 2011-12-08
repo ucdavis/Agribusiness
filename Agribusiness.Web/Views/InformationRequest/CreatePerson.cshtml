@@ -1,10 +1,15 @@
 ﻿@model Agribusiness.Web.Models.PersonViewModel
 
 @{
-    ViewBag.Title = "CreatePerson";
+    ViewBag.Title = "Create Person";
+    ViewBag.SubPageTitle = "Create Person from Information Request";
 }
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("CreatePerson", "InformationRequest", FormMethod.Post, new { enctype = "multipart/form-data"}) )
 {
-@Html.Partial("_PersonForm")    
+    
+    @Html.ValidationSummary(false)
+    
+    @Html.Partial("_PersonForm")    
+    
 }

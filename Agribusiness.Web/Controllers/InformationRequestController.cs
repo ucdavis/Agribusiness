@@ -1,5 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using Agribusiness.Core.Domain;
 using Agribusiness.Web.App_GlobalResources;
 using Agribusiness.Web.Controllers.Filters;
@@ -24,13 +29,25 @@ namespace Agribusiness.Web.Controllers
         private readonly IRepository<InformationRequestNote> _informationRequestNoteRepository;
         private readonly IRepositoryWithTypedId<AddressType, char> _addressTypeRepository;
         private readonly IFirmService _firmService;
+        private readonly IRepository<Seminar> _seminarRepository;
+        private readonly IRepository<User> _userRepository;
+        private readonly ISeminarService _seminarService;
+        private readonly IRepository<Person> _personRepository;
 
-        public InformationRequestController(IRepository<InformationRequest> informationrequestRepository, IRepository<InformationRequestNote> informationRequestNoteRepository, IRepositoryWithTypedId<AddressType, char> addressTypeRepository, IFirmService firmService)
+        private readonly IMembershipService _membershipService;
+
+        public InformationRequestController(IRepository<InformationRequest> informationrequestRepository, IRepository<InformationRequestNote> informationRequestNoteRepository, IRepositoryWithTypedId<AddressType, char> addressTypeRepository, IFirmService firmService, IRepository<Seminar> seminarRepository, IRepository<User> userRepository, ISeminarService seminarService, IRepository<Person> personRepository )
         {
             _informationrequestRepository = informationrequestRepository;
             _informationRequestNoteRepository = informationRequestNoteRepository;
             _addressTypeRepository = addressTypeRepository;
             _firmService = firmService;
+            _seminarRepository = seminarRepository;
+            _userRepository = userRepository;
+            _seminarService = seminarService;
+            _personRepository = personRepository;
+
+            _membershipService = new AccountMembershipService();
         }
 
         //
@@ -175,6 +192,178 @@ namespace Agribusiness.Web.Controllers
             return View(viewModel);
         }
 
+        [HttpPost]
+        public ActionResult CreatePerson(int id, PersonEditModel personEditModel, HttpPostedFileBase profilepic)
+        {
+            ModelState.Clear();
+
+            var person = personEditModel.Person;
+
+            var user = _userRepository.Queryable.Where(a => a.LoweredUserName == personEditModel.UserName.ToLower()).FirstOrDefault();
+            person.User = user;
+
+            SeminarPerson seminarPerson = null;
+            
+            person = SetPerson(personEditModel, seminarPerson, ModelState, person, profilepic);
+
+            ModelState.Remove("Person.User");
+
+            if (ModelState.IsValid)
+            {
+
+                // try to create the user
+                var createStatus = _membershipService.CreateUser(personEditModel.UserName
+                                              , Guid.NewGuid().ToString().Replace("-", string.Empty).Substring(0, 10)
+                                              , personEditModel.Email);
+
+                // retrieve the user to assign
+                var createdUser = _userRepository.Queryable.Where(a => a.LoweredUserName == personEditModel.UserName.ToLower()).FirstOrDefault();
+                person.User = createdUser;
+
+                // save only if user creation was successful
+                if (createStatus == MembershipCreateStatus.Success)
+                {
+                    // we're good save the person object
+                    _personRepository.EnsurePersistent(person);
+                    Message = string.Format(Messages.Saved, "Person");
+
+                    if (person.OriginalPicture != null) return this.RedirectToAction<PersonController>(a => a.UpdateProfilePicture(person.Id, null));
+
+                    return this.RedirectToAction<PersonController>(a => a.AdminEdit(person.User.Id, null, true));
+                }
+
+                ModelState.AddModelError("Create User", AccountValidation.ErrorCodeToString(createStatus));
+            }
+
+            var viewModel = PersonViewModel.Create(Repository, _firmService, null, person, personEditModel.Email);
+            viewModel.Addresses = personEditModel.Addresses;
+            viewModel.UserName = personEditModel.UserName;
+            return View(viewModel);
+        }
+
+        private Person SetPerson(PersonEditModel personEditModel, SeminarPerson seminarPerson, ModelStateDictionary modelState, Person person = null, HttpPostedFileBase profilePic = null)
+        {
+            modelState.Clear();
+
+            person = person ?? personEditModel.Person;
+
+            // copy all the fields
+            Mapper.Map(personEditModel, person);
+
+            SetAddresses(person, personEditModel.Addresses, ModelState);
+            SetContacts(person, personEditModel.Contacts, ModelState);
+
+            if (seminarPerson != null)
+            {
+                SetCommodities(seminarPerson, personEditModel.Commodities);
+
+                seminarPerson.Firm = personEditModel.Firm ?? new Firm(personEditModel.FirmName, personEditModel.FirmDescription) { WebAddress = personEditModel.FirmWebAddress };
+                seminarPerson.Title = personEditModel.Title;
+            }
+
+            // deal with the image))
+            if (profilePic != null)
+            {
+                // blank out existing image files
+                person.OriginalPicture = null;
+                person.MainProfilePicture = null;
+                person.ThumbnailPicture = null;
+
+                // read the file and set the original picture
+                var reader = new BinaryReader(profilePic.InputStream);
+                person.OriginalPicture = reader.ReadBytes(profilePic.ContentLength);
+                person.ContentType = profilePic.ContentType;
+            }
+
+            // run the validation
+            person.TransferValidationMessagesTo(modelState);
+
+            return person;
+        }
+
+        private static void SetAddresses(Person person, IList<Address> addresses, ModelStateDictionary modelState)
+        {
+            // remove the blank address
+            var remove = addresses.Where(a => !a.HasAddress()).ToList();
+            foreach (var a in remove) addresses.Remove(a);
+
+            // update/add updated addresses
+            foreach (var addr in addresses)
+            {
+                var type = addr.AddressType;
+                var origAddress = person.Addresses.Where(a => a.AddressType == type).FirstOrDefault();
+
+                // run validation if required
+                if (type.Required)
+                {
+                    addr.Person = person;
+                    addr.TransferValidationMessagesTo(modelState);
+                }
+
+                // address was entered
+                if (addr.HasAddress())
+                {
+                    // person did not have this address in the first place, add it in
+                    if (origAddress == null)
+                    {
+                        person.AddAddress(addr);
+                    }
+                    // update existing address
+                    else
+                    {
+                        Mapper.Map(addr, origAddress);
+                    }
+                }
+                // address was blanked out/removed
+                else
+                {
+                    if (origAddress != null) person.Addresses.Remove(origAddress);
+                }
+            }
+
+        }
+        private static void SetContacts(Person person, IList<Contact> contacts, ModelStateDictionary modelState)
+        {
+            // remove the blanks
+            var remove = contacts.Where(a => !a.HasContact).ToList();
+            foreach (var a in remove) contacts.Remove(a);
+
+            // update/add contacts
+            foreach (var ct in contacts)
+            {
+                var type = ct.ContactType;
+                var origCt = person.Contacts.Where(a => a.ContactType == type).FirstOrDefault();
+
+                if (type.Required)
+                {
+                    ct.Person = person;
+                    ct.TransferValidationMessagesTo(modelState);
+                }
+
+                if (ct.HasContact)
+                {
+                    if (origCt == null)
+                    {
+                        person.AddContact(ct);
+                    }
+                    else
+                    {
+                        Mapper.Map(ct, origCt);
+                    }
+                }
+                else
+                {
+                    if (origCt != null) person.Contacts.Remove(ct);
+                }
+            }
+        }
+        private static void SetCommodities(SeminarPerson seminarPerson, IList<Commodity> commodities)
+        {
+
+            if (seminarPerson.Commodities != null) seminarPerson.Commodities.Clear();
+
+            seminarPerson.Commodities = new List<Commodity>(commodities);
+        }
     }
 
 	

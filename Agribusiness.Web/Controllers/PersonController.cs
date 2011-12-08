@@ -216,6 +216,7 @@ namespace Agribusiness.Web.Controllers
             
             var viewModel = PersonViewModel.Create(Repository, _firmService, seminar, person, personEditModel.Email);
             viewModel.Addresses = personEditModel.Addresses;
+            viewModel.UserName = personEditModel.UserName;
             return View(viewModel);
         }
 
