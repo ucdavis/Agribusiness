@@ -154,8 +154,8 @@ namespace Agribusiness.Web.Controllers
             var atype = _addressTypeRepository.GetNullableById((char)StaticIndexes.Address_Business[0]);
 
             var address = viewModel.Addresses.Where(a => a.AddressType == atype).FirstOrDefault();
-            address.Line1 = "Please Fill Address";
-            address.Zip = "Please Fill Zip Code";
+            address.Line1 = "Address";
+            address.Zip = "Zip Code";
             
             // see if we can extract city/state out of the information reuqest
             var commaIndex = ir.Location.IndexOf(',');
@@ -172,9 +172,6 @@ namespace Agribusiness.Web.Controllers
                 address.State = ir.Location.Substring(commaIndex + 1).Trim();
             }
             
-            //var address = new Address("Please Fill In", string.Empty, "Please Fill", "CA", "55555", atype, viewModel.Person);
-            //viewModel.Addresses.Add(address);
-
             return View(viewModel);
         }
 
