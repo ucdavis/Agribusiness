@@ -501,7 +501,7 @@
   <publishProfile publishUrl="\\glurmo\Agribusiness" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="Release" publishMethod="FileSystem" replaceMatchingFiles="True" userName="" savePWD="False" userPWD="" SelectedForPublish="True">
     <file relUrl="Scripts/tiny_mce/plugins/inlinepopups/skins/clearlooks2/img/buttons.gif" publishTime="09/20/2011 08:24:42" />
     <file relUrl="Views/MailingList/Index.cshtml" publishTime="09/20/2011 08:24:43" />
-    <file relUrl="bin/Agribusiness.Web.dll" publishTime="12/07/2011 14:19:34" />
+    <file relUrl="bin/Agribusiness.Web.dll" publishTime="12/07/2011 15:18:15" />
     <file relUrl="Views/MailingList/Edit.cshtml" publishTime="09/20/2011 08:24:43" />
     <file relUrl="Views/Shared/_DateTimePickerScripts.cshtml" publishTime="09/20/2011 08:24:44" />
     <file relUrl="Scripts/tiny_mce/themes/simple/skins/o2k7/content.css" publishTime="09/20/2011 08:24:43" />
@@ -654,14 +654,14 @@
     <file relUrl="Views/Public/Venue.cshtml" publishTime="09/20/2011 08:24:43" />
     <file relUrl="Scripts/tiny_mce/plugins/xhtmlxtras/del.htm" publishTime="09/20/2011 08:24:42" />
     <file relUrl="Scripts/tiny_mce/plugins/media/media.htm" publishTime="09/20/2011 08:24:42" />
-    <file relUrl="bin/Agribusiness.WS.dll" publishTime="12/07/2011 14:19:33" />
+    <file relUrl="bin/Agribusiness.WS.dll" publishTime="12/07/2011 15:18:13" />
     <file relUrl="Scripts/tiny_mce/themes/advanced/img/quicktime.gif" publishTime="09/20/2011 08:24:42" />
     <file relUrl="Scripts/tiny_mce/plugins/emotions/langs/en_dlg.js" publishTime="09/20/2011 08:24:41" />
     <file relUrl="Scripts/tiny_mce/themes/advanced/img/iframe.gif" publishTime="09/20/2011 08:24:42" />
     <file relUrl="Views/Account/ChangePasswordSuccess.cshtml" publishTime="09/20/2011 08:24:43" />
     <file relUrl="Images/logo-ucdavis.png" publishTime="09/20/2011 08:24:41" />
     <file relUrl="Css/fileuploader.css" publishTime="11/22/2011 09:25:32" />
-    <file relUrl="Views/SeminarApplication/Apply.cshtml" publishTime="12/07/2011 12:37:40" />
+    <file relUrl="Views/SeminarApplication/Apply.cshtml" publishTime="12/07/2011 15:17:57" />
     <file relUrl="Views/Template/_TemplateForm.cshtml" publishTime="09/20/2011 08:24:44" />
     <file relUrl="bin/NHibernate.dll" publishTime="09/20/2011 08:24:46" />
     <file relUrl="Scripts/tiny_mce/plugins/advhr/editor_plugin.js" publishTime="09/20/2011 08:24:41" />
@@ -931,7 +931,7 @@
     <file relUrl="Scripts/tiny_mce/plugins/xhtmlxtras/langs/en_dlg.js" publishTime="09/20/2011 08:24:42" />
     <file relUrl="Views/_ViewStart.cshtml" publishTime="09/20/2011 08:24:44" />
     <file relUrl="Scripts/tiny_mce/plugins/visualchars/editor_plugin_src.js" publishTime="09/20/2011 08:24:42" />
-    <file relUrl="bin/Agribusiness.Web.pdb" publishTime="12/07/2011 14:19:34" />
+    <file relUrl="bin/Agribusiness.Web.pdb" publishTime="12/07/2011 15:18:14" />
     <file relUrl="Views/Shared/_PublicSubNavigation.cshtml" publishTime="09/20/2011 08:24:44" />
     <file relUrl="Scripts/tiny_mce/plugins/autoresize/editor_plugin_src.js" publishTime="09/20/2011 08:24:41" />
     <file relUrl="Scripts/tiny_mce/themes/advanced/skins/o2k7/img/button_bg.png" publishTime="09/20/2011 08:24:42" />
@@ -992,7 +992,7 @@
     <file relUrl="Views/Account/LogOn.cshtml" publishTime="09/20/2011 08:24:43" />
     <file relUrl="Scripts/tiny_mce/plugins/advimage/js/image.js" publishTime="09/20/2011 08:24:41" />
     <file relUrl="Images/icon_vcard.gif" publishTime="09/20/2011 08:24:41" />
-    <file relUrl="bin/Agribusiness.WS.pdb" publishTime="12/07/2011 14:19:33" />
+    <file relUrl="bin/Agribusiness.WS.pdb" publishTime="12/07/2011 15:18:13" />
     <file relUrl="Css/images/ui-icons_222222_256x240.png" publishTime="09/20/2011 08:24:40" />
     <file relUrl="Doc/2012-Application.pdf" publishTime="11/28/2011 14:24:41" />
     <file relUrl="Scripts/tiny_mce/themes/advanced/langs/en.js" publishTime="09/20/2011 08:24:42" />

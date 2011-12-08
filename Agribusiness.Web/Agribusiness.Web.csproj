@@ -635,7 +635,7 @@
     <Content Include="Views\Person\Edit.cshtml" />
     <Content Include="Views\Public\Background.cshtml" />
     <Content Include="Views\Attendee\Index.cshtml" />
-    <Content Include="Views\Person\_PersonForm.cshtml" />
+    <Content Include="Views\Shared\_PersonForm.cshtml" />
     <Content Include="Views\Person\AdminEdit.cshtml" />
     <Content Include="Views\Seminar\GetDetails.cshtml" />
     <Content Include="Views\Firm\Index.cshtml" />
@@ -732,6 +732,7 @@
     <Content Include="Doc\2012-Application.pdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Views\InformationRequest\CreatePerson.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">

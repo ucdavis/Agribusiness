@@ -10,7 +10,8 @@
 {
 	<ul class="navigation">
 		<li>@Html.ActionLink("Back to List", "Index")</li>
-        <li>@Html.ActionLink("Create User Account", "Register", "Account", new { email = Model.Email }, new { })</li>
+        @*<li>@Html.ActionLink("Create User Account", "Register", "Account", new { email = Model.Email }, new { })</li>*@
+        <lil>@Html.ActionLink("Create User", "CreatePerson", new {id=Model.Id})</lil>
 	</ul>
 }
 
