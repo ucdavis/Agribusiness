@@ -16,8 +16,12 @@
     [HotelCheckOut]             DATE          NULL,
     [HotelConfirmation]         VARCHAR (20)  NULL,
     [RoomTypeId]                INT           NULL,
-    [HotelComments]             VARCHAR (MAX) NULL
+    [HotelComments]             VARCHAR (MAX) NULL,
+    [FirmTypeId]                INT           NULL,
+    [OtherFirmType]             VARCHAR (MAX) NULL
 );
+
+
 
 
 

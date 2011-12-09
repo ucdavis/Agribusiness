@@ -59,6 +59,10 @@ namespace Agribusiness.Core.Domain
         public virtual RoomType RoomType { get; set; }
         public virtual string HotelComments { get; set; }
 
+        [Display(Name="Firm Type")]
+        public virtual FirmType FirmType { get; set; }
+        public virtual string OtherFirmType { get; set; }
+
         public virtual IList<Session> Sessions { get; set; }
         public virtual IList<SeminarRole> SeminarRoles { get; set; }
         public virtual IList<Commodity> Commodities { get; set; }
@@ -67,6 +71,16 @@ namespace Agribusiness.Core.Domain
         public virtual string GetCommodityList()
         {
             return string.Join(", ", Commodities.Select(a=>a.Name));
+        }
+
+        /// <summary>
+        /// Display Firm Type Name, based on firmtype field and otherfirmtype
+        /// </summary>
+        public virtual string FirmName { 
+            get
+            {
+                return FirmType != null && FirmType.Name != "Other" ? FirmType.Name : (!string.IsNullOrWhiteSpace(OtherFirmType) ? OtherFirmType : "n/a");
+            }
         }
 
     }
@@ -96,6 +110,9 @@ namespace Agribusiness.Core.Domain
             Map(x => x.HotelConfirmation);
             References(x => x.RoomType);
             Map(x => x.HotelComments);
+
+            References(x => x.FirmType);
+            Map(x => x.OtherFirmType);
 
             HasManyToMany(x => x.Sessions).ParentKeyColumn("SeminarPersonId")
                 .ChildKeyColumn("SessionId")

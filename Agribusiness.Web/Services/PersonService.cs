@@ -23,9 +23,10 @@ namespace Agribusiness.Web.Services
         private readonly IFirmService _firmService;
         private readonly IRepositoryWithTypedId<AddressType, char> _addressTypeRepository;
         private readonly IRepositoryWithTypedId<ContactType, char> _contactTypeRepository;
+        private readonly IRepository<Commodity> _commodityRepository;
         private AccountMembershipService _membershipService;
 
-        public PersonService(IRepository<Firm> firmRepository, IRepository<Person> personRepository, IRepository<SeminarPerson> seminarPersonRepository, IRepository<Seminar> seminarRepository, IRepositoryWithTypedId<User, Guid> userRepository, IFirmService firmService, IRepositoryWithTypedId<AddressType, char> addressTypeRepository, IRepositoryWithTypedId<ContactType, char> contactTypeRepository)
+        public PersonService(IRepository<Firm> firmRepository, IRepository<Person> personRepository, IRepository<SeminarPerson> seminarPersonRepository, IRepository<Seminar> seminarRepository, IRepositoryWithTypedId<User, Guid> userRepository, IFirmService firmService, IRepositoryWithTypedId<AddressType, char> addressTypeRepository, IRepositoryWithTypedId<ContactType, char> contactTypeRepository, IRepository<Commodity> commodityRepository )
         {
             _firmRepository = firmRepository;
             _personRepository = personRepository;
@@ -35,6 +36,7 @@ namespace Agribusiness.Web.Services
             _firmService = firmService;
             _addressTypeRepository = addressTypeRepository;
             _contactTypeRepository = contactTypeRepository;
+            _commodityRepository = commodityRepository;
 
             _membershipService = new AccountMembershipService();
         }
@@ -182,8 +184,33 @@ namespace Agribusiness.Web.Services
                 Seminar = application.Seminar,
                 Title = application.JobTitle,
                 Firm = firm,
-                Commodities = new List<Commodity>(application.Commodities)
+                Commodities = new List<Commodity>(application.Commodities),
+                FirmType = application.FirmType,
+                OtherFirmType = application.OtherFirmType
             };
+
+            // transfer "other" commodities
+            var others = application.OtherCommodity.Split(',');
+            if (others.Count() > 0)
+            {
+                foreach(var com in others)
+                {
+                    var existing = _commodityRepository.Queryable.Where(a => a.Name == com).FirstOrDefault();
+
+                    // check for an existing commodity
+                    if (existing != null)
+                    {
+                        // assign that commodity if it exists
+                        seminarPerson.Commodities.Add(existing);
+                    }
+                    else
+                    {
+                        // otherwise create a new one           
+                        var newcom = new Commodity() {IsActive = false, Name = com};
+                        seminarPerson.Commodities.Add(newcom);
+                    }
+                }
+            }
 
             person.AddSeminarPerson(seminarPerson);
 
