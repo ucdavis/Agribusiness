@@ -57,7 +57,9 @@ namespace Agribusiness.Web.Controllers
 
         public ActionResult ProgramOverview()
         {
-            return View();
+            var seminar = _seminarService.GetCurrent();
+
+            return View(seminar.Sessions.Where(a => a.ShowPublic).ToList());
         }
 
         /// <summary>

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
 using DataAnnotationsExtensions;
 using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
@@ -25,6 +23,8 @@ namespace Agribusiness.Core.Domain
 
         private void SetDefaults()
         {
+            ShowPublic = true;
+
             SeminarPeople = new List<SeminarPerson>();
             CaseStudies = new List<CaseStudy>();
         }
@@ -45,6 +45,8 @@ namespace Agribusiness.Core.Domain
         public virtual SessionType SessionType { get; set; }
         [Required]
         public virtual Seminar Seminar { get; set; }
+        [Display(Name="Show Publicly")]
+        public virtual bool ShowPublic { get; set; }
 
         public virtual IList<SeminarPerson> SeminarPeople { get; set; }
         public virtual IList<CaseStudy> CaseStudies { get; set; }
@@ -74,6 +76,7 @@ namespace Agribusiness.Core.Domain
             Map(x => x.End).Column("`End`");
             References(x => x.SessionType);
             References(x => x.Seminar);
+            Map(x => x.ShowPublic);
 
             HasManyToMany(x => x.SeminarPeople)
                 .ParentKeyColumn("SessionId")

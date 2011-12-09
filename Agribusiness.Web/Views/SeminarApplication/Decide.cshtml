@@ -106,6 +106,12 @@
 		    </li>
         }
 
+        <li>
+            <div class="display-label">Firm Type:</div>
+            <div class="display-details">
+                @(Model.FirmType != null ? (Model.FirmType.Name == "Other" ? Model.OtherFirmType : Model.FirmType.Name) : "n/a")
+            </div>
+        </li>
 
 		<li>
 			<div class="display-label">Address Line 1:</div>
@@ -152,7 +158,12 @@
 		</li>
         <li>
             <div class="display-label">Commodities:</div>
-            <div class="display-details">@string.Join(", ", Model.Commodities.Select(a=>a.Name))</div>
+            <div class="display-details">
+                @{
+                    Model.Commodities.Add(new Commodity() { Name = Model.OtherCommodity });
+                }
+                @string.Join(", ", Model.Commodities.Select(a=>a.Name))
+            </div>
         </li>
         </ul>
     </fieldset>

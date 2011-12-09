@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IList<Session>
+
+@{
     ViewBag.Title = "Program Overview";
     ViewBag.SubPageTitle = "Seminar Information";
 }
@@ -14,7 +16,7 @@
         @*ul.seminar-details {margin: 1em; list-style: none;}
         ul.seminar-details li {margin: 1em 0; font-size: 1.25em;}*@
 
-        ul {margin: 1em;}
+        @*ul {margin: 1em;}
         ul li {margin: 1em 0; }
         h3 { margin: 2em 0; }
 
@@ -27,14 +29,58 @@
         font-size: 1.5em;
         font-weight: bold;
         color: #014A81;
-        }
+        }*@
+
+        h3 { margin: 2em 0; }
+        .session { margin-bottom: 1em; margin-left: 20px;}
+        .session-time { display: inline-block; width: 130px; }
+        .session-name { display: inline-block; }
 
     </style>
 }
 
 
+@*
+    Used once the final program schedule was available
+*@
 
-<ul class="seminar-details">
+@{
+    var dates = Model.Where(a=>a.Begin.HasValue).Select(a => a.Begin.Value.Date).Distinct();
+}
+
+@foreach (var date in dates)
+{
+    var sessions = Model.Where(a => a.Begin.Value.Date == date);
+
+    <h3>@String.Format("{0:dddd, MMMM d}", date)</h3>
+    
+    foreach (var session in sessions.OrderBy(a=>a.Begin))
+    {
+        <div class="session">
+            
+            <div class="session-time">
+                @if (session.Begin.HasValue && session.End.HasValue)
+                {
+                    @string.Format("{0}-{1}", session.Begin.Value.ToString("t"), session.End.Value.ToString("t"))
+                }
+                else
+                {
+                    @(session.Begin.HasValue ? session.Begin.Value.ToString("t") : string.Empty)     
+                }
+            </div>
+            <div class="session-name">@session.Name</div>
+
+        </div>
+    
+    }
+}
+
+
+@*
+    Used before the final program schedule was available
+*@
+
+@*<ul class="seminar-details">
     <li>
         <a href='@Url.Content("~/Doc/2012-Brochure.pdf")' target="new">2012 Seminar Brochure</a>
     </li>
@@ -56,7 +102,11 @@
 <ul>
     <li>Commodity prices during the next decade. Many of the strategic decisions faced by suppliers, investors, farm producers, processors, and marketers revolve around how the commodity price environment is likely to evolve during the next decade. </li>
     <li>China: Customers and Competitors. Market opportunities in China are expanding rapidly as incomes grow and diets change.  At the same time, competitors in China are developing and becoming more sophisticated.  </li>
-</ul>
+</ul>*@
+
+@*
+    Used before any content was available
+*@
 
 @*<div id="coming-soon">
 2012 UC Davis Agribusiness Executive Seminar

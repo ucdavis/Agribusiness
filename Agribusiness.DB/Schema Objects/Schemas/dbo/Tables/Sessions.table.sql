@@ -6,8 +6,11 @@
     [End]           DATETIME      NULL,
     [SessionTypeId] CHAR (2)      NOT NULL,
     [SeminarId]     INT           NOT NULL,
-    [Description]   VARCHAR (MAX) NULL
+    [Description]   VARCHAR (MAX) NULL,
+    [ShowPublic]    BIT           NOT NULL
 );
+
+
 
 
 
