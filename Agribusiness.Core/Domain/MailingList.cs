@@ -32,6 +32,7 @@ namespace Agribusiness.Core.Domain
         [Required]
         [StringLength(100)]
         public virtual string Name { get; set; }
+        [DataType(DataType.MultilineText)]
         public virtual string Description { get; set; }
         [Required]
         public virtual Seminar Seminar { get; set; }
