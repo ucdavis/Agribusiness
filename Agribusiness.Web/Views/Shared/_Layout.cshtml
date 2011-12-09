@@ -114,16 +114,26 @@
     <link href="@Url.Content("~/Css/jquery-ui-1.8.11.caes.css")" rel="Stylesheet" type="text/css" />
     <link href="@Url.Content("~/Css/main.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Css/Agribusiness.css")" rel="stylesheet" type="text/css" />   
+    <link href="@Url.Content("~/Css/jquery.qtip.min.css")" rel="stylesheet" type="text/css" />
 
     <script src="//ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
     <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
     <script type="text/javascript" src='@Url.Content("~/Scripts/jquery.dataTables.min.js")'></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.qtip.min.js")"></script>
 
     <script type="text/javascript">
         $(function () {
             $(".datepicker").datepicker();
             $(".default_table").dataTable({ "bJQueryUI": true, "bPaginate": false });
             $(".submitanchor").click(function () { $(this).parent()[0].submit(); });
+
+            $(".hastip").qtip({
+                position: {
+                    my: 'bottom left',
+                    at: 'top left'
+                }
+
+            });
         }); 
     </script>
 

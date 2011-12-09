@@ -218,6 +218,7 @@
   <ItemGroup>
     <Content Include="app_offline2.htm" />
     <Content Include="Css\fileuploader.css" />
+    <Content Include="Css\jquery.qtip.min.css" />
     <Content Include="Images\logo-agribusiness.jpg" />
     <Content Include="Css\Agribusiness.css" />
     <Content Include="Css\anytimec.css" />
@@ -272,6 +273,7 @@
     <Content Include="Scripts\jquery.dataTables.js" />
     <Content Include="Scripts\jquery.dataTables.min.js" />
     <Content Include="Scripts\jquery.Jcrop.min.js" />
+    <Content Include="Scripts\jquery.qtip.min.js" />
     <Content Include="Scripts\jquery.tmpl.min.js" />
     <Content Include="Scripts\tiny_mce\jquery.tinymce.js" />
     <Content Include="Scripts\tiny_mce\langs\en.js" />

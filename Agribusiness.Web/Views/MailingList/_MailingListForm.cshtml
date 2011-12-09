@@ -22,6 +22,14 @@
             </li>
             <li>
                 <div class="editor-label">
+                    @Html.LabelFor(model => model.MailingList.Description)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.MailingList.Description)
+                </div>
+            </li>
+            <li>
+                <div class="editor-label">
                     @Html.LabelFor(model => model.MailingList.Seminar)
                 </div>
                 <div class="editor-field">

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using FluentNHibernate.Mapping;
-using FluentNHibernate.MappingModel;
 using UCDArch.Core.DomainModel;
 
 namespace Agribusiness.Core.Domain
