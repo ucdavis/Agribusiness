@@ -219,6 +219,7 @@
     <Content Include="app_offline2.htm" />
     <Content Include="Css\fileuploader.css" />
     <Content Include="Css\jquery.qtip.min.css" />
+    <Content Include="Images\download.png" />
     <Content Include="Images\logo-agribusiness.jpg" />
     <Content Include="Css\Agribusiness.css" />
     <Content Include="Css\anytimec.css" />
@@ -735,6 +736,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\InformationRequest\CreatePerson.cshtml" />
+    <None Include="Doc\2012-Schedule.pdf" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">

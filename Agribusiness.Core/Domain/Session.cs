@@ -33,7 +33,6 @@ namespace Agribusiness.Core.Domain
 
         #region Mapped Fields
         [Required]
-        [StringLength(100)]
         public virtual string Name { get; set; }
         [StringLength(50)]
         public virtual string Location { get; set; }

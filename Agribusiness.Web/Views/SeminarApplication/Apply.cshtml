@@ -241,21 +241,29 @@
         <ul id="jobInformation" style='@combined'>
             <li><div class="editor-label required">@Html.LabelFor(model => model.Application.FirmType)<span>*</span></div>
                 <div class="editor-field">
-                    @this.Select("Application.FirmType").Options(Model.FirmTypes, x => x.Id, x => x.Name).FirstOption("--Select Firm Type--").Selected(Model.Application.FirmType != null ? Model.Application.FirmType.Id.ToString() : string.Empty)
+                    @this.Select("Application.FirmType").Options(Model.FirmTypes, x => x.Id, x => x.Name).FirstOption("--Select Firm Type--").Selected(Model.Application.FirmType != null ? Model.Application.FirmType.Id.ToString() : string.Empty).Class("required")
 
                     <span id="firmtype-other" style="display:none;">
                         @Html.TextBoxFor(model => model.Application.OtherFirmType)
                     </span>
+
+                    @Html.ValidationMessageFor(a=>a.Application.FirmType)
                 </div>
             </li>
             <li><div class="editor-label">@Html.LabelFor(model => model.Application.Website)</div>
                 <div class="editor-field">@Html.TextBoxFor(a => a.Application.Website)</div>
             </li>
             <li><div class="editor-label required">@Html.LabelFor(model => model.Application.JobTitle)<span>*</span></div>
-                <div class="editor-field">@Html.TextBoxFor(a => a.Application.JobTitle)</div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(a => a.Application.JobTitle)
+                    @Html.ValidationMessageFor(a => a.Application.JobTitle)
+                </div>
             </li>
             <li><div class="editor-label required">@Html.LabelFor(model => model.Application.Responsibilities)<span>*</span></div>
-                <div class="editor-field">@Html.TextAreaFor(a => a.Application.Responsibilities)</div>
+                <div class="editor-field">
+                    @Html.TextAreaFor(a => a.Application.Responsibilities)
+                    @Html.ValidationMessageFor(a => a.Application.Responsibilities)
+                </div>
             </li>
             <li><div class="editor-label required">@Html.LabelFor(model => model.Application.FirmPhone)<span>*</span></div>
                 <div class="editor-field">
@@ -347,9 +355,10 @@
         }*@
 
         <li>
-            <div class="editor-label">&nbsp;</div>
+            <div class="editor-label required">&nbsp;<span>*</span></div>
             <div class="editor-field">
             @this.Select("Application.CommunicationOption").Options(Model.CommunicationOptions, x => x.Id, x => x.Name).FirstOption("--Select Communication Option--").Selected(Model.Application.CommunicationOption != null ? Model.Application.CommunicationOption.Id : string.Empty)    
+            @Html.ValidationMessageFor(a => a.Application.CommunicationOption)
             </div>
         </li>
         </ul>

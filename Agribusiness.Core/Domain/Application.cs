@@ -114,6 +114,7 @@ namespace Agribusiness.Core.Domain
 
         public virtual string OtherCommodity { get; set; }
         [Display(Name="Firm Type")]
+        [Required]
         public virtual FirmType FirmType { get; set; }
         public virtual string OtherFirmType { get; set; }
 

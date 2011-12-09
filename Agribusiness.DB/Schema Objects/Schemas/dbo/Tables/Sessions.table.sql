@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Sessions] (
     [id]            INT           IDENTITY (1, 1) NOT NULL,
-    [Name]          VARCHAR (100) NOT NULL,
+    [Name]          VARCHAR (MAX) NOT NULL,
     [Location]      VARCHAR (50)  NULL,
     [Begin]         DATETIME      NULL,
     [End]           DATETIME      NULL,

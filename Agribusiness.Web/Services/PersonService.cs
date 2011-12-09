@@ -189,28 +189,32 @@ namespace Agribusiness.Web.Services
                 OtherFirmType = application.OtherFirmType
             };
 
-            // transfer "other" commodities
-            var others = application.OtherCommodity.Split(',');
-            if (others.Count() > 0)
+            if (!string.IsNullOrWhiteSpace(application.OtherCommodity))
             {
-                foreach(var com in others)
+                // transfer "other" commodities
+                var others = application.OtherCommodity.Split(',');
+                if (others.Count() > 0)
                 {
-                    var existing = _commodityRepository.Queryable.Where(a => a.Name == com).FirstOrDefault();
+                    foreach (var com in others)
+                    {
+                        var existing = _commodityRepository.Queryable.Where(a => a.Name == com).FirstOrDefault();
 
-                    // check for an existing commodity
-                    if (existing != null)
-                    {
-                        // assign that commodity if it exists
-                        seminarPerson.Commodities.Add(existing);
+                        // check for an existing commodity
+                        if (existing != null)
+                        {
+                            // assign that commodity if it exists
+                            seminarPerson.Commodities.Add(existing);
+                        }
+                        else
+                        {
+                            // otherwise create a new one           
+                            var newcom = new Commodity() { IsActive = false, Name = com };
+                            seminarPerson.Commodities.Add(newcom);
+                        }
                     }
-                    else
-                    {
-                        // otherwise create a new one           
-                        var newcom = new Commodity() {IsActive = false, Name = com};
-                        seminarPerson.Commodities.Add(newcom);
-                    }
-                }
+                }    
             }
+            
 
             person.AddSeminarPerson(seminarPerson);
 

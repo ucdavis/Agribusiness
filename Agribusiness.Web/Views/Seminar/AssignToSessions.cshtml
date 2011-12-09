@@ -107,7 +107,7 @@
             @for (int i = 1; i < 24; i++)
             {
                 // if any then put out a header and all the sessions
-                if (Model.Seminar.Sessions.Any(a => a.Begin.Value.Hour == i && a.Begin.Value.Date == date.Date))
+                if (Model.Seminar.Sessions.Where(a=>a.Begin.HasValue).Any(a => a.Begin.Value.Hour == i && a.Begin.Value.Date == date.Date))
                 {                    
                     var single = Model.Seminar.Sessions.Count(a=>a.Begin.Value.Hour == i && a.Begin.Value.Date == date.Date) == 1 ? "single" : string.Empty;
                        
