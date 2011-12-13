@@ -11,6 +11,12 @@
             $("table").dataTable({ "bJQueryUI": true });
         });    
     </script>
+
+    <style type="text/css">
+    #payment-details { padding: 1em; }
+    #payment-details p { margin-bottom: 1em;}
+    #payment-contact { margin-left: 50px; }
+    </style>
 }
 
 @section SubPageNavigation
@@ -40,22 +46,9 @@
             { 
                 <a href='@Model.CrpLink'>Click here to Pay</a>
             }
-
-            <p>Payment: the seminar fee of $3,950 covers all study materials, instruction, meals, and receptions, but excludes lodging. The fee is due February 1, 2012. Credit cards and checks are accepted.  Please make checks payable to UC Regents and ensure that the name of the applicant accompanies the check.  Please mail checks to:</p>
-
-            <p>
-            Chris Akins<br/>
-            UC Davis Agribusiness Executive Seminar<br/>
-            College of Agricultural and Environmental Sciences<br/>
-            Dean’s Office, 150 Mrak Hall<br/>
-            University of California, Davis<br/>
-            One Shields Avenue<br/>
-            Davis, CA  95616<br/>
-            </p>
-If you wish to pay by credit card, please click here. 
-
             </div>
         </li>
+
         @if (!string.IsNullOrWhiteSpace(Model.SeminarPerson.CouponCode))
         { 
         <li><div class="display-label">Coupon:</div>
@@ -63,6 +56,26 @@ If you wish to pay by credit card, please click here.
         </li>
         }
     </ul>
+
+    @if (!Model.SeminarPerson.Paid)
+    {
+         <div id="payment-details" class="ui-state-highlight">
+            <p>Payment: the seminar fee of $3,950 covers all study materials, instruction, meals, and receptions, but excludes lodging. The fee is due February 1, 2012. Credit cards and checks are accepted.  Please make checks payable to UC Regents and ensure that the name of the applicant accompanies the check.  Please mail checks to:</p>
+
+            <p id="payment-contact">
+            <strong>Chris Akins</strong><br/>
+            UC Davis Agribusiness Executive Seminar<br/>
+            College of Agricultural and Environmental Sciences<br/>
+            Dean’s Office, 150 Mrak Hall<br/>
+            University of California, Davis<br/>
+            One Shields Avenue<br/>
+            Davis, CA  95616<br/>
+            </p>
+            
+            <p>If you wish to pay by credit card, please click <a href="@Model.CrpLink">here</a>.</p>
+        </div>   
+    }
+
 </div>
 
 
