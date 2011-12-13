@@ -51,6 +51,8 @@
 
 @Html.AntiForgeryToken()
 
+@Html.ValidationSummary(false)
+
 <div>
 <div class="profile_pic_container">
     <img src='@Url.Action("GetApplicationPhoto", new { id = Model.Id })' />

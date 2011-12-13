@@ -211,8 +211,6 @@
                         }
                     </li>
                     <li><a href="javascript:;" id="update_coupon">Update Coupon</a></li>
-                    @if (!string.IsNullOrWhiteSpace(Model.PersonViewModel.SeminarPerson.CouponCode))
-                    { 
                     <li>
                         @using (Html.BeginForm("UpdateRegistrationStatus", "Person", FormMethod.Post, new { @style = "display:inline; margin: 0;" }))
                         { 
@@ -223,7 +221,6 @@
                             <a href="javascript:;" id="refresh_status" class="submitanchor">Refresh Status</a>
                         }
                     </li>
-                    }
                 </ul>
             </div>
 
