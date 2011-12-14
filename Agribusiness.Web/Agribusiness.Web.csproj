@@ -739,7 +739,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\InformationRequest\CreatePerson.cshtml" />
-    <None Include="Doc\2012-Schedule.pdf" />
+    <Content Include="Doc\2012-Schedule.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">
