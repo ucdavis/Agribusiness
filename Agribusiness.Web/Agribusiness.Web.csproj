@@ -217,6 +217,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app_offline2.htm" />
+    <Content Include="Css\chosen-sprite.png" />
+    <Content Include="Css\chosen.css" />
     <Content Include="Css\fileuploader.css" />
     <Content Include="Css\jquery.qtip.min.css" />
     <Content Include="Images\download.png" />
@@ -251,6 +253,7 @@
     <Content Include="Images\profilepicplaceholder.png" />
     <Content Include="Images\profileplaceholder_thumb.png" />
     <Content Include="Images\search.png" />
+    <Content Include="Scripts\chosen.jquery.min.js" />
     <Content Include="Scripts\fileuploader.js" />
     <Content Include="Scripts\jquery.AutoCompleteSelect.js" />
     <Content Include="Scripts\jquery.bt.min.js" />
