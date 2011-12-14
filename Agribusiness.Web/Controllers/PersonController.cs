@@ -665,8 +665,8 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction<ErrorController>(a => a.NotAuthorized());
             }
 
-            var seminarPerson = _seminarPersonRepository.GetNullableById(personEditModel.SeminarPersonId);
-            var person = SetPerson(personEditModel, seminarPerson, ModelState, user.Person, profilepic);
+            //var seminarPerson = _seminarPersonRepository.GetNullableById(personEditModel.SeminarPersonId);
+            var person = SetPerson(personEditModel, null, ModelState, user.Person, profilepic);
 
             var membership = user.Membership;
             membership.SetEmail(personEditModel.Email);

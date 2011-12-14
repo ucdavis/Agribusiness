@@ -172,7 +172,7 @@ namespace Agribusiness.Core.Domain
 
             References(x => x.User);
 
-            HasMany(x => x.SeminarPeople).Inverse().Cascade.AllDeleteOrphan();
+            HasMany(x => x.SeminarPeople).Inverse().Cascade.None();
             HasMany(a => a.Addresses).Inverse().Cascade.AllDeleteOrphan();
             HasMany(a => a.Contacts).Inverse().Cascade.AllDeleteOrphan();
             HasMany(a => a.NotificationTrackings).Inverse().Cascade.AllDeleteOrphan();
