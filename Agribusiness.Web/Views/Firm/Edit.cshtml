@@ -32,6 +32,7 @@
 {
     @Html.AntiForgeryToken()
     @Html.Hidden("FirmCode", Model.PendingFirm.FirmCode)
+    <input id="decissionId" type="hidden" value="@ViewBag.DecissionId" name="decissionId" />
     <fieldset>
         <legend>Modified/New Firm Information</legend>      
 
@@ -50,7 +51,12 @@
             <li><div class="editor-label"></div>
                 <div class="editor-field">
                     <input type="submit" value="Save" class="button" /> |
-                    @Html.ActionLink("Cancel", "Index")
+                    @if(@ViewBag.DecissionId != null){
+                        @Html.ActionLink("Cancel", "Decide", "SeminarApplication", new { id = @ViewBag.DecissionId }, null)
+                    }
+                    else { 
+                        @Html.ActionLink("Cancel", "Index")
+                    }
                 </div>
             </li>
         </ul>

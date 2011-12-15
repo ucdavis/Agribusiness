@@ -35,7 +35,7 @@ namespace Agribusiness.Web.Controllers
             return View(FirmListViewModel.Create(_firmRepository, _firmService));
         }
 
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int id, int? decissionId = null)
         {
             var firm = _firmRepository.GetNullableById(id);
 
@@ -49,19 +49,26 @@ namespace Agribusiness.Web.Controllers
             var origFirm = firm.Review ? (_firmService.GetFirm(firm.FirmCode)) : firm;
 
             var viewModel = FirmViewModel.Create(Repository, firm, origFirm);
+
+            ViewBag.DecissionId = decissionId;
+
             return View(viewModel);
         }
 
         [HttpPost]
-        public ActionResult Edit(int id, Firm firm)
+        public ActionResult Edit(int id, Firm firm, int? decissionId = null)
         {
+            ViewBag.DecissionId = decissionId;
             firm.Review = false;
 
             if (ModelState.IsValid)
             {
                 _firmRepository.EnsurePersistent(firm);
                 Message = string.Format(Messages.Saved, "Firm");
-
+                if(decissionId != null)
+                {
+                    return this.RedirectToAction<SeminarApplicationController>(a => a.Decide(decissionId.Value));
+                }
                 return this.RedirectToAction(a => a.Index());
             }
             

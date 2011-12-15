@@ -88,9 +88,10 @@
         @if (Model.Firm != null)
         { 
             <li>
-			    <div class="display-label">Name:</div>
-			    <div class="display-details">@Model.Firm.Name</div>
-		    </li>
+                <div class="display-label">Name:</div>
+                <div class="display-details">@Model.Firm.Name</div>   @Html.ActionLink("Edit Firm", "Edit", "Firm", new { id = @Model.Firm.Id, decissionId = @Model.Id }, null)
+            </li>
+           
 		    <li>
 			    <div class="display-label">Description:</div>
 			    <div class="display-details">@Model.Firm.Description</div>
@@ -143,7 +144,8 @@
 			<div class="display-label">Phone:</div>
 			<div class="display-details">
                 @Model.FirmPhone
-                @if (!string.IsNullOrWhiteSpace(Model.FirmPhoneExt)) { <tex>Ext. @Model.FirmPhoneExt</tex> }
+                @if(!string.IsNullOrWhiteSpace(Model.FirmPhoneExt))
+                { <tex>Ext. @Model.FirmPhoneExt</tex> }
             </div>
 		</li>
 		<li>
@@ -164,7 +166,7 @@
                 @{
                     Model.Commodities.Add(new Commodity() { Name = Model.OtherCommodity });
                 }
-                @string.Join(", ", Model.Commodities.Select(a=>a.Name))
+                @string.Join(", ", Model.Commodities.Select(a => a.Name))
             </div>
         </li>
         </ul>
@@ -210,7 +212,7 @@
         <legend>Make Decision</legend>
 
         Decision Reason/Comments:<br />
-        @Html.TextArea("Reason", Model.DecisionReason, new { @style="height: 100px; width: 700px;" })
+        @Html.TextArea("Reason", Model.DecisionReason, new { @style = "height: 100px; width: 700px;" })
         <br />
         <div>
             <a href="javascript:;" id="saveComments" class="button" style="color: white;">Save Comments</a>
@@ -219,14 +221,16 @@
         </div>
         
         <br /><br />
-        @using (Html.BeginForm()) { 
+        @using(Html.BeginForm())
+        { 
             @Html.AntiForgeryToken()
             @Html.Hidden("isApproved", true)
-            @Html.Hidden("reason", string.Empty, new { @class="decision_reason" })
+            @Html.Hidden("reason", string.Empty, new { @class = "decision_reason" })
             <input type="submit" value="Approve" class="button" />
         }
         |
-        @using (Html.BeginForm()) { 
+        @using(Html.BeginForm())
+        { 
             @Html.AntiForgeryToken()
             @Html.Hidden("isApproved", false)
             @Html.Hidden("reason", string.Empty, new { @class = "decision_reason" })
