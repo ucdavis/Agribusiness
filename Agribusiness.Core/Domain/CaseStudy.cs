@@ -82,6 +82,7 @@ namespace Agribusiness.Core.Domain
             Map(x => x.Name);
             Map(x => x.Description);
             Map(x => x.File).Column("`File`").LazyLoad().CustomType("BinaryBlob");
+            Map(x => x.ContentType);
 
             Map(x => x.IsPublic);
             Map(x => x.DateCreated);

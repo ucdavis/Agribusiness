@@ -34,7 +34,11 @@
     </ul>
 }
 
-@Html.Partial("_CaseStudyForm")
+@using (Html.BeginForm("Edit", "CaseStudy", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.Partial("_CaseStudyForm")    
+}
+
 
 <h3>Author(s)</h3>
 

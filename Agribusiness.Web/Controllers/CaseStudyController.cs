@@ -110,6 +110,48 @@ namespace Agribusiness.Web.Controllers
             return View(viewModel);
         }
 
+        [HttpPost]
+        [UserOnly]
+        public ActionResult Edit(int id, int seminarId, CaseStudy caseStudy, HttpPostedFileBase file)
+        {
+            // load the case study
+            var existing = _casestudyRepository.GetNullableById(id);
+
+            if (existing == null)
+            {
+                Message = string.Format(Messages.NotFound, "Case Study", id);
+                return this.RedirectToAction<SeminarController>(a => a.Edit(seminarId));
+            }
+
+            if (file != null)
+            {
+                var reader = new BinaryReader(file.InputStream);
+                var data = reader.ReadBytes(file.ContentLength);
+                existing.File = data;
+                existing.ContentType = file.ContentType;
+            }
+
+            // copy all the other fields
+            existing.Name = caseStudy.Name;
+            existing.Session = caseStudy.Session;
+            existing.IsPublic = caseStudy.IsPublic;
+            existing.Description = caseStudy.Description;
+            existing.LastUpdate = DateTime.Now;
+
+            ModelState.Clear();
+            existing.TransferValidationMessagesTo(ModelState);
+
+            if (ModelState.IsValid)
+            {
+                _casestudyRepository.EnsurePersistent(existing);
+                Message = string.Format(Messages.Saved, "Case Study");
+                return this.RedirectToAction<SeminarController>(a => a.Edit(existing.Seminar.Id));
+            }
+
+            var viewModel = CaseStudyViewModel.Create(Repository, existing.Seminar, existing);
+            return View();
+        }
+
         /// <summary>
         /// Either adding a Author or Case Executive
         /// </summary>
