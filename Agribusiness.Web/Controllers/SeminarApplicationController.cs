@@ -230,10 +230,30 @@ namespace Agribusiness.Web.Controllers
         {
             var application = _applicationRepository.GetNullableById(id);
 
-            if (application == null || application.Photo == null)
+            byte[] photo = null;
+
+            // application exists
+            if (application != null)
+            {
+                // application does not have a photo
+                if (application.Photo == null)
+                {
+                    var person = application.User.Person;
+
+                    // attempt to assign person's existing main profile picture
+                    if (person != null) photo = person.MainProfilePicture;
+                }
+                else
+                {
+                    photo = _pictureService.MakeMainProfile(application.Photo);    
+                }
+            }
+
+            // no photo anywhere, give the placeholder
+            if (photo == null)
             {
                 // load the default image
-                var fs = new FileStream(Server.MapPath("~/Images/profilepicplaceholder.jpg"), FileMode.Open, FileAccess.Read);
+                var fs = new FileStream(Server.MapPath("~/Images/profilepicplaceholder.png"), FileMode.Open, FileAccess.Read);
                 var img = new byte[fs.Length];
                 fs.Read(img, 0, img.Length);
                 fs.Close();
@@ -241,8 +261,7 @@ namespace Agribusiness.Web.Controllers
                 return File(img, "image/jpeg");    
             }
 
-            var resized = _pictureService.MakeMainProfile(application.Photo);
-            return File(resized, application.ContentType);
+            return File(photo, application.ContentType);
         }
     }
 }
