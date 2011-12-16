@@ -16,9 +16,9 @@ namespace Agribusiness.Web.Services
         IEnumerable<DisplayPerson> GetDisplayPeopleNotInSeminar(int id);
 
         Person LoadPerson(string loginId);
-        bool HasAccess(string loginId, int seminarId);
-        bool HasAccess(string loginId, Seminar seminar);
-        bool HasAccess(Person person, Seminar seminar);
+        bool HasAccess(string loginId, int seminarId, bool paidResources = true);
+        bool HasAccess(string loginId, Seminar seminar, bool paidResources = true);
+        bool HasAccess(Person person, Seminar seminar, bool paidResources = true);
 
         List<KeyValuePair<Person, string>> ResetPasswords(List<Person> people);
 

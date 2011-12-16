@@ -306,11 +306,16 @@ namespace Agribusiness.Web.Controllers
         {
             var person = _personRepository.GetNullableById(id);
 
-            if (person == null)
+            var seminar = _seminarRespository.GetNullableById(seminarId);
+
+            if (person == null || seminar == null)
             {
-                Message = string.Format(Messages.NotFound, "person", id);
+                Message = string.Format(Messages.NotFound, "person/seminar", id);
                 return this.RedirectToAction(a => a.BySeminar(seminarId));
             }
+
+            // make sure the person should have access
+            if (!_personService.HasAccess(person, seminar)) return this.RedirectToAction<ErrorController>(a => a.NotAuthorized());
 
             var displayPerson = _personService.GetDisplayPerson(person);
 

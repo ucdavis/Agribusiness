@@ -125,23 +125,23 @@ namespace Agribusiness.Web.Services
         /// <param name="loginId"></param>
         /// <param name="seminarId">Seminar Id</param>
         /// <returns>True, has access</returns>
-        public bool HasAccess(string loginId, int seminarId)
+        public bool HasAccess(string loginId, int seminarId, bool paidResources = true)
         {
             var person = LoadPerson(loginId);
             var seminar = _seminarRepository.GetNullableById(seminarId);
 
-            return HasAccess(person, seminar);
+            return HasAccess(person, seminar, paidResources);
         }
 
         /// <summary>
         /// Determines if a person has access to a seminar's information
         /// </summary>
         /// <returns>True, has access</returns>
-        public bool HasAccess(string loginId, Seminar seminar)
+        public bool HasAccess(string loginId, Seminar seminar, bool paidResources = true)
         {
             var person = LoadPerson(loginId);
 
-            return HasAccess(person, seminar);
+            return HasAccess(person, seminar, paidResources);
         }
 
         /// <summary>
@@ -150,12 +150,21 @@ namespace Agribusiness.Web.Services
         /// <param name="person"></param>
         /// <param name="seminar"></param>
         /// <returns>True, has access</returns>
-        public bool HasAccess(Person person, Seminar seminar)
+        public bool HasAccess(Person person, Seminar seminar, bool paidResources = true)
         {
             Check.Require(person != null, "person is required.");
             Check.Require(seminar != null, "seminar is required.");
 
-            return person.SeminarPeople.Any(a => a.Seminar == seminar && a.Paid) && seminar.ReleaseToAttendees;
+            if (paidResources)
+            {
+                return person.SeminarPeople.Any(a => a.Seminar == seminar && a.Paid) && seminar.ReleaseToAttendees;    
+            }
+            else
+            {
+                return person.SeminarPeople.Any(a => a.Seminar == seminar) && seminar.ReleaseToAttendees;
+            }
+
+            
         }
 
         public List<KeyValuePair<Person, string>> ResetPasswords(List<Person> people)
