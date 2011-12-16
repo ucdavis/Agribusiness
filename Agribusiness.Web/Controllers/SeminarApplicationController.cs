@@ -231,6 +231,7 @@ namespace Agribusiness.Web.Controllers
             var application = _applicationRepository.GetNullableById(id);
 
             byte[] photo = null;
+            var contentType = "image/jpeg";
 
             // application exists
             if (application != null)
@@ -241,11 +242,16 @@ namespace Agribusiness.Web.Controllers
                     var person = application.User.Person;
 
                     // attempt to assign person's existing main profile picture
-                    if (person != null) photo = person.MainProfilePicture;
+                    if (person != null)
+                    {
+                        photo = person.MainProfilePicture;
+                        contentType = person.ContentType;
+                    }
                 }
                 else
                 {
-                    photo = _pictureService.MakeMainProfile(application.Photo);    
+                    photo = _pictureService.MakeMainProfile(application.Photo);
+                    contentType = application.ContentType;
                 }
             }
 
@@ -261,7 +267,7 @@ namespace Agribusiness.Web.Controllers
                 return File(img, "image/jpeg");    
             }
 
-            return File(photo, application.ContentType);
+            return File(photo, contentType);
         }
     }
 }

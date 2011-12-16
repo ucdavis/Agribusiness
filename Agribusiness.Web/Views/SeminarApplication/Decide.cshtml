@@ -221,23 +221,27 @@
         </div>
         
         <br /><br />
-        @using(Html.BeginForm())
-        { 
-            @Html.AntiForgeryToken()
-            @Html.Hidden("isApproved", true)
-            @Html.Hidden("reason", string.Empty, new { @class = "decision_reason" })
-            <input type="submit" value="Approve" class="button" />
+        @if (!Model.IsPending)
+        {
+            using(Html.BeginForm())
+            { 
+                @Html.AntiForgeryToken()
+                @Html.Hidden("isApproved", true)
+                @Html.Hidden("reason", string.Empty, new { @class = "decision_reason" })
+                <input type="submit" value="Approve" class="button" />
+            }
+            
+            using(Html.BeginForm())
+            { 
+                @Html.AntiForgeryToken()
+                @Html.Hidden("isApproved", false)
+                @Html.Hidden("reason", string.Empty, new { @class = "decision_reason" })
+                <input type="submit" value="Deny" class="button" />
+            }
+            <text>|@Html.ActionLink("Cancel", "Index")</text>
+            
         }
-        |
-        @using(Html.BeginForm())
-        { 
-            @Html.AntiForgeryToken()
-            @Html.Hidden("isApproved", false)
-            @Html.Hidden("reason", string.Empty, new { @class = "decision_reason" })
-            <input type="submit" value="Deny" class="button" />
-        }
-        |
-        @Html.ActionLink("Cancel", "Index")
+        
     </fieldset>
 </div>
 </div>
