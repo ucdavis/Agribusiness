@@ -21,10 +21,14 @@
 
 @section SubPageNavigation
 {
-    <ul class="navigation">
-        <li>@Html.ActionLink("Attendees", "BySeminar", "Attendee", new { id = Model.Seminar.Id }, new { })</li>
-        <li>@Html.ActionLink("Case Studies", "BySeminar", "CaseStudy", new { id = Model.Seminar.Id }, new { })</li>
-    </ul>
+    @if (Model.SeminarPerson.Paid)
+    {
+        <ul class="navigation">
+            <li>@Html.ActionLink("Attendees", "BySeminar", "Attendee", new { id = Model.Seminar.Id }, new { })</li>
+            <li>@Html.ActionLink("Case Studies", "BySeminar", "CaseStudy", new { id = Model.Seminar.Id }, new { })</li>
+        </ul>        
+    }
+
 }
 
 <h3>Seminar Details</h3>
@@ -83,7 +87,7 @@
 {
     @*<p style="margin: 2em 0;">Program schedule and breakout session assignments will be available soon.</p>*@
 }
-else
+else if (Model.SeminarPerson.Paid)
 {
     <h3>Your Sessions</h3>
     <table>
