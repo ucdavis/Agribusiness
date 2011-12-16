@@ -155,7 +155,7 @@ namespace Agribusiness.Web.Services
             Check.Require(person != null, "person is required.");
             Check.Require(seminar != null, "seminar is required.");
 
-            return person.SeminarPeople.Any(a => a.Seminar == seminar) && seminar.ReleaseToAttendees;
+            return person.SeminarPeople.Any(a => a.Seminar == seminar && a.Paid) && seminar.ReleaseToAttendees;
         }
 
         public List<KeyValuePair<Person, string>> ResetPasswords(List<Person> people)
