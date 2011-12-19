@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
@@ -15,11 +16,13 @@ namespace Agribusiness.Web.Controllers
 {
     public class AccountController : ApplicationController
     {
-        private readonly IRepository<User> _userRepository;
+        private readonly IRepositoryWithTypedId<User, Guid> _userRepository;
+        private readonly IRepositoryWithTypedId<Agribusiness.Core.Domain.Membership, Guid> _membershipRepository;
 
-        public AccountController(IRepository<User> userRepository)
+        public AccountController(IRepositoryWithTypedId<User, Guid> userRepository, IRepositoryWithTypedId<Agribusiness.Core.Domain.Membership, Guid> membershipRepository)
         {
             _userRepository = userRepository;
+            _membershipRepository = membershipRepository;
         }
 
         public IFormsAuthenticationService FormsService { get; set; }
@@ -172,9 +175,11 @@ namespace Agribusiness.Web.Controllers
             // lookup by email
             if (string.IsNullOrEmpty(userName) && !string.IsNullOrWhiteSpace(email))
             {
-                var user = _userRepository.Queryable.Where(a => a.Membership.Email == email).FirstOrDefault();
-
-                if (user != null) userName = user.LoweredUserName;
+                var membership = _membershipRepository.Queryable.Where(a => a.LoweredEmail == email.ToLower()).FirstOrDefault();
+                if (membership != null && membership.User != null)
+                {
+                    userName = membership.User.UserName;
+                }
             }
 
             if (MembershipService.ResetPassword(userName))
