@@ -181,6 +181,9 @@
     <NotInBuild Include="Schema Objects\Database Level Objects\Assemblies\Agribusiness_2.CLR.dll">
       <SubType>NotInBuild</SubType>
     </NotInBuild>
+    <NotInBuild Include="Scripts\Post-Deployment\ResetMailingLists.sql">
+      <SubType>NotInBuild</SubType>
+    </NotInBuild>
   </ItemGroup>
   <ItemGroup>
     <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_Applications_DateSubmitted.defconst.sql">
