@@ -243,8 +243,9 @@
                 <div class="editor-field">
                     @this.Select("Application.FirmType").Options(Model.FirmTypes, x => x.Id, x => x.Name).FirstOption("--Select Firm Type--").Selected(Model.Application.FirmType != null ? Model.Application.FirmType.Id.ToString() : string.Empty).Class("required")
 
-                    <span id="firmtype-other" style="display:none;">
-                        @Html.TextBoxFor(model => model.Application.OtherFirmType)
+                    <span id="firmtype-other" style="@(Model.Application.FirmType != null && Model.Application.FirmType.Name == "Other" ? "display: inline-block;" : "display: none;")">
+                        @*@Html.TextBoxFor(model => model.Application.OtherFirmType)*@
+                        <input type="text" id="Application_OtherFirmType" name="Application.OtherFirmType" placeholder="Firm Type" value="@Model.Application.OtherFirmType" />
                     </span>
 
                     @Html.ValidationMessageFor(a=>a.Application.FirmType)
