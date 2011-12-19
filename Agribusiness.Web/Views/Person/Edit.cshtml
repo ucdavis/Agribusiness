@@ -10,8 +10,15 @@
     @if (User.IsInRole(Agribusiness.Web.Controllers.Filters.RoleNames.User))
     { 
     <ul class="navigation">
-            <li>@Html.ActionLink("Back to Details", "Details", new { id = Model.Person.Id })</li>
+        <li>@Html.ActionLink("Back to Details", "Details", new { id = Model.Person.Id })</li>
     </ul>
+    }
+    else
+    {
+        <ul class="navigation">
+            <li>@Html.ActionLink("Back to Home", "Index", "Authorized")</li>
+            <li>@Html.ActionLink("Change Password", "ChangePassword", "Account")</li>
+        </ul>
     }
 }
 
