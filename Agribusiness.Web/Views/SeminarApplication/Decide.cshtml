@@ -224,17 +224,17 @@
         </div>
         
         <br /><br />
-        @if (!Model.IsPending)
+        @if (Model.IsPending)
         {
-            using(Html.BeginForm())
+            using (Html.BeginForm())
             { 
                 @Html.AntiForgeryToken()
                 @Html.Hidden("isApproved", true)
                 @Html.Hidden("reason", string.Empty, new { @class = "decision_reason" })
                 <input type="submit" value="Approve" class="button" />
             }
-            
-            using(Html.BeginForm())
+
+            using (Html.BeginForm())
             { 
                 @Html.AntiForgeryToken()
                 @Html.Hidden("isApproved", false)
@@ -243,6 +243,17 @@
             }
             <text>|@Html.ActionLink("Cancel", "Index")</text>
             
+        }
+        else
+        {
+            if (Model.IsApproved)
+            {
+                <text>This application has been approved</text>
+            }
+            else
+            {
+                <text>This application has been denied</text>
+            }
         }
         
     </fieldset>

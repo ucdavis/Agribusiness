@@ -69,6 +69,7 @@ namespace Agribusiness.Web.Controllers
 
         //
         // GET: /Person/
+        [UserOnly]
         public ActionResult Index(FilterRule filter)
         {
             var viewModel = PersonListViewModel.Create(_personRepository, _personService, _seminarService);
@@ -104,6 +105,7 @@ namespace Agribusiness.Web.Controllers
             return View(viewModel);
         }
 
+        [UserOnly]
         public ActionResult Profile(int id)
         {
             var person = _personRepository.GetNullableById(id);

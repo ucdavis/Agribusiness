@@ -271,8 +271,9 @@ namespace Agribusiness.Web.Services
                 if (reg != null)
                 {
                     // only give back a firm if it's not null
-                    var firm = !reg.Firm.Review ? reg.Firm : null;
-                    displayPeople.Add(new DisplayPerson() { Firm = firm, Person = person, Title = reg.Title, Invite = reg.Invite, Registered = reg.Paid, Seminar = reg.Seminar});
+                    //var firm = !reg.Firm.Review ? reg.Firm : null;
+                    
+                    displayPeople.Add(new DisplayPerson() { Firm = reg.Firm, Person = person, Title = reg.Title, Invite = reg.Invite, Registered = reg.Paid, Seminar = reg.Seminar});
                 }
                 else
                 {

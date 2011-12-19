@@ -114,9 +114,9 @@ else
 
 </div>
 
-<h3>Past Seminars</h3>
 @if (Model.SeminarPeople.Any())
 {
+    <h3>Past Seminars</h3>
     <table>
         <thead>
             <tr>
@@ -141,7 +141,7 @@ else
         </tbody>
     </table>
 }
-else
+@*else
 { 
     <p>We welcome you to attend your first seminar.  If you have any questions, please feel free to @Html.ActionLink("contact us", "ContactUs", "Public").</p>
-}
+}*@

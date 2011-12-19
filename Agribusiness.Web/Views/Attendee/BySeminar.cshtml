@@ -16,7 +16,10 @@
 
 <div style="margin-top: 1em;">
 @foreach (var a in Model.OrderBy(a=>a.Person.LastName))
-{ 
-    @Html.Partial("_ProfileList", a)
+{
+    if (a.Registered)
+    {
+        @Html.Partial("_ProfileList", a)    
+    }
 }
 </div>

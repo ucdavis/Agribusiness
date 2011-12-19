@@ -37,5 +37,6 @@ namespace Agribusiness.Web.Models
 
         public bool Invite { get; set; }
         public bool Registered { get; set; }
+
     }
 }

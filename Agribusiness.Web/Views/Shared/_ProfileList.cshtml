@@ -22,13 +22,13 @@
     
         <header class="list-item-name">
         
-            @if ((bool)ViewBag.PublicProfile)
+            @if (publicProfile)
             {
                 <text>@Model.Person.FullName</text>
             }
             else
             {
-                 @Html.ActionLink(Model.Person.FullName, "Profile", new { id = Model.Person.Id })
+                 @Html.ActionLink(Model.Person.FullName, "Profile", new { id = Model.Person.Id, seminarId = Model.Seminar != null ? Model.Seminar.Id.ToString() : string.Empty })
             }
 @*            else if (Model.Seminar != null)
             { 
