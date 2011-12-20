@@ -238,6 +238,7 @@ namespace Agribusiness.Web.Services
             {
                 _firmRepository.EnsurePersistent(firm);
                 _personRepository.EnsurePersistent(person);
+                _seminarPersonRepository.EnsurePersistent(seminarPerson);
 
                 return person;
             }

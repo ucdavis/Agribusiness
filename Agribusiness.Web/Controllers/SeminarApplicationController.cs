@@ -87,6 +87,11 @@ namespace Agribusiness.Web.Controllers
                 person = _personService.CreateSeminarPerson(application, ModelState);
             }
 
+            if (person == null)
+            {
+                ModelState.AddModelError("Person", "Unsuccessful in adding person to the current seminar.");
+            }
+
             // check if model state is still valid, might have changed on create
             if (ModelState.IsValid)
             {
