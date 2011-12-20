@@ -245,7 +245,7 @@
 
                     <span id="firmtype-other" style="@(Model.Application.FirmType != null && Model.Application.FirmType.Name == "Other" ? "display: inline-block;" : "display: none;")">
                         @*@Html.TextBoxFor(model => model.Application.OtherFirmType)*@
-                        <input type="text" id="Application_OtherFirmType" name="Application.OtherFirmType" placeholder="Firm Type" value="@Model.Application.OtherFirmType" />
+                        <input type="text" id="Application_OtherFirmType" name="Application.OtherFirmType" placeholder="Firm Type" value="@Model.Application.OtherFirmType" class="hastip" title="Please enter the type of your firm." />
                     </span>
 
                     @Html.ValidationMessageFor(a=>a.Application.FirmType)
@@ -336,7 +336,8 @@
 
             <li id="commodity-other-container">
                 <input type="checkbox" id="commodity-other" @(!string.IsNullOrWhiteSpace(Model.Application.OtherCommodity) ? "checked" : string.Empty) /> <span>Other</span>
-                @Html.TextBoxFor(model=>model.Application.OtherCommodity)
+                @*@Html.TextBoxFor(model=>model.Application.OtherCommodity)*@
+                <input type="text" id="Application_OtherCommodity" name="Application.OtherCommodity" class="hastip" title="Please enter commodities not listed above.  If entering more than one please seperate by commas." />
             </li>
         </ul>
 
