@@ -12,6 +12,9 @@
 	</ul>
 }
 
+<div class="ui-state-highlight" style="padding: 1em;">
+Case studies will be available to download in February 2012.
+</div>
 
 <table class="default_table nolasticon">
 	<thead>
@@ -36,9 +39,12 @@
 @foreach (var item in Model) {
 		<tr class="@(odd ? "odd": "even")">
 			<td>
-				<a href='@Url.Action("Download", new {id=item.Id})'>
+                @if (item.File != null)
+                {
+                <a href='@Url.Action("Download", new { id = item.Id })'>
 					<img src='@Url.Image("details.png")' />
-				</a>
+				</a>    
+                }
 			</td>
 			<td>
 				@item.Name
