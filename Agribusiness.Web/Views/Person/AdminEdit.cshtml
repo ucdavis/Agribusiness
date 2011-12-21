@@ -239,7 +239,7 @@
                         <div class='display-details'>@(registered ? Model.PersonViewModel.SeminarPerson.TransactionId : "Not Registered")</div>
                     </li>
                     <li><div class='display-label'>Status:</div>
-                        <div class='display-details'>@(registered ? (paid ? "Registered (Paid)" : "Registered (Not Paid)") : "n/a")</div>
+                        <div class='display-details'>@(registered ? (paid ? "Registered (Paid)" : "Registered (Transaction Pending)") : "n/a")</div>
                     </li>
                     <li><div class='display-label'>Coupon:</div>
                         <div class='display-details'>

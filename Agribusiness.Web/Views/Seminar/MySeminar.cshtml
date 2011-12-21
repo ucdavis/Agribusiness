@@ -42,7 +42,11 @@
         </li>
         <li><div class="display-label">Payment Status:</div>
             <div class="display-details">
-            @if (Model.SeminarPerson.Paid)
+            @if (!string.IsNullOrWhiteSpace(Model.SeminarPerson.TransactionId) && !Model.SeminarPerson.Paid)
+            {
+                <text>Transaction Pending</text>
+            }
+            else if (Model.SeminarPerson.Paid)
             {
                 <text>Paid</text>
             }
@@ -61,10 +65,20 @@
         }
     </ul>
 
-    @if (!Model.SeminarPerson.Paid)
+    @if (!Model.SeminarPerson.Paid && string.IsNullOrWhiteSpace(Model.SeminarPerson.TransactionId))
     {
          <div id="payment-details" class="ui-state-highlight">
-            <p>Payment: the seminar fee of $3,950 covers all study materials, instruction, meals, and receptions, but excludes lodging. The fee is due February 1, 2012. Credit cards and checks are accepted.  You will not have access to case studies and contact information of other attendees until your seminar fee is paid.  Please make checks payable to UC Regents and ensure that the name of the applicant accompanies the check.</p>
+            @*<p>Payment: the seminar fee of $3,950 covers all study materials, instruction, meals, and receptions, but excludes lodging. The fee is due February 1, 2012. Credit cards and checks are accepted.  You will not have access to case studies and contact information of other attendees until your seminar fee is paid.  Please make checks payable to UC Regents and ensure that the name of the applicant accompanies the check.</p>*@
+
+            <ul>
+                <li>Payment fee of $3,950 covers all study materials, instruction, meals, and receptions, but excludes lodging.</li>
+                <li>The fee is due February 1, 2012. </li>
+                <li>Credit cards and checks are accepted.</li>
+                <li>You will not have access to case studies and contact information of other attendees until your seminar fee is paid.</li>
+                <li>Confirmation of credit card payments will occur within 24 hours (once you receive your confirmation, you will then have access to case studies and contact information of other attendees).</li>
+                <li>Please make checks payable to UC Regents and ensure that the name of the applicant accompanies the check.</li>
+            </ul>
+
            
             <p><a href="@Model.CrpLink" target="payment">Click here to pay</a></p>
         </div>   
