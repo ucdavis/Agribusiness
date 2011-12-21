@@ -85,7 +85,9 @@ else
                     @*@string.Format("The upcoming seminar is on {0}, to download documents and see other attendees click ", Model.Seminar.Begin.ToShortDateString())
                     @Html.ActionLink("Here", "MySeminar", "Seminar", new { id = Model.SeminarPerson.Id }, new { })*@
 
+                    <div class="ui-state-highlight" style="padding: 1em;">
                     Congratulations! You have been accepted for the March 4-6, 2012 UC Agribusiness Executive Seminar! Below is additional information for you to review. Please contact <a href="mailto:crakins@ucdavis.edu">Chris Akins</a> if you have questions. 
+                    </div>
 
                     <div class="text_btn">
                         @Html.ActionLink("2012 Seminar Information", "MySeminar", "Seminar", new { id = Model.SeminarPerson.Id }, new { })
