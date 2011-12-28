@@ -16,6 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bin", "Bin", "{16225D2D-13C
 		Bin\FluentNHibernate.dll = Bin\FluentNHibernate.dll
 		Bin\HibernatingRhinos.Profiler.Appender.dll = Bin\HibernatingRhinos.Profiler.Appender.dll
 		Bin\Iesi.Collections.dll = Bin\Iesi.Collections.dll
+		Bin\Ionic.Zip.dll = Bin\Ionic.Zip.dll
 		Bin\log4net.dll = Bin\log4net.dll
 		Bin\Microsoft.Practices.ServiceLocation.dll = Bin\Microsoft.Practices.ServiceLocation.dll
 		Bin\Microsoft.ReportViewer.Common.dll = Bin\Microsoft.ReportViewer.Common.dll
