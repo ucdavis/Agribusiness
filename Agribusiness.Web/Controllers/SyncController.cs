@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.Linq;
+using System.Net.Mail;
 using System.Web.Mvc;
 using Agribusiness.Core.Domain;
 using Agribusiness.Core.Resources;
@@ -36,37 +37,58 @@ namespace Agribusiness.Web.Controllers
 
         public ActionResult Index()
         {
-            var seminar = _seminarService.GetCurrent();
-
-            if (seminar.RegistrationId.HasValue)
+            try
             {
-                var result = _registrationService.RefreshAllRegistration(seminar.RegistrationId.Value);
+                var seminar = _seminarService.GetCurrent();
 
-                // load all of the seminar people
-                var seminarPeople = seminar.SeminarPeople;
-
-                foreach (var sp in seminarPeople)
+                if (seminar.RegistrationId.HasValue)
                 {
-                    var reg = result.Where(a => a.ReferenceId == sp.ReferenceId).FirstOrDefault();
+                    var result = _registrationService.RefreshAllRegistration(seminar.RegistrationId.Value);
 
-                    if (reg != null)
+                    // load all of the seminar people
+                    var seminarPeople = seminar.SeminarPeople;
+
+                    foreach (var sp in seminarPeople)
                     {
-                        sp.TransactionId = reg.TransactionId;
-                        sp.Paid = reg.Paid;
+                        var reg = result.Where(a => a.ReferenceId == sp.ReferenceId).FirstOrDefault();
 
-                        // remove from the payment reminder mailing lists
-                        if (sp.Paid)
+                        if (reg != null)
                         {
-                            _notificationService.RemoveFromMailingList(sp.Seminar, sp.Person, MailingLists.PaymentReminder);
-                            _notificationService.RemoveFromMailingList(sp.Seminar, sp.Person, MailingLists.Registered);
-                            _notificationService.AddToMailingList(sp.Seminar, sp.Person, MailingLists.Attending);
-                        }
+                            sp.TransactionId = reg.TransactionId;
+                            sp.Paid = reg.Paid;
 
-                        _seminarPersonRepository.EnsurePersistent(sp);
+                            // remove from the payment reminder mailing lists
+                            if (sp.Paid)
+                            {
+                                _notificationService.RemoveFromMailingList(sp.Seminar, sp.Person, MailingLists.PaymentReminder);
+                                _notificationService.RemoveFromMailingList(sp.Seminar, sp.Person, MailingLists.Registered);
+                                _notificationService.AddToMailingList(sp.Seminar, sp.Person, MailingLists.Attending);
+                            }
+
+                            _seminarPersonRepository.EnsurePersistent(sp);
+                        }
                     }
                 }
             }
-            
+            catch (Exception ex)
+            {
+                var client = new SmtpClient("smtp.ucdavis.edu");
+                var message = new MailMessage("automatedmessage@caes.ucdavis.edu", "anlai@ucdavis.edu");
+                message.Subject = "Error Syncing from Agribusiness";
+                message.Body = ex.Message;
+                client.Send(message);
+            }
+
+            //if (ConfigurationManager.AppSettings["SyncCall"] == "true")
+            //{
+            //    // determine the address of the calling person.
+            //    var client = new SmtpClient("smtp.ucdavis.edu");
+            //    var message = new MailMessage("automatedmessage@caes.ucdavis.edu", "anlai@ucdavis.edu");
+            //    message.Subject = "sync call was made to agribusiness and completed";
+            //    message.Body = Request.UserHostAddress ?? "No address";
+            //    client.Send(message);
+            //}
+
             return View();
         }
 
