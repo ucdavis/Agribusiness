@@ -45,16 +45,26 @@ namespace Agribusiness.Web.Controllers
                 {
                     if (person.Person != null && person.Person.OriginalPicture != null)
                     {
-                        zip.AddEntry(string.Format("{0}.{1}.{2}", person.Person.LastName, person.Person.FirstName, ExtractExtension(person.Person.ContentType)), person.Person.OriginalPicture);
+                        zip.AddEntry(string.Format("{0}.{1}.{2}", person.Person.LastName.Trim(), person.Person.FirstName.Trim(), ExtractExtension(person.Person.ContentType)), person.Person.OriginalPicture);
+
+                        if (person.Person.MainProfilePicture != null)
+                        {
+                            zip.AddEntry(string.Format("{0}.{1}-profile.{2}", person.Person.LastName.Trim(), person.Person.FirstName.Trim(), ExtractExtension(person.Person.ContentType)), person.Person.MainProfilePicture);    
+                        }
+
+                        if (person.Person.ThumbnailPicture != null)
+                        {
+                            zip.AddEntry(string.Format("{0}.{1}-thumbnail.{2}", person.Person.LastName.Trim(), person.Person.FirstName.Trim(), ExtractExtension(person.Person.ContentType)), person.Person.ThumbnailPicture);    
+                        }
                     }
                 }
 
                 zip.Save(stream);
 
-                return File(stream, "application/zip", "agribusiness-export.zip");
+                return File(stream.ToArray(), "application/zip", "agribusiness-export.zip");
             }
 
-            return File(new byte[0], string.Empty);v
+            return File(new byte[0], string.Empty);
         }
 
         private string ExtractExtension(string contentType)
