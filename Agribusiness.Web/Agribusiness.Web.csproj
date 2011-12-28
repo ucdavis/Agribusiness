@@ -144,6 +144,7 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\Filters\CaptchaValidatorAttribute.cs" />
     <Compile Include="Controllers\Filters\CatbertMessagesAttribute.cs" />
+    <Compile Include="Controllers\Filters\IpFilter.cs" />
     <Compile Include="Controllers\Filters\RoleFilter.cs" />
     <Compile Include="Controllers\FirmController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -158,6 +159,7 @@
     <Compile Include="Controllers\SeminarApplicationController.cs" />
     <Compile Include="Controllers\SeminarController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
+    <Compile Include="Controllers\SyncController.cs" />
     <Compile Include="Controllers\TemplateController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -742,6 +744,7 @@
     <Content Include="Doc\2012-Schedule.pdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Views\Sync\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">
