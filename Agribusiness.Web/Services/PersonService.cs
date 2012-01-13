@@ -186,7 +186,7 @@ namespace Agribusiness.Web.Services
         {
             var person = SetPerson(application, application.User.Person);
 
-            var firm = application.Firm ?? new Firm(application.FirmName, application.FirmDescription);
+            var firm = application.Firm ?? new Firm(application.FirmName, !string.IsNullOrWhiteSpace(application.FirmDescription)? application.FirmDescription : "n/a");
 
             var seminarPerson = new SeminarPerson()
             {

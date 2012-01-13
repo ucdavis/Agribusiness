@@ -250,13 +250,13 @@ namespace Agribusiness.Web.Controllers
                     if (person != null)
                     {
                         photo = person.MainProfilePicture;
-                        contentType = person.ContentType;
+                        contentType = string.IsNullOrWhiteSpace(person.ContentType) ? contentType : person.ContentType;
                     }
                 }
                 else
                 {
                     photo = _pictureService.MakeMainProfile(application.Photo);
-                    contentType = application.ContentType;
+                    contentType = string.IsNullOrWhiteSpace(application.ContentType) ? contentType : application.ContentType;
                 }
             }
 

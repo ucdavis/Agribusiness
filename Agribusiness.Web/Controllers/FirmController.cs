@@ -35,7 +35,7 @@ namespace Agribusiness.Web.Controllers
             return View(FirmListViewModel.Create(_firmRepository, _firmService));
         }
 
-        public ActionResult Edit(int id, int? decissionId = null)
+        public ActionResult Edit(int id, int? decissionId = null, Guid? userId = null, int? seminarId = null)
         {
             var firm = _firmRepository.GetNullableById(id);
 
@@ -51,6 +51,8 @@ namespace Agribusiness.Web.Controllers
             var viewModel = FirmViewModel.Create(Repository, firm, origFirm);
 
             ViewBag.DecissionId = decissionId;
+            ViewBag.UserId = userId;
+            ViewBag.SeminarId = seminarId;
 
             return View(viewModel);
         }

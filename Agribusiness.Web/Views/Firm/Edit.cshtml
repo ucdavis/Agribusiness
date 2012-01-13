@@ -54,7 +54,19 @@
                     @if(@ViewBag.DecissionId != null){
                         @Html.ActionLink("Cancel", "Decide", "SeminarApplication", new { id = @ViewBag.DecissionId }, null)
                     }
-                    else { 
+                    else if (@ViewBag.UserId != null)
+                    {
+                        if (@ViewBag.SeminarId == null)
+                        {
+                            @Html.ActionLink("Cancel", "AdminEdit", "Person", new { id = @ViewBag.UserId }, null)    
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Cancel", "AdminEdit", "Person", new { id = @ViewBag.UserId, seminarId = @ViewBag.SeminarId }, null)    
+                        }
+                    }
+                    else
+                    { 
                         @Html.ActionLink("Cancel", "Index")
                     }
                 </div>

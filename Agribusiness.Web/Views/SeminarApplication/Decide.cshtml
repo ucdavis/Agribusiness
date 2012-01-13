@@ -89,7 +89,8 @@
         { 
             <li>
                 <div class="display-label">Name:</div>
-                <div class="display-details">@Model.Firm.Name
+                <div class="display-details">
+                    @Model.Firm.Name
                     @Html.ActionLink("Edit Firm", "Edit", "Firm", new { id = @Model.Firm.Id, decissionId = @Model.Id }, new {style = "margin-left: 20px;"})
                 </div>   
             </li>

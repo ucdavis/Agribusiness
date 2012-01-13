@@ -252,7 +252,9 @@
         @Html.Hidden("Firm", Model.Firm.Id)
         <ul>
             <li><div class="display-label">Firm Name:</div>
-                <div class="display-details"><span id="firmName">@existingFirmName</span></div>
+                <div class="display-details"><span id="firmName">@existingFirmName</span>
+                @Html.ActionLink("Edit Firm", "Edit", "Firm", new { id = @Model.Firm.Id, userId = @Model.Person.User.Id, seminarId = Model.Seminar.Id }, new {style = "margin-left: 20px;"})
+                </div>
             </li>
         </ul>
         </div>
