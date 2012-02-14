@@ -190,7 +190,7 @@ namespace Agribusiness.Web.Models
                 
                 return newPassword;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return string.Empty;
             }
