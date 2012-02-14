@@ -43,9 +43,12 @@ namespace Agribusiness.Web.Controllers
             {
                 foreach (var person in people)
                 {
-                    if (person.Person != null && person.Person.OriginalPicture != null)
+                    if (person.Person != null ) // && person.Person.OriginalPicture != null)
                     {
-                        zip.AddEntry(string.Format("{0}.{1}.{2}", person.Person.LastName.Trim(), person.Person.FirstName.Trim(), ExtractExtension(person.Person.ContentType)), person.Person.OriginalPicture);
+                        if (person.Person.OriginalPicture != null)
+                        {
+                            zip.AddEntry(string.Format("{0}.{1}.{2}", person.Person.LastName.Trim(), person.Person.FirstName.Trim(), ExtractExtension(person.Person.ContentType)), person.Person.OriginalPicture);    
+                        }
 
                         if (person.Person.MainProfilePicture != null)
                         {

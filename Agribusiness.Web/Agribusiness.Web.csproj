@@ -755,10 +755,10 @@
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Messages.Designer.cs</LastGenOutput>
     </Content>
-    <Content Include="App_GlobalResources\StaticIndexes.resx">
+    <EmbeddedResource Include="App_GlobalResources\StaticIndexes.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>StaticIndexes.Designer.cs</LastGenOutput>
-    </Content>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
