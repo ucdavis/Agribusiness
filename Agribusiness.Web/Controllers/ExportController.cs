@@ -34,7 +34,7 @@ namespace Agribusiness.Web.Controllers
         {
             var seminar = _seminarService.GetCurrent();
 
-            var people = _seminarPersonRepository.Queryable.Where(a => a.Seminar == seminar && a.Paid).ToList();
+            var people = _seminarPersonRepository.Queryable.Where(a => a.Seminar == seminar).ToList();
 
             var stream = new MemoryStream();
 
