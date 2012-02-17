@@ -122,24 +122,26 @@ namespace Agribusiness.Web.Controllers
                 var sheet = templateWorkbook.GetSheetAt(0); // GetSheet("Sheet1");
 
                 // Getting the row... 0 is the first row. aka title row
-                var title1 = sheet.GetRow(0);
+                var title1 = sheet.CreateRow(0);
 
-                var tcell1 = title1.CreateCell(8);
+                var bold = templateWorkbook.CreateFont();
+
+                var tcell1 = title1.CreateCell(10);
                 tcell1.SetCellValue("Business Address");
                 tcell1.CellStyle = templateWorkbook.CreateCellStyle();
                 tcell1.CellStyle.Alignment = HorizontalAlignment.CENTER;
                 tcell1.CellStyle.FillBackgroundColor = NPOI.HSSF.Util.HSSFColor.LIGHT_BLUE.index;
 
-                var tcell2 = title1.CreateCell(14);
+                var tcell2 = title1.CreateCell(16);
                 tcell2.SetCellValue("Courier Address");
                 tcell2.CellStyle = templateWorkbook.CreateCellStyle();
                 tcell2.CellStyle.Alignment = HorizontalAlignment.CENTER;
                 tcell2.CellStyle.FillBackgroundColor = NPOI.HSSF.Util.HSSFColor.LIGHT_GREEN.index;
 
                 // merge the cells
-                var cra = new CellRangeAddress(0, 0, 8, 13);
+                var cra = new CellRangeAddress(0, 0, 10, 15);
                 sheet.AddMergedRegion(cra);
-                var cra2 = new CellRangeAddress(0, 0, 14, 19);
+                var cra2 = new CellRangeAddress(0, 0, 16, 21);
                 sheet.AddMergedRegion(cra2);
 
                 var title2 = sheet.CreateRow(1);
@@ -170,6 +172,10 @@ namespace Agribusiness.Web.Controllers
                 title2.CreateCell(20).SetCellValue("Zip");
                 title2.CreateCell(21).SetCellValue("Contry");
 
+                title2.CreateCell(22).SetCellValue("Res #");
+                title2.CreateCell(23).SetCellValue("Check-In");
+                title2.CreateCell(24).SetCellValue("Check-Out");
+
                 for (var i = 0; i < people.Count; i++)
                 {
                     // seminar person object
@@ -184,10 +190,8 @@ namespace Agribusiness.Web.Controllers
                     dataRow.CreateCell(4).SetCellValue(person.Person.Phone);
                     dataRow.CreateCell(5).SetCellValue(person.Person.PhoneExt);
                     dataRow.CreateCell(6).SetCellValue(person.Title);
-                    dataRow.CreateCell(7).SetCellValue(person.FirmName);
-                    dataRow.CreateCell(8).SetCellValue(person.FirmType != null
-                                                           ? person.FirmType.Name
-                                                           : person.OtherFirmType);
+                    dataRow.CreateCell(7).SetCellValue(person.Firm.Name);
+                    dataRow.CreateCell(8).SetCellValue(person.FirmName);
                     dataRow.CreateCell(9).SetCellValue(person.GetCommodityList());
 
                     try
@@ -236,6 +240,11 @@ namespace Agribusiness.Web.Controllers
                             dataRow.CreateCell(20).SetCellValue(string.Empty);
                             dataRow.CreateCell(21).SetCellValue(string.Empty);
                         }
+
+                        // hotel information
+                        dataRow.CreateCell(22).SetCellValue(person.HotelConfirmation);
+                        dataRow.CreateCell(23).SetCellValue(person.HotelCheckIn.HasValue ? person.HotelCheckIn.Value.ToString("d") : string.Empty);
+                        dataRow.CreateCell(24).SetCellValue(person.HotelCheckOut.HasValue ? person.HotelCheckOut.Value.ToString("d") : string.Empty);
                     }
                     catch (Exception)
                     {
