@@ -94,7 +94,7 @@
                     <td>
                         @if (cs.File != null)
                         {
-                        <a href='@Url.Action("Download", "CaseStudy", new { id = cs.Id })'>
+                        <a href='@Url.Action("AdminDownload", "CaseStudy", new { id = cs.Id })'>
                             <img src='@Url.Content("~/Images/details.png")' alt="download case study" />
                         </a>        
                         }

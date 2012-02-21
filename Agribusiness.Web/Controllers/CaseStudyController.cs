@@ -317,5 +317,17 @@ namespace Agribusiness.Web.Controllers
 
             return File(caseStudy.File, "application/pdf", string.Format("{0}.pdf", fileName));
         }
+
+        [UserOnly]
+        public ActionResult AdminDownload(int id)
+        {
+            var caseStudy = _casestudyRepository.GetNullableById(id);
+
+            if (caseStudy == null) return File(new byte[0], string.Empty);
+
+            var fileName = caseStudy.Name.Replace(" ", string.Empty);
+
+            return File(caseStudy.File, "application/pdf", string.Format("{0}.pdf", fileName));
+        }
     }
 }
