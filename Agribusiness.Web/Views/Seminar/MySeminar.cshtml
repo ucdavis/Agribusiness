@@ -26,7 +26,8 @@
         <ul class="navigation">
             <li>@Html.ActionLink("Attendees", "BySeminar", "Attendee", new { id = Model.Seminar.Id }, new { })</li>
             <li>@Html.ActionLink("Case Studies", "BySeminar", "CaseStudy", new { id = Model.Seminar.Id }, new { })</li>
-            <li>@Html.ActionLink("Hotel", "Venue", "Public", new {}, new {})</li>
+            <li>@Html.ActionLink("Venue", "Venue", "Public", new {}, new {})</li>
+            <li>@Html.ActionLink("Steering Committee", "SteeringCommittee", "Public", new {}, new {target="committee"})</li>
         </ul>        
     }
 
@@ -92,24 +93,16 @@
 <h3>Documents</h3>
 <ul style="list-style: none;">
     <li><a href="@Url.Content("~/Doc/2012-DASPacketLetter.pdf")" target="DASPacketLetter">Welcome Letter</a></li>
-    <li><a href="@Url.Content("~/Doc/2012-Schedule.pdf")">2012 Program</a></li>
-    <li><a href="@Url.Content("~/Doc/2012-AttendeeList.pdf")">Attendee List</a></li>
-    <li><a href="@Url.Content("~/Doc/2012-SeminarPrepPage.pdf")">Seminar Preparation Information</a></li>
-    <li><a href="@Url.Content("~/Doc/2012-DiscussionGroupFormat.pdf")">Discussion Group Format Information</a></li>
-    <li><a href="@Url.Content("~/Doc/DirectionsRoundTripSF.pdf")">Directions to Monterey</a></li>
-    <li><a href="@Url.Content("~/Doc/MontereyPlazaMa.pdf")">Monterey Plaza Hotel and Spa Map</a></li>
+    <li><a href="@Url.Content("~/Doc/2012-Schedule.pdf")" target="program">2012 Program</a></li>
+    <li><a href="@Url.Content("~/Doc/2012-AttendeeList.pdf")" target="attendee">Attendee List</a></li>
+    <li><a href="@Url.Content("~/Doc/2012-SeminarPrepPage.pdf")" target="seminarprep">Seminar Preparation Information</a></li>
+    <li><a href="@Url.Content("~/Doc/2012-DiscussionGroupFormat.pdf")" target="discussiongroup">Discussion Group Format Information</a></li>
+    <li><a href="@Url.Content("~/Doc/DirectionsRoundTripSF.pdf")" target="directions">Directions to Monterey</a></li>
+    <li><a href="@Url.Content("~/Doc/MontereyPlazaMa.pdf")" target="montereyplaza">Monterey Plaza Hotel and Spa Map</a></li>
+    <li><a href="@Url.Content("~/Doc/Menus.pdf")" target="menu">Menus</a></li>
 </ul>
 </div>    
 
-<div style="margin: 1em;">
-<h3>Links</h3>
-
-<ul style="list-style: none;">
-    <li>@Html.ActionLink("Steering Committee", "SteeringCommittee", "Public", new {}, new {target="committee"})</li>
-    <li>@Html.ActionLink("Venue", "Venue", "Public", new {}, new {target="venue"})</li>
-</ul>
-
-</div>
 
 
 @if (Model.SeminarPerson.Sessions.Count == 0)
