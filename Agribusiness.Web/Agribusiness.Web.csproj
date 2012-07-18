@@ -56,12 +56,6 @@
     <Reference Include="Castle.Windsor, Version=2.5.1.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <HintPath>..\Bin\Castle.Windsor.dll</HintPath>
     </Reference>
-    <Reference Include="DataAnnotationsExtensions">
-      <HintPath>..\packages\DataAnnotationsExtensions.0.1.0.0\lib\NETFramework40\DataAnnotationsExtensions.dll</HintPath>
-    </Reference>
-    <Reference Include="DataAnnotationsExtensions.ClientValidation">
-      <HintPath>..\packages\DataAnnotationsExtensions.MVC3.0.1.0.0\lib\NETFramework40\DataAnnotationsExtensions.ClientValidation.dll</HintPath>
-    </Reference>
     <Reference Include="Elmah">
       <HintPath>..\Bin\Elmah.dll</HintPath>
     </Reference>
@@ -126,12 +120,8 @@
     <Reference Include="UCDArch">
       <HintPath>..\Bin\UCDArch.dll</HintPath>
     </Reference>
-    <Reference Include="WebActivator">
-      <HintPath>..\packages\WebActivator.1.1.0.0\lib\NETFramework40\WebActivator.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppStart_RegisterClientValidationExtensions.cs" />
     <Compile Include="App_GlobalResources\Messages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -538,7 +528,6 @@
     <Content Include="Scripts\tiny_mce\utils\form_utils.js" />
     <Content Include="Scripts\tiny_mce\utils\mctabs.js" />
     <Content Include="Scripts\tiny_mce\utils\validate.js" />
-    <Content Include="UCDArch.txt" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -608,9 +597,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="CodeTemplates\AddController\Controller.tt" />
     <Content Include="Views\Home\LoadImages.cshtml" />
     <Content Include="Views\Shared\_Message.cshtml" />
@@ -671,26 +657,7 @@
     <Content Include="Views\Notification\Create.cshtml" />
     <Content Include="Views\Notification\Send.cshtml" />
     <Content Include="Views\Notification\_NotificationTracking.cshtml" />
-    <None Include="CodeTemplates\AddView\AspxCSharp\Create.tt" />
-    <None Include="CodeTemplates\AddView\AspxCSharp\CreateViewModel.tt" />
-    <None Include="CodeTemplates\AddView\AspxCSharp\Delete.tt" />
-    <None Include="CodeTemplates\AddView\AspxCSharp\Details.tt" />
-    <None Include="CodeTemplates\AddView\AspxCSharp\Edit.tt" />
-    <None Include="CodeTemplates\AddView\AspxCSharp\EditViewModel.tt" />
-    <None Include="CodeTemplates\AddView\AspxCSharp\Empty.tt" />
-    <None Include="CodeTemplates\AddView\AspxCSharp\List.tt" />
-    <None Include="CodeTemplates\AddView\AspxCSharp\ListDatatables.tt" />
-    <None Include="CodeTemplates\AddView\AspxCSharp\ListTelerik.tt" />
-    <None Include="CodeTemplates\AddView\CSHTML\Create.tt" />
-    <None Include="CodeTemplates\AddView\CSHTML\CreateViewModel.tt" />
-    <None Include="CodeTemplates\AddView\CSHTML\Delete.tt" />
-    <None Include="CodeTemplates\AddView\CSHTML\Details.tt" />
-    <None Include="CodeTemplates\AddView\CSHTML\Edit.tt" />
-    <None Include="CodeTemplates\AddView\CSHTML\EditViewModel.tt" />
-    <None Include="CodeTemplates\AddView\CSHTML\Empty.tt" />
-    <None Include="CodeTemplates\AddView\CSHTML\List.tt" />
     <None Include="CodeTemplates\AddView\CSHTML\ListDatatables.tt" />
-    <None Include="CodeTemplates\AddView\CSHTML\ListTelerik.tt" />
     <Content Include="Views\Template\Details.cshtml" />
     <Content Include="Views\Template\Index.cshtml" />
     <Content Include="Views\Template\Create.cshtml" />
@@ -706,17 +673,6 @@
     <Content Include="Views\Public\MoreInformation.cshtml" />
     <Content Include="Views\InformationRequest\Index.cshtml" />
     <Content Include="Views\InformationRequest\Edit.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\Week.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\Url.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\Time.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\Search.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\PhoneNumber.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\Number.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\Month.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\EmailAddress.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\DateTime-Local.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\Date.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\Color.cshtml" />
     <Content Include="Views\InformationRequest\AddNote.cshtml" />
     <Content Include="Views\Home\ComingSoon.cshtml" />
     <Content Include="Views\Shared\_PublicSubNavigation.cshtml" />
