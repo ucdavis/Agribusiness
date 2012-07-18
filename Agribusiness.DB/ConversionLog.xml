@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type='text/xsl' href='_ConversionReport_Files/ConversionReport.xslt'?>
+<UpgradeLog>
+  <Properties>
+    <Property Name="Project" Value="Agribusiness.DB" />
+    <Property Name="Project File" Value="C:\Users\lai\Documents\Visual Studio 2010\Projects\Agribusiness\Agribusiness.DB\Agribusiness.DB.dbproj" />
+    <Property Name="Date" Value="Wednesday, July 18, 2012" />
+    <Property Name="Time" Value="10:53 AM" />
+  </Properties>
+  <Event ErrorLevel="0" Project="C:\Users\lai\Documents\Visual Studio 2010\Projects\Agribusiness\Agribusiness.DB\Agribusiness.DB.dbproj" Source="..\Agribusiness.DB.dbproj" Description="The permissions file 'C:\Users\lai\Documents\Visual Studio 2010\Projects\Agribusiness\Agribusiness.DB\Properties\Database.sqlpermissions' was converted to Transact-SQL in the file 'C:\Users\lai\Documents\Visual Studio 2010\Projects\Agribusiness\Agribusiness.DB\Permissions.sql'." />
+  <Event ErrorLevel="0" Source="" Description="C:\Users\lai\Documents\Visual Studio 2010\Projects\Agribusiness\Agribusiness.DB\Schema Comparisons\VogelComparison.scmp was copied to C:\Users\lai\Documents\Visual Studio 2010\Projects\Agribusiness\Agribusiness.DB\Schema Comparisons\VogelComparison_20120718055337.scmp for backup." />
+  <Event ErrorLevel="0" Source="" Description="C:\Users\lai\Documents\Visual Studio 2010\Projects\Agribusiness\Agribusiness.DB\Schema Comparisons\ExpressComparison.scmp was copied to C:\Users\lai\Documents\Visual Studio 2010\Projects\Agribusiness\Agribusiness.DB\Schema Comparisons\ExpressComparison_20120718055337.scmp for backup." />
+  <Event ErrorLevel="0" Source="" Description="C:\Users\lai\Documents\Visual Studio 2010\Projects\Agribusiness\Agribusiness.DB\Schema Comparisons\TerryComparison.scmp was copied to C:\Users\lai\Documents\Visual Studio 2010\Projects\Agribusiness\Agribusiness.DB\Schema Comparisons\TerryComparison_20120718055337.scmp for backup." />
+  <Event ErrorLevel="0" Source="" Description="C:\Users\lai\Documents\Visual Studio 2010\Projects\Agribusiness\Agribusiness.DB\Schema Comparisons\Donbot.scmp was copied to C:\Users\lai\Documents\Visual Studio 2010\Projects\Agribusiness\Agribusiness.DB\Schema Comparisons\Donbot_20120718055337.scmp for backup." />
+  <Event ErrorLevel="0" Project="C:\Users\lai\Documents\Visual Studio 2010\Projects\Agribusiness\Agribusiness.DB\Agribusiness.DB.dbproj" Source="..\Agribusiness.DB.dbproj" Description="Project was successfully converted: 'C:\Users\lai\Documents\Visual Studio 2010\Projects\Agribusiness\Agribusiness.DB\Agribusiness.DB.dbproj' to 'C:\Users\lai\Documents\Visual Studio 2010\Projects\Agribusiness\Agribusiness.DB\Agribusiness.DB.sqlproj'" />
+  <Event ErrorLevel="3" Project="C:\Users\lai\Documents\Visual Studio 2010\Projects\Agribusiness\Agribusiness.DB\Agribusiness.DB.dbproj" Source="..\Agribusiness.DB.dbproj" Description="Converted" />
+</UpgradeLog>

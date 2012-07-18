@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <SchemaComparison>
-  <Version>10</Version>
+  <Version>1</Version>
   <SourceModelProvider>
     <ProjectBasedModelProvider>
       <ProjectGuid>{67cbc824-a49e-4e9b-a947-360f3dfe65c3}</ProjectGuid>
@@ -9,10 +9,10 @@
   </SourceModelProvider>
   <TargetModelProvider>
     <ConnectionBasedModelProvider>
-      <ConnectionString>Data Source=terry;Initial Catalog=Agribusiness;Integrated Security=True;Pooling=False</ConnectionString>
+      <ConnectionString>Data Source=vogel;Initial Catalog=Agribusiness;Integrated Security=True;Pooling=False</ConnectionString>
       <DatabaseName>Agribusiness</DatabaseName>
       <DspFamilyName>sql</DspFamilyName>
-      <Name>[terry.Agribusiness]</Name>
+      <Name>[vogel.Agribusiness]</Name>
     </ConnectionBasedModelProvider>
   </TargetModelProvider>
   <SchemaCompareSettingsService>
@@ -24,7 +24,7 @@
     </SchemaCompareSettingsService>
     <ConfigurationOptionsElement>
       <PropertyElementName>
-        <Name>SqlDeploymentOptions</Name>
+        <Name>PlanGenerationType</Name>
         <Value>Sql100SchemaDeploymentOptions</Value>
       </PropertyElementName>
       <PropertyElementName>
@@ -32,7 +32,7 @@
         <Value>True</Value>
       </PropertyElementName>
       <PropertyElementName>
-        <Name>NoAlterStatementsToChangeCLRTypes</Name>
+        <Name>DoNotUseAlterAssemblyStatementsToUpdateCLRTypes</Name>
         <Value>False</Value>
       </PropertyElementName>
       <PropertyElementName>
@@ -101,7 +101,7 @@
       </PropertyElementName>
       <PropertyElementName>
         <Name>ScriptDatabaseCollation</Name>
-        <Value>False</Value>
+        <Value>True</Value>
       </PropertyElementName>
       <PropertyElementName>
         <Name>IgnoreDmlTriggerState</Name>
@@ -196,19 +196,19 @@
         <Value>UseSourceModelCollation</Value>
       </PropertyElementName>
       <PropertyElementName>
-        <Name>BlockOnPossibleDataLoss</Name>
+        <Name>BlockIncrementalDeploymentIfDataLoss</Name>
         <Value>False</Value>
       </PropertyElementName>
       <PropertyElementName>
         <Name>DeployDatabaseProperties</Name>
+        <Value>True</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>PerformDatabaseBackup</Name>
         <Value>False</Value>
       </PropertyElementName>
       <PropertyElementName>
-        <Name>BackupDatabaseBeforeChanges</Name>
-        <Value>False</Value>
-      </PropertyElementName>
-      <PropertyElementName>
-        <Name>DeployDatabaseInSingleUserMode</Name>
+        <Name>SingleUserMode</Name>
         <Value>False</Value>
       </PropertyElementName>
       <PropertyElementName>
@@ -280,11 +280,11 @@
         <Value>True</Value>
       </PropertyElementName>
       <PropertyElementName>
-        <Name>CreateNewDatabase</Name>
+        <Name>AlwaysCreateNewDatabase</Name>
         <Value>False</Value>
       </PropertyElementName>
       <PropertyElementName>
-        <Name>DropObjectsNotInSource</Name>
+        <Name>GenerateDropsIfNotInProject</Name>
         <Value>True</Value>
       </PropertyElementName>
       <PropertyElementName>
@@ -293,7 +293,7 @@
       </PropertyElementName>
       <PropertyElementName>
         <Name>TargetConnectionString</Name>
-        <Value>Data Source=terry;Initial Catalog=Agribusiness;Integrated Security=True;Pooling=False</Value>
+        <Value>Data Source=vogel;Initial Catalog=Agribusiness;Integrated Security=True;Pooling=False</Value>
       </PropertyElementName>
       <PropertyElementName>
         <Name>VerifyDeployment</Name>
@@ -307,44 +307,14 @@
         <Name>BuildtimeContributorsMustExist</Name>
         <Value>True</Value>
       </PropertyElementName>
+      <PropertyElementName>
+        <Name>Microsoft.Data.Schema.Sql.SchemaModel.ISqlPermissionStatement</Name>
+        <Value>ExcludedType</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>Microsoft.Data.Schema.Sql.SchemaModel.ISqlExtendedProperty</Name>
+        <Value>ExcludedType</Value>
+      </PropertyElementName>
     </ConfigurationOptionsElement>
   </SchemaCompareSettingsService>
-  <ExcludedSourceElements>
-    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100DatabaseOptions, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>
-      </Name>
-    </SelectedItem>
-    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100Assembly, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>Agribusiness.CLR</Name>
-    </SelectedItem>
-    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100AssemblySource, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>
-      </Name>
-      <ParentItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100Assembly, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-        <Name>Agribusiness.CLR</Name>
-      </ParentItem>
-    </SelectedItem>
-  </ExcludedSourceElements>
-  <ExcludedTargetElements>
-    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100DatabaseOptions, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>
-      </Name>
-    </SelectedItem>
-    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100Assembly, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>Agribusiness.CLR</Name>
-    </SelectedItem>
-    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100AssemblySource, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>
-      </Name>
-      <ParentItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100Assembly, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-        <Name>Agribusiness.CLR</Name>
-      </ParentItem>
-    </SelectedItem>
-    <SelectedItem Type="Microsoft.Data.Schema.Sql.SchemaModel.Sql100SchemaModel+Sql100PermissionStatement, Microsoft.Data.Schema.Sql, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>
-      </Name>
-      <ScriptHashCode>-1123893095</ScriptHashCode>
-    </SelectedItem>
-  </ExcludedTargetElements>
-  <SchemaCompareViewSettings />
 </SchemaComparison>
