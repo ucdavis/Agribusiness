@@ -41,3 +41,5 @@ Agribusiness.Import/bin/*
 Agribusiness.Web/bin/*
 Agribusiness.Core/bin/*
 Agribusiness.WS/bin/*
+*.ldf
+*.mdf
