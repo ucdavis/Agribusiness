@@ -44,7 +44,7 @@ namespace Agribusiness.Core.Domain
         public virtual bool Paid { get; set; }
         public virtual bool Invite { get; set; }
         
-        public virtual string ReferenceId { get; private set; }
+        public virtual string ReferenceId { get; protected set; }
         [StringLength(20)]
         public virtual string TransactionId { get; set; }
         public virtual string Comments { get; set; }
