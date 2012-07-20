@@ -1,0 +1,35 @@
+﻿@model Site
+
+@{
+    ViewBag.Title = "Site Details";
+    ViewBag.SubPageTitle = "Site Details";
+}
+
+
+
+<div class="form-horizontal">
+    <div class="control-group">
+        <fieldset>
+            <legend>@Model.Name</legend>
+            
+            <div class="control-group">
+                <label for="Description" class="control-label">Description:</label>
+                <div class="controls form-text">
+                    @Model.Description
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label for="IsActive" class="control-label">Is Active:</label>
+                <div class="controls form-text">
+		            @(Model.IsActive ? "Yes" : "No")
+                </div>
+            </div>
+        </fieldset>    
+    </div>
+</div>
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

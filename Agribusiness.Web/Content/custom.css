@@ -13,3 +13,5 @@ input.input-validation-error { color: #B94A48;border-color: #B94A48;}
 .page-header {
     color: #014A81;
 }
+
+.footer { margin-top: 45px;padding: 10px 0 36px;border-top: 1px solid #E5E5E5;}

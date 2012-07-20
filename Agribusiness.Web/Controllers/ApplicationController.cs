@@ -38,7 +38,10 @@ namespace Agribusiness.Web.Controllers
             if (site == null && !string.IsNullOrEmpty(Site))
             {
                 site = Repository.OfType<Site>().Queryable.FirstOrDefault(a => a.Id == Site);
-                System.Web.HttpContext.Current.Cache[Site] = site;
+                if (site != null)
+                {
+                    System.Web.HttpContext.Current.Cache[Site] = site;                    
+                }
             }
 
             return site;

@@ -32,9 +32,7 @@ namespace Agribusiness.Web
                 url: "{site}/{controller}/{action}/{id}",
                 defaults: new { site = "", controller = "Home", action = "Index", id = UrlParameter.Optional }
                 );
-
             
-
             //routes.Add(new DomainRoute(
             //    "agexec.ucdavis.edu",
             //    "{site}/{controller}/{action}/{id}",

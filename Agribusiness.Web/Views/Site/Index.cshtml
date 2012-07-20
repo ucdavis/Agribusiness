@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Agribusiness.Core.Domain.Site>
+
+@{
+    ViewBag.Title = "Agribusiness Sites";
+    ViewBag.SubPageTitle = "Agribusiness Sites";
+}
+
+@section SubPageNavigation
+{
+    <ul class="nav nav-pills">
+        <li>@Html.ActionLink("Create", "Create")</li>
+    </ul>
+}
+
+<table class="table table-striped">
+    <tr>
+        <th></th>
+        <th>
+            Name
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            IsActive
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }, new {@class="btn"})
+            @Html.ActionLink("Details", "Details", new { id=item.Id }, new {@class="btn"})
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsActive)
+        </td>
+    </tr>
+}
+
+</table>

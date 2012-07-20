@@ -2,6 +2,7 @@
 
 @{
     ViewBag.HeaderTitle = !string.IsNullOrEmpty(ViewBag.HeaderTitle) ? ViewBag.HeaderTitle : "UC Davis Agribusiness";
+    var site = ViewContext.RouteData.Values["host"] as string;
 }
 
 <!DOCTYPE html>
@@ -66,22 +67,25 @@
                   @Html.Partial("_LogonPartial")
 
                   <div class="nav-collapse">
-                      <ul class="nav">
-                          <li class="active">@Html.ActionLink("Home", "Index", "Home")</li>
+                      @if (!string.IsNullOrEmpty(site))
+                      {
+                          <ul class="nav">
+                              <li class="active">@Html.ActionLink("Home", "Index", "Home")</li>
                 
-                          @if (ViewContext.RequestContext.RouteData.Values["site"] != "none")
-                          {
-                              <li class="dropdown">
-                                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                      Administration
-                                  </a>
-                                  <ul class="dropdown-menu">
-                                      <li class="divider"></li>
-                                      <li class="nav-header">Active Directory</li>
-                                  </ul>
-                              </li>
-                          }
-                      </ul>
+                              @if (ViewContext.RequestContext.RouteData.Values["site"] != "none")
+                              {
+                                  <li class="dropdown">
+                                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                          Administration
+                                      </a>
+                                      <ul class="dropdown-menu">
+                                          <li class="divider"></li>
+                                          <li class="nav-header">Active Directory</li>
+                                      </ul>
+                                  </li>
+                              }
+                          </ul>    
+                      }
                   </div><!--/.nav-collapse -->
               </div>
           </div>
@@ -112,9 +116,22 @@
 
           @RenderBody()
 
-          <div style="clear: both;"></div>
-          <hr />
-        <footer><p>&copy; The Regents of the University of California, Davis campus</p></footer>
+          @*<div style="clear: both;"></div>*@
+          <footer class="footer">
+              <div class="row">
+                  <span class="span4">
+                      Telephone: <strong>(530) 752-2120</strong>
+                  </span>
+                  <span class="span4">
+                      Fax: <strong>(530) 752-2520</strong>
+                  </span>
+                  <span class="span4">
+                      Email: <strong><a href="mailto:agribusiness@ucdavis.edu">agribusiness@ucdavis.edu</a></strong>
+                  </span>
+              </div>
+              <p class="pull-right">Version # 2</p>
+              <p>&copy; The Regents of the University of California, Davis campus</p>
+          </footer>
 
       </div> <!-- /container -->
 

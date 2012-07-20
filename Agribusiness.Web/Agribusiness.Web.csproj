@@ -181,6 +181,7 @@
     <Compile Include="Controllers\SeminarApplicationController.cs" />
     <Compile Include="Controllers\SeminarController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
+    <Compile Include="Controllers\SiteController.cs" />
     <Compile Include="Controllers\SyncController.cs" />
     <Compile Include="Controllers\TemplateController.cs" />
     <Compile Include="Global.asax.cs">
@@ -213,6 +214,7 @@
     <Compile Include="Models\ProfileViewModel.cs" />
     <Compile Include="Models\ReportViewModel.cs" />
     <Compile Include="Models\SessionPersonViewModel.cs" />
+    <Compile Include="Models\SiteViewModel.cs" />
     <Compile Include="Models\TemplateViewModel.cs" />
     <Compile Include="Services\EventService.cs" />
     <Compile Include="Services\FirmService.cs" />
@@ -827,6 +829,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="packages.config" />
+    <Content Include="Views\Home\_NoSiteHome.cshtml" />
+    <Content Include="Views\Site\Index.cshtml" />
+    <Content Include="Views\Site\Details.cshtml" />
+    <Content Include="Views\Site\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">

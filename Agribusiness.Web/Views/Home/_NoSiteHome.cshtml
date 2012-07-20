@@ -1,0 +1,24 @@
+﻿@model HomeViewModel
+
+<div class="row">
+    @if (Model.Sites.Count() == 1)
+    {
+        var site = Model.Sites.First();
+        <span class="span12">
+            @site.Name
+        </span>
+    }
+    else
+    {
+        var cssclass = Model.Sites.Count() == 2 ? "span6" : "span4";
+        foreach (var site in Model.Sites)
+        {
+            <span class="@cssclass">
+                <h3>@site.Name</h3>
+                
+                @site.Description
+            </span>
+        }
+    }
+</div>
+

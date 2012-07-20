@@ -24,7 +24,7 @@
 @*Landing Page*@
 @if (Model.Site == null)
 {
-<text>NO site specified</text>
+    @Html.Partial("_NoSiteHome")
 }
 else
 {
