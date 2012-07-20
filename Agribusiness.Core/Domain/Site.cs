@@ -16,8 +16,12 @@ namespace Agribusiness.Core.Domain
         [StringLength(100)]
         [Required]
         public virtual string Name { get; set; }
+        [Display(Name="Description")]
         [DataType(DataType.MultilineText)]
         public virtual string Description { get; set; }
+        [Display(Name="Welcome Text")]
+        [DataType(DataType.MultilineText)]
+        public virtual string Welcome { get; set; }
         public virtual bool IsActive { get; set; }
 
         public virtual byte[] Logo { get; set; }
@@ -34,6 +38,7 @@ namespace Agribusiness.Core.Domain
 
             Map(x => x.Name);
             Map(x => x.Description);
+            Map(x => x.Welcome);
             Map(x => x.IsActive);
 
             Map(x => x.Logo).CustomType("BinaryBlob");

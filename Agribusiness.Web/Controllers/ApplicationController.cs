@@ -44,6 +44,11 @@ namespace Agribusiness.Web.Controllers
             return site;
         }
 
+        public void CacheSite(Site site)
+        {
+            System.Web.HttpContext.Current.Cache[site.Id] = site;
+        }
+
         public IRepositoryFactory RepositoryFactory = ServiceLocator.Current.GetInstance<IRepositoryFactory>();
     }
 }

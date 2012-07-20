@@ -26,6 +26,15 @@
                     </div>
                 </div>
             </div>
+            
+            <div class="control-group">
+                <label for="Welcome" class="control-label">Welcome Text:</label>
+                <div class="controls" style="margin-top: 5px;">
+                    <div>
+                    @Html.Raw(Model.Welcome)
+                    </div>
+                </div>
+            </div>
 
             @if (Model.Logo != null)
             {
@@ -56,8 +65,3 @@
         </fieldset>    
     </div>
 </div>
-
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

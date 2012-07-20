@@ -105,7 +105,6 @@
     <Folder Include="Scripts\Pre-Deployment" />
     <Folder Include="Scripts\Post-Deployment" />
     <Folder Include="Data Generation Plans" />
-    <Folder Include="Schema Comparisons" />
     <Folder Include="Properties\" />
     <Folder Include="Schema Objects\" />
     <Folder Include="Schema Objects\Schemas\" />
@@ -164,27 +163,16 @@
     <Folder Include="Schema Objects\Database Level Objects\Storage\Full Text Catalogs\" />
     <Folder Include="Schema Objects\Database Level Objects\Storage\Partition Functions\" />
     <Folder Include="Schema Objects\Database Level Objects\Storage\Partition Schemes\" />
+    <Folder Include="Data Generation Plans\Schema Comparisons" />
   </ItemGroup>
   <ItemGroup>
     <BuildContributorArgument Include="OutDir=$(OutDir)" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Schema Comparisons\VogelComparison.scmp">
-      <SubType>NotInBuild</SubType>
-    </None>
-    <None Include="Schema Comparisons\ExpressComparison.scmp">
-      <SubType>NotInBuild</SubType>
-    </None>
     <None Include="Scripts\Post-Deployment\GenerateFakeApplications.sql">
       <SubType>NotInBuild</SubType>
     </None>
     <None Include="Scripts\Post-Deployment\ArchiveConversion.sql">
-      <SubType>NotInBuild</SubType>
-    </None>
-    <None Include="Schema Comparisons\TerryComparison.scmp">
-      <SubType>NotInBuild</SubType>
-    </None>
-    <None Include="Schema Comparisons\Donbot.scmp">
       <SubType>NotInBuild</SubType>
     </None>
     <None Include="Scripts\Post-Deployment\BacklogCastStudies.sql">
@@ -211,6 +199,10 @@
     <None Include="Scripts\Post-Deployment\ResetMailingLists.sql">
       <SubType>NotInBuild</SubType>
     </None>
+    <None Include="Data Generation Plans\Schema Comparisons\Donbot.scmp" />
+    <None Include="Data Generation Plans\Schema Comparisons\ExpressComparison.scmp" />
+    <None Include="Data Generation Plans\Schema Comparisons\TerryComparison.scmp" />
+    <None Include="Data Generation Plans\Schema Comparisons\VogelComparison.scmp" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Permissions.sql" />

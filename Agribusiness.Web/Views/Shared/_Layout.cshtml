@@ -63,7 +63,13 @@
                       <span class="icon-bar"></span>
                   </a>
 
-                  <a class="brand" href="@Url.Action("Index", "Home", new {@site=site})">@ViewBag.HeaderTitle</a>
+                  <a class="brand" href="@Url.Action("Index", "Home", new {@site=site})">
+                      @if (!string.IsNullOrEmpty(site))
+                      {
+                          <img src='@Url.Action("GetLogo", "Site", new {id=site})' alt="logo" height="45" width="120"/>
+                      }
+                      @ViewBag.HeaderTitle
+                  </a>
                   
                   @Html.Partial("_LogonPartial")
 

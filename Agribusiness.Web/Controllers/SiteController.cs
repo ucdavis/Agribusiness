@@ -47,7 +47,7 @@ namespace Agribusiness.Web.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Edit(string id, string name, string description, HttpPostedFileBase logo, HttpPostedFileBase splash)
+        public ActionResult Edit(string id, string name, string description, string welcome, HttpPostedFileBase logo, HttpPostedFileBase splash)
         {
             var site = RepositoryFactory.SiteRepository.GetNullableById(id);
             
@@ -59,6 +59,7 @@ namespace Agribusiness.Web.Controllers
 
             site.Name = name;
             site.Description = description;
+            site.Welcome = welcome;
 
             if (logo != null && logo.ContentLength > 0)
             {
@@ -82,6 +83,7 @@ namespace Agribusiness.Web.Controllers
             {
                 RepositoryFactory.SiteRepository.EnsurePersistent(site);
                 Message = "Site has been saved.";
+                CacheSite(site);
                 return RedirectToAction("Index");
             }
 
