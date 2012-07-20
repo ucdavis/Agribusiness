@@ -10,6 +10,10 @@
     <script type="text/javascript" src='@Url.Script("tiny_mce/jquery.tinymce.js")'></script>
 
     <script type="text/javascript">
+
+        var splashurl = '@Url.Action("GetSplash", new{id=Model.Id})';
+        var logourl = '@Url.Action("GetLogo", new{id=Model.Id})';
+        
         $(function () { 
             $("#Description").tinymce({
                 script_url: '@Url.Script("tiny_mce/tiny_mce.js")',
@@ -28,8 +32,26 @@
                 theme_advanced_statusbar_location : "bottom",
                 theme_advanced_resizing : false
             });
+
+            $(".preview").click(function(e) {
+                if ($(this).hasClass("splash")) {
+                    var winname = 'popUp';
+                    window.open(splashurl, winname);
+                } else if ($(this).hasClass("logo")) {
+                    var winname = 'popUp';
+                    window.open(logourl, winname);
+                }
+            });
         });
     </script>
+}
+
+@section SubPageNavigation
+{
+    <ul class="nav nav-pills">
+        <li>@Html.ActionLink("Details", "Details", new {id=Model.Id})</li>
+        <li>@Html.ActionLink("Back to List", "Index")</li>
+    </ul>
 }
 
 @using (Html.BeginForm("Edit", "Site", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
@@ -43,8 +65,8 @@
                 @if (string.IsNullOrEmpty(Model.Id))
                 {
                     <div class="controls">
-                    @Html.TextBoxFor(model => model.Id, new { @class = "input-small" })
-                    @Html.ValidationMessageFor(model => model.Id)    
+                        @Html.TextBoxFor(model => model.Id, new { @class = "input-small" })
+                        @Html.ValidationMessageFor(model => model.Id)    
                     </div>
                 }
                 else
@@ -72,12 +94,21 @@
                 <label for="logo" class="control-label">Logo:</label>
                 <div class="controls">
                     <input type="file" name="logo" class="input-file"/>
+                    @if (Model.Logo != null)
+                    {
+                        <input type="button" value="Preview Existing" class="btn preview logo"/>    
+                    }
+                    
                 </div>
             </div>
             <div class="control-group">
                 <label for="splash" class="control-label">Splash:</label>
                 <div class="controls">
                     <input type="file" name="splash" class="input-file"/>
+                    @if (Model.SplashImage != null)
+                    {
+                        <input type="button" value="Preview Existing" class="btn preview splash"/>    
+                    }
                 </div>
             </div>
             

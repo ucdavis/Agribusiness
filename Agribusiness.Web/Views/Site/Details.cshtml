@@ -5,7 +5,13 @@
     ViewBag.SubPageTitle = "Site Details";
 }
 
-
+@section SubPageNavigation
+{
+    <ul class="nav nav-pills">
+        <li>@Html.ActionLink("Edit", "Edit", new {id=Model.Id})</li>
+        <li>@Html.ActionLink("Back to List", "Index")</li>
+    </ul>
+}
 
 <div class="form-horizontal">
     <div class="control-group">
@@ -14,11 +20,33 @@
             
             <div class="control-group">
                 <label for="Description" class="control-label">Description:</label>
-                <div class="controls form-text">
-                    @Model.Description
+                <div class="controls" style="margin-top: 5px;">
+                    <div>
+                    @Html.Raw(Model.Description)
+                    </div>
                 </div>
             </div>
+
+            @if (Model.Logo != null)
+            {
+                <div class="control-group">
+                    <label for="logo" class="control-label">Logo:</label>
+                    <div class="controls">
+		                <img src='@Url.Action("GetLogo", new {id=Model.Id})' alt="Logo"/>
+                    </div>
+                </div>
+            }
             
+            @if (Model.SplashImage != null)
+            {
+                <div class="control-group">
+                    <label for="splashimage" class="control-label">Splash:</label>
+                    <div class="controls form-text">
+		                <img src='@Url.Action("GetSplash", new { id = Model.Id })' alt="Splash Image"/>
+                    </div>
+                </div>    
+            }
+
             <div class="control-group">
                 <label for="IsActive" class="control-label">Is Active:</label>
                 <div class="controls form-text">
@@ -30,6 +58,6 @@
 </div>
 
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

@@ -2,7 +2,7 @@
 
 @{
     ViewBag.HeaderTitle = !string.IsNullOrEmpty(ViewBag.HeaderTitle) ? ViewBag.HeaderTitle : "UC Davis Agribusiness";
-    var site = ViewContext.RouteData.Values["host"] as string;
+    var site = ViewContext.RouteData.Values["site"] as string;
 }
 
 <!DOCTYPE html>
@@ -62,8 +62,9 @@
                       <span class="icon-bar"></span>
                       <span class="icon-bar"></span>
                   </a>
-                  <a class="brand" href="#">@ViewBag.HeaderTitle</a>
-          
+
+                  <a class="brand" href="@Url.Action("Index", "Home", new {@site=site})">@ViewBag.HeaderTitle</a>
+                  
                   @Html.Partial("_LogonPartial")
 
                   <div class="nav-collapse">
@@ -72,7 +73,7 @@
                           <ul class="nav">
                               <li class="active">@Html.ActionLink("Home", "Index", "Home")</li>
                 
-                              @if (ViewContext.RequestContext.RouteData.Values["site"] != "none")
+                              @if (!string.IsNullOrEmpty(site))
                               {
                                   <li class="dropdown">
                                       <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -105,9 +106,9 @@
                 @Html.Partial("_Message", new MessageModel() { IsError = false, Message = (string)TempData["Message"] })
             }
         
-            <div class="pull-right">
-                @RenderSection("SubPageNavigation", false)
-            </div>
+          <div class="pull-right">
+              @RenderSection("SubPageNavigation", false)
+          </div>
 
             @if (!string.IsNullOrEmpty(ViewBag.SubPageTitle))
             {

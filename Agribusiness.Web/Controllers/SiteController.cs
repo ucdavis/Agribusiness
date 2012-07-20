@@ -5,6 +5,7 @@ using Agribusiness.Core.Domain;
 using Agribusiness.Web.Models;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
+using UCDArch.Web.Helpers;
 
 namespace Agribusiness.Web.Controllers
 {
@@ -37,6 +38,7 @@ namespace Agribusiness.Web.Controllers
             var site = RepositoryFactory.SiteRepository.GetNullableById(id);
             if (site == null)
             {
+                Message = "Site could not be found.";
                 return RedirectToAction("Index");
             }
             
@@ -44,8 +46,45 @@ namespace Agribusiness.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult Edit(string id, string name, string description, HttpPostedFileBase logo, HttpPostedFileBase splash)
         {
+            var site = RepositoryFactory.SiteRepository.GetNullableById(id);
+            
+            if (site == null)
+            {
+                Message = "Site could not be found.";
+                return RedirectToAction("Index");
+            }
+
+            site.Name = name;
+            site.Description = description;
+
+            if (logo != null && logo.ContentLength > 0)
+            {
+                var ms = new MemoryStream();
+                logo.InputStream.CopyTo(ms);
+                site.Logo = ms.ToArray();
+                site.LogoContentType = logo.ContentType;
+            }
+
+            if (splash != null && splash.ContentLength > 0)
+            {
+                var ms = new MemoryStream();
+                splash.InputStream.CopyTo(ms);
+                site.SplashImage = ms.ToArray();
+                site.SplashContentType = splash.ContentType;
+            }
+
+            site.TransferValidationMessagesTo(ModelState);
+
+            if (site.IsValid())
+            {
+                RepositoryFactory.SiteRepository.EnsurePersistent(site);
+                Message = "Site has been saved.";
+                return RedirectToAction("Index");
+            }
+
             return View(new Site());
         }
 
@@ -63,7 +102,7 @@ namespace Agribusiness.Web.Controllers
         public FileResult GetSplash(string id)
         {
             var site = RepositoryFactory.SiteRepository.GetNullableById(id);
-            if (site != null && site.Logo != null)
+            if (site != null && site.SplashImage != null)
             {
                 return File(site.SplashImage, site.SplashContentType);
             }
@@ -71,5 +110,14 @@ namespace Agribusiness.Web.Controllers
             return File(new byte[0], string.Empty);
         }
 
+    }
+
+    public class SitePostModel
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public HttpPostedFileBase Logo { get; set; }
+        public HttpPostedFileBase Splash { get; set; }
     }
 }

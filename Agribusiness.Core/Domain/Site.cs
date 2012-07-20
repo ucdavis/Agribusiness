@@ -36,9 +36,9 @@ namespace Agribusiness.Core.Domain
             Map(x => x.Description);
             Map(x => x.IsActive);
 
-            Map(x => x.Logo);
+            Map(x => x.Logo).CustomType("BinaryBlob");
             Map(x => x.LogoContentType);
-            Map(x => x.SplashImage);
+            Map(x => x.SplashImage).CustomType("BinaryBlob");
             Map(x => x.SplashContentType);
         }
     }

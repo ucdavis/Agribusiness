@@ -4,20 +4,32 @@
     @if (Model.Sites.Count() == 1)
     {
         var site = Model.Sites.First();
+        <a href="@Url.Action("Index", "Home", new {@site=site.Id})">
         <span class="span12">
-            @site.Name
+            @if (site.SplashImage != null)
+            {
+                <img src='@Url.Action("GetSplash", "Site", new {id=site.Id, @site="none"})' alt="Splash Image"/>
+            }
+            <h3>@site.Name</h3>
+            @Html.Raw(site.Description)
         </span>
+        </a>
     }
     else
     {
         var cssclass = Model.Sites.Count() == 2 ? "span6" : "span4";
         foreach (var site in Model.Sites)
         {
+            <a href="@Url.Action("Index", "Home", new {@site=site.Id})">
             <span class="@cssclass">
+                @if (site.SplashImage != null)
+                {
+                    <img src='@Url.Action("GetSplash", "Site", new { id = site.Id, @site = "none" })' alt="Splash Image"/>
+                }                
                 <h3>@site.Name</h3>
-                
-                @site.Description
+                @Html.Raw(site.Description)
             </span>
+            </a>
         }
     }
 </div>
