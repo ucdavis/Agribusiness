@@ -106,11 +106,13 @@
     <Compile Include="Domain\Seminar.cs" />
     <Compile Include="Domain\Session.cs" />
     <Compile Include="Domain\SessionType.cs" />
+    <Compile Include="Domain\Site.cs" />
     <Compile Include="Domain\Template.cs" />
     <Compile Include="Domain\User.cs" />
     <Compile Include="Extensions\BeforeAfterValidation.cs" />
     <Compile Include="Extensions\EitherOrValidation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\IRepositoryFactory.cs" />
     <Compile Include="Resources\MailingLists.cs" />
   </ItemGroup>
   <ItemGroup>

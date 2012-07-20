@@ -1,6 +1,12 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Linq;
+using System.Web.Mvc;
+using Agribusiness.Core.Domain;
+using Agribusiness.Core.Repositories;
 using Agribusiness.Web.App_GlobalResources;
 using Agribusiness.Web.Controllers.Filters;
+using Agribusiness.Web.Services;
+using Microsoft.Practices.ServiceLocation;
 using UCDArch.Web.Attributes;
 using UCDArch.Web.Controller;
 
@@ -25,5 +31,19 @@ namespace Agribusiness.Web.Controllers
             base.OnActionExecuting(filterContext);
         }
 
+        public Site LoadSite()
+        {
+            var site = (Site)System.Web.HttpContext.Current.Cache[Site];
+
+            if (site == null && !string.IsNullOrEmpty(Site))
+            {
+                site = Repository.OfType<Site>().Queryable.FirstOrDefault(a => a.Id == Site);
+                System.Web.HttpContext.Current.Cache[Site] = site;
+            }
+
+            return site;
+        }
+
+        public IRepositoryFactory RepositoryFactory = ServiceLocator.Current.GetInstance<IRepositoryFactory>();
     }
 }

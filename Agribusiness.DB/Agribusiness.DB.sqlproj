@@ -972,6 +972,7 @@
     <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_Sessions_ShowPublic.defconst.sql">
       <SubType>Code</SubType>
     </Build>
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Sites.sql" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Agribusiness.CLR, Version=1.0.4358.14065, Culture=neutral, PublicKeyToken=null">

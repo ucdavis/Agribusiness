@@ -1,27 +1,37 @@
-﻿@model Seminar
+﻿@model HomeViewModel
+
+@{
+    if (Model.Site != null)
+    {
+        ViewBag.HeaderTitle = Model.Site.Name;    
+    }
+
+    ViewBag.SubPageTitle = "UC Davis Agribusiness";
+}
 
 @section ScriptContent
 {
-    <style type="text/css">
-        p {margin-top: 1em;}
-        
-        .seminar-info
-        {
-            margin: 1em;
-            font-weight: bold;
-            margin: 2em 2em 2em 0;
-            list-style: none outside none;
-        }
-    </style>
 }
 
 @section SubPageNavigation
 {
+    @if (Model.Site != null)
+    {
     @Html.Partial("_PublicSubNavigation")
+    }
 }
 
+@*Landing Page*@
+@if (Model.Site == null)
+{
+<text>NO site specified</text>
+}
+else
+{
+<text>@Model.Site.Name</text>    
+}
 
-<img src='@Url.Content("~/Images/collage.jpg")' alt="Collage of Agricultural images" />
+@*<img src='@Url.Content("~/Images/collage.jpg")' alt="Collage of Agricultural images" />
 
 <p>
     @if (Model == null)
@@ -71,4 +81,4 @@
 
 <p>Sponsored by:<br />
     <a href="http://caes.ucdavis.edu">College of Agricultural and Environmental Sciences, UC Davis</a> and <a href="http://www.wellsfargo.com">Wells Fargo Bank</a>
-</p>
+</p>*@

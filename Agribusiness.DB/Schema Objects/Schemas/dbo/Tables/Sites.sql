@@ -1,0 +1,6 @@
+﻿CREATE TABLE [dbo].[Sites]
+(
+	[Id] VARCHAR(10) NOT NULL PRIMARY KEY, 
+    [Name] VARCHAR(100) NOT NULL, 
+    [IsActive] BIT NOT NULL DEFAULT 1
+)

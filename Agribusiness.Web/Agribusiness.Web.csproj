@@ -203,6 +203,7 @@
     <Compile Include="Models\CommodityViewModel.cs" />
     <Compile Include="Models\FirmListViewModel.cs" />
     <Compile Include="Models\FirmViewModel.cs" />
+    <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Models\HotelPostModel.cs" />
     <Compile Include="Models\MailingListViewModel.cs" />
     <Compile Include="Models\MySeminarViewModel.cs" />

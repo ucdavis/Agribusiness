@@ -1,4 +1,5 @@
-﻿using Agribusiness.Web.Services;
+﻿using Agribusiness.Core.Repositories;
+using Agribusiness.Web.Services;
 using Agribusiness.WS;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
@@ -36,6 +37,8 @@ namespace Agribusiness.Web
             container.Register(Component.For(typeof(IRepositoryWithTypedId<,>)).ImplementedBy(typeof(RepositoryWithTypedId<,>)).Named("repositoryWithTypedId"));
             container.Register(Component.For(typeof(IRepository<>)).ImplementedBy(typeof(Repository<>)).Named("repositoryType"));
             container.Register(Component.For<IRepository>().ImplementedBy<Repository>().Named("repository"));
+
+            container.Register(Component.For<IRepositoryFactory>().ImplementedBy<RepositoryFactory>().Named("repositoryFactory"));
         }
     }
 }

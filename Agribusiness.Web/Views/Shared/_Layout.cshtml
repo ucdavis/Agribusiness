@@ -1,5 +1,9 @@
 ﻿@using Agribusiness.Web.Models
 
+@{
+    ViewBag.HeaderTitle = !string.IsNullOrEmpty(ViewBag.HeaderTitle) ? ViewBag.HeaderTitle : "UC Davis Agribusiness";
+}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -48,8 +52,7 @@
             </div>
         </div>
     }
-
-
+    
       <div class="navbar navbar-fixed-top">
           <div class="navbar-inner">
               <div class="container-fluid">
@@ -58,7 +61,7 @@
                       <span class="icon-bar"></span>
                       <span class="icon-bar"></span>
                   </a>
-                  <a class="brand" href="#">CA&ES Computing Access Request</a>
+                  <a class="brand" href="#">@ViewBag.HeaderTitle</a>
           
                   @Html.Partial("_LogonPartial")
 
@@ -98,14 +101,18 @@
                 @Html.Partial("_Message", new MessageModel() { IsError = false, Message = (string)TempData["Message"] })
             }
         
-          <div class="page-header"><h2>@ViewBag.SubPageTitle</h2></div>
-          
-          <div>
-              @RenderSection("SubPageNavigation", false)
-          </div>
+            <div class="pull-right">
+                @RenderSection("SubPageNavigation", false)
+            </div>
+
+            @if (!string.IsNullOrEmpty(ViewBag.SubPageTitle))
+            {
+                <div class="page-header"><h2>@ViewBag.SubPageTitle</h2></div>      
+            }
 
           @RenderBody()
 
+          <div style="clear: both;"></div>
           <hr />
         <footer><p>&copy; The Regents of the University of California, Davis campus</p></footer>
 

@@ -30,7 +30,7 @@ namespace Agribusiness.Web
             routes.MapRoute(
                 name: "sitebase",
                 url: "{site}/{controller}/{action}/{id}",
-                defaults: new { site = "none", controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { site = "", controller = "Home", action = "Index", id = UrlParameter.Optional }
                 );
 
             

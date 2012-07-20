@@ -3,12 +3,11 @@ using System.Text;
 using System.Web.Mvc;
 using Agribusiness.Core.Domain;
 using Agribusiness.Web.Controllers.Filters;
+using Agribusiness.Web.Models;
 using Agribusiness.Web.Services;
-using UCDArch.Web.Attributes;
 
 namespace Agribusiness.Web.Controllers
 {
-    [HandleTransactionsManually]
     public class HomeController : ApplicationController
     {
         private readonly ISeminarService _seminarService;
@@ -20,11 +19,8 @@ namespace Agribusiness.Web.Controllers
 
         public ActionResult Index()
         {
-            var seminar = _seminarService.GetCurrent();
-
-            Message = Site;
-
-            return View(seminar);
+            var viewModel = HomeViewModel.Create(_seminarService, RepositoryFactory.SiteRepository , LoadSite());
+            return View(viewModel);
         }
 
         [UserOnly]
