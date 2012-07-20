@@ -1,10 +1,16 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using System.Web;
+using System.Web.Mvc;
 using System.Web.Routing;
 
 namespace Agribusiness.Web
 {
     public static class RouteConfigurator
     {
+        // take a look at this
+        // http://hanssens.com/2009/asp-net-mvc-subdomain-routing/
+
         public static void RegisterRoutes()
         {
             RouteCollection routes = RouteTable.Routes;
@@ -13,11 +19,255 @@ namespace Agribusiness.Web
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" });
 
+            //routes.MapRoute(
+            //    "Default",                                              // Route name
+            //    "{controller}/{action}/{id}",                           // URL with parameters
+            //    new { controller = "Home", action = "Index", id = UrlParameter.Optional }  // Parameter defaults
+            //    );
+
+            routes.Add(new SubdomainRoute());
+
             routes.MapRoute(
-                "Default",                                              // Route name
-                "{controller}/{action}/{id}",                           // URL with parameters
-                new { controller = "Home", action = "Index", id = UrlParameter.Optional }  // Parameter defaults
+                name: "sitebase",
+                url: "{site}/{controller}/{action}/{id}",
+                defaults: new { site = "none", controller = "Home", action = "Index", id = UrlParameter.Optional }
                 );
+
+            
+
+            //routes.Add(new DomainRoute(
+            //    "agexec.ucdavis.edu",
+            //    "{site}/{controller}/{action}/{id}",
+            //    new { site = "agexec", controller = "Home", action = "Index", id = UrlParameter.Optional}
+            //    ));
+
+            //routes.Add(new DomainRoute(
+            //    "agleadership.ucdavis.edu",
+            //    "{site}/{controller}/{action}/{id}",
+            //    new { site = "agleadership", controller = "Home", action = "Index", id = UrlParameter.Optional }
+            //    ));
+
+            //routes.Add(new SiteRouter());
         }
     }
+
+    public class SubdomainRoute : RouteBase
+    {
+        private const string Agexec = "agexec";
+        private const string Agleadership = "agleadership";
+
+        public override RouteData GetRouteData(HttpContextBase httpContext)
+        {
+            RouteData returnvalue = null;
+
+            var url = httpContext.Request.Headers["HOST"];
+            var index = url.IndexOf(".");
+
+            if (index < 0)
+            {
+                return returnvalue;
+            }
+
+            var subdomain = url.Substring(0, index);
+
+            switch (subdomain.ToLower())
+            {
+                case Agexec:
+                    returnvalue = new RouteData(this, new MvcRouteHandler());
+                    returnvalue.Values.Add("site", Agexec);
+                    returnvalue.Values.Add("controller", "Home");
+                    returnvalue.Values.Add("action", "Index");
+                    break;
+                case Agleadership:
+                    returnvalue = new RouteData(this, new MvcRouteHandler());
+                    returnvalue.Values.Add("site", Agleadership);
+                    returnvalue.Values.Add("controller", "Home");
+                    returnvalue.Values.Add("action", "Index");
+                    break;
+                default:
+                    break;
+            }
+
+            return returnvalue;
+        }
+
+        public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values)
+        {
+            return null;
+        }
+    }
+
+    #region something
+    public class DomainRoute : Route
+    {
+        private Regex domainRegex;
+        private Regex pathRegex;
+
+        public string Domain { get; set; }
+
+        public DomainRoute(string domain, string url, RouteValueDictionary defaults)
+            : base(url, defaults, new MvcRouteHandler())
+        {
+            Domain = domain;
+        }
+
+        public DomainRoute(string domain, string url, RouteValueDictionary defaults, IRouteHandler routeHandler)
+            : base(url, defaults, routeHandler)
+        {
+            Domain = domain;
+        }
+
+        public DomainRoute(string domain, string url, object defaults)
+            : base(url, new RouteValueDictionary(defaults), new MvcRouteHandler())
+        {
+            Domain = domain;
+        }
+
+        public DomainRoute(string domain, string url, object defaults, IRouteHandler routeHandler)
+            : base(url, new RouteValueDictionary(defaults), routeHandler)
+        {
+            Domain = domain;
+        }
+
+        public override RouteData GetRouteData(HttpContextBase httpContext)
+        {
+            // Build regex
+            domainRegex = CreateRegex(Domain);
+            pathRegex = CreateRegex(Url);
+
+            // Request information
+            string requestDomain = httpContext.Request.Headers["host"];
+            if (!string.IsNullOrEmpty(requestDomain))
+            {
+                if (requestDomain.IndexOf(":") > 0)
+                {
+                    requestDomain = requestDomain.Substring(0, requestDomain.IndexOf(":"));
+                }
+            }
+            else
+            {
+                requestDomain = httpContext.Request.Url.Host;
+            }
+            string requestPath = httpContext.Request.AppRelativeCurrentExecutionFilePath.Substring(2) + httpContext.Request.PathInfo;
+
+            // Match domain and route
+            Match domainMatch = domainRegex.Match(requestDomain);
+            Match pathMatch = pathRegex.Match(requestPath);
+
+            // Route data
+            RouteData data = null;
+            if (domainMatch.Success && pathMatch.Success)
+            {
+                data = new RouteData(this, RouteHandler);
+
+                // Add defaults first
+                if (Defaults != null)
+                {
+                    foreach (KeyValuePair<string, object> item in Defaults)
+                    {
+                        data.Values[item.Key] = item.Value;
+                    }
+                }
+
+                // Iterate matching domain groups
+                for (int i = 1; i < domainMatch.Groups.Count; i++)
+                {
+                    Group group = domainMatch.Groups[i];
+                    if (group.Success)
+                    {
+                        string key = domainRegex.GroupNameFromNumber(i);
+
+                        if (!string.IsNullOrEmpty(key) && !char.IsNumber(key, 0))
+                        {
+                            if (!string.IsNullOrEmpty(group.Value))
+                            {
+                                data.Values[key] = group.Value;
+                            }
+                        }
+                    }
+                }
+
+                // Iterate matching path groups
+                for (int i = 1; i < pathMatch.Groups.Count; i++)
+                {
+                    Group group = pathMatch.Groups[i];
+                    if (group.Success)
+                    {
+                        string key = pathRegex.GroupNameFromNumber(i);
+
+                        if (!string.IsNullOrEmpty(key) && !char.IsNumber(key, 0))
+                        {
+                            if (!string.IsNullOrEmpty(group.Value))
+                            {
+                                data.Values[key] = group.Value;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return data;
+        }
+
+        public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values)
+        {
+            return base.GetVirtualPath(requestContext, RemoveDomainTokens(values));
+        }
+
+        public DomainData GetDomainData(RequestContext requestContext, RouteValueDictionary values)
+        {
+            // Build hostname
+            string hostname = Domain;
+            foreach (KeyValuePair<string, object> pair in values)
+            {
+                hostname = hostname.Replace("{" + pair.Key + "}", pair.Value.ToString());
+            }
+
+            // Return domain data
+            return new DomainData
+            {
+                Protocol = "http",
+                HostName = hostname,
+                Fragment = ""
+            };
+        }
+
+        private Regex CreateRegex(string source)
+        {
+            // Perform replacements
+            source = source.Replace("/", @"\/?");
+            source = source.Replace(".", @"\.?");
+            source = source.Replace("-", @"\-?");
+            source = source.Replace("{", @"(?<");
+            source = source.Replace("}", @">([a-zA-Z0-9_]*))");
+
+            return new Regex("^" + source + "$");
+        }
+
+        private RouteValueDictionary RemoveDomainTokens(RouteValueDictionary values)
+        {
+            Regex tokenRegex = new Regex(@"({[a-zA-Z0-9_]*})*-?\.?\/?({[a-zA-Z0-9_]*})*-?\.?\/?({[a-zA-Z0-9_]*})*-?\.?\/?({[a-zA-Z0-9_]*})*-?\.?\/?({[a-zA-Z0-9_]*})*-?\.?\/?({[a-zA-Z0-9_]*})*-?\.?\/?({[a-zA-Z0-9_]*})*-?\.?\/?({[a-zA-Z0-9_]*})*-?\.?\/?({[a-zA-Z0-9_]*})*-?\.?\/?({[a-zA-Z0-9_]*})*-?\.?\/?({[a-zA-Z0-9_]*})*-?\.?\/?({[a-zA-Z0-9_]*})*-?\.?\/?");
+            Match tokenMatch = tokenRegex.Match(Domain);
+            for (int i = 0; i < tokenMatch.Groups.Count; i++)
+            {
+                Group group = tokenMatch.Groups[i];
+                if (group.Success)
+                {
+                    string key = group.Value.Replace("{", "").Replace("}", "");
+                    if (values.ContainsKey(key))
+                        values.Remove(key);
+                }
+            }
+
+            return values;
+        }
+    }
+
+    public class DomainData
+    {
+        public string Protocol { get; set; }
+        public string HostName { get; set; }
+        public string Fragment { get; set; }
+    }
+    #endregion
 }

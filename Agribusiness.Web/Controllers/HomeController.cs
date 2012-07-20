@@ -22,6 +22,8 @@ namespace Agribusiness.Web.Controllers
         {
             var seminar = _seminarService.GetCurrent();
 
+            Message = Site;
+
             return View(seminar);
         }
 
