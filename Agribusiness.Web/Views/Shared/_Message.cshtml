@@ -4,12 +4,12 @@
 
 @if (Model.IsError)
 { 
-    <div id="alert alert-error">
+    <div class="alert alert-error">
         @Html.Raw(Model.Message)
     </div>
 }
 else { 
-    <div id="alert alert-info">
+    <div class="alert alert-info">
         @Html.Raw(Model.Message)
     </div>
 }
