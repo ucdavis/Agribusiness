@@ -1,6 +1,41 @@
 ﻿<ul class="nav nav-pills">
-    <li>@Html.ActionLink("Steering Committee", "SteeringCommittee", "Public")</li>
-    <li>@Html.ActionLink("Case Studies", "CaseExamples", "Public")</li>
-    <li>@Html.ActionLink("Venue", "Venue", "Public")</li>
-    <li>@Html.ActionLink("Contact Us", "ContactUs", "Public")</li>
+    @if (ViewBag.Title == "Steering Committee")
+    {
+        <li class="active">@Html.ActionLink("Steering Committee", "SteeringCommittee", "Public")</li>    
+    }
+    else
+    {
+        <li>@Html.ActionLink("Steering Committee", "SteeringCommittee", "Public")</li>
+    }
+    
+    @if (ViewBag.Title == "Case Studies")
+    {
+        <li class="active">@Html.ActionLink("Case Studies", "CaseExamples", "Public")</li>    
+    }
+    else
+    {
+        <li>@Html.ActionLink("Case Studies", "CaseExamples", "Public")</li>
+    }
+
+    @if (ViewBag.Title == "Venue")
+    {
+        <li class="active">@Html.ActionLink("Venue", "Venue", "Public")</li>
+    }
+    else
+    {
+        <li>@Html.ActionLink("Venue", "Venue", "Public")</li>
+    }
+
+    @if (ViewBag.Title == "Contact Us")
+    {
+        <li>@Html.ActionLink("Contact Us", "ContactUs", "Public")</li>
+    }
+    else
+    {
+        <li>@Html.ActionLink("Contact Us", "ContactUs", "Public")</li>
+    }
+
+    
+    
+    
 </ul>
