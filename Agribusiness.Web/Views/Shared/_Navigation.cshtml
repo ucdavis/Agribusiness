@@ -2,7 +2,7 @@
 
 @using Agribusiness.Web.Controllers.Filters
     
-<ul class="navigation">
+<ul class="nav">
 
     @if (HttpContext.Current.User.Identity.IsAuthenticated)
     {
@@ -30,10 +30,10 @@
     }
 
 
-    @if (!Model && !HttpContext.Current.User.Identity.IsAuthenticated)
+    @*@if (!Model && !HttpContext.Current.User.Identity.IsAuthenticated)
     { 
     <li>
         @Html.ActionLink("Admin Tools", "Admin", "Home", new { membershipLogon = false }, new { })
     </li>
-    }
+    }*@
 </ul>
