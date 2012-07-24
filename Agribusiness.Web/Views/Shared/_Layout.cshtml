@@ -63,7 +63,7 @@
                       <span class="icon-bar"></span>
                   </a>
 
-                  <a class="brand" href="@Url.Action("Index", "Home", new {@site=site})">
+                  <a class="brand" href="@Url.Action("Seminar", "Home", new {@site=site, id=site})">
                       @if (!string.IsNullOrEmpty(site))
                       {
                           <img src='@Url.Action("GetLogo", "Site", new {id=site})' alt="logo" class="header-logo"/>

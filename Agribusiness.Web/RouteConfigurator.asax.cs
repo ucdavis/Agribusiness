@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Agribusiness.Web.code;
 
 namespace Agribusiness.Web
 {
@@ -25,7 +26,15 @@ namespace Agribusiness.Web
                 defaults: new { site = "", controller = "Account", action = "Index" }
                 );
 
-            routes.Add(new SubdomainRoute());
+            //routes.Add(new SubdomainRoute());
+
+            //routes.MapRoute(
+            //    name: "agexec",
+            //    url: "agexec.caesdo.caes.ucdavis.edu/{site}/{controller}/{action}/{id}",
+            //    defaults: new { site = "agexec", controller = "Home", action = "Index" }
+            //    );
+
+            routes.Add("agexec", new DomainRoute("agexec.caesdo.caes.ucdavis.edu", "{site}/{controller}/{action}/{id}", new { site="agexec", controller="Home", action="Seminar", Id=""}));
 
             routes.MapRoute(
                 name: "sitebase",

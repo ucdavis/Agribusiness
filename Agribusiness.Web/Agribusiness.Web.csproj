@@ -154,6 +154,9 @@
     <Compile Include="App_Start\NHibernateProfilerBootstrapper.cs" />
     <Compile Include="App_Start\RegisterClientValidationExtensions.cs" />
     <Compile Include="App_Start\UCDArchBootstrapper.cs" />
+    <Compile Include="code\DomainData.cs" />
+    <Compile Include="code\DomainRoute.cs" />
+    <Compile Include="code\LinkExtensions.cs" />
     <Compile Include="ComponentRegistrar.asax.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
@@ -835,6 +838,7 @@
     <Content Include="Views\Site\Details.cshtml" />
     <Content Include="Views\Site\Edit.cshtml" />
     <Content Include="Views\Home\_SiteHome.cshtml" />
+    <Content Include="Views\Home\Seminar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">

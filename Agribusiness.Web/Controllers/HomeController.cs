@@ -23,6 +23,12 @@ namespace Agribusiness.Web.Controllers
             return View(viewModel);
         }
 
+        public ActionResult Seminar()
+        {
+            var viewModel = HomeViewModel.Create(_seminarService, RepositoryFactory.SiteRepository, SiteService.LoadSite(Site));
+            return View(viewModel);
+        }
+
         [UserOnly]
         public ActionResult Admin()
         {

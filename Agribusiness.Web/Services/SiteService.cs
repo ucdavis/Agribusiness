@@ -25,7 +25,10 @@ namespace Agribusiness.Web.Services
                     if (site.Seminars != null && site.Seminars.Count > 0)
                     {
                         var seminar = site.Seminars.OrderByDescending(a => a.Year).FirstOrDefault();
-                        System.Web.HttpContext.Current.Cache[string.Format(SeminarKey, siteId)] = seminar;
+                        if (seminar != null)
+                        {
+                            System.Web.HttpContext.Current.Cache[string.Format(SeminarKey, siteId)] = seminar;    
+                        }
                     }
                 }
             }
@@ -37,7 +40,11 @@ namespace Agribusiness.Web.Services
                 if (seminar == null)
                 {
                     seminar = RepositoryFactory.SeminarRepository.Queryable.Where(a => a.Site.Id == site.Id).OrderByDescending(a => a.Year).FirstOrDefault();
-                    System.Web.HttpContext.Current.Cache[string.Format(SeminarKey, siteId)] = seminar;
+
+                    if (seminar != null)
+                    {
+                        System.Web.HttpContext.Current.Cache[string.Format(SeminarKey, siteId)] = seminar;
+                    }
                 }
             }
 
