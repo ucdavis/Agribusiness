@@ -5,7 +5,7 @@
     {
         var site = Model.Sites.First();
         
-        <a href="@Url.Action("Index", "Home", new { @site = site.Id, site.Id })">
+        <a href="@Url.Action("Index", "Home", new { @site = site.Id })">
         <span class="span12">
             @if (site.SplashImage != null)
             {
@@ -21,7 +21,7 @@
         var cssclass = Model.Sites.Count() == 2 ? "span6" : "span4";
         foreach (var site in Model.Sites)
         {
-            <a href="@Url.Action("Seminar", "Home", new { @site = site.Id, site.Id })">
+            <a href="@Url.Action("Index", "Home", new { @site = site.Id})">
             <span class="@cssclass">
                 @if (site.SplashImage != null)
                 {

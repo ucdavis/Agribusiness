@@ -14,37 +14,13 @@ namespace Agribusiness.Web.Services
         {
             var site = (Site)System.Web.HttpContext.Current.Cache[siteId];
 
-            if (site == null && !string.IsNullOrEmpty(siteId))
+            if (site == null || !string.IsNullOrEmpty(siteId))
             {
                 site = RepositoryFactory.SiteRepository.Queryable.FirstOrDefault(a => a.Id == siteId);
-                
+
                 if (site != null)
                 {
                     System.Web.HttpContext.Current.Cache[siteId] = site;
-
-                    if (site.Seminars != null && site.Seminars.Count > 0)
-                    {
-                        var seminar = site.Seminars.OrderByDescending(a => a.Year).FirstOrDefault();
-                        if (seminar != null)
-                        {
-                            System.Web.HttpContext.Current.Cache[string.Format(SeminarKey, siteId)] = seminar;    
-                        }
-                    }
-                }
-            }
-            else if (site != null)
-            {
-                // check the seminar
-                var seminar = (Seminar)System.Web.HttpContext.Current.Cache[string.Format(SeminarKey, siteId)];
-
-                if (seminar == null)
-                {
-                    seminar = RepositoryFactory.SeminarRepository.Queryable.Where(a => a.Site.Id == site.Id).OrderByDescending(a => a.Year).FirstOrDefault();
-
-                    if (seminar != null)
-                    {
-                        System.Web.HttpContext.Current.Cache[string.Format(SeminarKey, siteId)] = seminar;
-                    }
                 }
             }
 
@@ -63,10 +39,10 @@ namespace Agribusiness.Web.Services
 
             if (seminar == null)
             {
-                // try to load the seminar
-                var site = LoadSite(siteId);
-                // try again 
-                seminar = (Seminar) System.Web.HttpContext.Current.Cache[string.Format(SeminarKey, siteId)];
+                var site = RepositoryFactory.SiteRepository.Queryable.FirstOrDefault(a => a.Id == siteId);
+                seminar = site.Seminars.OrderByDescending(a => a.End).FirstOrDefault();
+
+                System.Web.HttpContext.Current.Cache[string.Format(SeminarKey, siteId)] = seminar;
             }
 
             return seminar;

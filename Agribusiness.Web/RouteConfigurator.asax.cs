@@ -34,7 +34,7 @@ namespace Agribusiness.Web
             //    defaults: new { site = "agexec", controller = "Home", action = "Index" }
             //    );
 
-            routes.Add("agexec", new DomainRoute("agexec.caesdo.caes.ucdavis.edu", "{site}/{controller}/{action}/{id}", new { site="agexec", controller="Home", action="Seminar", Id=""}));
+            //routes.Add("agexec", new DomainRoute("agexec.caesdo.caes.ucdavis.edu", "{site}/{controller}/{action}/{id}", new { site="agexec", controller="Home", action="Seminar", Id=""}));
 
             routes.MapRoute(
                 name: "sitebase",

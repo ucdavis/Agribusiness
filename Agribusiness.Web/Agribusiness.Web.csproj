@@ -838,7 +838,6 @@
     <Content Include="Views\Site\Details.cshtml" />
     <Content Include="Views\Site\Edit.cshtml" />
     <Content Include="Views\Home\_SiteHome.cshtml" />
-    <Content Include="Views\Home\Seminar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">

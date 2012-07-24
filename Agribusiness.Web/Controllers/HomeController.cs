@@ -19,13 +19,9 @@ namespace Agribusiness.Web.Controllers
 
         public ActionResult Index()
         {
-            var viewModel = HomeViewModel.Create(_seminarService, RepositoryFactory.SiteRepository , SiteService.LoadSite(Site));
-            return View(viewModel);
-        }
+            Message = Site;
 
-        public ActionResult Seminar()
-        {
-            var viewModel = HomeViewModel.Create(_seminarService, RepositoryFactory.SiteRepository, SiteService.LoadSite(Site));
+            var viewModel = HomeViewModel.Create(_seminarService, RepositoryFactory.SiteRepository , SiteService.LoadSite(Site));
             return View(viewModel);
         }
 

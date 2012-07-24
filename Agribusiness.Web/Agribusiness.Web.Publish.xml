@@ -1510,7 +1510,7 @@
   </publishProfile>
   <publishProfile publishUrl="\\hughman\agbiz" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="dev" publishMethod="FileSystem" replaceMatchingFiles="True" userName="" savePWD="False" userPWD="" SelectedForPublish="True">
     <file relUrl="Views/MailingList/Index.cshtml" publishTime="07/18/2012 09:38:58" />
-    <file relUrl="bin/Agribusiness.Web.dll" publishTime="07/24/2012 14:11:07" />
+    <file relUrl="bin/Agribusiness.Web.dll" publishTime="07/24/2012 14:59:55" />
     <file relUrl="Views/Shared/_DateTimePickerScripts.cshtml" publishTime="07/18/2012 09:38:58" />
     <file relUrl="bin/UCDArch.dll" publishTime="07/19/2012 13:33:33" />
     <file relUrl="favicon.ico" publishTime="07/18/2012 09:38:58" />
@@ -1813,7 +1813,7 @@
     <file relUrl="Views/Shared/EditorTemplates/DateAndTime.cshtml" publishTime="07/19/2012 11:29:58" />
     <file relUrl="Scripts/tiny_mce/plugins/table/table.htm" publishTime="07/18/2012 09:38:57" />
     <file relUrl="Scripts/tiny_mce/plugins/autoresize/editor_plugin.js" publishTime="07/18/2012 09:38:57" />
-    <file relUrl="Views/Shared/_Layout.cshtml" publishTime="07/24/2012 10:19:57" />
+    <file relUrl="Views/Shared/_Layout.cshtml" publishTime="07/24/2012 14:48:45" />
     <file relUrl="Scripts/tiny_mce/plugins/iespell/editor_plugin.js" publishTime="07/18/2012 09:38:57" />
     <file relUrl="Views/MailingList/Edit.cshtml" publishTime="07/18/2012 09:38:58" />
     <file relUrl="Views/Public/ContactUs.cshtml" publishTime="07/18/2012 09:38:58" />
@@ -1885,12 +1885,11 @@
     <file relUrl="Views/Home/_SiteHome.cshtml" publishTime="07/24/2012 09:44:43" />
     <file relUrl="Views/MailingList/Create.cshtml" publishTime="07/18/2012 09:38:58" />
     <file relUrl="Content/themes/base/jquery.ui.autocomplete.css" publishTime="07/19/2012 13:36:33" />
-    <file relUrl="Views/Home/Index.cshtml" publishTime="07/24/2012 14:09:10" />
+    <file relUrl="Views/Home/Index.cshtml" publishTime="07/24/2012 14:36:41" />
     <file relUrl="Scripts/tiny_mce/themes/simple/skins/default/ui.css" publishTime="07/18/2012 09:38:57" />
     <file relUrl="packages.config" publishTime="07/19/2012 13:37:15" />
     <file relUrl="Content/themes/base/images/ui-bg_glass_95_fef1ec_1x400.png" publishTime="07/19/2012 13:36:34" />
     <file relUrl="Css/images/ui-icons_ffffff_256x240.png" publishTime="07/18/2012 09:38:56" />
-    <file relUrl="Views/Home/Seminar.cshtml" publishTime="07/24/2012 14:07:53" />
     <file relUrl="bin/Thought.vCards.dll" publishTime="07/18/2012 09:38:59" />
     <file relUrl="bin/Castle.Core.xml" publishTime="07/19/2012 13:33:29" />
     <file relUrl="bin/Microsoft.Practices.ServiceLocation.dll" publishTime="07/19/2012 13:33:29" />
@@ -1961,7 +1960,7 @@
     <file relUrl="App_GlobalResources/Messages.resx" publishTime="07/19/2012 11:29:57" />
     <file relUrl="Views/Shared/_Message.cshtml" publishTime="07/20/2012 15:05:03" />
     <file relUrl="Scripts/tiny_mce/plugins/inlinepopups/skins/clearlooks2/img/buttons.gif" publishTime="07/18/2012 09:38:57" />
-    <file relUrl="Views/Home/_NoSiteHome.cshtml" publishTime="07/24/2012 14:08:06" />
+    <file relUrl="Views/Home/_NoSiteHome.cshtml" publishTime="07/24/2012 14:33:57" />
     <file relUrl="Scripts/tiny_mce/plugins/paste/pastetext.htm" publishTime="07/18/2012 09:38:57" />
     <file relUrl="Scripts/tiny_mce/plugins/style/langs/en_dlg.js" publishTime="07/18/2012 09:38:57" />
     <file relUrl="Views/Attendee/Add.cshtml" publishTime="07/18/2012 09:38:57" />
@@ -2008,7 +2007,7 @@
     <file relUrl="Scripts/tiny_mce/plugins/table/langs/en_dlg.js" publishTime="07/18/2012 09:38:57" />
     <file relUrl="Content/themes/base/minified/jquery.ui.progressbar.min.css" publishTime="07/19/2012 13:36:30" />
     <file relUrl="Scripts/tiny_mce/plugins/spellchecker/css/content.css" publishTime="07/18/2012 09:38:57" />
-    <file relUrl="bin/Agribusiness.Web.pdb" publishTime="07/24/2012 14:11:06" />
+    <file relUrl="bin/Agribusiness.Web.pdb" publishTime="07/24/2012 14:59:55" />
     <file relUrl="Scripts/tiny_mce/plugins/emotions/editor_plugin_src.js" publishTime="07/18/2012 09:38:57" />
     <file relUrl="Views/Session/Create.cshtml" publishTime="07/19/2012 11:29:58" />
     <file relUrl="Scripts/tiny_mce/themes/advanced/about.htm" publishTime="07/18/2012 09:38:57" />

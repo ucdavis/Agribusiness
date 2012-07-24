@@ -22,9 +22,49 @@ namespace Agribusiness.Web.Controllers
 
         public string Site { get; private set; }
 
+        public string[] Sites = new string[] { "agexec", "aglead" };
+
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            Site = filterContext.RouteData.Values["site"] as string;
+            var host = HttpContext.Request.Headers["HOST"];
+            var index = host.IndexOf(".");
+            if (index > 0)
+            {
+
+                var subdomain = host.Substring(0, index);
+                if (Sites.Contains(subdomain))
+                {
+                    Site = subdomain;
+                }
+                else
+                {
+                    Site = filterContext.RouteData.Values["site"] as string;    
+                }
+            }
+            else
+            {
+                Site = "wawa...";
+            }
+            
+            //var index = host.IndexOf(".");
+            //if (index > 0)
+            //{
+            //    var subdomain = host.Substring(0, index);
+
+            //    if (Sites.Contains(subdomain))
+            //    {
+            //        Site = subdomain;    
+            //    }
+            //    else
+            //    {
+            //        Site = filterContext.RouteData.Values["site"] as string;    
+            //    }
+            //}
+            //else
+            //{
+            //    Site = filterContext.RouteData.Values["site"] as string;    
+            //}
+            
             base.OnActionExecuting(filterContext);
         }
 

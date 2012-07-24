@@ -15,10 +15,16 @@
 
 @section SubPageNavigation
 {
+    @if (Model.Site != null)
+    {
+        @Html.Partial("_PublicSubNavigation")
+    }
 }
 
 @*Landing Page*@
-@Html.Partial("_NoSiteHome")
+
+@(Model.Site == null ? Html.Partial("_NoSiteHome") : Html.Partial("_SiteHome"))
+
 
 @*<img src='@Url.Content("~/Images/collage.jpg")' alt="Collage of Agricultural images" />
 
