@@ -66,7 +66,7 @@
                   <a class="brand" href="@Url.Action("Index", "Home", new {@site=site})">
                       @if (!string.IsNullOrEmpty(site))
                       {
-                          <img src='@Url.Action("GetLogo", "Site", new {id=site})' alt="logo" height="45" width="120"/>
+                          <img src='@Url.Action("GetLogo", "Site", new {id=site})' alt="logo" class="header-logo"/>
                       }
                       @ViewBag.HeaderTitle
                   </a>

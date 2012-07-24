@@ -27,6 +27,7 @@ namespace Agribusiness.Web.Models
             else
             {
                 // load the current seminar
+                viewModel.Seminar = SiteService.GetLatestSeminar(site.Id);
             }
 
             return viewModel;

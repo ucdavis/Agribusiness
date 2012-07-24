@@ -1,0 +1,37 @@
+﻿@model HomeViewModel
+           
+@Html.Raw(Model.Site.Welcome)
+
+<div class="well">
+    @if (Model.Seminar.End < DateTime.Now)
+    {
+        <ul class="seminar-info">
+            <li>@(string.Format("{0} Seminar", Model.Seminar.Year))</li>
+            <li>@(string.Format("{0} through {1}", Model.Seminar.Begin.ToString("f"), Model.Seminar.End.ToString("f")))</li>
+            <li>
+            @if (string.IsNullOrWhiteSpace(Model.Seminar.LocationLink))
+            {
+                <text>@Model.Seminar.Location</text>
+            }
+            else
+            {
+                <a href='@Model.Seminar.LocationLink'>@Model.Seminar.Location</a>
+            }
+            </li>
+            <li>
+            @if (Model.Seminar.Cost.HasValue)
+            {
+            @(string.Format("Seminar fee: {0}", string.Format("{0:C}", Model.Seminar.Cost)))
+            }
+            else
+            {
+                 <text>Seminar fee: n/a</text>
+            }
+            </li>
+        </ul>
+    }
+    else
+    {
+        <p>There is no current seminar, please check back later.</p>
+    }
+</div>

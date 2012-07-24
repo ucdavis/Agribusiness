@@ -28,26 +28,26 @@ namespace Agribusiness.Web.Controllers
             base.OnActionExecuting(filterContext);
         }
 
-        public Site LoadSite()
-        {
-            var site = (Site)System.Web.HttpContext.Current.Cache[Site];
+        //public Site LoadSite()
+        //{
+        //    var site = (Site)System.Web.HttpContext.Current.Cache[Site];
 
-            if (site == null && !string.IsNullOrEmpty(Site))
-            {
-                site = Repository.OfType<Site>().Queryable.FirstOrDefault(a => a.Id == Site);
-                if (site != null)
-                {
-                    System.Web.HttpContext.Current.Cache[Site] = site;                    
-                }
-            }
+        //    if (site == null && !string.IsNullOrEmpty(Site))
+        //    {
+        //        site = Repository.OfType<Site>().Queryable.FirstOrDefault(a => a.Id == Site);
+        //        if (site != null)
+        //        {
+        //            System.Web.HttpContext.Current.Cache[Site] = site;                    
+        //        }
+        //    }
 
-            return site;
-        }
+        //    return site;
+        //}
 
-        public void CacheSite(Site site)
-        {
-            System.Web.HttpContext.Current.Cache[site.Id] = site;
-        }
+        //public void CacheSite(Site site)
+        //{
+        //    System.Web.HttpContext.Current.Cache[site.Id] = site;
+        //}
 
         public IRepositoryFactory RepositoryFactory = ServiceLocator.Current.GetInstance<IRepositoryFactory>();
     }

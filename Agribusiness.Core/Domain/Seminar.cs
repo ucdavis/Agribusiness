@@ -62,6 +62,8 @@ namespace Agribusiness.Core.Domain
         public virtual string RegistrationPassword { get; set; }
         public virtual int? RegistrationId { get; set; }
 
+        public virtual Site Site { get; set; }
+
         public virtual IList<Session> Sessions { get; set; }
         public virtual IList<SeminarPerson> SeminarPeople { get; set; }
         public virtual IList<CaseStudy> CaseStudies { get; set; }
@@ -93,6 +95,7 @@ namespace Agribusiness.Core.Domain
             Map(x => x.RegistrationId);
             Map(x => x.ReleaseToAttendees);
             Map(x => x.Cost);
+            References(x => x.Site);
 
             HasMany(x => x.Sessions).Inverse().Cascade.AllDeleteOrphan();
             HasMany(x => x.SeminarPeople).Inverse().Cascade.AllDeleteOrphan();

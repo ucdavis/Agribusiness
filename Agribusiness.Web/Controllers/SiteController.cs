@@ -2,9 +2,8 @@
 using System.Web;
 using System.Web.Mvc;
 using Agribusiness.Core.Domain;
-using Agribusiness.Web.Models;
-using UCDArch.Core.PersistanceSupport;
-using UCDArch.Core.Utils;
+using Agribusiness.Web.Controllers.Filters;
+using Agribusiness.Web.Services;
 using UCDArch.Web.Helpers;
 
 namespace Agribusiness.Web.Controllers
@@ -16,12 +15,14 @@ namespace Agribusiness.Web.Controllers
     {
         //
         // GET: /Site/
+        [UserOnly]
         public ActionResult Index()
         {
             var siteList = RepositoryFactory.SiteRepository.Queryable;
             return View(siteList);
         }
 
+        [UserOnly]
         public ActionResult Details(string id)
         {
             var site = RepositoryFactory.SiteRepository.GetNullableById(id);
@@ -33,6 +34,7 @@ namespace Agribusiness.Web.Controllers
             return View(site);
         }
 
+        [UserOnly]
         public ActionResult Edit(string id)
         {
             var site = RepositoryFactory.SiteRepository.GetNullableById(id);
@@ -45,6 +47,7 @@ namespace Agribusiness.Web.Controllers
             return View(site);
         }
 
+        [UserOnly]
         [HttpPost]
         [ValidateInput(false)]
         public ActionResult Edit(string id, string name, string description, string welcome, HttpPostedFileBase logo, HttpPostedFileBase splash)
@@ -83,7 +86,7 @@ namespace Agribusiness.Web.Controllers
             {
                 RepositoryFactory.SiteRepository.EnsurePersistent(site);
                 Message = "Site has been saved.";
-                CacheSite(site);
+                SiteService.CacheSite(site);
                 return RedirectToAction("Index");
             }
 

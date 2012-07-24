@@ -241,6 +241,7 @@
     <Compile Include="Services\PersonService.cs" />
     <Compile Include="Services\PictureService.cs" />
     <Compile Include="Services\SeminarService.cs" />
+    <Compile Include="Services\SiteService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="app_offline2.htm" />
@@ -833,6 +834,7 @@
     <Content Include="Views\Site\Index.cshtml" />
     <Content Include="Views\Site\Details.cshtml" />
     <Content Include="Views\Site\Edit.cshtml" />
+    <Content Include="Views\Home\_SiteHome.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">

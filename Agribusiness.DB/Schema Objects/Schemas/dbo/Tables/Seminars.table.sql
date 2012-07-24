@@ -11,7 +11,8 @@
     [RegistrationDeadline] DATE          NULL,
 	[AcceptanceDate]	   DATE			 NULL,
     [ReleaseToAttendees]   BIT           NOT NULL,
-    [Cost]                 MONEY         NULL
+    [Cost]                 MONEY         NULL, 
+    [SiteId] VARCHAR(10) NOT NULL
 );
 
 

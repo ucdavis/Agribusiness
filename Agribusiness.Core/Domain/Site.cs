@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
 
@@ -6,11 +7,10 @@ namespace Agribusiness.Core.Domain
 {
     public class Site : DomainObjectWithTypedId<string>
     {
-        
-
         public Site()
         {
             IsActive = true;
+            Seminars = new List<Seminar>();
         }
 
         [StringLength(100)]
@@ -28,6 +28,8 @@ namespace Agribusiness.Core.Domain
         public virtual string LogoContentType { get; set; }
         public virtual byte[] SplashImage { get; set; }
         public virtual string SplashContentType { get; set; }
+
+        public virtual IList<Seminar> Seminars { get; set; }
     }
 
     public class SiteMap : ClassMap<Site>
@@ -45,6 +47,8 @@ namespace Agribusiness.Core.Domain
             Map(x => x.LogoContentType);
             Map(x => x.SplashImage).CustomType("BinaryBlob");
             Map(x => x.SplashContentType);
+
+            HasMany(x => x.Seminars);
         }
     }
 }

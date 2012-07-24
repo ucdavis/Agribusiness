@@ -164,6 +164,7 @@
     <Folder Include="Schema Objects\Database Level Objects\Storage\Partition Functions\" />
     <Folder Include="Schema Objects\Database Level Objects\Storage\Partition Schemes\" />
     <Folder Include="Data Generation Plans\Schema Comparisons" />
+    <Folder Include="Schema Compare" />
   </ItemGroup>
   <ItemGroup>
     <BuildContributorArgument Include="OutDir=$(OutDir)" />
@@ -203,6 +204,7 @@
     <None Include="Data Generation Plans\Schema Comparisons\ExpressComparison.scmp" />
     <None Include="Data Generation Plans\Schema Comparisons\TerryComparison.scmp" />
     <None Include="Data Generation Plans\Schema Comparisons\VogelComparison.scmp" />
+    <None Include="Schema Compare\sqlexpress.scmp" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Permissions.sql" />
@@ -988,5 +990,8 @@
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Post-Deployment\Script.PostDeployment.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="Agribusiness.DB.refactorlog" />
   </ItemGroup>
 </Project>
