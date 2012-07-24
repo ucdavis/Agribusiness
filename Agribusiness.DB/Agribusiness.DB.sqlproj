@@ -205,6 +205,7 @@
     <None Include="Data Generation Plans\Schema Comparisons\TerryComparison.scmp" />
     <None Include="Data Generation Plans\Schema Comparisons\VogelComparison.scmp" />
     <None Include="Schema Compare\sqlexpress.scmp" />
+    <None Include="Schema Compare\terry.scmp" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Permissions.sql" />

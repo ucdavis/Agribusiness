@@ -12,7 +12,8 @@
 	[AcceptanceDate]	   DATE			 NULL,
     [ReleaseToAttendees]   BIT           NOT NULL,
     [Cost]                 MONEY         NULL, 
-    [SiteId] VARCHAR(10) NOT NULL
+    [SiteId] VARCHAR(10) NOT NULL, 
+    CONSTRAINT [FK_Seminars_Sites] FOREIGN KEY ([SiteId]) REFERENCES [Sites]([Id])
 );
 
 
