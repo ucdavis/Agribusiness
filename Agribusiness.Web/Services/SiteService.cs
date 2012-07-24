@@ -10,6 +10,11 @@ namespace Agribusiness.Web.Services
         public static IRepositoryFactory RepositoryFactory = ServiceLocator.Current.GetInstance<IRepositoryFactory>();
         public static string SeminarKey = "{0}-Seminar";
 
+        /// <summary>
+        /// Loads Site from Cache if available, other goes to DB
+        /// </summary>
+        /// <param name="siteId"></param>
+        /// <returns></returns>
         public static Site LoadSite(string siteId)
         {
             var site = (Site)System.Web.HttpContext.Current.Cache[siteId];
@@ -27,12 +32,11 @@ namespace Agribusiness.Web.Services
             return site;
         }
 
-        public static void CacheSite(Site site)
-        {
-            System.Web.HttpContext.Current.Cache[site.Id] = site;
-            System.Web.HttpContext.Current.Cache[string.Format(SeminarKey, site.Id)] = site.Seminars.OrderByDescending(a => a.Year).FirstOrDefault();
-        }
-
+        /// <summary>
+        /// Gets a site's latest seminar from cache if available, otherwise go to db
+        /// </summary>
+        /// <param name="siteId"></param>
+        /// <returns></returns>
         public static Seminar GetLatestSeminar(string siteId)
         {
             var seminar = (Seminar) System.Web.HttpContext.Current.Cache[string.Format(SeminarKey, siteId)];
@@ -46,6 +50,16 @@ namespace Agribusiness.Web.Services
             }
 
             return seminar;
+        }
+
+        /// <summary>
+        /// Updates cache for a site
+        /// </summary>
+        /// <param name="site"></param>
+        public static void ReCacheSite(Site site)
+        {
+            System.Web.HttpContext.Current.Cache[site.Id] = site;
+            System.Web.HttpContext.Current.Cache[string.Format(SeminarKey, site.Id)] = site.Seminars.OrderByDescending(a => a.Year).FirstOrDefault();
         }
     }
 }

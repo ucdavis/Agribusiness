@@ -43,51 +43,11 @@ namespace Agribusiness.Web.Controllers
             }
             else
             {
-                Site = "wawa...";
+                Site = filterContext.RouteData.Values["site"] as string;    
             }
-            
-            //var index = host.IndexOf(".");
-            //if (index > 0)
-            //{
-            //    var subdomain = host.Substring(0, index);
-
-            //    if (Sites.Contains(subdomain))
-            //    {
-            //        Site = subdomain;    
-            //    }
-            //    else
-            //    {
-            //        Site = filterContext.RouteData.Values["site"] as string;    
-            //    }
-            //}
-            //else
-            //{
-            //    Site = filterContext.RouteData.Values["site"] as string;    
-            //}
             
             base.OnActionExecuting(filterContext);
         }
-
-        //public Site LoadSite()
-        //{
-        //    var site = (Site)System.Web.HttpContext.Current.Cache[Site];
-
-        //    if (site == null && !string.IsNullOrEmpty(Site))
-        //    {
-        //        site = Repository.OfType<Site>().Queryable.FirstOrDefault(a => a.Id == Site);
-        //        if (site != null)
-        //        {
-        //            System.Web.HttpContext.Current.Cache[Site] = site;                    
-        //        }
-        //    }
-
-        //    return site;
-        //}
-
-        //public void CacheSite(Site site)
-        //{
-        //    System.Web.HttpContext.Current.Cache[site.Id] = site;
-        //}
 
         public IRepositoryFactory RepositoryFactory = ServiceLocator.Current.GetInstance<IRepositoryFactory>();
     }

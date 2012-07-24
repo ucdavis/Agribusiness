@@ -86,7 +86,7 @@ namespace Agribusiness.Web.Controllers
             {
                 RepositoryFactory.SiteRepository.EnsurePersistent(site);
                 Message = "Site has been saved.";
-                SiteService.CacheSite(site);
+                SiteService.ReCacheSite(site);
                 return RedirectToAction("Index");
             }
 
