@@ -84,13 +84,13 @@
             <div class="controls">
                 <div class="input-prepend">
                 <span class="add-on">$</span>
-                @Html.EditorFor(a => a.Seminar.Cost)
+                @Html.TextBoxFor(a => a.Seminar.Cost, new {@class="span2"})
                 </div>
             </div>
         </div>
     </fieldset> 
 </div>
 <div class="form-actions">
-    <input class="button" type="submit" value="Save" class="btn btn-primary" />
+    <input type="submit" value="Save" class="btn btn-primary" />
     @Html.ActionLink("Cancel", "Index", "Seminar", new { }, new {@class="btn"})
 </div>
