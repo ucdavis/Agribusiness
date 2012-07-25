@@ -1,76 +1,51 @@
-﻿@model Agribusiness.Web.Models.MailingListViewModel
+﻿@model MailingListViewModel
 
-@using (Html.BeginForm())
-{
-	@Html.AntiForgeryToken()
-	@Html.ValidationSummary(true)
-
+<div class="control-group">
     <fieldset>
-        <legend>Mailing List</legend>
 
-        <p>
-            All required fields are in <strong>bold</strong> and have a red <span class="required">
-                *</span> next to the field label.</p>
-        <ul>
-            <li>
-                <div class="editor-label required">
-                    @Html.LabelFor(model => model.MailingList.Name) <span>*</span>
-                </div>
-                <div class="editor-field">
-                    @Html.EditorFor(model => model.MailingList.Name) @Html.ValidationMessageFor(model => model.MailingList.Name)
-                </div>
-            </li>
-            <li>
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.MailingList.Description)
-                </div>
-                <div class="editor-field">
-                    @Html.EditorFor(model => model.MailingList.Description)
-                </div>
-            </li>
-            <li>
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.MailingList.Seminar)
-                </div>
-                <div class="editor-field">
-                    @this.Select("MailingList.Seminar").Options(Model.Seminars.OrderBy(a => a.Year), x=>x.Id,x=>x.Year).FirstOption("--Select Seminar--").Selected(Model.SeminarId.HasValue ? Model.SeminarId.Value.ToString() : string.Empty)
-                    @Html.ValidationMessageFor(model => model.MailingList.Seminar)
-                </div>
-            </li>
-            <li>
-                <div class="editor-label">
-                    @Html.LabelFor(model=>model.MailingList.People)
-                </div>
-                <div class="editor-field">
-                    <select id="MailingList_People" multiple="" name="MailingList.People">
-                        @foreach (var person in Model.MailingList.People)
-                        {
-                            <option selected="" value="@person.Id">@person.FullName</option>
-                        }
-                    </select>
-                </div>
-            </li>
-            <li>@* For the clear and submit buttons an empty label is required. Example: <label>&nbsp;</label> *@
-                <div class="editor-label">
-                    &nbsp;</div>
-                <div class="editor-field">
-                    <input class="button" type="submit" value="Save" />
-                    | @Html.ActionLink("Cancel", "Index")
-                </div>
-            </li>
-        </ul>
+        <div class="control-group">
+            <label for="MailingList.Name" class="control-label">Name</label>
+            <div class="controls">
+                @Html.EditorFor(model => model.MailingList.Name)
+                @Html.ValidationMessageFor(model => model.MailingList.Name)
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="MailingList.Description" class="control-label">Description</label>
+            <div class="controls">
+                @Html.EditorFor(model => model.MailingList.Description)
+                @Html.ValidationMessageFor(model => model.MailingList.Description)
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="MailingList.Seminar" class="control-label">Seminar</label>
+            <div class="controls">
+                @this.Select("MailingList.Seminar").Options(Model.Seminars.OrderBy(a => a.Year), x => x.Id, x => x.Year).FirstOption("--Select Seminar--").Selected(Model.SeminarId.HasValue ? Model.SeminarId.Value.ToString() : string.Empty)
+                @Html.ValidationMessageFor(model => model.MailingList.Seminar)
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="MailingList.People" class="control-label">People</label>
+            <div class="controls">
+                @*<select id="MailingList_People" multiple="" name="MailingList.People">
+                    @foreach (var person in Model.MailingList.People)
+                    {
+                        <option selected="" value="@person.Id">@person.FullName</option>
+                    }
+                </select>*@
+                <select id="MailingList_People" multiple="" name="MailingList.People">
+                    @foreach (var person in Model.People)
+                    {
+                        <option @(Model.MailingList.People.Select(a => a.Id).Contains(person.Id) ? "selected" : string.Empty) value="@person.Id">@person.FullName</option>
+                    }
+                </select>
+                @Html.ValidationMessageFor(model => model.MailingList.People)
+            </div>
+        </div>
     </fieldset>
-}
+</div>
 
-<link rel="stylesheet" type="text/css" href="@Url.Css("jquery.AutoCompleteSelect.css")"/>
-<script type="text/javascript" src="@Url.Script("jquery.AutoCompleteSelect.js")"></script>
-<script type="text/javascript">
-
-    $(function () {
-
-        var url = '@Url.Action("SearchPerson", "Person")';
-        $("#MailingList_People").autoCompleteSelect({ dataUrl: url, placeholder: "Search Person" });
-
-    })
-
-    </script>
+<div class="form-actions">
+    <input class="btn btn-primary" type="submit" value="Save" />
+    @Html.ActionLink("Cancel", "Index", new {}, new {@class="btn"})
+</div>

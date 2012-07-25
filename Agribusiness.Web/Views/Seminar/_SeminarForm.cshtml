@@ -1,11 +1,7 @@
-﻿@model Agribusiness.Web.Models.SeminarViewModel
+﻿@model SeminarViewModel
 
-@Html.ValidationSummary("Please correct the following errors.")
-
-@using (Html.BeginForm()) { 
-    
-    @Html.AntiForgeryToken()
-    <fieldset>
+<div class="control-group">
+   <fieldset>
         <ul>
         <li><div class="editor-label required">
                 <label for="year">Year:</label>
@@ -102,5 +98,5 @@
             </div>
         </li>
         </ul>
-    </fieldset>
-}
+    </fieldset> 
+</div>

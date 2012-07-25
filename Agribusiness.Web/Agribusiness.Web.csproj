@@ -328,8 +328,8 @@
     <Content Include="Content\themes\uibootstrap\images\ui-icons_f6cf3b_256x240.png" />
     <Content Include="Content\themes\uibootstrap\jquery-ui-1.8.16.custom.css" />
     <Content Include="Content\themes\uibootstrap\jquery.ui.1.8.16.ie.css" />
-    <Content Include="Css\chosen-sprite.png" />
-    <Content Include="Css\chosen.css" />
+    <Content Include="Content\chosen-sprite.png" />
+    <Content Include="Content\chosen.css" />
     <Content Include="Css\fileuploader.css" />
     <Content Include="Css\jquery.qtip.min.css" />
     <Content Include="Images\download.png" />
