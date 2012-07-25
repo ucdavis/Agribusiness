@@ -16,7 +16,27 @@
 
 @section ScriptContent
 {
+
     <script type="text/javascript">
+        $(function () {
+            $("#Firm_Id").change(function () {
+
+                var $this = $(this);
+                var value = $this.find(':selected')[0].text;
+
+                if (value == "Other") {
+                    $this.siblings("input").show();
+                } else {
+                    var $box = $this.siblings('input');
+                    $box.val('');
+                    $box.hide();
+                }
+            });
+        });
+    </script>
+
+
+    @*    <script type="text/javascript">
         $(function () {
             $("#firm_dialog").dialog({
                 autoOpen: false,
@@ -67,25 +87,76 @@
 
             $(this).dialog("close");
         }
-    </script>
+    </script>*@
 }
 
 @Html.ValidationSummary(false)
 
-<fieldset class="display-form">
+@using (Html.BeginForm("AddConfirm", "Attendee", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    var newFirm = Model.Firm == null || Model.Firm.Id <= 0;
+    @Html.AntiForgeryToken()
+    @Html.Hidden("personId", Model.Person.Id)
+    
+    <div class="control-group">
+        <fieldset>
+            <div class="control-group">
+                <label for="Name" class="control-label">Name</label>
+                <div class="controls form-text">
+                    @Model.Person.FullName
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="Email" class="control-label">Email</label>
+                <div class="controls form-text">
+                    @Model.Person.User.LoweredUserName
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="Title" class="control-label">Title</label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.SeminarPerson.Title)
+                    @Html.ValidationMessageFor(model => model.SeminarPerson.Title)
+                </div>
+            </div>
+        </fieldset>
+        
+        <legend>Firm</legend>
+        <fieldset>
+            <div class="control-group">
+                <label for="Firm" class="control-label">Firm</label>
+                <div class="controls">
+                    @this.Select("Firm.Id").Options(Model.Firms, x=>x.Id, x=>x.Name).FirstOption("--Select Firm--").Selected(Model.Firm != null ? Model.Firm.Id.ToString() : string.Empty)
+                    @Html.TextBox("Firm.Name", !newFirm ? Model.Firm.Name : string.Empty, new{ @style="display: none;"})
+                    @Html.ValidationMessageFor(model => model.SeminarPerson.Firm)
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="Firm.Description" class="control-label">Description</label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.Firm.Description)
+                    @Html.ValidationMessageFor(model => model.Firm.Description)
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="Firm_WebAddress" class="control-label">Web Address</label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.Firm.WebAddress)
+                    @Html.ValidationMessageFor(model => model.Firm.WebAddress)
+                </div>
+            </div>
+        </fieldset>
 
-    <ul>
-        <li><div class="display-label">Name:</div>
-            <div class="display-details">@Model.Person.FullName</div>
-        </li>
-        <li><div class="display-label">Email:</div>
-            <div class="display-details">@Model.Person.User.LoweredUserName</div>
-        </li>
-    </ul>
+    </div>
+    
+    <div class="form-actions">
+        <input type="submit" value="Add Attendee" class="btn btn-primary"/>
+        @Html.ActionLink("Cancel", "Add", new { id = Model.Seminar.Id }, new {@class="btn"})
+    </div>
+    
+}
 
-</fieldset>
-
-@using (Html.BeginForm())
+@*@using (Html.BeginForm())
 { 
     var newFirm = Model.Firm == null || Model.Firm.Id <= 0;
     
@@ -144,4 +215,4 @@
         @this.Select("Firm").Options(Model.Firms, x => x.Id, x => x.Name).FirstOption("--Select a Firm--").Selected(Model.SeminarPerson.Firm != null ? Model.SeminarPerson.Firm.Id.ToString() : "")
         </p>
     </div>    
-}
+}*@

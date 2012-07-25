@@ -8,12 +8,12 @@
 
 @section SubPageNavigation
 {
-    <ul class='navigation'>
+    <ul class='nav nav-pills'>
         <li>@Html.ActionLink("Back to List", "Index", new { id=Model.Seminar.Id })</li>
     </ul>
 }
 
-<table class="default_table nolasticon">
+<table class="default_table table table-striped table-bordered">
 
     <thead>
         <tr>
@@ -31,8 +31,9 @@
     { 
         <tr>
             <td>
-                <a href='@Url.Action("AddConfirm", new {id=Model.Seminar.Id, personId=a.Person.Id})'>
-                    <img src='@Url.Image("details.png")' alt='@string.Format("Select {0} to be added.", a.Person.FullName)' />
+                <a href='@Url.Action("AddConfirm", new {id=Model.Seminar.Id, personId=a.Person.Id})' class="btn hastip" rel="tooltip" title="Select to add">
+                    @*<img src='@Url.Image("details.png")' alt='@string.Format("Select {0} to be added.", a.Person.FullName)' />*@
+                    <i class="icon-hand-up"></i>
                 </a>
             </td>
             <td>@a.Person.FirstName</td>
