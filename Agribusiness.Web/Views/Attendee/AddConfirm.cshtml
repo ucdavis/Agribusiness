@@ -25,16 +25,18 @@
                 var value = $this.find(':selected')[0].text;
 
                 if (value == "Other") {
-                    $this.siblings("input").show();
+                    $(".firm").show('normal');
                 } else {
-                    var $box = $this.siblings('input');
-                    $box.val('');
-                    $box.hide();
+                    $('.firm').hide('normal');
+                    $('.firm').val('');
                 }
             });
         });
     </script>
-
+    
+    <style type="text/css">
+        .firm { display: none;}
+    </style>
 
     @*    <script type="text/javascript">
         $(function () {
@@ -122,23 +124,35 @@
         </fieldset>
         
         <legend>Firm</legend>
+        
+        @{
+            var css = "display: none;";
+            var css2 = "display: none;";
+            
+            if (Model.Firm.Id == 0)
+            {
+                css = "display: inline-block;";
+                css2 = "display: block;";
+            }
+        }
+
         <fieldset>
             <div class="control-group">
                 <label for="Firm" class="control-label">Firm</label>
                 <div class="controls">
-                    @this.Select("Firm.Id").Options(Model.Firms, x=>x.Id, x=>x.Name).FirstOption("--Select Firm--").Selected(Model.Firm != null ? Model.Firm.Id.ToString() : string.Empty)
-                    @Html.TextBox("Firm.Name", !newFirm ? Model.Firm.Name : string.Empty, new{ @style="display: none;"})
+                    @this.Select("Firm.Id").Options(Model.Firms, x=>x.Id, x=>x.Name).FirstOption("-1", "--Select Firm--").Selected(Model.Firm != null ? Model.Firm.Id.ToString() : string.Empty)
+                    @Html.TextBox("Firm.Name", newFirm ? Model.Firm.Name : string.Empty, new{ @style=css, @class="firm"})
                     @Html.ValidationMessageFor(model => model.SeminarPerson.Firm)
                 </div>
             </div>
-            <div class="control-group">
+            <div class="control-group firm" style='@css2'>
                 <label for="Firm.Description" class="control-label">Description</label>
                 <div class="controls">
                     @Html.EditorFor(model => model.Firm.Description)
                     @Html.ValidationMessageFor(model => model.Firm.Description)
                 </div>
             </div>
-            <div class="control-group">
+            <div class="control-group firm" style='@css2'>
                 <label for="Firm_WebAddress" class="control-label">Web Address</label>
                 <div class="controls">
                     @Html.EditorFor(model => model.Firm.WebAddress)

@@ -229,7 +229,7 @@ namespace Agribusiness.Web.Controllers
             {
                 seminarPerson.Firm = _firmRepository.GetNullableById(firm.Id);
             }
-            else
+            else if (firm.Id == 0)
             {
                 seminarPerson.Firm = firm;
             }
@@ -240,7 +240,11 @@ namespace Agribusiness.Web.Controllers
 
             ModelState.Clear();
             seminarPerson.TransferValidationMessagesTo(ModelState);
-            seminarPerson.Firm.TransferValidationMessagesTo(ModelState);
+
+            if (seminarPerson.Firm != null)
+            {
+                seminarPerson.Firm.TransferValidationMessagesTo(ModelState);    
+            }
 
             if (ModelState.IsValid)
             {

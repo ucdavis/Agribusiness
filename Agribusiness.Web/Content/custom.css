@@ -1,6 +1,7 @@
 ﻿.form-text { font-weight: bold;padding-top: 5px; }
 
-input.input-validation-error { color: #B94A48;border-color: #B94A48;}
+input.input-validation-error, textarea.input-validation-error, select.input-validation-error { color: #B94A48;border-color: #B94A48;}
+.field-validation-error { color: #B94A48;}
 
 .navbar-inner {
     background: #014A81;
