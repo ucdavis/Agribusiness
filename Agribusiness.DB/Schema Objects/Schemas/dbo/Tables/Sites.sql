@@ -8,5 +8,6 @@
     [Logo] VARBINARY(MAX) NULL, 
 	[LogoContentType] varchar(50) null,
     [SplashImage] VARBINARY(MAX) NULL,
-	[SplashContentType] varchar(50) null
+	[SplashContentType] varchar(50) null, 
+    [EventType] VARCHAR(50) NULL
 )

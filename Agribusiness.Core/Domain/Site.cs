@@ -29,6 +29,9 @@ namespace Agribusiness.Core.Domain
         public virtual byte[] SplashImage { get; set; }
         public virtual string SplashContentType { get; set; }
 
+        [StringLength(50)]
+        public virtual string EventType { get; set; }
+
         public virtual IList<Seminar> Seminars { get; set; }
     }
 
@@ -47,6 +50,8 @@ namespace Agribusiness.Core.Domain
             Map(x => x.LogoContentType);
             Map(x => x.SplashImage).CustomType("BinaryBlob");
             Map(x => x.SplashContentType);
+
+            Map(x => x.EventType);
 
             HasMany(x => x.Seminars);
         }
