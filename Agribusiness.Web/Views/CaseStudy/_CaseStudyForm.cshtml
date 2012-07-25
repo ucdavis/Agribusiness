@@ -1,67 +1,51 @@
 ﻿@model CaseStudyViewModel
 
-@Html.ValidationSummary("Please correct the following errors:")
-
-
-
-@Html.AntiForgeryToken()
-@Html.Hidden("seminarId", Model.Seminar.Id)
-        
-<fieldset>
-    <legend>Properties</legend>
-    <ul>
-        <li><div class="editor-label required">
-            @Html.LabelFor(a => a.CaseStudy.Name)
-            <span>*</span>
-            </div>
-            <div class="editor-field">
+<div class="control-group">
+    <fieldset>
+        <div class="control-group">
+            <label class="control-label" for="CaseStudy.Name">Name</label>
+            <div class="controls">
             @Html.TextBoxFor(a => a.CaseStudy.Name)
             @Html.ValidationMessageFor(a => a.CaseStudy.Name)
             </div>
-        </li>
-        <li><div class="editor-label">
-            @Html.LabelFor(a => a.CaseStudy.Description)
-            </div>
-            <div class="editor-field">
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="CaseStudy.Description">Description</label>
+            <div class="controls">
             @Html.TextAreaFor(a => a.CaseStudy.Description)
             @Html.ValidationMessageFor(a => a.CaseStudy.Description)
             </div>
-        </li>
-        <li><div class="editor-label">
-            @Html.LabelFor(a => a.CaseStudy.File)
-            </div>
-            <div class="editor-field">
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="CaseStudy.File">File</label>
+            <div class="controls">
             <input type="file" name='file' id='file' />
             @Html.ValidationMessageFor(a => a.CaseStudy.File)
-
 
             @if (Model.CaseStudy.File != null)
             { 
                 <text>|</text> @Html.ActionLink("Download Existing File", "Download", new { id=Model.CaseStudy.Id })
             }
-                    
 
             </div>
-        </li>
-        <li><div class="editor-label">
-            @Html.LabelFor(a => a.CaseStudy.Session)
-            </div>
-            <div class="editor-field">
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="CaseStudy.Session">Session</label>
+            <div class="controls">
             @this.Select("CaseStudy.Session").Options(Model.Seminar.Sessions, x => x.Id, x => x.Name).FirstOption("--Select a Session--").Selected(Model.CaseStudy.Session != null ? Model.CaseStudy.Id.ToString() : string.Empty)
             </div>
-        </li>
-        <li><div class="editor-label">@Html.LabelFor(a => a.CaseStudy.IsPublic)</div>
-            <div class="editor-field">@Html.CheckBoxFor(a => a.CaseStudy.IsPublic)
-                <em>Display the name of this case study publicly</em>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="CaseStudy.IsPublic">Is Public</label>
+            <div class="controls">@Html.CheckBoxFor(a => a.CaseStudy.IsPublic)
+                <p class="help-inline">Display the name of this case study publicly</p>
             </div>
-        </li>
-        <li>
-            <div class="editor-label"><label>&nbsp;</label></div>
-            <div class="editor-field">
-                <input type="submit" value="Save" class="button" /> |
-                @Html.ActionLink("Cancel", "Edit", "Seminar", new { id = Model.Seminar.Id }, new { })
-            </div>
-        </li>
-    </ul>
+        </div>
+    </fieldset>
+</div>        
 
-</fieldset>
+<div class="form-actions">
+    <input type="submit" class="btn btn-primary" value="Save"/>                    
+    @Html.ActionLink("Cancel", "Edit", "Seminar", new {@id= Model.Seminar.Id}, new {@class="btn"})
+    
+</div>
