@@ -1,0 +1,78 @@
+﻿    <style type="text/css">
+    @*#person-name-container{background-color:#F4F4F4; border: 1px solid #014a81; padding: 10px; -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; min-width: 50px; min-height: 22px; }        *@
+    .person-name {background-color:white;border: 1px solid #014a81;-webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; padding:5px; text-decoration:none; font-weight:bold; font-size:0.9em; letter-spacing:.5px; text-transform:uppercase;display:inline-block; margin-right:5px; margin-bottom: 5px;}
+    .remove-name {cursor:pointer;}
+    </style>
+
+    <script type="text/javascript" src='@Url.Script("jquery.tmpl.min.js")'></script>
+
+
+    <script type="text/javascript">
+
+        // template for adding people
+        var personNameTemplate = '';
+
+        $(function () {
+
+            $(".remove-name").live('click', function (e) {
+                var that = $(this).parents(".person-name");
+                that.effect("fade", function () { that.remove(); });
+
+                e.preventDefault();
+            });
+
+            InitializeModal();
+        });
+
+        function InitializeModal() {
+            $("#add-name-dialog").modal({ show: false });
+
+            $("#add-name").click(function (e) {
+                $("#add-name-dialog").modal('show');
+                e.preventDefault();
+            });
+
+            // buttons
+            $("#add-selectall").click(function() {
+            });
+
+            $("#add-unselectall").click(function() {
+            });
+
+            $("#add-recipients").click(function (e) {
+                addNames();
+                $("#add-name-dialog").modal('hide');
+
+                e.preventDefault();
+            });
+        }
+
+        // renders the new names added
+        function addNames() {
+
+            var that = $(this);
+
+            // compile the markup
+            $.template("personTemplate", personNameTemplate);
+
+            var select = $("#select-name");
+            $.each(select.find(":selected"), function (index, item) {
+                var person = { Name: $(item).text(), id: $(item).val() };
+                //$.tmpl("personTemplate", person).appendTo("#person-name-container");
+                $("#person-template").tmpl(person).appendTo("#person-name-container");
+
+                that.dialog("close");
+            });
+
+            // clear the selected
+            $("#select-name").children().removeAttr("selected");
+        }
+    </script>
+    
+<script id="person-template" type="text/x-jquery-tmpl">
+    <div class="person-name">
+        ${Name}
+        <a href="#" class="btn btn-mini remove-name"><i class="icon-minus"></i></a>
+        <input type="hidden" name="People" value="${id}"/>
+    </div>
+</script>

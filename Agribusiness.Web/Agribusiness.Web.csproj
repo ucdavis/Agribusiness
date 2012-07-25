@@ -841,6 +841,7 @@
     <Content Include="Views\Home\_SiteHome.cshtml" />
     <Content Include="Views\Admin\People.cshtml" />
     <Content Include="Views\Shared\_DataTables.cshtml" />
+    <Content Include="Views\Notification\_NotificationScripts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">

@@ -7,7 +7,7 @@
 }
 
 @section SubPageNavigation{
-    <ul class="navigation">
+    <ul class="nav nav-pills">
         <li>
         @if (Model.People.Count == 1)
         {
@@ -22,9 +22,14 @@
     </ul>
 }
 
+@section ScriptContent
+{
+    @Html.Partial("_NotificationScripts")
+}
+
 @Html.ValidationSummary(false)
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Create", "Notification", FormMethod.Post, new {@class="form-horizontal"}))
 { 
     @Html.AntiForgeryToken()
 
