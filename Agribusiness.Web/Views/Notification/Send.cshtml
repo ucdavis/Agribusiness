@@ -1,4 +1,4 @@
-﻿@model Agribusiness.Web.Models.SendNotificationViewModel
+﻿@model SendNotificationViewModel
 
 @{
     ViewBag.Title = "Send Notification";
@@ -6,7 +6,7 @@
 }
 
 @section SubPageNavigation{
-    <ul class="navigation">
+    <ul class="nav nav-pill">
         <li>
         @if (Model.NotificationTrackingViewModel.People.Count == 1)
         {
@@ -23,10 +23,11 @@
 
 @section ScriptContent
 {
+    @Html.Partial("_NotificationScripts")
+
     <link href="@Url.Css("fileuploader.css")" type="text/css" rel="stylesheet"/>
 
     <script type="text/javascript" src='@Url.Script("tiny_mce/jquery.tinymce.js")'></script>
-    <script type="text/javascript" src='@Url.Script("jquery.tmpl.min.js")'></script>
     <script type="text/javascript" src='@Url.Script("fileuploader.js")'></script>
     <script type="text/javascript">
         $(function () {
@@ -84,71 +85,78 @@
                 }
 
             });
-        });
-
-        
+        });       
+    </script>
+    
+    <script type="text/x-jquery-tmpl" id="attachment-template">
+    <input type='hidden' id='attachmentIds' name='attachmentIds' value='${id}' />
     </script>
 }
 
 @Html.ValidationSummary(false)
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Send", "Notification", FormMethod.Post, new { @class = "form-horizontal" }))
 { 
     @Html.AntiForgeryToken()
 
     @Html.Partial("_NotificationTracking", Model.NotificationTrackingViewModel)
     
-    <fieldset>
-        <legend>Notification Message</legend>
-        <ul>
-            <li><div class="editor-label">From Address</div>
-                <div class="editor-field">
-                    @*@Html.TextBoxFor(a=>a.EmailQueue.FromAddress)
-                    <span><em>*If blank, emails will be sent from automatedemail@caes.ucdavis.edu</em></span>*@
-
+    <div class="control-group">
+        <fieldset>
+            <legend>Notification Message</legend>
+            
+            <div class="control-group">
+                <label for="EmailQueue.FromAddress" class="control-label">From Address</label>
+                <div class="controls">
                     <select id="EmailQueue.FromAddress" name="EmailQueue.FromAddress">
                         <option value="agribusiness@ucdavis.edu">agribusiness@ucdavis.edu</option>
                         <option value="dan.sumner@ucdavis.edu">dan.sumner@ucdavis.edu</option>
                     </select>
-
+                    @Html.ValidationMessageFor(model => model.EmailQueue.FromAddress)
                 </div>
-            </li>
-            <li><div class="editor-label required">Subject<span>*</span></div>
-                <div class="editor-field">@Html.TextBoxFor(a=>a.EmailQueue.Subject)</div>
-            </li>
-            <li><div class="editor-label">Attachment(s)</div>
-                <div class="editor-field" id="attachments">
+            </div>
+            <div class="control-group">
+                <label for="EmailQueue.Subject" class="control-label">Subject</label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.EmailQueue.Subject)
+                    @Html.ValidationMessageFor(model => model.EmailQueue.Subject)
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="Attachments" class="control-label">Attachment(s)</label>
+                <div class="controls">
                     <div id="file-uploader"></div>
                 </div>
-            </li>
-            <li><div class="editor-label required">Body<span>*</span></div>
-                <div class="editor-field" style="width: 85%;">
-                    @Html.Partial("_TemplateTokens")
-                    @Html.TextAreaFor(a=>a.EmailQueue.Body)
+            </div>
+            <div class="control-group">
+                <label for="EmailQueue.Body" class="control-label">
+                    Body
+                    @Html.ValidationMessageFor(model => model.EmailQueue.Body)
+                </label>
+                <div class="controls row-fluid">
+                    <span class="span6">
+                        @Html.EditorFor(model => model.EmailQueue.Body)
+                    </span>
+                    <span class="span2">
+                        @Html.Partial("_TemplateTokens")                        
+                    </span>
+                    
                 </div>
-            </li>
-            <li><div class="editor-label">&nbsp;</div>
-                <div class="editor-field">
-                    <input type="submit" class="button" value="Save" />
-                    |
-                    @if (Model.NotificationTrackingViewModel.People.Count == 1)
-                    {
-                        var userId = Model.NotificationTrackingViewModel.People[0].User.Id;
-                        @Html.ActionLink("Cancel", "AdminEdit", "Person", new { id = userId, seminarId = Model.NotificationTrackingViewModel.Seminar.Id }, new { })
-                    }
-                    else
-                    { 
-                        @Html.ActionLink("Cancel", "Details", "Seminar", new { id = Model.NotificationTrackingViewModel.Seminar.Id }, new { })
-                    }
-                </div>
-            </li>
-        </ul>
-    </fieldset>
-    
+            </div>
+        </fieldset>
+    </div>
+
+    <div class="form-actions">
+        <input type="submit" class="btn btn-primary" value="Save" />
+        @if (Model.NotificationTrackingViewModel.People.Count == 1)
+        {
+            var userId = Model.NotificationTrackingViewModel.People[0].User.Id;
+            @Html.ActionLink("Cancel", "AdminEdit", "Person", new { id = userId, seminarId = Model.NotificationTrackingViewModel.Seminar.Id }, new { @class = "btn" })
+        }
+        else
+        { 
+            @Html.ActionLink("Cancel", "Details", "Seminar", new { id = Model.NotificationTrackingViewModel.Seminar.Id }, new { @class = "btn" })
+        }
+    </div>
 }
 
-<script type="text/x-jquery-tmpl" id="attachment-template">
-
-        <input type='hidden' id='attachmentIds' name='attachmentIds' value='${id}' />
-
-</script>

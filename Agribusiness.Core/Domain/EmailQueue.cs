@@ -40,6 +40,7 @@ namespace Agribusiness.Core.Domain
         public virtual DateTime? SentDateTime { get; set; }
 
         public virtual string Subject { get; set; }
+        [DataType(DataType.MultilineText)]
         public virtual string Body { get; set; }
 
         public virtual int? ErrorCode { get; set; }

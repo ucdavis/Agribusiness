@@ -52,19 +52,6 @@
     </fieldset>
 </div>
 
-<div class="form-actions">
-    <input type="submit" class="btn btn-primary" value="Save" /> | 
-    @if (Model.People.Count == 1)
-    {
-        var userId = Model.People[0].User.Id;
-        @Html.ActionLink("Cancel", "AdminEdit", "Person", new { id = userId, seminarId = Model.Seminar.Id }, new { @class="btn" })
-    }
-    else
-    { 
-        @Html.ActionLink("Cancel", "Details", "Seminar", new { id = Model.Seminar.Id }, new { @class="btn" })
-    }
-</div>
-
     <div id="add-name-dialog" class="modal hide">
     
         <div class="modal-header">Add Person</div>
