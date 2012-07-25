@@ -1,102 +1,96 @@
 ﻿@model SeminarViewModel
 
 <div class="control-group">
-   <fieldset>
-        <ul>
-        <li><div class="editor-label required">
-                <label for="year">Year:</label>
-                <span>*</span>
-            </div>
-            <div class="editor-field">
+    <fieldset>
+        <div class="control-group">
+            <label for="year" class="control-label">Year:</label>
+            <div class="controls">
                 @Html.EditorFor(a=>a.Seminar.Year)
                 @Html.ValidationMessageFor(a => a.Seminar.Year)
             </div>
-        </li>
-        <li><div class="editor-label required">
-                <label for="location">Location:</label>
-                <span>*</span>
-            </div>
-            <div class="editor-field">
+        </div>
+        <div class="control-group">
+            <label for="location" class="control-label">Location:</label>
+            <div class="controls">
                 @Html.EditorFor(a=>a.Seminar.Location)
                 @Html.ValidationMessageFor(a => a.Seminar.Location)
             </div>
-        </li>
-        <li><div class="editor-label">@Html.LabelFor(a=>a.Seminar.LocationLink)</div>
-            <div class="editor-field">
+        </div>
+        <div class="control-group">
+            <label for="LocationLink" class="control-label">Location Link</label>
+            <div class="controls">
                 @Html.EditorFor(a=>a.Seminar.LocationLink)
                 @Html.ValidationMessageFor(a=>a.Seminar.LocationLink)
             </div>
-        </li>
-        <li><div class="editor-label required">
-                <label for="Begin">Begin Date:</label>
-                <span>*</span>
-            </div>
-            <div class="editor-field">
+        </div>
+        <div class="control-group">
+            <label for="Begin" class="control-label">Begin Date:</label>
+            <div class="controls">
                 @Html.EditorFor(a => a.Seminar.Begin, "DateAndTime")
                 @Html.ValidationMessageFor(a => a.Seminar.Begin)
             </div>
-        </li>
-        <li><div class="editor-label required">
-                <label for="End">End Date:</label>
-                <span>*</span>
-            </div>
-            <div class="editor-field">
+        </div>
+        <div class="control-group">
+            <label for="End" class="control-label">End Date:</label>
+            <div class="controls">
                 @Html.EditorFor(a => a.Seminar.End, "DateAndTime")
                 @Html.ValidationMessageFor(a=>a.Seminar.End)
             </div>
-        </li>
-        <li><div class="editor-label">Registration Begin:</div>
-            <div class="editor-field">
+        </div>
+        <div class="control-group">
+            <label for="Begin" class="control-label">Registration Begin</label>
+            <div class="controls">
                 @Html.EditorFor(a=>a.Seminar.RegistrationBegin)
                 @Html.ValidationMessageFor(a=>a.Seminar.RegistrationBegin)
             </div>
-        </li>
-        <li><div class="editor-label">
-                <label for="RegistrationDeadline">Registration Deadline:</label>
-            </div>
-            <div class="editor-field">
+        </div>
+        <div class="control-group">
+            <label for="RegistrationDeadline" class="control-label">Registration Deadline:</label>
+            <div class="controls">
                 @Html.EditorFor(a => a.Seminar.RegistrationDeadline)
                 @Html.ValidationMessageFor(a => a.Seminar.RegistrationDeadline)
             </div>
-        </li>
-        <li><div class="editor-label">@Html.LabelFor(a => a.Seminar.AcceptanceDate)</div>
-            <div class="editor-field">
+        </div>
+        <div class="control-group">
+            <label for="AcceptanceDate" class="control-label">Acceptance Date</label>
+            <div class="controls">
                 @Html.EditorFor(a=> a.Seminar.AcceptanceDate)
                 @Html.ValidationMessageFor(a => a.Seminar.AcceptanceDate)
             </div>
-        </li>
-        <li><div class="editor-label">
-                <label for="RegistrationPassword">Registration Password:</label>
-            </div>
-            <div class="editor-field">
+        </div>
+        <div class="control-group">
+            <label for="RegistrationPassword" class="control-label">Registration Password:</label>
+            <div class="controls">
                 @Html.EditorFor(a=>a.Seminar.RegistrationPassword)
                 @Html.ValidationMessageFor(a => a.Seminar.RegistrationPassword)
             </div>
-        </li>
-        <li><div class="editor-label">
-                <label for="RegistrationId">Registration Id:</label>
-            </div>
-            <div class="editor-field">
+        </div>
+        <div class="control-group">
+            <label for="RegistrationId" class="control-label">Registration Id:</label>
+            <div class="controls">
                 @Html.EditorFor(a=>a.Seminar.RegistrationId)
                 @Html.ValidationMessageFor(a => a.Seminar.RegistrationId)
             </div>
-        </li>
-        <li><div class="editor-label">Release To Attendees:</div>
-            <div class="editor-field">
+        </div>
+        <div class="control-group">
+            <label for="ReleaseToAttendees" class="control-label">Release To Attendees</label>
+            <div class="controls">
                 @Html.EditorFor(a=>a.Seminar.ReleaseToAttendees)
                 @Html.ValidationMessageFor(a=>a.Seminar.ReleaseToAttendees)
             </div>
-        </li>
-        <li><div class="editor-label">Cost:</div>
-            <div class="editor-field">$ @Html.EditorFor(a => a.Seminar.Cost)</div>
-        </li>
-        <li>
-            <div class="editor-label"><label>&nbsp;</label></div>
-            <div class="editor-field">
-                <input class="button" type="submit" value="Save" /> | 
-                @Html.ActionLink("Cancel", "Index", "Seminar", new { })
+        </div>
+        <div class="control-group">
+            <label for="cost" class="control-label">Cost</label>
+            <div class="controls">
+                <div class="input-prepend">
+                <span class="add-on">$</span>
+                @Html.EditorFor(a => a.Seminar.Cost)
+                </div>
             </div>
-        </li>
-        </ul>
+        </div>
     </fieldset> 
+</div>
+<div class="form-actions">
+    <input class="button" type="submit" value="Save" class="btn btn-primary" />
+    @Html.ActionLink("Cancel", "Index", "Seminar", new { }, new {@class="btn"})
 </div>

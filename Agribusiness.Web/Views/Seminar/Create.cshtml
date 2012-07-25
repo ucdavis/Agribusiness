@@ -12,7 +12,7 @@
 }
 
 @Html.ValidationSummary("Please correct the following errors.")
-@using (Html.BeginForm("Create", "MailingList", FormMethod.Post, new { @class = "form-horizontal" }))
+@using (Html.BeginForm("Create", "Seminar", FormMethod.Post, new { @class = "form-horizontal" }))
 {
     @Html.AntiForgeryToken()
     @Html.Partial("_SeminarForm")    

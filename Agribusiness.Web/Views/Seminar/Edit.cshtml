@@ -9,7 +9,7 @@
 }
 
 @section SubPageNavigation {
-    <ul class="navigation">
+    <ul class="nav nav-pills">
         <li>
             @Html.ActionLink("Details View", "Details", "Seminar", new { id = Model.Seminar.Id }, new { })
         </li>
@@ -29,7 +29,12 @@
     @Html.Partial("_DateTimePickerScripts", Model.Seminar)
 }
 
-@Html.Partial("_SeminarForm")
+@Html.ValidationSummary("Please correct the following errors.")
+@using (Html.BeginForm("Edit", "Seminar", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.Partial("_SeminarForm")    
+}
 
 <h3>Sessions</h3>
 
