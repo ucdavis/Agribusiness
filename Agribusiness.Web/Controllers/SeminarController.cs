@@ -175,71 +175,71 @@ namespace Agribusiness.Web.Controllers
             return seminar;
         }
 
-        /// <summary>
-        /// Assign people to sessions to attend.
-        /// </summary>
-        /// <param name="id">Seminar Id</param>
-        /// <returns></returns>
-        [UserOnly]
-        public ActionResult AssignToSessions(int id)
-        {
-            var seminar = LoadSeminar(id);
+        ///// <summary>
+        ///// Assign people to sessions to attend.
+        ///// </summary>
+        ///// <param name="id">Seminar Id</param>
+        ///// <returns></returns>
+        //[UserOnly]
+        //public ActionResult AssignToSessions(int id)
+        //{
+        //    var seminar = LoadSeminar(id);
 
-            // redirect to the list if no seminar
-            if (seminar == null)
-            {
-                ErrorMessages = string.Format(Messages.NotFound, "Seminar", id);
-                return this.RedirectToAction(a => a.Index());
-            }
+        //    // redirect to the list if no seminar
+        //    if (seminar == null)
+        //    {
+        //        ErrorMessages = string.Format(Messages.NotFound, "Seminar", id);
+        //        return this.RedirectToAction(a => a.Index());
+        //    }
 
-            var viewModel = AssignToSessionViewModel.Create(seminar);
-            return View(viewModel);
-        }
+        //    var viewModel = AssignToSessionViewModel.Create(seminar);
+        //    return View(viewModel);
+        //}
 
-        /// <summary>
-        /// Assigns a person into a session
-        /// </summary>
-        /// <param name="id">Session Id</param>
-        /// <param name="seminarPersonId"></param>
-        /// <returns></returns>
-        [HttpPost]
-        [UserOnly]
-        public JsonResult Assign(int id, int seminarPersonId)
-        {
-            var session = _sessionRepository.GetNullableById(id);
-            var seminarPerson = _seminarPersonRepository.GetNullableById(seminarPersonId);
+        ///// <summary>
+        ///// Assigns a person into a session
+        ///// </summary>
+        ///// <param name="id">Session Id</param>
+        ///// <param name="seminarPersonId"></param>
+        ///// <returns></returns>
+        //[HttpPost]
+        //[UserOnly]
+        //public JsonResult Assign(int id, int seminarPersonId)
+        //{
+        //    var session = _sessionRepository.GetNullableById(id);
+        //    var seminarPerson = _seminarPersonRepository.GetNullableById(seminarPersonId);
 
-            // make sure the sesion isn't already assigned
-            if (!seminarPerson.Sessions.Any(a => a == session))
-            {
-                seminarPerson.Sessions.Add(session);
-                _seminarPersonRepository.EnsurePersistent(seminarPerson);
+        //    // make sure the sesion isn't already assigned
+        //    if (!seminarPerson.Sessions.Any(a => a == session))
+        //    {
+        //        seminarPerson.Sessions.Add(session);
+        //        _seminarPersonRepository.EnsurePersistent(seminarPerson);
 
-                return Json(true);
-            }
+        //        return Json(true);
+        //    }
 
-            return Json(false);
-        }
+        //    return Json(false);
+        //}
 
-        /// <summary>
-        /// Removes a session from a person
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="seminarPersonId"></param>
-        /// <returns></returns>
-        [HttpPost]
-        [UserOnly]
-        public JsonResult UnAssign(int id, int seminarPersonId)
-        {
-            //var session = _sessionRepository.GetNullableById(id);
-            var seminarPerson = _seminarPersonRepository.GetNullableById(seminarPersonId);
+        ///// <summary>
+        ///// Removes a session from a person
+        ///// </summary>
+        ///// <param name="id"></param>
+        ///// <param name="seminarPersonId"></param>
+        ///// <returns></returns>
+        //[HttpPost]
+        //[UserOnly]
+        //public JsonResult UnAssign(int id, int seminarPersonId)
+        //{
+        //    //var session = _sessionRepository.GetNullableById(id);
+        //    var seminarPerson = _seminarPersonRepository.GetNullableById(seminarPersonId);
 
-            var session = seminarPerson.Sessions.Where(a => a.Id == id).FirstOrDefault();
-            seminarPerson.Sessions.Remove(session);
+        //    var session = seminarPerson.Sessions.Where(a => a.Id == id).FirstOrDefault();
+        //    seminarPerson.Sessions.Remove(session);
 
-            _seminarPersonRepository.EnsurePersistent(seminarPerson);
-            return Json(true);
-        }
+        //    _seminarPersonRepository.EnsurePersistent(seminarPerson);
+        //    return Json(true);
+        //}
 
         /// <summary>
         /// Gets the details for the popup balloons on assign to sessions

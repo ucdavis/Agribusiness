@@ -95,7 +95,7 @@ $.extend($.fn.dataTableExt.oPagination, {
 
 /* Table initialisation */
 $(document).ready(function () {
-    $('.dt_table').dataTable({
+    $('.default_table').dataTable({
         "sDom": "<'row-fluid'<'span6'l><'span6'<'pull-right' f>>r>t<'row-fluid'<'span6'i><'span6'<'pull-right' p>>>",
         "sPaginationType": "bootstrap",
         "oLanguage": {

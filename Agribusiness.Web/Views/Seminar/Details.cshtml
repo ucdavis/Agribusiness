@@ -1,16 +1,18 @@
-﻿@model Agribusiness.Web.Models.SeminarViewModel
-@using Agribusiness.Web.Controllers.Filters
+﻿@model SeminarViewModel
+           
 @{
     ViewBag.Title = "Seminar Details";
     ViewBag.SubPageTitle = "Seminar Details";
+    ViewBag.Nav = Nav.Seminars;
 }
 
 @section SubPageNavigation
 {
-    <ul class="navigation">
-        <li>
+    <ul class="nav nav-pills">
+        @*<li>
             @Html.ActionLink("Sessions", "AssignToSessions", new { id = Model.Seminar.Id })
-        </li>
+        </li>*@
+
         <li>
             @Html.ActionLink("Attendees", "Index", "Attendee", new { id= Model.Seminar.Id }, new { })
         </li>
@@ -37,11 +39,6 @@
 
 @section ScriptContent
 {
-    <script type="text/javascript">
-        $(function () {
-            $("#sessions").dataTable({ "bJQueryUI": true, "bPaginate": false, "aaSorting": [[2, "asc"]] });
-        });    
-    </script>
 }
 
 @if (HttpContext.Current.Session["Passwords"] != null)
@@ -65,42 +62,65 @@
     }
 }
 
-
-<h3>Details</h3>
-    <div class="display-form">
-    <ul>
-        <li><div class="display-label"><label for="year">Year:</label></div>
-            <div class="display-details">@Html.DisplayFor(a => a.Seminar.Year)</div>
-        </li>
-        <li><div class="display-label"><label for="location" class="editor-label">Location:</label></div>
-            <div class="display-details">@Html.DisplayFor(a => a.Seminar.Location)</div>
-        </li>
-        <li><div class="display-label"><label for="Begin" class="editor-label">Begin Date:</label></div>
-            <div class="display-details">@Html.DisplayFor(a => a.Seminar.Begin)</div>
-        </li>
-        <li><div class="display-label"><label for="End" class="editor-label">End Date:</label></div>
-            <div class="display-details">@Html.DisplayFor(a => a.Seminar.End)</div>
-        </li>
-        <li><div class="display-label">
-            <label for="RegistrationDeadline" class="editor-label">Registration Deadline:</label>
+<div class="form-horizontal row-fluid">
+    <div class="control-group span6">
+        <fieldset>
+            <div class="control-group">
+                <label for="Year" class="control-label">Year</label>
+                <div class="controls form-text">
+                    @Html.DisplayFor(model => model.Seminar.Year)
+                </div>
             </div>
-            <div class="display-details">@Html.DisplayFor(a => a.Seminar.RegistrationDeadline)</div>
-        </li>
-        <li><div class="display-label">
-            <label for="RegistrationPassword" class="editor-label">Registration Password:</label>
+            <div class="control-group">
+                <label for="Location" class="control-label">Location</label>
+                <div class="controls form-text">
+                    @Html.DisplayFor(model => model.Seminar.Location)
+                </div>
             </div>
-            <div class="display-details">@Html.DisplayFor(a => a.Seminar.RegistrationPassword)</div>
-        </li>
-        <li><div class="display-label">
-            <label for="RegistrationId" class="editor-label">Registration Id:</label>
+            <div class="control-group">
+                <label for="BeginDate" class="control-label">Begin Date</label>
+                <div class="controls form-text">
+                    @Html.DisplayFor(model => model.Seminar.Begin)
+                </div>
             </div>
-            <div class="display-details">@Html.DisplayFor(a => a.Seminar.RegistrationId)</div>
-        </li>
-        <li><div class="display-label">Cost:</div>
-            <div class="display-details">@string.Format("{0:C}", Model.Seminar.Cost)</div>
-        </li>
-    </ul>
+            <div class="control-group">
+                <label for="EndDate" class="control-label">EndDate</label>
+                <div class="controls form-text">
+                    @Html.DisplayFor(model => model.Seminar.End)
+                </div>
+            </div>
+        </fieldset>
     </div>
+    <div class="control-group span6">
+        <fieldset>
+            <div class="control-group">
+                <label for="RegistrationDeadline" class="control-label">Registration Deadline</label>
+                <div class="controls form-text">
+                    @Html.DisplayFor(model => model.Seminar.RegistrationDeadline)
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="RegistrationPassword" class="control-label">Registration Password</label>
+                <div class="controls form-text">
+                    @Html.DisplayFor(model => model.Seminar.RegistrationPassword)
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="RegistrationId" class="control-label">Registration Id</label>
+                <div class="controls form-text">
+                    @Html.DisplayFor(model => model.Seminar.RegistrationId)
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="Cost" class="control-label">Cost</label>
+                <div class="controls form-text">
+                    @Html.DisplayFor(model => model.Seminar.Cost)
+                </div>
+            </div>
+        </fieldset>
+    </div>
+</div>
+
 <h3>Sessions</h3>
 
 @if (Model.Seminar.Sessions.Any())

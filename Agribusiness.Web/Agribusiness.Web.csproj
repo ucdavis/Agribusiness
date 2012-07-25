@@ -190,6 +190,7 @@
     <Compile Include="Helpers\AutomapperConfig.cs" />
     <Compile Include="Helpers\FluentHelper.cs" />
     <Compile Include="Helpers\HtmlHelperExtensions.cs" />
+    <Compile Include="Helpers\Nav.cs" />
     <Compile Include="Helpers\StringExtension.cs" />
     <Compile Include="Models\AddAttendeeViewModel.cs" />
     <Compile Include="Models\AdminHomeViewModel.cs" />
@@ -839,6 +840,7 @@
     <Content Include="Views\Site\Edit.cshtml" />
     <Content Include="Views\Home\_SiteHome.cshtml" />
     <Content Include="Views\Admin\People.cshtml" />
+    <Content Include="Views\Shared\_DataTables.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">

@@ -2,31 +2,34 @@
 
 @using Agribusiness.Web.Controllers.Filters
     
+    @{
+        var nav = ViewBag.Nav;
+    }
+
 <ul class="nav">
 
     @if (HttpContext.Current.User.Identity.IsAuthenticated)
     {
         if (User.IsInRole(RoleNames.User))
         {
-            <li>@Html.ActionLink("Home", "Admin", "Home")</li>
-            <li>@Html.ActionLink("Seminars", "Index", "Seminar")</li>
-            <li>@Html.ActionLink("Applications", "Index", "SeminarApplication")</li>
-            @*<li>@Html.ActionLink("People", "Index", "Person")</li>*@
-            <li>@Html.ActionLink("Requests", "Index", "InformationRequest")</li>
-            <li>@Html.ActionLink("Firms", "Index", "Firm")</li>
-            <li>@Html.ActionLink("Admin", "Index", "Admin")</li>
+            <li class="@(nav == Nav.Home ? "active" : string.Empty)">@Html.ActionLink("Home", "Admin", "Home")</li>
+            <li class="@(nav == Nav.Seminars ? "active" : string.Empty)">@Html.ActionLink("Seminars", "Index", "Seminar")</li>
+            <li class="@(nav == Nav.Applications ? "active" : string.Empty)">@Html.ActionLink("Applications", "Index", "SeminarApplication")</li>
+            <li class="@(nav == Nav.Requests ? "active" : string.Empty)">@Html.ActionLink("Requests", "Index", "InformationRequest")</li>
+            <li class="@(nav == Nav.Firms ? "active" : string.Empty)">@Html.ActionLink("Firms", "Index", "Firm")</li>
+            <li class="@(nav == Nav.Admin ? "active" : string.Empty)">@Html.ActionLink("Admin", "Index", "Admin")</li>
         }
         else
         {
-            <li>@Html.ActionLink("Home", "Index", "Authorized")</li>
-            <li>@Html.ActionLink("Profile", "Edit", "Person")</li>
+            <li class="@(nav == Nav.Home ? "active" : string.Empty)">@Html.ActionLink("Home", "Index", "Authorized")</li>
+            <li class="@(nav == Nav.Profile ? "active" : string.Empty)">@Html.ActionLink("Profile", "Edit", "Person")</li>
         }
     }
     else
     { 
-        <li>@Html.ActionLink("Home", "Index", "Home")</li>
-        <li>@Html.ActionLink("Background Information", "Background", "Public")</li>
-        <li>@Html.ActionLink("Program Overview", "ProgramOverview", "Public")</li>
+        <li class="@(nav == Nav.Home ? "active" : string.Empty)">@Html.ActionLink("Home", "Index", "Home")</li>
+        <li class="@(nav == Nav.BackgroundInformation ? "active" : string.Empty)">@Html.ActionLink("Background Information", "Background", "Public")</li>
+        <li class="@(nav == Nav.ProgramOverview ? "active" : string.Empty)">@Html.ActionLink("Program Overview", "ProgramOverview", "Public")</li>
     }
 
 
