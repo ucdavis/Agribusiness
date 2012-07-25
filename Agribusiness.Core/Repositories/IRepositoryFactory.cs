@@ -24,7 +24,7 @@ namespace Agribusiness.Core.Repositories
         IRepository<Invitation> InvitationRepository { get; set; }
         IRepository<MailingList> MailingListRepository { get; set; }
         IRepository<NotificationTracking> NotificationTrackingRepository { get; set; }
-        IRepository<Person> Person { get; set; }
+        IRepository<Person> PersonRepository { get; set; }
         IRepository<RoomType> RoomTypeRepository { get; set; }
         IRepository<Seminar> SeminarRepository { get; set; }
         IRepository<SeminarPerson> SeminarPersonRepository { get; set; }
@@ -56,7 +56,7 @@ namespace Agribusiness.Core.Repositories
         public IRepository<Invitation> InvitationRepository { get; set; }
         public IRepository<MailingList> MailingListRepository { get; set; }
         public IRepository<NotificationTracking> NotificationTrackingRepository { get; set; }
-        public IRepository<Person> Person { get; set; }
+        public IRepository<Person> PersonRepository { get; set; }
         public IRepository<RoomType> RoomTypeRepository { get; set; }
         public IRepository<Seminar> SeminarRepository { get; set; }
         public IRepository<SeminarPerson> SeminarPersonRepository { get; set; }

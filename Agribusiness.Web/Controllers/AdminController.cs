@@ -1,5 +1,8 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using Agribusiness.Web.Controllers.Filters;
+using Agribusiness.Web.Models;
+using Agribusiness.Web.Services;
 
 namespace Agribusiness.Web.Controllers
 {
@@ -18,6 +21,12 @@ namespace Agribusiness.Web.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+        public ActionResult People(int? seminarId)
+        {
+            var viewModel = AdminPeopleViewModel.Create(RepositoryFactory, SiteService.LoadSite(Site), seminarId);
+            return View(viewModel);
         }
     }
 }
