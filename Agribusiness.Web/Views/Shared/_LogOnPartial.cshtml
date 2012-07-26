@@ -1,4 +1,6 @@
-﻿@if (Request.IsAuthenticated) {
+﻿@model string
+
+@if (Request.IsAuthenticated) {
     <div class="btn-group pull-right">
         <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
             <i class="icon-user"></i> @Context.User.Identity.Name
@@ -12,7 +14,7 @@
     </div>
 } else {
     <div class="btn-group pull-right">
-        <a class="btn dropdown-toggle" data-toggle="dropdown" href="@Url.Action("LogOn", "Account", new {})">
+        <a class="btn dropdown-toggle" data-toggle="dropdown" href="@Url.Action("LogOn", "Account", new {@site = Model})">
             <i class="icon-user"></i> Login
         </a>
     </div>

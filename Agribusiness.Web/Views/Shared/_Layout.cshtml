@@ -76,8 +76,11 @@
                       @ViewBag.HeaderTitle
                   </a>
                   
-                  @Html.Partial("_LogonPartial")
-
+                  @if (!string.IsNullOrEmpty(site))
+                  {
+                      @Html.Partial("_LogonPartial", site)
+                  }
+                  
                   <div class="nav-collapse">
                       @if (!string.IsNullOrEmpty(site))
                       {

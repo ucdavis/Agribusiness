@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Log On";
     ViewBag.SubPageTitle = "Log On";
+    var site = ViewContext.RouteData.Values["site"] as string;
 }
 
 @Html.ValidationSummary(true, "Login was unsuccessful. Please correct the errors and try again.")
@@ -42,4 +43,4 @@
 
 <p>Please enter your username and password. Forgot your password? @Html.ActionLink("Click Here", "ResetPassword")</p>
 
-<p>If you are an administrator log in @Html.ActionLink("Here", "LogOn", new { returnUrl = @Url.Action("Admin", "Home"), membershipLogon = false}).</p>
+<p>If you are an administrator log in @Html.ActionLink("here", "Admin", "Home", new {membershipLogon = false}, new {}).</p>
