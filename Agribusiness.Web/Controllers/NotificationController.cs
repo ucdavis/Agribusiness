@@ -51,11 +51,6 @@ namespace Agribusiness.Web.Controllers
             _personService = personService;
         }
 
-        public ActionResult Index()
-        {
-            return View();
-        }
-
         /// <summary>
         /// Action for adding a tracking object, for notifications sent outside of the program
         /// </summary>
