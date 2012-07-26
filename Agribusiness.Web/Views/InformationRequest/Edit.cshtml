@@ -1,183 +1,121 @@
-﻿@model Agribusiness.Core.Domain.InformationRequest
-
-
+﻿@model InformationRequest
 @{
-	ViewBag.Title = "Edit Information Request";
+    ViewBag.Title = "Edit Information Request";
     ViewBag.SubPageTitle = "Edit Information Request";
 }
 
 @section SubPageNavigation
 {
-	<ul class="navigation">
+	<ul class="nav nav-pills">
+		<li>@Html.ActionLink("Add Note", "AddNote", new { id = Model.Id })</li>
+		<li>@Html.ActionLink("Create User", "CreatePerson", new { id = Model.Id })</li>
 		<li>@Html.ActionLink("Back to List", "Index")</li>
-        @*<li>@Html.ActionLink("Create User Account", "Register", "Account", new { email = Model.Email }, new { })</li>*@
-        <lil>@Html.ActionLink("Create User", "CreatePerson", new {id=Model.Id})</lil>
 	</ul>
 }
 
 @section ScriptContent
 {
-    <style type="text/css">
-        .reg-navigation
-        {
-            float: right;
-            text-align: right;
-            width: 500px;
-        }
-        
-        .reg-navigation ul
-        {
-            list-style:none;
-        }
-        
-        .reg-navigation ul li
-        {
-            float: right;
-            margin-right: 1em;
-        }
-    </style>
 }
 
-@using (Html.BeginForm()) {
+@Html.ValidationSummary()
+
+@using (Html.BeginForm("Edit", "InformationRequest", FormMethod.Post, new { @class = "form-horizontal" }))
+{
 	@Html.AntiForgeryToken()
-	@Html.ValidationSummary()
-<fieldset>
-@* Legend is required if you have more than one widget/unit to help the user understand what is being asked of them.
-Example: Dinosaur 1  *@
-	<legend>Information Request</legend>
-	@*<h4>Form Header</h4>*@
-	@*<p>Be specific so the user understands what exactly you are looking for.  Example: After Dinosaur 1 moves out of his/her parents' den what will Dinosaur 1 do?  We need to know his employment plan, feeding area, as well as living situation.  This information will not be sold or given to carnivores.</p>*@
-	<p>All required fields are in <strong>bold</strong> and have a red <span class="required">*</span> next to the field label.</p>
-	<ul>
+	@Html.HiddenFor(model => model.Id)
 
-		<li>
-			<div class="editor-label required">
-				@Html.LabelFor(model => model.Name)<span>*</span> 
+	<div class="control-group">
+		<fieldset>
+			<div class="control-group">
+				<label class="control-label" for="Name">
+					Name
+					<span class="required">*</span> 
+				</label>
+				<div class="controls">
+					@Html.EditorFor(model => model.Name)
+					@Html.ValidationMessageFor(model => model.Name)
+				</div>
 			</div>
-			<div class="editor-field">
-				@Html.EditorFor(model => model.Name)
-				@Html.ValidationMessageFor(model => model.Name)
+			<div class="control-group">
+				<label class="control-label" for="Title">Title<span class="required">*</span> </label>
+				<div class="controls">
+					@Html.EditorFor(model => model.Title)
+					@Html.ValidationMessageFor(model => model.Title)
+				</div>
 			</div>
-		</li>
-
-		<li>
-			<div class="editor-label required">
-				@Html.LabelFor(model => model.Title)<span>*</span> 
+			<div class="control-group">
+				<label class="control-label" for="Company">Company<span class="required">*</span> </label>
+				<div class="controls">
+					@Html.EditorFor(model => model.Company)
+					@Html.ValidationMessageFor(model => model.Company)
+				</div>
 			</div>
-			<div class="editor-field">
-				@Html.EditorFor(model => model.Title)
-				@Html.ValidationMessageFor(model => model.Title)
+			<div class="control-group">
+				<label class="control-label" for="Email">Email<span class="required">*</span> </label>
+				<div class="controls">
+					@Html.EditorFor(model => model.Email)
+					@Html.ValidationMessageFor(model => model.Email)
+				</div>
 			</div>
-		</li>
-
-		<li>
-			<div class="editor-label required">
-				@Html.LabelFor(model => model.Company)<span>*</span> 
+			<div class="control-group">
+				<label class="control-label" for="Commodity">Commodity<span class="required">*</span> </label>
+				<div class="controls">
+					@Html.EditorFor(model => model.Commodity)
+					@Html.ValidationMessageFor(model => model.Commodity)
+				</div>
 			</div>
-			<div class="editor-field">
-				@Html.EditorFor(model => model.Company)
-				@Html.ValidationMessageFor(model => model.Company)
+			<div class="control-group">
+				<label class="control-label" for="Location">Location<span class="required">*</span> </label>
+				<div class="controls">
+					@Html.EditorFor(model => model.Location)
+					@Html.ValidationMessageFor(model => model.Location)
+				</div>
 			</div>
-		</li>
-
-		<li>
-			<div class="editor-label required">
-				@Html.LabelFor(model => model.Email)<span>*</span> 
+			<div class="control-group">
+				<label class="control-label" for="SubmittedDateTime">Submitted DateTime</label> 
+				<div class="controls">
+					@Model.SubmittedDateTime
+				</div>
 			</div>
-			<div class="editor-field">
-				@Html.EditorFor(model => model.Email)
-				@Html.ValidationMessageFor(model => model.Email)
+			<div class="control-group">
+				<label class="control-label" for="Responded">Responded</label>
+				<div class="controls">
+					@Html.EditorFor(model => model.Responded)
+					@Html.ValidationMessageFor(model => model.Responded)
+				</div>
 			</div>
-		</li>
-
-		<li>
-			<div class="editor-label required">
-				@Html.LabelFor(model => model.Commodity)<span>*</span> 
-			</div>
-			<div class="editor-field">
-				@Html.EditorFor(model => model.Commodity)
-				@Html.ValidationMessageFor(model => model.Commodity)
-			</div>
-		</li>
-
-		<li>
-			<div class="editor-label required">
-				@Html.LabelFor(model => model.Location)<span>*</span> 
-			</div>
-			<div class="editor-field">
-				@Html.EditorFor(model => model.Location)
-				@Html.ValidationMessageFor(model => model.Location)
-			</div>
-		</li>
-
-		<li>
-			<div class="editor-label">
-				@Html.LabelFor(model => model.SubmittedDateTime) 
-			</div>
-			<div class="editor-field">
-				@Model.SubmittedDateTime
-			</div>
-		</li>
-
-		<li>
-			<div class="editor-label">
-				@Html.LabelFor(model => model.Responded) 
-			</div>
-			<div class="editor-field">
-				@Html.EditorFor(model => model.Responded)
-				@Html.ValidationMessageFor(model => model.Responded)
-			</div>
-		</li>
-
-		@Html.HiddenFor(model => model.Id)
-
-		<li>
-			@* For the clear and submit buttons an empty label is required. Example: <label>&nbsp;</label> *@
-			<div class="editor-label">&nbsp;</div>
-			<div class="editor-field">
-			<input class="button" type="submit" value="Save" /> | @Html.ActionLink("Cancel", "Index")
-			</div>
-		</li>
-	</ul>
-</fieldset>
+		</fieldset>
+	</div>   	
+	<div class="form-actions">
+		<input type="submit" value="Save" class="btn btn-primary" /> 
+		@Html.ActionLink("Cancel", "Index", new { }, new { @class = "btn" })
+	</div>
 }
 
-<fieldset>
-
-    <legend>Notes</legend>
-
-    <div class="reg-navigation">
-        <ul>
-            <li>@Html.ActionLink("Add Note", "AddNote", new {id=Model.Id})</li>
-        </ul>
-    </div>
-
-    <div style="clear:both;"></div>
-
-    <table class="default_table noicon">
-    
-        <thead>
+@if (Model.InformationRequestNotes.Any())
+{
+	<table class="table table-striped">
+	
+		<thead>
+			<tr>
+				<th>User</th>
+				<th>Date/Time</th>
+				<th>Notes</th>
+			</tr>
+		</thead>
+		<tbody>
+        @foreach (var a in Model.InformationRequestNotes)
+        {
             <tr>
-                <th>User</th>
-                <th>Date/Time</th>
-                <th>Notes</th>
+                <td>@a.NoteBy</td>
+                <td>@a.DateTimeNote.ToString("g")</td>
+                <td>@a.Notes</td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var a in Model.InformationRequestNotes)
-            {
-                <tr>
-                    <td>@a.NoteBy</td>
-                    <td>@a.DateTimeNote.ToString("g")</td>
-                    <td>@a.Notes</td>
-                </tr>
-            }
-        </tbody>
+        }
+		</tbody>
 
-    </table>
-
-
-</fieldset>
+	</table>    
+}
 
 
 

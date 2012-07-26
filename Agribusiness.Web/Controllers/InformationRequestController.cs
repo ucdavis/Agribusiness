@@ -29,22 +29,18 @@ namespace Agribusiness.Web.Controllers
         private readonly IRepository<InformationRequestNote> _informationRequestNoteRepository;
         private readonly IRepositoryWithTypedId<AddressType, char> _addressTypeRepository;
         private readonly IFirmService _firmService;
-        private readonly IRepository<Seminar> _seminarRepository;
         private readonly IRepository<User> _userRepository;
-        private readonly ISeminarService _seminarService;
         private readonly IRepository<Person> _personRepository;
 
         private readonly IMembershipService _membershipService;
 
-        public InformationRequestController(IRepository<InformationRequest> informationrequestRepository, IRepository<InformationRequestNote> informationRequestNoteRepository, IRepositoryWithTypedId<AddressType, char> addressTypeRepository, IFirmService firmService, IRepository<Seminar> seminarRepository, IRepository<User> userRepository, ISeminarService seminarService, IRepository<Person> personRepository )
+        public InformationRequestController(IRepository<InformationRequest> informationrequestRepository, IRepository<InformationRequestNote> informationRequestNoteRepository, IRepositoryWithTypedId<AddressType, char> addressTypeRepository, IFirmService firmService, IRepository<User> userRepository, IRepository<Person> personRepository )
         {
             _informationrequestRepository = informationrequestRepository;
             _informationRequestNoteRepository = informationRequestNoteRepository;
             _addressTypeRepository = addressTypeRepository;
             _firmService = firmService;
-            _seminarRepository = seminarRepository;
             _userRepository = userRepository;
-            _seminarService = seminarService;
             _personRepository = personRepository;
 
             _membershipService = new AccountMembershipService();
@@ -54,7 +50,9 @@ namespace Agribusiness.Web.Controllers
         // GET: /InformationRequest/
         public ActionResult Index()
         {
-            var informationrequestList = _informationrequestRepository.Queryable.OrderBy(a=>a.Responded);
+            var site = SiteService.LoadSite(Site);
+            var seminar = SiteService.GetLatestSeminar(Site);
+            var informationrequestList = _informationrequestRepository.Queryable.Where(a => a.Site == site && a.Seminar == seminar).OrderBy(a=>a.Responded);
 
             return View(informationrequestList);
         }
