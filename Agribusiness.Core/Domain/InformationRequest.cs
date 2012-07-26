@@ -43,6 +43,8 @@ namespace Agribusiness.Core.Domain
 
         [Required]
         public virtual Seminar Seminar { get; set; }
+        [Required]
+        public virtual Site Site { get; set; }
 
         public virtual IEnumerable<InformationRequestNote> InformationRequestNotes { get; set; }
     }
@@ -63,6 +65,7 @@ namespace Agribusiness.Core.Domain
             Map(x => x.Responded);
 
             References(x => x.Seminar);
+            References(x => x.Site);
 
             HasMany(a => a.InformationRequestNotes).Inverse().Cascade.AllDeleteOrphan();
         }

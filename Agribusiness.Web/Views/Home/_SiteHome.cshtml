@@ -2,11 +2,13 @@
            
 @Html.Raw(Model.Site.Welcome)
 
+<p>To contact us for more information on the seminar, plese click @Html.ActionLink("here", "MoreInformation", "Public")</p>
+
 <div class="well">
     @if (Model.Seminar.End < DateTime.Now)
     {
         <ul class="seminar-info">
-            <li>@(string.Format("{0} Seminar", Model.Seminar.Year))</li>
+            <li>@(string.Format("{0} {1}", Model.Seminar.Year, Model.Seminar.Site.EventType))</li>
             <li>@(string.Format("{0} through {1}", Model.Seminar.Begin.ToString("f"), Model.Seminar.End.ToString("f")))</li>
             <li>
             @if (string.IsNullOrWhiteSpace(Model.Seminar.LocationLink))

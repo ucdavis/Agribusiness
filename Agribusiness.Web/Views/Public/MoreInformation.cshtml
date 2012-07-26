@@ -3,100 +3,102 @@
 
 @{
     ViewBag.Title = "More Information";
-    ViewBag.SugPageTitle = "More Information";
+    ViewBag.SubPageTitle = "Request More Information";
 }
 
 @section SubPageNavigation
-{
-    <ul class="navigation">
+{      
+    <ul class="nav nav-pills">
         <li>@Html.ActionLink("Back to Home", "Index", "Home")</li>
     </ul>
 }
 
 @Html.ValidationSummary(false, "Please correct the following errors:")
 
-@using (Html.BeginForm()) { 
+@using (Html.BeginForm("MoreInformation", "Public", FormMethod.Post, new {@class="form-horizontal"})) { 
 
     @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Site.Id)
     
-    <fieldset>
-    
-        <legend>Request More Information</legend>
+    <div class="control-group">
+        <fieldset>
 
-        <p>Please fill out this form and someone will contact you with more details.</p>
+            <p class="well">Please fill out this form and someone will contact you with more details.</p>
 
-        <ul>
-            <li><div class="editor-label required">
-                    @Html.LabelFor(a=>a.Name)
-                    <span>*</span>
-                </div>
-                <div class="editor-field">
+            <div class="control-group">
+                <label class="control-label" for="Name">
+                    Name
+                    <span class="required">*</span>
+                </label>
+                <div class="controls">
                     @Html.EditorFor(a=>a.Name)
                     @Html.ValidationMessageFor(a=>a.Name)
                 </div>
-            </li>
-            <li><div class="editor-label required">
-                    @Html.LabelFor(a=>a.Title)
-                    <span>*</span>
-                </div>
-                <div class="editor-field">
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="Title">
+                    Title
+                    <span class="required">*</span>
+                </label>
+                <div class="controls">
                     @Html.EditorFor(a=>a.Title)
                     @Html.ValidationMessageFor(a=>a.Title)
                 </div>
-            </li>
-            <li><div class="editor-label required">
-                    @Html.LabelFor(a=>a.Company)
-                    <span>*</span>
-                </div>
-                <div class="editor-field">
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="Company">
+                    Company
+                    <span class="required">*</span>
+                </label>
+                <div class="controls">
                     @Html.EditorFor(a=>a.Company)
                     @Html.ValidationMessageFor(a=>a.Company)
                 </div>
-            </li>
-            <li><div class="editor-label required">
-                    @Html.LabelFor(a=>a.Email)
-                    <span>*</span>
-                </div>
-                <div class="editor-field">
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="Email">
+                    Email
+                    <span class="required">*</span>
+                </label>
+                <div class="controls">
                     @Html.EditorFor(a=>a.Email)
                     @Html.ValidationMessageFor(a=>a.Email)
                 </div>
-            </li>
-            <li><div class="editor-label required">
-                    @Html.LabelFor(a=>a.Commodity)
-                    <span>*</span>
-                </div>
-                <div class="editor-field">
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="Commodity">
+                    Commodity
+                    <span class="required">*</span>
+                </label>
+                <div class="controls">
                     @Html.EditorFor(a=>a.Commodity)
                     @Html.ValidationMessageFor(a=>a.Commodity)
                 </div>
-            </li>
-            <li><div class="editor-label required">
-                    @Html.LabelFor(a=>a.Location)
-                    <span>*</span>
-                </div>
-                <div class="editor-field">
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="Location">
+                    Location
+                    <span class="required">*</span>
+                </label>
+                <div class="controls">
                     @Html.EditorFor(a=>a.Location)
                     @Html.ValidationMessageFor(a=>a.Location)
                 </div>
-            </li>
-            <li><div class="editor-label">&nbsp;</div>
-                <div class="editor-field">
-                @{var captcha = Html.GenerateCaptcha();}
-                @Html.Raw(captcha)
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="captcha" class="control-label">&nbsp;</label>
+                <div class="controls">
+                    @{var captcha = Html.GenerateCaptcha();}
+                    @Html.Raw(captcha)
                 </div>
-            </li>
-            <li>
-                <div class="editor-label">&nbsp;</div>
-                <div class="editor-field">
-                    <input type="submit" value="Submit" class="button" />
-                    |
-                    @Html.ActionLink("Cancel", "Index", "Home")
-                </div>
-            </li>
-        </ul>
+            </div>
+        </fieldset>
+    </div>
 
-    </fieldset>
+    <div class="form-actions">
+        <input type="submit" value="Submit" class="btn btn-primary" />
+        @Html.ActionLink("Cancel", "Index", "Home", new {@class="btn"})
+    </div>
 
 }
 

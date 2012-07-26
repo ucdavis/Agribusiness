@@ -8,6 +8,8 @@
     [Location]          VARCHAR (50)  NOT NULL,
     [SeminarId]         INT           NOT NULL,
     [SubmittedDateTime] DATETIME      NOT NULL,
-    [Responded]         BIT           NOT NULL
+    [Responded]         BIT           NOT NULL, 
+    [SiteId] VARCHAR(10) NOT NULL, 
+    CONSTRAINT [FK_InformationRequests_Sites] FOREIGN KEY ([SiteId]) REFERENCES [Sites]([Id])
 );
 

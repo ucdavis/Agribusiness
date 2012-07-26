@@ -130,16 +130,17 @@ namespace Agribusiness.Web.Controllers
         /// <returns></returns>
         public ActionResult MoreInformation()
         {
-            return View(new InformationRequest());
+            return View(new InformationRequest() {Site = SiteService.LoadSite(Site)});
         }
 
         [CaptchaValidator]
         [HttpPost]
-        public ActionResult MoreInformation(InformationRequest informationRequest)
+        public ActionResult MoreInformation([Bind(Exclude = "Site")]InformationRequest informationRequest)
         {
             ModelState.Clear();
 
-            informationRequest.Seminar = _seminarService.GetCurrent();
+            informationRequest.Site = SiteService.LoadSite(Site);
+            informationRequest.Seminar = SiteService.GetLatestSeminar(Site);
             informationRequest.TransferValidationMessagesTo(ModelState);
 
             if (ModelState.IsValid)
