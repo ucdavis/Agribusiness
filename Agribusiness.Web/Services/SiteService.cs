@@ -15,17 +15,17 @@ namespace Agribusiness.Web.Services
         /// </summary>
         /// <param name="siteId"></param>
         /// <returns></returns>
-        public static Site LoadSite(string siteId)
+        public static Site LoadSite(string siteId, bool forceReload = false)
         {
             var site = (Site)System.Web.HttpContext.Current.Cache[siteId];
 
-            if (site == null || !string.IsNullOrEmpty(siteId))
+            if (site == null || !string.IsNullOrEmpty(siteId) || forceReload)
             {
                 site = RepositoryFactory.SiteRepository.Queryable.FirstOrDefault(a => a.Id == siteId);
 
                 if (site != null)
                 {
-                    System.Web.HttpContext.Current.Cache[siteId] = site;
+                    ReCacheSite(site);
                 }
             }
 
@@ -37,16 +37,19 @@ namespace Agribusiness.Web.Services
         /// </summary>
         /// <param name="siteId"></param>
         /// <returns></returns>
-        public static Seminar GetLatestSeminar(string siteId)
+        public static Seminar GetLatestSeminar(string siteId, bool forceReload = false)
         {
             var seminar = (Seminar) System.Web.HttpContext.Current.Cache[string.Format(SeminarKey, siteId)];
 
-            if (seminar == null)
+            if (seminar == null || forceReload)
             {
                 var site = RepositoryFactory.SiteRepository.Queryable.FirstOrDefault(a => a.Id == siteId);
-                seminar = site.Seminars.OrderByDescending(a => a.End).FirstOrDefault();
 
-                System.Web.HttpContext.Current.Cache[string.Format(SeminarKey, siteId)] = seminar;
+                if (site != null)
+                {
+                    seminar = site.Seminars.OrderByDescending(a => a.End).FirstOrDefault();
+                    ReCacheSite(site);
+                }
             }
 
             return seminar;
