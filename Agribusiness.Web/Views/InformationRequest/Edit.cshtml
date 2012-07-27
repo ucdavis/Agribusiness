@@ -1,4 +1,4 @@
-﻿@model InformationRequest
+﻿@model InformationRequestViewModel
 @{
     ViewBag.Title = "Edit Information Request";
     ViewBag.SubPageTitle = "Edit Information Request";
@@ -7,8 +7,8 @@
 @section SubPageNavigation
 {
 	<ul class="nav nav-pills">
-		<li>@Html.ActionLink("Add Note", "AddNote", new { id = Model.Id })</li>
-		<li>@Html.ActionLink("Create User", "CreatePerson", new { id = Model.Id })</li>
+		<li>@Html.ActionLink("Add Note", "AddNote", new { id = Model.InformationRequest.Id })</li>
+		<li>@Html.ActionLink("Create User", "CreatePerson", new { id = Model.InformationRequest.Id })</li>
 		<li>@Html.ActionLink("Back to List", "Index")</li>
 	</ul>
 }
@@ -22,7 +22,7 @@
 @using (Html.BeginForm("Edit", "InformationRequest", FormMethod.Post, new { @class = "form-horizontal" }))
 {
 	@Html.AntiForgeryToken()
-	@Html.HiddenFor(model => model.Id)
+	@Html.HiddenFor(model => model.InformationRequest.Id)
 
 	<div class="control-group">
 		<fieldset>
@@ -32,56 +32,56 @@
 					<span class="required">*</span> 
 				</label>
 				<div class="controls">
-					@Html.EditorFor(model => model.Name)
-					@Html.ValidationMessageFor(model => model.Name)
+					@Html.EditorFor(model => model.InformationRequest.Name)
+					@Html.ValidationMessageFor(model => model.InformationRequest.Name)
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label" for="Title">Title<span class="required">*</span> </label>
 				<div class="controls">
-					@Html.EditorFor(model => model.Title)
-					@Html.ValidationMessageFor(model => model.Title)
+					@Html.EditorFor(model => model.InformationRequest.Title)
+					@Html.ValidationMessageFor(model => model.InformationRequest.Title)
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label" for="Company">Company<span class="required">*</span> </label>
 				<div class="controls">
-					@Html.EditorFor(model => model.Company)
-					@Html.ValidationMessageFor(model => model.Company)
+					@Html.EditorFor(model => model.InformationRequest.Company)
+					@Html.ValidationMessageFor(model => model.InformationRequest.Company)
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label" for="Email">Email<span class="required">*</span> </label>
 				<div class="controls">
-					@Html.EditorFor(model => model.Email)
-					@Html.ValidationMessageFor(model => model.Email)
+					@Html.EditorFor(model => model.InformationRequest.Email)
+					@Html.ValidationMessageFor(model => model.InformationRequest.Email)
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label" for="Commodity">Commodity<span class="required">*</span> </label>
 				<div class="controls">
-					@Html.EditorFor(model => model.Commodity)
-					@Html.ValidationMessageFor(model => model.Commodity)
+					@Html.EditorFor(model => model.InformationRequest.Commodity)
+					@Html.ValidationMessageFor(model => model.InformationRequest.Commodity)
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label" for="Location">Location<span class="required">*</span> </label>
 				<div class="controls">
-					@Html.EditorFor(model => model.Location)
-					@Html.ValidationMessageFor(model => model.Location)
+					@Html.EditorFor(model => model.InformationRequest.Location)
+					@Html.ValidationMessageFor(model => model.InformationRequest.Location)
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label" for="SubmittedDateTime">Submitted DateTime</label> 
 				<div class="controls">
-					@Model.SubmittedDateTime
+					@Model.InformationRequest.SubmittedDateTime
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label" for="Responded">Responded</label>
 				<div class="controls">
-					@Html.EditorFor(model => model.Responded)
-					@Html.ValidationMessageFor(model => model.Responded)
+					@Html.EditorFor(model => model.InformationRequest.Responded)
+					@Html.ValidationMessageFor(model => model.InformationRequest.Responded)
 				</div>
 			</div>
 		</fieldset>
@@ -92,7 +92,7 @@
 	</div>
 }
 
-@if (Model.InformationRequestNotes.Any())
+@if (Model.InformationRequest.InformationRequestNotes.Any())
 {
 	<table class="table table-striped">
 	
@@ -104,7 +104,7 @@
 			</tr>
 		</thead>
 		<tbody>
-        @foreach (var a in Model.InformationRequestNotes)
+        @foreach (var a in Model.InformationRequest.InformationRequestNotes)
         {
             <tr>
                 <td>@a.NoteBy</td>

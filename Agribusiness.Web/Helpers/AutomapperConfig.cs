@@ -79,6 +79,7 @@ namespace Agribusiness.Web.Helpers
                 .ForMember(x => x.Id, x => x.Ignore())
                 .ForMember(x => x.SubmittedDateTime, x=> x.Ignore())
                 .ForMember(x => x.InformationRequestNotes, x=>x.Ignore())
+                .ForMember(x => x.Site, x => x.Ignore())
                 .ForMember(x => x.Seminar, x => x.Ignore());
 
             CreateMap<MailingList, MailingList>()

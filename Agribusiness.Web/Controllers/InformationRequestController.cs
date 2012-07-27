@@ -67,13 +67,13 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction(a => a.Index());
             }
 
-            return View(informationRequest);
+            return View(InformationRequestViewModel.Create(informationRequest));
         }
 
         [HttpPost]
-        public ActionResult Edit(int id, InformationRequest informationRequest)
+        public ActionResult Edit(int? id, InformationRequest informationRequest)
         {
-            var editInformationRequest = _informationrequestRepository.GetNullableById(id);
+            var editInformationRequest = _informationrequestRepository.GetNullableById(id.Value);
 
             if (editInformationRequest == null)
             {
@@ -92,7 +92,7 @@ namespace Agribusiness.Web.Controllers
                 Message = string.Format(Messages.Saved, "Information request");
             }
 
-            return View(editInformationRequest);
+            return View(InformationRequestViewModel.Create(editInformationRequest));
         }
 
         public ActionResult AddNote(int id)
@@ -372,10 +372,8 @@ namespace Agribusiness.Web.Controllers
 	{
 		public InformationRequest InformationRequest { get; set; }
  
-		public static InformationRequestViewModel Create(IRepository repository, InformationRequest informationRequest = null)
+		public static InformationRequestViewModel Create(InformationRequest informationRequest = null)
 		{
-			Check.Require(repository != null, "Repository must be supplied");
-			
 			var viewModel = new InformationRequestViewModel {InformationRequest = informationRequest ?? new InformationRequest()};
  
 			return viewModel;
