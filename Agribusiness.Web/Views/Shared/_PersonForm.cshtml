@@ -314,11 +314,12 @@
 
 	    <p class="well">Please choose your preference for receiving communications from us.  If selecting "Assistant", all communications will only be sent to the assistant listed below.  If selecting "Carbon Copy Assistant", all communications will be sent to both you and the assistant listed below.  If selecting "Directly", all communications will only be sent to you.</p>
 
-		<div class="control-group">
-			<div class="controls">
-				@this.Select("Person.CommunicationOption").Options(Model.CommunicationOptions, x=>x.Id,x=>x.Name).FirstOption("--Select Communication Option--").Selected(Model.Person.CommunicationOption!= null ? Model.Person.CommunicationOption.Id : string.Empty)
-			</div>
-		</div>
+        <div class="control-group">
+            <label class="control-label"><span class="required"></span></label>
+            <div class="controls">
+                @this.Select("Person.CommunicationOption").Options(Model.CommunicationOptions, x=>x.Id,x=>x.Name).FirstOption("--Select Communication Option--").Selected(Model.Person.CommunicationOption!= null ? Model.Person.CommunicationOption.Id : string.Empty)
+            </div>
+        </div>
     </fieldset>
 </div>
 
