@@ -18,6 +18,7 @@
 	
     @Html.AntiForgeryToken()
 	@Html.ValidationSummary(true)
+    @Html.Hidden("personId", Model.Person.Id)
     
     <div class="control-group">
         <fieldset>

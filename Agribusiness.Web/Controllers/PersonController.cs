@@ -180,7 +180,7 @@ namespace Agribusiness.Web.Controllers
                     _personRepository.EnsurePersistent(person);
                     Message = string.Format(Messages.Saved, "Person");
 
-                    if (person.OriginalPicture != null) return this.RedirectToAction(a => a.UpdateProfilePicture(person.Id, null));
+                    if (person.OriginalPicture != null) return this.RedirectToAction(a => a.UpdateProfilePicture(person.Id, null, false));
                     else return this.RedirectToAction(a => a.AdminEdit(createdUser.Id, null, null));
                 }
 
@@ -242,7 +242,7 @@ namespace Agribusiness.Web.Controllers
                 Message = string.Format(Messages.Saved, "Person");
 
                 // send to crop photo if one was uploaded
-                if (profilepic != null) return this.RedirectToAction(a => a.UpdateProfilePicture(person.Id, seminarId));
+                if (profilepic != null) return this.RedirectToAction(a => a.UpdateProfilePicture(person.Id, seminarId, true));
 
                 return this.RedirectToAction(a => a.AdminEdit(person.User.Id, seminarId, null));
             }
@@ -662,7 +662,7 @@ namespace Agribusiness.Web.Controllers
                 }
 
                 // send to crop photo if one was uploaded
-                if (profilepic != null) return this.RedirectToAction(a => a.UpdateProfilePicture(person.Id, null));
+                if (profilepic != null) return this.RedirectToAction(a => a.UpdateProfilePicture(person.Id, null, true));
             }
 
             var viewModel = PersonViewModel.Create(Repository, _firmService, null, person, user.Email);
@@ -671,7 +671,7 @@ namespace Agribusiness.Web.Controllers
         #endregion
 
         #region Profile Picture Actions
-        public ActionResult UpdateProfilePicture(int id, int? seminarId)
+        public ActionResult UpdateProfilePicture(int id, int? seminarId, bool admin = false)
         {
             var person = _personRepository.GetNullableById(id);
 
@@ -689,12 +689,13 @@ namespace Agribusiness.Web.Controllers
 
             // set this to check for admin routing back to attendee edit page
             ViewBag.SeminarId = seminarId;
+            ViewBag.Admin = admin;
 
             return View(person);
         }
 
         [HttpPost]
-        public ActionResult UpdateProfilePicture(int id, int? seminarId, int? x, int? y, int? height, int? width)
+        public ActionResult UpdateProfilePicture(int id, int? seminarId, int? x, int? y, int? height, int? width, bool admin = false)
         {
             var person = _personRepository.GetNullableById(id);
 
@@ -747,6 +748,10 @@ namespace Agribusiness.Web.Controllers
 
                 return this.RedirectToAction(a => a.Index());
             }
+
+            // set this to check for admin routing back to attendee edit page
+            ViewBag.SeminarId = seminarId;
+            ViewBag.Admin = admin;
 
             return View(person);
         }

@@ -225,7 +225,7 @@ namespace Agribusiness.Web.Controllers
                     _personRepository.EnsurePersistent(person);
                     Message = string.Format(Messages.Saved, "Person");
 
-                    if (person.OriginalPicture != null) return this.RedirectToAction<PersonController>(a => a.UpdateProfilePicture(person.Id, null));
+                    if (person.OriginalPicture != null) return this.RedirectToAction<PersonController>(a => a.UpdateProfilePicture(person.Id, null, false));
 
                     return this.RedirectToAction<PersonController>(a => a.AdminEdit(person.User.Id, null, true));
                 }
