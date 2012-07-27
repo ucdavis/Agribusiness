@@ -308,66 +308,57 @@
 	</fieldset>       
 }*@
 
-<fieldset>
-	<legend>Communication Options</legend>
+<div class="control-group">
+    <fieldset>
+	    <legend>Communication Options</legend>
 
-	<p>Please choose your preference for receiving communications from us.  If selecting "Assistant", all communications will only be sent to the assistant listed below.  If selecting "Carbon Copy Assistant", all communications will be sent to both you and the assistant listed below.  If selecting "Directly", all communications will only be sent to you.</p>
+	    <p class="well">Please choose your preference for receiving communications from us.  If selecting "Assistant", all communications will only be sent to the assistant listed below.  If selecting "Carbon Copy Assistant", all communications will be sent to both you and the assistant listed below.  If selecting "Directly", all communications will only be sent to you.</p>
 
-	<ul>
-		<div class="control-group">&nbsp;</div>
+		<div class="control-group">
 			<div class="controls">
 				@this.Select("Person.CommunicationOption").Options(Model.CommunicationOptions, x=>x.Id,x=>x.Name).FirstOption("--Select Communication Option--").Selected(Model.Person.CommunicationOption!= null ? Model.Person.CommunicationOption.Id : string.Empty)
 			</div>
 		</div>
-	</ul>
+    </fieldset>
+</div>
 
-</fieldset>
+<div class="control-group">
+    <fieldset>
+	    <legend>Profile Picture</legend>
+	    <div class="control-group">
+		    <div class="controls"><input type="file" name="profilepic" id="profilepice" /></div>
+	    </div>
+    </fieldset>
+</div>	
 
-<fieldset>
-	<legend>Profile Picture</legend>
-	<ul>
-	<div class="control-group"><label>&nbsp;</label></div>
-		<div class="controls"><input type="file" name="profilepic" id="profilepice" /></div>
-	</div>
-	</ul>
-</fieldset>
-	
-<fieldset>
-	
-	<legend>Contact Information Release</legend>
+<div class="control-group">
+    <fieldset>
+	    <legend>Contact Information Release</legend>
+	    <p class="well">
+	    I authorize the UC Davis Agribusiness Executive Seminar to share my contact information through this website with other attendees.  Information that will be
+	    shared include Email, Phone, Address and Web Site.  
+	    </p>
 
-	<p>
-	I authorize the UC Davis Agribusiness Executive Seminar to share my contact information through this website with other attendees.  Information that will be
-	shared include Email, Phone, Address and Web Site.  
-	</p>
+        <div class="control-group">
+            <div class="controls">
+                @Html.EditorFor(a=>a.Person.ContactInformationRelease) 
+                <text>I Agree</text>
+            </div>
+        </div>
+    </fieldset>
+</div>
 
-	<p style="margin-top: 1em;">
-		@Html.EditorFor(a=>a.Person.ContactInformationRelease) 
-		<text>I Agree</text>
-	</p>
-
-</fieldset>
-
-<fieldset>
-	<legend>Save</legend>
-	<ul>
-		<div class="control-group"><label>&nbsp;</label></div>
-			<div class="controls">
-			<input type="submit" value="save" class="button" /> |
-
-			@if (Model.SeminarPerson == null && Model.Seminar != null)
-			{
-			@Html.ActionLink("Cancel", "Index", "Attendee", new { id = Model.Seminar.Id }, new { })
-			}
-			else
-			{ 
-			@Html.ActionLink("Cancel", "Index")
-			}
-			</div>
-		</div>
-	</ul>
-</fieldset>
-
+<div class="form-actions">
+    <input type="submit" value="Save" class="btn btn-primary" /> |
+	@if (Model.SeminarPerson == null && Model.Seminar != null)
+	{
+	@Html.ActionLink("Cancel", "Index", "Attendee", new { id = Model.Seminar.Id }, new { @class="btn" })
+	}
+	else
+	{ 
+	@Html.ActionLink("Cancel", "Index", new {}, new {@class="btn"})
+	}
+</div>
 
 <style type="text/css">
 	.commodities li
