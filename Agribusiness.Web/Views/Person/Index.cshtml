@@ -8,26 +8,97 @@
 
 @section SubPageNavigation
 {
-    <ul class="navigation">
+    <ul class="nav nav-pills">
         <li>@Html.ActionLink("Create New", "Create")</li>
     </ul>
 }
 
 @section ScriptContent
 {
+    @Html.Partial("_DataTables")
     <style type="text/css">
-    
-        .filter-container { border-bottom: 1px solid #0068B7; margin-bottom: 1.5em; padding: 1em;}
-        .filter-container ul {list-style: none;}
-        .filter-container ul li {float: left; margin-left: 20px; display: inline-block; }
-        .filter-container .filter-link-container {vertical-align: bottom; height: 20px; border-right: 1px solid #0068B7; }
-        .filter-container .filter-link-container .ui-icon {display: inline-block; margin-right: 10px;}
-        .filter-container .filter-link-container .ui-icon-nothing {background-image: none; margin-right: 0px;}
-        
+        .tab-content { overflow: visible;}
     </style>
 }
 
-<div class="filter-container">
+<ul class="nav nav-tabs">
+    <li class="active"><a href="#current" data-toggle="tab">Current Seminar</a></li>
+    <li><a href="#master" data-toggle="tab">Master List</a></li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane active" id="current">
+        <table class="default_table table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Title</th>
+                    <th>Firm</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var person in Model.People.Where(a => a.Seminar == Model.Seminar))
+                {
+                    <tr>
+                        <td>
+                            <a href="@Url.Action("AdminEdit", new {id = person.Person.User.Id, seminarId = person.Seminar.Id, allList = true})" class="btn hastip" rel="tooltip" title="Edit"><i class="icon-pencil"></i></a>
+                            <a href="#" class="btn hastip" rel="tooltip" title="Contact Card"><i class="icon-file"></i></a>
+                            <a href="#" class="btn hastip" rel="tooltip" title="+ Mailingn List"><i class="icon-envelope"></i></a>
+                        </td>
+                        <td>@person.Person.FirstName</td>
+                        <td>@person.Person.LastName</td>
+                        <td>@person.Title</td>
+                        <td>@person.Firm</td>
+                        <td>
+                            @if (person.Registered)
+                            {
+                                <span class="label label-success">Registered</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-pane" id="master">
+        <table class="default_table table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Title</th>
+                    <th>Firm</th>
+                    <th>Last Seminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var person in Model.People)
+                {
+                    <tr>
+                        <td>
+                            <a href="@Url.Action("AdminEdit", new {id = person.Person.User.Id, allList = true})" class="btn hastip" rel="tooltip" title="Edit"><i class="icon-pencil"></i></a>
+                            <a href="#" class="btn hastip" rel="tooltip" title="Contact Card"><i class="icon-file"></i></a>
+                        </td>
+                        <td>@person.Person.FirstName</td>
+                        <td>@person.Person.LastName</td>
+                        <td>@person.Title</td>
+                        <td>@person.Firm</td>
+                        <td>@(person.Seminar != null ? person.Seminar.Year.ToString() : string.Empty )</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+@*<div class="filter-container">
 
 <ul>
     <li>
@@ -106,15 +177,6 @@
 
 <div style="clear:both;"></div>
 
-</div>
+</div>*@
 
 
-
-@foreach (var a in Model.People)
-{ 
-    @Html.Partial("_ProfileList", a)
-}
-
-<div style="clear: both;">&nbsp;</div>
-
-@Html.Partial("_MailingListAddTo", Model.Seminar)

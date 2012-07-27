@@ -52,18 +52,18 @@
     </fieldset>
 </div>
 
-    <div id="add-name-dialog" class="modal hide">
+<div id="add-name-dialog" class="modal hide">
     
-        <div class="modal-header">Add Person</div>
-        <div class="modal-body">
-            @this.MultiSelect("select-name").Options(Model.AllPeople, x => x.Id, x => x.FullName).Size(10)
-            <a href="#" id="add-selectall" class="btn">Select All</a>
-            <a href="#" id="add-unselectall" class="btn">UnSelect All</a>
-        </div>
-        <div class="modal-footer">
-            <a href="#" id="add-recipients" class="btn btn-primary">Add</a>
-            <a href="#" class="btn" data-dismiss="modal">Close</a>
-        </div>
-
+    <div class="modal-header">Add Person</div>
+    <div class="modal-body">
+        @this.MultiSelect("select-name").Options(Model.AllPeople, x => x.Id, x => x.FullName).Size(10)
+        <a href="#" id="add-selectall" class="btn">Select All</a>
+        <a href="#" id="add-unselectall" class="btn">UnSelect All</a>
     </div>
+    <div class="modal-footer">
+        <a href="#" id="add-recipients" class="btn btn-primary">Add</a>
+        <a href="#" class="btn" data-dismiss="modal">Close</a>
+    </div>
+
+</div>
 

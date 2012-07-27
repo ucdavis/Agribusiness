@@ -7,6 +7,8 @@
 
 @section ScriptContent
 {
+    @Html.Partial("_DataTables")
+
     <script type="text/javascript" src='@Url.Script("tiny_mce/jquery.tinymce.js")'></script>
 
     <script type="text/javascript">
@@ -97,7 +99,7 @@
 
 @section SubPageNavigation
 {
-    <ul class="navigation">
+    <ul class="nav nav-pills">
         @if ((bool)ViewBag.AllList)
         {
             <li>@Html.ActionLink("Back to People List", "Index")</li>
@@ -113,322 +115,315 @@
     </ul>
 }
 
-<div>
-<div class="profile_pic_container">
-    <img src='@Url.Action("GetProfilePicture", new { id = Model.PersonViewModel.Person.Id })' />
+<div class="row-fluid">
+    <div class="span2">
+        <img src='@Url.Action("GetProfilePicture", new { id = Model.PersonViewModel.Person.Id })' />
 
-    <div class="profile_links" >
-    <ul>
-        <li>@Html.ActionLink("Update Crop", "UpdateProfilePicture", new { id = Model.PersonViewModel.Person.Id, seminarId = Model.SeminarId })</li>
-        @if (Model.Invited)
-        {
-            <li>Already Invited</li>
-        }
-        else
-        {
-            <li>@Html.ActionLink("Invite To Seminar", "Create", "Invitation", new { personId = Model.PersonViewModel.Person.Id }, new { })</li>    
-        }
-        
-        <li>
-        
-            @using(Html.BeginForm("ResetPassword", "Person", FormMethod.Post))
+        <ul class="nav nav-pills nav-stacked">
+            <li>@Html.ActionLink("Update Crop", "UpdateProfilePicture", new { id = Model.PersonViewModel.Person.Id, seminarId = Model.SeminarId })</li>
+            @if (Model.Invited)
             {
-                @Html.AntiForgeryToken()
-                <input type="hidden" name="id" value="@Model.PersonViewModel.Person.Id"/>
-                @*<input type="submit" value="Reset Password"/>*@
-                
-                <a href="javascript:;" id="submit-password-reset">Reset Password</a>
-                
+                <li>Already Invited</li>
             }
+            else
+            {
+                <li>@Html.ActionLink("Invite To Seminar", "Create", "Invitation", new { personId = Model.PersonViewModel.Person.Id }, new { })</li>    
+            }
+        
+            <li>
+        
+                @using(Html.BeginForm("ResetPassword", "Person", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" value="@Model.PersonViewModel.Person.Id"/>
+                    <a href="javascript:;" id="submit-password-reset">Reset Password</a>
+                }
 
-        </li>
+            </li>
 
-    </ul>
+        </ul>
     </div>
-</div>
 
-<div class="profile_information_container">
+    <div class="span10">
 
-    <div id="tabs">
+        <div id="tabs">
 
-        <ul>
-            <li><a href="#profile">Profile</a></li>
-            <li><a href="#biography">Biography</a></li>
+            <ul>
+                <li><a href="#profile">Profile</a></li>
+                <li><a href="#biography">Biography</a></li>
+                @if (Model.SeminarId != null)
+                {
+                    <li><a href="#registration">Registration</a></li>
+                    <li><a href="#roles">Roles</a></li>
+                    <li><a href="#hotel">Hotel</a></li>
+                    <li><a href="#comments">Comments</a></li>    
+                }
+                <li><a href="#notifications">Notifications</a></li>
+            </ul>
+
+            <div id="profile">
+                @using (Html.BeginForm("AdminEdit", "Person", FormMethod.Post, new { enctype = "multipart/form-data", @class="form-horizontal" }))
+                { 
+                    @Html.ValidationSummary(false)
+                    @Html.Hidden("seminarId", Model.SeminarId)
+                    @Html.Partial("_PersonForm", Model.PersonViewModel)
+                }
+            </div>
+            <div id="biography">
+    
+                @using (Html.BeginForm("UpdateBiography", "Person", FormMethod.Post, new {@class="form-horizontal"}))
+                { 
+                    @Html.Hidden("seminarId", Model.SeminarId)
+                    @Html.Hidden("personId", Model.PersonViewModel.Person.Id)
+                    @Html.AntiForgeryToken()
+            
+                    <div class="control-group">
+                        <fieldset>
+                            <div class="control-group">
+                                <div class="controls">
+                                    @Html.TextArea("biographytxt", Model.PersonViewModel.Person.Biography, new { @style = "height: 180px; width: 700px; border: 1px solid lightgray;" })
+                                </div>
+                            </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <input type="submit" value="Save" class="btn btn-primary"/>
+                    </div>
+                }
+
+            </div>
+
             @if (Model.SeminarId != null)
             {
-                <li><a href="#registration">Registration</a></li>
-                <li><a href="#roles">Roles</a></li>
-                <li><a href="#hotel">Hotel</a></li>
-                <li><a href="#comments">Comments</a></li>    
-            }
-            <li><a href="#notifications">Notifications</a></li>
-        </ul>
-
-        <div id="profile">
-            @using (Html.BeginForm("AdminEdit", "Person", FormMethod.Post, new { enctype = "multipart/form-data" }))
-            { 
-                @Html.ValidationSummary(false)
-                @Html.Hidden("seminarId", Model.SeminarId)
-                @Html.Partial("_PersonForm", Model.PersonViewModel)
-            }
-        </div>
-        <div id="biography">
+                <div id="registration">
     
-            @using (Html.BeginForm("UpdateBiography", "Person", FormMethod.Post))
-            { 
-                @Html.Hidden("seminarId", Model.SeminarId)
-                @Html.Hidden("personId", Model.PersonViewModel.Person.Id)
-                @Html.AntiForgeryToken()
-            
-                <ul>
-                    <li><div class="editor-label">@Html.TextArea("biographytxt", Model.PersonViewModel.Person.Biography, new { @style = "height: 180px; width: 700px; border: 1px solid lightgray;" })</div>
-                    </li>
-                    <li><div class="editor-field">
-                        <input type="submit" value="Save" class="button" />
+                    @if (Model.IsCurrentSeminar)
+                    { 
+                        <div class="reg-navigation">
+                            <ul>
+                                <li>
+                                    @using (Html.BeginForm("CancelCoupon", "Person", FormMethod.Post, new { @style = "display:inline; margin: 0;" }))
+                                    {
+                                        @Html.Hidden("seminarId", Model.SeminarId)
+                                        @Html.Hidden("personId", Model.PersonViewModel.Person.Id)
+                                        @Html.AntiForgeryToken()
+
+                                        <a href="javascript:;" id="cancel_coupon" class="submitanchor">Cancel Coupon</a>
+                                    }
+                                </li>
+                                <li><a href="javascript:;" id="update_coupon">Update Coupon</a></li>
+                                <li>
+                                    @using (Html.BeginForm("UpdateRegistrationStatus", "Person", FormMethod.Post, new { @style = "display:inline; margin: 0;" }))
+                                    { 
+                                        @Html.Hidden("seminarId", Model.SeminarId)
+                                        @Html.Hidden("personId", Model.PersonViewModel.Person.Id)
+                                        @Html.AntiForgeryToken()
+                            
+                                        <a href="javascript:;" id="refresh_status" class="submitanchor">Refresh Status</a>
+                                    }
+                                </li>
+                            </ul>
                         </div>
-                    </li>
-                </ul>
-            }
 
-        </div>
+                        <div class="display-form">
 
-        @if (Model.SeminarId != null)
-        {
-        <div id="registration">
-    
-            @if (Model.IsCurrentSeminar)
-            { 
-            <div class="reg-navigation">
-                <ul>
-                    <li>
-                        @using (Html.BeginForm("CancelCoupon", "Person", FormMethod.Post, new { @style = "display:inline; margin: 0;" }))
+                            @{
+                                var registered = !string.IsNullOrWhiteSpace(Model.PersonViewModel.SeminarPerson.TransactionId);
+                                var paid = Model.PersonViewModel.SeminarPerson.Paid;
+                            }
+
+                            <ul>
+                                <li><div class='display-label'>Reference Id:</div>
+                                    <div class='display-details'>@Model.PersonViewModel.SeminarPerson.ReferenceId</div>
+                                </li>
+                                <li><div class='display-label'>Transaction Id:</div>
+                                    <div class='display-details'>@(registered ? Model.PersonViewModel.SeminarPerson.TransactionId : "Not Registered")</div>
+                                </li>
+                                <li><div class='display-label'>Status:</div>
+                                    <div class='display-details'>@(registered ? (paid ? "Registered (Paid)" : "Registered (Transaction Pending)") : "n/a")</div>
+                                </li>
+                                <li><div class='display-label'>Coupon:</div>
+                                    <div class='display-details'>
+                                        @(!string.IsNullOrWhiteSpace(Model.PersonViewModel.SeminarPerson.CouponCode)
+           ? Model.PersonViewModel.SeminarPerson.CouponCode : "n/a")
+                                    </div>
+                                </li>
+                                <li><div class='display-label'>Coupon Amount:</div>
+                                    <div class='display-details'>@(Model.PersonViewModel.SeminarPerson.CouponAmount.HasValue
+           ? Model.PersonViewModel.SeminarPerson.CouponAmount.ToString() : "n/a")</div>
+                                </li>
+                                <li><div class='display-label'>need help here:</div>
+                                    <div class='display-details'>@(Model.PersonViewModel.SeminarPerson.Invite ? "Invited" : "Applied")</div>
+                                </li>
+                            </ul>
+                        </div>
+                    }
+                    else
+                    { 
+                        <p>@Model.PersonViewModel.Person.FullName is not registered for the current seminar.</p>
+                    }
+                </div>
+                <div id="roles">
+                    @if (Model.IsCurrentSeminar)
+                    {
+                        using (Html.BeginForm("UpdateRoles", "Person", FormMethod.Post))
                         {
                             @Html.Hidden("seminarId", Model.SeminarId)
                             @Html.Hidden("personId", Model.PersonViewModel.Person.Id)
                             @Html.AntiForgeryToken()
 
-                            <a href="javascript:;" id="cancel_coupon" class="submitanchor">Cancel Coupon</a>
+                            <ul>
+                                @foreach (var a in Model.SeminarRoles)
+                                {
+                                    <li>
+                                        @{
+                                            var check = Model.PersonViewModel.Person.GetLatestRegistration().SeminarRoles.Contains(a);
+                                            var checkedTxt = check ? "checked" : string.Empty;
+                                        }
+                                        <input type="checkbox" name="roles" value='@a.Id' @checkedTxt />
+                                        @a.Name - @a.Description
+                                    </li>
+                                }
+                                <li><input type="submit" value="Save" class="button" /></li>
+                            </ul>
                         }
-                    </li>
-                    <li><a href="javascript:;" id="update_coupon">Update Coupon</a></li>
-                    <li>
-                        @using (Html.BeginForm("UpdateRegistrationStatus", "Person", FormMethod.Post, new { @style = "display:inline; margin: 0;" }))
+                    }
+                    else
+                    { 
+                        <p>@Model.PersonViewModel.Person.FullName is not registered for the current seminar.</p>
+                    }
+                </div>
+                <div id="hotel">
+                    @if (Model.IsCurrentSeminar)
+                    {
+                        using (Html.BeginForm("UpdateHotel", "Person", FormMethod.Post))
                         { 
                             @Html.Hidden("seminarId", Model.SeminarId)
                             @Html.Hidden("personId", Model.PersonViewModel.Person.Id)
                             @Html.AntiForgeryToken()
-                            
-                            <a href="javascript:;" id="refresh_status" class="submitanchor">Refresh Status</a>
+                    
+                            <fieldset>
+                                <ul>
+                                    <li><div class="editor-label">@Html.LabelFor(a => a.PersonViewModel.SeminarPerson.HotelCheckIn)</div>
+                                        <div class="editor-field">
+                                            @*@Html.EditorFor(a=>a.PersonViewModel.SeminarPerson.HotelCheckIn)*@
+                                            @Html.TextBox("hotelPostModel.CheckIn", Model.PersonViewModel.SeminarPerson.HotelCheckIn.HasValue ? Model.PersonViewModel.SeminarPerson.HotelCheckIn.Value.ToString("d") : string.Empty, new { @class = "datepicker" })
+                                            @Html.ValidationMessageFor(a => a.PersonViewModel.SeminarPerson.HotelCheckIn)
+                                        </div>
+                                    </li>
+                                    <li><div class="editor-label">@Html.LabelFor(a => a.PersonViewModel.SeminarPerson.HotelCheckOut)</div>
+                                        <div class="editor-field">
+                                            @*@Html.EditorFor(a=>a.PersonViewModel.SeminarPerson.HotelCheckOut)*@
+                                            @Html.TextBox("hotelPostModel.CheckOut", Model.PersonViewModel.SeminarPerson.HotelCheckOut.HasValue ? Model.PersonViewModel.SeminarPerson.HotelCheckOut.Value.ToString("d") : string.Empty, new { @class = "datepicker" })
+                                            @Html.ValidationMessageFor(a => a.PersonViewModel.SeminarPerson.HotelCheckOut)
+                                        </div>
+                                    </li>
+                                    <li><div class="editor-label">@Html.LabelFor(a => a.PersonViewModel.SeminarPerson.HotelConfirmation)</div>
+                                        <div class="editor-field">
+                                            @*@Html.EditorFor(a=>a.PersonViewModel.SeminarPerson.HotelConfirmation)*@
+                                            @Html.TextBox("hotelPostModel.Confirmation", Model.PersonViewModel.SeminarPerson.HotelConfirmation)
+                                            @Html.ValidationMessageFor(a => a.PersonViewModel.SeminarPerson.HotelConfirmation)
+                                        </div>
+                                    </li>
+                                    <li><div class="editor-label">@Html.LabelFor(a => a.PersonViewModel.SeminarPerson.RoomType)</div>
+                                        <div class="editor-field">
+                                            @this.Select("hotelPostModel.RoomType").Options(Model.RoomTypes, x => x.Id, x => x.Name).Selected(Model.PersonViewModel.SeminarPerson.RoomType != null ? Model.PersonViewModel.SeminarPerson.RoomType.Id.ToString() : string.Empty).FirstOption("--Select a Room Type--")
+                                            @Html.ValidationMessageFor(a => a.PersonViewModel.SeminarPerson.RoomType)
+                                        </div>
+                                    </li>
+                                    <li><div class="editor-label">@Html.LabelFor(a => a.PersonViewModel.SeminarPerson.HotelComments)</div>
+                                        <div class="editor-field">
+                                            @Html.TextArea("hotelPostModel.Comments", Model.PersonViewModel.SeminarPerson.HotelComments, new { @style = "height: 150px; width: 425px; border: 1px solid lightgray;" })
+                                            @Html.ValidationMessageFor(a => a.PersonViewModel.SeminarPerson.HotelComments)
+                                        </div>
+                                    </li>
+                                    <li><div class="editor-label">&nbsp;</div>
+                                        <div class="editor-field">
+                                            <input type="submit" class="button" value="save" />
+                                        </div>
+                                    </li>
+                                </ul>
+                            </fieldset>
+                    
                         }
-                    </li>
-                </ul>
-            </div>
-
-            <div class="display-form">
-
-                @{
-                    var registered = !string.IsNullOrWhiteSpace(Model.PersonViewModel.SeminarPerson.TransactionId);
-                    var paid = Model.PersonViewModel.SeminarPerson.Paid;
-                }
-
-                <ul>
-                    <li><div class='display-label'>Reference Id:</div>
-                        <div class='display-details'>@Model.PersonViewModel.SeminarPerson.ReferenceId</div>
-                    </li>
-                    <li><div class='display-label'>Transaction Id:</div>
-                        <div class='display-details'>@(registered ? Model.PersonViewModel.SeminarPerson.TransactionId : "Not Registered")</div>
-                    </li>
-                    <li><div class='display-label'>Status:</div>
-                        <div class='display-details'>@(registered ? (paid ? "Registered (Paid)" : "Registered (Transaction Pending)") : "n/a")</div>
-                    </li>
-                    <li><div class='display-label'>Coupon:</div>
-                        <div class='display-details'>
-                            @(!string.IsNullOrWhiteSpace(Model.PersonViewModel.SeminarPerson.CouponCode)
-                                            ? Model.PersonViewModel.SeminarPerson.CouponCode : "n/a")
-                        </div>
-                    </li>
-                    <li><div class='display-label'>Coupon Amount:</div>
-                        <div class='display-details'>@(Model.PersonViewModel.SeminarPerson.CouponAmount.HasValue
-                                            ? Model.PersonViewModel.SeminarPerson.CouponAmount.ToString() : "n/a")</div>
-                    </li>
-                    <li><div class='display-label'>need help here:</div>
-                        <div class='display-details'>@(Model.PersonViewModel.SeminarPerson.Invite ? "Invited" : "Applied")</div>
-                    </li>
-                </ul>
-            </div>
-            }
-            else
-            { 
-            <p>@Model.PersonViewModel.Person.FullName is not registered for the current seminar.</p>
-            }
-        </div>
-        <div id="roles">
-            @if (Model.IsCurrentSeminar)
-            {
-                using (Html.BeginForm("UpdateRoles", "Person", FormMethod.Post))
-                {
-                    @Html.Hidden("seminarId", Model.SeminarId)
-                    @Html.Hidden("personId", Model.PersonViewModel.Person.Id)
-                    @Html.AntiForgeryToken()
-
-                    <ul>
-                    @foreach (var a in Model.SeminarRoles)
-                    {
-                        <li>
-                        @{
-                        var check = Model.PersonViewModel.Person.GetLatestRegistration().SeminarRoles.Contains(a);
-                        var checkedTxt = check ? "checked" : string.Empty;
-                            }
-                        <input type="checkbox" name="roles" value='@a.Id' @checkedTxt />
-                        @a.Name - @a.Description
-                        </li>
                     }
-                        <li><input type="submit" value="Save" class="button" /></li>
-                    </ul>
-                }
-            }
-            else
-            { 
-            <p>@Model.PersonViewModel.Person.FullName is not registered for the current seminar.</p>
-            }
-        </div>
-        <div id="hotel">
-            @if (Model.IsCurrentSeminar)
-            {
-                using (Html.BeginForm("UpdateHotel", "Person", FormMethod.Post))
-                { 
-                    @Html.Hidden("seminarId", Model.SeminarId)
-                    @Html.Hidden("personId", Model.PersonViewModel.Person.Id)
-                    @Html.AntiForgeryToken()
-                    
-                    <fieldset>
-                        <ul>
-                            <li><div class="editor-label">@Html.LabelFor(a => a.PersonViewModel.SeminarPerson.HotelCheckIn)</div>
-                                <div class="editor-field">
-                                    @*@Html.EditorFor(a=>a.PersonViewModel.SeminarPerson.HotelCheckIn)*@
-                                    @Html.TextBox("hotelPostModel.CheckIn", Model.PersonViewModel.SeminarPerson.HotelCheckIn.HasValue ? Model.PersonViewModel.SeminarPerson.HotelCheckIn.Value.ToString("d") : string.Empty, new { @class = "datepicker" })
-                                    @Html.ValidationMessageFor(a => a.PersonViewModel.SeminarPerson.HotelCheckIn)
-                                </div>
-                            </li>
-                            <li><div class="editor-label">@Html.LabelFor(a => a.PersonViewModel.SeminarPerson.HotelCheckOut)</div>
-                                <div class="editor-field">
-                                    @*@Html.EditorFor(a=>a.PersonViewModel.SeminarPerson.HotelCheckOut)*@
-                                    @Html.TextBox("hotelPostModel.CheckOut", Model.PersonViewModel.SeminarPerson.HotelCheckOut.HasValue ? Model.PersonViewModel.SeminarPerson.HotelCheckOut.Value.ToString("d") : string.Empty, new { @class = "datepicker" })
-                                    @Html.ValidationMessageFor(a => a.PersonViewModel.SeminarPerson.HotelCheckOut)
-                                </div>
-                            </li>
-                            <li><div class="editor-label">@Html.LabelFor(a => a.PersonViewModel.SeminarPerson.HotelConfirmation)</div>
-                                <div class="editor-field">
-                                    @*@Html.EditorFor(a=>a.PersonViewModel.SeminarPerson.HotelConfirmation)*@
-                                    @Html.TextBox("hotelPostModel.Confirmation", Model.PersonViewModel.SeminarPerson.HotelConfirmation)
-                                    @Html.ValidationMessageFor(a => a.PersonViewModel.SeminarPerson.HotelConfirmation)
-                                </div>
-                            </li>
-                            <li><div class="editor-label">@Html.LabelFor(a => a.PersonViewModel.SeminarPerson.RoomType)</div>
-                                <div class="editor-field">
-                                    @this.Select("hotelPostModel.RoomType").Options(Model.RoomTypes, x => x.Id, x => x.Name).Selected(Model.PersonViewModel.SeminarPerson.RoomType != null ? Model.PersonViewModel.SeminarPerson.RoomType.Id.ToString() : string.Empty).FirstOption("--Select a Room Type--")
-                                    @Html.ValidationMessageFor(a => a.PersonViewModel.SeminarPerson.RoomType)
-                                </div>
-                            </li>
-                            <li><div class="editor-label">@Html.LabelFor(a => a.PersonViewModel.SeminarPerson.HotelComments)</div>
-                                <div class="editor-field">
-                                    @Html.TextArea("hotelPostModel.Comments", Model.PersonViewModel.SeminarPerson.HotelComments, new { @style = "height: 150px; width: 425px; border: 1px solid lightgray;" })
-                                    @Html.ValidationMessageFor(a => a.PersonViewModel.SeminarPerson.HotelComments)
-                                </div>
-                            </li>
-                            <li><div class="editor-label">&nbsp;</div>
-                                <div class="editor-field">
-                                    <input type="submit" class="button" value="save" />
-                                </div>
-                            </li>
-                        </ul>
-                    </fieldset>
-                    
-                }
-            }
-        </div>
-        <div id="comments">
-            @if (Model.IsCurrentSeminar)
-            {
-                using (Html.BeginForm("UpdateComments", "Person", FormMethod.Post))
-                { 
-                    @Html.Hidden("seminarId", Model.SeminarId)
-                    @Html.Hidden("personId", Model.PersonViewModel.Person.Id)
-                    @Html.AntiForgeryToken()
+                </div>
+                <div id="comments">
+                    @if (Model.IsCurrentSeminar)
+                    {
+                        using (Html.BeginForm("UpdateComments", "Person", FormMethod.Post))
+                        { 
+                            @Html.Hidden("seminarId", Model.SeminarId)
+                            @Html.Hidden("personId", Model.PersonViewModel.Person.Id)
+                            @Html.AntiForgeryToken()
             
-                    <ul>
-                        <li><div class="editor-label">@Html.TextArea("comments", Model.PersonViewModel.SeminarPerson.Comments, new { @style = "height: 180px; width: 700px; border: 1px solid lightgray;" })</div>
-                        </li>
-                        <li><div class="editor-field">
-                            <input type="submit" value="Save" class="button" />
-                            </div>
-                        </li>
-                    </ul>
-                }
+                            <ul>
+                                <li><div class="editor-label">@Html.TextArea("comments", Model.PersonViewModel.SeminarPerson.Comments, new { @style = "height: 180px; width: 700px; border: 1px solid lightgray;" })</div>
+                                </li>
+                                <li><div class="editor-field">
+                                        <input type="submit" value="Save" class="button" />
+                                    </div>
+                                </li>
+                            </ul>
+                        }
+                    }
+                    else
+                    { 
+                        @Html.TextArea("comments", Model.PersonViewModel.SeminarPerson.Comments, new { @disabled = "true", @style = "height: 250px; width: 700px; border: 1px solid lightgray;" })
+                    }
+                </div>    
             }
-            else
-            { 
-                @Html.TextArea("comments", Model.PersonViewModel.SeminarPerson.Comments, new { @disabled = "true", @style = "height: 250px; width: 700px; border: 1px solid lightgray;" })
-            }
-        </div>    
-        }
         
-        <div id="notifications">
+            <div id="notifications">
 
-            <div class="reg-navigation">
-                <ul>
+                <ul class="nav nav-pills pull-right">
                     <li>@Html.ActionLink("Add Notification Tracking", "Create", "Notification", new { personId = Model.PersonViewModel.Person.Id, seminarId = Model.SeminarId }, new { })</li>
                     <li>@Html.ActionLink("Send Notification", "Send", "Notification", new { personId = Model.PersonViewModel.Person.Id, seminarId = Model.SeminarId }, new { })</li>
                 </ul>
-            </div>
 
-            <div style="clear:both;"></div>
-
-            <fieldset style="padding: 1em;">
-            
-                <legend>Preferences</legend>
-
-                <ul>
-                    <li>
-                        @Html.CheckBoxFor(a => a.PersonViewModel.Person.AutomatedNotification) Include in automated messages.  Unchecking this will not exclude this person from receiving reminder and confirmation emails.
-                    </li>
-                </ul>
-            
-            </fieldset>
-
-            <fieldset style="padding: 1em;">
+                <div style="clear:both;"></div>
                 
-                <legend>History</legend>
-
-                <table class="noicon default_table">
-                    <thead>
-                        <tr>
-                            <th style="width: 130px;">Date/Time</th>
-                            <th>Method</th>
-                            <th>Type</th>
-                            <th>Comments</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var a in Model.PersonViewModel.Person.NotificationTrackings)
-                        { 
-                            <tr>
-                                <td>@a.DateTime.ToString("g")</td>
-                                <td>@a.NotificationMethod.Name</td>
-                                <td>@a.NotificationType.Name</td>
-                                <td>@a.Comments</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-
-            </fieldset>
-
+                <div class="form-horizontal">
+                    <fieldset style="padding: 1em;">
+                        <legend>Preferences</legend>
+                        <div class="control-group">
+                            <div class="controls">
+                                @Html.CheckBoxFor(a => a.PersonViewModel.Person.AutomatedNotification) Include in automated messages.  Unchecking this will not exclude this person from receiving reminder and confirmation emails.
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>History</legend>
+                        <div class="control-group">
+                        <table class="default_table table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width: 130px;">Date/Time</th>
+                                    <th>Method</th>
+                                    <th>Type</th>
+                                    <th>Comments</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var a in Model.PersonViewModel.Person.NotificationTrackings)
+                                { 
+                                    <tr>
+                                        <td>@a.DateTime.ToString("g")</td>
+                                        <td>@a.NotificationMethod.Name</td>
+                                        <td>@a.NotificationType.Name</td>
+                                        <td>@a.Comments</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        </div>
+                    </fieldset>
+                </div>
             
 
+            </div>
         </div>
     </div>
-</div>
 
 
 
