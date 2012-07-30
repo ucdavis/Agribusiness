@@ -1,8 +1,17 @@
-﻿@model AttendeeListViewModel
+﻿@using Agribusiness.Web.Services
+@model AttendeeListViewModel
 
 @{
     ViewBag.Title = "Attendees";
     ViewBag.SubPageTitle = "Attendees";
+
+    var site = ViewContext.RouteData.Values["site"] as string;
+    var seminar = SiteService.GetLatestSeminar(site);
+    if (Model.Seminar.Id == seminar.Id)
+    {
+        ViewBag.Nav = Nav.Seminars;
+    }
+    
 }
 
 @section ScriptContent {

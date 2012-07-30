@@ -1,10 +1,13 @@
 ﻿@* If the model is true, the nav is for header *@
 
 @using Agribusiness.Web.Controllers.Filters
+@using Agribusiness.Web.Services
     
-    @{
-        var nav = ViewBag.Nav;
-    }
+@{
+    var nav = ViewBag.Nav;
+    var site = ViewContext.RouteData.Values["site"] as string;
+    var seminar = SiteService.GetLatestSeminar(site);
+}
 
 <ul class="nav">
 
@@ -13,18 +16,22 @@
         if (User.IsInRole(RoleNames.User))
         {
             <li class="@(nav == Nav.Home ? "active" : string.Empty)">@Html.ActionLink("Home", "Admin", "Home")</li>
-            <li class="@(nav == Nav.Seminars ? "active" : string.Empty)">@Html.ActionLink("Seminars", "Index", "Seminar")</li>
+            
             <li class="@(nav == Nav.Applications ? "active" : string.Empty)">@Html.ActionLink("Applications", "Index", "SeminarApplication")</li>
             <li class="@(nav == Nav.Requests ? "active" : string.Empty)">@Html.ActionLink("Requests", "Index", "InformationRequest")</li>
+            <li class="@(nav == Nav.Seminars ? "active" : string.Empty)">@Html.ActionLink("Current Seminar", "Details", "Seminar", new{@id=seminar.Id}, new{})</li>
             <li class="@(nav == Nav.Admin ? "active" : string.Empty) dropdown">
-                @*@Html.ActionLink("Admin", "Index", "Admin")*@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <li>@Html.ActionLink("Commodities", "Index", "Commodity")</li>
+                    <li class="nav-header">Event Specific</li>
                     <li>@Html.ActionLink("Templates", "Index", "Template")</li>
                     <li>@Html.ActionLink("Reports", "Index", "Report")</li>
                     <li>@Html.ActionLink("People", "Index", "Person")</li>
                     <li>@Html.ActionLink("Mailing Lists", "Index", "MailingList")</li>
+                    <li class="divider"></li>
+                    <li class="nav-header">System Settings</li>
+                    <li >@Html.ActionLink("Seminars", "Index", "Seminar")</li>
+                    <li>@Html.ActionLink("Commodities", "Index", "Commodity")</li>
                     <li>@Html.ActionLink("Firms", "Index", "Firm")</li>
                 </ul>
             </li>

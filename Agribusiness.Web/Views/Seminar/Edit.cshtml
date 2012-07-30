@@ -1,4 +1,5 @@
 ﻿@using Agribusiness.Web.Models
+@using Agribusiness.Web.Services
 
 @model Agribusiness.Web.Models.SeminarViewModel
 
@@ -6,6 +7,13 @@
     ViewBag.Title = "Edit Seminar";
     ViewBag.SubPageTitle = "Edit Seminar";
     ViewBag.Restrict = false;
+
+    var site = ViewContext.RouteData.Values["site"] as string;
+    var seminar = SiteService.GetLatestSeminar(site);
+    if (Model.Seminar.Id == seminar.Id)
+    {
+        ViewBag.Nav = Nav.Seminars;
+    }
 }
 
 @section SubPageNavigation {
