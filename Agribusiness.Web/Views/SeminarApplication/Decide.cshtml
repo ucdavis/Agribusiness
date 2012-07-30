@@ -53,213 +53,225 @@
 
 @Html.ValidationSummary(false)
 
-<div>
-<div class="profile_pic_container">
-    <img src='@Url.Action("GetApplicationPhoto", new { id = Model.Id })' />
+<div class="row-fluid">
+    
+    <div class="span2">
+        <img src='@Url.Action("GetApplicationPhoto", new { id = Model.Id })' />
 
-    <div><em>*Photo may be distorted because it has not been cropped yet.</em></div>
-</div>
+        <div class="well" style="margin: 1em 0;"><em>*Photo may be distorted because it has not been cropped yet.</em></div>
+    </div>
 
-<div class="profile_information_container">
-<div class="display-form">
+    <div class="span10">
+        <div class="form-horizontal">
+            <div class="control-group">
+        
+                <fieldset>
+                    <legend>Personal Information</legend>
+                    <div class="control-group">
+                        <label for="name" class="control-label">Name</label>
+                        <div class="controls form-text">@Model.FullName</div>
+                    </div>
+                    <div class="control-group">
+                        <label for="badgename" class="control-label">Badge Name</label>
+                        <div class="controls form-text">
+                            @Model.BadgeName
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label for="datesubmitted" class="control-label">Date Submitted</label>
+                        <div class="controls form-text">
+                            @String.Format("{0:g}", Model.DateSubmitted)
+                        </div>
+                    </div>
+                </fieldset>  
+                
+                <fieldset>
+                    <legend>Firm Information</legend>
 
-    <fieldset>
-        <legend>Personal Information</legend>
-	    <ul>
-		    <li>
-			    <div class="display-label">Name:</div>
-			    <div class="display-details">@Model.FullName</div>
-		    </li>
-            <li>
-                <div class="display-label">Badge Name:</div>
-                <div class="display-details"></div>
-            </li>
-            <li>
-		        <div class="display-label">DateSubmitted</div>
-		        <div class="display-details">@String.Format("{0:g}", Model.DateSubmitted)</div>
-	        </li>
-        </ul>
-    </fieldset>
-
-    <fieldset>
-        <legend>Firm Information</legend>
-
-        <ul>
-        @if (Model.Firm != null)
-        { 
-            <li>
-                <div class="display-label">Name:</div>
-                <div class="display-details">
-                    @Model.Firm.Name
-                    @Html.ActionLink("Edit Firm", "Edit", "Firm", new { id = @Model.Firm.Id, decissionId = @Model.Id }, new {style = "margin-left: 20px;"})
-                </div>   
-            </li>
+                    @if (Model.Firm != null)
+                    { 
+                        <div class="control-group">
+                            <label for="FirmName" class="control-label">Name:</label>
+                            <div class="controls form-text">
+                                @Model.Firm.Name
+                                @Html.ActionLink("Edit Firm", "Edit", "Firm", new { id = @Model.Firm.Id, decissionId = @Model.Id }, new {style = "margin-left: 20px;", @class="btn"})
+                            </div>   
+                        </div>
            
-		    <li>
-			    <div class="display-label">Description:</div>
-			    <div class="display-details">@Model.Firm.Description
-                </div>
-		    </li>    
-        }
-        else
-        { 
-            <li>
-			    <div class="display-label">Name:</div>
-			    <div class="display-details">@Model.FirmName</div>
-		    </li>
-		    <li>
-			    <div class="display-label">Description:</div>
-			    <div class="display-details">@Model.FirmDescription</div>
-		    </li>
-        }
+                        <div class="control-group">
+                            <label for="Description" class="control-label">Description:</label>
+                            <div class="controls form-text">
+                                @Model.Firm.Description
+                            </div>
+                        </div>    
+                    }
+                    else
+                    { 
+                        <div class="control-group">
+                            <label for="FirmName" class="control-label">Name:</label>
+                            <div class="controls form-text">@Model.FirmName</div>
+                        </div>
+                        <div class="control-group">
+                            <label for="" class="control-label">Description</label>
+                            <div class="controls form-text">@Model.FirmDescription</div>
+                        </div>
+                    }
 
-        <li>
-            <div class="display-label">Firm Type:</div>
-            <div class="display-details">
-                @(Model.FirmType != null ? (Model.FirmType.Name == "Other" ? Model.OtherFirmType : Model.FirmType.Name) : "n/a")
+                    <div class="control-group">
+                        <label for="" class="control-label">Firm Type:</label>
+                        <div class="controls form-text">
+                            @(Model.FirmType != null ? (Model.FirmType.Name == "Other" ? Model.OtherFirmType : Model.FirmType.Name) : "n/a")
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="" class="control-label">Address Line 1:</label>
+                        <div class="controls form-text">@Model.FirmAddressLine1</div>
+                    </div>
+                    <div class="control-group">
+                        <label for="" class="control-label">Address Line 2:</label>
+                        <div class="controls form-text">@Model.FirmAddressLine2</div>
+                    </div>
+                    <div class="control-group">
+                        <label for="" class="control-label">City:</label>
+                        <div class="controls form-text">@Model.FirmCity</div>
+                    </div>
+                    <div class="control-group">
+                        <label for="" class="control-label">State:</label>
+                        <div class="controls form-text">@Model.FirmState</div>
+                    </div>
+                    <div class="control-group">
+                        <label for="" class="control-label">Zip:</label>
+                        <div class="controls form-text">@Model.FirmZip</div>
+                    </div>
+                    <div class="control-group">
+                        <label for="" class="control-label">Country</label>
+                        <div class="controls form-text">@Model.Country.Name</div>
+                    </div>
+                    <div class="control-group">
+                        <label for="" class="control-label">Phone</label>
+                        <div class="controls form-text">
+                            @Model.FirmPhone
+                            @if(!string.IsNullOrWhiteSpace(Model.FirmPhoneExt))
+                            { <text>Ext. @Model.FirmPhoneExt</text> }
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label for="" class="control-label">Website:</label>
+                        <div class="controls form-text">@Model.Website</div>
+                    </div>
+                    <div class="control-group">
+                        <label for="" class="control-label">Job Title:</label>
+                        <div class="controls form-text">@Model.JobTitle</div>
+                    </div>
+                    <div class="control-group">
+                        <label for="" class="control-label">Responsibilities:</label>
+                        <div class="controls form-text">@Model.Responsibilities</div>
+                    </div>
+                    <div class="control-group">
+                        <label for="" class="control-label">Commodities:</label>
+                        <div class="controls form-text">
+                            @{
+                                Model.Commodities.Add(new Commodity() { Name = Model.OtherCommodity });
+                            }
+                            @string.Join(", ", Model.Commodities.Select(a => a.Name))
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Communication Options</legend>
+
+                    <div class="control-group">
+                        <div class="controls form-text">
+                            @Model.CommunicationOption.Description
+                        </div>
+                    </div>
+                </fieldset>
+                  
+                <fieldset>
+                    <legend>Assistant</legend>
+                
+                    <div class="control-group">
+                        <label for="" class="control-label">Assistant Name</label>
+                        <div class="controls form-text">
+                            @*@Model.AssistantFirstName &nbsp; @Model.AssistantLastName*@
+                            @string.Format("{0} {1}", Model.AssistantFirstName, Model.AssistantLastName)
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label for="" class="control-label">Assistant Phone</label>
+                        <div class="controls form-text">@Model.AssistantPhone</div>
+                    </div>
+                    <div class="control-group">
+                        <label for="" class="control-label">Assistant Email</label>
+                        <div class="controls form-text">@Model.AssistantEmail</div>
+                    </div>
+                </fieldset>
+        
+                <fieldset>
+                    <legend>Expectations</legend>
+
+                    <div class="control-group">@Model.Expectations</div>
+
+                </fieldset>          
+                
+                <fieldset>
+                    <legend>Make Decision</legend>
+
+                    <div class="control-group">
+                        <label for="decisionreason" class="control-label">Decision Reason/Comments</label>
+                        <div class="controls">
+                            @Html.TextArea("Reason", Model.DecisionReason, new {@class="span6"})
+                        </div>
+                        <div class="controls">
+                            <a href="javascript:;" id="saveComments" class="btn">Save Comments</a>
+                            <span id="commentsLoading"><img src='@Url.Image("loading.gif")' alt="Saving Comment Indicator" /></span>
+                            <span id="commentsResult"></span>
+                        </div>
+                    </div>
+                </fieldset>
             </div>
-        </li>
-
-		<li>
-			<div class="display-label">Address Line 1:</div>
-			<div class="display-details">@Model.FirmAddressLine1</div>
-		</li>
-		<li>
-			<div class="display-label">Address Line 2:</div>
-			<div class="display-details">@Model.FirmAddressLine2</div>
-		</li>
-		<li>
-			<div class="display-label">City:</div>
-			<div class="display-details">@Model.FirmCity</div>
-		</li>
-        <li>
-            <div class="display-label">State:</div>
-            <div class="display-details">@Model.FirmState</div>
-        </li>
-		<li>
-			<div class="display-label">Zip:</div>
-			<div class="display-details">@Model.FirmZip</div>
-		</li>
-		<li>
-			<div class="display-label">Country:</div>
-			<div class="display-details">@Model.Country.Name</div>
-		</li>
-		<li>
-			<div class="display-label">Phone:</div>
-			<div class="display-details">
-                @Model.FirmPhone
-                @if(!string.IsNullOrWhiteSpace(Model.FirmPhoneExt))
-                { <tex>Ext. @Model.FirmPhoneExt</tex> }
-            </div>
-		</li>
-		<li>
-			<div class="display-label">Website:</div>
-			<div class="display-details">@Model.Website</div>
-		</li>
-		<li>
-			<div class="display-label">Job Title:</div>
-			<div class="display-details">@Model.JobTitle</div>
-		</li>
-		<li>
-			<div class="display-label">Responsibilities:</div>
-			<div class="display-details">@Model.Responsibilities</div>
-		</li>
-        <li>
-            <div class="display-label">Commodities:</div>
-            <div class="display-details">
-                @{
-                    Model.Commodities.Add(new Commodity() { Name = Model.OtherCommodity });
-                }
-                @string.Join(", ", Model.Commodities.Select(a => a.Name))
-            </div>
-        </li>
-        </ul>
-    </fieldset>
-
-    <fieldset>
-        <legend>Communication Options</legend>
-
-        <ul>
-            <li>
-                @Model.CommunicationOption.Description
-            </li>
-        </ul>
-    </fieldset>
-
-    <fieldset>
-        <legend>Assistant</legend>
-
-        <ul>
-        <li>
-			<div class="display-label">Assistant Name</div>
-			<div class="display-details">@Model.AssistantFirstName &nbsp; @Model.AssistantLastName</div>
-		</li>
-		<li>
-			<div class="display-label">Assistant Phone</div>
-			<div class="display-details">@Model.AssistantPhone</div>
-		</li>
-		<li>
-			<div class="display-label">Assistant Email</div>
-			<div class="display-details">@Model.AssistantEmail</div>
-		</li>
-        </ul>
-    </fieldset>
-
-    <fieldset>
-        <legend>Expectations</legend>
-
-        <p>@Model.Expectations</p>
-
-    </fieldset>
-
-    <fieldset>
-        <legend>Make Decision</legend>
-
-        Decision Reason/Comments:<br />
-        @Html.TextArea("Reason", Model.DecisionReason, new { @style = "height: 100px; width: 700px;" })
-        <br />
-        <div>
-            <a href="javascript:;" id="saveComments" class="button" style="color: white;">Save Comments</a>
-            <span id="commentsLoading"><img src='@Url.Image("loading.gif")' alt="Saving Comment Indicator" /></span>
-            <span id="commentsResult"></span>
         </div>
         
-        <br /><br />
-        @if (Model.IsPending)
-        {
-            using (Html.BeginForm())
-            { 
-                @Html.AntiForgeryToken()
-                @Html.Hidden("isApproved", true)
-                @Html.Hidden("reason", string.Empty, new { @class = "decision_reason" })
-                <input type="submit" value="Approve" class="button" />
-            }
+        <div class="form-horizontal">
+            <div class="form-actions">
+                @if (Model.IsPending)
+                    {
+                        using (Html.BeginForm())
+                        { 
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("isApproved", true)
+                            @Html.Hidden("reason", string.Empty, new { @class = "decision_reason" })
+                            <input type="submit" value="Approve" class="btn btn-primary" />
+                        }
+                        
+                        <div style="margin: 0 1em; display: inline-block;">
+                        @using (Html.BeginForm())
+                        { 
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("isApproved", false)
+                            @Html.Hidden("reason", string.Empty, new { @class = "decision_reason" })
+                            <input type="submit" value="Deny" class="btn btn-danger" />
+                        }
+                        </div>
 
-            using (Html.BeginForm())
-            { 
-                @Html.AntiForgeryToken()
-                @Html.Hidden("isApproved", false)
-                @Html.Hidden("reason", string.Empty, new { @class = "decision_reason" })
-                <input type="submit" value="Deny" class="button" />
-            }
-            <text>|@Html.ActionLink("Cancel", "Index")</text>
-            
-        }
-        else
-        {
-            if (Model.IsApproved)
-            {
-                <text>This application has been approved</text>
-            }
-            else
-            {
-                <text>This application has been denied</text>
-            }
-        }
-        
-    </fieldset>
-</div>
-</div>
+                        <text>@Html.ActionLink("Cancel", "Index", new {}, new {@class="btn"})</text>
+                    }
+                    else
+                    {
+                        if (Model.IsApproved)
+                        {
+                            <text>This application has been approved</text>
+                        }
+                        else
+                        {
+                            <text>This application has been denied</text>
+                        }
+                    }
+            </div>
+        </div>
+    </div>
 </div>
 
 <div style="clear:both;" />
