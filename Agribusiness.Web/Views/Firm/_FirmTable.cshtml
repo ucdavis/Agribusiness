@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Firm>
+
+<table class="default_table table table-striped table-bordered">
+	<thead>
+		<tr>
+			<th></th>
+			<th>
+				Name
+			</th>
+			<th>
+				Description
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+        @foreach (var item in Model)
+        {
+		    <tr>
+			    <td>
+                    <a href='@Url.Action("Edit", new {id=item.Id})' class="btn hastip" rel="tooltip" title="Edit Firm">
+                        <i class="icon-pencil"></i>
+                    </a>
+                </td>
+			    <td>
+				    @item.Name
+			    </td>
+			    <td>
+				    @item.Description
+			    </td>
+		    </tr>
+        }
+	</tbody>
+</table>
