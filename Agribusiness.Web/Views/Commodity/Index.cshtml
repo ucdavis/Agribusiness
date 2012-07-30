@@ -1,7 +1,8 @@
 ﻿@model IEnumerable<Agribusiness.Core.Domain.Commodity>
 
 @{
-	ViewBag.Title = "Index";
+	ViewBag.Title = "Commodities";
+    ViewBag.SubPageTitle = "Commodities";
 }
 
 <h2>Index</h2>
@@ -9,13 +10,13 @@
 
 @section SubPageNavigation
 {
-	<ul class='navigation'>
+	<ul class='nav nav-pills'>
 		<li>@Html.ActionLink("Create New", "Create")</li>
 	</ul>
 }
 
 
-<table class="default-table">
+<table class="default-table table table-striped table-bordered">
 	<thead>
 		<tr>
 			<th></th>
@@ -26,26 +27,25 @@
 		</tr>
 	</thead>
 	<tbody>
-@{ var odd = false; }
-@foreach (var item in Model) {
-		<tr class="@(odd ? "odd": "even")">
+    @foreach (var item in Model) {
+		<tr>
 			<td>
-				<a href='@Url.Action("Edit", new {id=item.Id})'>
-					<img src='@Url.Image("edit.png")' />
+				<a href='@Url.Action("Edit", new {id=item.Id})' class="btn hastip" rel="tooltip" title="Edit">
+					<i class="icon-pencil"></i>
 				</a>
 			</td>
 			<td>
 				@item.Name
 			</td>
 			<td>
-				<a href='@Url.Action("Delete", new { id = item.Id })'>
-					<img src='@Url.Image("delete.png")' />
+				<a href='@Url.Action("Delete", new { id = item.Id })' class="btn btn-danger hatip" rel="tooltip" title="Delete">
+                    @*<img src='@Url.Image("delete.png")' />*@
+                    <i class="icon-trash"></i>
 				</a>
 			</td>
 
 		</tr>
-		odd = !odd;
-}
+    }
 	</tbody>
 </table>
 
