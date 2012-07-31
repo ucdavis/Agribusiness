@@ -38,6 +38,7 @@ namespace Agribusiness.Core.Domain
         public virtual bool CollectExtended { get; set; }
 
         public virtual IList<Seminar> Seminars { get; set; }
+        public virtual IList<Person> People { get; set; }
     }
 
     public class SiteMap : ClassMap<Site>
@@ -60,6 +61,12 @@ namespace Agribusiness.Core.Domain
             Map(x => x.CollectExtended);
 
             HasMany(x => x.Seminars);
+
+            HasManyToMany(x => x.People)
+                .ParentKeyColumn("SiteId")
+                .ChildKeyColumn("PersonId")
+                .Table("PeopleXSites")
+                .Cascade.SaveUpdate();
         }
     }
 }

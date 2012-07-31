@@ -13,13 +13,19 @@ namespace Agribusiness.Web.Models
         public bool Desc { get; set; }
         public string SortBy { get; set; }
         public Seminar Seminar { get; set; }
+        public Site Site { get; set; }
 
-        public static PersonListViewModel Create(IRepository<Person> personRepository, IPersonService personService, ISeminarService seminarService)
+        public static PersonListViewModel Create(IRepository<Person> personRepository, IPersonService personService, ISeminarService seminarService, string siteId)
         {
             Check.Require(personRepository != null, "personRepository is required.");
             Check.Require(personService != null, "personService is required.");
 
-            var viewModel = new PersonListViewModel() { People = personService.GetAllDisplayPeople(), Seminar = seminarService.GetCurrent()};
+            var viewModel = new PersonListViewModel()
+                                {
+                                    People = personService.GetAllDisplayPeople(), 
+                                    Seminar = seminarService.GetCurrent(),
+                                    Site = SiteService.LoadSite(siteId, true)
+                                };
 
             return viewModel;
         }

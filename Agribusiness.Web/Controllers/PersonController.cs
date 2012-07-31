@@ -72,7 +72,7 @@ namespace Agribusiness.Web.Controllers
         [UserOnly]
         public ActionResult Index()
         {
-            var viewModel = PersonListViewModel.Create(_personRepository, _personService, _seminarService);
+            var viewModel = PersonListViewModel.Create(_personRepository, _personService, _seminarService, Site);
             return View(viewModel);
         }
 

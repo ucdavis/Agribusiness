@@ -84,6 +84,8 @@ namespace Agribusiness.Core.Domain
         /// </summary>
         public virtual bool ContactInformationRelease { get; set; }
 
+        public virtual IList<Site> Sites { get; set; }
+
         #region Bags
         /// <summary>
         /// Gives a list of all the registration's a person has made
@@ -187,6 +189,12 @@ namespace Agribusiness.Core.Domain
                 .ParentKeyColumn("PersonId")
                 .ChildKeyColumn("CaseStudyId")
                 .Table("CaseStudyAuthors")
+                .Cascade.SaveUpdate();
+
+            HasManyToMany(x => x.Sites)
+                .ParentKeyColumn("PersonId")
+                .ChildKeyColumn("SiteId")
+                .Table("PeopleXSites")
                 .Cascade.SaveUpdate();
         }
     }
