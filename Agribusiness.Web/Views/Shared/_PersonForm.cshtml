@@ -99,7 +99,7 @@
             <h3>@Model.Contacts[i].ContactType.Name</h3>
 						
             @Html.Hidden(string.Format("Contacts[{0}].ContactType", i), Model.Contacts[i].ContactType.Id)
-            <div class="editor-label @(required ? "required" : string.Empty)">
+            <div class="control-group @(required ? "required" : string.Empty)">
                 <label class="control-label" for="Contacts[i].FirstName">
                     First Name
                     @if (required){<span class="required">*</span>}
@@ -108,7 +108,7 @@
                     @Html.TextBox(string.Format("Contacts[{0}].FirstName", i), Model.Contacts[i].FirstName)
                 </div>
             </div>
-            <div class="editor-label @(required ? "required" : string.Empty)">
+            <div class="control-group @(required ? "required" : string.Empty)">
                 <label class="control-label" for="Contacts[i].LastName">
                     Last Name
                     @if (required){<span class="required">*</span>}
@@ -117,7 +117,7 @@
                     @Html.TextBox(string.Format("Contacts[{0}].LastName", i), Model.Contacts[i].LastName)
                 </div>
             </div>
-            <div class="editor-label @(required ? "required" : string.Empty)">
+            <div class="control-group @(required ? "required" : string.Empty)">
                 <label class="control-label" for="Contacts[i].Phone">
                     Phone
                     @if (required){<span class="required">*</span>}
