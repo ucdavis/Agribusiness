@@ -102,7 +102,6 @@ namespace Agribusiness.Web.Helpers
 
                 .ForMember(x => x.ContactInformationRelease, x => x.MapFrom(a => a.ContactInformationRelease))
                 ;
-
         }
         
     }

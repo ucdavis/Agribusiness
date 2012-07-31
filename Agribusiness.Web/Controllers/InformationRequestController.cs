@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using Agribusiness.Core.Domain;
+using Agribusiness.Core.Repositories;
 using Agribusiness.Web.App_GlobalResources;
 using Agribusiness.Web.Controllers.Filters;
 using Agribusiness.Web.Models;
@@ -67,7 +68,7 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction(a => a.Index());
             }
 
-            return View(InformationRequestViewModel.Create(informationRequest));
+            return View(InformationRequestViewModel.Create(RepositoryFactory, informationRequest));
         }
 
         [HttpPost]
@@ -92,7 +93,7 @@ namespace Agribusiness.Web.Controllers
                 Message = string.Format(Messages.Saved, "Information request");
             }
 
-            return View(InformationRequestViewModel.Create(editInformationRequest));
+            return View(InformationRequestViewModel.Create(RepositoryFactory,editInformationRequest));
         }
 
         public ActionResult AddNote(int id)
@@ -152,11 +153,6 @@ namespace Agribusiness.Web.Controllers
             }
 
             var viewModel = PersonViewModel.Create(Repository, _firmService);
-
-            // set the person's information
-            //var firstname = ir.Name.Trim().Substring(0, ir.Name.LastIndexOf(' '));
-            //var lastname = ir.Name.Trim().Substring(ir.Name.LastIndexOf(' '));
-
             viewModel.Person.FirstName = ir.FirstName.Trim();
             viewModel.Person.LastName = ir.LastName.Trim();
             viewModel.Email = ir.Email;
@@ -168,25 +164,40 @@ namespace Agribusiness.Web.Controllers
             // fake address since we don't have it yet
             var atype = _addressTypeRepository.GetNullableById((char)StaticIndexes.Address_Business[0]);
 
-            var address = viewModel.Addresses.Where(a => a.AddressType == atype).FirstOrDefault();
-            //address.Line1 = "Address";
-            //address.Zip = "Zip Code";
-            
-            //// see if we can extract city/state out of the information reuqest
-            //var commaIndex = ir.Location.IndexOf(',');
+            var address = viewModel.Addresses.FirstOrDefault(a => a.AddressType == atype);
+            if (address != null)
+            {
+                address.Line1 = ir.AddressLine1;
+                address.Line2 = ir.AddressLine2;
+                address.City = ir.City;
+                address.State = ir.State;
+                address.Zip = ir.Zip;
+                address.Country = ir.Country;    
+            }
 
-            //// no comma, probably no state information
-            //if (commaIndex < 0)
-            //{
-            //    address.City = ir.Location;
-            //}
-            //// comma exists, most likely a state exists
-            //else
-            //{
-            //    address.City = ir.Location.Substring(0, commaIndex).Trim();
-            //    address.State = ir.Location.Substring(commaIndex + 1).Trim();
-            //}
-            
+            if (ir.Site.CollectExtended)
+            {
+                // get the assistant contact
+                var ctype = RepositoryFactory.ContactTypeRepsitory.GetNullableById((char)StaticIndexes.Contact_Assistant[0]);
+                var assistant = viewModel.Contacts.FirstOrDefault(a => a.ContactType == ctype);
+
+                if (assistant != null)
+                {
+                    assistant.FirstName = ir.AssistantFirstName;
+                    assistant.LastName = ir.AssistantLastName;
+                    assistant.Email = ir.AssistantEmail;
+                    assistant.Phone = ir.AssistantPhone;
+
+                    var comoption = RepositoryFactory.CommunicationOptionRepository.GetNullableById(StaticIndexes.Communication_Assistant);
+                    viewModel.Person.CommunicationOption = comoption;
+                }
+            }
+            else
+            {
+                var comoption = RepositoryFactory.CommunicationOptionRepository.GetNullableById(StaticIndexes.Communication_Directly);
+                viewModel.Person.CommunicationOption = comoption;
+            }
+
             return View(viewModel);
         }
 
@@ -371,10 +382,15 @@ namespace Agribusiness.Web.Controllers
     public class InformationRequestViewModel
 	{
 		public InformationRequest InformationRequest { get; set; }
+        public IEnumerable<Country> Countries { get; set; }
  
-		public static InformationRequestViewModel Create(InformationRequest informationRequest = null)
+		public static InformationRequestViewModel Create(IRepositoryFactory repositoryFactory, InformationRequest informationRequest = null)
 		{
-			var viewModel = new InformationRequestViewModel {InformationRequest = informationRequest ?? new InformationRequest()};
+			var viewModel = new InformationRequestViewModel
+			                    {
+			                        InformationRequest = informationRequest ?? new InformationRequest(),
+                                    Countries = repositoryFactory.CountryRepository.Queryable.OrderBy(a => a.Name).ToList()
+			                    };
  
 			return viewModel;
 		}

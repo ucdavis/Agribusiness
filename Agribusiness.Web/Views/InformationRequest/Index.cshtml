@@ -67,7 +67,7 @@
 			</td>
 
 			<td>
-				@item.Name
+				@item.FullName()
 			</td>
 
 			<td>
@@ -87,7 +87,7 @@
 			</td>
 
 			<td>
-				@item.Location
+				@(string.Format("{0} ({1})", item.City, item.State))
 			</td>
 
 			<td>

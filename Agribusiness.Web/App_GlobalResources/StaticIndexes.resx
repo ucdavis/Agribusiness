@@ -132,6 +132,12 @@
   <data name="Communication_Directly" xml:space="preserve">
     <value>DR</value>
   </data>
+  <data name="Contact_Assistant" xml:space="preserve">
+    <value>A</value>
+  </data>
+  <data name="Contact_Emergency" xml:space="preserve">
+    <value>E</value>
+  </data>
   <data name="Key_CatbertCritical" xml:space="preserve">
     <value>CatbertCritical</value>
   </data>

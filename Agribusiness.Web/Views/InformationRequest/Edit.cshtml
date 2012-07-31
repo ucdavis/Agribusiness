@@ -25,67 +25,162 @@
 	@Html.HiddenFor(model => model.InformationRequest.Id)
 
 	<div class="control-group">
-		<fieldset>
-			<div class="control-group">
-				<label class="control-label" for="Name">
-					Name
-					<span class="required">*</span> 
-				</label>
-				<div class="controls">
-					@Html.EditorFor(model => model.InformationRequest.Name)
-					@Html.ValidationMessageFor(model => model.InformationRequest.Name)
-				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label" for="Title">Title<span class="required">*</span> </label>
-				<div class="controls">
-					@Html.EditorFor(model => model.InformationRequest.Title)
-					@Html.ValidationMessageFor(model => model.InformationRequest.Title)
-				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label" for="Company">Company<span class="required">*</span> </label>
-				<div class="controls">
-					@Html.EditorFor(model => model.InformationRequest.Company)
-					@Html.ValidationMessageFor(model => model.InformationRequest.Company)
-				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label" for="Email">Email<span class="required">*</span> </label>
-				<div class="controls">
-					@Html.EditorFor(model => model.InformationRequest.Email)
-					@Html.ValidationMessageFor(model => model.InformationRequest.Email)
-				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label" for="Commodity">Commodity<span class="required">*</span> </label>
-				<div class="controls">
-					@Html.EditorFor(model => model.InformationRequest.Commodity)
-					@Html.ValidationMessageFor(model => model.InformationRequest.Commodity)
-				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label" for="Location">Location<span class="required">*</span> </label>
-				<div class="controls">
-					@Html.EditorFor(model => model.InformationRequest.Location)
-					@Html.ValidationMessageFor(model => model.InformationRequest.Location)
-				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label" for="SubmittedDateTime">Submitted DateTime</label> 
-				<div class="controls">
-					@Model.InformationRequest.SubmittedDateTime
-				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label" for="Responded">Responded</label>
-				<div class="controls">
-					@Html.EditorFor(model => model.InformationRequest.Responded)
-					@Html.ValidationMessageFor(model => model.InformationRequest.Responded)
-				</div>
-			</div>
-		</fieldset>
-	</div>   	
+        <fieldset>
+            <div class="control-group">
+                <label class="control-label" for="Name">
+                    First Name
+                    <span class="required">*</span> 
+                </label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.InformationRequest.FirstName)
+                    @Html.ValidationMessageFor(model => model.InformationRequest.LastName)
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="LastName" class="control-label">Last Name</label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.InformationRequest.LastName)
+                    @Html.ValidationMessageFor(model => model.InformationRequest.LastName)
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="Title">Title<span class="required">*</span> </label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.InformationRequest.Title)
+                    @Html.ValidationMessageFor(model => model.InformationRequest.Title)
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="Company">Company<span class="required">*</span> </label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.InformationRequest.Company)
+                    @Html.ValidationMessageFor(model => model.InformationRequest.Company)
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="Email">Email<span class="required">*</span> </label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.InformationRequest.Email)
+                    @Html.ValidationMessageFor(model => model.InformationRequest.Email)
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="Commodity">Commodity<span class="required">*</span> </label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.InformationRequest.Commodity)
+                    @Html.ValidationMessageFor(model => model.InformationRequest.Commodity)
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="SubmittedDateTime">Submitted DateTime</label> 
+                <div class="controls form-text">
+                    @Model.InformationRequest.SubmittedDateTime
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="Responded">Responded</label>
+                <div class="controls form-text">
+                    @Html.EditorFor(model => model.InformationRequest.Responded)
+                    @Html.ValidationMessageFor(model => model.InformationRequest.Responded)
+                </div>
+            </div>
+        </fieldset>
+        
+        <fieldset>
+            <legend>Address</legend>
+            
+            <div class="control-group">
+                <label for="InformationRequest.AddressLine1" class="control-label">Address Line 1</label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.InformationRequest.AddressLine1)
+                    @Html.ValidationMessageFor(model => model.InformationRequest.AddressLine1)
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="InformationReqest.AddressLine2" class="control-label">Address Line 2</label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.InformationRequest.AddressLine2)
+                    @Html.ValidationMessageFor(model => model.InformationRequest.AddressLine2)
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="InformationRequest.City" class="control-label">City</label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.InformationRequest.City)
+                    @Html.ValidationMessageFor(model => model.InformationRequest.City)
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="InformationRequest.State" class="control-label">State</label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.InformationRequest.State)
+                    @Html.ValidationMessageFor(model => model.InformationRequest.State)
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="InformationRequest.Zip" class="control-label">Zip</label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.InformationRequest.Zip)
+                    @Html.ValidationMessageFor(model => model.InformationRequest.Zip)
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="InformationRequest.Country" class="control-label">Country</label>
+                <div class="controls">
+                    @this.Select("InformationRequest.Country").Options(Model.Countries, x => x.Id, x => x.Name).FirstOption("--Select Country--").Selected(Model.InformationRequest.Country != null ? Model.InformationRequest.Country.Id : string.Empty)
+                    @Html.ValidationMessageFor(model => model.InformationRequest.Country)
+                </div>
+            </div>
+        </fieldset>
+        
+        @if (Model.InformationRequest.Site.CollectExtended)
+        {
+            <fieldset>
+                <legend>Assistant</legend>
+            
+                <div class="control-group">
+                    <label for="AssistantFirstName" class="control-label">First Name</label>
+                    <div class="controls">
+                        @Html.EditorFor(model => model.InformationRequest.AssistantFirstName)
+                        @Html.ValidationMessageFor(model => model.InformationRequest.AssistantFirstName)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="AssistantLastName" class="control-label">Last Name</label>
+                    <div class="controls">
+                        @Html.EditorFor(model => model.InformationRequest.AssistantLastName)
+                        @Html.ValidationMessageFor(model => model.InformationRequest.AssistantLastName)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="AssistantEmail" class="control-label">Email</label>
+                    <div class="controls">
+                        @Html.EditorFor(model => model.InformationRequest.AssistantEmail)
+                        @Html.ValidationMessageFor(model => model.InformationRequest.AssistantEmail)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="AssistantPhone" class="control-label">Phone</label>
+                    <div class="controls">
+                        @Html.EditorFor(model => model.InformationRequest.AssistantPhone)
+                        @Html.ValidationMessageFor(model => model.InformationRequest.AssistantPhone)
+                    </div>
+                </div>
+            </fieldset>    
+            
+            <fieldset>
+                <legend>Referral</legend>
+                <div class="control-group">
+                    <p class="well">If you were referred to us by someone, please provide their name.</p>
+                    <div class="controls">
+                        @Html.EditorFor(model => model.InformationRequest.ReferredBy)
+                        @Html.ValidationMessageFor(model => model.InformationRequest.ReferredBy)
+                    </div>
+                </div>
+            </fieldset>
+        }
+
+    </div>   	
 	<div class="form-actions">
 		<input type="submit" value="Save" class="btn btn-primary" /> 
 		@Html.ActionLink("Cancel", "Index", new { }, new { @class = "btn" })

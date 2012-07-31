@@ -15,7 +15,7 @@
     [City]                  VARCHAR (50)     NOT NULL,
     [State]                 VARCHAR (50)     NOT NULL,
     [Zip]                   VARCHAR (10)     NOT NULL,
-    [Country]               CHAR (3)         NOT NULL,
+    [CountryID]               CHAR (3)         NOT NULL,
     [ReferredBy] VARCHAR(50) NULL, 
     [AssistantFirstName] VARCHAR(50) NULL, 
     [AssistantLastName] VARCHAR(50) NULL, 
