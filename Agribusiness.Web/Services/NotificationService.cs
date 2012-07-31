@@ -63,7 +63,7 @@ namespace Agribusiness.Web.Services
                     message.To.Add(email);
                 }
                 message.Subject = "Information Request Received";
-                message.Body = string.Format("A new information request has been received for the following person:<br/>{0}<br/>{1}", informationRequest.Name, informationRequest.Email);
+                message.Body = string.Format("A new information request has been received for the following person:<br/>{0}<br/>{1}", informationRequest.FullName(), informationRequest.Email);
                 client.Send(message);
             }
             catch (Exception ex)

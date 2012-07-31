@@ -7,4 +7,32 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="SiteId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="4594ed12-75d8-4209-b1d8-f8066b23be7b" ChangeDateTime="07/31/2012 18:34:15">
+    <Property Name="ElementName" Value="[dbo].[InformationRequests].[AssistantName]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[InformationRequests]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AssistanFirstName" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="e326b0d5-5540-4247-a957-ef4ca9b8426d" ChangeDateTime="07/31/2012 18:34:28">
+    <Property Name="ElementName" Value="[dbo].[InformationRequests].[AssistanFirstName]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[InformationRequests]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AssistantFirstName" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="1523e1ce-e4f9-4f65-aad5-9df2bc8120c3" ChangeDateTime="07/31/2012 19:53:02">
+    <Property Name="ElementName" Value="[dbo].[Sites].[CollectAssistant]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Sites]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CollectExtended" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="46c2f6bc-ae72-4875-91c4-63a381c0c9c6" ChangeDateTime="07/31/2012 20:28:27">
+    <Property Name="ElementName" Value="[dbo].[InformationRequests].[Name]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[InformationRequests]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="FirstName" />
+  </Operation>
 </Operations>

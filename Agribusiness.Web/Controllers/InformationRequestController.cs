@@ -154,13 +154,13 @@ namespace Agribusiness.Web.Controllers
             var viewModel = PersonViewModel.Create(Repository, _firmService);
 
             // set the person's information
-            var firstname = ir.Name.Trim().Substring(0, ir.Name.LastIndexOf(' '));
-            var lastname = ir.Name.Trim().Substring(ir.Name.LastIndexOf(' '));
+            //var firstname = ir.Name.Trim().Substring(0, ir.Name.LastIndexOf(' '));
+            //var lastname = ir.Name.Trim().Substring(ir.Name.LastIndexOf(' '));
 
-            viewModel.Person.FirstName = firstname.Trim();
-            viewModel.Person.LastName = lastname.Trim();
+            viewModel.Person.FirstName = ir.FirstName.Trim();
+            viewModel.Person.LastName = ir.LastName.Trim();
             viewModel.Email = ir.Email;
-            viewModel.UserName = string.Format("{0}.{1}", firstname.Trim(), lastname.Trim());
+            viewModel.UserName = string.Format("{0}.{1}", ir.FirstName.Trim(), ir.LastName.Trim());
 
             // fake phone number
             viewModel.Person.Phone = "555-555-5555";    
@@ -169,23 +169,23 @@ namespace Agribusiness.Web.Controllers
             var atype = _addressTypeRepository.GetNullableById((char)StaticIndexes.Address_Business[0]);
 
             var address = viewModel.Addresses.Where(a => a.AddressType == atype).FirstOrDefault();
-            address.Line1 = "Address";
-            address.Zip = "Zip Code";
+            //address.Line1 = "Address";
+            //address.Zip = "Zip Code";
             
-            // see if we can extract city/state out of the information reuqest
-            var commaIndex = ir.Location.IndexOf(',');
+            //// see if we can extract city/state out of the information reuqest
+            //var commaIndex = ir.Location.IndexOf(',');
 
-            // no comma, probably no state information
-            if (commaIndex < 0)
-            {
-                address.City = ir.Location;
-            }
-            // comma exists, most likely a state exists
-            else
-            {
-                address.City = ir.Location.Substring(0, commaIndex).Trim();
-                address.State = ir.Location.Substring(commaIndex + 1).Trim();
-            }
+            //// no comma, probably no state information
+            //if (commaIndex < 0)
+            //{
+            //    address.City = ir.Location;
+            //}
+            //// comma exists, most likely a state exists
+            //else
+            //{
+            //    address.City = ir.Location.Substring(0, commaIndex).Trim();
+            //    address.State = ir.Location.Substring(commaIndex + 1).Trim();
+            //}
             
             return View(viewModel);
         }

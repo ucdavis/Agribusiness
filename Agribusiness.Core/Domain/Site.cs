@@ -32,6 +32,11 @@ namespace Agribusiness.Core.Domain
         [StringLength(50)]
         public virtual string EventType { get; set; }
 
+        /// <summary>
+        /// Collect extended information on More Information Page
+        /// </summary>
+        public virtual bool CollectExtended { get; set; }
+
         public virtual IList<Seminar> Seminars { get; set; }
     }
 
@@ -52,6 +57,7 @@ namespace Agribusiness.Core.Domain
             Map(x => x.SplashContentType);
 
             Map(x => x.EventType);
+            Map(x => x.CollectExtended);
 
             HasMany(x => x.Seminars);
         }

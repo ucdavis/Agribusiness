@@ -13,26 +13,70 @@
     </ul>
 }
 
+@section ScriptContent
+{
+    @if (string.IsNullOrEmpty(Model.City) || string.IsNullOrEmpty(Model.State) || Model.Country == null)
+    {
+        <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+        <script type="text/javascript">
+
+            var city = Boolean("@(string.IsNullOrEmpty(Model.City))");
+            var state = Boolean("@(string.IsNullOrEmpty(Model.State))");
+            var country = Boolean("@(Model.Country == null)");
+
+            $(function () {
+                if (google.loader.ClientLocation) {
+
+                    var addr = google.loader.ClientLocation.address;
+                    if (city) {
+                        $("#City").val(addr.city);
+                    }
+                    if (state) {
+                        $("#State").val(addr.region);
+                    }
+                    if (country) {
+                        $("#Country").val(addr.country);
+                    }
+                }
+                else {
+                }
+            });
+        
+        </script>    
+    }
+    
+}
+
 @Html.ValidationSummary(false, "Please correct the following errors:")
 
-@using (Html.BeginForm("MoreInformation", "Public", FormMethod.Post, new {@class="form-horizontal"})) { 
+@using (Html.BeginForm("MoreInformation", "Public", FormMethod.Post, new { @class = "form-horizontal" }))
+{ 
 
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.Site.Id)
     
     <div class="control-group">
         <fieldset>
-
             <p class="well">Please fill out this form and someone will contact you with more details.</p>
 
             <div class="control-group">
                 <label class="control-label" for="Name">
-                    Name
+                    First Name
                     <span class="required">*</span>
                 </label>
                 <div class="controls">
-                    @Html.EditorFor(a=>a.Name)
-                    @Html.ValidationMessageFor(a=>a.Name)
+                    @Html.EditorFor(a => a.FirstName)
+                    @Html.ValidationMessageFor(a => a.FirstName)
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="Name">
+                    Last Name
+                    <span class="required">*</span>
+                </label>
+                <div class="controls">
+                    @Html.EditorFor(a => a.LastName)
+                    @Html.ValidationMessageFor(a => a.LastName)
                 </div>
             </div>
             <div class="control-group">
@@ -41,8 +85,8 @@
                     <span class="required">*</span>
                 </label>
                 <div class="controls">
-                    @Html.EditorFor(a=>a.Title)
-                    @Html.ValidationMessageFor(a=>a.Title)
+                    @Html.EditorFor(a => a.Title)
+                    @Html.ValidationMessageFor(a => a.Title)
                 </div>
             </div>
             <div class="control-group">
@@ -51,8 +95,8 @@
                     <span class="required">*</span>
                 </label>
                 <div class="controls">
-                    @Html.EditorFor(a=>a.Company)
-                    @Html.ValidationMessageFor(a=>a.Company)
+                    @Html.EditorFor(a => a.Company)
+                    @Html.ValidationMessageFor(a => a.Company)
                 </div>
             </div>
             <div class="control-group">
@@ -61,8 +105,8 @@
                     <span class="required">*</span>
                 </label>
                 <div class="controls">
-                    @Html.EditorFor(a=>a.Email)
-                    @Html.ValidationMessageFor(a=>a.Email)
+                    @Html.EditorFor(a => a.Email)
+                    @Html.ValidationMessageFor(a => a.Email)
                 </div>
             </div>
             <div class="control-group">
@@ -71,20 +115,108 @@
                     <span class="required">*</span>
                 </label>
                 <div class="controls">
-                    @Html.EditorFor(a=>a.Commodity)
-                    @Html.ValidationMessageFor(a=>a.Commodity)
+                    @Html.EditorFor(a => a.Commodity)
+                    @Html.ValidationMessageFor(a => a.Commodity)
+                </div>
+            </div>
+        </fieldset>
+        
+        <fieldset>
+            <legend>Address</legend>
+            
+            <div class="control-group">
+                <label for="AddressLine1" class="control-label">Address Line 1<span class="required">*</span></label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.AddressLine1)
+                    @Html.ValidationMessageFor(model => model.AddressLine1)
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label" for="Location">
-                    Location
-                    <span class="required">*</span>
-                </label>
+                <label for="AddressLine2" class="control-label">Address Line 2</label>
                 <div class="controls">
-                    @Html.EditorFor(a=>a.Location)
-                    @Html.ValidationMessageFor(a=>a.Location)
+                    @Html.EditorFor(model => model.AddressLine2)
+                    @Html.ValidationMessageFor(model => model.AddressLine2)
                 </div>
             </div>
+            <div class="control-group">
+                <label for="City" class="control-label">City<span class="required">*</span></label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.City)
+                    @Html.ValidationMessageFor(model => model.City)
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="State" class="control-label">State<span class="required">*</span></label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.State)
+                    @Html.ValidationMessageFor(model => model.State)
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="Zip" class="control-label">Zip<span class="required">*</span></label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.Zip)
+                    @Html.ValidationMessageFor(model => model.Zip)
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="Country" class="control-label">Country<span class="required">*</span></label>
+                <div class="controls">
+                    @this.Select("Country").Options((List<Country>)ViewBag.Countries, x => x.Id, x => x.Name).FirstOption("--Select Country--").Selected(Model.Country != null ? Model.Country.Id : string.Empty)
+                    @Html.ValidationMessageFor(model => model.Country)
+                </div>
+            </div>
+        </fieldset>
+        
+        @if (Model.Site.CollectExtended)
+        {
+            <fieldset>
+                <legend>Assistant</legend>
+            
+                <div class="control-group">
+                    <label for="AssistantFirstName" class="control-label">First Name</label>
+                    <div class="controls">
+                        @Html.EditorFor(model => model.AssistantFirstName)
+                        @Html.ValidationMessageFor(model => model.AssistantFirstName)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="AssistantLastName" class="control-label">Last Name</label>
+                    <div class="controls">
+                        @Html.EditorFor(model => model.AssistantLastName)
+                        @Html.ValidationMessageFor(model => model.AssistantLastName)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="AssistantEmail" class="control-label">Email</label>
+                    <div class="controls">
+                        @Html.EditorFor(model => model.AssistantEmail)
+                        @Html.ValidationMessageFor(model => model.AssistantEmail)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="AssistantPhone" class="control-label">Phone</label>
+                    <div class="controls">
+                        @Html.EditorFor(model => model.AssistantPhone)
+                        @Html.ValidationMessageFor(model => model.AssistantPhone)
+                    </div>
+                </div>
+            </fieldset>    
+            
+            <fieldset>
+                <legend>Referral</legend>
+                <div class="control-group">
+                    <p class="well">If you were referred to us by someone, please provide their name.</p>
+                    <div class="controls">
+                        @Html.EditorFor(model => model.ReferredBy)
+                        @Html.ValidationMessageFor(model => model.ReferredBy)
+                    </div>
+                </div>
+            </fieldset>
+        }
+
+        <fieldset>
+            <legend>&nbsp;</legend>
             <div class="control-group">
                 <label class="control-label" for="captcha" class="control-label">&nbsp;</label>
                 <div class="controls">
@@ -97,7 +229,7 @@
 
     <div class="form-actions">
         <input type="submit" value="Submit" class="btn btn-primary" />
-        @Html.ActionLink("Cancel", "Index", "Home", new {@class="btn"})
+        @Html.ActionLink("Cancel", "Index", "Home", new { @class = "btn" })
     </div>
 
 }

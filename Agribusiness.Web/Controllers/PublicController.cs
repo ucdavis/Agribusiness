@@ -130,6 +130,7 @@ namespace Agribusiness.Web.Controllers
         /// <returns></returns>
         public ActionResult MoreInformation()
         {
+            ViewBag.Countries = RepositoryFactory.CountryRepository.Queryable.OrderBy(a => a.Name).ToList();
             return View(new InformationRequest() {Site = SiteService.LoadSite(Site)});
         }
 
@@ -157,6 +158,7 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction<HomeController>(a => a.Index());
             }
 
+            ViewBag.Countries = RepositoryFactory.CountryRepository.Queryable.OrderBy(a => a.Name).ToList();
             return View(informationRequest);
         }
 
