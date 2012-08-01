@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using Agribusiness.Core.Domain;
 using Agribusiness.Web.Models;
@@ -14,7 +11,8 @@ namespace Agribusiness.Web.Services
         IEnumerable<DisplayPerson> GetAllDisplayPeople();
         IEnumerable<DisplayPerson> GetDisplayPeopleForSeminar(int id);
         IEnumerable<DisplayPerson> GetDisplayPeopleNotInSeminar(int id);
-
+        IEnumerable<DisplayPerson> ConvertToDisplayPeople(IEnumerable<Person> people);
+            
         Person LoadPerson(string loginId);
         bool HasAccess(string loginId, int seminarId, bool paidResources = true);
         bool HasAccess(string loginId, Seminar seminar, bool paidResources = true);

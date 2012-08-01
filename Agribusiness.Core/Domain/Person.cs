@@ -30,6 +30,7 @@ namespace Agribusiness.Core.Domain
             Contacts = new List<Contact>();
             CaseStudyExecutive =  new List<CaseStudy>();
             CaseStudyAuthor = new List<CaseStudy>();
+            Sites = new List<Site>();
         }
         #endregion
 
@@ -84,8 +85,6 @@ namespace Agribusiness.Core.Domain
         /// </summary>
         public virtual bool ContactInformationRelease { get; set; }
 
-        public virtual IList<Site> Sites { get; set; }
-
         #region Bags
         /// <summary>
         /// Gives a list of all the registration's a person has made
@@ -98,6 +97,7 @@ namespace Agribusiness.Core.Domain
         public virtual IList<CaseStudy> CaseStudyAuthor { get; set; }
 
         public virtual IList<NotificationTracking> NotificationTrackings { get; set; }
+        public virtual IList<Site> Sites { get; set; }
         #endregion
         #endregion
 
@@ -134,6 +134,22 @@ namespace Agribusiness.Core.Domain
             seminarPerson.Person = this;
 
             SeminarPeople.Add(seminarPerson);
+        }
+
+        public virtual void AddSite(Site site)
+        {
+            if (!Sites.Contains(site))
+            {
+                Sites.Add(site);
+            }
+        }
+
+        public virtual void RemoveSite(Site site)
+        {
+            if (Sites.Contains(site))
+            {
+                Sites.Remove(site);
+            }
         }
 
         public virtual SeminarPerson GetLatestRegistration()

@@ -161,7 +161,6 @@ namespace Agribusiness.Web.Controllers
             // fake phone number
             viewModel.Person.Phone = "555-555-5555";    
 
-            // fake address since we don't have it yet
             var atype = _addressTypeRepository.GetNullableById((char)StaticIndexes.Address_Business[0]);
 
             var address = viewModel.Addresses.FirstOrDefault(a => a.AddressType == atype);
@@ -208,7 +207,7 @@ namespace Agribusiness.Web.Controllers
 
             var person = personEditModel.Person;
 
-            var user = _userRepository.Queryable.Where(a => a.LoweredUserName == personEditModel.UserName.ToLower()).FirstOrDefault();
+            var user = _userRepository.Queryable.FirstOrDefault(a => a.LoweredUserName == personEditModel.UserName.ToLower());
             person.User = user;
 
             SeminarPerson seminarPerson = null;
@@ -226,7 +225,7 @@ namespace Agribusiness.Web.Controllers
                                               , personEditModel.Email);
 
                 // retrieve the user to assign
-                var createdUser = _userRepository.Queryable.Where(a => a.LoweredUserName == personEditModel.UserName.ToLower()).FirstOrDefault();
+                var createdUser = _userRepository.Queryable.FirstOrDefault(a => a.LoweredUserName == personEditModel.UserName.ToLower());
                 person.User = createdUser;
 
                 // save only if user creation was successful

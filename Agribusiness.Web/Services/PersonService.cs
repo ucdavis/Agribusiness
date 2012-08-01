@@ -102,6 +102,10 @@ namespace Agribusiness.Web.Services
             return GetDisplayPeeps(people);
         }
 
+        public IEnumerable<DisplayPerson> ConvertToDisplayPeople(IEnumerable<Person> people)
+        {
+            return people.Select(a => GetDisplayPerson(a));
+        }
 
         /// <summary>
         /// Load's a person object from a user's login id

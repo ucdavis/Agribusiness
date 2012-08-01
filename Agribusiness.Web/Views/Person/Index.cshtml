@@ -21,9 +21,71 @@
 {
     @Html.Partial("_DataTables")
     <style type="text/css">
-        .tab-content { overflow: visible;}
+        .tab-content { overflow: visible; }
     </style>
+    
+    <script type="text/javascript" src="@Url.Script("jquery.tmpl.min.js")"> </script>
+    <script type="text/javascript">
+
+        var addUrl = '@Url.Action("AddtoSiteList")';
+        var removeUrl = '@Url.Action("RemoveFromSiteList")';
+        var antiForgeryToken = $('input[name="__RequestVerificationToken"]').val();
+
+        $(function() {
+
+            $('.tab-content').on('click', '.removeFromSite', function (e) {
+                var id = $(this).data("id");
+                var add = $('.addToSite[data-id="' + id + '"]');
+                var $that = $(this);
+
+                $.post(removeUrl, { personId: id, __RequestVerificationToken: antiForgeryToken }, function (result) {
+                    if (result) {
+                        add.show();
+                        $that.closest("tr").hide(function () {
+                            $that.closest("tr").remove();
+                        });
+                    }
+                });
+
+                e.preventDefault();
+            });
+
+            $('.tab-content').on('click', '.addToSite', function(e) {
+                var id = $(this).data("id");
+                var $that = $(this);
+
+                $.post(addUrl, { personId: id, __RequestVerificationToken: antiForgeryToken }, function (result) {
+                    if (!result) {
+
+                    } else {
+                        $("#personRowTemplate").tmpl(result).appendTo("#site tbody");
+                        $that.hide();
+                    }
+                });
+
+                e.preventDefault();
+            });
+        });
+    </script>
+    
+    <script type="text/x-jquery-tmpl" id="personRowTemplate">
+        <tr>
+            <td>
+                <a href="AdminEdit/${userId}" class="btn hastip" rel="tooltip" title="Edit"><i class="icon-pencil"></i></a>
+                <a href="#" class="btn hastip" rel="tooltip" title="Contact Card"><i class="icon-file"></i></a>
+            </td>
+            <td>${firstName}</td>
+            <td>${lastName}</td>
+            <td>${title}</td>
+            <td>${firm}</td>
+            <td>
+                <a href="#" class="btn btn-danger hastip removeFromSite" rel="tooltip" title="Remove from Site List" data-id="${id}"><i class="icon-minus"></i></a>
+            </td>
+        </tr>
+    </script>
 }
+
+@Html.AntiForgeryToken()
 
 <ul class="nav nav-tabs">
     <li class="active"><a href="#current" data-toggle="tab">Current @site.EventType</a></li>
@@ -51,7 +113,7 @@
                         <td>
                             <a href="@Url.Action("AdminEdit", new {id = person.Person.User.Id, seminarId = person.Seminar.Id, allList = true})" class="btn hastip" rel="tooltip" title="Edit"><i class="icon-pencil"></i></a>
                             <a href="#" class="btn hastip" rel="tooltip" title="Contact Card"><i class="icon-file"></i></a>
-                            <a href="#" class="btn hastip" rel="tooltip" title="+ Mailingn List"><i class="icon-envelope"></i></a>
+                            <a href="#" class="btn hastip" rel="tooltip" title="+ Mailing List"><i class="icon-envelope"></i></a>
                         </td>
                         <td>@person.Person.FirstName</td>
                         <td>@person.Person.LastName</td>
@@ -81,19 +143,19 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var person in Model.Site.People.OrderBy(a => a.LastName))
+                @foreach (var person in Model.SitePeople.OrderBy(a => a.Person.LastName))
                 {
                     <tr>
                         <td>
-                            <a href="@Url.Action("AdminEdit", new {id = person.User.Id, allList = true})" class="btn hastip" rel="tooltip" title="Edit"><i class="icon-pencil"></i></a>
+                            <a href="@Url.Action("AdminEdit", new {id = person.Person.User.Id, allList = true})" class="btn hastip" rel="tooltip" title="Edit"><i class="icon-pencil"></i></a>
                             <a href="#" class="btn hastip" rel="tooltip" title="Contact Card"><i class="icon-file"></i></a>
                         </td>
-                        <td>@person.FirstName</td>
-                        <td>@person.LastName</td>
-                        <td>@person</td>
-                        <td>@person</td>
+                        <td>@person.Person.FirstName</td>
+                        <td>@person.Person.LastName</td>
+                        <td>@person.Title</td>
+                        <td>@person.Firm</td>
                         <td>
-                            <a href="#" class="btn btn-danger hastip" rel="tooltip" title="Remove from Site List"><i class="icon-minus"></i></a>
+                            <a href="#" class="btn btn-danger hastip removeFromSite" rel="tooltip" title="Remove from Site List" data-id="@person.Person.Id"><i class="icon-minus"></i></a>
                         </td>
                     </tr>
                 }
@@ -121,7 +183,11 @@
                             <a href="#" class="btn hastip" rel="tooltip" title="Contact Card"><i class="icon-file"></i></a>
                             @if (!person.Person.Sites.Contains(Model.Site))
                             {
-                                <a href="#" class="btn hastip" rel="tooltip" title="Add to Site List"><i class="icon-plus"></i></a>    
+                                <a href="#" class="btn hastip addToSite" rel="tooltip" title="Add to Site List" data-id="@person.Person.Id"><i class="icon-plus"></i></a>    
+                            }
+                            else
+                            {
+                                <a href="#" class="btn hastip addToSite" rel="tooltip" title="Add to Site List" style="display:none;" data-id="@person.Person.Id"><i class="icon-plus"></i></a>    
                             }
                         </td>
                         <td>@person.Person.FirstName</td>

@@ -11,6 +11,7 @@ namespace Agribusiness.Core.Domain
         {
             IsActive = true;
             Seminars = new List<Seminar>();
+            People = new List<Person>();
         }
 
         [StringLength(100)]

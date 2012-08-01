@@ -107,6 +107,42 @@ namespace Agribusiness.Web.Controllers
             return File(vCard, "text/x-vcard", string.Format("{0}.vcf", person.FullName.Replace(" ", "").Replace(".", "")));
         }
 
+        #region List Functions
+        [HttpPost]
+        public JsonNetResult AddtoSiteList(int personId)
+        {
+            var person = RepositoryFactory.PersonRepository.GetNullableById(personId);
+            var site = RepositoryFactory.SiteRepository.GetNullableById(Site);
+
+            if (person != null && site != null)
+            {
+                person.AddSite(site);
+                RepositoryFactory.PersonRepository.EnsurePersistent(person);
+
+                var dp = _personService.GetDisplayPerson(person);
+                return new JsonNetResult(new { id = dp.Person.Id, userId = dp.Person.User.Id, firstName = dp.Person.FirstName, lastName = dp.Person.LastName, title = dp.Title, firm = dp.Firm, lastSeminar = dp.Seminar != null ? dp.Seminar.Year.ToString() : string.Empty });
+            }
+
+            return new JsonNetResult(false);
+        }
+
+        [HttpPost]
+        public JsonNetResult RemoveFromSiteList(int personId)
+        {
+            var person = RepositoryFactory.PersonRepository.GetNullableById(personId);
+            var site = RepositoryFactory.SiteRepository.GetNullableById(Site);
+
+            if (person != null && site != null)
+            {
+                person.RemoveSite(site);
+                RepositoryFactory.PersonRepository.EnsurePersistent(person);
+
+                return new JsonNetResult(true);
+            }
+
+            return new JsonNetResult(false);
+        }
+        #endregion
 
         #region Administration Functions
         /// <summary>

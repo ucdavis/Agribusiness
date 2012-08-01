@@ -10,6 +10,7 @@ namespace Agribusiness.Web.Models
     public class PersonListViewModel
     {
         public IEnumerable<DisplayPerson> People { get; set; }
+        public IEnumerable<DisplayPerson> SitePeople { get; set; } 
         public bool Desc { get; set; }
         public string SortBy { get; set; }
         public Seminar Seminar { get; set; }
@@ -26,6 +27,8 @@ namespace Agribusiness.Web.Models
                                     Seminar = seminarService.GetCurrent(),
                                     Site = SiteService.LoadSite(siteId, true)
                                 };
+
+            viewModel.SitePeople = personService.ConvertToDisplayPeople(viewModel.Site.People);
 
             return viewModel;
         }
