@@ -5,6 +5,7 @@
     ViewBag.Title = "People";
     ViewBag.SubPageTitle = "People";
     ViewBag.PublicProfile = false;
+    ViewBag.nav = Nav.People;
     
     var siteId = ViewContext.RouteData.Values["site"] as string;
     var site = SiteService.LoadSite(siteId);
