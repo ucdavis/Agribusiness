@@ -5,7 +5,7 @@
     
 @{
     var nav = ViewBag.Nav;
-    var site = ViewContext.RouteData.Values["site"] as string;
+    var site = ViewData["site"] as string;
     var seminar = SiteService.GetLatestSeminar(site);
 }
 

@@ -1,14 +1,13 @@
-﻿@using Agribusiness.Web.Models
-@using Agribusiness.Web.Services
+﻿@using Agribusiness.Web.Services
 
-@model Agribusiness.Web.Models.SeminarViewModel
+@model SeminarViewModel
 
 @{
     ViewBag.Title = "Edit Seminar";
     ViewBag.SubPageTitle = "Edit Seminar";
     ViewBag.Restrict = false;
 
-    var site = ViewContext.RouteData.Values["site"] as string;
+    var site = ViewData["site"] as string;
     var seminar = SiteService.GetLatestSeminar(site);
     if (Model.Seminar.Id == seminar.Id)
     {

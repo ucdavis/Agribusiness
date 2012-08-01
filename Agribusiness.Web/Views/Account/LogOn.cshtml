@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Log On";
     ViewBag.SubPageTitle = "Log On";
-    var site = ViewContext.RouteData.Values["site"] as string;
+    var site = ViewData["site"] as string;
 }
 
 @Html.ValidationSummary(true, "Login was unsuccessful. Please correct the errors and try again.")
