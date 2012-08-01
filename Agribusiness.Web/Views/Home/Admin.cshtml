@@ -1,10 +1,42 @@
-﻿@{
+﻿@model AdminIndexViewModel
+@{
     ViewBag.Title = "Admin Home";
     ViewBag.SubPageTitle = "Admin Home"; 
     ViewBag.Nav = Nav.Home;
 }
 
-@if (!string.IsNullOrEmpty(@Model.ToString()))
+@*@if (!string.IsNullOrEmpty(@Model.ToString()))
 {
     @Html.Partial("_Message", new MessageModel(){IsError=false, Message = Model.ToString()})    
 }
+*@
+
+@helper DisplayBlock(int blockCounter, int futureBlockCounter, string text)
+{
+    var dispClass = "well";
+
+    if (blockCounter > 0)
+    {
+        if (futureBlockCounter == 0)
+        {
+            dispClass = "alert alert-block alert-success";
+        }
+        else
+        {
+            dispClass = "alert alert-block alert-error";
+        }
+    }
+    
+    <div class="@dispClass">
+        <h3>@blockCounter</h3> @text
+    </div>
+
+}
+
+@DisplayBlock(Model.PendingInformationRequests, Model.PendingApplications, "information requests are currently pending.")
+@DisplayBlock(Model.PendingApplications, Model.ApplicationsPaid, "pending applications are awaiting review.")
+@DisplayBlock(Model.ApplicationsPaid, 0, "registered attendeees that have paid.")
+
+@DisplayBlock(Model.PeopleMissingBiography, Model.ApplicationsPaid, "attendees missing biography.")
+@DisplayBlock(Model.PeopleMissingPhoto, Model.ApplicationsPaid, "attendees missing photo.")
+@DisplayBlock(Model.PeopleMissingHotel, Model.ApplicationsPaid, "attendees not registered for hotel.")

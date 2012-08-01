@@ -75,7 +75,14 @@
                       {
                           <img src='@Url.Action("GetLogo", "Site", new { id = siteId })' alt="logo" class="header-logo"/>
                       }
-                      @ViewBag.HeaderTitle
+                    @if (site == null)
+                    { 
+                        <text>UC Davis Agribusiness Executive Seminar</text>
+                    }
+                    else
+                    {
+                        @site.Name
+                    }
                   </a>
                   
                   @if (!string.IsNullOrEmpty(siteId))
