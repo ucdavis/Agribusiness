@@ -2,7 +2,8 @@
 
 @{
     ViewBag.HeaderTitle = !string.IsNullOrEmpty(ViewBag.HeaderTitle) ? ViewBag.HeaderTitle : "UC Davis Agribusiness";
-    var site = ViewContext.RouteData.Values["site"] as string;
+    //var site = ViewContext.RouteData.Values["site"] as string;
+    var site = ViewData["site"] as string;
 }
 
 <!DOCTYPE html>
@@ -48,7 +49,7 @@
 
   <body>
       
-    @if (!string.IsNullOrWhiteSpace(ViewBag.CatbertCritical) || !string.IsNullOrWhiteSpace(ViewBag.CatbertMessage))
+      @if (!string.IsNullOrWhiteSpace(ViewBag.CatbertCritical) || !string.IsNullOrWhiteSpace(ViewBag.CatbertMessage))
     { 
         <div id="system_wide_status">  
             <div id="system_wide_status_text">
@@ -68,7 +69,7 @@
                       <span class="icon-bar"></span>
                   </a>
 
-                  <a class="brand" href="@Url.Action("Index", "Home", new { @site = site })">
+                  <a class="brand" href="@Url.Action("Index", "Home", new { })">
                       @if (!string.IsNullOrEmpty(site))
                       {
                           <img src='@Url.Action("GetLogo", "Site", new { id = site })' alt="logo" class="header-logo"/>

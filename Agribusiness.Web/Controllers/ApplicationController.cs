@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using Agribusiness.Core.Domain;
 using Agribusiness.Core.Repositories;
 using Agribusiness.Web.App_GlobalResources;
 using Microsoft.Practices.ServiceLocation;
@@ -30,22 +29,17 @@ namespace Agribusiness.Web.Controllers
             var index = host.IndexOf(".");
             if (index > 0)
             {
-
                 var subdomain = host.Substring(0, index);
                 if (Sites.Contains(subdomain))
                 {
-                    Site = subdomain;
-                }
-                else
-                {
-                    Site = filterContext.RouteData.Values["site"] as string;    
+                    filterContext.RouteData.Values["site"] = subdomain;
                 }
             }
-            else
-            {
-                Site = filterContext.RouteData.Values["site"] as string;    
-            }
-            
+
+            Site = filterContext.RouteData.Values["site"] as string;
+
+            ViewData["site"] = Site;
+
             base.OnActionExecuting(filterContext);
         }
 
