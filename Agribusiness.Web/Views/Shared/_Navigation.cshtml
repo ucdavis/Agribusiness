@@ -32,6 +32,7 @@
                     <li >@Html.ActionLink("Seminars", "Index", "Seminar")</li>
                     <li>@Html.ActionLink("Commodities", "Index", "Commodity")</li>
                     <li>@Html.ActionLink("Firms", "Index", "Firm")</li>
+                    <li>@Html.ActionLink("Sites", "Index", "Site")</li>
                 </ul>
             </li>
         }
@@ -47,12 +48,4 @@
         <li class="@(nav == Nav.BackgroundInformation ? "active" : string.Empty)">@Html.ActionLink("Background Information", "Background", "Public")</li>
         <li class="@(nav == Nav.ProgramOverview ? "active" : string.Empty)">@Html.ActionLink("Program Overview", "ProgramOverview", "Public")</li>
     }
-
-
-    @*@if (!Model && !HttpContext.Current.User.Identity.IsAuthenticated)
-    { 
-    <li>
-        @Html.ActionLink("Admin Tools", "Admin", "Home", new { membershipLogon = false }, new { })
-    </li>
-    }*@
 </ul>

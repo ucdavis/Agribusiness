@@ -1,9 +1,10 @@
-﻿@using Agribusiness.Web.Models
+﻿@using Agribusiness.Web.Services
 
 @{
     ViewBag.HeaderTitle = !string.IsNullOrEmpty(ViewBag.HeaderTitle) ? ViewBag.HeaderTitle : "UC Davis Agribusiness";
     //var site = ViewContext.RouteData.Values["site"] as string;
-    var site = ViewData["site"] as string;
+    var siteId = ViewData["site"] as string;
+    var site = SiteService.LoadSite(siteId);
 }
 
 <!DOCTYPE html>
@@ -11,13 +12,13 @@
   <head>
     <meta charset="utf-8">
     <title>
-        @if (String.IsNullOrWhiteSpace(ViewBag.Title))
+        @if (site == null)
         { 
             <text>UC Davis Agribusiness Executive Seminar</text>
         }
         else
         {
-            @ViewBag.Title
+            @site.Name
         }
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,7 +35,7 @@
     
     <link href="@Url.Content("~/content/bootstrap-responsive.css")" rel="stylesheet" >
     <link href="@Url.Content("~/Content/themes/uibootstrap/jquery-ui-1.8.16.custom.css")" rel="stylesheet"/>
-    @if (!string.IsNullOrEmpty(site))
+    @if (!string.IsNullOrEmpty(siteId))
     {
         <link href="@Url.Content("~/Content/logolayout.css")" rel="stylesheet"/>
     }
@@ -70,20 +71,20 @@
                   </a>
 
                   <a class="brand" href="@Url.Action("Index", "Home", new { })">
-                      @if (!string.IsNullOrEmpty(site))
+                      @if (!string.IsNullOrEmpty(siteId))
                       {
-                          <img src='@Url.Action("GetLogo", "Site", new { id = site })' alt="logo" class="header-logo"/>
+                          <img src='@Url.Action("GetLogo", "Site", new { id = siteId })' alt="logo" class="header-logo"/>
                       }
                       @ViewBag.HeaderTitle
                   </a>
                   
-                  @if (!string.IsNullOrEmpty(site))
+                  @if (!string.IsNullOrEmpty(siteId))
                   {
-                      @Html.Partial("_LogonPartial", site)
+                      @Html.Partial("_LogonPartial", siteId)
                   }
                   
                   <div class="nav-collapse">
-                      @if (!string.IsNullOrEmpty(site))
+                      @if (!string.IsNullOrEmpty(siteId))
                       {
                           @Html.Partial("_Navigation")
                       }

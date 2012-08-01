@@ -62,7 +62,10 @@ namespace Agribusiness.Web.Services
         public static void ReCacheSite(Site site)
         {
             System.Web.HttpContext.Current.Cache[site.Id] = site;
-            System.Web.HttpContext.Current.Cache[string.Format(SeminarKey, site.Id)] = site.Seminars.OrderByDescending(a => a.Year).FirstOrDefault();
+            if (site.Seminars.Any())
+            {
+                System.Web.HttpContext.Current.Cache[string.Format(SeminarKey, site.Id)] = site.Seminars.OrderByDescending(a => a.Year).FirstOrDefault();    
+            }
         }
     }
 }
