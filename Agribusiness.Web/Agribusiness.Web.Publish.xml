@@ -1510,7 +1510,7 @@
   </publishProfile>
   <publishProfile publishUrl="\\hughman\agbiz" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="dev" publishMethod="FileSystem" replaceMatchingFiles="True" userName="" savePWD="False" userPWD="" SelectedForPublish="True">
     <file relUrl="Views/MailingList/Index.cshtml" publishTime="07/25/2012 15:02:11" />
-    <file relUrl="bin/Agribusiness.Web.dll" publishTime="08/02/2012 08:23:58" />
+    <file relUrl="bin/Agribusiness.Web.dll" publishTime="08/02/2012 09:36:07" />
     <file relUrl="Views/Shared/_DateTimePickerScripts.cshtml" publishTime="07/18/2012 09:38:58" />
     <file relUrl="Views/Public/ProgramOverview.cshtml" publishTime="07/18/2012 09:38:58" />
     <file relUrl="bin/UCDArch.dll" publishTime="07/19/2012 13:33:33" />
@@ -1718,7 +1718,7 @@
     <file relUrl="bin/DataAnnotationsExtensions.ClientValidation.dll" publishTime="07/19/2012 13:33:33" />
     <file relUrl="Content/themes/base/minified/images/ui-bg_glass_95_fef1ec_1x400.png" publishTime="07/19/2012 13:36:32" />
     <file relUrl="Views/Notification/_NotificationScripts.cshtml" publishTime="07/25/2012 13:54:09" />
-    <file relUrl="Views/Site/Edit.cshtml" publishTime="07/25/2012 14:16:44" />
+    <file relUrl="Views/Site/Edit.cshtml" publishTime="08/02/2012 09:35:30" />
     <file relUrl="Content/themes/base/jquery.ui.slider.css" publishTime="07/19/2012 13:36:33" />
     <file relUrl="Scripts/tiny_mce/plugins/emotions/img/smiley-cry.gif" publishTime="07/18/2012 09:38:57" />
     <file relUrl="Content/themes/base/jquery.ui.button.css" publishTime="07/19/2012 13:36:33" />
@@ -1858,7 +1858,7 @@
     <file relUrl="Scripts/tiny_mce/themes/advanced/shortcuts.htm" publishTime="07/18/2012 09:38:57" />
     <file relUrl="Scripts/tiny_mce/themes/advanced/img/video.gif" publishTime="07/18/2012 09:38:57" />
     <file relUrl="bin/Moxiecode.TinyMCE.dll" publishTime="07/18/2012 09:38:58" />
-    <file relUrl="Views/Site/Details.cshtml" publishTime="07/25/2012 14:18:06" />
+    <file relUrl="Views/Site/Details.cshtml" publishTime="08/02/2012 09:33:59" />
     <file relUrl="Scripts/tiny_mce/themes/advanced/js/charmap.js" publishTime="07/18/2012 09:38:57" />
     <file relUrl="Scripts/tiny_mce/plugins/table/merge_cells.htm" publishTime="07/18/2012 09:38:57" />
     <file relUrl="Scripts/tiny_mce/plugins/table/js/table.js" publishTime="07/18/2012 09:38:57" />
@@ -2010,7 +2010,7 @@
     <file relUrl="Scripts/tiny_mce/plugins/table/langs/en_dlg.js" publishTime="07/18/2012 09:38:57" />
     <file relUrl="Content/themes/base/minified/jquery.ui.progressbar.min.css" publishTime="07/19/2012 13:36:30" />
     <file relUrl="Scripts/tiny_mce/plugins/spellchecker/css/content.css" publishTime="07/18/2012 09:38:57" />
-    <file relUrl="bin/Agribusiness.Web.pdb" publishTime="08/02/2012 08:23:58" />
+    <file relUrl="bin/Agribusiness.Web.pdb" publishTime="08/02/2012 09:36:07" />
     <file relUrl="Scripts/tiny_mce/plugins/emotions/editor_plugin_src.js" publishTime="07/18/2012 09:38:57" />
     <file relUrl="Views/Session/Create.cshtml" publishTime="07/25/2012 15:20:44" />
     <file relUrl="Scripts/tiny_mce/themes/advanced/about.htm" publishTime="07/18/2012 09:38:57" />
@@ -2079,7 +2079,7 @@
     <file relUrl="Scripts/tiny_mce/plugins/fullscreen/editor_plugin_src.js" publishTime="07/18/2012 09:38:57" />
     <file relUrl="bin/NPOI.xml" publishTime="07/18/2012 09:38:59" />
     <file relUrl="Scripts/tiny_mce/plugins/advlink/js/advlink.js" publishTime="07/18/2012 09:38:57" />
-    <file relUrl="Views/Site/Index.cshtml" publishTime="07/20/2012 13:47:20" />
+    <file relUrl="Views/Site/Index.cshtml" publishTime="08/02/2012 09:43:04" />
     <file relUrl="Scripts/tiny_mce/plugins/advlink/editor_plugin.js" publishTime="07/18/2012 09:38:57" />
     <file relUrl="Scripts/tiny_mce/plugins/emotions/img/smiley-embarassed.gif" publishTime="07/18/2012 09:38:57" />
     <file relUrl="Scripts/tiny_mce/plugins/fullpage/js/fullpage.js" publishTime="07/18/2012 09:38:57" />
