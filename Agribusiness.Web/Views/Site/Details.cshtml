@@ -13,6 +13,13 @@
     </ul>
 }
 
+@section ScriptContent
+{
+    <style type="text/css">
+        .address { color: grey;}
+    </style>
+}
+
 <div class="form-horizontal">
     <div class="control-group">
         <fieldset>
@@ -22,6 +29,14 @@
                 <label for="EventType" class="control-label">Event Type</label>
                 <div class="controls form-text">
                     @Model.EventType
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label for="Subdomain" class="control-label">Address</label>
+                <div class="controls form-text">
+                    <div>@Model.Subdomain<span class="address">.ucdavis.edu</span></div>
+                    <div><span class="address">https://agribusiness.ucdavis.edu/</span>@Model.Id</div>
                 </div>
             </div>
 

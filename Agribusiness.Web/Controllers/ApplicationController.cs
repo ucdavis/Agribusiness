@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Agribusiness.Core.Repositories;
 using Agribusiness.Web.App_GlobalResources;
+using Agribusiness.Web.Services;
 using Microsoft.Practices.ServiceLocation;
 using UCDArch.Web.Attributes;
 using UCDArch.Web.Controller;
@@ -22,21 +23,11 @@ namespace Agribusiness.Web.Controllers
 
         public string Site { get; private set; }
 
-        //public string[] Sites = new string[] { "agexec", "agleadership" };
-        //public string[] Sites { get; private set; }
-
-        private string SitesKey = "Sites";
-
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            var sites = (List<KeyValuePair<string, string>>)HttpContext.Cache[SitesKey];
+            var sites = SiteService.LoadSiteDomains();
 
-            if (sites == null)
-            {
-                sites = RepositoryFactory.SiteRepository.Queryable.Select(a => new KeyValuePair<string, string>(a.Id, a.Subdomain)).ToList();
-                HttpContext.Cache[SitesKey] = sites;
-            }
-
+            // if we're using a valid subdomain, inject the site token
             var host = HttpContext.Request.Headers["HOST"];
             var index = host.IndexOf(".");
             if (index > 0)
@@ -50,7 +41,6 @@ namespace Agribusiness.Web.Controllers
             }
 
             Site = filterContext.RouteData.Values["site"] as string;
-
             ViewData["site"] = Site;
 
             base.OnActionExecuting(filterContext);

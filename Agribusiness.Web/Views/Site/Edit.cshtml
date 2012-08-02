@@ -93,6 +93,13 @@
                 </div>
             </div>
             <div class="control-group">
+                <label for="Subdomain" class="control-label">Subdomain</label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.Subdomain)
+                    @Html.ValidationMessageFor(model => model.Subdomain)
+                </div>
+            </div>
+            <div class="control-group">
                 <label for="description" class="control-label">Description:</label>
                 <div class="controls">
                     @Html.EditorFor(model => model.Description)

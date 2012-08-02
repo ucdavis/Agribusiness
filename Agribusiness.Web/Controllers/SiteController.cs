@@ -50,7 +50,7 @@ namespace Agribusiness.Web.Controllers
         [UserOnly]
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Edit(string id, string name, string eventType, string description, string welcome, HttpPostedFileBase logo, HttpPostedFileBase splash)
+        public ActionResult Edit(string id, string name, string subdomain, string eventType, string description, string welcome, HttpPostedFileBase logo, HttpPostedFileBase splash)
         {
             var site = RepositoryFactory.SiteRepository.GetNullableById(id);
             
@@ -62,6 +62,7 @@ namespace Agribusiness.Web.Controllers
 
             site.Name = name;
             site.EventType = eventType;
+            site.Subdomain = subdomain;
             site.Description = description;
             site.Welcome = welcome;
 
