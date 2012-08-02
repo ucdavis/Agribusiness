@@ -38,6 +38,8 @@ namespace Agribusiness.Core.Domain
         /// </summary>
         public virtual bool CollectExtended { get; set; }
 
+        public virtual string Subdomain { get; set; }
+
         public virtual IList<Seminar> Seminars { get; set; }
         public virtual IList<Person> People { get; set; }
     }
@@ -60,6 +62,7 @@ namespace Agribusiness.Core.Domain
 
             Map(x => x.EventType);
             Map(x => x.CollectExtended);
+            Map(x => x.Subdomain);
 
             HasMany(x => x.Seminars);
 

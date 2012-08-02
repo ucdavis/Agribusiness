@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Agribusiness.Core.Repositories;
 using Agribusiness.Web.App_GlobalResources;
@@ -21,18 +22,30 @@ namespace Agribusiness.Web.Controllers
 
         public string Site { get; private set; }
 
-        public string[] Sites = new string[] { "agexec", "aglead" };
+        //public string[] Sites = new string[] { "agexec", "agleadership" };
+        //public string[] Sites { get; private set; }
+
+        private string SitesKey = "Sites";
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
+            var sites = (List<KeyValuePair<string, string>>)HttpContext.Cache[SitesKey];
+
+            if (sites == null)
+            {
+                sites = RepositoryFactory.SiteRepository.Queryable.Select(a => new KeyValuePair<string, string>(a.Id, a.Subdomain)).ToList();
+                HttpContext.Cache[SitesKey] = sites;
+            }
+
             var host = HttpContext.Request.Headers["HOST"];
             var index = host.IndexOf(".");
             if (index > 0)
             {
                 var subdomain = host.Substring(0, index);
-                if (Sites.Contains(subdomain))
+                var site = sites.FirstOrDefault(a => a.Value == subdomain);
+                if (!string.IsNullOrEmpty(site.Key))
                 {
-                    filterContext.RouteData.Values["site"] = subdomain;
+                    filterContext.RouteData.Values["site"] = site.Key;    
                 }
             }
 
