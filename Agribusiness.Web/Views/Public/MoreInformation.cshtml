@@ -17,6 +17,7 @@
 {
     @if (string.IsNullOrEmpty(Model.City) || string.IsNullOrEmpty(Model.State) || Model.Country == null)
     {
+        <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.maskedinput.min.js")"></script>
         <script type="text/javascript" src="http://www.google.com/jsapi"></script>
         <script type="text/javascript">
 
@@ -40,11 +41,13 @@
                 }
                 else {
                 }
+
+                if (addr.country == "USA") {
+                    $("#Phone").mask("(999) 999-9999");    
+                }
             });
-        
         </script>    
     }
-    
 }
 
 @Html.ValidationSummary(false, "Please correct the following errors:")
@@ -97,6 +100,16 @@
                 <div class="controls">
                     @Html.EditorFor(a => a.Company)
                     @Html.ValidationMessageFor(a => a.Company)
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="Phone" class="control-label">
+                    Phone
+                    <span class="required">*</span>
+                </label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.Phone)
+                    @Html.ValidationMessageFor(model => model.Phone)
                 </div>
             </div>
             <div class="control-group">

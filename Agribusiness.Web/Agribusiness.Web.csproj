@@ -395,6 +395,7 @@
     <Content Include="Scripts\AssignToSession.js" />
     <Content Include="Scripts\jquery.dataTables.min.js" />
     <Content Include="Scripts\jquery.Jcrop.min.js" />
+    <Content Include="Scripts\jquery.maskedinput.min.js" />
     <Content Include="Scripts\jquery.qtip.min.js" />
     <Content Include="Scripts\jquery.tmpl.min.js" />
     <Content Include="Scripts\jquery.validate-vsdoc.js" />
@@ -841,6 +842,7 @@
     <Content Include="Views\Shared\_DataTables.cshtml" />
     <Content Include="Views\Notification\_NotificationScripts.cshtml" />
     <Content Include="Views\Firm\_FirmTable.cshtml" />
+    <Content Include="Views\Shared\_tinymce.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">

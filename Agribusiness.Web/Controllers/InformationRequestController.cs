@@ -159,7 +159,7 @@ namespace Agribusiness.Web.Controllers
             viewModel.UserName = string.Format("{0}.{1}", ir.FirstName.Trim(), ir.LastName.Trim());
 
             // fake phone number
-            viewModel.Person.Phone = "555-555-5555";    
+            viewModel.Person.Phone = ir.Phone;    
 
             var atype = _addressTypeRepository.GetNullableById((char)StaticIndexes.Address_Business[0]);
 

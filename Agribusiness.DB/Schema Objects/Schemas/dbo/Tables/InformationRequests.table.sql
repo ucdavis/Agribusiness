@@ -10,6 +10,7 @@
     [SubmittedDateTime] DATETIME      NOT NULL,
     [Responded]         BIT           NOT NULL, 
     [SiteId] VARCHAR(10) NOT NULL, 
+	[Phone] varchar(25) NOT null,
     [AddressLine1]          VARCHAR (100)    NOT NULL,
     [AddressLine2]          VARCHAR (100)    NULL,
     [City]                  VARCHAR (50)     NOT NULL,

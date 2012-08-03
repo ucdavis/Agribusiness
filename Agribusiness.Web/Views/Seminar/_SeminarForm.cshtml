@@ -89,8 +89,76 @@
             </div>
         </div>
     </fieldset> 
+    <fieldset>
+        <legend>Public Case Study Page</legend>
+        
+        <div class="control-group">
+            <label for="Seminar.ReleaseCaseStudy" class="control-label">Release Case Studies</label>
+            <div class="controls">
+                @Html.EditorFor(model => model.Seminar.ReleaseCaseStudyList)
+                @Html.ValidationMessageFor(model => model.Seminar.ReleaseCaseStudyList)
+                <p class="help-block">Makes public list of Case Studies</p>
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="CaseStudyText" class="control-label">Case Study</label>
+            <div class="controls">
+                <div class="row-fluid">
+                    <div class="span8">
+                        @Html.EditorFor(model => model.Seminar.CaseStudyText)
+                    </div>
+                </div>
+                @Html.ValidationMessageFor(model => model.Seminar.CaseStudyText)
+                <p class="help-block">Text for the public Case Study page.</p>
+            </div>
+        </div>
+    </fieldset>        
+    <fieldset>
+        <legend>Program Information</legend>
+        <div class="control-group">
+            <label for="ReleaseSchedule" class="control-label">Release Schedule</label>
+            <div class="controls">
+                @Html.EditorFor(model => model.Seminar.ReleaseSchedule)
+                @Html.ValidationMessageFor(model => model.Seminar.ReleaseSchedule)
+                <p class="help-block">Check to display the public schedule on the Program Information Page.  Checking will hide the below Program Information text.</p>
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="Seminar.ProgramInformation" class="control-label">Program Information</label>
+            <div class="controls">
+                <div class="row-fluid">
+                    <div class="span8">
+                        @Html.EditorFor(model => model.Seminar.ProgramInformation)        
+                    </div>
+                </div>
+                @Html.ValidationMessageFor(model => model.Seminar.ProgramInformation)
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="ScheduleFile" class="control-label">Schedule</label>
+            <div class="controls">
+                <input type="file" class="input-file" name="schedule"/>
+                @if (Model.Seminar.ScheduleFile != null)
+                {
+                    <a href="#" class="btn hastip" rel="tooltip" title="View Existing Uplaoded Schedule"><i class="icon-download"></i></a>    
+                }
+                <p class="help-block">Schedule PDF, that is available to the public.</p>
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="BrochureFile" class="control-label">Brochure</label>
+            <div class="controls">
+                <input type="file" class="input-file" name="brochure"/>
+                @if (Model.Seminar.BrochureFile != null)
+                {
+                    <a href="#" class="btn hastip" rel="tooltip" title="View Existing Uplaoded Brochure"><i class="icon-download"></i></a>    
+                }
+                <p class="help-block">Brochure PDF, that is availalbe to the public.</p>
+            </div>
+        </div>
+    </fieldset>
 </div>
 <div class="form-actions">
     <input type="submit" value="Save" class="btn btn-primary" />
-    @Html.ActionLink("Cancel", "Index", "Seminar", new { }, new {@class="btn"})
+    @Html.ActionLink("Cancel", "Index", "Seminar", new { }, new { @class = "btn" })
 </div>

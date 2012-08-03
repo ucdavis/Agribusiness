@@ -122,12 +122,6 @@
     <Folder Include="Schema Objects\Schemas\dbo\Service Broker\" />
     <Folder Include="Schema Objects\Schemas\dbo\Service Broker\Queues\" />
     <Folder Include="Schema Objects\Schemas\dbo\Synonyms\" />
-    <Folder Include="Schema Objects\Schemas\dbo\Tables\" />
-    <Folder Include="Schema Objects\Schemas\dbo\Tables\Constraints\" />
-    <Folder Include="Schema Objects\Schemas\dbo\Tables\Indexes\" />
-    <Folder Include="Schema Objects\Schemas\dbo\Tables\Keys\" />
-    <Folder Include="Schema Objects\Schemas\dbo\Tables\Triggers\" />
-    <Folder Include="Schema Objects\Schemas\dbo\Tables\Statistics\" />
     <Folder Include="Schema Objects\Schemas\dbo\Views\" />
     <Folder Include="Schema Objects\Schemas\dbo\Views\Indexes\" />
     <Folder Include="Schema Objects\Schemas\dbo\Views\Triggers\" />
@@ -165,6 +159,12 @@
     <Folder Include="Schema Objects\Database Level Objects\Storage\Partition Schemes\" />
     <Folder Include="Data Generation Plans\Schema Comparisons" />
     <Folder Include="Schema Compare" />
+    <Folder Include="Schema Objects\Schemas\dbo\Tables" />
+    <Folder Include="Schema Objects\Schemas\dbo\Tables\Constraints" />
+    <Folder Include="Schema Objects\Schemas\dbo\Tables\Indexes" />
+    <Folder Include="Schema Objects\Schemas\dbo\Tables\Keys" />
+    <Folder Include="Schema Objects\Schemas\dbo\Tables\Statistics" />
+    <Folder Include="Schema Objects\Schemas\dbo\Tables\Triggers" />
   </ItemGroup>
   <ItemGroup>
     <BuildContributorArgument Include="OutDir=$(OutDir)" />
@@ -205,168 +205,6 @@
   </ItemGroup>
   <ItemGroup>
     <Build Include="Permissions.sql" />
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_Applications_DateSubmitted.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_Applications_IsApproved.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_Applications_IsPending.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_People_Invite.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_Firms_Review.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_Firms_FirmCode.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_SeminarPeople_Registered.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Sessions_SessionTypes.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Sessions_Seminars.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_CaseStudies_Seminars.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_CaseStudies_Sessions.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_SeminarPeopleSessions_SeminarPeople.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_SeminarPeopleSessions_Sessions.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Contacts_ContactType.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Contacts_People.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Applications_Seminars.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Applications_aspnet_Users.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Applications_States.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Addresses_AddressType.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Addresses_People.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_ApplicationXCommodity_Applications.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_ApplicationXCommodity_Commodities.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_SeminarPeopleXSeminarRoles_SeminarRoles.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_SeminarPeopleXSeminarRoles_SeminarPeople.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_CaseStudyAuthors_SeminarPeople.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_CaseStudyAuthors_CaseStudies.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_CaseStudyExecutives_SeminarPeople.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_CaseStudyExecutives_CaseStudies.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_SeminarPeople_Seminars.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_SeminarPeople_People.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Indexes\aspnet_Membership_index.index.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Indexes\aspnet_Users_Index2.index.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Indexes\aspnet_Users_Index.index.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Indexes\aspnet_Applications_Index.index.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_Table_1.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_States.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_CaseStudies.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_SeminarPeopleSessions.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_Contacts.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_Applications.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_Addresses.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_SessionTypes.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_SeminarRoles.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_ContactType.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_AddressType.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_ApplicationXCommodity.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_Commodities.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_Seminars.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_SeminarPeopleXSeminarRoles.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_People.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_CaseStudyAuthors.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_CaseExecutives.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_Forms.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_SeminarPeople.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\usp_WipeUser.proc.sql">
       <SubType>Code</SubType>
       <AnsiNulls>On</AnsiNulls>
@@ -524,126 +362,6 @@
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>Off</QuotedIdentifier>
     </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Sessions.table.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\States.table.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\CaseStudies.table.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\SeminarPeopleXSessions.table.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Contacts.table.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Applications.table.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Addresses.table.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\SessionTypes.table.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\SeminarRoles.table.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\ContactTypes.table.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\AddressTypes.table.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\ApplicationXCommodity.table.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Commodities.table.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\aspnet_Membership.table.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Seminars.table.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\SeminarPeopleXSeminarRoles.table.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\aspnet_SchemaVersions.table.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\aspnet_Users.table.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\People.table.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\CaseStudyAuthors.table.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\aspnet_Applications.table.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\CaseStudyExecutives.table.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Firms.table.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\SeminarPeople.table.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
     <Build Include="Schema Objects\Database Level Objects\Service Broker\Routes\AutoCreatedLocal.route.sql">
       <SubType>Code</SubType>
     </Build>
@@ -656,258 +374,6 @@
     <Build Include="Schema Objects\Database Level Objects\Security\Schemas\aspnet_Membership_BasicAccess.schema.sql">
       <SubType>Code</SubType>
     </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_Seminars_ReleaseToAttendees.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_SeminarPeople_Invite.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_SeminarPeople_Firms.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_Applications_ContactInformationRelease.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_SeminarPersonXCommodity.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\SeminarPeopleXCommodities.table.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_SeminarPeople_ContactInformationRelease.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_Commodities_IsActive.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_SessionPeople.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\SessionPeople.table.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_ContactTypes_Required.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_AddressTypes_Required.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_Countries.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Countries.table.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Applications_Countries.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Addresses_Countries.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_CommunicationOptions_RequiresAssistant.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_People_CommunicationOptions.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Applications_CommunicationOptions.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_CommunicationOptions.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\CommunicationOptions.table.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_People_AutomatedNotification.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_NotificationTracking_NotificationTypes.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_NotificationTracking_NotificationMethods.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_NotificationTracking_Applications.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_NotificationTracking_People.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_NotificationTypes.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_NotificationTracking.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_NotificationMethods.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\NotificationTypes.table.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\NotificationTracking.table.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\NotificationMethods.table.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_NotificationTypes_Display.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_NotificationTracking_Seminars.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_EmailQueue_Pending.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_NotificationTracking_EmailQueue.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_EmailQueue_People.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_EmailQueue.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\EmailQueue.table.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_NotificationTypes_SendAll.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_Templates_IsActive.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Templates_NotificationTypes.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_Templates.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Templates.table.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_People_ContactInformationRelease.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_RomeTypes_IsActive.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_SeminarPeople_RoomTypes.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_RomeTypes.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\RoomTypes.table.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_InformationRequests_Responded.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_InformationRequests_SubmittedDateTime.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_InformationRequestNotes_DateTime.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_InformationRequests_Seminars.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_InformationRequestNotes_InformationRequests.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_InformationRequests.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_InformationRequestNotes.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\InformationRequests.table.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\InformationRequestNotes.table.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_CaseStudies_Public.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_CaseStudies_LastUpdate.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_CaseStudies_DateCreated.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_MailingLists_DateUpdated.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_MailingLists_DateCreated.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_MailingListsXPeople_People.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_MailingListsXPeople_MailingLists.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_MailingLists_Seminars.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_MailingListsXPeople.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_MailingLists.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\MailingListsXPeople.table.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\MailingLists.table.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Invitations_Seminars.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Invitations_People.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_Invitations.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Invitations.table.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\usp_ProcessEmails.proc.sql">
       <SubType>Code</SubType>
     </Build>
@@ -919,52 +385,176 @@
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Attachments.table.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\EmailQueueXAttachments.table.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_EmailQueueXAttachments_EmailQueue.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_EmailQueueXAttachments_Attachments.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_EmailQueueXAttachments.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_Attachments.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\usp_SendEmails.proc.sql">
       <SubType>Code</SubType>
     </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\FirmTypes.table.sql">
-      <SubType>Code</SubType>
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_FirmTypes_IsActive.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Application_FirmType.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_FirmTypes_IsActive_1.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Applications_FirmTypes.fkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_FirmTypes.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_Sessions_ShowPublic.defconst.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Sites.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_AddressTypes_Required.defconst.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_Applications_ContactInformationRelease.defconst.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_Applications_DateSubmitted.defconst.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_Applications_IsApproved.defconst.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_Applications_IsPending.defconst.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_CaseStudies_DateCreated.defconst.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_CaseStudies_LastUpdate.defconst.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_CaseStudies_Public.defconst.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_Commodities_IsActive.defconst.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_CommunicationOptions_RequiresAssistant.defconst.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_ContactTypes_Required.defconst.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_EmailQueue_Pending.defconst.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_Firms_FirmCode.defconst.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_Firms_Review.defconst.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_FirmTypes_IsActive.defconst.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_FirmTypes_IsActive_1.defconst.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_InformationRequestNotes_DateTime.defconst.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_InformationRequests_Responded.defconst.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_InformationRequests_SubmittedDateTime.defconst.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_MailingLists_DateCreated.defconst.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_MailingLists_DateUpdated.defconst.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_NotificationTypes_Display.defconst.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_NotificationTypes_SendAll.defconst.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_People_AutomatedNotification.defconst.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_People_ContactInformationRelease.defconst.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_People_Invite.defconst.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_RomeTypes_IsActive.defconst.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_SeminarPeople_ContactInformationRelease.defconst.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_SeminarPeople_Invite.defconst.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_SeminarPeople_Registered.defconst.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_Seminars_ReleaseToAttendees.defconst.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_Sessions_ShowPublic.defconst.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Constraints\DF_Templates_IsActive.defconst.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Indexes\aspnet_Applications_Index.index.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Indexes\aspnet_Membership_index.index.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Indexes\aspnet_Users_Index.index.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Indexes\aspnet_Users_Index2.index.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Addresses_AddressType.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Addresses_Countries.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Addresses_People.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Application_FirmType.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Applications_aspnet_Users.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Applications_CommunicationOptions.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Applications_Countries.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Applications_FirmTypes.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Applications_Seminars.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Applications_States.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_ApplicationXCommodity_Applications.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_ApplicationXCommodity_Commodities.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_CaseStudies_Seminars.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_CaseStudies_Sessions.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_CaseStudyAuthors_CaseStudies.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_CaseStudyAuthors_SeminarPeople.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_CaseStudyExecutives_CaseStudies.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_CaseStudyExecutives_SeminarPeople.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Contacts_ContactType.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Contacts_People.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_EmailQueue_People.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_EmailQueueXAttachments_Attachments.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_EmailQueueXAttachments_EmailQueue.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_InformationRequestNotes_InformationRequests.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_InformationRequests_Seminars.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Invitations_People.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Invitations_Seminars.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_MailingLists_Seminars.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_MailingListsXPeople_MailingLists.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_MailingListsXPeople_People.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_NotificationTracking_Applications.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_NotificationTracking_EmailQueue.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_NotificationTracking_NotificationMethods.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_NotificationTracking_NotificationTypes.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_NotificationTracking_People.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_NotificationTracking_Seminars.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_People_CommunicationOptions.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_SeminarPeople_Firms.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_SeminarPeople_People.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_SeminarPeople_RoomTypes.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_SeminarPeople_Seminars.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_SeminarPeopleSessions_SeminarPeople.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_SeminarPeopleSessions_Sessions.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_SeminarPeopleXSeminarRoles_SeminarPeople.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_SeminarPeopleXSeminarRoles_SeminarRoles.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Sessions_Seminars.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Sessions_SessionTypes.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Templates_NotificationTypes.fkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_Addresses.pkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_AddressType.pkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_Applications.pkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_ApplicationXCommodity.pkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_Attachments.pkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_CaseExecutives.pkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_CaseStudies.pkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_CaseStudyAuthors.pkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_Commodities.pkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_CommunicationOptions.pkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_Contacts.pkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_ContactType.pkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_Countries.pkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_EmailQueue.pkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_EmailQueueXAttachments.pkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_FirmTypes.pkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_Forms.pkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_InformationRequestNotes.pkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_InformationRequests.pkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_Invitations.pkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_MailingLists.pkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_MailingListsXPeople.pkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_NotificationMethods.pkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_NotificationTracking.pkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_NotificationTypes.pkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_People.pkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_RomeTypes.pkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_SeminarPeople.pkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_SeminarPeopleSessions.pkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_SeminarPeopleXSeminarRoles.pkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_SeminarPersonXCommodity.pkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_SeminarRoles.pkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_Seminars.pkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_SessionPeople.pkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_SessionTypes.pkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_States.pkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_Table_1.pkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_Templates.pkey.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Addresses.table.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\AddressTypes.table.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Applications.table.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\ApplicationXCommodity.table.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\aspnet_Applications.table.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\aspnet_Membership.table.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\aspnet_SchemaVersions.table.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\aspnet_Users.table.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Attachments.table.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\CaseStudies.table.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\CaseStudyAuthors.table.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\CaseStudyExecutives.table.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Commodities.table.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\CommunicationOptions.table.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Contacts.table.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\ContactTypes.table.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Countries.table.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\EmailQueue.table.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\EmailQueueXAttachments.table.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Firms.table.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\FirmTypes.table.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\InformationRequestNotes.table.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\InformationRequests.table.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Invitations.table.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\MailingLists.table.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\MailingListsXPeople.table.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\NotificationMethods.table.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\NotificationTracking.table.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\NotificationTypes.table.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\People.table.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Tables\PeopleXSites.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\RoomTypes.table.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\SeminarPeople.table.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\SeminarPeopleXCommodities.table.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\SeminarPeopleXSeminarRoles.table.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\SeminarPeopleXSessions.table.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\SeminarRoles.table.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Seminars.table.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\SessionPeople.table.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Sessions.table.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\SessionTypes.table.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Sites.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\States.table.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Templates.table.sql" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Agribusiness.CLR, Version=1.0.4358.14065, Culture=neutral, PublicKeyToken=null">

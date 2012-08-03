@@ -22,11 +22,11 @@ namespace Agribusiness.Web.Models
         // used to display the details of the semianr
         public IEnumerable<DisplayPerson> DisplayPeople { get; set; }
 
-        public static SeminarViewModel Create(IRepository repository, Seminar seminar = null)
+        public static SeminarViewModel Create(IRepository repository, Site site, Seminar seminar = null)
         {
             Check.Require(repository != null, "Repository must be supplied");
 			
-            var viewModel = new SeminarViewModel {Seminar = seminar ?? new Seminar()};
+            var viewModel = new SeminarViewModel {Seminar = seminar ?? new Seminar() {Site = site}};
 
             return viewModel;
         }

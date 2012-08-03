@@ -54,9 +54,10 @@ namespace Agribusiness.Web.Controllers
 
         public ActionResult ProgramOverview()
         {
-            var seminar = _seminarService.GetCurrent();
-
-            return View(seminar.Sessions.Where(a => a.ShowPublic).ToList());
+            //var seminar = _seminarService.GetCurrent();
+            //return View(seminar.Sessions.Where(a => a.ShowPublic).ToList());
+            var seminar = SiteService.GetLatestSeminar(Site);
+            return View(seminar);
         }
 
         /// <summary>
@@ -65,7 +66,7 @@ namespace Agribusiness.Web.Controllers
         /// <returns></returns>
         public ActionResult CaseExamples()
         {
-            var viewModel = CaseExampleViewModel.Create(_caseStudyRepository, _seminarService);
+            var viewModel = CaseExampleViewModel.Create(_caseStudyRepository, Site);
 
             return View(viewModel);
         }

@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using Agribusiness.Core.Domain;
 using Agribusiness.Core.Resources;
@@ -10,9 +11,8 @@ using Agribusiness.Web.Services;
 using AutoMapper;
 using Resources;
 using UCDArch.Core.PersistanceSupport;
-using UCDArch.Web.Controller;
-using UCDArch.Web.Helpers;
 using MvcContrib;
+using UCDArch.Web.Helpers;
 
 namespace Agribusiness.Web.Controllers
 {
@@ -22,22 +22,16 @@ namespace Agribusiness.Web.Controllers
     public class SeminarController : ApplicationController
     {
 	    private readonly IRepository<Seminar> _seminarRepository;
-        private readonly IRepository<Session> _sessionRepository;
-        private readonly IRepository<Person> _personRepository;
         private readonly IRepository<SeminarPerson> _seminarPersonRepository;
         private readonly IRepository<MailingList> _mailingListRepository;
-        private readonly IFirmService _firmService;
         private readonly IPersonService _personService;
         private readonly ISeminarService _seminarService;
 
-        public SeminarController(IRepository<Seminar> seminarRepository, IRepository<Session> sessionRepository, IRepository<Person> personRepository, IRepository<SeminarPerson> seminarPersonRepository, IRepository<MailingList> mailingListRepository, IFirmService firmService, IPersonService personService, ISeminarService seminarService)
+        public SeminarController(IRepository<Seminar> seminarRepository, IRepository<SeminarPerson> seminarPersonRepository, IRepository<MailingList> mailingListRepository, IPersonService personService, ISeminarService seminarService)
         {
             _seminarRepository = seminarRepository;
-            _sessionRepository = sessionRepository;
-            _personRepository = personRepository;
             _seminarPersonRepository = seminarPersonRepository;
             _mailingListRepository = mailingListRepository;
-            _firmService = firmService;
             _personService = personService;
             _seminarService = seminarService;
         }
@@ -56,17 +50,38 @@ namespace Agribusiness.Web.Controllers
         [UserOnly]
         public ActionResult Create()
         {
-            var viewModel = SeminarViewModel.Create(Repository);
+            var viewModel = SeminarViewModel.Create(Repository, SiteService.LoadSite(Site));
 
             return View(viewModel);
         }
 
         [UserOnly]
         [HttpPost]
-        public ActionResult Create(Seminar seminar)
+        [ValidateInput(false)]
+        public ActionResult Create(Seminar seminar, HttpPostedFileBase schedule, HttpPostedFileBase brochure)
         {
+            seminar.Site = SiteService.LoadSite(Site);
+            ModelState.Clear();
+            seminar.TransferValidationMessagesTo(ModelState);
+
             if (ModelState.IsValid)
             {
+                if (schedule != null && schedule.ContentLength > 0)
+                {
+                    var ms = new MemoryStream();
+                    schedule.InputStream.CopyTo(ms);
+                    seminar.ScheduleFile = ms.ToArray();
+                    seminar.ScheduleFileContentType= schedule.ContentType;
+                }
+
+                if (brochure != null && brochure.ContentLength > 0)
+                {
+                    var ms = new MemoryStream();
+                    brochure.InputStream.CopyTo(ms);
+                    seminar.BrochureFile = ms.ToArray();
+                    seminar.BrochureFileContentType = brochure.ContentType;
+                }
+
                 _seminarRepository.EnsurePersistent(seminar);
 
                 var mlInvitation = new MailingList(MailingLists.Invitation, seminar) {Description = MailingLists.InvitationDescription };
@@ -93,7 +108,7 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction(a => a.Index());
             }
 
-            var viewModel = SeminarViewModel.Create(Repository, seminar);
+            var viewModel = SeminarViewModel.Create(Repository, seminar.Site, seminar);
             return View(viewModel);
         }
 
@@ -108,13 +123,14 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction(a => a.Index());
             }
 
-            var viewModel = SeminarViewModel.Create(Repository, seminar);
+            var viewModel = SeminarViewModel.Create(Repository, seminar.Site, seminar);
             return View(viewModel);
         }
 
         [UserOnly]
         [HttpPost]
-        public ActionResult Edit(int id, Seminar seminar)
+        [ValidateInput(false)]
+        public ActionResult Edit(int id, Seminar seminar, HttpPostedFileBase schedule, HttpPostedFileBase brochure)
         {
             var origSeminar = LoadSeminar(id);
 
@@ -122,6 +138,22 @@ namespace Agribusiness.Web.Controllers
             {
                 ErrorMessages = string.Format(Messages.NotFound, "Seminar", id);
                 return this.RedirectToAction(a => a.Index());
+            }
+
+            if (schedule != null && schedule.ContentLength > 0)
+            {
+                var ms = new MemoryStream();
+                schedule.InputStream.CopyTo(ms);
+                seminar.ScheduleFile = ms.ToArray();
+                seminar.ScheduleFileContentType = schedule.ContentType;
+            }
+
+            if (brochure != null && brochure.ContentLength > 0)
+            {
+                var ms = new MemoryStream();
+                brochure.InputStream.CopyTo(ms);
+                seminar.BrochureFile = ms.ToArray();
+                seminar.BrochureFileContentType = brochure.ContentType;
             }
 
             Mapper.Map(seminar, origSeminar);
@@ -133,7 +165,7 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction(a => a.Index());
             }
 
-            var viewModel = SeminarViewModel.Create(Repository, seminar);
+            var viewModel = SeminarViewModel.Create(Repository, seminar.Site, seminar);
             return View(viewModel);
         }
 
@@ -148,7 +180,7 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction(a => a.Index());
             }
 
-            var viewModel = SeminarViewModel.Create(Repository, seminar);
+            var viewModel = SeminarViewModel.Create(Repository, seminar.Site, seminar);
             viewModel.IsCurrent = _seminarService.GetCurrent() == seminar;
             viewModel.DisplayPeople = _personService.GetDisplayPeopleForSeminar(seminar.Id);
 
@@ -293,5 +325,27 @@ namespace Agribusiness.Web.Controllers
             return View(viewModel);
         }
         #endregion
+
+        public FileResult DownloadSchedule()
+        {
+            var seminar = SiteService.GetLatestSeminar(Site);
+            if (seminar.ScheduleFile != null)
+            {
+                return File(seminar.ScheduleFile, seminar.ScheduleFileContentType);
+            }
+
+            return File(new byte[0], string.Empty);
+        }
+
+        public FileResult DownloadBrochure()
+        {
+            var seminar = SiteService.GetLatestSeminar(Site);
+            if (seminar.BrochureFile != null)
+            {
+                return File(seminar.BrochureFile, seminar.BrochureFileContentType);
+            }
+
+            return File(new byte[0], string.Empty);
+        }
     }
 }

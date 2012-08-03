@@ -9,10 +9,11 @@
 @section ScriptContent
 {
     @Html.Partial("_DateTimePickerScripts", Model.Seminar)
+    @Html.Partial("_tinymce", "#Seminar_CaseStudyText, #Seminar_ProgramInformation")
 }
 
 @Html.ValidationSummary("Please correct the following errors.")
-@using (Html.BeginForm("Create", "Seminar", FormMethod.Post, new { @class = "form-horizontal" }))
+@using (Html.BeginForm("Create", "Seminar", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.Partial("_SeminarForm")    

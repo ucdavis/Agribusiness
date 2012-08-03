@@ -30,6 +30,8 @@ namespace Agribusiness.Core.Domain
             End = DateTime.Now;
 
             ReleaseToAttendees = false;
+            ReleaseCaseStudyList = false;
+            ReleaseSchedule = false;
 
             Sessions = new List<Session>();
             SeminarPeople = new List<SeminarPerson>();
@@ -61,6 +63,17 @@ namespace Agribusiness.Core.Domain
         [StringLength(20)]
         public virtual string RegistrationPassword { get; set; }
         public virtual int? RegistrationId { get; set; }
+
+        public virtual bool ReleaseCaseStudyList { get; set; }
+        [DataType(DataType.MultilineText)]
+        public virtual string CaseStudyText { get; set; }
+
+        public virtual bool ReleaseSchedule { get; set; }
+        public virtual string ProgramInformation { get; set; }
+        public virtual byte[] ScheduleFile { get; set; }
+        public virtual string ScheduleFileContentType { get; set; }
+        public virtual byte[] BrochureFile { get; set; }
+        public virtual string BrochureFileContentType { get; set; }
 
         public virtual Site Site { get; set; }
 
@@ -96,6 +109,16 @@ namespace Agribusiness.Core.Domain
             Map(x => x.ReleaseToAttendees);
             Map(x => x.Cost);
             References(x => x.Site);
+
+            Map(x => x.ReleaseCaseStudyList);
+            Map(x => x.CaseStudyText);
+
+            Map(x => x.ReleaseSchedule);
+            Map(x => x.ProgramInformation);
+            Map(x => x.ScheduleFile).CustomType("BinaryBlob");
+            Map(x => x.ScheduleFileContentType);
+            Map(x => x.BrochureFile).CustomType("BinaryBlob");
+            Map(x => x.BrochureFileContentType);
 
             HasMany(x => x.Sessions).Inverse().Cascade.AllDeleteOrphan();
             HasMany(x => x.SeminarPeople).Inverse().Cascade.AllDeleteOrphan();

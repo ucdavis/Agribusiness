@@ -37,7 +37,10 @@ namespace Agribusiness.Core.Domain
         [Required]
         [StringLength(200)]
         public virtual string Commodity { get; set; }
-
+        [Required]
+        [StringLength(20)]
+        [DataType(DataType.PhoneNumber)]
+        public virtual string Phone { get; set; }
         [Required]
         [StringLength(100)]
         [Display(Name = "Address Line 1")]
@@ -106,7 +109,7 @@ namespace Agribusiness.Core.Domain
             Map(x => x.Commodity);
             Map(x => x.SubmittedDateTime);
             Map(x => x.Responded);
-
+            Map(x => x.Phone);
             Map(x => x.AddressLine1);
             Map(x => x.AddressLine2);
             Map(x => x.City);

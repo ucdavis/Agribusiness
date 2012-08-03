@@ -12,15 +12,14 @@ namespace Agribusiness.Web.Models
         public IEnumerable<CaseStudy> CaseStudies { get; set; }
         public Seminar CurrentSeminar { get; set; }
 
-        public static CaseExampleViewModel Create(IRepository<CaseStudy> caseStudyRepository, ISeminarService seminarService )
+        public static CaseExampleViewModel Create(IRepository<CaseStudy> caseStudyRepository, string site)
         {
             Check.Require(caseStudyRepository != null, "caseStudyRepository is required.");
-            Check.Require(seminarService != null, "seminarService is required.");
 
             var viewModel = new CaseExampleViewModel()
                                 {
                                     CaseStudies = caseStudyRepository.Queryable.Where(a => a.IsPublic).OrderBy(a => a.Seminar.Year).ThenBy(a => a.Name),
-                                    CurrentSeminar = seminarService.GetCurrent()
+                                    CurrentSeminar = SiteService.GetLatestSeminar(site)
                                 };
 
             return viewModel;

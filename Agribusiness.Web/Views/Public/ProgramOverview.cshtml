@@ -1,4 +1,4 @@
-﻿@model IList<Session>
+﻿@model Seminar
 
 @{
     ViewBag.Title = "Program Overview";
@@ -13,29 +13,6 @@
 @section ScriptContent
 {
     <style type="text/css">
-        @*ul.seminar-details {margin: 1em; list-style: none;}
-        ul.seminar-details li {margin: 1em 0; font-size: 1.25em;}*@
-
-        @*ul {margin: 1em;}
-        ul li {margin: 1em 0; }
-        h3 { margin: 2em 0; }
-
-        #coming-soon
-        {
-        text-align: center;
-        border: 1px solid #014A81;
-        padding: 1.5em;
-        margin-top: 2em;
-        font-size: 1.5em;
-        font-weight: bold;
-        color: #014A81;
-        }*@
-
-@*        h3 { margin: 2em 0; }
-        .session { margin-bottom: 1em; margin-left: 20px;}
-        .session-time { display: inline-block; width: 130px; }
-        .session-name { display: inline-block; }*@
-
         table
         {
         border: none;
@@ -50,109 +27,75 @@
         {
         width:15%; 
         }
-
     </style>
 }
 
-
-@*
-    Used once the final program schedule was available
-*@
-
-<a href="@Url.Content("~/Doc/2012-Brochure.pdf")" target="brochure" style="margin: 1em 1em 0 1em; display: inline-block;">
-<img src="@Url.Image("download.png")" alt="Download Schedule"/>
-Download Brochure
-</a>
-<a href="@Url.Content("~/Doc/2012-Schedule.pdf")" target="schedule" style="margin:1em; display: inline-block;">
-<img src="@Url.Image("download.png")" alt="Download Schedule"/>
-Downloadable Schedule
-</a>
-
-@{
-    var dates = Model.Where(a=>a.Begin.HasValue).Select(a => a.Begin.Value.Date).Distinct();
-}
-
-@foreach (var date in dates)
+@if (Model.BrochureFile != null || Model.ScheduleFile != null)
 {
-    var sessions = Model.Where(a => a.Begin.HasValue && a.Begin.Value.Date == date);
-
-    <table>
-        <thead>
-            <tr>
-                <td colspan="2">
-                    @String.Format("{0:dddd, MMMM d}", date)            
-                </td>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var session in sessions.OrderBy(a=>a.Begin))
-            {
-                <tr>
-                    <td>
-                    @if (session.Begin.HasValue && session.End.HasValue)
-                    {
-                        @string.Format("{0}-{1}", session.Begin.Value.ToString("t"), session.End.Value.ToString("t"))
-                    }
-                    else
-                    {
-                        @(session.Begin.HasValue ? session.Begin.Value.ToString("t") : string.Empty)     
-                    }
-                    </td>
-                    <td>@session.Name</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-    
-@*    @foreach (var session in sessions.OrderBy(a=>a.Begin))
-    {
-        <div class="session">
-            
-            <div class="session-time">
-                
-            </div>
-            <div class="session-name">@session.Name</div>
-
-        </div>
-    
-    }*@
+    <ul class="nav nav-pills">
+        @if (Model.BrochureFile != null)
+        {
+            <li>
+                <a href='@Url.Action("DownloadBrochure", "Seminar")'>
+                    <i class="icon-download"></i>
+                    Download Brochure
+                </a>
+            </li>
+        }
+        @if (Model.ScheduleFile != null)
+        {
+            <li>
+                <a href='@Url.Action("DownloadSchedule", "Seminar")'>
+                    <i class="icon-download"></i>
+                    Download Schedule
+                </a>
+            </li>
+        }
+    </ul>    
 }
 
+@if (Model.ReleaseSchedule)
+{
+    var dates = Model.Sessions.Where(a => a.Begin.HasValue).Select(a => a.Begin.Value.Date).Distinct();
+    
+    foreach (var date in dates)
+    {
+        var sessions = Model.Sessions.Where(a => a.Begin.HasValue && a.Begin.Value.Date == date);
 
-@*
-    Used before the final program schedule was available
-*@
-
-@*<ul class="seminar-details">
-    <li>
-        <a href='@Url.Content("~/Doc/2012-Brochure.pdf")' target="new">2012 Seminar Brochure</a>
-    </li>
-    <li>@Html.ActionLink("Click here to see past Seminar Case Studies and Issue Papers", "CaseExamples")</li>
-</ul>
-
-<h3>2012 UC Davis Agribusiness Executive Seminar Case Studies and Issue Papers</h3>
-<ul>
-<li>Olam’s American Division. This case includes issues related to processing of California tree nuts and vegetables.  </li>
-<li>O’Neill Vintners and Distillers. This case includes strategic decisions about the grape and wine industry in the San Joaquin Valley.  </li>
-<li>Harris Teeter. This case deals with branding decisions of a major retail chain in the U.S. Southeast.  </li>
-<li>McDonald’s and Healthier Products. The firm faces supply chain issues as its menus change.</li>
-<li>Tillamook Cooperative Creamery. This cheese processor faces strategic decisions about sourcing as branded sales exceed capacity of members’ milk supply.</li>
-<li>Westchester Group. Farmland investments from outside investors are a growing part of the agricultural landscape and Westchester is a leader in these trends.</li>
-</ul>
-
-<h3>Discussions of cross-cutting issues will focus on:</h3>
-
-<ul>
-    <li>Commodity prices during the next decade. Many of the strategic decisions faced by suppliers, investors, farm producers, processors, and marketers revolve around how the commodity price environment is likely to evolve during the next decade. </li>
-    <li>China: Customers and Competitors. Market opportunities in China are expanding rapidly as incomes grow and diets change.  At the same time, competitors in China are developing and becoming more sophisticated.  </li>
-</ul>*@
-
-@*
-    Used before any content was available
-*@
-
-@*<div id="coming-soon">
-2012 UC Davis Agribusiness Executive Seminar
-<br/><em>Coming in October 2011</em>
-</div>
-*@
+        <table class="table">
+            <thead>
+                <tr>
+                    <td colspan="2">
+                        @String.Format("{0:dddd, MMMM d}", date)            
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var session in sessions.OrderBy(a=>a.Begin))
+                {
+                    <tr>
+                        <td>
+                        @if (session.Begin.HasValue && session.End.HasValue)
+                        {
+                            @string.Format("{0}-{1}", session.Begin.Value.ToString("t"), session.End.Value.ToString("t"))
+                        }
+                        else
+                        {
+                            @(session.Begin.HasValue ? session.Begin.Value.ToString("t") : string.Empty)     
+                        }
+                        </td>
+                        <td>@session.Name</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }   
+}
+else if (!string.IsNullOrEmpty(Model.ProgramInformation))
+{
+    @Html.Raw(Model.ProgramInformation)
+}
+else
+{
+    <p>Information about the @Model.Year @Model.Site.Name is not available at this time.  Please check back later.</p>
+}
