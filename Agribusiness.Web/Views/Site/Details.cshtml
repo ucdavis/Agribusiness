@@ -57,6 +57,27 @@
                     </div>
                 </div>
             </div>
+            
+            <div class="control-group">
+                <label for="Background" class="control-label">Background</label>
+                <div class="controls">
+                    @Html.Raw(Model.Background)
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label for="Venue" class="control-label">Venue</label>
+                <div class="controls">
+                    @Html.Raw(Model.Venue)
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label for="VenueEmbeddedMap" class="control-label">Venue Embedded Map</label>
+                <div class="controls">
+                    @Html.Raw(Model.VenueEmbeddedMap)
+                </div>
+            </div>
 
             @if (Model.Logo != null)
             {

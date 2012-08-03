@@ -14,7 +14,7 @@
     <title>
         @if (site == null)
         { 
-            <text>UC Davis Agribusiness Executive Seminar</text>
+            <text>UC Davis Agribusiness</text>
         }
         else
         {
@@ -35,7 +35,7 @@
     
     <link href="@Url.Content("~/content/bootstrap-responsive.css")" rel="stylesheet" >
     <link href="@Url.Content("~/Content/themes/uibootstrap/jquery-ui-1.8.16.custom.css")" rel="stylesheet"/>
-    @if (!string.IsNullOrEmpty(siteId))
+    @if (site != null && site.Logo != null)
     {
         <link href="@Url.Content("~/Content/logolayout.css")" rel="stylesheet"/>
     }
@@ -71,13 +71,13 @@
                   </a>
 
                   <a class="brand" href="@Url.Action("Index", "Home", new { })">
-                      @if (!string.IsNullOrEmpty(siteId))
+                      @if (site!= null && site.Logo != null)
                       {
                           <img src='@Url.Action("GetLogo", "Site", new { id = siteId })' alt="logo" class="header-logo"/>
                       }
                     @if (site == null)
                     { 
-                        <text>UC Davis Agribusiness Executive Seminar</text>
+                        <text>UC Davis Agribusiness</text>
                     }
                     else
                     {

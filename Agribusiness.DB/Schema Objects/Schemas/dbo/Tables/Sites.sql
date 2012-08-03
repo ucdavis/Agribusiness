@@ -11,5 +11,8 @@
 	[SplashContentType] varchar(50) null, 
     [EventType] VARCHAR(50) NULL, 
     [CollectExtended] BIT NOT NULL DEFAULT 0, 
-    [Subdomain] VARCHAR(50) NOT NULL
+    [Subdomain] VARCHAR(50) NOT NULL, 
+    [Background] VARCHAR(MAX) NULL, 
+    [Venue] VARCHAR(MAX) NULL, 
+    [VenueEmbeddedMap] VARCHAR(MAX) NULL
 )

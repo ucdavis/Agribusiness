@@ -5,7 +5,7 @@
 <p>To contact us for more information on the seminar, plese click @Html.ActionLink("here", "MoreInformation", "Public")</p>
 
 <div class="well">
-    @if (Model.Seminar.End < DateTime.Now)
+    @if (Model.Seminar != null && Model.Seminar.End < DateTime.Now)
     {
         <ul class="seminar-info">
             <li>@(string.Format("{0} {1}", Model.Seminar.Year, Model.Seminar.Site.EventType))</li>

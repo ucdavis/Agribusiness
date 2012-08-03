@@ -1,5 +1,8 @@
-﻿@{
+﻿@using Agribusiness.Web.Services
+@{
     ViewBag.Title = "Venue";
+    var siteId = ViewData["site"] as string;
+    var site = SiteService.LoadSite(siteId);
 }
 
 @section SubPageNavigation
@@ -21,58 +24,21 @@
 
 <h2>Venue</h2>
 
-<p>
-The 2012 UC Davis Agribusiness Executive Seminar will be held at the Monterey Plaza Hotel & Spa in Monterey, CA.  
-</p>
-
-<section id="hotel-address">
-
-<span style="float:right;">
-<iframe  width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?daddr=400+Cannery+Row,+Monterey,+CA&amp;hl=en&amp;sll=36.597062,-121.894684&amp;sspn=0.024394,0.054975&amp;mra=ls&amp;vpsrc=0&amp;ie=UTF8&amp;ll=36.612359,-121.898498&amp;spn=0.003049,0.006872&amp;output=embed"></iframe><br /><small><a href="http://maps.google.com/maps?daddr=400+Cannery+Row,+Monterey,+CA&amp;hl=en&amp;sll=36.597062,-121.894684&amp;sspn=0.024394,0.054975&amp;mra=ls&amp;vpsrc=0&amp;ie=UTF8&amp;ll=36.612359,-121.898498&amp;spn=0.003049,0.006872&amp;source=embed" style="color:#0000FF;text-align:left">View Larger Map</a></small>
-</span>
-
-    <div class="vcard">
-    
-        <div class="fn">Monterey Plaza Hotel & Spa</div>
-
-        <div class="adr">
-            <div class="street-address">400 Cannery Row</div>
-            <span class="locality">Monterey</span>
-            <abbr class="region" title="California">CA</abbr>
-            <span class="postal-code">93940</span>
-        </div>
-        <div class="tel" title="voice">
-            (831) 646-1700
-        </div>
-        <div class="tel" title="voice">
-            (800) 334-3999
-        </div>
-
-        <div>
-        <a class="url" href="http://montereyplazahotel.com">http://montereyplazahotel.com</a>
-        </div>
-
+<div class="row-fluid">
+    <div class="span8">
+        @if (!string.IsNullOrEmpty(site.Venue))
+        {
+            @Html.Raw(site.Venue)
+        }
+        else
+        {
+            <p>Venue information is not available at this time.</p>
+        }
     </div>
-
-</section>
-
-<section id="hotel-information">
-
-    <p>
-    Please call (800) 334-3999 or (831) 646-1700 to make your reservation. Please identify yourself as an attendee of the UC Davis Agribusiness Executive Seminar.
-    </p>
-
-    <p>Room types include:</p>
-    <ul class="rates">
-        <li>Inland at $216 per night</li>
-        <li>Partial Ocean View at $236 per night</li>
-        <li>Ocean View at $335 per night</li>
-        <li>Ocean View Balcony at $356 per night</li>
-        <li>Executive Suites at $570 per night</li>
-    </ul>
-
-    <p>
-    <a href="http://maps.google.com/maps?daddr=400+Cannery+Row,+Monterey,+CA&hl=en&ll=36.612359,-121.898498&spn=0.003049,0.006872&sll=36.597062,-121.894684&sspn=0.024394,0.054975&mra=ls&vpsrc=6&z=18">Map and Directions</a> to the Monterey Plaza Hotel & Spa
-    </p>
-
-</section>
+    <div class="span4">
+        @if (!string.IsNullOrEmpty(site.VenueEmbeddedMap))
+        {
+            @Html.Raw(site.VenueEmbeddedMap)
+        }
+    </div>
+</div>
