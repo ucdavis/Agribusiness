@@ -9,7 +9,7 @@
         <ul class="dropdown-menu">
             @*<li><a href="#">Profile</a></li>
             <li class="divider"></li>*@
-            <li>@Html.ActionLink("Log Off", "Logoff", "Account", new { }, new { })</li>
+            <li>@Html.ActionLink("Log Off", "Logoff", "Account", new { site = Model }, new { })</li>
         </ul>
     </div>
 } else {

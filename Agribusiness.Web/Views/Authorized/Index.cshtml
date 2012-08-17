@@ -47,13 +47,9 @@
     
     <p style="margin-bottom: 1em;"><em>(Participation is strictly limited. Application does not imply acceptance for participation.)</em></p>
     
-    <div class="text_btn" >
-    <a href='@Url.Action("Apply", "SeminarApplication")'>Click here to Apply Online</a>
-    </div>
+    <a href='@Url.Action("Apply", "SeminarApplication")' class="btn btn-primary">Click here to Apply Online</a>
     
-    <div class="text_btn">
-        <a href="@Url.Content("~/Doc/2012-Application.pdf")" target="new">Click here to Apply by Mail</a>
-    </div>
+    <a href="@Url.Content("~/Doc/2012-Application.pdf")" class="btn btn-info" target="new">Click here to Apply by Mail</a>
     }
 }
 else
@@ -89,8 +85,8 @@ else
                     Congratulations! You have been accepted for the March 4-6, 2012 UC Agribusiness Executive Seminar! Below is additional information for you to review. Please contact <a href="mailto:crakins@ucdavis.edu">Chris Akins</a> if you have questions. 
                     </div>
 
-                    <div class="text_btn">
-                        @Html.ActionLink("2012 Seminar Information", "MySeminar", "Seminar", new { id = Model.SeminarPerson.Id }, new { })
+                    <div>
+                        @Html.ActionLink("2012 Seminar Information", "MySeminar", "Seminar", new { id = Model.SeminarPerson.Id }, new { @class="btn" })
                     </div>
 
                 </p>
@@ -119,7 +115,7 @@ else
 @if (Model.SeminarPeople.Any())
 {
     <h3>Past Seminars</h3>
-    <table>
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th></th>

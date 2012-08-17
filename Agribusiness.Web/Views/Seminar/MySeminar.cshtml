@@ -1,8 +1,13 @@
-﻿@model Agribusiness.Web.Models.MySeminarViewModel
+﻿@using Agribusiness.Web.Services
+@model Agribusiness.Web.Models.MySeminarViewModel
 
 @{
-    ViewBag.Title = "My Seminar";
-    ViewBag.SubPageTitle = "My Seminar";
+    var siteId = ViewData["site"] as string;
+    var site = SiteService.LoadSite(siteId);
+    var title = string.Format("My {0}", site.EventType);
+    
+    ViewBag.Title = title;
+    ViewBag.SubPageTitle = title;
 }
 
 @section ScriptContent{
@@ -23,7 +28,7 @@
 {
     @if (Model.SeminarPerson.Paid)
     {
-        <ul class="navigation">
+        <ul class="nav nav-pills">
             <li>@Html.ActionLink("Attendees", "BySeminar", "Attendee", new { id = Model.Seminar.Id }, new { })</li>
             <li>@Html.ActionLink("Case Studies", "BySeminar", "CaseStudy", new { id = Model.Seminar.Id }, new { })</li>
             <li>@Html.ActionLink("Venue", "Venue", "Public", new {}, new {})</li>
@@ -33,17 +38,25 @@
 
 }
 
-<h3>Seminar Details</h3>
-<div class="display-form">
-    <ul >
-        <li><div class="display-label">Date:</div>
-            <div class="display-details">@Model.Seminar.Begin.ToShortDateString()</div>
-        </li>
-        <li><div class="display-label">Location:</div>
-            <div class="display-details">@Model.Seminar.Location</div>
-        </li>
-        <li><div class="display-label">Payment Status:</div>
-            <div class="display-details">
+<h3>@site.EventType Details</h3>
+
+<div class="form-horizontal">
+    
+    <div class="control-group">
+        <label for="Date" class="control-label">Date</label>
+        <div class="controls form-text">
+            @Model.Seminar.Begin.ToShortDateString()
+        </div>
+    </div>
+    <div class="control-group">
+        <label for="Location" class="control-label">Location</label>
+        <div class="controls form-text">
+            @Model.Seminar.Location
+        </div>
+    </div>
+    <div class="control-group">
+        <label for="PaymentStatus" class="control-label">Payment Status</label>
+        <div class="controls form-text">
             @if (!string.IsNullOrWhiteSpace(Model.SeminarPerson.TransactionId) && !Model.SeminarPerson.Paid)
             {
                 <text>Transaction Pending</text>
@@ -54,22 +67,24 @@
             }
             else
             { 
-                <a href='@Model.CrpLink' target="payment">Click here to Pay</a>
+                <a href='@Model.CrpLink' target="payment" class="btn btn-primary">Click here to Pay</a>
             }
-            </div>
-        </li>
+        </div>
+    </div>
 
-        @if (!string.IsNullOrWhiteSpace(Model.SeminarPerson.CouponCode))
-        { 
-        <li><div class="display-label">Coupon:</div>
-            <div class="display-details">@Model.SeminarPerson.CouponCode</div>
-        </li>
-        }
-    </ul>
+    @if (!string.IsNullOrWhiteSpace(Model.SeminarPerson.CouponCode))
+    {
+        <div class="control-group">
+            <label for="Coupon" class="control-label">Coupon</label>
+            <div class="controls">
+                @Model.SeminarPerson.CouponCode
+            </div>
+        </div>
+    }
 
     @if (!Model.SeminarPerson.Paid && string.IsNullOrWhiteSpace(Model.SeminarPerson.TransactionId))
     {
-         <div id="payment-details" class="ui-state-highlight">
+         <div id="payment-details" class="alert alert-info">
             @*<p>Payment: the seminar fee of $3,950 covers all study materials, instruction, meals, and receptions, but excludes lodging. The fee is due February 1, 2012. Credit cards and checks are accepted.  You will not have access to case studies and contact information of other attendees until your seminar fee is paid.  Please make checks payable to UC Regents and ensure that the name of the applicant accompanies the check.</p>*@
 
             <ul>
@@ -83,7 +98,7 @@
             </ul>
 
            
-            <p><a href="@Model.CrpLink" target="payment">Click here to pay</a></p>
+            <p><a href="@Model.CrpLink" target="payment" class="btn btn-primary">Click here to pay</a></p>
         </div>   
     }
 
@@ -112,7 +127,7 @@
 else if (Model.SeminarPerson.Paid)
 {
     <h3>Your Sessions</h3>
-    <table>
+    <table class="table table-striped">
         <thead> 
             <tr>
                 <th></th>
