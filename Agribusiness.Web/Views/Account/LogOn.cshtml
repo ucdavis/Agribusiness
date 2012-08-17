@@ -8,7 +8,7 @@
 
 @Html.ValidationSummary(true, "Login was unsuccessful. Please correct the errors and try again.")
 
-@using (Html.BeginForm("LogOn", "Account", FormMethod.Post, new {@class="form-horizontal"}))
+@using (Html.BeginForm("LogOn", "Account", new {returnUrl = ViewBag.ReturnUrl, site = ViewBag.Site}, FormMethod.Post, new {@class="form-horizontal"}))
 {
     @Html.AntiForgeryToken()
     <div class="control-group">
