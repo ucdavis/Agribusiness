@@ -11,16 +11,9 @@ namespace Agribusiness.Web.Controllers
     [MembershipUserOnly]
     public class AuthorizedController : ApplicationController
     {
-        private readonly ISeminarService _seminarService;
-
-        public AuthorizedController(ISeminarService seminarService)
-        {
-            _seminarService = seminarService;
-        }
-
         public ActionResult Index()
         {
-            var viewModel = AuthorizedViewModel.Create(Repository, _seminarService, CurrentUser.Identity.Name);
+            var viewModel = AuthorizedViewModel.Create(Repository, CurrentUser.Identity.Name, Site);
 
             return View(viewModel);
         }

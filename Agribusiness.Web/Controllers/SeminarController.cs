@@ -25,15 +25,13 @@ namespace Agribusiness.Web.Controllers
         private readonly IRepository<SeminarPerson> _seminarPersonRepository;
         private readonly IRepository<MailingList> _mailingListRepository;
         private readonly IPersonService _personService;
-        private readonly ISeminarService _seminarService;
 
-        public SeminarController(IRepository<Seminar> seminarRepository, IRepository<SeminarPerson> seminarPersonRepository, IRepository<MailingList> mailingListRepository, IPersonService personService, ISeminarService seminarService)
+        public SeminarController(IRepository<Seminar> seminarRepository, IRepository<SeminarPerson> seminarPersonRepository, IRepository<MailingList> mailingListRepository, IPersonService personService)
         {
             _seminarRepository = seminarRepository;
             _seminarPersonRepository = seminarPersonRepository;
             _mailingListRepository = mailingListRepository;
             _personService = personService;
-            _seminarService = seminarService;
         }
 
         #region Administrative Functions
@@ -181,7 +179,7 @@ namespace Agribusiness.Web.Controllers
             }
 
             var viewModel = SeminarViewModel.Create(Repository, seminar.Site, seminar);
-            viewModel.IsCurrent = _seminarService.GetCurrent() == seminar;
+            viewModel.IsCurrent = SiteService.GetLatestSeminar(Site).Id == seminar.Id;
             viewModel.DisplayPeople = _personService.GetDisplayPeopleForSeminar(seminar.Id);
 
             return View(viewModel);
@@ -202,7 +200,7 @@ namespace Agribusiness.Web.Controllers
             if (seminar != null) return seminar;
 
             // otherwise just load the latest one
-            seminar = _seminarService.GetCurrent();
+            seminar = SiteService.GetLatestSeminar(Site);
 
             return seminar;
         }

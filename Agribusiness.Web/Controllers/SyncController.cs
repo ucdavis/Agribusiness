@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Configuration;
 using System.Linq;
 using System.Net.Mail;
 using System.Web.Mvc;
@@ -9,9 +8,6 @@ using Agribusiness.WS;
 using Agribusiness.Web.Controllers.Filters;
 using Agribusiness.Web.Services;
 using UCDArch.Core.PersistanceSupport;
-using UCDArch.Web.Controller;
-using UCDArch.Web.Helpers;
-using UCDArch.Core.Utils;
 using INotificationService = Agribusiness.Web.Services.INotificationService;
 
 namespace Agribusiness.Web.Controllers
@@ -23,14 +19,12 @@ namespace Agribusiness.Web.Controllers
     public class SyncController : ApplicationController
     {
         private readonly IRegistrationService _registrationService;
-        private readonly ISeminarService _seminarService;
         private readonly INotificationService _notificationService;
         private readonly IRepository<SeminarPerson> _seminarPersonRepository;
 
-        public SyncController(IRegistrationService registrationService, ISeminarService seminarService, INotificationService notificationService, IRepository<SeminarPerson> seminarPersonRepository )
+        public SyncController(IRegistrationService registrationService, INotificationService notificationService, IRepository<SeminarPerson> seminarPersonRepository )
         {
             _registrationService = registrationService;
-            _seminarService = seminarService;
             _notificationService = notificationService;
             _seminarPersonRepository = seminarPersonRepository;
         }
@@ -39,7 +33,7 @@ namespace Agribusiness.Web.Controllers
         {
             try
             {
-                var seminar = _seminarService.GetCurrent();
+                var seminar = SiteService.GetLatestSeminar(Site);
 
                 if (seminar.RegistrationId.HasValue)
                 {
@@ -50,7 +44,7 @@ namespace Agribusiness.Web.Controllers
 
                     foreach (var sp in seminarPeople)
                     {
-                        var reg = result.Where(a => a.ReferenceId == sp.ReferenceId).FirstOrDefault();
+                        var reg = result.FirstOrDefault(a => a.ReferenceId == sp.ReferenceId);
 
                         if (reg != null)
                         {

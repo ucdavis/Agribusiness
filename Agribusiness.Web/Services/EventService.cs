@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Agribusiness.Core.Domain;
+﻿using Agribusiness.Core.Domain;
 using Agribusiness.Core.Resources;
 
 namespace Agribusiness.Web.Services
@@ -10,26 +6,24 @@ namespace Agribusiness.Web.Services
     public class EventService : IEventService
     {
         private readonly INotificationService _notificationService;
-        private readonly ISeminarService _seminarService;
         private readonly IPersonService _personService;
 
-        public EventService(INotificationService notificationService, ISeminarService seminarService, IPersonService personService)
+        public EventService(INotificationService notificationService, IPersonService personService)
         {
             _notificationService = notificationService;
-            _seminarService = seminarService;
             _personService = personService;
         }
 
-        public void Invite(Person person)
+        public void Invite(Person person, string siteId)
         {
-            var seminar = _seminarService.GetCurrent();
+            var seminar = SiteService.GetLatestSeminar(siteId);
 
             _notificationService.AddToMailingList(seminar, person, MailingLists.Invitation);
         }
 
-        public void Apply(Person person, Application application)
+        public void Apply(Person person, Application application, string siteId)
         {
-            var seminar = _seminarService.GetCurrent();
+            var seminar = SiteService.GetLatestSeminar(siteId);
 
             // deal with the mailing list
             _notificationService.RemoveFromMailingList(seminar, person, MailingLists.Invitation);
@@ -42,9 +36,9 @@ namespace Agribusiness.Web.Services
             _personService.UpdatePerson(person, application);
         }
 
-        public void Accepted(Person person)
+        public void Accepted(Person person, string siteId)
         {
-            var seminar = _seminarService.GetCurrent();
+            var seminar = SiteService.GetLatestSeminar(siteId);
 
             _notificationService.AddToMailingList(seminar, person, MailingLists.Registered);
 
@@ -56,17 +50,17 @@ namespace Agribusiness.Web.Services
             _notificationService.RemoveFromMailingList(seminar, person, MailingLists.Applied);
         }
 
-        public void Denied(Person person)
+        public void Denied(Person person, string siteId)
         {
-            var seminar = _seminarService.GetCurrent();
+            var seminar = SiteService.GetLatestSeminar(siteId);
 
             _notificationService.AddToMailingList(seminar, person, MailingLists.Denied);
             _notificationService.RemoveFromMailingList(seminar, person, MailingLists.Applied);
         }
 
-        public void Paid(Person person)
+        public void Paid(Person person, string siteId)
         {
-            var seminar = _seminarService.GetCurrent();
+            var seminar = SiteService.GetLatestSeminar(siteId);
             var seminarPerson = person.GetLatestRegistration();
 
             if (seminarPerson.Paid)
@@ -74,13 +68,11 @@ namespace Agribusiness.Web.Services
                 _notificationService.RemoveFromMailingList(seminar, person, MailingLists.PaymentReminder);
                 _notificationService.AddToMailingList(seminar, person, MailingLists.Attending);    
             }
-
-            
         }
 
-        public void HotelUpdate(Person person)
+        public void HotelUpdate(Person person, string siteId)
         {
-            var seminar = _seminarService.GetCurrent();
+            var seminar = SiteService.GetLatestSeminar(siteId);
             var seminarPerson = person.GetLatestRegistration();
 
             if (seminarPerson.Seminar == seminar && !string.IsNullOrWhiteSpace(seminarPerson.HotelConfirmation))
@@ -89,20 +81,20 @@ namespace Agribusiness.Web.Services
             }
         }
 
-        public void PhotoUpdate(Person person)
+        public void PhotoUpdate(Person person, string siteId)
         {
             if (person.OriginalPicture != null)
             {
-                var seminar = _seminarService.GetCurrent();
+                var seminar = SiteService.GetLatestSeminar(siteId);
                 _notificationService.RemoveFromMailingList(seminar, person, MailingLists.PhotoReminder);
             }
         }
 
-        public void BioUpdate(Person person)
+        public void BioUpdate(Person person, string siteId)
         {
             if (!string.IsNullOrWhiteSpace(person.Biography))
             {
-                var seminar = _seminarService.GetCurrent();
+                var seminar = SiteService.GetLatestSeminar(siteId);
                 _notificationService.RemoveFromMailingList(seminar, person, MailingLists.BioReminder);
             }
         }

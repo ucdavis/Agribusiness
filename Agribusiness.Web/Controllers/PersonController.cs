@@ -39,7 +39,6 @@ namespace Agribusiness.Web.Controllers
         private readonly IPictureService _pictureService;
         private readonly IPersonService _personService;
         private readonly IFirmService _firmService;
-        private readonly ISeminarService _seminarService;
         private readonly IRegistrationService _registrationService;
         private readonly IvCardService _vCardService;
         private readonly IEventService _eventService;
@@ -47,7 +46,7 @@ namespace Agribusiness.Web.Controllers
 
         public PersonController(IRepository<Person> personRepository, IRepositoryWithTypedId<User, Guid> userRepository, IRepositoryWithTypedId<SeminarRole, string> seminarRoleRepository
             , IRepository<SeminarPerson> seminarPersonRepository, IRepository<Seminar> seminarRepository, IRepositoryWithTypedId<Agribusiness.Core.Domain.Membership, Guid>  membershipRepository
-            , IPictureService pictureService, IPersonService personService, IFirmService firmService, ISeminarService seminarService, IRegistrationService registrationService
+            , IPictureService pictureService, IPersonService personService, IFirmService firmService, IRegistrationService registrationService
             , IvCardService vCardService,IEventService eventService)
         {
             _personRepository = personRepository;
@@ -59,7 +58,6 @@ namespace Agribusiness.Web.Controllers
             _pictureService = pictureService;
             _personService = personService;
             _firmService = firmService;
-            _seminarService = seminarService;
             _registrationService = registrationService;
             _vCardService = vCardService;
             _eventService = eventService;
@@ -72,7 +70,7 @@ namespace Agribusiness.Web.Controllers
         [UserOnly]
         public ActionResult Index()
         {
-            var viewModel = PersonListViewModel.Create(_personRepository, _personService, _seminarService, Site);
+            var viewModel = PersonListViewModel.Create(_personRepository, _personService, Site);
             return View(viewModel);
         }
 
@@ -242,7 +240,7 @@ namespace Agribusiness.Web.Controllers
 
             ViewBag.AllList = allList ?? false;
 
-            var viewModel = AdminPersonViewModel.Create(Repository, _firmService, _seminarService, seminarId, user.Person, user.Email);
+            var viewModel = AdminPersonViewModel.Create(Repository, _firmService, Site, seminarId, user.Person, user.Email);
 
             if (viewModel.PersonViewModel.SeminarPerson == null) viewModel.SeminarId = null;
 
@@ -258,7 +256,18 @@ namespace Agribusiness.Web.Controllers
             if (user == null)
             {
                 Message = string.Format(Messages.NotFound, "user", id);
-                return this.RedirectToAction<AttendeeController>(a => a.Index(seminarId.HasValue?seminarId.Value : _seminarService.GetCurrent().Id));
+                int sid = 0;
+                
+                if (!seminarId.HasValue)
+                {
+                    sid = SiteService.GetLatestSeminar(Site).Id;
+                }
+                else
+                {
+                    sid = seminarId.Value;
+                }
+
+                return this.RedirectToAction<AttendeeController>(a => a.Index(sid));
             }
 
             var seminarPerson = _seminarPersonRepository.GetNullableById(personEditModel.SeminarPersonId);
@@ -284,7 +293,7 @@ namespace Agribusiness.Web.Controllers
             }
 
             ViewBag.AllList =  allList ?? false;
-            var viewModel = AdminPersonViewModel.Create(Repository, _firmService, _seminarService, seminarId, user.Person, user.Email);
+            var viewModel = AdminPersonViewModel.Create(Repository, _firmService, Site, seminarId, user.Person, user.Email);
             return View(viewModel);
         }
 
@@ -312,7 +321,7 @@ namespace Agribusiness.Web.Controllers
             _personRepository.EnsurePersistent(person);
             Message = string.Format(Messages.Saved, "Biography");
 
-            _eventService.BioUpdate(person);
+            _eventService.BioUpdate(person, Site);
 
             var url = Url.Action("AdminEdit", new {id = person.User.Id, seminarId = seminarId});
             return Redirect(string.Format("{0}#biography", url));
@@ -340,7 +349,7 @@ namespace Agribusiness.Web.Controllers
 
             // merge the roles
             var reg = person.GetLatestRegistration();
-            var seminar = _seminarService.GetCurrent();
+            var seminar = SiteService.GetLatestSeminar(Site);
 
             // check if user is registered for the current seminar
             if (reg.Seminar != seminar)
@@ -388,7 +397,7 @@ namespace Agribusiness.Web.Controllers
             }
 
             var reg = person.GetLatestRegistration();
-            var seminar = _seminarService.GetCurrent();
+            var seminar = SiteService.GetLatestSeminar(Site);
 
             // check if user is registered for the current seminar
             if (reg.Seminar != seminar)
@@ -435,7 +444,7 @@ namespace Agribusiness.Web.Controllers
             }
 
             var reg = person.GetLatestRegistration();
-            var seminar = _seminarService.GetCurrent();
+            var seminar = SiteService.GetLatestSeminar(Site);
 
             // check if user is registered for the current seminar
             if (reg.Seminar != seminar)
@@ -451,7 +460,7 @@ namespace Agribusiness.Web.Controllers
             reg.RoomType = hotelPostModel.RoomType;
             reg.HotelComments = hotelPostModel.Comments;
 
-            _eventService.HotelUpdate(person);
+            _eventService.HotelUpdate(person, Site);
 
             // save
             _seminarPersonRepository.EnsurePersistent(reg);
@@ -474,7 +483,7 @@ namespace Agribusiness.Web.Controllers
             }
 
             var reg = person.GetLatestRegistration();
-            var seminar = _seminarService.GetCurrent();
+            var seminar = SiteService.GetLatestSeminar(Site);
 
             // check if user is registered for the current seminar
             if (reg.Seminar != seminar)
@@ -511,7 +520,7 @@ namespace Agribusiness.Web.Controllers
             }
 
             var reg = person.GetLatestRegistration();
-            var seminar = _seminarService.GetCurrent();
+            var seminar = SiteService.GetLatestSeminar(Site);
 
             // check if user is registered for the current seminar
             if (reg.Seminar != seminar)
@@ -530,7 +539,7 @@ namespace Agribusiness.Web.Controllers
 
             _seminarPersonRepository.EnsurePersistent(reg);
 
-            _eventService.Paid(person);
+            _eventService.Paid(person, Site);
 
             Message = "Registration information has been updated.";
             var url = Url.Action("AdminEdit", new { id = person.User.Id, seminarId = seminarId });
@@ -550,7 +559,7 @@ namespace Agribusiness.Web.Controllers
             }
 
             var reg = person.GetLatestRegistration();
-            var seminar = _seminarService.GetCurrent();
+            var seminar = SiteService.GetLatestSeminar(Site);
 
             // check if user is registered for the current seminar
             if (reg.Seminar != seminar)
@@ -770,7 +779,7 @@ namespace Agribusiness.Web.Controllers
                 Message = string.Format(Messages.Saved, "Person");
                 _personRepository.EnsurePersistent(person);
 
-                _eventService.PhotoUpdate(person);
+                _eventService.PhotoUpdate(person, Site);
 
                 if (seminarId.HasValue)
                 {

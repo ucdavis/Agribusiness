@@ -24,7 +24,6 @@ namespace Agribusiness.Web
             container.Register(Component.For<IPictureService>().ImplementedBy<PictureService>().Named("PictureService"));
             container.Register(Component.For<IPersonService>().ImplementedBy<PersonService>().Named("PersonService"));
             container.Register(Component.For<IFirmService>().ImplementedBy<FirmService>().Named("FirmService"));
-            container.Register(Component.For<ISeminarService>().ImplementedBy<SeminarService>().Named("SeminarService"));
 
             container.Register(Component.For<IRegistrationService>().ImplementedBy<RegistrationService>().Named("RegistrationService"));
             container.Register(Component.For<INotificationService>().ImplementedBy<NotificationService>().Named("NotificationService"));

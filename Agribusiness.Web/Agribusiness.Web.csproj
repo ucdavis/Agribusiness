@@ -237,12 +237,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StaticIndexes.resx</DependentUpon>
     </Compile>
-    <Compile Include="Services\ISeminarService.cs" />
     <Compile Include="Services\IvCardService.cs" />
     <Compile Include="Services\NotificationService.cs" />
     <Compile Include="Services\PersonService.cs" />
     <Compile Include="Services\PictureService.cs" />
-    <Compile Include="Services\SeminarService.cs" />
     <Compile Include="Services\SiteService.cs" />
   </ItemGroup>
   <ItemGroup>

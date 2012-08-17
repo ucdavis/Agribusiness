@@ -4,10 +4,7 @@ using System.Configuration;
 using System.Web.Mvc;
 using Agribusiness.Web.Controllers.Filters;
 using Agribusiness.Web.Models;
-using Agribusiness.Web.Services;
 using Microsoft.Reporting.WebForms;
-using UCDArch.Web.Controller;
-using UCDArch.Web.Helpers;
 
 namespace Agribusiness.Web.Controllers
 {
@@ -17,19 +14,13 @@ namespace Agribusiness.Web.Controllers
     [UserOnly]
     public class ReportController : ApplicationController
     {
-        private readonly ISeminarService _seminarService;
         private readonly string _serverLocation = ConfigurationManager.AppSettings["ReportServer"];
-
-        public ReportController(ISeminarService seminarService)
-        {
-            _seminarService = seminarService;
-        }
 
         //
         // GET: /Report/
         public ActionResult Index()
         {
-            var viewModel = ReportViewModel.Create(Repository, _seminarService);
+            var viewModel = ReportViewModel.Create(Repository, Site);
             return View(viewModel);
         }
 

@@ -20,14 +20,12 @@ namespace Agribusiness.Web.Controllers
     public class InvitationController : ApplicationController
     {
 	    private readonly IRepository<Invitation> _invitationRepository;
-        private readonly ISeminarService _seminarService;
         private readonly INotificationService _notificationService;
         private readonly IEventService _eventService;
 
-        public InvitationController(IRepository<Invitation> invitationRepository, ISeminarService seminarService, INotificationService notificationService, IEventService eventService )
+        public InvitationController(IRepository<Invitation> invitationRepository, INotificationService notificationService, IEventService eventService )
         {
             _invitationRepository = invitationRepository;
-            _seminarService = seminarService;
             _notificationService = notificationService;
             _eventService = eventService;
         }
@@ -68,7 +66,7 @@ namespace Agribusiness.Web.Controllers
                 var title = reg != null ? reg.Title : string.Empty;
                 var firmName = reg != null ? reg.Firm.Name : string.Empty;
 
-                AddToInvitationList(seminar, person, title, firmName);
+                AddToInvitationList(seminar, person, Site, title, firmName);
 
                 count++;
             }
@@ -84,7 +82,7 @@ namespace Agribusiness.Web.Controllers
         /// <param name="person"></param>
         /// <param name="title"></param>
         /// <param name="firmname"></param>
-        private bool AddToInvitationList(Seminar seminar, Person person, string title = null, string firmname = null)
+        private bool AddToInvitationList(Seminar seminar, Person person, string siteId, string title = null, string firmname = null)
         {
             Check.Require(person != null, "person is required.");
             Check.Require(seminar != null, "seminar is required.");
@@ -97,7 +95,7 @@ namespace Agribusiness.Web.Controllers
                 var invitation = new Invitation(person){Title=title, FirmName = firmname, Seminar = seminar};
                 _invitationRepository.EnsurePersistent(invitation);
 
-                _eventService.Invite(person);
+                _eventService.Invite(person, siteId);
 
                 return true;
             }
@@ -112,7 +110,7 @@ namespace Agribusiness.Web.Controllers
         public ActionResult Create(int personId)
         {
             var person = Repository.OfType<Person>().GetNullableById(personId);
-            var seminar = _seminarService.GetCurrent();
+            var seminar = SiteService.GetLatestSeminar(Site);
 
             if (person == null || seminar == null) return this.RedirectToAction<ErrorController>(a => a.Index());
 
@@ -129,11 +127,11 @@ namespace Agribusiness.Web.Controllers
         public ActionResult Create(int personId, Invitation invitation)
         {
             var person = Repository.OfType<Person>().GetNullableById(personId);
-            var seminar = _seminarService.GetCurrent();
+            var seminar = SiteService.GetLatestSeminar(Site);
 
             if (person == null || seminar == null) return this.RedirectToAction<ErrorController>(a => a.Index());
 
-            if (AddToInvitationList(seminar, person, invitation.Title, invitation.FirmName))
+            if (AddToInvitationList(seminar, person, Site, invitation.Title, invitation.FirmName))
             {
                 Message = "Invitation Created Successfully";
 

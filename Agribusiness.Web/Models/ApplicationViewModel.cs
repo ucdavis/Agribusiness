@@ -25,7 +25,7 @@ namespace Agribusiness.Web.Models
         public IEnumerable<CommunicationOption> CommunicationOptions { get; set; }
         public IEnumerable<FirmType> FirmTypes { get; set; }
         
-        public static ApplicationViewModel Create(IRepository repository, IFirmService firmService, ISeminarService seminarService, string userId, Application application = null, bool seminarTerms = false)
+        public static ApplicationViewModel Create(IRepository repository, IFirmService firmService, string userId, string siteId, Application application = null, bool seminarTerms = false)
         {
             Check.Require(repository != null, "Repository must be supplied");
 
@@ -33,7 +33,7 @@ namespace Agribusiness.Web.Models
                                 {
                                     Application = application ?? new Application(),
                                     // always get the latest
-                                    Seminar = seminarService.GetCurrent(),
+                                    Seminar = SiteService.GetLatestSeminar(siteId),
                                     //Commodities = repository.OfType<Commodity>().Queryable.Where(a=>a.IsActive).OrderBy(a=>a.Name).ToList(),
                                     Countries = repository.OfType<Country>().GetAll(),
                                     CommunicationOptions = repository.OfType<CommunicationOption>().GetAll(),

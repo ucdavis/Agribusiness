@@ -16,7 +16,7 @@ namespace Agribusiness.Web.Models
         public Seminar Seminar { get; set; }
         public Site Site { get; set; }
 
-        public static PersonListViewModel Create(IRepository<Person> personRepository, IPersonService personService, ISeminarService seminarService, string siteId)
+        public static PersonListViewModel Create(IRepository<Person> personRepository, IPersonService personService, string siteId)
         {
             Check.Require(personRepository != null, "personRepository is required.");
             Check.Require(personService != null, "personService is required.");
@@ -24,7 +24,7 @@ namespace Agribusiness.Web.Models
             var viewModel = new PersonListViewModel()
                                 {
                                     People = personService.GetAllDisplayPeople(), 
-                                    Seminar = seminarService.GetCurrent(),
+                                    Seminar = SiteService.GetLatestSeminar(siteId),
                                     Site = SiteService.LoadSite(siteId, true)
                                 };
 

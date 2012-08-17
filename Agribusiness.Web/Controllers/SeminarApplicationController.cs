@@ -22,17 +22,15 @@ namespace Agribusiness.Web.Controllers
     {
         private readonly IRepository<Application> _applicationRepository;
         private readonly IFirmService _firmService;
-        private readonly ISeminarService _seminarService;
         private readonly INotificationService _notificationService;
         private readonly IEventService _eventService;
         private readonly IPictureService _pictureService;
         private readonly IPersonService _personService;
 
-        public SeminarApplicationController(IRepository<Application> applicationRepository, IFirmService firmService, ISeminarService seminarService, INotificationService notificationService, IEventService eventService, IPictureService pictureService, IPersonService personService)
+        public SeminarApplicationController(IRepository<Application> applicationRepository, IFirmService firmService, INotificationService notificationService, IEventService eventService, IPictureService pictureService, IPersonService personService)
         {
             _applicationRepository = applicationRepository;
             _firmService = firmService;
-            _seminarService = seminarService;
             _notificationService = notificationService;
             _eventService = eventService;
             _pictureService = pictureService;
@@ -99,11 +97,11 @@ namespace Agribusiness.Web.Controllers
 
                 if (isApproved)
                 {
-                    _eventService.Accepted(person);
+                    _eventService.Accepted(person, Site);
                 }
                 else
                 {
-                   _eventService.Denied(person);
+                   _eventService.Denied(person, Site);
                 }
 
                 return this.RedirectToAction<SeminarApplicationController>(a => a.Index());
@@ -136,7 +134,7 @@ namespace Agribusiness.Web.Controllers
         [MembershipUserOnly]
         public ActionResult Apply()
         {
-            var viewModel = ApplicationViewModel.Create(Repository, _firmService, _seminarService, CurrentUser.Identity.Name);
+            var viewModel = ApplicationViewModel.Create(Repository, _firmService, CurrentUser.Identity.Name, Site);
             return View(viewModel);
         }
 
@@ -146,8 +144,8 @@ namespace Agribusiness.Web.Controllers
         {
             ModelState.Clear();
 
-            application.Seminar = _seminarService.GetCurrent();
-            application.User = Repository.OfType<User>().Queryable.Where(a => a.LoweredUserName == CurrentUser.Identity.Name.ToLower()).FirstOrDefault();
+            application.Seminar = SiteService.GetLatestSeminar(Site);
+            application.User = Repository.OfType<User>().Queryable.FirstOrDefault(a => a.LoweredUserName == CurrentUser.Identity.Name.ToLower());
 
             // requires assistant
             if (application.CommunicationOption == null)
@@ -197,7 +195,7 @@ namespace Agribusiness.Web.Controllers
             {
                 _applicationRepository.EnsurePersistent(application);
 
-                _eventService.Apply(application.User.Person, application);
+                _eventService.Apply(application.User.Person, application, Site);
 
                 //Message = string.Format(Messages.Saved, "Application");
                 //Message = "Thank you for successfully submitting your application.  Applicants will be notified of acceptance by January 13, 2012.";
@@ -219,7 +217,7 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction<AuthorizedController>(a => a.Index());
             }
 
-            var viewModel = ApplicationViewModel.Create(Repository, _firmService, _seminarService, CurrentUser.Identity.Name, application, seminarTerms);
+            var viewModel = ApplicationViewModel.Create(Repository, _firmService, CurrentUser.Identity.Name, Site, application, seminarTerms);
             return View(viewModel);
         }
         #endregion

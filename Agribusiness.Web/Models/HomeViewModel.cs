@@ -13,7 +13,7 @@ namespace Agribusiness.Web.Models
 
         public IEnumerable<Site> Sites { get; set; }
 
-        public static HomeViewModel Create(ISeminarService seminarService, IRepositoryWithTypedId<Site, string> siteRepository, Site site)
+        public static HomeViewModel Create(IRepositoryWithTypedId<Site, string> siteRepository, Site site)
         {
             var viewModel = new HomeViewModel()
                                 {

@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Net.Mail;
-using System.Web;
 using Agribusiness.Core.Domain;
 using Agribusiness.Web.Models;
 using UCDArch.Core.PersistanceSupport;
@@ -14,23 +12,21 @@ namespace Agribusiness.Web.Services
     public class NotificationService : INotificationService
     {
         private readonly IRepository<Seminar> _seminarRepository;
-        private readonly ISeminarService _seminarService;
         private readonly IRepository<EmailQueue> _emailQueueRepository;
         private readonly IRepository<MailingList> _mailingListRepository;
         private AccountMembershipService _membershipService;
         
 
-        public NotificationService(IRepository<Seminar> seminarRepository,ISeminarService seminarService, IRepository<EmailQueue> emailQueueRepository, IRepository<MailingList> mailingListRepository)
+        public NotificationService(IRepository<Seminar> seminarRepository, IRepository<EmailQueue> emailQueueRepository, IRepository<MailingList> mailingListRepository)
         {
             _seminarRepository = seminarRepository;
-            _seminarService = seminarService;
             _emailQueueRepository = emailQueueRepository;
             _mailingListRepository = mailingListRepository;
 
             if (_membershipService == null) { _membershipService = new AccountMembershipService(); }
         }
 
-        public string GenerateNotification(string template, Person person, int? seminarId = null, Invitation invitation = null, string password = null)
+        public string GenerateNotification(string template, Person person, string siteId, int? seminarId = null, Invitation invitation = null, string password = null)
         {
             Seminar seminar;
 
@@ -40,7 +36,7 @@ namespace Agribusiness.Web.Services
             }
             else
             {
-                seminar = _seminarService.GetCurrent();
+                seminar = SiteService.GetLatestSeminar(siteId);
             }
 
             var helper = new NotificationGeneratorHelper(person, seminar, invitation, password);
@@ -93,7 +89,7 @@ namespace Agribusiness.Web.Services
 
         public void AddToMailingList(Seminar seminar, Person person, string mailingListName)
         {
-            var mailingList = seminar.MailingLists.Where(a => a.Name == mailingListName).FirstOrDefault();
+            var mailingList = seminar.MailingLists.FirstOrDefault(a => a.Name == mailingListName);
 
             if (mailingList != null)
             {
@@ -105,7 +101,7 @@ namespace Agribusiness.Web.Services
 
         public void RemoveFromMailingList(Seminar seminar, Person person, string mailingListName)
         {
-            var mailingList = seminar.MailingLists.Where(a => a.Name == mailingListName).FirstOrDefault();
+            var mailingList = seminar.MailingLists.FirstOrDefault(a => a.Name == mailingListName);
 
             if (mailingList != null)
             {

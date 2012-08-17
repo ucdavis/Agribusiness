@@ -26,30 +26,29 @@ namespace Agribusiness.Web.Models
 
         public bool Invited { get; set; }
 
-        public static AuthorizedViewModel Create(IRepository repository, ISeminarService seminarService, string userId)
+        public static AuthorizedViewModel Create(IRepository repository, string userId, string siteId)
         {
             Check.Require(repository != null, "Repository is required.");
 
             // load the user
-            var user = repository.OfType<User>().Queryable.Where(a => a.LoweredUserName == userId.ToLower()).FirstOrDefault();
+            var user = repository.OfType<User>().Queryable.FirstOrDefault(a => a.LoweredUserName == userId.ToLower());
             if (user == null) throw new ArgumentException(string.Format("Unable to load user with id {0}", userId));
 
             var person = user.Person;
 
             // load seminar
-            var seminar = seminarService.GetCurrent();
+            var seminar = SiteService.GetLatestSeminar(siteId);
 
             // has this person been invited to the current seminar?
-            //var invited = seminar.MailingLists.Where(a => a.Name == MailingLists.Invitation && a.People.Where(b => b.User.UserName == userId).Any()).Any();
-            var invited = seminar.Invitations.Where(a => a.Person.User.LoweredUserName == userId.ToLower()).Any();
+            var invited = seminar.Invitations.Any(a => a.Person.User.LoweredUserName == userId.ToLower());
 
             var viewModel = new AuthorizedViewModel()
                                 {
                                     Seminar = seminar,
                                     // only load application that applies to current seminar
-                                    Application = user.Applications.Where(a => a.Seminar == seminar).FirstOrDefault(),
+                                    Application = user.Applications.FirstOrDefault(a => a.Seminar.Id == seminar.Id),
                                     SeminarPeople = person != null ? person.SeminarPeople.Where(a=>a.Seminar.Id != seminar.Id).ToList() : new List<SeminarPerson>(),
-                                    SeminarPerson = person != null ? person.SeminarPeople.Where(a=> a.Seminar.Id == seminar.Id).FirstOrDefault() : null,
+                                    SeminarPerson = person != null ? person.SeminarPeople.FirstOrDefault(a => a.Seminar.Id == seminar.Id) : null,
                                     Person = person,
                                     Invited = invited
                                 };

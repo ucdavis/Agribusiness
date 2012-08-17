@@ -11,16 +11,13 @@ namespace Agribusiness.Web.Controllers
 {
     public class HomeController : ApplicationController
     {
-        private readonly ISeminarService _seminarService;
-
-        public HomeController(ISeminarService seminarService)
+        public HomeController()
         {
-            _seminarService = seminarService;
         }
 
         public ActionResult Index()
         {
-            var viewModel = HomeViewModel.Create(_seminarService, RepositoryFactory.SiteRepository , SiteService.LoadSite(Site));
+            var viewModel = HomeViewModel.Create(RepositoryFactory.SiteRepository , SiteService.LoadSite(Site));
             return View(viewModel);
         }
 

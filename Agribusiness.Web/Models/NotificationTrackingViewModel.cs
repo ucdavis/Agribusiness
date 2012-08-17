@@ -27,7 +27,7 @@ namespace Agribusiness.Web.Models
         /// </summary>
         public virtual IList<Person> AllPeople { get; set; }
 
-        public static NotificationTrackingViewModel Create(IRepository repository, ISeminarService seminarService, NotificationTracking notificationTracking = null, Person person = null, MailingList mailingList = null)
+        public static NotificationTrackingViewModel Create(IRepository repository, string siteId, NotificationTracking notificationTracking = null, Person person = null, MailingList mailingList = null)
         {
             Check.Require(repository != null, "Repository is required.");
 
@@ -36,8 +36,8 @@ namespace Agribusiness.Web.Models
                                     NotificationMethods = repository.OfType<NotificationMethod>().GetAll(), 
                                     NotificationTypes = repository.OfType<NotificationType>().GetAll(),
                                     People = new List<Person>(),
-                                    AllPeople = seminarService.GetCurrent().SeminarPeople.Select(a=>a.Person).ToList(),
-                                    Seminar = seminarService.GetCurrent(),
+                                    AllPeople = SiteService.GetLatestSeminar(siteId).SeminarPeople.Select(a => a.Person).ToList(),//seminarService.GetCurrent().SeminarPeople.Select(a=>a.Person).ToList(),
+                                    Seminar = SiteService.GetLatestSeminar(siteId),
                                     MailingLists = repository.OfType<MailingList>().GetAll(),
                                     MailingList = mailingList
                                 };

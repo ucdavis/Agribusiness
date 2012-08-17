@@ -100,10 +100,9 @@ namespace Agribusiness.Web.Models
         public int? SeminarId { get; set; }
         public bool Invited { get; set; }
 
-        public static AdminPersonViewModel Create(IRepository repository, IFirmService firmService, ISeminarService seminarService, int? seminarId, Person person = null, string email = null)
+        public static AdminPersonViewModel Create(IRepository repository, IFirmService firmService, string siteId, int? seminarId, Person person = null, string email = null)
         {
             Check.Require(repository != null, "Repository is required.");
-            Check.Require(seminarService != null, "seminarService is required.");
 
             var seminar = seminarId.HasValue ? repository.OfType<Seminar>().GetNullableById(seminarId.Value) : null;
             var viewModel = new AdminPersonViewModel()
@@ -112,13 +111,13 @@ namespace Agribusiness.Web.Models
                                     SeminarRoles = repository.OfType<SeminarRole>().Queryable,
                                     RoomTypes = repository.OfType<RoomType>().Queryable.Where(a=>a.IsActive),
                                     SeminarId = seminarId,
-                                    Invited = seminarService.GetCurrent().Invitations.Where(a => a.Person == person).Any()
+                                    Invited = SiteService.GetLatestSeminar(siteId).Invitations.Where(a => a.Person == person).Any()
                                 };
 
             // determine if last reg is the current seminar
             if (seminar != null)
             {
-                viewModel.IsCurrentSeminar = seminar == seminarService.GetCurrent();
+                viewModel.IsCurrentSeminar = seminar == SiteService.GetLatestSeminar(siteId);
             }
             
             return viewModel;

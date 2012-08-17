@@ -20,15 +20,13 @@ namespace Agribusiness.Web.Controllers
         private readonly IRepository<InformationRequest> _informationRequestRepository;
         private readonly IRepositoryWithTypedId<SeminarRole, string> _seminarRoleRepository;
         private readonly IRepository<CaseStudy> _caseStudyRepository;
-        private readonly ISeminarService _seminarService;
         private readonly INotificationService _notificationService;
 
-        public PublicController(IRepository<InformationRequest> informationRequestRepository, IRepositoryWithTypedId<SeminarRole, string> seminarRoleRepository, IRepository<CaseStudy> caseStudyRepository, ISeminarService seminarService, INotificationService notificationService)
+        public PublicController(IRepository<InformationRequest> informationRequestRepository, IRepositoryWithTypedId<SeminarRole, string> seminarRoleRepository, IRepository<CaseStudy> caseStudyRepository, INotificationService notificationService)
         {
             _informationRequestRepository = informationRequestRepository;
             _seminarRoleRepository = seminarRoleRepository;
             _caseStudyRepository = caseStudyRepository;
-            _seminarService = seminarService;
             _notificationService = notificationService;
         }
 
@@ -39,7 +37,7 @@ namespace Agribusiness.Web.Controllers
 
         public ActionResult SteeringCommittee()
         {
-            var seminar = _seminarService.GetCurrent();
+            var seminar = SiteService.GetLatestSeminar(Site);
             var role = _seminarRoleRepository.GetNullableById(StaticIndexes.Role_SteeringCommittee);
 
             if (seminar != null && role != null)
