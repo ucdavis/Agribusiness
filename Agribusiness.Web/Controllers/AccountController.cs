@@ -43,13 +43,16 @@ namespace Agribusiness.Web.Controllers
 
         public ActionResult LogOn(string returnUrl, bool membershipLogon = true)
         {
+            ViewBag.ReturnUrl = returnUrl;
+            ViewBag.Site = Site;
+
             if (!membershipLogon) return this.RedirectToAction(a => a.CasLogon(returnUrl));
 
             return View();
         }
 
         [HttpPost]
-        public ActionResult LogOn(LogOnModel model, string returnUrl)
+        public ActionResult LogOn(LogOnModel model, string returnUrl, string site)
         {
             if (ModelState.IsValid)
             {
@@ -62,7 +65,7 @@ namespace Agribusiness.Web.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Home", new {site});
                     }
                 }
                 else
