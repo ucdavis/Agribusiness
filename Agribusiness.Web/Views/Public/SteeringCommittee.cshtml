@@ -2,8 +2,10 @@
 
 
 @{
-    ViewBag.Title = "Steering Committee";
-    ViewBag.SubPageTitle = "Steering Committee";
+    var siteId = ViewData["site"] as string;
+        
+    ViewBag.Title = siteId.ToLower() == "leaders" ? "Advisory Committee" : "Steering Committee";
+    ViewBag.SubPageTitle = siteId.ToLower() == "leaders" ? "Advisory Committee" : "Steering Committee";
 
     ViewBag.PublicProfile = true;
 }

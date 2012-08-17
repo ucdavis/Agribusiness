@@ -1,5 +1,17 @@
-﻿<ul class="nav nav-pills">
-    <li class="@(ViewBag.SubNav == SubNav.SteeringCommittee ? "active" : string.Empty)">@Html.ActionLink("Steering Committee", "SteeringCommittee", "Public")</li>    
+﻿@{
+    var siteId = ViewData["site"] as string;
+}
+
+<ul class="nav nav-pills">
+    @if (siteId.ToLower() == "leaders")
+    {
+        <li class="@(ViewBag.SubNav == SubNav.SteeringCommittee ? "active" : string.Empty)">@Html.ActionLink("Advisory Committee", "SteeringCommittee", "Public")</li>    
+    }
+    else
+    {
+        <li class="@(ViewBag.SubNav == SubNav.SteeringCommittee ? "active" : string.Empty)">@Html.ActionLink("Steering Committee", "SteeringCommittee", "Public")</li>        
+    }
+    
     <li class="@(ViewBag.SubNav == SubNav.CaseStudies ? "active" : string.Empty)">@Html.ActionLink("Case Studies", "CaseExamples", "Public")</li>    
     <li class="@(ViewBag.SubNav == SubNav.Venue ? "active" : string.Empty)">@Html.ActionLink("Venue", "Venue", "Public")</li>
     <li class="@(ViewBag.SubNav == SubNav.ContactUs ? "active" : string.Empty)">@Html.ActionLink("Contact Us", "ContactUs", "Public")</li>
