@@ -27,6 +27,9 @@
             @Html.ActionLink("Create Case Study", "Create", "CaseStudy", new { seminarId = Model.Seminar.Id }, new { })
         </li>
         <li>
+            @Html.ActionLink("Add File", "Create", "File", new {seminarId = Model.Seminar.Id}, new {})
+        </li>
+        <li>
             @Html.ActionLink("Back to List", "Index", "Seminar")
         </li>
     </ul>
@@ -128,3 +131,38 @@
     { 
         @Html.Partial("_Message", new MessageModel() { IsError = false, Message = "No Case Studies have been created yet." })
     }
+    
+<h3>Seminar Files</h3>
+
+@if (Model.Seminar.Files.Any())
+{
+    <table class="default_table table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th></th> 
+                <th>Name</th>
+                <th>File Name</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var f in Model.Seminar.Files)
+            {
+                <tr>
+                    <td>
+                        <a href="#" class="btn">
+                            <i class="icon-download"></i>
+                        </a>
+                    </td>
+                    <td>@f.Name</td>
+                    <td>@f.FileName</td>
+                    <td></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    @Html.Partial("_Message", new MessageModel() { IsError = false, Message = "No files have been added yet." })
+}

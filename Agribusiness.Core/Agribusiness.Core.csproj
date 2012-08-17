@@ -92,6 +92,7 @@
     <Compile Include="Domain\ContactType.cs" />
     <Compile Include="Domain\Country.cs" />
     <Compile Include="Domain\EmailQueue.cs" />
+    <Compile Include="Domain\File.cs" />
     <Compile Include="Domain\Firm.cs" />
     <Compile Include="Domain\FirmType.cs" />
     <Compile Include="Domain\InformationRequest.cs" />

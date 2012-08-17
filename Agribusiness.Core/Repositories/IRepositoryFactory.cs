@@ -17,6 +17,7 @@ namespace Agribusiness.Core.Repositories
         IRepositoryWithTypedId<ContactType, char> ContactTypeRepsitory { get; set; }
         IRepositoryWithTypedId<Country, string> CountryRepository { get; set; }
         IRepository<EmailQueue> EmailQueueRepository { get; set; }
+        IRepository<File> FileRepository { get; set; }
         IRepository<Firm> FirmRepository { get; set; }
         IRepository<FirmType> FirmTypeRepository { get; set; }
         IRepository<InformationRequest> InformationRequestRepository { get; set; }
@@ -49,6 +50,7 @@ namespace Agribusiness.Core.Repositories
         public IRepositoryWithTypedId<ContactType, char> ContactTypeRepsitory { get; set; }
         public IRepositoryWithTypedId<Country, string> CountryRepository { get; set; }
         public IRepository<EmailQueue> EmailQueueRepository { get; set; }
+        public IRepository<File> FileRepository { get; set; }
         public IRepository<Firm> FirmRepository { get; set; }
         public IRepository<FirmType> FirmTypeRepository { get; set; }
         public IRepository<InformationRequest> InformationRequestRepository { get; set; }

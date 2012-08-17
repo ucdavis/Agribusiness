@@ -1,0 +1,48 @@
+﻿@model FileViewModel
+
+@{
+    ViewBag.Title = "Create Seminar File";
+    ViewBag.SubPageTitle = "Create Seminar File";
+}
+
+@using (Html.BeginForm("Create", "File", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="control-group">
+        <fieldset>
+            <div class="control-group">
+                <label for="Name" class="control-label">Name</label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.File.Name)
+                    @Html.ValidationMessageFor(model => model.File.Name)
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="File" class="control-label">File</label>
+                <div class="controls">
+                    <input type="file" name="uploadedFile" class="input-file"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="MySeminar" class="control-label">Display Location</label>
+                <div class="controls">
+                    <ul class="unstyled">
+                        <li>
+                            <label class="checkbox">
+                                @Html.EditorFor(model => model.File.MySeminar)        
+                                My Seminar
+                            </label>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+    
+    <div class="form-actions">
+        <input type="submit" value="Save" class="btn btn-primary"/>
+        @Html.ActionLink("Cancel", "Edit", "Seminar", new {id=Model.File.Seminar.Id}, new {@class="btn"})
+    </div>
+}

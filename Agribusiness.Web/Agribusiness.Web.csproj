@@ -164,6 +164,7 @@
     <Compile Include="Controllers\CommodityController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\ExportController.cs" />
+    <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\Filters\CaptchaValidatorAttribute.cs" />
     <Compile Include="Controllers\Filters\CatbertMessagesAttribute.cs" />
     <Compile Include="Controllers\Filters\IpFilter.cs" />
@@ -841,6 +842,7 @@
     <Content Include="Views\Notification\_NotificationScripts.cshtml" />
     <Content Include="Views\Firm\_FirmTable.cshtml" />
     <Content Include="Views\Shared\_tinymce.cshtml" />
+    <Content Include="Views\File\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">
