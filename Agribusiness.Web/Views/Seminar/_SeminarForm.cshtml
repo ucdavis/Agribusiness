@@ -59,6 +59,13 @@
             </div>
         </div>
         <div class="control-group">
+            <label for="PaymentDeadline" class="control-label">Payment Deadline</label>
+            <div class="controls">
+                @Html.EditorFor(model => model.Seminar.PaymentDeadline)
+                @Html.ValidationMessageFor(model => model.Seminar.PaymentDeadline)
+            </div>
+        </div>
+        <div class="control-group">
             <label for="RegistrationPassword" class="control-label">Registration Password:</label>
             <div class="controls">
                 @Html.EditorFor(a=>a.Seminar.RegistrationPassword)
@@ -132,28 +139,6 @@
                     </div>
                 </div>
                 @Html.ValidationMessageFor(model => model.Seminar.ProgramInformation)
-            </div>
-        </div>
-        <div class="control-group">
-            <label for="ScheduleFile" class="control-label">Schedule</label>
-            <div class="controls">
-                <input type="file" class="input-file" name="schedule"/>
-                @if (Model.Seminar.ScheduleFile != null)
-                {
-                    <a href="#" class="btn hastip" rel="tooltip" title="View Existing Uplaoded Schedule"><i class="icon-download"></i></a>    
-                }
-                <p class="help-block">Schedule PDF, that is available to the public.</p>
-            </div>
-        </div>
-        <div class="control-group">
-            <label for="BrochureFile" class="control-label">Brochure</label>
-            <div class="controls">
-                <input type="file" class="input-file" name="brochure"/>
-                @if (Model.Seminar.BrochureFile != null)
-                {
-                    <a href="#" class="btn hastip" rel="tooltip" title="View Existing Uplaoded Brochure"><i class="icon-download"></i></a>    
-                }
-                <p class="help-block">Brochure PDF, that is availalbe to the public.</p>
             </div>
         </div>
     </fieldset>

@@ -70,10 +70,8 @@ namespace Agribusiness.Core.Domain
 
         public virtual bool ReleaseSchedule { get; set; }
         public virtual string ProgramInformation { get; set; }
-        public virtual byte[] ScheduleFile { get; set; }
-        public virtual string ScheduleFileContentType { get; set; }
-        public virtual byte[] BrochureFile { get; set; }
-        public virtual string BrochureFileContentType { get; set; }
+
+        public virtual DateTime? PaymentDeadline { get; set; }
 
         public virtual Site Site { get; set; }
 
@@ -116,10 +114,7 @@ namespace Agribusiness.Core.Domain
 
             Map(x => x.ReleaseSchedule);
             Map(x => x.ProgramInformation);
-            Map(x => x.ScheduleFile).CustomType("BinaryBlob");
-            Map(x => x.ScheduleFileContentType);
-            Map(x => x.BrochureFile).CustomType("BinaryBlob");
-            Map(x => x.BrochureFileContentType);
+            Map(x => x.PaymentDeadline);
 
             HasMany(x => x.Sessions).Inverse().Cascade.AllDeleteOrphan();
             HasMany(x => x.SeminarPeople).Inverse().Cascade.AllDeleteOrphan();

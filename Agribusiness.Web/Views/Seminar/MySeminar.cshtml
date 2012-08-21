@@ -78,7 +78,7 @@
 
             <ul>
                 <li>Payment fee of $@Model.Seminar.Cost covers all study materials, instruction, meals, and receptions, but excludes lodging.</li>
-                <li>The fee is due February 1, 2012. </li>
+                <li>The fee is due @(Model.Seminar.PaymentDeadline.HasValue ? Model.Seminar.PaymentDeadline.Value.ToString("d") : "TBD"). </li>
                 <li>Credit cards and checks are accepted.</li>
                 <li><span style="color: red;"><strong>Payments will take 24 hours to process.</strong></span></li>
                 <li>You will not have access to case studies and contact information of other attendees until your seminar fee is paid.</li>
@@ -106,7 +106,7 @@
     <li><a href="@Url.Content("~/Doc/Menus.pdf")" target="menu">Menus</a></li>
 </ul>*@
 
-    <ul class="unstyled">
+    <ul class="nav nav-stacked nav-pills">
         @foreach (var file in Model.Seminar.Files.Where(a => a.MySeminar))
         {
             <li><a href="@Url.Action("Download", "File", new {id=file.Id})" target="@file.Id">@file.Name</a></li>

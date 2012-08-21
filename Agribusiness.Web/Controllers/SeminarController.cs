@@ -56,7 +56,7 @@ namespace Agribusiness.Web.Controllers
         [UserOnly]
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Create(Seminar seminar, HttpPostedFileBase schedule, HttpPostedFileBase brochure)
+        public ActionResult Create(Seminar seminar)
         {
             seminar.Site = SiteService.LoadSite(Site);
             ModelState.Clear();
@@ -64,22 +64,6 @@ namespace Agribusiness.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                if (schedule != null && schedule.ContentLength > 0)
-                {
-                    var ms = new MemoryStream();
-                    schedule.InputStream.CopyTo(ms);
-                    seminar.ScheduleFile = ms.ToArray();
-                    seminar.ScheduleFileContentType= schedule.ContentType;
-                }
-
-                if (brochure != null && brochure.ContentLength > 0)
-                {
-                    var ms = new MemoryStream();
-                    brochure.InputStream.CopyTo(ms);
-                    seminar.BrochureFile = ms.ToArray();
-                    seminar.BrochureFileContentType = brochure.ContentType;
-                }
-
                 _seminarRepository.EnsurePersistent(seminar);
 
                 var mlInvitation = new MailingList(MailingLists.Invitation, seminar) {Description = MailingLists.InvitationDescription };
@@ -128,7 +112,7 @@ namespace Agribusiness.Web.Controllers
         [UserOnly]
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Edit(int id, Seminar seminar, HttpPostedFileBase schedule, HttpPostedFileBase brochure)
+        public ActionResult Edit(int id, Seminar seminar)
         {
             var origSeminar = LoadSeminar(id);
 
@@ -136,22 +120,6 @@ namespace Agribusiness.Web.Controllers
             {
                 ErrorMessages = string.Format(Messages.NotFound, "Seminar", id);
                 return this.RedirectToAction(a => a.Index());
-            }
-
-            if (schedule != null && schedule.ContentLength > 0)
-            {
-                var ms = new MemoryStream();
-                schedule.InputStream.CopyTo(ms);
-                seminar.ScheduleFile = ms.ToArray();
-                seminar.ScheduleFileContentType = schedule.ContentType;
-            }
-
-            if (brochure != null && brochure.ContentLength > 0)
-            {
-                var ms = new MemoryStream();
-                brochure.InputStream.CopyTo(ms);
-                seminar.BrochureFile = ms.ToArray();
-                seminar.BrochureFileContentType = brochure.ContentType;
             }
 
             Mapper.Map(seminar, origSeminar);

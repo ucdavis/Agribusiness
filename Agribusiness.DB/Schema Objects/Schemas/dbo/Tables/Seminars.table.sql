@@ -17,10 +17,7 @@
 	[CaseStudyText] VARCHAR(MAX) NULL, 
     [ReleaseSchedule] bit not null default(0),
 	[ProgramInformation] varchar(max) null,
-	[ScheduleFile] VARBINARY(MAX) NULL, 
-	[ScheduleFileContentType] varchar(20) NULL,
-    [BrochureFile] VARBINARY(MAX) NULL, 
-	[BrochureFilecontentType] varchar(20) null,
+	[PaymentDeadline] datetime null,
     CONSTRAINT [FK_Seminars_Sites] FOREIGN KEY ([SiteId]) REFERENCES [Sites]([Id])
 );
 

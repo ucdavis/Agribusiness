@@ -3,6 +3,8 @@
 @{
     ViewBag.Title = "Edit Profile";
     ViewBag.SubPageTitle = "Edit Profile";
+    
+    var siteId = ViewData["site"] as string;
 }
 
 @section SubPageNavigation
@@ -16,8 +18,8 @@
     else
     {
         <ul class="nav nav-pills">
+            <li>@Html.ActionLink("Change Password", "ChangePassword", "Account", new {site = siteId}, new {})</li>
             <li>@Html.ActionLink("Back to Home", "Index", "Authorized")</li>
-            <li>@Html.ActionLink("Change Password", "ChangePassword", "Account")</li>
         </ul>
     }
 }
