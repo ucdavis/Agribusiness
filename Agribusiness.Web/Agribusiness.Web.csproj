@@ -205,6 +205,7 @@
     <Compile Include="Models\CaseStudyPersonViewModel.cs" />
     <Compile Include="Models\CaseStudyViewModel.cs" />
     <Compile Include="Models\CommodityViewModel.cs" />
+    <Compile Include="Models\FileViewModel.cs" />
     <Compile Include="Models\FirmListViewModel.cs" />
     <Compile Include="Models\FirmViewModel.cs" />
     <Compile Include="Models\HomeViewModel.cs" />
@@ -843,6 +844,8 @@
     <Content Include="Views\Firm\_FirmTable.cshtml" />
     <Content Include="Views\Shared\_tinymce.cshtml" />
     <Content Include="Views\File\Create.cshtml" />
+    <Content Include="Views\File\_FileForm.cshtml" />
+    <Content Include="Views\File\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">

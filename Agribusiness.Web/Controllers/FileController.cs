@@ -1,7 +1,10 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Web;
 using System.Web.Mvc;
 using Agribusiness.Core.Repositories;
+using Agribusiness.Web.Controllers.Filters;
+using Agribusiness.Web.Models;
 using Agribusiness.Web.Services;
 using UCDArch.Web.Helpers;
 using File = Agribusiness.Core.Domain.File;
@@ -14,17 +17,21 @@ namespace Agribusiness.Web.Controllers
     public class FileController : ApplicationController
     {
         private readonly IRepositoryFactory _repositoryFactory;
+        private readonly IPersonService _personService;
 
-        public FileController(IRepositoryFactory repositoryFactory)
+        public FileController(IRepositoryFactory repositoryFactory, IPersonService personService)
         {
             _repositoryFactory = repositoryFactory;
+            _personService = personService;
         }
 
+        [UserOnly]
         public ActionResult Create(int seminarId)
         {
             return View(FileViewModel.Create(_repositoryFactory, seminarId));
         }
 
+        [UserOnly]
         [HttpPost]
         public ActionResult Create(int seminarId, File file, HttpPostedFileBase uploadedFile)
         {
@@ -51,21 +58,42 @@ namespace Agribusiness.Web.Controllers
 
             return View(FileViewModel.Create(_repositoryFactory, seminarId, file));
         }
-    }
 
-    public class FileViewModel
-    {
-        public File File { get; set; }
-
-        public static FileViewModel Create(IRepositoryFactory repositoryFactory, int seminarId, File file = null)
+        public ActionResult Edit(int id)
         {
-            var viewModel = new FileViewModel()
-                                {
-                                    File = file ?? new File() { Seminar = repositoryFactory.SeminarRepository.GetNullableById(seminarId)}
-                                };
+            var file = _repositoryFactory.FileRepository.GetNullableById(id);
 
-            return viewModel;
+            if (file == null)
+            {
+                Message = "Unable to locate file.";
+                return RedirectToAction("Index", "Seminar");
+            }
+
+            return View(FileViewModel.Create(_repositoryFactory, file.Seminar.Id, file));
         }
 
+        [UserOnly]
+        [HttpPost]
+        public ActionResult Edit(int id, File file, HttpPostedFileBase uploadedFile)
+        {
+            return View();
+        }
+
+        public FileResult Download(int id)
+        {
+            var file = _repositoryFactory.FileRepository.GetNullableById(id);
+
+            if (file.Public && _personService.HasAccess(CurrentUser.Identity.Name, file.Seminar, false))
+            {
+                return File(file.Contents, file.ContentType, file.FileName);
+            }
+            
+            if (!file.Public)
+            {
+                return File(file.Contents, file.ContentType, file.FileName);
+            }
+
+            return File(new byte[0], string.Empty);
+        }
     }
 }

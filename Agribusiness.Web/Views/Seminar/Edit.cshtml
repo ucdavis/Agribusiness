@@ -150,13 +150,21 @@
             {
                 <tr>
                     <td>
-                        <a href="#" class="btn">
+                        <a href="@Url.Action("Edit", "File", new {id=f.Id})" class="btn">
+                            <i class="icon-pencil"></i>
+                        </a>
+                        <a href="@Url.Action("Download","File", new {id=f.Id})" class="btn">
                             <i class="icon-download"></i>
                         </a>
                     </td>
                     <td>@f.Name</td>
                     <td>@f.FileName</td>
-                    <td></td>
+                    <td>
+                        @if (f.MySeminar)
+                        {
+                            <span class="label">My Seminar</span>
+                        }
+                    </td>
                 </tr>
             }
         </tbody>

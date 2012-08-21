@@ -21,6 +21,7 @@ namespace Agribusiness.Core.Domain
         public virtual string FileName { get; set; }
         public virtual Seminar Seminar { get; set; }
 
+        public virtual bool Public { get; set; }
         public virtual bool MySeminar { get; set; }
     }
 
@@ -36,6 +37,7 @@ namespace Agribusiness.Core.Domain
             Map(x => x.FileName);
             References(x => x.Seminar);
 
+            Map(x => x.Public).Column("`Public`");
             Map(x => x.MySeminar);
         }
     }

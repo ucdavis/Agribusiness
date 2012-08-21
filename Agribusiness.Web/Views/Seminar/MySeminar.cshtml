@@ -1,5 +1,5 @@
 ﻿@using Agribusiness.Web.Services
-@model Agribusiness.Web.Models.MySeminarViewModel
+@model MySeminarViewModel
 
 @{
     var siteId = ViewData["site"] as string;
@@ -11,17 +11,6 @@
 }
 
 @section ScriptContent{
-    <script type="text/javascript">
-        $(function () {
-            $("table").dataTable({ "bJQueryUI": true });
-        });    
-    </script>
-
-    <style type="text/css">
-    #payment-details { padding: 1em; }
-    #payment-details p { margin-bottom: 1em;}
-    #payment-contact { margin-left: 50px; }
-    </style>
 }
 
 @section SubPageNavigation
@@ -88,7 +77,7 @@
             @*<p>Payment: the seminar fee of $3,950 covers all study materials, instruction, meals, and receptions, but excludes lodging. The fee is due February 1, 2012. Credit cards and checks are accepted.  You will not have access to case studies and contact information of other attendees until your seminar fee is paid.  Please make checks payable to UC Regents and ensure that the name of the applicant accompanies the check.</p>*@
 
             <ul>
-                <li>Payment fee of $3,950 covers all study materials, instruction, meals, and receptions, but excludes lodging.</li>
+                <li>Payment fee of $@Model.Seminar.Cost covers all study materials, instruction, meals, and receptions, but excludes lodging.</li>
                 <li>The fee is due February 1, 2012. </li>
                 <li>Credit cards and checks are accepted.</li>
                 <li><span style="color: red;"><strong>Payments will take 24 hours to process.</strong></span></li>
@@ -106,7 +95,7 @@
 
 <div style="margin: 1em;">
 <h3>Documents</h3>
-<ul style="list-style: none;">
+    @*<ul style="list-style: none;">
     <li><a href="@Url.Content("~/Doc/2012-DASPacketLetter.pdf")" target="DASPacketLetter">Welcome Letter</a></li>
     <li><a href="@Url.Content("~/Doc/2012-Schedule.pdf")" target="program">2012 Program</a></li>
     <li><a href="@Url.Content("~/Doc/2012-AttendeeList.pdf")" target="attendee">Attendee List</a></li>
@@ -115,14 +104,22 @@
     <li><a href="@Url.Content("~/Doc/DirectionsRoundTripSF.pdf")" target="directions">Directions to Monterey</a></li>
     <li><a href="@Url.Content("~/Doc/MontereyPlazaMa.pdf")" target="montereyplaza">Monterey Plaza Hotel and Spa Map</a></li>
     <li><a href="@Url.Content("~/Doc/Menus.pdf")" target="menu">Menus</a></li>
-</ul>
+</ul>*@
+
+    <ul class="unstyled">
+        @foreach (var file in Model.Seminar.Files.Where(a => a.MySeminar))
+        {
+            <li><a href="@Url.Action("Download", "File", new {id=file.Id})" target="@file.Id">@file.Name</a></li>
+        }
+    </ul>
+
 </div>    
 
 
 
-@if (Model.SeminarPerson.Sessions.Count == 0)
+@*@if (Model.SeminarPerson.Sessions.Count == 0)
 {
-    @*<p style="margin: 2em 0;">Program schedule and breakout session assignments will be available soon.</p>*@
+    <p style="margin: 2em 0;">Program schedule and breakout session assignments will be available soon.</p>
 }
 else if (Model.SeminarPerson.Paid)
 {
@@ -160,4 +157,4 @@ else if (Model.SeminarPerson.Paid)
 
         </tbody>
     </table>
-}
+}*@
