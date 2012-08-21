@@ -292,26 +292,5 @@ namespace Agribusiness.Web.Controllers
         }
         #endregion
 
-        public FileResult DownloadSchedule()
-        {
-            var seminar = SiteService.GetLatestSeminar(Site);
-            if (seminar.ScheduleFile != null)
-            {
-                return File(seminar.ScheduleFile, seminar.ScheduleFileContentType);
-            }
-
-            return File(new byte[0], string.Empty);
-        }
-
-        public FileResult DownloadBrochure()
-        {
-            var seminar = SiteService.GetLatestSeminar(Site);
-            if (seminar.BrochureFile != null)
-            {
-                return File(seminar.BrochureFile, seminar.BrochureFileContentType);
-            }
-
-            return File(new byte[0], string.Empty);
-        }
     }
 }
