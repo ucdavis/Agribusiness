@@ -8,5 +8,6 @@
     [SeminarId] INT NOT NULL, 
 	[Public] BIT NOT NULL DEFAULT 0,
     [MySeminar] BIT NOT NULL DEFAULT 0, 
+    [ProgramOverview] BIT NOT NULL DEFAULT 0, 
     CONSTRAINT [FK_Files_Seminars] FOREIGN KEY ([SeminarId]) REFERENCES [Seminars]([Id])
 )

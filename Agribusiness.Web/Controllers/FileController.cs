@@ -76,19 +76,49 @@ namespace Agribusiness.Web.Controllers
         [HttpPost]
         public ActionResult Edit(int id, File file, HttpPostedFileBase uploadedFile)
         {
-            return View();
+            var fileToEdit = _repositoryFactory.FileRepository.GetNullableById(id);
+
+            if (fileToEdit == null)
+            {
+                Message = "Unable to locate file.";
+                return RedirectToAction("Index", "Seminar");
+            }
+
+            ModelState.Clear();
+
+            AutoMapper.Mapper.Map(file, fileToEdit);
+
+            if (uploadedFile != null)
+            {
+                var reader = new BinaryReader(uploadedFile.InputStream);
+                var data = reader.ReadBytes(uploadedFile.ContentLength);
+                fileToEdit.Contents = data;
+                fileToEdit.ContentType = uploadedFile.ContentType;
+                fileToEdit.FileName = uploadedFile.FileName;
+            }
+
+            fileToEdit.TransferValidationMessagesTo(ModelState);
+
+            if (ModelState.IsValid)
+            {
+                _repositoryFactory.FileRepository.EnsurePersistent(fileToEdit);
+                Message = "File has been updated.";
+                return RedirectToAction("Edit", "Seminar", new { id = fileToEdit.Seminar.Id });
+            }
+
+            return View(FileViewModel.Create(_repositoryFactory, fileToEdit.Seminar.Id, fileToEdit));
         }
 
         public FileResult Download(int id)
         {
             var file = _repositoryFactory.FileRepository.GetNullableById(id);
 
-            if (file.Public && _personService.HasAccess(CurrentUser.Identity.Name, file.Seminar, false))
+            if (file.Public)
             {
                 return File(file.Contents, file.ContentType, file.FileName);
             }
-            
-            if (!file.Public)
+
+            if (!file.Public && _personService.HasAccess(CurrentUser.Identity.Name, file.Seminar, false))
             {
                 return File(file.Contents, file.ContentType, file.FileName);
             }

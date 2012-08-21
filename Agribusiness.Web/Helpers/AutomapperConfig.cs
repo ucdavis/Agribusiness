@@ -25,7 +25,6 @@ namespace Agribusiness.Web.Helpers
                 .ForMember(x => x.Invitations, x => x.Ignore())
                 .ForMember(x => x.Site, x => x.Ignore());
 
-            
             CreateMap<Session, Session>()
                 .ForMember(x => x.Id, x => x.Ignore())
                 .ForMember(x=>x.Seminar, x=>x.Ignore())
@@ -103,6 +102,14 @@ namespace Agribusiness.Web.Helpers
                 .ForMember(x => x.OriginalPicture, x => x.MapFrom(a => a.Photo))
 
                 .ForMember(x => x.ContactInformationRelease, x => x.MapFrom(a => a.ContactInformationRelease))
+                ;
+
+            CreateMap<File, File>()
+                .ForMember(x => x.Id, x => x.Ignore())
+                .ForMember(x => x.Contents, x => x.Ignore())
+                .ForMember(x => x.ContentType, x => x.Ignore())
+                .ForMember(x => x.Seminar, x => x.Ignore())
+                .ForMember(x => x.FileName, x => x.Ignore())
                 ;
         }
         

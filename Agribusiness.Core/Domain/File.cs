@@ -12,7 +12,9 @@ namespace Agribusiness.Core.Domain
 
         private void SetDefaults()
         {
+            Public = false;
             MySeminar = false;
+            ProgramOverview = false;
         }
 
         public virtual string Name { get; set; }
@@ -23,6 +25,7 @@ namespace Agribusiness.Core.Domain
 
         public virtual bool Public { get; set; }
         public virtual bool MySeminar { get; set; }
+        public virtual bool ProgramOverview { get; set; }
     }
 
     public class FileMap : ClassMap<File>
@@ -39,6 +42,7 @@ namespace Agribusiness.Core.Domain
 
             Map(x => x.Public).Column("`Public`");
             Map(x => x.MySeminar);
+            Map(x => x.ProgramOverview);
         }
     }
 }

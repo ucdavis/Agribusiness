@@ -38,6 +38,7 @@
 @section ScriptContent{
     @Html.Partial("_DateTimePickerScripts", Model.Seminar)
     @Html.Partial("_tinymce", "#Seminar_CaseStudyText, #Seminar_ProgramInformation")
+    @Html.Partial("_DataTables")
 }
 
 @Html.ValidationSummary("Please correct the following errors.")
@@ -142,7 +143,8 @@
                 <th></th> 
                 <th>Name</th>
                 <th>File Name</th>
-                <th></th>
+                <th>Public</th>
+                <th>Page(s)</th>
             </tr>
         </thead>
         <tbody>
@@ -160,9 +162,23 @@
                     <td>@f.Name</td>
                     <td>@f.FileName</td>
                     <td>
+                        @if (f.Public)
+                        {
+                            <span class="label label-important">Yes</span>    
+                        }
+                        else
+                        {
+                            <span class="label label-success">No</span>
+                        }
+                    </td>
+                    <td>
                         @if (f.MySeminar)
                         {
                             <span class="label">My Seminar</span>
+                        }
+                        @if (f.ProgramOverview)
+                        {
+                            <span class="label label-important">Program Overview</span>
                         }
                     </td>
                 </tr>

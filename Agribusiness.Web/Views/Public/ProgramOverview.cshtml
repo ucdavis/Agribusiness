@@ -30,7 +30,7 @@
     </style>
 }
 
-@if (Model.BrochureFile != null || Model.ScheduleFile != null)
+@*@if (Model.BrochureFile != null || Model.ScheduleFile != null)
 {
     <ul class="nav nav-pills">
         @if (Model.BrochureFile != null)
@@ -52,6 +52,20 @@
             </li>
         }
     </ul>    
+}*@
+
+@if (Model.Files.Any(a=>a.ProgramOverview))
+{
+    <ul class="nav nav-pills">
+        @foreach(var f in Model.Files.Where(a => a.ProgramOverview))
+        {
+            <li><a href="@Url.Action("Download", "File", new {id = f.Id})">
+                    <i class="icon-download"></i>
+                    Download @f.Name
+                </a>
+            </li>    
+        }
+    </ul>
 }
 
 @if (Model.ReleaseSchedule)
