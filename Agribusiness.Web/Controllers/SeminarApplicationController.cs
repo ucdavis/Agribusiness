@@ -40,7 +40,8 @@ namespace Agribusiness.Web.Controllers
         [UserOnly]
         public ActionResult Index()
         {
-            var applications = _applicationRepository.Queryable.OrderBy(a=>a.IsPending).ThenBy(a=>a.IsApproved);
+            var seminar = SiteService.GetLatestSeminar(Site);
+            var applications = _applicationRepository.Queryable.Where(a => a.Seminar == seminar).OrderBy(a=>a.IsPending).ThenBy(a=>a.IsApproved);
             return View(applications);
         }
 

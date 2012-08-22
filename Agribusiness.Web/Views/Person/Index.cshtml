@@ -119,7 +119,7 @@
                         <td>@person.Person.FirstName</td>
                         <td>@person.Person.LastName</td>
                         <td>@person.Title</td>
-                        <td>@person.Firm</td>
+                        <td>@(person.Firm != null ? person.Firm.Name : string.Empty)</td>
                         <td>
                             @if (person.Registered)
                             {
@@ -154,7 +154,7 @@
                         <td>@person.Person.FirstName</td>
                         <td>@person.Person.LastName</td>
                         <td>@person.Title</td>
-                        <td>@person.Firm</td>
+                        <td>@(person.Firm != null ? person.Firm.Name : string.Empty)</td>
                         <td>
                             <a href="#" class="btn btn-danger hastip removeFromSite" rel="tooltip" title="Remove from Site List" data-id="@person.Person.Id"><i class="icon-minus"></i></a>
                         </td>
@@ -172,7 +172,7 @@
                     <th>Last Name</th>
                     <th>Title</th>
                     <th>Firm</th>
-                    <th>Last Seminar</th>
+                    <th>Attended Events</th>
                 </tr>
             </thead>
             <tbody>
@@ -194,8 +194,13 @@
                         <td>@person.Person.FirstName</td>
                         <td>@person.Person.LastName</td>
                         <td>@person.Title</td>
-                        <td>@person.Firm</td>
-                        <td>@(person.Seminar != null ? person.Seminar.Year.ToString() : string.Empty)</td>
+                        <td>@(person.Firm != null ? person.Firm.Name : string.Empty)</td>
+                        <td>
+                            @foreach (var seminar in person.Person.SeminarPeople.Select( a=> a.Seminar))
+                            {
+                                <span class="label @(seminar.Site.Id == "executive" ? "label-info" : string.Empty)">@seminar.Year</span>
+                            }
+                        </td>
                     </tr>
                 }
             </tbody>

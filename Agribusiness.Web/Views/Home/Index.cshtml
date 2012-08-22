@@ -1,7 +1,10 @@
 ﻿@model HomeViewModel
 
 @{
-    ViewBag.SubPageTitle = "UC Davis Agribusiness";
+    if (Model.Site != null)
+    {
+        ViewBag.SubPageTitle = Model.Site.Name;
+    }
 }
 
 @section ScriptContent

@@ -15,9 +15,16 @@
     @Html.Partial("_PublicSubNavigation")
 }
 
+@if (Model != null)
+{
 <div style="margin-top: 2em;">
 @foreach (var person in Model)
 {
     @Html.Partial("_ProfileList", person)
 }
-</div>
+</div>    
+}
+else
+{
+    <p>Information is not available at this time.  Please check back later.</p>
+}

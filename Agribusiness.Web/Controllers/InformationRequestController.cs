@@ -51,9 +51,8 @@ namespace Agribusiness.Web.Controllers
         // GET: /InformationRequest/
         public ActionResult Index()
         {
-            var site = SiteService.LoadSite(Site);
             var seminar = SiteService.GetLatestSeminar(Site);
-            var informationrequestList = _informationrequestRepository.Queryable.Where(a => a.Site == site && a.Seminar == seminar).OrderBy(a=>a.Responded);
+            var informationrequestList = _informationrequestRepository.Queryable.Where(a => a.Seminar == seminar).OrderBy(a=>a.Responded);
 
             return View(informationrequestList);
         }
@@ -231,6 +230,8 @@ namespace Agribusiness.Web.Controllers
                 // save only if user creation was successful
                 if (createStatus == MembershipCreateStatus.Success)
                 {
+                    person.AddSite(SiteService.LoadSite(Site));
+
                     // we're good save the person object
                     _personRepository.EnsurePersistent(person);
                     Message = string.Format(Messages.Saved, "Person");
