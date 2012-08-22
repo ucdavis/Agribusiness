@@ -108,11 +108,18 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var person in Model.People.Where(a => a.Seminar == Model.Seminar))
+                @foreach (var person in Model.People.Where(a => a.InSeminar))
                 {
                     <tr>
                         <td>
-                            <a href="@Url.Action("AdminEdit", new {id = person.Person.User.Id, seminarId = person.Seminar.Id, allList = true})" class="btn hastip" rel="tooltip" title="Edit"><i class="icon-pencil"></i></a>
+                            @if (person.Seminar != null)
+                            {
+                                <a href="@Url.Action("AdminEdit", new { id = person.Person.User.Id, seminarId = person.Seminar.Id, allList = true })" class="btn hastip" rel="tooltip" title="Edit"><i class="icon-pencil"></i></a>    
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("AdminEdit", new { id = person.Person.User.Id, allList = true })" class="btn hastip" rel="tooltip" title="Edit"><i class="icon-pencil"></i></a>
+                            }
                             <a href="#" class="btn hastip" rel="tooltip" title="Contact Card"><i class="icon-file"></i></a>
                             <a href="#" class="btn hastip" rel="tooltip" title="+ Mailing List"><i class="icon-envelope"></i></a>
                         </td>
@@ -124,6 +131,18 @@
                             @if (person.Registered)
                             {
                                 <span class="label label-success">Registered</span>
+                            }
+                            @if (person.Accepted)
+                            {
+                                <span class="label label-warning">Accepted</span>
+                            }
+                            @if (person.Applied)
+                            {
+                                <span class="label label-info">Applied</span>
+                            }
+                            @if (person.Invite)
+                            {
+                                <span class="label label-important">Invited</span>
                             }
                         </td>
                     </tr>
@@ -148,7 +167,7 @@
                 {
                     <tr>
                         <td>
-                            <a href="@Url.Action("AdminEdit", new {id = person.Person.User.Id, allList = true})" class="btn hastip" rel="tooltip" title="Edit"><i class="icon-pencil"></i></a>
+                            <a href="@Url.Action("AdminEdit", new { id = person.Person.User.Id, allList = true })" class="btn hastip" rel="tooltip" title="Edit"><i class="icon-pencil"></i></a>
                             <a href="#" class="btn hastip" rel="tooltip" title="Contact Card"><i class="icon-file"></i></a>
                         </td>
                         <td>@person.Person.FirstName</td>
@@ -180,7 +199,7 @@
                 {
                     <tr>
                         <td>
-                            <a href="@Url.Action("AdminEdit", new {id = person.Person.User.Id, allList = true})" class="btn hastip" rel="tooltip" title="Edit"><i class="icon-pencil"></i></a>
+                            <a href="@Url.Action("AdminEdit", new { id = person.Person.User.Id, allList = true })" class="btn hastip" rel="tooltip" title="Edit"><i class="icon-pencil"></i></a>
                             <a href="#" class="btn hastip" rel="tooltip" title="Contact Card"><i class="icon-file"></i></a>
                             @if (!person.Person.Sites.Contains(Model.Site))
                             {
@@ -196,7 +215,7 @@
                         <td>@person.Title</td>
                         <td>@(person.Firm != null ? person.Firm.Name : string.Empty)</td>
                         <td>
-                            @foreach (var seminar in person.Person.SeminarPeople.Select( a=> a.Seminar))
+                            @foreach (var seminar in person.Person.SeminarPeople.Select(a => a.Seminar))
                             {
                                 <span class="label @(seminar.Site.Id == "executive" ? "label-info" : string.Empty)">@seminar.Year</span>
                             }

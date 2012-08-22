@@ -36,6 +36,7 @@ namespace Agribusiness.Core.Domain
             Sessions = new List<Session>();
             SeminarPeople = new List<SeminarPerson>();
             CaseStudies = new List<CaseStudy>();
+            Applications = new List<Application>();
         }
 
         #region Mapped Fields
@@ -82,6 +83,7 @@ namespace Agribusiness.Core.Domain
         public virtual IList<MailingList> MailingLists { get; set; }
         public virtual IList<Invitation> Invitations { get; set; }
         public virtual IList<File> Files { get; set; }
+        public virtual IList<Application> Applications { get; set; }
         #endregion
 
         /// <summary>
@@ -123,6 +125,7 @@ namespace Agribusiness.Core.Domain
             HasMany(x => x.MailingLists).Inverse().Cascade.AllDeleteOrphan();
             HasMany(x => x.Invitations).Inverse().Cascade.AllDeleteOrphan();
             HasMany(x => x.Files).Inverse().Cascade.AllDeleteOrphan();
+            HasMany(x => x.Applications).Inverse().Cascade.AllDeleteOrphan();
         }
     }
 }

@@ -59,6 +59,7 @@ namespace Agribusiness.Web.Services
             displayPerson.Seminar = reg.Seminar;
             displayPerson.Firm = reg.Firm;
             displayPerson.Title = reg.Title;
+
             return displayPerson;
         }
 

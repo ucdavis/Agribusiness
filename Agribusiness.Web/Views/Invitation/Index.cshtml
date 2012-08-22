@@ -2,12 +2,13 @@
 
 @{
 	ViewBag.Title = "Invitation List";
+    ViewBag.SubPageTitle = "Invitation List";
 }
 
 
 @section SubPageNavigation
 {
-	<ul class='navigation'>
+@*	<ul class='nav nav-pills'>
         <li>
             @using (Html.BeginForm("AddAll", "Invitation", new {id=ViewBag.SeminarId}))
             {
@@ -15,22 +16,24 @@
                 <a href="javascript:;" class="add-all-button">Add All People</a>
             }
         </li>
-	</ul>
+	</ul>*@
 }
 
 
 @section ScriptContent
 {
-    <script type="text/javascript">
+    @Html.Partial("_dataTables")
+
+    @*<script type="text/javascript">
 
         $(function () {
             $(".add-all-button").click(function () { $(this).parents("form").submit(); return false; });
         });
 
-    </script>
+    </script>*@
 }
 
-<table class='default_table'>
+<table class='default_table table table-striped table-bordered'>
 	<thead>
 		<tr>
 			<th></th>
@@ -52,8 +55,8 @@
 @foreach (var item in Model) {
 		<tr class="@(odd ? "odd": "even")">
 			<td>
-				<a href='@Url.Action("Edit", new {id=item.Id})'>
-					<img src='@Url.Image("edit.png")' />
+				<a href='@Url.Action("Edit", new {id=item.Id})' class="btn hastip" title="Edit Invitation">
+					<i class="icon-pencil"></i>
 				</a>
 			</td>
             <td>@item.Person.FirstName</td>
@@ -65,8 +68,8 @@
 				@item.FirmName
 			</td>
 			<td>
-				<a href='@Url.Action("Delete", new { id = item.Id })'>
-					<img src='@Url.Image("delete.png")' />
+				<a href='@Url.Action("Delete", new { id = item.Id })' class="btn btn-danger hastip" title="Remove From Invitation List">
+					<i class="icon-minus"></i>
 				</a>
 			</td>
 		
