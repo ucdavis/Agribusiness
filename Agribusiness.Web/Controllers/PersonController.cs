@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using Agribusiness.Core.Domain;
+using Agribusiness.Core.Repositories;
 using Agribusiness.Core.Resources;
 using Agribusiness.Web.App_GlobalResources;
 using Agribusiness.Web.Controllers.Filters;
@@ -42,12 +43,13 @@ namespace Agribusiness.Web.Controllers
         private readonly IRegistrationService _registrationService;
         private readonly IvCardService _vCardService;
         private readonly IEventService _eventService;
+        private readonly IRepositoryFactory _repositoryFactory;
         private readonly IMembershipService _membershipService;
 
         public PersonController(IRepository<Person> personRepository, IRepositoryWithTypedId<User, Guid> userRepository, IRepositoryWithTypedId<SeminarRole, string> seminarRoleRepository
             , IRepository<SeminarPerson> seminarPersonRepository, IRepository<Seminar> seminarRepository, IRepositoryWithTypedId<Agribusiness.Core.Domain.Membership, Guid>  membershipRepository
             , IPictureService pictureService, IPersonService personService, IFirmService firmService, IRegistrationService registrationService
-            , IvCardService vCardService,IEventService eventService)
+            , IvCardService vCardService,IEventService eventService, IRepositoryFactory repositoryFactory)
         {
             _personRepository = personRepository;
             _userRepository = userRepository;
@@ -61,6 +63,7 @@ namespace Agribusiness.Web.Controllers
             _registrationService = registrationService;
             _vCardService = vCardService;
             _eventService = eventService;
+            _repositoryFactory = repositoryFactory;
 
             _membershipService = new AccountMembershipService();
         }

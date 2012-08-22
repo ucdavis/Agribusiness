@@ -190,7 +190,7 @@ namespace Agribusiness.Core.Domain
 
             References(x => x.User);
 
-            HasMany(x => x.SeminarPeople).Inverse().Cascade.None();
+            HasMany(x => x.SeminarPeople).Inverse().Cascade.None().Fetch.Subselect();
             HasMany(a => a.Addresses).Inverse().Cascade.AllDeleteOrphan();
             HasMany(a => a.Contacts).Inverse().Cascade.AllDeleteOrphan();
             HasMany(a => a.NotificationTrackings).Inverse().Cascade.AllDeleteOrphan();
@@ -211,7 +211,7 @@ namespace Agribusiness.Core.Domain
                 .ParentKeyColumn("PersonId")
                 .ChildKeyColumn("SiteId")
                 .Table("PeopleXSites")
-                .Cascade.SaveUpdate();
+                .Cascade.SaveUpdate().Fetch.Subselect();
         }
     }
 }

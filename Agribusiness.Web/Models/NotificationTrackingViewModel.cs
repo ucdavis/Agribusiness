@@ -31,14 +31,16 @@ namespace Agribusiness.Web.Models
         {
             Check.Require(repository != null, "Repository is required.");
 
+            var seminar = SiteService.GetLatestSeminar(siteId);
+
             var viewModel = new NotificationTrackingViewModel(){
                                     NotificationTracking = notificationTracking ?? new NotificationTracking(),
                                     NotificationMethods = repository.OfType<NotificationMethod>().GetAll(), 
                                     NotificationTypes = repository.OfType<NotificationType>().GetAll(),
                                     People = new List<Person>(),
                                     AllPeople = SiteService.GetLatestSeminar(siteId).SeminarPeople.Select(a => a.Person).ToList(),//seminarService.GetCurrent().SeminarPeople.Select(a=>a.Person).ToList(),
-                                    Seminar = SiteService.GetLatestSeminar(siteId),
-                                    MailingLists = repository.OfType<MailingList>().GetAll(),
+                                    Seminar = seminar,
+                                    MailingLists = seminar.MailingLists,
                                     MailingList = mailingList
                                 };
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Agribusiness.Core.Domain;
+using Agribusiness.Core.Repositories;
 using Agribusiness.Web.Services;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
@@ -18,7 +19,6 @@ namespace Agribusiness.Web.Models
 
         public static PersonListViewModel Create(IRepository<Person> personRepository, IPersonService personService, string siteId)
         {
-            Check.Require(personRepository != null, "personRepository is required.");
             Check.Require(personService != null, "personService is required.");
 
             var viewModel = new PersonListViewModel()
@@ -28,6 +28,8 @@ namespace Agribusiness.Web.Models
                                     Site = SiteService.LoadSite(siteId, true)
                                 };
 
+            //var people = personRepository.GetAll();
+            //viewModel.People = personService.ConvertToDisplayPeople(people);
             viewModel.SitePeople = personService.ConvertToDisplayPeople(viewModel.Site.People);
 
             // pull the invitation list

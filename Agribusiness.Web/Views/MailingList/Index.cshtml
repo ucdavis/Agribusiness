@@ -85,11 +85,14 @@
                 @item.People.Count
             </td>
 		
-			<td>
-				<a href='@Url.Action("Delete", new { id = item.Id })' class="btn hastip" rel="tooltip" title="Delete Mailing List" >
-					<i class="icon-trash"></i>
-				</a>
-			</td>
+            <td>
+                @if (!item.Name.StartsWith("Sys"))
+                {
+                <a href='@Url.Action("Delete", new { id = item.Id })' class="btn hastip" rel="tooltip" title="Delete Mailing List" >
+                    <i class="icon-trash"></i>
+                </a>    
+                }
+            </td>
 		
 
 		</tr>
