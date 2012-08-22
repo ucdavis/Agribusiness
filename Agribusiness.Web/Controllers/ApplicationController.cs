@@ -10,7 +10,7 @@ using UCDArch.Web.Controller;
 
 namespace Agribusiness.Web.Controllers
 {
-    [Version]
+    [Version(MajorVersion = 2)]
     //[CatbertMessages]
     //[ServiceMessage("Agribusiness", ...)]
     public abstract class ApplicationController : SuperController
