@@ -69,6 +69,7 @@ namespace Agribusiness.Core.Domain
         public virtual string CaseStudyText { get; set; }
 
         public virtual bool ReleaseSchedule { get; set; }
+        [DataType(DataType.MultilineText)]
         public virtual string ProgramInformation { get; set; }
 
         public virtual DateTime? PaymentDeadline { get; set; }
