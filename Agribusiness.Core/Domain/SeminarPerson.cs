@@ -95,7 +95,7 @@ namespace Agribusiness.Core.Domain
             References(x => x.Person);
 
             Map(x => x.Title);
-            References(x => x.Firm).Cascade.All();
+            References(x => x.Firm).Cascade.All().Fetch.Join();
             Map(x => x.CouponCode);
             Map(x => x.CouponAmount);
             Map(x => x.Paid);

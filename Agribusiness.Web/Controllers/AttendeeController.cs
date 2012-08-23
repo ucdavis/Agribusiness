@@ -61,7 +61,7 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction("Index", "Seminar");
             }
 
-            var viewModel = AttendeeListViewModel.Create(seminar, _personService);
+            var viewModel = AttendeeListViewModel.Create(seminar, _personService, Site);
             return View(viewModel);
         }
 

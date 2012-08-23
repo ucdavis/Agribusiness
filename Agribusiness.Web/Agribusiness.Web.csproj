@@ -721,7 +721,6 @@
     <Content Include="Views\Session\_SessionForm.cshtml" />
     <Content Include="Views\Shared\_DateTimePickerScripts.cshtml" />
     <Content Include="Views\Seminar\Details.cshtml" />
-    <Content Include="Views\Person\Index.cshtml" />
     <Content Include="Views\PictureTest\Index.cshtml" />
     <Content Include="Views\Person\Create.cshtml" />
     <Content Include="Views\Person\UpdateProfilePicture.cshtml" />
@@ -846,6 +845,8 @@
     <Content Include="Views\File\Create.cshtml" />
     <Content Include="Views\File\_FileForm.cshtml" />
     <Content Include="Views\File\Edit.cshtml" />
+    <Content Include="Views\Person\MasterList.cshtml" />
+    <Content Include="Views\Person\SiteList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">

@@ -16,19 +16,27 @@
 
 @section ScriptContent {
     @Html.Partial("_DataTables")
+    
+    <script type="text/javascript">
+        $(function () {
+            $("#refreshanchor").click(function (event) {
+                $("#updateRegistrations").submit();
+                event.preventDefault();
+            });
+        });
+    </script>
 }
 
 @section SubPageNavigation
 {
+    @using(Html.BeginForm("UpdateAllRegistrations", "Attendee", FormMethod.Post, new { id="updateRegistrations"}))
+    {
+        @Html.AntiForgeryToken()
+        @Html.Hidden("id", Model.Seminar.Id)
+    }
+
     <ul class="nav nav-pills">
-        <li>
-            @using(Html.BeginForm("UpdateAllRegistrations", "Attendee"))
-            {
-                @Html.AntiForgeryToken()
-                @Html.Hidden("id", Model.Seminar.Id)
-                <a href="javascript:;" class="submitanchor">Refresh Status</a>
-            }
-        </li>
+        <li><a href="#" id="refeshanchor">Refresh Status</a></li>
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Add<b class="caret"></b></a>
             <ul class="dropdown-menu">
@@ -43,42 +51,59 @@
                 <li>@Html.ActionLink("Export Attendees", "AttendeeList", "Export")</li>        
             </ul>
         </li>
-        
-        <li>@Html.ActionLink("Back to Seminar", "Details", "Seminar", new {id=Model.Seminar.Id}, new{}) </li>
     </ul>
 }
 
 <table class="default_table table table-striped table-bordered">
-    <thead>
+<thead>
+    <tr>
+        <th></th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Title</th>
+        <th>Firm</th>
+        <th></th>
+    </tr>
+</thead>
+<tbody>
+    @foreach (var person in Model.SeminarPeople)
+    {
         <tr>
-            <th></th>
-            <th>First Name</th>
-            <th>MI</th>
-            <th>Last Name</th>
-            <th>Title</th>
-            <th>Firm</th>
-            <th>Roles</th>
-            <th>Registered</th>
+            <td>
+                @if (person.Seminar != null)
+                {
+                    <a href="@Url.Action("AdminEdit", new { id = person.Person.User.Id, seminarId = person.Seminar.Id, allList = true })" class="btn hastip" rel="tooltip" title="Edit"><i class="icon-pencil"></i></a>    
+                }
+                else
+                {
+                    <a href="@Url.Action("AdminEdit", new { id = person.Person.User.Id, allList = true })" class="btn hastip" rel="tooltip" title="Edit"><i class="icon-pencil"></i></a>
+                }
+                <a href="#" class="btn hastip" rel="tooltip" title="Contact Card"><i class="icon-file"></i></a>
+                <a href="#" class="btn hastip" rel="tooltip" title="+ Mailing List"><i class="icon-envelope"></i></a>
+            </td>
+            <td>@person.Person.FirstName</td>
+            <td>@person.Person.LastName</td>
+            <td>@person.Title</td>
+            <td>@(person.Firm != null ? person.Firm.Name : string.Empty)</td>
+            <td>
+                @if (person.Registered)
+                {
+                    <span class="label label-success">Registered</span>
+                }
+                @if (person.Accepted)
+                {
+                    <span class="label label-warning">Accepted</span>
+                }
+                @if (person.Applied)
+                {
+                    <span class="label label-info">Applied</span>
+                }
+                @if (person.Invite)
+                {
+                    <span class="label label-important">Invited</span>
+                }
+            </td>
         </tr>
-    </thead>
-    <tbody>
-        @foreach (var a in Model.DisplayPeople)
-        { 
-            <tr>
-                <td>
-                    <a href='@Url.Action("AdminEdit", "Person", new { id=a.Person.User.Id, seminarId=Model.Seminar.Id })' class="btn hastip" rel="tooltip" title="Edit Attendee">
-                        @*<img src='@Url.Image("edit.png")' alt='@string.Format("Edit attendee for {0}", a.Person.FullName)' />*@
-                        <i class="icon-pencil"></i>
-                    </a>
-                </td>
-                <td>@a.Person.FirstName</td>
-                <td>@a.Person.MI</td>
-                <td>@a.Person.LastName</td>
-                <td>@a.Title</td>
-                <td>@(a.Firm != null ? a.Firm.Name : "Not Approved Yet")</td>
-                <td>@string.Join(", ", a.Person.GetLatestRegistration().SeminarRoles.Select(b=>b.Name))</td>
-                <td>@if (a.Registered) { <img src='@Url.Image("check.png")' alt='@string.Format("{0} has registered", a.Person.FullName)'  /> }</td>
-            </tr>
-        }
-    </tbody>
+    }
+</tbody>
 </table>

@@ -68,13 +68,18 @@ namespace Agribusiness.Web.Controllers
             _membershipService = new AccountMembershipService();
         }
 
-        //
-        // GET: /Person/
         [UserOnly]
-        public ActionResult Index()
+        public ActionResult SiteList()
         {
-            var viewModel = PersonListViewModel.Create(_personRepository, _personService, Site);
-            return View(viewModel);
+            var people = _personService.ConvertToDisplayPeople(SiteService.LoadSite(Site).People);
+            return View(people);
+        }
+
+        [UserOnly]
+        public ActionResult MasterList()
+        {
+            var people = _personService.GetAllDisplayPeople();
+            return View(people);
         }
 
         [UserOnly]
@@ -85,7 +90,7 @@ namespace Agribusiness.Web.Controllers
             if (person == null)
             {
                 Message = "Could not locate person.";
-                return this.RedirectToAction(a => a.Index());
+                return this.RedirectToAction(a => a.SiteList());
             }
 
             var displayPerson = _personService.GetDisplayPerson(person);
@@ -238,7 +243,7 @@ namespace Agribusiness.Web.Controllers
             if (user == null)
             {
                 Message = string.Format(Messages.NotFound, "user", id);
-                return this.RedirectToAction<PersonController>(a => a.Index());
+                return this.RedirectToAction<PersonController>(a => a.SiteList());
             }
 
             ViewBag.AllList = allList ?? false;
@@ -316,7 +321,7 @@ namespace Agribusiness.Web.Controllers
             if (person == null)
             {
                 Message = string.Format(Messages.NotFound, "Person", personId);
-                return this.RedirectToAction(a => a.Index());
+                return this.RedirectToAction(a => a.SiteList());
             }
 
             person.Biography = biographytxt;
@@ -347,7 +352,7 @@ namespace Agribusiness.Web.Controllers
             if (person == null)
             {
                 Message = string.Format(Messages.NotFound, "Person", personId);
-                return this.RedirectToAction(a => a.Index());
+                return this.RedirectToAction(a => a.SiteList());
             }
 
             // merge the roles
@@ -396,7 +401,7 @@ namespace Agribusiness.Web.Controllers
             if (person == null)
             {
                 Message = string.Format(Messages.NotFound, "Person", personId);
-                return this.RedirectToAction(a => a.Index());
+                return this.RedirectToAction(a => a.SiteList());
             }
 
             var reg = person.GetLatestRegistration();
@@ -443,7 +448,7 @@ namespace Agribusiness.Web.Controllers
             if (person == null)
             {
                 Message = string.Format(Messages.NotFound, "Person", personId);
-                return this.RedirectToAction(a => a.Index());
+                return this.RedirectToAction(a => a.SiteList());
             }
 
             var reg = person.GetLatestRegistration();
@@ -482,7 +487,7 @@ namespace Agribusiness.Web.Controllers
             if (person == null)
             {
                 Message = string.Format(Messages.NotFound, "Person", personId);
-                return this.RedirectToAction(a => a.Index());
+                return this.RedirectToAction(a => a.SiteList());
             }
 
             var reg = person.GetLatestRegistration();
@@ -519,7 +524,7 @@ namespace Agribusiness.Web.Controllers
             if (person == null)
             {
                 Message = string.Format(Messages.NotFound, "Person", personId);
-                return this.RedirectToAction(a => a.Index());
+                return this.RedirectToAction(a => a.SiteList());
             }
 
             var reg = person.GetLatestRegistration();
@@ -558,7 +563,7 @@ namespace Agribusiness.Web.Controllers
             if (person == null)
             {
                 Message = string.Format(Messages.NotFound, "Person", personId);
-                return this.RedirectToAction(a => a.Index());
+                return this.RedirectToAction(a => a.SiteList());
             }
 
             var reg = person.GetLatestRegistration();
@@ -726,7 +731,7 @@ namespace Agribusiness.Web.Controllers
             if (person == null)
             {
                 Message = string.Format(Messages.NotFound, "Person", id);
-                return this.RedirectToAction(a => a.Index());
+                return this.RedirectToAction(a => a.SiteList());
             }
 
             // validate this is the person or is a person in user role
@@ -750,7 +755,7 @@ namespace Agribusiness.Web.Controllers
             if (person == null)
             {
                 Message = string.Format(Messages.NotFound, "Person", id);
-                return this.RedirectToAction(a => a.Index());
+                return this.RedirectToAction(a => a.SiteList());
             }
 
             // ensure that a crop has been specified
@@ -789,12 +794,12 @@ namespace Agribusiness.Web.Controllers
                     return this.RedirectToAction(a => a.AdminEdit(person.User.Id, seminarId.Value, null));
                 }
 
-                if (_userRepository.Queryable.Where(a => a.LoweredUserName == CurrentUser.Identity.Name.ToLower()).Any())
+                if (_userRepository.Queryable.Any(a => a.LoweredUserName == CurrentUser.Identity.Name.ToLower()))
                 {
                     return this.RedirectToAction(a => a.Edit(null));
                 }
 
-                return this.RedirectToAction(a => a.Index());
+                return this.RedirectToAction(a => a.SiteList());
             }
 
             // set this to check for admin routing back to attendee edit page
