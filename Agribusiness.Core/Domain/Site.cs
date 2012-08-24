@@ -36,7 +36,7 @@ namespace Agribusiness.Core.Domain
         public virtual string Background { get; set; }
         [DataType(DataType.MultilineText)]
         public virtual string Venue { get; set; }
-        [DataType(DataType.MultilineText)]
+        
         public virtual string VenueEmbeddedMap { get; set; }
 
         public virtual byte[] Logo { get; set; }

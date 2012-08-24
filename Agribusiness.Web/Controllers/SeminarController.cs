@@ -40,7 +40,7 @@ namespace Agribusiness.Web.Controllers
         [UserOnly]
         public ActionResult Index()
         {
-            var seminarList = _seminarRepository.Queryable.OrderByDescending(a => a.Year);
+            var seminarList = _seminarRepository.Queryable.Where(a => a.Site.Id == Site).OrderByDescending(a => a.Year);
 
             return View(seminarList);
         }

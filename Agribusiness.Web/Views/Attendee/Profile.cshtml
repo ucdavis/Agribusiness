@@ -8,7 +8,7 @@
 
 @section SubPageNavigation
 {
-    <ul class="navigation">
+    <ul class="nav nav-pills">
         <li>@Html.ActionLink("Download Contact Card", "GetvCard", "Person", new { id = Model.Person.Id }, new { })</li>
         <li>@Html.ActionLink("Back to List", "BySeminar", new {id=Model.Seminar.Id})</li>
     </ul>

@@ -27,9 +27,9 @@
                     $("#Application_FirmDescription").val('');
                 }
             });
-            
+
             $("#Application_FirmType").change(function (e) {
-                if ($(this).val() == '0') {
+                if ($(this).find("option:selected").text() == 'Other') {
                     $("#firmtype-other").show('normal');
                 } else {
                     $("#firmtype-other").hide('normal');

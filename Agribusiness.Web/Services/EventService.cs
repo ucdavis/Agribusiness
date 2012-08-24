@@ -38,7 +38,7 @@ namespace Agribusiness.Web.Services
 
         public void Accepted(Person person, string siteId)
         {
-            var seminar = SiteService.GetLatestSeminar(siteId);
+            var seminar = SiteService.GetLatestSeminar(siteId, true);
 
             _notificationService.AddToMailingList(seminar, person, MailingLists.Registered);
 

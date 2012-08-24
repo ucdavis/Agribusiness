@@ -19,3 +19,6 @@ input.input-validation-error, textarea.input-validation-error, select.input-vali
 
 .header-logo { height: 45px;width: 120px;}
 .control-group span.required { font-weight: bold;color: red;}
+
+.display-person { margin: 1em 0;border-bottom: 1px solid lightgray; padding-bottom: 1em; }
+.display-person .dp-firm { margin: 1em 0; }

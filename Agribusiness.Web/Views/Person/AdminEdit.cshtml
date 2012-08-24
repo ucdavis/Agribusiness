@@ -79,7 +79,7 @@
     <ul class="nav nav-pills">
         @if ((bool)ViewBag.AllList)
         {
-            <li>@Html.ActionLink("Back to People List", "Index")</li>
+            <li>@Html.ActionLink("Back to People List", "MasterList")</li>
         }
         else if (Model.SeminarId != null)
         {
@@ -87,7 +87,7 @@
         }
         else
         {
-            <li>@Html.ActionLink("Back to People List", "Index")</li>
+            <li>@Html.ActionLink("Back to People List", "SiteList")</li>
         }
     </ul>
 }

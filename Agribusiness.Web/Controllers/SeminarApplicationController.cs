@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using Agribusiness.Core.Domain;
+using Agribusiness.Core.Repositories;
 using Agribusiness.Web.Controllers.Filters;
 using Agribusiness.Web.Models;
 using Agribusiness.Web.Services;
@@ -26,8 +27,9 @@ namespace Agribusiness.Web.Controllers
         private readonly IEventService _eventService;
         private readonly IPictureService _pictureService;
         private readonly IPersonService _personService;
+        private readonly IRepositoryFactory _repositoryFactory;
 
-        public SeminarApplicationController(IRepository<Application> applicationRepository, IFirmService firmService, INotificationService notificationService, IEventService eventService, IPictureService pictureService, IPersonService personService)
+        public SeminarApplicationController(IRepository<Application> applicationRepository, IFirmService firmService, INotificationService notificationService, IEventService eventService, IPictureService pictureService, IPersonService personService, IRepositoryFactory repositoryFactory)
         {
             _applicationRepository = applicationRepository;
             _firmService = firmService;
@@ -35,6 +37,7 @@ namespace Agribusiness.Web.Controllers
             _eventService = eventService;
             _pictureService = pictureService;
             _personService = personService;
+            _repositoryFactory = repositoryFactory;
         }
 
         [UserOnly]
@@ -145,7 +148,7 @@ namespace Agribusiness.Web.Controllers
         {
             ModelState.Clear();
 
-            application.Seminar = SiteService.GetLatestSeminar(Site);
+            application.Seminar = SiteService.GetLatestSeminar(Site, true);
             application.User = Repository.OfType<User>().Queryable.FirstOrDefault(a => a.LoweredUserName == CurrentUser.Identity.Name.ToLower());
 
             // requires assistant

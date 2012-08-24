@@ -72,11 +72,11 @@
             <td>
                 @if (person.Seminar != null)
                 {
-                    <a href="@Url.Action("AdminEdit", new { id = person.Person.User.Id, seminarId = person.Seminar.Id, allList = true })" class="btn hastip" rel="tooltip" title="Edit"><i class="icon-pencil"></i></a>    
+                    <a href="@Url.Action("AdminEdit", "Person", new { id = person.Person.User.Id, seminarId = person.Seminar.Id, allList = true })" class="btn hastip" rel="tooltip" title="Edit"><i class="icon-pencil"></i></a>    
                 }
                 else
                 {
-                    <a href="@Url.Action("AdminEdit", new { id = person.Person.User.Id, allList = true })" class="btn hastip" rel="tooltip" title="Edit"><i class="icon-pencil"></i></a>
+                    <a href="@Url.Action("AdminEdit", "Person", new { id = person.Person.User.Id, allList = true })" class="btn hastip" rel="tooltip" title="Edit"><i class="icon-pencil"></i></a>
                 }
                 <a href="#" class="btn hastip" rel="tooltip" title="Contact Card"><i class="icon-file"></i></a>
                 <a href="#" class="btn hastip" rel="tooltip" title="+ Mailing List"><i class="icon-envelope"></i></a>
