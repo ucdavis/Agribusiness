@@ -35,6 +35,8 @@ namespace Agribusiness.Core.Repositories
         IRepositoryWithTypedId<Site, string> SiteRepository { get; set; }
         IRepository<Template> TemplateRepository { get; set; }
         IRepositoryWithTypedId<User, Guid> UserRepository { get; set; }
+
+        IRepository<VEmailQueue> VEmailQueueRepository { get; set; }
     }
 
     public class RepositoryFactory : IRepositoryFactory
@@ -68,5 +70,7 @@ namespace Agribusiness.Core.Repositories
         public IRepositoryWithTypedId<Site, string> SiteRepository { get; set; }
         public IRepository<Template> TemplateRepository { get; set; }
         public IRepositoryWithTypedId<User, Guid> UserRepository { get; set; }
+
+        public IRepository<VEmailQueue> VEmailQueueRepository { get; set; }
     }
 }

@@ -162,6 +162,7 @@
     <Compile Include="Controllers\AuthorizedController.cs" />
     <Compile Include="Controllers\CaseStudyController.cs" />
     <Compile Include="Controllers\CommodityController.cs" />
+    <Compile Include="Controllers\EmailQueueController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\ExportController.cs" />
     <Compile Include="Controllers\FileController.cs" />
@@ -214,7 +215,6 @@
     <Compile Include="Models\MySeminarViewModel.cs" />
     <Compile Include="Models\NotificationTrackingViewModel.cs" />
     <Compile Include="Models\PersonEditModel.cs" />
-    <Compile Include="Models\PersonListViewModel.cs" />
     <Compile Include="Models\ProfileViewModel.cs" />
     <Compile Include="Models\ReportViewModel.cs" />
     <Compile Include="Models\SessionPersonViewModel.cs" />
@@ -847,6 +847,7 @@
     <Content Include="Views\File\Edit.cshtml" />
     <Content Include="Views\Person\MasterList.cshtml" />
     <Content Include="Views\Person\SiteList.cshtml" />
+    <Content Include="Views\EmailQueue\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">

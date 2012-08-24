@@ -110,6 +110,7 @@
     <Compile Include="Domain\Site.cs" />
     <Compile Include="Domain\Template.cs" />
     <Compile Include="Domain\User.cs" />
+    <Compile Include="Domain\vEmailQueue.cs" />
     <Compile Include="Extensions\BeforeAfterValidation.cs" />
     <Compile Include="Extensions\EitherOrValidation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
