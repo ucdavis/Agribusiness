@@ -48,8 +48,12 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }, new {@class="btn"})
-            @Html.ActionLink("Details", "Details", new { id=item.Id }, new {@class="btn"})
+            <a href="@Url.Action("Edit", new {id=item.Id})" class="btn hastip" title="Edit">
+                <i class="icon-pencil"></i>
+            </a>
+            <a href="@Url.Action("Details", new {id=item.Id})" class="btn hastip" title="Details">
+                <i class="icon-search"></i>
+            </a>
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Name)

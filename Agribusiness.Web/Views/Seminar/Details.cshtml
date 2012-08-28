@@ -17,13 +17,6 @@
 @section SubPageNavigation
 {
     <ul class="nav nav-pills">
-        @*<li>
-            @Html.ActionLink("Sessions", "AssignToSessions", new { id = Model.Seminar.Id })
-        </li>*@
-
-        @*<li>
-            @Html.ActionLink("Attendees", "Index", "Attendee", new { id= Model.Seminar.Id }, new { })
-        </li>*@
         @if (Model.IsCurrent)
         { 
             <li class="dropdown">
@@ -51,6 +44,7 @@
 
 @section ScriptContent
 {
+@Html.Partial("_dataTables")
 }
 
 @if (HttpContext.Current.Session["Passwords"] != null)
@@ -133,11 +127,11 @@
     </div>
 </div>
 
-<h3>Sessions</h3>
+<h3 class="section-header">Sessions</h3>
 
 @if (Model.Seminar.Sessions.Any())
 { 
-    <table class="noicon" id="sessions">
+    <table class="default_table table table-striped table-bordered" id="sessions">
         <thead> 
             <tr>
                 <th>Name</th>
@@ -170,14 +164,14 @@ else
     @Html.Partial("_Message", new MessageModel() { IsError = false, Message = "No Sessions have been created yet." })
 }
 
-<h3>Case Studies</h3>
+<h3 class="section-header">Case Studies</h3>
 @if (Model.Seminar.CaseStudies.Count <= 0)
 { 
     @Html.Partial("_Message", new MessageModel() { IsError = false, Message = "No case studies have been added to this seminar." })
 }
 else
 { 
-    <table class="nolasticon default_table" id="casestudies">
+    <table class="default_table table table-striped table-bordered" id="casestudies">
         <thead>
             <tr>
                 <th></th>
@@ -190,8 +184,9 @@ else
             @foreach (var a in Model.Seminar.CaseStudies)
             { 
                 <tr>
-                    <td><a href='@Url.Action("Download", "CaseStudy", new { id = a.Id })'>
-                            <img src='@Url.Content("~/Images/details.png")' alt="Download this case study." />
+                    <td>
+                        <a href='@Url.Action("Download", "CaseStudy", new { id = a.Id })' class="btn hastip" title="Download">
+                            <i class="icon-download"></i>
                         </a>
                     </td>
                     <td>@a.Name</td>

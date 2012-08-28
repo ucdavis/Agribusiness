@@ -22,3 +22,5 @@ input.input-validation-error, textarea.input-validation-error, select.input-vali
 
 .display-person { margin: 1em 0;border-bottom: 1px solid lightgray; padding-bottom: 1em; }
 .display-person .dp-firm { margin: 1em 0; }
+
+.section-header { color: #014A81;border-bottom: 1px solid #EEE;padding-bottom: 0.5em;margin: 1em 0; }
