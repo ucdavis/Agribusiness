@@ -15,7 +15,7 @@
     @Html.Partial("_PublicSubNavigation")
 }
 
-@if (Model != null)
+@if (Model != null && Model.Any())
 {
 <div style="margin-top: 2em;">
 @foreach (var person in Model)
@@ -26,5 +26,7 @@
 }
 else
 {
+    <div class="well">
     <p>Information is not available at this time.  Please check back later.</p>
+    </div>
 }

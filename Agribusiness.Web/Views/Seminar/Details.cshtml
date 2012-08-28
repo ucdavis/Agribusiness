@@ -21,9 +21,9 @@
             @Html.ActionLink("Sessions", "AssignToSessions", new { id = Model.Seminar.Id })
         </li>*@
 
-        <li>
+        @*<li>
             @Html.ActionLink("Attendees", "Index", "Attendee", new { id= Model.Seminar.Id }, new { })
-        </li>
+        </li>*@
         @if (Model.IsCurrent)
         { 
             <li class="dropdown">

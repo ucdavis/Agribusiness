@@ -1,6 +1,7 @@
 ﻿@using Agribusiness.Web.Services
 @{
     ViewBag.Title = "Venue";
+    ViewBag.SubPageTitle = "Venue";
     var siteId = ViewData["site"] as string;
     var site = SiteService.LoadSite(siteId);
 }
@@ -22,8 +23,6 @@
     </style>
 }
 
-<h2>Venue</h2>
-
 <div class="row-fluid">
     <div class="span8">
         @if (!string.IsNullOrEmpty(site.Venue))
@@ -32,7 +31,9 @@
         }
         else
         {
-            <p>Venue information is not available at this time.</p>
+            <div class="well">
+                <p>Venue information is not available at this time.</p>
+            </div>
         }
     </div>
     <div class="span4">

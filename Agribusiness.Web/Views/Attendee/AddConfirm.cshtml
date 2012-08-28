@@ -7,14 +7,13 @@
 
 @section SubPageNavigation
 {
-    <ul class='navigation'>
+    <ul class='nav nav-pills'>
         <li>@Html.ActionLink("Back To List", "Add", new { id = Model.Seminar.Id })</li>
     </ul>
 }
 
 @section ScriptContent
 {
-
     <script type="text/javascript">
         $(function () {
             $("#Firm_Id").change(function () {

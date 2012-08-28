@@ -18,7 +18,7 @@ namespace Agribusiness.Web.Models
 
             var viewModel = new CaseExampleViewModel()
                                 {
-                                    CaseStudies = caseStudyRepository.Queryable.Where(a => a.IsPublic).OrderBy(a => a.Seminar.Year).ThenBy(a => a.Name),
+                                    CaseStudies = caseStudyRepository.Queryable.Where(a => a.IsPublic && a.Seminar.Site.Id == site).OrderBy(a => a.Seminar.Year).ThenBy(a => a.Name),
                                     CurrentSeminar = SiteService.GetLatestSeminar(site)
                                 };
 

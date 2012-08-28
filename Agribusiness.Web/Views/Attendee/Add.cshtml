@@ -13,6 +13,11 @@
     </ul>
 }
 
+@section ScriptContent
+{
+    @Html.Partial("_DataTables")
+}
+
 <table class="default_table table table-striped table-bordered">
 
     <thead>
@@ -45,30 +50,3 @@
     }
     </tbody>
 </table>
-
-@*@using (Html.BeginForm())
-{ 
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary()
-    <fieldset>
-    
-        <p>This will allow you to add a person already in the database to the current seminar.  If you need to add someone who is not in the database,
-        please go back to the list and select "Create New Attendee".
-        </p>
-
-        <ul>
-            <li><div class='editor-label required'>Attendee:<span>*</span></div>
-                <div class='editor-field'>
-                    @this.Select("personId").Options(Model.DisplayPeople, x => x.Person.Id, x => x.Person.FullName).FirstOption("--Select a Person--").Selected(Model.PersonId.ToString())
-                </div>
-            </li>
-            <li><div class='editor-label'>&nbsp;</div>
-                <div class='editor-field'>
-                    <input type="submit" class='button' value="Save" /> |
-                    @Html.ActionLink("Cancel", "Index", new { id=Model.Seminar.Id })
-                </div>
-            </li>
-        </ul>
-
-    </fieldset>
-}*@
