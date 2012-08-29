@@ -16,6 +16,8 @@ namespace Agribusiness.Core.Domain
         public virtual bool IsActive { get; set; }
         [Required]
         public virtual NotificationType NotificationType { get; set; }
+        [Required]
+        public virtual Seminar Seminar { get; set; }
     }
 
     public class TemplateMap : ClassMap<Template>
@@ -27,6 +29,7 @@ namespace Agribusiness.Core.Domain
             Map(x => x.BodyText);
             Map(x => x.IsActive);
             References(x => x.NotificationType);
+            References(x => x.Seminar);
         }
     }
 }

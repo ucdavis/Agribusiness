@@ -220,6 +220,7 @@
     <Compile Include="Models\SessionPersonViewModel.cs" />
     <Compile Include="Models\SiteViewModel.cs" />
     <Compile Include="Models\TemplateViewModel.cs" />
+    <Compile Include="Models\TinyMceViewModel.cs" />
     <Compile Include="Services\EventService.cs" />
     <Compile Include="Services\FirmService.cs" />
     <Compile Include="Services\IEventService.cs" />

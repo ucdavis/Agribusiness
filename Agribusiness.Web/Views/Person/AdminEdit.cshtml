@@ -8,7 +8,7 @@
 @section ScriptContent
 {
     @Html.Partial("_DataTables")
-    @Html.Partial("_tinymce", "biographytxt")
+    @Html.Partial("_tinymce", new TinyMceViewModel("biographytxt"))
 
     <script type="text/javascript">
         $(function () {

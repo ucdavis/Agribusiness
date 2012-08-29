@@ -1,14 +1,17 @@
-﻿@model string
+﻿@model TinyMceViewModel
+
+@Model.InputIds
 
 <script type="text/javascript" src='@Url.Script("tiny_mce/tiny_mce.js")'></script>
 
-@if (string.IsNullOrEmpty(Model))
+@if (string.IsNullOrEmpty(Model.InputIds))
 {
 <script type="text/javascript">
     tinyMCE.init({
         mode: "textareas",
         theme: "advanced",
-        width: "100%",
+        height: "@Model.Height",
+        width: "@Model.Width",
 
         plugins: "pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
 
@@ -36,12 +39,14 @@
 }
 else
 {
+    
 <script type="text/javascript">
     tinyMCE.init({
-        mode: "specific_textareas",
-        editor_selector: "@Model",
-        theme: "advanced",
-        width: "100%",
+        mode: "exact",
+        elements: '@Model.InputIds',
+        theme: 'advanced',
+        height: '@Model.Height',
+        width: '@Model.Width',
 
         plugins: "pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
 
@@ -66,4 +71,15 @@ else
         });
     });
 </script>   
+}
+
+@if (Model.EnableTokenInsert)
+{
+    <script type="text/javascript">
+        $(function () {
+            $(".token").click(function (e) {
+                tinyMCE.execCommand('mceInsertContent', false, $(this).data('value'));
+            });
+        });
+    </script>
 }

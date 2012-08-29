@@ -1,15 +1,15 @@
 ﻿@using Agribusiness.Web.Helpers
 
-@model IQueryable<Agribusiness.Core.Domain.Template>
+@model IQueryable<Template>
 
 @{
-	ViewBag.Title = "Templates";
+    ViewBag.Title = "Templates";
     ViewBag.SubPageTitle = "Templates";
 }
 
 @section SubPageNavigation
 {
-	<ul class='navigation'>
+	<ul class='nav nav-pills'>
 		<li>@Html.ActionLink("Create New", "Create")</li>
 	</ul>
 }
@@ -24,7 +24,13 @@
     </style>
 }
 
-<table class='default_table'>
+@if (!Model.Any())
+{
+    <div class="well">No templates have been created.</div>
+}
+else
+{
+<table class='default_table table table-striped table-bordered'>
 	<thead>
 		<tr>
 			<th></th>
@@ -44,15 +50,16 @@
 	</thead>
 	<tbody>
 @{ var odd = false; }
-@foreach (var item in Model) {
-		<tr class="@(odd ? "odd": "even")">
+@foreach (var item in Model)
+{
+		<tr class="@(odd ? "odd" : "even")">
 
 			<td>
-				<a href='@Url.Action("Details", new {id=item.Id})'>
-					<img src='@Url.Image("details.png")' />
+				<a href='@Url.Action("Details", new { id = item.Id })' class="btn hastip" title="Details">
+					<i class="icon-search"></i>
 				</a>
-				<a href='@Url.Action("Edit", new {id=item.Id})'>
-					<img src='@Url.Image("edit.png")' />
+				<a href='@Url.Action("Edit", new { id = item.Id })' class="btn hastip" tite="Edit">
+					<i class="icon-pencil"></i>
 				</a>
 			</td>
 
@@ -68,14 +75,16 @@
 
 		
 					<td>
-						<a href='@Url.Action("Delete", new { id = item.Id })'>
-							<img src='@Url.Image("delete.png")' />
+						<a href='@Url.Action("Delete", new { id = item.Id })' class="btn hastip" title="Delete">
+							<i class="icon-trash"></i>
 						</a>
 					</td>
 		
 
 		</tr>
-		odd = !odd;
+    odd = !odd;
 }
 	</tbody>
-</table>
+</table>    
+}
+

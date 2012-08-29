@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using DataAnnotationsExtensions;
 using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
@@ -37,6 +38,7 @@ namespace Agribusiness.Core.Domain
             SeminarPeople = new List<SeminarPerson>();
             CaseStudies = new List<CaseStudy>();
             Applications = new List<Application>();
+            Templates = new List<Template>();
         }
 
         #region Mapped Fields
@@ -84,12 +86,25 @@ namespace Agribusiness.Core.Domain
         public virtual IList<Invitation> Invitations { get; set; }
         public virtual IList<File> Files { get; set; }
         public virtual IList<Application> Applications { get; set; }
+        public virtual IList<Template> Templates { get; set; }
         #endregion
 
         /// <summary>
         /// Short Date Time string for Registration Deadline, if not specified returns "n/a"
         /// </summary>
         public virtual string RegistrationDeadlineString { get { return RegistrationDeadline.HasValue ? RegistrationDeadline.Value.ToShortDateString() : "n/a"; } }
+
+        public virtual void AddTemplate(Template template)
+        {
+            var existing = Templates.FirstOrDefault(a => a.NotificationType == template.NotificationType);
+
+            if (existing != null)
+            {
+                existing.IsActive = false;
+            }
+
+            Templates.Add(template);
+        }
     }
 
     public class SeminarMap : ClassMap<Seminar>
@@ -126,6 +141,7 @@ namespace Agribusiness.Core.Domain
             HasMany(x => x.Invitations).Inverse().Cascade.AllDeleteOrphan();
             HasMany(x => x.Files).Inverse().Cascade.AllDeleteOrphan();
             HasMany(x => x.Applications).Inverse().Cascade.AllDeleteOrphan();
+            HasMany(x => x.Templates).Inverse().Cascade.AllDeleteOrphan();
         }
     }
 }

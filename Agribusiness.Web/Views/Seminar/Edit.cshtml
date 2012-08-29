@@ -37,7 +37,7 @@
 
 @section ScriptContent{
     @Html.Partial("_DateTimePickerScripts", Model.Seminar)
-    @Html.Partial("_tinymce", "#Seminar_CaseStudyText, #Seminar_ProgramInformation")
+    @Html.Partial("_tinymce", new TinyMceViewModel())
     @Html.Partial("_DataTables")
 }
 

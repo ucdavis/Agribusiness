@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using Agribusiness.Core.Domain;
 using Agribusiness.Web.Controllers.Filters;
 using Agribusiness.Web.Models;
+using Agribusiness.Web.Services;
 using AutoMapper;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Web.ActionResults;
@@ -31,6 +32,8 @@ namespace Agribusiness.Web.Controllers
         // GET: /Template/
         public ActionResult Index()
         {
+            var seminar = SiteService.GetLatestSeminar(Site);
+
             var templateList = _templateRepository.Queryable.Where(a=>a.IsActive);
 
             return View(templateList);
