@@ -32,6 +32,7 @@
     <script type="text/javascript">
         $(function () {
             $("#NotificationTracking_NotificationType").change(function () {
+                debugger;
                 var typeId = $(this).val();
                 var antiForgeryToken = $("input[name='__RequestVerificationToken']").val();
                 var url = '@Url.Action("LoadTemplate", "Template")';

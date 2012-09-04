@@ -1,16 +1,24 @@
-﻿@model Agribusiness.Web.Models.TemplateViewModel
+﻿@model TemplateViewModel
 
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Edit Template";
     ViewBag.SubPageTitle = "Edit Template";
 }
 
 @section SubPageNavigation
 {
-    <div id="navigation">
+    <div id="nav nav-pills">
         <li>@Html.ActionLink("Back to List", "Index")</li>
     </div>
 }
 
-@Html.Partial("_TemplateForm")
+@section ScriptContent
+{
+    @Html.Partial("_tinymce", new TinyMceViewModel(enableTokenInsert:true))
+}
+
+@using (Html.BeginForm("Edit", "Template", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.Partial("_TemplateForm")    
+}

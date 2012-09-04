@@ -15,7 +15,6 @@
 @section ScriptContent
 {
     @Html.Partial("_tinymce", new TinyMceViewModel(enableTokenInsert:true))
-
 }
 
 @using (Html.BeginForm("Create", "Template", FormMethod.Post, new { @class = "form-horizontal" }))
