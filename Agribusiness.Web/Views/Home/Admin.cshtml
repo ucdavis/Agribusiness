@@ -1,21 +1,24 @@
 ﻿@model AdminIndexViewModel
 @{
     ViewBag.Title = "Admin Home";
-    ViewBag.SubPageTitle = "Admin Home"; 
+    ViewBag.SubPageTitle = "Admin Home";
     ViewBag.Nav = Nav.Home;
 }
 
-@*@if (!string.IsNullOrEmpty(@Model.ToString()))
+@section ScriptContent
 {
-    @Html.Partial("_Message", new MessageModel(){IsError=false, Message = Model.ToString()})    
+    <style type="text/css">
+        .txt { margin-left: 10px;}
+    </style>
 }
-*@
 
-@helper DisplayBlock(int blockCounter, int futureBlockCounter, string text)
+@helper DisplayBlock(int futureBlockCounter, bool? positive, params KeyValuePair<string, int>[] info )
 {
     var dispClass = "well";
 
-    if (blockCounter > 0)
+    var current = info.First();
+    
+    if (current.Value > 0)
     {
         if (futureBlockCounter == 0)
         {
@@ -24,19 +27,63 @@
         else
         {
             dispClass = "alert alert-block alert-error";
-        }
+        }    
+        
+        // with subvalues, bad...
+        if (positive.HasValue && !positive.Value)
+        {
+            for (int i = 1; i < info.Count(); i++)
+            {
+                if (info[i].Value > 0)
+                {
+                    dispClass = "alert alert-block";
+                }
+            }
+        }       
     }
-    
-    <div class="@dispClass">
-        <h3>@blockCounter</h3> @text
-    </div>
 
+    if (info.Count() > 1)
+    {
+        <div class="@dispClass">
+            
+            <h2 style="display:inline-block;">@current.Value</h2> 
+            <span class="txt">@current.Key</span>
+            
+            @for(int i = 1; i < info.Count(); i++)
+            {
+                var clss = "well";
+                if (positive.HasValue && !positive.Value && info[i].Value > 0)
+                {
+                    clss = "alert alert-block alert-error";
+                }
+                
+                <div class="@clss">
+                    <h3 style="display:inline-block;">@info[i].Value</h3>
+                    <span class="txt">@info[i].Key</span>
+                </div>
+            }
+        </div>        
+    }
+    else
+    {
+        <div class="@dispClass">
+            <h2 style="display:inline-block;">@current.Value</h2>
+            <span class="txt">@current.Key</span>
+        </div>
+    }
 }
 
-@DisplayBlock(Model.PendingInformationRequests, Model.PendingApplications, "information requests are currently pending.")
-@DisplayBlock(Model.PendingApplications, Model.ApplicationsPaid, "pending applications are awaiting review.")
-@DisplayBlock(Model.ApplicationsPaid, 0, "registered attendeees that have paid.")
+@DisplayBlock(Model.PendingApplications + Model.ApprovedApplications, null, 
+            new KeyValuePair<string, int>("information requests are currently pending.", Model.PendingInformationRequests))
+@DisplayBlock(Model.Registered + Model.PeopleMissingBiography + Model.PeopleMissingHotel + Model.PeopleMissingPhoto, 
+            true,
+            new KeyValuePair<string, int>("pending applications are awaiting review.", Model.PendingApplications),
+            new KeyValuePair<string, int>("approved applications.", Model.ApprovedApplications)
+            )
 
-@DisplayBlock(Model.PeopleMissingBiography, Model.ApplicationsPaid, "attendees missing biography.")
-@DisplayBlock(Model.PeopleMissingPhoto, Model.ApplicationsPaid, "attendees missing photo.")
-@DisplayBlock(Model.PeopleMissingHotel, Model.ApplicationsPaid, "attendees not registered for hotel.")
+@DisplayBlock(0, false,
+            new KeyValuePair<string, int>("registered attendeees that have paid.", Model.Registered),
+            new KeyValuePair<string, int>("attendees missing biography.", Model.PeopleMissingBiography),
+            new KeyValuePair<string, int>("attendees missing photo.", Model.PeopleMissingPhoto),
+            new KeyValuePair<string, int>("attendees not registered for hotel.", Model.PeopleMissingHotel)
+            )

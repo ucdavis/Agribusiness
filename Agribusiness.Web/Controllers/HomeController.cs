@@ -1,7 +1,5 @@
 ﻿using System.Linq;
-using System.Text;
 using System.Web.Mvc;
-using Agribusiness.Core.Domain;
 using Agribusiness.Core.Repositories;
 using Agribusiness.Web.Controllers.Filters;
 using Agribusiness.Web.Models;
@@ -37,8 +35,14 @@ namespace Agribusiness.Web.Controllers
     public class AdminIndexViewModel
     {
         public int PendingInformationRequests { get; set; }
+        public int RespondedInformationRequests { get; set; }
+
         public int PendingApplications { get; set; }
-        public int ApplicationsPaid { get; set; }
+        public int ApprovedApplications { get; set; }
+        public int DeniedApplications { get; set; }
+
+        public int Registered { get; set; }
+        
         public int PeopleMissingBiography { get; set; }
         public int PeopleMissingPhoto { get; set; }
         public int PeopleMissingHotel { get; set; }
@@ -50,8 +54,15 @@ namespace Agribusiness.Web.Controllers
             var viewModel = new AdminIndexViewModel()
                                 {
                                     PendingInformationRequests = repositoryFactory.InformationRequestRepository.Queryable.Where(a => a.Site.Id == site).Count(a => !a.Responded),
-                                    PendingApplications = repositoryFactory.ApplicationRepository.Queryable.Where(a => a.Seminar.Id == seminar.Id).Count(a => a.IsPending),
-                                    ApplicationsPaid = 0, PeopleMissingBiography = 0, PeopleMissingPhoto = 0, PeopleMissingHotel = 0
+
+                                    PendingApplications = repositoryFactory.ApplicationRepository.Queryable.Count(a => a.Seminar.Id == seminar.Id && a.IsPending),
+                                    ApprovedApplications = repositoryFactory.ApplicationRepository.Queryable.Count(a => a.Seminar.Id == seminar.Id && !a.IsPending && a.IsApproved),
+                                    DeniedApplications = repositoryFactory.ApplicationRepository.Queryable.Count(a => a.Seminar.Id == seminar.Id && !a.IsPending && !a.IsApproved),
+
+                                    Registered = repositoryFactory.SeminarPersonRepository.Queryable.Count(a => a.Seminar.Id == seminar.Id && a.Paid), 
+                                    PeopleMissingBiography = repositoryFactory.SeminarPersonRepository.Queryable.Count(a => a.Seminar.Id == seminar.Id && a.Paid && a.Person.Biography != null && a.Person.Biography != string.Empty),
+                                    PeopleMissingPhoto = repositoryFactory.SeminarPersonRepository.Queryable.Count(a => a.Seminar.Id == seminar.Id && a.Paid && a.Person.OriginalPicture == null),
+                                    PeopleMissingHotel = repositoryFactory.SeminarPersonRepository.Queryable.Count(a => a.Seminar.Id == seminar.Id && a.Paid && a.HotelConfirmation != null && a.HotelConfirmation != string.Empty)
                                 };
 
             return viewModel;
