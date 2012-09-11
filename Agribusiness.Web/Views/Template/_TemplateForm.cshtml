@@ -4,17 +4,27 @@
 @Html.ValidationSummary(true)
 
 <fieldset>
-
     <div class="control-group">
         <label for="Template.NotificationType" class="control-label">Notification Type<span class="required">*</span></label>
-        <div class="controls">
-            @this.Select("Template.NotificationType").Options(Model.NotificationTypes, x=>x.Id, x=>x.Name).FirstOption("--Select a Notification Type--").Selected(Model.Template.NotificationType != null ? Model.Template.NotificationType.Id : string.Empty)
-        </div>
+        
+        @if (Model.Template.Id > 0)
+        {
+            <div class="controls form-text">
+            @Model.Template.NotificationType.Name
+            @Html.Hidden("Template.NotificationType", Model.Template.NotificationType.Id)
+            </div>
+        }
+        else
+        {
+            <div class="controls">
+                @this.Select("Template.NotificationType").Options(Model.NotificationTypes, x => x.Id, x => x.Name).FirstOption("--Select a Notification Type--").Selected(Model.Template.NotificationType != null ? Model.Template.NotificationType.Id : string.Empty).Disabled(Model.Template.Id > 0)    
+            </div>
+        }
     </div>
     <div class="control-group">
         <label for="Template.BodyText" class="control-label">Body Text</label>
         <div class="controls row-fluid">
-            <span class="span6">
+            <span class="span8">
                 @Html.TextAreaFor(model => model.Template.BodyText)
                 @Html.ValidationMessageFor(model => model.Template.BodyText)
             </span>

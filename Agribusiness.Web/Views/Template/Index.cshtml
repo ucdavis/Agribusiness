@@ -34,18 +34,9 @@ else
 	<thead>
 		<tr>
 			<th></th>
-
-			<th>
-				BodyText
-			</th>
-
-			<th>
-				Type
-			</th>
-
-
+            <th>Type</th>
+            <th>Date Created</th>
 			<th></th>
-
 		</tr>
 	</thead>
 	<tbody>
@@ -53,7 +44,6 @@ else
 @foreach (var item in Model)
 {
 		<tr class="@(odd ? "odd" : "even")">
-
 			<td>
 				<a href='@Url.Action("Details", new { id = item.Id })' class="btn hastip" title="Details">
 					<i class="icon-search"></i>
@@ -62,25 +52,13 @@ else
 					<i class="icon-pencil"></i>
 				</a>
 			</td>
-
-			<td>
-                <div class="bodyText">
-				@Html.HtmlEncode(item.BodyText)
-                </div>
+			<td>@item.NotificationType.Name</td>
+            <td>@item.DateCreated</td>
+            <td>
+				<a href='@Url.Action("Delete", new { id = item.Id })' class="btn hastip" title="Delete">
+					<i class="icon-trash"></i>
+				</a>
 			</td>
-
-			<td>
-				@item.NotificationType.Name
-			</td>
-
-		
-					<td>
-						<a href='@Url.Action("Delete", new { id = item.Id })' class="btn hastip" title="Delete">
-							<i class="icon-trash"></i>
-						</a>
-					</td>
-		
-
 		</tr>
     odd = !odd;
 }
