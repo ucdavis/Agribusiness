@@ -181,41 +181,42 @@
             </div>
         </fieldset>
         
+
+        <fieldset>
+            <legend>Assistant</legend>
+            
+            <div class="control-group">
+                <label for="AssistantFirstName" class="control-label">First Name</label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.AssistantFirstName)
+                    @Html.ValidationMessageFor(model => model.AssistantFirstName)
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="AssistantLastName" class="control-label">Last Name</label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.AssistantLastName)
+                    @Html.ValidationMessageFor(model => model.AssistantLastName)
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="AssistantEmail" class="control-label">Email</label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.AssistantEmail)
+                    @Html.ValidationMessageFor(model => model.AssistantEmail)
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="AssistantPhone" class="control-label">Phone</label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.AssistantPhone)
+                    @Html.ValidationMessageFor(model => model.AssistantPhone)
+                </div>
+            </div>
+        </fieldset>    
+
         @if (Model.Site.CollectExtended)
-        {
-            <fieldset>
-                <legend>Assistant</legend>
-            
-                <div class="control-group">
-                    <label for="AssistantFirstName" class="control-label">First Name</label>
-                    <div class="controls">
-                        @Html.EditorFor(model => model.AssistantFirstName)
-                        @Html.ValidationMessageFor(model => model.AssistantFirstName)
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label for="AssistantLastName" class="control-label">Last Name</label>
-                    <div class="controls">
-                        @Html.EditorFor(model => model.AssistantLastName)
-                        @Html.ValidationMessageFor(model => model.AssistantLastName)
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label for="AssistantEmail" class="control-label">Email</label>
-                    <div class="controls">
-                        @Html.EditorFor(model => model.AssistantEmail)
-                        @Html.ValidationMessageFor(model => model.AssistantEmail)
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label for="AssistantPhone" class="control-label">Phone</label>
-                    <div class="controls">
-                        @Html.EditorFor(model => model.AssistantPhone)
-                        @Html.ValidationMessageFor(model => model.AssistantPhone)
-                    </div>
-                </div>
-            </fieldset>    
-            
+        {            
             <fieldset>
                 <legend>Referral</legend>
                 <div class="control-group">
