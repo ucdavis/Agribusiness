@@ -101,6 +101,13 @@ namespace Agribusiness.Web.Controllers
             {
                 // get the last registration
                 var seminarPerson = person.GetLatestRegistration();
+                var site = SiteService.LoadSite(Site);
+
+                if (site.BackgroundPerson.Id == id)
+                {
+                    ViewBag.Title = "Profile";
+                    return View(seminarPerson);
+                }
 
                 // is this person in the public roles of either faculty directory or steering committee?
                 var roles = seminarPerson.SeminarRoles.Select(a => a.Id);
@@ -195,7 +202,6 @@ namespace Agribusiness.Web.Controllers
             {
                 var person = Repository.OfType<Person>().GetById(id.Value);
 
-
                 // no result anyways
                 if (person == null)
                 {
@@ -203,17 +209,28 @@ namespace Agribusiness.Web.Controllers
                 }
 
                 // for now only committee members can be downloaded from this action
-                var committeeRole = Repository.OfType<SeminarRole>().Queryable.Where(a => a.Id == StaticIndexes.Role_SteeringCommittee).FirstOrDefault();
-                var isCommitteeMember = Repository.OfType<SeminarPerson>().Queryable.Where(a => a.SeminarRoles.Contains(committeeRole) && a.Person == person).Any();
+                var committeeRole = RepositoryFactory.SeminarRoleRepository.GetNullableById(StaticIndexes.Role_SteeringCommittee);
+                var faculty = RepositoryFactory.SeminarRoleRepository.GetNullableById(StaticIndexes.Role_FacultyDirector);
+                var site = SiteService.LoadSite(Site);
 
-                // not authorized to release this person's image
-                if (!isCommitteeMember)
-                    return File(new byte[0], string.Empty);
+                var isCommitteeMember = Repository.OfType<SeminarPerson>().Queryable.Any(a => a.SeminarRoles.Contains(committeeRole) && a.Person == person);
 
-                // has picture return that
-                if (person.MainProfilePicture != null)
+                var isAvailable = RepositoryFactory.SeminarPersonRepository.Queryable.Any(a =>
+                                    (
+                                        a.SeminarRoles.Contains(committeeRole) 
+                                        || a.SeminarRoles.Contains(faculty)
+                                        || site.BackgroundPerson.Id == person.Id
+                                    )
+                                    &&
+                                    a.Person == person);
+
+                // has picture return and is authorized
+                if (isAvailable && person.MainProfilePicture != null)
+                {
                     return File(person.MainProfilePicture, person.ContentType ?? "image/png");
+                }
             }
+
             // load the default image
             var fs = new FileStream(Server.MapPath("~/Images/profilepicplaceholder.png"), FileMode.Open, FileAccess.Read);
             var img = new byte[fs.Length];

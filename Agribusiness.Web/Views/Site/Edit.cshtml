@@ -8,6 +8,14 @@
 @section ScriptContent
 {
     @Html.Partial("_tinymce", new TinyMceViewModel())
+    
+    <link href="@Url.Content("~/Content/chosen.css")" type="text/css" rel="stylesheet"/>
+    <script type="text/javascript" src="@Url.Script("chosen.jquery.min.js")"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#BackgroundPerson").chosen();
+        });
+    </script>
 }
 
 @section SubPageNavigation
@@ -96,6 +104,17 @@
                     </div>
                     @Html.ValidationMessageFor(model => model.Background)
                     <p class="help-block">Text for the "Background Information" public page.</p>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="BackgroundPerson" class="control-label">Background Person</label>
+                <div class="controls">
+                    @*@Html.EditorFor(model => model.BackgroundPerson)*@
+                    
+                    @this.Select("BackgroundPerson").Options(Model.People, x=>x.Id, x=>x.FullName).FirstOption("--Select Person--").Selected(Model.BackgroundPerson != null ? Model.BackgroundPerson.Id.ToString() : string.Empty)
+                    @Html.ValidationMessageFor(model => model.BackgroundPerson)
+                    
+                    <p class="help-block">A link for the selected user will be placed on the background page.</p>
                 </div>
             </div>
             <div class="control-group">

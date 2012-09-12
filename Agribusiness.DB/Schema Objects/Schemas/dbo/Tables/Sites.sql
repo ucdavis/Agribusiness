@@ -13,6 +13,7 @@
     [CollectExtended] BIT NOT NULL DEFAULT 0, 
     [Subdomain] VARCHAR(50) NOT NULL, 
     [Background] VARCHAR(MAX) NULL, 
+	[BackgroundPersonId] int null,
     [Venue] VARCHAR(MAX) NULL, 
     [VenueEmbeddedMap] VARCHAR(MAX) NULL
 )

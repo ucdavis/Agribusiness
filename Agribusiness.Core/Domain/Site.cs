@@ -34,6 +34,7 @@ namespace Agribusiness.Core.Domain
         public virtual string Welcome { get; set; }
         [DataType(DataType.MultilineText)]
         public virtual string Background { get; set; }
+        public virtual Person BackgroundPerson { get; set; }
         [DataType(DataType.MultilineText)]
         public virtual string Venue { get; set; }
         
@@ -68,6 +69,7 @@ namespace Agribusiness.Core.Domain
             Map(x => x.Description);
             Map(x => x.Welcome);
             Map(x => x.Background);
+            References(x => x.BackgroundPerson).Column("BackgroundPersonId");
             Map(x => x.Venue);
             Map(x => x.VenueEmbeddedMap);
 
