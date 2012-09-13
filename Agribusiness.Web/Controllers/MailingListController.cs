@@ -67,7 +67,7 @@ namespace Agribusiness.Web.Controllers
         // GET: /MailingList/Create
         public ActionResult Create(int? seminarId)
         {
-			var viewModel = MailingListViewModel.Create(RepositoryFactory, seminarId:seminarId);
+			var viewModel = MailingListViewModel.Create(RepositoryFactory, Site, seminarId:seminarId);
             
             return View(viewModel);
         } 
@@ -96,7 +96,7 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction(a => a.Index(seminarId));
             }
 
-            var viewModel = MailingListViewModel.Create(RepositoryFactory, mailinglist, seminarId);
+            var viewModel = MailingListViewModel.Create(RepositoryFactory, Site, mailinglist, seminarId);
             viewModel.MailingList = mailinglist;
 
             return View(viewModel);
@@ -122,7 +122,7 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction(a => a.Index(mailinglist.Seminar.Id));
             }
 
-			var viewModel = MailingListViewModel.Create(RepositoryFactory, mailinglist, mailinglist.Seminar != null ? mailinglist.Seminar.Id : (int?)null);
+			var viewModel = MailingListViewModel.Create(RepositoryFactory, Site, mailinglist, mailinglist.Seminar != null ? mailinglist.Seminar.Id : (int?)null);
 
 			return View(viewModel);
         }
@@ -177,7 +177,7 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction(a => a.Index(mailinglist.Seminar != null ? mailinglist.Seminar.Id : (int?)null));
             }
             
-            var viewModel = MailingListViewModel.Create(RepositoryFactory, mailinglist, mailinglist.Seminar != null ? mailinglist.Seminar.Id : (int?)null);
+            var viewModel = MailingListViewModel.Create(RepositoryFactory, Site, mailinglist, mailinglist.Seminar != null ? mailinglist.Seminar.Id : (int?)null);
 
             return View(viewModel);
         }
