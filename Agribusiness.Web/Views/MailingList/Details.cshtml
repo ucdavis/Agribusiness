@@ -8,6 +8,8 @@
 
 @section ScriptContent{
     <link rel="stylesheet" type="text/css" href="@Url.Css("jquery.AutoCompleteSelect.css")"/>
+    
+    @Html.Partial("_dataTables")
 }
 
 @section SubPageNavigation
@@ -26,7 +28,7 @@
                 @Model.Name
             </div>
         </div>
-        <div class="control-group">
+        @*        <div class="control-group">
             <label for="People" class="control-label">People</label>
             <div class="controls">
                 <div class="well">
@@ -38,7 +40,7 @@
                     }
                 </div>
             </div>
-        </div>
+        </div>*@
         <div class="control-group">
             <label for="DateCreated" class="control-label">Date Created</label>
             <div class="controls">
@@ -53,3 +55,21 @@
         </div>
     </fieldset>
 </div>
+
+<table class="default_table table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var person in Model.People.OrderBy(a => a.LastName))
+        {
+            <tr>
+                <td>@person.FirstName</td>
+                <td>@person.LastName</td>
+            </tr>
+        }
+    </tbody>
+</table>
