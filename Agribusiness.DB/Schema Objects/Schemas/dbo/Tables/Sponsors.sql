@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Sponsors]
 (
-	[Id] INT NOT NULL PRIMARY KEY, 
+	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
     [Name] VARCHAR(100) NOT NULL, 
     [Logo] VARBINARY(MAX) NULL, 
     [LogoContentType] VARCHAR(50) NULL, 

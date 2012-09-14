@@ -872,7 +872,7 @@
     <Content Include="Views\Sponsor\Edit.cshtml" />
     <Content Include="Views\Sponsor\_SponsorForm.cshtml" />
     <Content Include="Views\Public\Sponsors.cshtml" />
-    <None Include="Views\Shared\_SponsorsDisplay.cshtml" />
+    <Content Include="Views\Shared\_SponsorsDisplay.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">

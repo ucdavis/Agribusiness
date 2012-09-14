@@ -45,7 +45,7 @@
             </div>
         </div>
         <div class="control-group">
-            <label for="Sponsor.Level" class="control-label">Sponsor Level</label>
+            <label for="Sponsor.Level" class="control-label">Sponsor Level<span class="required">*</span></label>
             <div class="controls">
                 @this.Select("Sponsor.Level").Options(Model.SponsorLevels, x=>x.Key, x=>x.Value).FirstOption("--Select Sponsor Level--").Selected(Model.Sponsor != null ? (int)Model.Sponsor.Level : 0)
                 @Html.ValidationMessageFor(model => model.Sponsor.Level)
