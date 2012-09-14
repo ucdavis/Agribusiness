@@ -1,0 +1,16 @@
+﻿@model SponsorViewModel
+
+@{
+    ViewBag.Title = "Edit Sponsor";
+    ViewBag.SubPageTitle = "Edit Sponsor";
+}
+
+@section ScriptContent
+{
+    @Html.Partial("_tinymce", new TinyMceViewModel())
+}
+
+@using (Html.BeginForm("Edit", "Sponsor", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+{
+    @Html.Partial("_SponsorForm")
+}

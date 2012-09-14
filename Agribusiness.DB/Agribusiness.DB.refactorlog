@@ -42,4 +42,25 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="CountryID" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="408d333f-37e2-4fd8-bc4a-1143c2c7681a" ChangeDateTime="09/13/2012 22:01:16">
+    <Property Name="ElementName" Value="[dbo].[Sponsors].[Linke]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Sponsors]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Link" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="75629b2e-e286-45ec-8662-93b0087f8d60" ChangeDateTime="09/13/2012 22:01:20">
+    <Property Name="ElementName" Value="[dbo].[Sponsors].[Link]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Sponsors]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Ulr" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="24c4893f-c8d0-475f-8707-2f307fba6c34" ChangeDateTime="09/13/2012 22:01:21">
+    <Property Name="ElementName" Value="[dbo].[Sponsors].[Ulr]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Sponsors]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Url" />
+  </Operation>
 </Operations>

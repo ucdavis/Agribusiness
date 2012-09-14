@@ -47,6 +47,7 @@ namespace Agribusiness.Core.Domain
 
         public virtual IList<Seminar> Seminars { get; set; }
         public virtual IList<Person> People { get; set; }
+        public virtual IList<Sponsor> Sponsors { get; set; }
     }
 
     public class SiteMap : ClassMap<Site>
@@ -79,6 +80,7 @@ namespace Agribusiness.Core.Domain
                 .ChildKeyColumn("PersonId")
                 .Table("PeopleXSites")
                 .Cascade.SaveUpdate();
+            HasMany(x => x.Sponsors);
         }
     }
 }

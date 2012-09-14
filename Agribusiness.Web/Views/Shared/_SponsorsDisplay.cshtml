@@ -1,0 +1,89 @@
+﻿@model IQueryable<Sponsor>
+
+@helper ExtendedSponsor(Sponsor sponsor)
+{
+    var extended = (bool?)ViewBag.Extended ?? true;
+    if (extended)
+    {
+        <div class="span12 sponsor">
+        
+            @if (sponsor.Logo != null)
+            {
+                <img src="@Url.Action("SponsorLogo", "Public", new { id = sponsor.Id })" alt="@sponsor.Name logo" class="logo-img"/>
+            }
+        
+            <h4>@sponsor.Name</h4>
+        
+            @Html.Raw(sponsor.Description)
+
+        </div>     
+    }
+    else
+    {
+        <span class="span3 sponsor">
+            @if (sponsor.Logo != null)
+            {
+                <img src="@Url.Action("SponsorLogo", "Public", new { id = sponsor.Id })" alt="@sponsor.Name logo" class="logo-img"/>
+            }
+        
+            <h4>@sponsor.Name</h4>
+        </span>
+    }    
+    
+}
+
+<div class="row-fluid">
+    
+    @if (Model.Any(a => a.Level == SponsorLevel.Gold))
+    {
+        if (Model.Count(a => a.Level == SponsorLevel.Gold) > 1)
+        {
+            <h3>Gold Sponsors</h3>
+        }
+        else
+        {
+            <h3>Gold Sponsor</h3>
+        }
+
+        foreach (var sponsor in Model.Where(a => a.Level == SponsorLevel.Gold).OrderBy(a => a.Order))
+        {
+            <text>@ExtendedSponsor(sponsor)</text>
+        }
+    }
+</div>
+<div class="row-fluid">
+    @if (Model.Any(a => a.Level == SponsorLevel.Silver))
+    {
+        if (Model.Count(a => a.Level == SponsorLevel.Silver) > 1)
+        {
+            <h3>Silver Sponsors</h3>
+        }
+        else
+        {
+            <h3>Silver Sponsor</h3>
+        }
+
+        foreach (var sponsor in Model.Where(a => a.Level == SponsorLevel.Silver).OrderBy(a => a.Order))
+        {
+            <text>@ExtendedSponsor(sponsor)</text>
+        }
+    }
+</div>    
+<div class="row-fluid">
+@if (Model.Any(a => a.Level == SponsorLevel.Bronze))
+    {
+        if (Model.Count(a => a.Level == SponsorLevel.Bronze) > 1)
+        {
+            <h3>Bronze Sponsors</h3>
+        }
+        else
+        {
+            <h3>Bronze Sponsor</h3>
+        }
+
+        foreach (var sponsor in Model.Where(a => a.Level == SponsorLevel.Bronze).OrderBy(a => a.Order))
+        {
+            <text>@ExtendedSponsor(sponsor)</text>
+        }
+    }
+</div>

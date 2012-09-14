@@ -1,0 +1,20 @@
+﻿@model IQueryable<Sponsor>
+
+@{
+    ViewBag.Title = "Sponsors";
+    ViewBag.SubPageTitle = "Sponsors";
+
+    ViewBag.Nav = Nav.Sponsors;
+}
+
+@section ScriptContent
+{
+    <style type="text/css">
+        .logo-img { max-height: 200px;max-width: 200px; }
+        .sponsor { margin: 1em;}
+        .sponsor h4 { margin: 1em 0;color: #014A81;}
+        h3 { color: #014A81;border-bottom: 1px solid #EEE;}
+    </style>
+}
+
+@Html.Partial("_SponsorsDisplay")

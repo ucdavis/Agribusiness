@@ -184,6 +184,7 @@
     <Compile Include="Controllers\SeminarController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
     <Compile Include="Controllers\SiteController.cs" />
+    <Compile Include="Controllers\SponsorController.cs" />
     <Compile Include="Controllers\SyncController.cs" />
     <Compile Include="Controllers\TemplateController.cs" />
     <Compile Include="Global.asax.cs">
@@ -219,6 +220,7 @@
     <Compile Include="Models\ReportViewModel.cs" />
     <Compile Include="Models\SessionPersonViewModel.cs" />
     <Compile Include="Models\SiteViewModel.cs" />
+    <Compile Include="Models\SponsorViewModel.cs" />
     <Compile Include="Models\TemplateViewModel.cs" />
     <Compile Include="Models\TinyMceViewModel.cs" />
     <Compile Include="Services\EventService.cs" />
@@ -401,6 +403,7 @@
     <Content Include="Scripts\jquery.Jcrop.min.js" />
     <Content Include="Scripts\jquery.maskedinput.min.js" />
     <Content Include="Scripts\jquery.qtip.min.js" />
+    <Content Include="Scripts\jquery.tablednd.js" />
     <Content Include="Scripts\jquery.tmpl.min.js" />
     <Content Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -863,6 +866,13 @@
     <Content Include="Views\Shared\EditorTemplates\DateTime-Local.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Date.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Color.cshtml" />
+    <Content Include="Views\Sponsor\Index.cshtml" />
+    <Content Include="Views\Sponsor\Create.cshtml" />
+    <Content Include="Views\Sponsor\Reorder.cshtml" />
+    <Content Include="Views\Sponsor\Edit.cshtml" />
+    <Content Include="Views\Sponsor\_SponsorForm.cshtml" />
+    <Content Include="Views\Public\Sponsors.cshtml" />
+    <None Include="Views\Shared\_SponsorsDisplay.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.resx">

@@ -556,6 +556,7 @@
     <Build Include="Schema Objects\Schemas\dbo\Tables\States.table.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Tables\Templates.table.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Tables\Files.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\Sponsors.sql" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Agribusiness.CLR, Version=1.0.4358.14065, Culture=neutral, PublicKeyToken=null">

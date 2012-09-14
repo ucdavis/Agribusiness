@@ -108,6 +108,7 @@
     <Compile Include="Domain\Session.cs" />
     <Compile Include="Domain\SessionType.cs" />
     <Compile Include="Domain\Site.cs" />
+    <Compile Include="Domain\Sponsor.cs" />
     <Compile Include="Domain\Template.cs" />
     <Compile Include="Domain\User.cs" />
     <Compile Include="Domain\vEmailQueue.cs" />

@@ -114,6 +114,15 @@ namespace Agribusiness.Web.Helpers
                 .ForMember(x => x.Seminar, x => x.Ignore())
                 .ForMember(x => x.FileName, x => x.Ignore())
                 ;
+
+            CreateMap<Sponsor, Sponsor>()
+                .ForMember(x => x.Logo, x => x.Ignore())
+                .ForMember(x => x.LogoContentType, x => x.Ignore())
+                .ForMember(x => x.Site, x => x.Ignore())
+                .ForMember(x => x.Id, x => x.Ignore())
+                .ForMember(x => x.IsActive, x => x.Ignore())
+                .ForMember(x => x.Order, x => x.Ignore())
+                ;
         }
         
     }

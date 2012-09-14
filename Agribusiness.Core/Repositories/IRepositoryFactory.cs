@@ -37,6 +37,7 @@ namespace Agribusiness.Core.Repositories
         IRepositoryWithTypedId<User, Guid> UserRepository { get; set; }
 
         IRepository<VEmailQueue> VEmailQueueRepository { get; set; }
+        IRepository<Sponsor> SponsorRepository { get; set; } 
     }
 
     public class RepositoryFactory : IRepositoryFactory
@@ -72,5 +73,6 @@ namespace Agribusiness.Core.Repositories
         public IRepositoryWithTypedId<User, Guid> UserRepository { get; set; }
 
         public IRepository<VEmailQueue> VEmailQueueRepository { get; set; }
+        public IRepository<Sponsor> SponsorRepository { get; set; } 
     }
 }

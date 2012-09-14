@@ -239,6 +239,24 @@ namespace Agribusiness.Web.Controllers
 
             return File(img, "image/png");
         }
+
+        public FileResult SponsorLogo(int id)
+        {
+            var sponsor = RepositoryFactory.SponsorRepository.GetNullableById(id);
+
+            if (sponsor != null)
+            {
+                return File(sponsor.Logo, sponsor.LogoContentType);
+            }
+
+            return File(new byte[0], string.Empty);
+        }
+
+        public ActionResult Sponsors()
+        {
+            var sponsors = RepositoryFactory.SponsorRepository.Queryable.Where(a => a.IsActive && a.Site.Id == Site);
+            return View(sponsors);
+        }
     }
 
 }

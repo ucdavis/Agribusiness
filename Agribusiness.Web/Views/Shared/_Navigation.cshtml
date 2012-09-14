@@ -41,6 +41,7 @@
                     <li>@Html.ActionLink("Commodities", "Index", "Commodity")</li>
                     <li>@Html.ActionLink("Firms", "Index", "Firm")</li>
                     <li>@Html.ActionLink("Sites", "Index", "Site")</li>
+                    <li>@Html.ActionLink("Sponsors", "Index", "Sponsor")</li>
                 </ul>
             </li>
         }
@@ -55,5 +56,6 @@
         <li class="@(nav == Nav.Home ? "active" : string.Empty)">@Html.ActionLink("Home", "Index", "Home")</li>
         <li class="@(nav == Nav.BackgroundInformation ? "active" : string.Empty)">@Html.ActionLink("Background Information", "Background", "Public")</li>
         <li class="@(nav == Nav.ProgramOverview ? "active" : string.Empty)">@Html.ActionLink("Program Overview", "ProgramOverview", "Public")</li>
+        <li class="@(nav == Nav.Sponsors ? "active" : string.Empty)">@Html.ActionLink("Sponsors", "Sponsors", "Public")</li>
     }
 </ul>
