@@ -8,7 +8,7 @@
         <div class="span10 sponsor">
             @if (!string.IsNullOrEmpty(sponsor.Url))
             {
-                <a href="@Html.Raw(sponsor.Url)">
+                <a href="@Html.Raw(sponsor.Url)" class="sponsor-anchor">
                     @if (sponsor.Logo != null)
                     {
                         <img src="@Url.Action("SponsorLogo", "Public", new { id = sponsor.Id })" alt="@sponsor.Name logo" class="logo-img"/>
@@ -38,7 +38,7 @@
             
             @if (!string.IsNullOrEmpty(sponsor.Url))
             {
-                <a href="@Html.Raw(sponsor.Url)">
+                <a href="@Html.Raw(sponsor.Url)" class="sponsor-anchor">
                     @if (sponsor.Logo != null)
                     {
                         <img src="@Url.Action("SponsorLogo", "Public", new { id = sponsor.Id })" alt="@sponsor.Name logo" class="logo-img"/>
