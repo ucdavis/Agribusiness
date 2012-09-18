@@ -2,7 +2,7 @@
            
 @Html.Raw(Model.Site.Welcome)
 
-<div class="well">
+<div class="well pagination-centered">
     @*<p>To contact us for more information on the seminar, plese click @Html.ActionLink("here", "MoreInformation", "Public", new {}, new {@class="btn"})</p>*@
     @Html.ActionLink("Click here for For Information", "MoreInformation", "Public", new {}, new{@class="btn btn-block btn-primary btn-large"})
 </div>
