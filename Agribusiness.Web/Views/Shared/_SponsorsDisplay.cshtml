@@ -9,7 +9,7 @@
             @if (!string.IsNullOrEmpty(sponsor.Url))
             {
                 <a href="@Html.Raw(sponsor.Url)">
-                    if (sponsor.Logo != null)
+                    @if (sponsor.Logo != null)
                     {
                         <img src="@Url.Action("SponsorLogo", "Public", new { id = sponsor.Id })" alt="@sponsor.Name logo" class="logo-img"/>
                     }
