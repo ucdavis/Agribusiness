@@ -5,7 +5,7 @@
     [MI]                        VARCHAR (50)     NULL,
     [Salutation]                VARCHAR (5)      NULL,
     [BadgeName]                 VARCHAR (50)     NULL,
-    [Phone]                     VARCHAR (25)     NOT NULL,
+    [Phone]                     VARCHAR (30)     NOT NULL,
     [PhoneExt]                  VARCHAR (10)     NULL,
     [CellPhone]                 VARCHAR (25)     NULL,
     [Fax]                       VARCHAR (25)     NULL,
