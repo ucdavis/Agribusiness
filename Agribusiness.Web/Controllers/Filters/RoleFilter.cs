@@ -1,6 +1,11 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web.Mvc;
+using System.Web.Routing;
+using Agribusiness.Core.Domain;
 using Agribusiness.Web.Models;
+using UCDArch.Core;
+using UCDArch.Core.PersistanceSupport;
 
 namespace Agribusiness.Web.Controllers.Filters
 {
@@ -16,21 +21,41 @@ namespace Agribusiness.Web.Controllers.Filters
     {
         protected override bool AuthorizeCore(System.Web.HttpContextBase httpContext)
         {
+            // load the user and make sure they are valid
             var userName = httpContext.User.Identity.Name;
-
             var membership = new AccountMembershipService();
-
             var result = membership.IsValidUser(userName);
 
-            return result;
+            if (result)
+            {
+                // load the site id
+                var siteId = httpContext.Request.RequestContext.RouteData.Values["site"];
+                var personRepository = SmartServiceLocator<IRepositoryWithTypedId<Person, string>>.GetService();
+                var person = personRepository.Queryable.First(a => a.User.LoweredUserName == userName.ToLower());
 
+                //httpContext.Result = new System.Web.Mvc.HttpStatusCodeResult((int)System.Net.HttpStatusCode.Forbidden);
+                
 
-            //if (IsValidEmail(userName))
-            //{
-            //    return true;
-            //}
+                return person.Sites.Any(a => a.Id == (string)siteId);    
+            }
 
-            //return false;
+            return false;
+        }
+
+        protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
+        {
+            var siteId = filterContext.RouteData.Values["site"];
+
+            if (filterContext.RequestContext.HttpContext.Request.IsAuthenticated)
+            {
+                filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { action = "NotAuthorized", controller = "Error", area = string.Empty, site = siteId }));
+            }
+            else
+            {
+                base.HandleUnauthorizedRequest(filterContext);
+            }
+
+            
         }
 
         /// <summary>
