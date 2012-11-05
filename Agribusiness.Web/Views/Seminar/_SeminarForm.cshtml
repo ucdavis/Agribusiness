@@ -24,31 +24,61 @@
             </div>
         </div>
         <div class="control-group">
-            <label for="Begin" class="control-label">Begin Date:</label>
+            <label for="ReleaseToAttendees" class="control-label">Release To Attendees</label>
+            <div class="controls">
+                @Html.EditorFor(a=>a.Seminar.ReleaseToAttendees)
+                @Html.ValidationMessageFor(a=>a.Seminar.ReleaseToAttendees)
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="RequireInvitation" class="control-label">Require Invitation</label>
+            <div class="controls">
+                @Html.EditorFor(model => model.Seminar.RequireInvitation)
+                @Html.ValidationMessageFor(model => model.Seminar.RequireInvitation)
+                
+                <div class="help-inline">Require an invitation for a attendee to apply/register.</div>
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="RequireApproval" class="control-label">Require Approval</label>
+            <div class="controls">
+                @Html.EditorFor(model => model.Seminar.RequireApproval)
+                @Html.ValidationMessageFor(model => model.Seminar.RequireApproval)
+                
+                <div class="help-inline">Require approval on applications.</div>
+            </div>
+        </div>
+    </fieldset> 
+    <fieldset>
+        <legend>Dates</legend>
+        <div class="control-group">
+            <label for="Begin" class="control-label">Seminar Dates:</label>
             <div class="controls">
                 @Html.EditorFor(a => a.Seminar.Begin, "DateAndTime")
-                @Html.ValidationMessageFor(a => a.Seminar.Begin)
-            </div>
-        </div>
-        <div class="control-group">
-            <label for="End" class="control-label">End Date:</label>
-            <div class="controls">
+                <span style="margin: 0 5px;">through</span>
                 @Html.EditorFor(a => a.Seminar.End, "DateAndTime")
+                
+                @Html.ValidationMessageFor(a => a.Seminar.Begin)
                 @Html.ValidationMessageFor(a=>a.Seminar.End)
+                
+                <div class="help-block">
+                    Date/Times of the seminar itself
+                </div>
             </div>
         </div>
         <div class="control-group">
-            <label for="Begin" class="control-label">Registration Begin</label>
+            <label for="Begin" class="control-label">Registration Dates:</label>
             <div class="controls">
                 @Html.EditorFor(a=>a.Seminar.RegistrationBegin)
-                @Html.ValidationMessageFor(a=>a.Seminar.RegistrationBegin)
-            </div>
-        </div>
-        <div class="control-group">
-            <label for="RegistrationDeadline" class="control-label">Registration Deadline:</label>
-            <div class="controls">
+                <span style="margin: 0 5px;">through</span>
                 @Html.EditorFor(a => a.Seminar.RegistrationDeadline)
+                
                 @Html.ValidationMessageFor(a => a.Seminar.RegistrationDeadline)
+                @Html.ValidationMessageFor(a=>a.Seminar.RegistrationBegin)
+                
+                <div class="help-block">
+                    Dates that applications will be accepted.
+                </div>
             </div>
         </div>
         <div class="control-group">
@@ -56,6 +86,8 @@
             <div class="controls">
                 @Html.EditorFor(a=> a.Seminar.AcceptanceDate)
                 @Html.ValidationMessageFor(a => a.Seminar.AcceptanceDate)
+                
+                <div class="help-inline">Date attendees would be notified if acepted (if Require Approval is turned on)</div>
             </div>
         </div>
         <div class="control-group">
@@ -63,6 +95,20 @@
             <div class="controls">
                 @Html.EditorFor(model => model.Seminar.PaymentDeadline)
                 @Html.ValidationMessageFor(model => model.Seminar.PaymentDeadline)
+                
+                <div class="help-inline">Date payment must be processed through CRP, link (in this site) will be deactivated after this date.</div>
+            </div>
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend>Payment</legend>
+        <div class="control-group">
+            <label for="cost" class="control-label">Cost</label>
+            <div class="controls">
+                <div class="input-prepend">
+                    <span class="add-on">$</span>
+                    @Html.TextBoxFor(a => a.Seminar.Cost, new {@class="span2"})
+                </div>
             </div>
         </div>
         <div class="control-group">
@@ -79,23 +125,7 @@
                 @Html.ValidationMessageFor(a => a.Seminar.RegistrationId)
             </div>
         </div>
-        <div class="control-group">
-            <label for="ReleaseToAttendees" class="control-label">Release To Attendees</label>
-            <div class="controls">
-                @Html.EditorFor(a=>a.Seminar.ReleaseToAttendees)
-                @Html.ValidationMessageFor(a=>a.Seminar.ReleaseToAttendees)
-            </div>
-        </div>
-        <div class="control-group">
-            <label for="cost" class="control-label">Cost</label>
-            <div class="controls">
-                <div class="input-prepend">
-                <span class="add-on">$</span>
-                @Html.TextBoxFor(a => a.Seminar.Cost, new {@class="span2"})
-                </div>
-            </div>
-        </div>
-    </fieldset> 
+    </fieldset>
     <fieldset>
         <legend>Public Case Study Page</legend>
         

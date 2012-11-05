@@ -34,6 +34,9 @@ namespace Agribusiness.Core.Domain
             ReleaseCaseStudyList = false;
             ReleaseSchedule = false;
 
+            RequireInvitation = true;
+            RequireApproval = true;
+
             Sessions = new List<Session>();
             SeminarPeople = new List<SeminarPerson>();
             CaseStudies = new List<CaseStudy>();
@@ -76,6 +79,9 @@ namespace Agribusiness.Core.Domain
         public virtual string ProgramInformation { get; set; }
 
         public virtual DateTime? PaymentDeadline { get; set; }
+
+        public virtual bool RequireInvitation { get; set; }
+        public virtual bool RequireApproval { get; set; }
 
         public virtual Site Site { get; set; }
 
@@ -133,6 +139,9 @@ namespace Agribusiness.Core.Domain
             Map(x => x.ReleaseSchedule);
             Map(x => x.ProgramInformation);
             Map(x => x.PaymentDeadline);
+
+            Map(x => x.RequireApproval);
+            Map(x => x.RequireInvitation);
 
             HasMany(x => x.Sessions).Inverse().Cascade.AllDeleteOrphan();
             HasMany(x => x.SeminarPeople).Inverse().Cascade.AllDeleteOrphan();

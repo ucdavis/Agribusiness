@@ -18,6 +18,8 @@
     [ReleaseSchedule] bit not null default(0),
 	[ProgramInformation] varchar(max) null,
 	[PaymentDeadline] datetime null,
+    [RequireInvitation] BIT NOT NULL DEFAULT 1, 
+    [RequireApproval] BIT NOT NULL DEFAULT 1, 
     CONSTRAINT [FK_Seminars_Sites] FOREIGN KEY ([SiteId]) REFERENCES [Sites]([Id])
 );
 
