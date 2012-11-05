@@ -111,6 +111,35 @@ namespace Agribusiness.Core.Domain
 
             Templates.Add(template);
         }
+
+        /// <summary>
+        /// Whether this seminar is taking applications, based on registration deadlines
+        /// </summary>
+        public virtual bool OpenForRegistration
+        {
+            get
+            {
+                // just a begin date, no end
+                if (RegistrationBegin.HasValue && !RegistrationDeadline.HasValue)
+                {
+                    return RegistrationBegin.Value.Date <= DateTime.Now.Date;
+                }
+                
+                if (!RegistrationBegin.HasValue && RegistrationDeadline.HasValue)
+                {
+                    return RegistrationDeadline.Value.Date >= DateTime.Now.Date;
+                }
+                
+                if (RegistrationBegin.HasValue && RegistrationDeadline.HasValue)
+                {
+                    return RegistrationBegin.Value.Date <= DateTime.Now.Date && RegistrationDeadline.Value.Date >= DateTime.Now.Date;
+                }
+
+                // no dates specified
+                return false;
+            }
+
+        }
     }
 
     public class SeminarMap : ClassMap<Seminar>
