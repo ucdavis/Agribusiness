@@ -22,13 +22,65 @@
 
 <hr style="width: .5px solid lightgray; margin-bottom: 1em;"/>
 
-<div id="welcome-msg">@string.Format("Welcome {0}!", Model.Person.FullName)</div>
+<h3 id="welcome-msg">@string.Format("Welcome {0}!", Model.Person.FullName)</h3>
 
-<div id="current-seminar">Thank you for your interest in the UC Davis Agribusiness Executive Seminar.  We hope you'll join us @seminarInfo.</div>
+@*no active seminar, given 7 day period after last active*@
+@if (Model.Seminar.End.Date.AddDays(7) < DateTime.Now.Date)
+{
+    <text>Please check back in the future for more information on our next event!</text>
+}
+@*Active seminar*@
+else
+{
+    <div id="current-seminar">Thank you for your interest in the @Model.Seminar.Site.Name.  We hope you'll join us @seminarInfo.</div>    
+    
+    if (Model.Seminar.Files.Any(a => a.MySeminar))
+    {
+        <ul class="nav nav-pills">
+            @foreach (var f in Model.Seminar.Files.Where(a => a.MySeminar))
+            {
+                <li><a href="@Url.Action("Download", "File", new { id = f.Id })">
+                        <i class="icon-download"></i>
+                        Download @f.Name
+                    </a>
+                </li>    
+            }
+        </ul>
+    }
+    
+    //no application yet
+    if (Model.Application == null)
+    {
+        // user is invited, unless invitation override is active
+        if (Model.Invited || !Model.Seminar.RequireInvitation)
+        {
+            <p>
+                There are two ways to apply, online or by mail.  To begin the application process online, click on the Apply Online button below.  To apply by mail, download and print the application by clicking on the Apply by Mail button above.
+            </p>
+    
+            if (Model.Seminar.RequireApproval)
+            {
+                <p style="margin-bottom: 1em;"><em>(Participation is strictly limited. Application does not imply acceptance for participation.)</em></p>    
+            }
+    
+            <a href='@Url.Action("Apply", "SeminarApplication")' class="btn btn-primary">Click here to Apply Online</a>
+        }
+        // not invited and requires invitation
+        else
+        {
+            <p>Requires invitation, please check back later.</p>
+        }
+    }
+    // person has already submitted application
+    else
+    { 
+    }
+}
 
-<div id="brochure">
+
+@*<div id="brochure">
     <a href='@Url.Content("~/Doc/2012-Brochure.pdf")' target="new">2012 Seminar Brochure</a>
-</div>
+</div>*@
 
 <div id="application">
     
@@ -43,13 +95,7 @@
     @*<p>Please @Html.ActionLink("click here", "Apply", "SeminarApplication") to begin the application process.</p>*@
     @*<p>(Note, participation is strictly limited to those with the background interests to contribute most fully to the discussion at this year's seminar.  Application does not imply acceptance for participation.)</p>        *@
     
-            <p>
-                There are two ways to apply, online or by mail.  To begin the application process online, click on the Apply Online button below.  To apply by mail, download and print the application by clicking on the Apply by Mail button below.
-            </p>
-    
-            <p style="margin-bottom: 1em;"><em>(Participation is strictly limited. Application does not imply acceptance for participation.)</em></p>
-    
-            <a href='@Url.Action("Apply", "SeminarApplication")' class="btn btn-primary">Click here to Apply Online</a>
+            
     
             <a href="@Url.Content("~/Doc/2012-Application.pdf")" class="btn btn-info" target="new">Click here to Apply by Mail</a>
         }
@@ -63,7 +109,7 @@
             { 
             
                 <p>
-                    Thank you for submitting your application to the UC Davis Agribusiness Executive Seminar.  Your application has been received and will be reviewed for admission. Applicants will be notified of admission decisions @(Model.Seminar.AcceptanceDate.HasValue ? string.Format("by {0}", string.Format("{0: MMMM dd, yyyy}",Model.Seminar.AcceptanceDate.Value)) : "in the near future.").  If you have any questions, please feel free to contact Chris Akins at <a href="mailto:crakins@ucdavis.edu">crakins@ucdavis.edu</a>.
+                    Thank you for submitting your application to the UC Davis Agribusiness Executive Seminar.  Your application has been received and will be reviewed for admission. Applicants will be notified of admission decisions @(Model.Seminar.AcceptanceDate.HasValue ? string.Format("by {0}", string.Format("{0: MMMM dd, yyyy}", Model.Seminar.AcceptanceDate.Value)) : "in the near future.").  If you have any questions, please feel free to contact Chris Akins at <a href="mailto:crakins@ucdavis.edu">crakins@ucdavis.edu</a>.
                 </p>
             
                 <p>
@@ -88,7 +134,7 @@
                         </div>
 
                         <div>
-                            @Html.ActionLink("2012 Seminar Information", "MySeminar", "Seminar", new { id = Model.SeminarPerson.Id }, new { @class="btn" })
+                            @Html.ActionLink("2012 Seminar Information", "MySeminar", "Seminar", new { id = Model.SeminarPerson.Id }, new { @class = "btn" })
                         </div>
 
                     </p>
@@ -101,7 +147,7 @@
                 }
             }
         }
-            // not released just give pending status
+        // not released just give pending status
         else
         {
         @*<p>Your application is pending, you will be notified @(Model.Seminar.AcceptanceDate.HasValue ? string.Format("by {0}.", @Model.Seminar.AcceptanceDate.Value.ToString("d")) : "when a decision has been made.")</p>*@
