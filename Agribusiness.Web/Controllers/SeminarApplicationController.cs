@@ -201,16 +201,28 @@ namespace Agribusiness.Web.Controllers
 
                 _eventService.Apply(application.User.Person, application, Site);
 
-                //Message = string.Format(Messages.Saved, "Application");
-                //Message = "Thank you for successfully submitting your application.  Applicants will be notified of acceptance by January 13, 2012.";
-
-                if (application.Seminar.AcceptanceDate.HasValue)
+                if (application.Seminar.RequireApproval)
                 {
-                    Message = string.Format("Thank you for successfully submitting your application.<br/>  Applicants will be notified of acceptance by {0}", application.Seminar.AcceptanceDate.Value.ToString("d"));
+                    if (application.Seminar.AcceptanceDate.HasValue)
+                    {
+                        Message = string.Format("Thank you for successfully submitting your application.<br/>  Applicants will be notified of acceptance by {0}", application.Seminar.AcceptanceDate.Value.ToString("d"));
+                    }
+                    else
+                    {
+                        Message = "Thank you for successfully submitting your application.<br/>  Applicants will be notified in the near future.";
+                    }    
                 }
                 else
                 {
-                    Message = "Thank you for successfully submitting your application.<br/>  Applicants will be notified in the near future.";
+                    application.IsPending = false;
+                    application.IsApproved = true;
+                    application.DateDecision = DateTime.Now;
+                    application.DecisionReason = "Approval not required.";
+
+                    var person = _personService.CreateSeminarPerson(application, ModelState);
+                    _applicationRepository.EnsurePersistent(application);
+
+                    _eventService.Accepted(person, Site);
                 }
 
                 if (application.Photo != null)
