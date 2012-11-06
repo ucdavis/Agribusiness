@@ -73,37 +73,35 @@ else
     }
     // person has already submitted application
     else
-    { 
+    {
+        if (Model.Seminar.ReleaseToAttendees)
+        {
+            if (Model.Application.IsPending)
+            {
+                <text>Application is pending</text>
+            }
+            else
+            {
+                if (Model.Application.IsApproved)
+                {
+                    <div>@Html.ActionLink("2012 Seminar Information", "MySeminar", "Seminar", new { id = Model.SeminarPerson.Id }, new { @class = "btn" })</div>
+                }
+                else
+                {
+                    <text>Denied Application</text>
+                }
+            }
+        }
+        else 
+        { 
+            <text>Application has been submitted, but haven't been released to attendees yet</text>
+        }
     }
 }
 
-
-@*<div id="brochure">
-    <a href='@Url.Content("~/Doc/2012-Brochure.pdf")' target="new">2012 Seminar Brochure</a>
-</div>*@
-
 <div id="application">
-    
-
-
-    @if (Model.Application == null)
-    {
-        if (Model.Invited)
-        {
-            <h3>Apply</h3>
-    
-    @*<p>Please @Html.ActionLink("click here", "Apply", "SeminarApplication") to begin the application process.</p>*@
-    @*<p>(Note, participation is strictly limited to those with the background interests to contribute most fully to the discussion at this year's seminar.  Application does not imply acceptance for participation.)</p>        *@
-    
-            
-    
-            <a href="@Url.Content("~/Doc/2012-Application.pdf")" class="btn btn-info" target="new">Click here to Apply by Mail</a>
-        }
-    }
-    else
-    {
         // released provide real information
-        if (Model.Seminar.ReleaseToAttendees)
+        @if (Model.Seminar.ReleaseToAttendees)
         {
             if (Model.Application.IsPending)
             { 
@@ -134,7 +132,7 @@ else
                         </div>
 
                         <div>
-                            @Html.ActionLink("2012 Seminar Information", "MySeminar", "Seminar", new { id = Model.SeminarPerson.Id }, new { @class = "btn" })
+                            
                         </div>
 
                     </p>
@@ -156,8 +154,6 @@ else
                 Thank you for submitting your application to the UC Davis Agribusiness Executive Seminar.  Your application has been received and will be reviewed for admission. Applicants will be notified of admission decisions @(Model.Seminar.AcceptanceDate.HasValue ? string.Format("by {0}", string.Format("{0: MMMM dd, yyyy}", Model.Seminar.AcceptanceDate.Value)) : "in the near future.")).  If you have any questions, please feel free to contact Chris Akins at <a href="mailto:crakins@ucdavis.edu">crakins@ucdavis.edu</a>.
             </p>
         }
-    }
-
 </div>
 
 @if (Model.SeminarPeople.Any())
@@ -187,7 +183,3 @@ else
         </tbody>
     </table>
 }
-@*else
-{ 
-    <p>We welcome you to attend your first seminar.  If you have any questions, please feel free to @Html.ActionLink("contact us", "ContactUs", "Public").</p>
-}*@
