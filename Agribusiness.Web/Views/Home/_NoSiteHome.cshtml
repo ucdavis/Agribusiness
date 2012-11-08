@@ -1,5 +1,9 @@
 ﻿@model HomeViewModel
 
+<style type="text/css">
+    .row { text-align: center;}
+</style>
+
 <div class="row">
     @if (Model.Sites.Count() == 1)
     {
@@ -22,7 +26,7 @@
         foreach (var site in Model.Sites)
         {
             <a href="@Url.Action("Index", "Home", new { @site = site.Id})">
-            <span class="@cssclass">
+            <span class="@cssclass" style="border: 1px solid black;">
                 @if (site.SplashImage != null)
                 {
                     <img src='@Url.Action("GetSplash", "Site", new { id = site.Id, @site = "none" })' alt="Splash Image"/>
