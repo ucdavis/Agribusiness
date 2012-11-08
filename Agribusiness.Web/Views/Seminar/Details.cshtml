@@ -100,9 +100,10 @@
     <div class="control-group span6">
         <fieldset>
             <div class="control-group">
-                <label for="RegistrationDeadline" class="control-label">Registration Deadline</label>
+                <label for="RegistrationDeadline" class="control-label">Registration Date(s):</label>
                 <div class="controls form-text">
-                    @Html.DisplayFor(model => model.Seminar.RegistrationDeadline)
+                    @*@Html.DisplayFor(model => model.Seminar.RegistrationDeadline)*@
+                    @Model.Seminar.RegistrationDates
                 </div>
             </div>
             <div class="control-group">

@@ -100,6 +100,29 @@ namespace Agribusiness.Core.Domain
         /// </summary>
         public virtual string RegistrationDeadlineString { get { return RegistrationDeadline.HasValue ? RegistrationDeadline.Value.ToShortDateString() : "n/a"; } }
 
+        public virtual string RegistrationDates
+        {
+            get
+            {
+                if (RegistrationBegin.HasValue && RegistrationDeadline.HasValue)
+                {
+                    return string.Format("{0} - {1}", RegistrationBegin.Value.ToShortDateString(), RegistrationDeadline.Value.ToShortDateString());
+                }
+
+                if (RegistrationBegin.HasValue)
+                {
+                    return string.Format("Beginning {0}", RegistrationBegin.Value.ToShortDateString());
+                }
+
+                if (RegistrationDeadline.HasValue)
+                {
+                    return string.Format("Through {0}", RegistrationDeadline.Value.ToShortDateString());
+                }
+
+                return "n/a";
+            }
+        }
+
         public virtual void AddTemplate(Template template)
         {
             var existing = Templates.FirstOrDefault(a => a.NotificationType == template.NotificationType);
