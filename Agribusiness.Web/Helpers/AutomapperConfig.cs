@@ -121,7 +121,6 @@ namespace Agribusiness.Web.Helpers
                 .ForMember(x => x.LogoContentType, x => x.Ignore())
                 .ForMember(x => x.Site, x => x.Ignore())
                 .ForMember(x => x.Id, x => x.Ignore())
-                .ForMember(x => x.IsActive, x => x.Ignore())
                 .ForMember(x => x.Order, x => x.Ignore())
                 ;
         }

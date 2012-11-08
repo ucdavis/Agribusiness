@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -31,7 +29,7 @@ namespace Agribusiness.Web.Controllers
         // GET: /Sponsor/
         public ActionResult Index()
         {
-            var sponsorList = _sponsorRepository.Queryable.Where(a => a.Site.Id == Site);
+            var sponsorList = _sponsorRepository.Queryable.Where(a => a.Site.Id == Site && a.IsActive);
 
             return View(sponsorList);
         }

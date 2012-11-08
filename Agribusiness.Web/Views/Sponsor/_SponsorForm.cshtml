@@ -51,6 +51,13 @@
                 @Html.ValidationMessageFor(model => model.Sponsor.Level)
             </div>
         </div>
+        <div class="control-group">
+            <label for="Sponsor.IsActive" class="control-label">Is Active</label>
+            <div class="controls">
+                @Html.EditorFor(model => model.Sponsor.IsActive)
+                @Html.ValidationMessageFor(model => model.Sponsor.IsActive)
+            </div>
+        </div>
     </fieldset>
 </div>
     
