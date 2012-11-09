@@ -26,6 +26,7 @@
                     }
                 </div>
                 <a href="#" id="add-name" class="btn"><i class="icon-plus"></i>Add Person</a>
+                <a href="#" id="add-site-name" class="btn"><i class="icon-plus"></i>Add Site Person</a>
             </div>
         </div>
         <div class="control-group">
@@ -67,3 +68,17 @@
 
 </div>
 
+<div id="add-site-name-dialog" class="modal hide">
+    
+    <div class="modal-header">Add Site Person</div>
+    <div class="modal-body">
+        @this.MultiSelect("select-site-name").Options(Model.SitePeople, x => x.Id, x => x.FullName).Size(10)
+        <a href="#" id="add-site-selectall" class="btn">Select All</a>
+        <a href="#" id="add-site-unselectall" class="btn">UnSelect All</a>
+    </div>
+    <div class="modal-footer">
+        <a href="#" id="add-site-recipients" class="btn btn-primary">Add</a>
+        <a href="#" class="btn" data-dismiss="modal">Close</a>
+    </div>
+
+</div>

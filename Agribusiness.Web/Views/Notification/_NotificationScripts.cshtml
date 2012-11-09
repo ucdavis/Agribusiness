@@ -25,36 +25,47 @@
 
         function InitializeModal() {
             $("#add-name-dialog").modal({ show: false });
+            $("#add-site-name-dialog").modal({ show: false });
 
             $("#add-name").click(function (e) {
                 $("#add-name-dialog").modal('show');
                 e.preventDefault();
             });
+            $("#add-site-name").click(function (e) {
+                $("#add-site-name-dialog").modal('show');
+                e.preventDefault();
+            });
 
             // buttons
-            $("#add-selectall").click(function() {
-            });
+            $("#add-selectall").click(function() {});
+            $("#add-unselectall").click(function() {});
 
-            $("#add-unselectall").click(function() {
-            });
+            $("#add-site-selectall").click(function () { });
+            $("#add-site-unselectall").click(function () { });
 
             $("#add-recipients").click(function (e) {
-                addNames();
+                addNames("#select-name");
                 $("#add-name-dialog").modal('hide');
+
+                e.preventDefault();
+            });
+            $("#add-site-recipients").click(function (e) {
+                addNames("#select-site-name");
+                $("#add-site-name-dialog").modal('hide');
 
                 e.preventDefault();
             });
         }
 
         // renders the new names added
-        function addNames() {
+        function addNames(selectName) {
 
             var that = $(this);
 
             // compile the markup
             $.template("personTemplate", personNameTemplate);
 
-            var select = $("#select-name");
+            var select = $(selectName);
             $.each(select.find(":selected"), function (index, item) {
                 var person = { Name: $(item).text(), id: $(item).val() };
                 //$.tmpl("personTemplate", person).appendTo("#person-name-container");
@@ -64,7 +75,7 @@
             });
 
             // clear the selected
-            $("#select-name").children().removeAttr("selected");
+            $(selectName).children().removeAttr("selected");
         }
     </script>
     

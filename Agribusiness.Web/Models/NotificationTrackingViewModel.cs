@@ -26,6 +26,10 @@ namespace Agribusiness.Web.Models
         /// List of all people in the current seminar
         /// </summary>
         public virtual IList<Person> AllPeople { get; set; }
+        /// <summary>
+        /// List of people in the site
+        /// </summary>
+        public virtual IList<Person> SitePeople { get; set; }
 
         public static NotificationTrackingViewModel Create(IRepository repository, string siteId, NotificationTracking notificationTracking = null, Person person = null, MailingList mailingList = null)
         {
@@ -39,6 +43,7 @@ namespace Agribusiness.Web.Models
                                     NotificationTypes = repository.OfType<NotificationType>().GetAll(),
                                     People = new List<Person>(),
                                     AllPeople = SiteService.GetLatestSeminar(siteId).SeminarPeople.Select(a => a.Person).ToList(),//seminarService.GetCurrent().SeminarPeople.Select(a=>a.Person).ToList(),
+                                    SitePeople = SiteService.LoadSite(siteId).People,
                                     Seminar = seminar,
                                     MailingLists = seminar.MailingLists,
                                     MailingList = mailingList
