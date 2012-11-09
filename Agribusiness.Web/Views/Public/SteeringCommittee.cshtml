@@ -1,4 +1,6 @@
-﻿@model IEnumerable<DisplayPerson>
+﻿@using Agribusiness.Web.App_GlobalResources
+@using Agribusiness.Web.Services
+@model IEnumerable<DisplayPerson>
 
 
 @{
@@ -8,6 +10,17 @@
     ViewBag.SubPageTitle = siteId.ToLower() == "leaders" ? "Advisory Committee" : "Steering Committee";
 
     ViewBag.PublicProfile = true;
+
+    var seminar = SiteService.GetLatestSeminar(siteId);
+
+    if (seminar != null && seminar.SeminarPeople.SelectMany(a => a.SeminarRoles).Any(a => a.Id == StaticIndexes.Role_SteeringCommittee))
+    {
+        ViewData["hasSteeringCommittee"] = true;
+    }
+    else
+    {
+        ViewData["hasSteeringCommittee"] = false;
+    }  
 }
 
 @section SubPageNavigation

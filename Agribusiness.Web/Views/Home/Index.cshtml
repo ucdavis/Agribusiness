@@ -1,10 +1,21 @@
-﻿@model HomeViewModel
+﻿@using Agribusiness.Web.App_GlobalResources
+@model HomeViewModel
 
 @{
     if (Model.Site != null)
     {
         ViewBag.SubPageTitle = Model.Site.Name;
     }
+
+
+    if (Model.Seminar != null && Model.Seminar.SeminarPeople.SelectMany(a => a.SeminarRoles).Any(a => a.Id == StaticIndexes.Role_SteeringCommittee))
+    {
+        ViewData["hasSteeringCommittee"] = true;
+    }
+    else
+    {
+        ViewData["hasSteeringCommittee"] = false;
+    }    
 }
 
 @section ScriptContent

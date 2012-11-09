@@ -1,8 +1,18 @@
-﻿@model CaseExampleViewModel
+﻿@using Agribusiness.Web.App_GlobalResources
+@model CaseExampleViewModel
 
 @{
     ViewBag.Title = "Case Studies";
     ViewBag.SubPageTitle = "Case Studies";
+
+    if (Model.CurrentSeminar != null && Model.CurrentSeminar.SeminarPeople.SelectMany(a => a.SeminarRoles).Any(a => a.Id == StaticIndexes.Role_SteeringCommittee))
+    {
+        ViewData["hasSteeringCommittee"] = true;
+    }
+    else
+    {
+        ViewData["hasSteeringCommittee"] = false;
+    }  
 }
 
 @section SubPageNavigation

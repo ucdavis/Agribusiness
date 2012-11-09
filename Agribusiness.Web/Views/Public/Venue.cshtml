@@ -1,9 +1,20 @@
-﻿@using Agribusiness.Web.Services
+﻿@using Agribusiness.Web.App_GlobalResources
+@using Agribusiness.Web.Services
 @{
     ViewBag.Title = "Venue";
     ViewBag.SubPageTitle = "Venue";
     var siteId = ViewData["site"] as string;
     var site = SiteService.LoadSite(siteId);
+    var seminar = SiteService.GetLatestSeminar(siteId);
+
+    if (seminar != null && seminar.SeminarPeople.SelectMany(a => a.SeminarRoles).Any(a => a.Id == StaticIndexes.Role_SteeringCommittee))
+    {
+        ViewData["hasSteeringCommittee"] = true;
+    }
+    else
+    {
+        ViewData["hasSteeringCommittee"] = false;
+    }  
 }
 
 @section SubPageNavigation

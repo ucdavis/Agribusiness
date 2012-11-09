@@ -1,9 +1,23 @@
-﻿@using Agribusiness.Web.Helpers;
+﻿@using Agribusiness.Web.App_GlobalResources
+@using Agribusiness.Web.Helpers;
+@using Agribusiness.Web.Services
 @model InformationRequest
 
 @{
     ViewBag.Title = "More Information";
     ViewBag.SubPageTitle = "Request More Information";
+
+    var siteId = ViewData["site"] as string;
+    var seminar = SiteService.GetLatestSeminar(siteId);
+
+    if (seminar != null && seminar.SeminarPeople.SelectMany(a => a.SeminarRoles).Any(a => a.Id == StaticIndexes.Role_SteeringCommittee))
+    {
+        ViewData["hasSteeringCommittee"] = true;
+    }
+    else
+    {
+        ViewData["hasSteeringCommittee"] = false;
+    }  
 }
 
 @section SubPageNavigation

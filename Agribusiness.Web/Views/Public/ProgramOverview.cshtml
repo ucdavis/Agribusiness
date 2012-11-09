@@ -1,8 +1,18 @@
-﻿@model Seminar
+﻿@using Agribusiness.Web.App_GlobalResources
+@model Seminar
 
 @{
     ViewBag.Title = "Program Overview";
     ViewBag.SubPageTitle = "Program Overview";
+
+    if (Model.SeminarPeople.SelectMany(a => a.SeminarRoles).Any(a => a.Id == StaticIndexes.Role_SteeringCommittee))
+    {
+        ViewData["hasSteeringCommittee"] = true;
+    }
+    else
+    {
+        ViewData["hasSteeringCommittee"] = false;
+    }  
 }
 
 @section SubPageNavigation
