@@ -57,7 +57,7 @@
     
     <div class="modal-header">Add Person</div>
     <div class="modal-body">
-        @this.MultiSelect("select-name").Options(Model.AllPeople, x => x.Id, x => x.FullName).Size(10)
+        @this.MultiSelect("select-name").Options(Model.AllPeople.OrderBy(a => a.LastName), x => x.Id, x => x.FullName).Size(10)
         <a href="#" id="add-selectall" class="btn">Select All</a>
         <a href="#" id="add-unselectall" class="btn">UnSelect All</a>
     </div>
@@ -72,7 +72,7 @@
     
     <div class="modal-header">Add Site Person</div>
     <div class="modal-body">
-        @this.MultiSelect("select-site-name").Options(Model.SitePeople, x => x.Id, x => x.FullName).Size(10)
+        @this.MultiSelect("select-site-name").Options(Model.SitePeople.OrderBy(a => a.LastName), x => x.Id, x => x.FullName).Size(10)
         <a href="#" id="add-site-selectall" class="btn">Select All</a>
         <a href="#" id="add-site-unselectall" class="btn">UnSelect All</a>
     </div>
