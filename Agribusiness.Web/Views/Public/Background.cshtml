@@ -7,7 +7,7 @@
     var site = SiteService.LoadSite(siteId);
     var seminar = SiteService.GetLatestSeminar(siteId);
     
-    if (Model.Seminar != null && seminar.SeminarPeople.SelectMany(a => a.SeminarRoles).Any(a => a.Id == StaticIndexes.Role_SteeringCommittee))
+    if (seminar != null && seminar.SeminarPeople.SelectMany(a => a.SeminarRoles).Any(a => a.Id == StaticIndexes.Role_SteeringCommittee))
     {
         ViewData["hasSteeringCommittee"] = true;
     }
