@@ -21,13 +21,13 @@ namespace Agribusiness.Web.Services
         /// Sends the notification to the admin about an information request submission.
         /// </summary>
         /// <param name="informationRequest"></param>
-        void SendInformationRequestNotification(InformationRequest informationRequest);
+        void SendInformationRequestNotification(InformationRequest informationRequest, Site site);
 
         /// <summary>
         /// Queue the confirmation message to the person requesting information
         /// </summary>
         /// <param name="email"></param>
-        void SendInformationRequestConfirmatinon(string email);
+        void SendInformationRequestConfirmatinon(string email, Site site);
 
         /// <summary>
         /// Add person to the mailing list

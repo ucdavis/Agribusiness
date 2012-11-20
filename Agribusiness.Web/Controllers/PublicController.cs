@@ -156,10 +156,10 @@ namespace Agribusiness.Web.Controllers
                 Message = string.Format("Your request for information has been submitted.");
 
                 // send the information request notification to admin
-                _notificationService.SendInformationRequestNotification(informationRequest);
+                _notificationService.SendInformationRequestNotification(informationRequest, informationRequest.Site);
 
                 // queue an email for the person requesting information
-                _notificationService.SendInformationRequestConfirmatinon(informationRequest.Email);
+                _notificationService.SendInformationRequestConfirmatinon(informationRequest.Email, informationRequest.Site);
 
                 return this.RedirectToAction<HomeController>(a => a.Index());
             }

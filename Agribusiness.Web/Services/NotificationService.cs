@@ -44,7 +44,7 @@ namespace Agribusiness.Web.Services
             return HandleBody(template, helper);
         }
 
-        public void SendInformationRequestNotification(InformationRequest informationRequest)
+        public void SendInformationRequestNotification(InformationRequest informationRequest, Site site)
         {
             // send the notification email to the admin
             try
@@ -59,7 +59,7 @@ namespace Agribusiness.Web.Services
                     message.To.Add(email);
                 }
                 message.Subject = "Information Request Received";
-                message.Body = string.Format("A new information request has been received for the following person:<br/>{0}<br/>{1}", informationRequest.FullName(), informationRequest.Email);
+                message.Body = string.Format("A new information request has been received for the following person:<br/>{0}<br/>{1}<br/>{2}", informationRequest.FullName(), informationRequest.Email, site.Name);
                 client.Send(message);
             }
             catch (Exception ex)
@@ -68,10 +68,10 @@ namespace Agribusiness.Web.Services
             }
         }
 
-        public void SendInformationRequestConfirmatinon(string email)
+        public void SendInformationRequestConfirmatinon(string email, Site site)
         {
             var subject = "Information Request Received";
-            var body = "Thank you for your interest in the UC Davis Agribusiness Executive Seminar. We have received your request for information regarding the seminar. We will contact you with more details soon.";
+            var body = string.Format("Thank you for your interest in the {0}. We have received your request for information regarding the seminar. We will contact you with more details soon.", site.Name);
 
             try
             {
