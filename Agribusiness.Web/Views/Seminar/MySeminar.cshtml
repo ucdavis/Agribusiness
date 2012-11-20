@@ -56,7 +56,7 @@
             }
             else
             { 
-                <a href='@Model.CrpLink' target="payment" class="btn btn-primary">Click here to Pay</a>
+                @*<a href='@Model.CrpLink' target="payment" class="btn btn-primary">Click here to Pay</a>*@
             }
         </div>
     </div>
@@ -77,7 +77,7 @@
             @*<p>Payment: the seminar fee of $3,950 covers all study materials, instruction, meals, and receptions, but excludes lodging. The fee is due February 1, 2012. Credit cards and checks are accepted.  You will not have access to case studies and contact information of other attendees until your seminar fee is paid.  Please make checks payable to UC Regents and ensure that the name of the applicant accompanies the check.</p>*@
 
             <ul>
-                <li>Payment fee of $@Model.Seminar.Cost covers all study materials, instruction, meals, and receptions, but excludes lodging.</li>
+                <li>Payment fee of $@string.Format("{0:0.00}",Model.Seminar.Cost) covers all study materials, instruction, meals, and receptions, but excludes lodging.</li>
                 <li>The fee is due @(Model.Seminar.PaymentDeadline.HasValue ? Model.Seminar.PaymentDeadline.Value.ToString("d") : "TBD"). </li>
                 <li>Credit cards and checks are accepted.</li>
                 <li><span style="color: red;"><strong>Payments will take 24 hours to process.</strong></span></li>
@@ -87,7 +87,7 @@
             </ul>
 
            
-            <p><a href="@Model.CrpLink" target="payment" class="btn btn-primary">Click here to pay</a></p>
+            @*<p><a href="@Model.CrpLink" target="payment" class="btn btn-primary">Click here to pay</a></p>*@
         </div>   
     }
 

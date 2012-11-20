@@ -1,10 +1,14 @@
-﻿@model ApplicationViewModel
+﻿@using Agribusiness.Web.Services
+@model ApplicationViewModel
 
 @{
     var title = string.Format("Apply for {0}", Model.Seminar.Site.EventType);
 
     ViewBag.Title = title;
     ViewBag.SubPageTitle = title;
+
+    var siteId = ViewData["site"] as string;
+    var site = SiteService.LoadSite(siteId);
 }
 
 @section SubPageNavigation
@@ -310,8 +314,7 @@
             <legend>Seminar Expectations</legend>
 
             <p class="well">
-                Please tell us your expectations of the California Agribusiness Executive Seminar and
-                how it may benefit you and your organization.
+                Please tell us your expectations of the @site.Name and how it may benefit you and your organization.
             </p>
 
             <div class="control-group">
@@ -367,7 +370,15 @@
             <legend>Seminar Information</legend>
 
             <p class="well">
-                A seminar fee of @string.Format("{0:C}", Model.Seminar.Cost) covers all study materials, instruction, meals, and receptions, but excludes lodging. Upon acceptance, the fee is due by February 1, 2012. In the event a participant needs to cancel, the fee is fully refundable until February 1, 2012.  Half the fee is refundable until February 17, 2012. No refunds are possible for a cancellation received after February 17, 2012. Credit cards and checks will be accepted. Decisions will be made by January 13, 2012.
+                A seminar fee of @string.Format("{0:C}", Model.Seminar.Cost) covers all study materials, instruction, meals, and receptions, but excludes lodging. 
+                Upon acceptance, the fee is due by @(Model.Seminar.PaymentDeadline.HasValue ? Model.Seminar.PaymentDeadline.Value.ToShortDateString() : "TBD"). 
+                In the event a participant needs to cancel, the fee is fully refundable until @(Model.Seminar.PaymentDeadline.HasValue ? Model.Seminar.PaymentDeadline.Value.ToShortDateString() : "TBD").  
+                Half the fee is refundable until @Model.Seminar.Begin.AddMonths(-1).ToShortDateString(). No refunds are possible for a cancellation received after @Model.Seminar.Begin.AddMonths(-1).ToShortDateString(). 
+                Credit cards and checks will be accepted. 
+                @if (Model.Seminar.RequireApproval)
+                {
+                    <text>Decisions will be made by @(@Model.Seminar.AcceptanceDate.HasValue ? Model.Seminar.AcceptanceDate.Value.ToShortDateString() : "TBD").</text>
+                }
             </p>
 
             <div class="control-group">
