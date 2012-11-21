@@ -115,23 +115,44 @@ namespace Agribusiness.Web.Services
         {
             var seminar = application.Seminar;
             var person = application.User.Person;
+            var site = application.Seminar.Site;
 
-            var body =
-                string.Format(
-                    "Thank you for submitting your application to the UC Davis Agribusiness Executive Seminar.  Your application has been received and will be reviewed for admission. Applicants will be notified of admission decisions {0}.  If you have any questions, please feel free to contact Chris Akins at crakins@ucdavis.edu or visit the website at http://agribusiness.ucdavis.edu.",
-                    seminar.AcceptanceDate.HasValue
-                        ? string.Format("by {0}", string.Format("{0: MMMM dd, yyyy}", seminar.AcceptanceDate.Value))
-                        : "in the near future");
+            if (seminar.RequireApproval)
+            {
+                var body =
+                    string.Format(
+                        "Thank you for submitting your application to the UC Davis {0}.  Your application has been received and will be reviewed for admission. Applicants will be notified of admission decisions {1}.  If you have any questions, please feel free to contact Chris Akins at crakins@ucdavis.edu or visit the website at http://agribusiness.ucdavis.edu/{2}.",
+                        site.Name,
+                        seminar.AcceptanceDate.HasValue
+                            ? string.Format("by {0}", string.Format("{0: MMMM dd, yyyy}", seminar.AcceptanceDate.Value))
+                            : "in the near future"
+                            , site.Id);
 
-            var emailQueue = new EmailQueue(person)
-                                 {
-                                     Body = body,
-                                     FromAddress = "agribusiness@ucdavis.edu",
-                                     Subject = "UC Davis Agribusiness Executive Seminar Application Confirmation"
-                                 };
+                var emailQueue = new EmailQueue(person)
+                {
+                    Body = body,
+                    FromAddress = "agribusiness@ucdavis.edu",
+                    Subject = string.Format("UC Davis {0} Application Confirmation", site.Name)
+                };
 
-            _emailQueueRepository.EnsurePersistent(emailQueue);
+                _emailQueueRepository.EnsurePersistent(emailQueue);    
+            }
+            else
+            {
+                var body =
+                    string.Format(
+                        "Thank you for registering for UC Davis {0}. Registrants will be sent more information soon. If you have any questions, please feel free to contact Chris Akins at crakins@ucdavis.edu or visit the website at https://agribusiness.ucdavis.edu/{1}",
+                        site.Name, site.Id);
 
+                var emailQueue = new EmailQueue(person)
+                {
+                    Body = body,
+                    FromAddress = "agribusiness@ucdavis.edu",
+                    Subject = string.Format("UC Davis {0} Registration Confirmation", site.Name)
+                };
+
+                _emailQueueRepository.EnsurePersistent(emailQueue);    
+            }
         }
 
         /// <summary>
