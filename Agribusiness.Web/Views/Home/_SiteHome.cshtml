@@ -2,10 +2,13 @@
            
 @Html.Raw(Model.Site.Welcome)
 
+@if (User.Identity.IsAuthenticated)
+{
 <div class="well pagination-centered">
     @*<p>To contact us for more information on the seminar, plese click @Html.ActionLink("here", "MoreInformation", "Public", new {}, new {@class="btn"})</p>*@
-    @Html.ActionLink("Click here for For Information", "MoreInformation", "Public", new {}, new{@class="btn btn-block btn-primary btn-large"})
-</div>
+    @Html.ActionLink("Click here for For Information", "MoreInformation", "Public", new { }, new { @class = "btn btn-block btn-primary btn-large" })
+</div>    
+}
 
 <div class="well">
     @if (Model.Seminar != null && Model.Seminar.End > DateTime.Now)

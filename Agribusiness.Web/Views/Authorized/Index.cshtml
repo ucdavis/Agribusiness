@@ -100,7 +100,7 @@ else
                                 Thank you for registering for the @Model.Seminar.Site.Name.  We look forward to seeing you @seminarInfo.
                             </div>
                         }
-                            <div>@Html.ActionLink(Model.Seminar.Year + " Seminar Information", "MySeminar", "Seminar", new { id = Model.SeminarPerson.Id }, new { @class = "btn" })</div>
+                            <div>@Html.ActionLink(Model.Seminar.Year + " " + Model.Seminar.Site.EventType + " Information", "MySeminar", "Seminar", new { id = Model.SeminarPerson.Id }, new { @class = "btn" })</div>
                     }
                     else
                     {
