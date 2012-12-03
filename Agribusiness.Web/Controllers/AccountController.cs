@@ -65,7 +65,7 @@ namespace Agribusiness.Web.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Home", new {site});
+                        return RedirectToAction("Index", "Authorized", new {site});
                     }
                 }
                 else

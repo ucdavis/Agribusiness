@@ -43,4 +43,4 @@
 
 <p>Please enter your username and password. Forgot your password? @Html.ActionLink("Click Here", "ResetPassword")</p>
 
-<p>If you are an administrator log in @Html.ActionLink("here", "Admin", "Home", new {membershipLogon = false}, new {}).</p>
+<p>If you are an administrator log in @Html.ActionLink("here", "Admin", "Home", new {membershipLogon = false, site = ViewBag.Site}, new {}).</p>
