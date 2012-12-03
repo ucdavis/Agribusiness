@@ -30,6 +30,15 @@
     </script>
 }
 
+@section SubPageNavigation
+{
+    <div class="pull-right">
+        <ul class="nav nav-pills">
+            <li>@Html.ActionLink("Create Person", "Create", "Person")</li>
+        </ul>
+    </div>
+}
+
 @Html.AntiForgeryToken()
 
 <table class="default_table table table-striped table-bordered">
