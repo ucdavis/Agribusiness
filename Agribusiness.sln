@@ -44,6 +44,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{3FB9DE
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agribusiness.CLR", "Agribusiness.CLR\Agribusiness.CLR.csproj", "{A27FE3B7-506F-4F9B-87B1-E3679C817949}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +79,15 @@ Global
 		{26482A3E-9E73-49C7-8E08-091291E3679C}.Test|Any CPU.ActiveCfg = Test|Any CPU
 		{26482A3E-9E73-49C7-8E08-091291E3679C}.Test|Any CPU.Build.0 = Test|Any CPU
 		{26482A3E-9E73-49C7-8E08-091291E3679C}.Test|Any CPU.Deploy.0 = Test|Any CPU
+		{A27FE3B7-506F-4F9B-87B1-E3679C817949}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A27FE3B7-506F-4F9B-87B1-E3679C817949}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A27FE3B7-506F-4F9B-87B1-E3679C817949}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{A27FE3B7-506F-4F9B-87B1-E3679C817949}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A27FE3B7-506F-4F9B-87B1-E3679C817949}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A27FE3B7-506F-4F9B-87B1-E3679C817949}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{A27FE3B7-506F-4F9B-87B1-E3679C817949}.Test|Any CPU.ActiveCfg = Release|Any CPU
+		{A27FE3B7-506F-4F9B-87B1-E3679C817949}.Test|Any CPU.Build.0 = Release|Any CPU
+		{A27FE3B7-506F-4F9B-87B1-E3679C817949}.Test|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
