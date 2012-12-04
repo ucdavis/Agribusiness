@@ -8,7 +8,7 @@
 
 @section SubPageNavigation
 {
-@*	<ul class='nav nav-pills'>
+	<ul class='nav nav-pills'>
         <li>
             @using (Html.BeginForm("AddAll", "Invitation", new {id=ViewBag.SeminarId}))
             {
@@ -16,7 +16,7 @@
                 <a href="javascript:;" class="add-all-button">Add All People</a>
             }
         </li>
-	</ul>*@
+	</ul>
 }
 
 
@@ -24,14 +24,15 @@
 {
     @Html.Partial("_dataTables")
 
-    @*<script type="text/javascript">
+    <script type="text/javascript">
 
         $(function () {
             $(".add-all-button").click(function () { $(this).parents("form").submit(); return false; });
         });
 
-    </script>*@
+    </script>
 }
+
 
 <table class='default_table table table-striped table-bordered'>
 	<thead>

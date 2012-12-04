@@ -53,7 +53,8 @@ namespace Agribusiness.Web.Controllers
         public RedirectToRouteResult AddAll(int id)
         {
             // load all people in the database
-            var people = Repository.OfType<Person>().GetAll();
+            var site = SiteService.LoadSite(Site);
+            var people = site.People;
             var seminar = Repository.OfType<Seminar>().GetNullableById(id);
 
             if (seminar == null) return this.RedirectToAction<ErrorController>(a => a.Index());
