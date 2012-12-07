@@ -71,7 +71,7 @@ namespace Agribusiness.Web.Services
         public void SendInformationRequestConfirmatinon(string email, Site site)
         {
             var subject = "Information Request Received";
-            var body = string.Format("Thank you for your interest in the {0}. We have received your request for information regarding the seminar. We will contact you with more details soon.", site.Name);
+            var body = string.Format("Thank you for your interest in the {0}. We have received your request for information regarding the {1}. We will contact you with more details soon.", site.Name, site.EventType);
 
             try
             {

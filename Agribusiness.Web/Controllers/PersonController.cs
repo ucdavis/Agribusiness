@@ -167,6 +167,8 @@ namespace Agribusiness.Web.Controllers
             //    return this.RedirectToAction<SeminarController>(a => a.Index());
             //}
 
+            ViewData["site"] = Site;
+
             var viewModel = PersonViewModel.Create(Repository, _firmService, seminar);
             return View(viewModel);
         }
@@ -229,7 +231,9 @@ namespace Agribusiness.Web.Controllers
 
                 ModelState.AddModelError("Create User", AccountValidation.ErrorCodeToString(createStatus));
             }
-            
+
+            ViewData["site"] = Site;
+
             var viewModel = PersonViewModel.Create(Repository, _firmService, seminar, person, personEditModel.Email);
             viewModel.Addresses = personEditModel.Addresses;
             viewModel.UserName = personEditModel.UserName;
