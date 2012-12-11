@@ -49,6 +49,6 @@ namespace Agribusiness.Core.Domain
 
     public enum SponsorLevel
     {
-        Bronze = 1, Silver, Gold
+        Bronze = 1, Silver, Gold, BroughtToYouBy
     }
 }

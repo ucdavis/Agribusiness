@@ -68,11 +68,11 @@
     {
         if (Model.Count(a => a.Level == SponsorLevel.Gold) > 1)
         {
-            <h3>Gold Sponsors</h3>
+            <h3>$25,000 Sponsors</h3>
         }
         else
         {
-            <h3>Gold Sponsor</h3>
+            <h3>$25,000 Sponsor</h3>
         }
 
         foreach (var sponsor in Model.Where(a => a.Level == SponsorLevel.Gold).OrderBy(a => a.Order))
@@ -86,11 +86,11 @@
     {
         if (Model.Count(a => a.Level == SponsorLevel.Silver) > 1)
         {
-            <h3>Silver Sponsors</h3>
+            <h3>$15,000 Sponsors</h3>
         }
         else
         {
-            <h3>Silver Sponsor</h3>
+            <h3>$15,000 Sponsor</h3>
         }
 
         foreach (var sponsor in Model.Where(a => a.Level == SponsorLevel.Silver).OrderBy(a => a.Order))
@@ -104,11 +104,30 @@
 {
     if (Model.Count(a => a.Level == SponsorLevel.Bronze) > 1)
     {
-            <h3>Bronze Sponsors</h3>
+            <h3>$10,000 Sponsors</h3>
     }
     else
     {
-            <h3>Bronze Sponsor</h3>
+            <h3>$10m000 Sponsor</h3>
+    }
+
+    foreach (var sponsor in Model.Where(a => a.Level == SponsorLevel.Bronze).OrderBy(a => a.Order))
+    {
+            <text>@ExtendedSponsor(sponsor)</text>
+    }
+}
+</div>
+
+<div class="row-fluid">
+@if(Model.Any(a => a.Level == SponsorLevel.BroughtToYouBy))
+{
+    if (Model.Count(a => a.Level == SponsorLevel.Bronze) > 1)
+    {
+            <h3>Brought to you by</h3>
+    }
+    else
+    {
+            <h3>Brought to you by</h3>
     }
 
     foreach (var sponsor in Model.Where(a => a.Level == SponsorLevel.Bronze).OrderBy(a => a.Order))
