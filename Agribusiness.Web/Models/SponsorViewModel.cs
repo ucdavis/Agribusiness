@@ -16,9 +16,10 @@ namespace Agribusiness.Web.Models
             var viewModel = new SponsorViewModel {Sponsor = sponsor ?? new Sponsor()};
             
             viewModel.SponsorLevels = new List<KeyValuePair<int, string>>();
-            viewModel.SponsorLevels.Add(new KeyValuePair<int, string>((int)SponsorLevel.Bronze, "Bronze"));
-            viewModel.SponsorLevels.Add(new KeyValuePair<int, string>((int)SponsorLevel.Silver, "Silver"));
-            viewModel.SponsorLevels.Add(new KeyValuePair<int, string>((int)SponsorLevel.Gold, "Gold"));
+            viewModel.SponsorLevels.Add(new KeyValuePair<int, string>((int)SponsorLevel.Bronze, "$10,000"));
+            viewModel.SponsorLevels.Add(new KeyValuePair<int, string>((int)SponsorLevel.Silver, "$15,000"));
+            viewModel.SponsorLevels.Add(new KeyValuePair<int, string>((int)SponsorLevel.Gold, "$25,000"));
+            viewModel.SponsorLevels.Add(new KeyValuePair<int, string>((int)SponsorLevel.BroughtToYouBy, "Brought To You By"));
 
             return viewModel;
         }

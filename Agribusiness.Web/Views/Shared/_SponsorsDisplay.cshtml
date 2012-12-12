@@ -130,7 +130,7 @@
             <h3>Brought to you by</h3>
     }
 
-    foreach (var sponsor in Model.Where(a => a.Level == SponsorLevel.Bronze).OrderBy(a => a.Order))
+    foreach (var sponsor in Model.Where(a => a.Level == SponsorLevel.BroughtToYouBy).OrderBy(a => a.Order))
     {
             <text>@ExtendedSponsor(sponsor)</text>
     }
