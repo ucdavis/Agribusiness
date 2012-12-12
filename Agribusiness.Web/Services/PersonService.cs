@@ -168,8 +168,6 @@ namespace Agribusiness.Web.Services
             {
                 return person.SeminarPeople.Any(a => a.Seminar == seminar) && seminar.ReleaseToAttendees;
             }
-
-            
         }
 
         public List<KeyValuePair<Person, string>> ResetPasswords(List<Person> people)

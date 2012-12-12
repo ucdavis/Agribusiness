@@ -17,7 +17,7 @@
                 <input type="file" name="uploadedFile" class="input-file"/>
                 @if (Model.File.Contents != null)
                 {
-                    <a href="@Url.Action("Download", "File", new{id=Model.File.Id})" class="btn hastip" title="Download existing file."><i class="icon-download"></i></a>
+                    <a href="@Url.Action("DownloadAdmin", "File", new{id=Model.File.Id})" class="btn hastip" title="Download existing file."><i class="icon-download"></i></a>
                 }
             </div>
         </div>

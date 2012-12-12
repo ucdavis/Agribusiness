@@ -125,5 +125,13 @@ namespace Agribusiness.Web.Controllers
 
             return File(new byte[0], string.Empty);
         }
+
+        [UserOnly]
+        public FileResult DownloadAdmin(int id)
+        {
+            var file = _repositoryFactory.FileRepository.GetNullableById(id);
+
+            return File(file.Contents, file.ContentType, file.FileName);
+        }
     }
 }
