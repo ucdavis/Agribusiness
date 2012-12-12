@@ -247,47 +247,53 @@ namespace Agribusiness.Web.Controllers
 
             foreach (var person in peeps.Distinct())
             {
-                var nt = new NotificationTracking();
-                // copy the fields
-                Mapper.Map(notificationTracking, nt);
-                nt.Seminar = notificationTracking.Seminar;
-                // assign the person
-                nt.Person = person;
-
-                if (emailQueue != null)
+                try
                 {
-                    var eq = new EmailQueue();
+                    var nt = new NotificationTracking();
+                    // copy the fields
+                    Mapper.Map(notificationTracking, nt);
+                    nt.Seminar = notificationTracking.Seminar;
+                    // assign the person
+                    nt.Person = person;
 
-                    Mapper.Map(emailQueue, eq);
-
-                    Invitation invitation = null;
-                    string password = null;
-                    if (mailingList.Name == MailingLists.Invitation)
+                    if (emailQueue != null)
                     {
-                        // get the invitation object
-                        invitation = Repository.OfType<Invitation>().Queryable.FirstOrDefault(a => a.Person == person && a.Seminar == notificationTracking.Seminar);
-                        
-                        invitations.Add(invitation);
+                        var eq = new EmailQueue();
 
-                        // get the person object
-                        password = passwords.Where(a => a.Key == person).Select(a=>a.Value).FirstOrDefault();
+                        Mapper.Map(emailQueue, eq);
+
+                        Invitation invitation = null;
+                        string password = null;
+                        if (mailingList.Name == MailingLists.Invitation)
+                        {
+                            // get the invitation object
+                            invitation = Repository.OfType<Invitation>().Queryable.FirstOrDefault(a => a.Person == person && a.Seminar == notificationTracking.Seminar);
+
+                            invitations.Add(invitation);
+
+                            // get the person object
+                            password = passwords.Where(a => a.Key == person).Select(a => a.Value).FirstOrDefault();
+                        }
+
+                        eq.Body = _notificationService.GenerateNotification(eq.Body, person, Site, notificationTracking.Seminar.Id, invitation, password);
+
+                        if (attachmentIds != null)
+                        {
+                            // add attachments
+                            var attachments = _attachmentRepository.Queryable.Where(a => attachmentIds.Contains(a.Id)).ToList();
+                            foreach (var a in attachments) eq.Attachments.Add(a);
+                        }
+
+                        eq.Person = person;
+                        nt.EmailQueue = eq;
                     }
 
-                    eq.Body = _notificationService.GenerateNotification(eq.Body, person, Site, notificationTracking.Seminar.Id, invitation, password);
-
-                    if (attachmentIds != null)
-                    {
-                        // add attachments
-                        var attachments = _attachmentRepository.Queryable.Where(a => attachmentIds.Contains(a.Id)).ToList();
-                        foreach (var a in attachments) eq.Attachments.Add(a);                        
-                    }
-                    
-                    eq.Person = person;
-                    nt.EmailQueue = eq;
+                    // add it to the list
+                    tracking.Add(nt);
                 }
-
-                // add it to the list
-                tracking.Add(nt);
+                catch
+                {
+                }
             }
 
             // add errors for those not in the list

@@ -85,10 +85,10 @@ else
     </ul>
 }
 
-<h3 style="color: #014A81;border-bottom: 1px solid #EEE; padding-bottom: 1em;">Past Case Studies and Issue Papers have included:</h3>
-
 @if (Model.CaseStudies.Any())
 {
+    <h3 style="color: #014A81;border-bottom: 1px solid #EEE; padding-bottom: 1em;">Past Case Studies and Issue Papers have included:</h3>
+
     foreach (var year in Model.CaseStudies.Where(a => a.Seminar.Year != Model.CurrentSeminar.Year).Select(a => a.Seminar.Year).OrderBy(a => a).Distinct())
     {
         if (year >= 2012)
@@ -107,10 +107,4 @@ else
             }
         </ul>
     }
-}
-else
-{
-    <div class="well">
-        <p>Past case studies are unavailable at this time.</p>
-    </div>
 }

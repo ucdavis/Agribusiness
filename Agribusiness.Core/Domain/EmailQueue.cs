@@ -70,7 +70,7 @@ namespace Agribusiness.Core.Domain
             Map(x => x.Pending);
             Map(x => x.SentDateTime);
             Map(x => x.Subject);
-            Map(x => x.Body);
+            Map(x => x.Body).CustomType("StringClob").CustomSqlType("varchar(max)");
             Map(x => x.ErrorCode);
             Map(x => x.FromAddress);
 
