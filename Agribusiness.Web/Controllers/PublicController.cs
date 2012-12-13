@@ -9,6 +9,7 @@ using Agribusiness.Web.Services;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Web.Helpers;
 using MvcContrib;
+using System.Collections.Generic;
 
 namespace Agribusiness.Web.Controllers
 {
@@ -254,9 +255,17 @@ namespace Agribusiness.Web.Controllers
 
         public ActionResult Sponsors()
         {
-            var sponsors = RepositoryFactory.SponsorRepository.Queryable.Where(a => a.IsActive && a.Site.Id == Site);
-            return View(sponsors);
+            var viewModel = new PublicSponsorsViewModel();
+            viewModel.Sponsors = RepositoryFactory.SponsorRepository.Queryable.Where(a => a.IsActive && a.Site.Id == Site);
+            viewModel.Files = RepositoryFactory.FileRepository.Queryable.Where(a => a.Sponsors);
+
+            return View(viewModel);
         }
     }
 
+    public class PublicSponsorsViewModel
+    {
+        public IEnumerable<Sponsor> Sponsors;
+        public IEnumerable<Agribusiness.Core.Domain.File> Files;
+    }
 }

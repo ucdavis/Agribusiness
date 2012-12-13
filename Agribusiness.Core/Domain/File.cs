@@ -26,6 +26,7 @@ namespace Agribusiness.Core.Domain
         public virtual bool Public { get; set; }
         public virtual bool MySeminar { get; set; }
         public virtual bool ProgramOverview { get; set; }
+        public virtual bool Sponsors { get; set; }
     }
 
     public class FileMap : ClassMap<File>
@@ -43,6 +44,7 @@ namespace Agribusiness.Core.Domain
             Map(x => x.Public).Column("`Public`");
             Map(x => x.MySeminar);
             Map(x => x.ProgramOverview);
+            Map(x => x.Sponsors);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿@using Agribusiness.Web.App_GlobalResources
 @using Agribusiness.Web.Services
-@model IQueryable<Sponsor>
-
+@model PublicSponsorsViewModel
+           
 @{
     ViewBag.Title = "Sponsors";
     ViewBag.SubPageTitle = "Sponsors";
@@ -39,4 +39,18 @@
     @Html.Partial("_PublicSubNavigation")
 }
 
-@Html.Partial("_SponsorsDisplay")
+@if (Model.Files.Any(a => a.ProgramOverview))
+{
+    <ul class="nav nav-pills">
+        @foreach (var f in Model.Files.Where(a => a.ProgramOverview))
+        {
+            <li><a href="@Url.Action("Download", "File", new { id = f.Id })">
+                    <i class="icon-download"></i>
+                    Download @f.Name
+                </a>
+            </li>    
+        }
+    </ul>
+}
+
+@Html.Partial("_SponsorsDisplay", Model.Sponsors)
