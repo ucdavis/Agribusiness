@@ -68,9 +68,10 @@
 <div id="tabs">
     
     <ul>
-        <li><a href="#gold">Gold</a></li>
-        <li><a href="#silver">Silver</a></li>
-        <li><a href="#bronze">Bronze</a></li>
+        <li><a href="#gold">$25,000</a></li>
+        <li><a href="#silver">$15,000</a></li>
+        <li><a href="#bronze">$10,000</a></li>
+        <li><a href="#broughtby">Brought To You By</a></li>
     </ul>
     
     <div id="gold">
@@ -145,5 +146,29 @@
             <div class="alert">No sponsors have been added at the Bronze level.</div>
         }        
     </div>
-    
+    <div id="broughtby">
+        @if (Model.Any(a => a.Level == SponsorLevel.BroughtToYouBy))
+        {
+            <table class="table table-striped sponsors">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var sponsor in Model.Where(a => a.Level == SponsorLevel.BroughtToYouBy).OrderBy(a => a.Order))
+                    {
+                        <tr data-id="@sponsor.Id">
+                            <td>@sponsor.Name</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert">No sponsors have been added at the Bronze level.</div>
+        }   
+    </div>
+
 </div>
