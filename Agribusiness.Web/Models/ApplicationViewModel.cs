@@ -68,7 +68,7 @@ namespace Agribusiness.Web.Models
                 viewModel.Application.ContactInformationRelease = person.ContactInformationRelease;
 
                 // get latest seminar information
-                var reg = person.GetLatestRegistration();
+                var reg = person.GetLatestRegistration(siteId);
                 if (reg != null)
                 {
                     viewModel.Application.JobTitle = reg.Title;
@@ -85,7 +85,7 @@ namespace Agribusiness.Web.Models
                     viewModel.Application.AssistantPhone = assistant.Phone;
                 }
 
-                var seminarPeople = person.GetLatestRegistration();
+                var seminarPeople = person.GetLatestRegistration(siteId);
                 if (seminarPeople != null)
                 {
                     viewModel.Application.Firm = seminarPeople.Firm;    

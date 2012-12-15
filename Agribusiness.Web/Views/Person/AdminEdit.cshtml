@@ -254,7 +254,7 @@
                                 {
                                     <li>
                                         @{
-                                            var check = Model.PersonViewModel.Person.GetLatestRegistration().SeminarRoles.Contains(a);
+                                            var check = Model.PersonViewModel.Person.GetLatestRegistration(Model.SiteId).SeminarRoles.Contains(a);
                                             var checkedTxt = check ? "checked" : string.Empty;
                                         }
                                         <input type="checkbox" name="roles" value='@a.Id' @checkedTxt />

@@ -30,20 +30,20 @@ namespace Agribusiness.Web.Models
 
             var people = new List<DisplayPerson>();
 
-            people.AddRange(DetermineParticipation(personService, seminarPeople.Where(a => a.Paid).Select(a => a.Person).ToList(), registered: true));
-            people.AddRange(DetermineParticipation(personService, seminarPeople.Where(a => !a.Paid).Select(a => a.Person).ToList(), accepted: true));
-            people.AddRange(DetermineParticipation(personService, applications.Where(a => !a.IsPending && !a.IsApproved).Select(a => a.User.Person).ToList(), denied: true));
-            people.AddRange(DetermineParticipation(personService, applications.Where(a => a.IsPending).Select(a => a.User.Person).ToList(), applied: true));
-            people.AddRange(DetermineParticipation(personService, invitations.Where(a => !people.Select(b => b.Person).Contains(a)).ToList(), invite: true));
+            people.AddRange(DetermineParticipation(personService, seminarPeople.Where(a => a.Paid).Select(a => a.Person).ToList(), siteId, registered: true));
+            people.AddRange(DetermineParticipation(personService, seminarPeople.Where(a => !a.Paid).Select(a => a.Person).ToList(), siteId, accepted: true));
+            people.AddRange(DetermineParticipation(personService, applications.Where(a => !a.IsPending && !a.IsApproved).Select(a => a.User.Person).ToList(), siteId, denied: true));
+            people.AddRange(DetermineParticipation(personService, applications.Where(a => a.IsPending).Select(a => a.User.Person).ToList(), siteId, applied: true));
+            people.AddRange(DetermineParticipation(personService, invitations.Where(a => !people.Select(b => b.Person).Contains(a)).ToList(), siteId, invite: true));
 
             viewModel.SeminarPeople = people;
 
             return viewModel;
         }
 
-        private static List<DisplayPerson> DetermineParticipation(IPersonService personService, List<Person> people, bool invite = false, bool applied = false, bool accepted = false, bool registered = false, bool denied = false)
+        private static List<DisplayPerson> DetermineParticipation(IPersonService personService, List<Person> people, string site, bool invite = false, bool applied = false, bool accepted = false, bool registered = false, bool denied = false)
         {
-            var tmp = personService.ConvertToDisplayPeople(people);
+            var tmp = personService.ConvertToDisplayPeople(people, site);
             var result = new List<DisplayPerson>();
             foreach (var p in tmp)
             {

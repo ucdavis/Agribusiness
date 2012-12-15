@@ -61,7 +61,7 @@ namespace Agribusiness.Web.Services
         public void Paid(Person person, string siteId)
         {
             var seminar = SiteService.GetLatestSeminar(siteId);
-            var seminarPerson = person.GetLatestRegistration();
+            var seminarPerson = person.GetLatestRegistration(siteId);
 
             if (seminarPerson.Paid)
             {
@@ -73,7 +73,7 @@ namespace Agribusiness.Web.Services
         public void HotelUpdate(Person person, string siteId)
         {
             var seminar = SiteService.GetLatestSeminar(siteId);
-            var seminarPerson = person.GetLatestRegistration();
+            var seminarPerson = person.GetLatestRegistration(siteId);
 
             if (seminarPerson.Seminar == seminar && !string.IsNullOrWhiteSpace(seminarPerson.HotelConfirmation))
             {

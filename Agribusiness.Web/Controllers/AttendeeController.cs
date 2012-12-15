@@ -129,7 +129,7 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction<SeminarController>(a => a.Index());
             }
 
-            var viewModel = AddAttendeeViewModel.Create(Repository, _personService, seminar);
+            var viewModel = AddAttendeeViewModel.Create(Repository, _personService, seminar, Site);
             return View(viewModel);
         }
 
@@ -193,7 +193,7 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction(a => a.Add(id));
             }
             
-            var seminarPerson = person.GetLatestRegistration();
+            var seminarPerson = person.GetLatestRegistration(Site);
 
             if (seminarPerson != null && seminarPerson.Seminar == seminar)
             {
@@ -283,7 +283,7 @@ namespace Agribusiness.Web.Controllers
             if (user == null) return this.RedirectToAction<ErrorController>(a => a.NotAuthorized());
 
             var person = user.Person;
-            var latestReg = person.GetLatestRegistration();
+            var latestReg = person.GetLatestRegistration(Site);
 
             if (seminar == null)
             {
@@ -296,7 +296,7 @@ namespace Agribusiness.Web.Controllers
 
             ViewBag.seminarPersonId = latestReg.Id;
 
-            return View(_personService.GetDisplayPeopleForSeminar(seminar.Id));
+            return View(_personService.GetDisplayPeopleForSeminar(seminar.Id, Site));
         }
 
         /// <summary>
@@ -321,7 +321,7 @@ namespace Agribusiness.Web.Controllers
             // make sure the person should have access
             if (!_personService.HasAccess(person, seminar)) return this.RedirectToAction<ErrorController>(a => a.NotAuthorized());
 
-            var displayPerson = _personService.GetDisplayPerson(person);
+            var displayPerson = _personService.GetDisplayPerson(person, Site);
 
             TempData["SeminarId"] = seminarId;
 

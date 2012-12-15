@@ -71,14 +71,14 @@ namespace Agribusiness.Web.Controllers
         [UserOnly]
         public ActionResult SiteList()
         {
-            var people = _personService.ConvertToDisplayPeople(SiteService.LoadSite(Site).People);
+            var people = _personService.ConvertToDisplayPeople(SiteService.LoadSite(Site).People, Site);
             return View(people);
         }
 
         [UserOnly]
         public ActionResult MasterList()
         {
-            var people = _personService.GetAllDisplayPeople();
+            var people = _personService.GetAllDisplayPeople(Site);
             return View(people);
         }
 
@@ -93,7 +93,7 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction(a => a.SiteList());
             }
 
-            var displayPerson = _personService.GetDisplayPerson(person);
+            var displayPerson = _personService.GetDisplayPerson(person, Site);
             return View(displayPerson);
         }
 
@@ -108,7 +108,7 @@ namespace Agribusiness.Web.Controllers
 
             if (person == null) { return File(new byte[0], "text/x-vcard"); }
 
-            var vCard = _vCardService.Create(person);
+            var vCard = _vCardService.Create(person, Site);
 
             return File(vCard, "text/x-vcard", string.Format("{0}.vcf", person.FullName.Replace(" ", "").Replace(".", "")));
         }
@@ -125,7 +125,7 @@ namespace Agribusiness.Web.Controllers
                 person.AddSite(site);
                 RepositoryFactory.PersonRepository.EnsurePersistent(person);
 
-                var dp = _personService.GetDisplayPerson(person);
+                var dp = _personService.GetDisplayPerson(person, Site);
                 return new JsonNetResult(new { id = dp.Person.Id, userId = dp.Person.User.Id, firstName = dp.Person.FirstName, lastName = dp.Person.LastName, title = dp.Title, firm = dp.Firm, lastSeminar = dp.Seminar != null ? dp.Seminar.Year.ToString() : string.Empty });
             }
 
@@ -169,7 +169,7 @@ namespace Agribusiness.Web.Controllers
 
             ViewData["site"] = Site;
 
-            var viewModel = PersonViewModel.Create(Repository, _firmService, seminar);
+            var viewModel = PersonViewModel.Create(Repository, _firmService, Site, seminar);
             return View(viewModel);
         }
 
@@ -234,7 +234,7 @@ namespace Agribusiness.Web.Controllers
 
             ViewData["site"] = Site;
 
-            var viewModel = PersonViewModel.Create(Repository, _firmService, seminar, person, personEditModel.Email);
+            var viewModel = PersonViewModel.Create(Repository, _firmService, Site, seminar, person, personEditModel.Email);
             viewModel.Addresses = personEditModel.Addresses;
             viewModel.UserName = personEditModel.UserName;
             return View(viewModel);
@@ -361,7 +361,7 @@ namespace Agribusiness.Web.Controllers
             }
 
             // merge the roles
-            var reg = person.GetLatestRegistration();
+            var reg = person.GetLatestRegistration(Site);
             var seminar = SiteService.GetLatestSeminar(Site);
 
             // check if user is registered for the current seminar
@@ -409,7 +409,7 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction(a => a.SiteList());
             }
 
-            var reg = person.GetLatestRegistration();
+            var reg = person.GetLatestRegistration(Site);
             var seminar = SiteService.GetLatestSeminar(Site);
 
             // check if user is registered for the current seminar
@@ -456,7 +456,7 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction(a => a.SiteList());
             }
 
-            var reg = person.GetLatestRegistration();
+            var reg = person.GetLatestRegistration(Site);
             var seminar = SiteService.GetLatestSeminar(Site);
 
             // check if user is registered for the current seminar
@@ -495,7 +495,7 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction(a => a.SiteList());
             }
 
-            var reg = person.GetLatestRegistration();
+            var reg = person.GetLatestRegistration(Site);
             var seminar = SiteService.GetLatestSeminar(Site);
 
             // check if user is registered for the current seminar
@@ -532,7 +532,7 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction(a => a.SiteList());
             }
 
-            var reg = person.GetLatestRegistration();
+            var reg = person.GetLatestRegistration(Site);
             var seminar = SiteService.GetLatestSeminar(Site);
 
             // check if user is registered for the current seminar
@@ -571,7 +571,7 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction(a => a.SiteList());
             }
 
-            var reg = person.GetLatestRegistration();
+            var reg = person.GetLatestRegistration(Site);
             var seminar = SiteService.GetLatestSeminar(Site);
 
             // check if user is registered for the current seminar
@@ -668,7 +668,7 @@ namespace Agribusiness.Web.Controllers
 
             var person = user.Person;
 
-            var viewModel = PersonViewModel.Create(Repository, _firmService, null, person, user.Email);
+            var viewModel = PersonViewModel.Create(Repository, _firmService, Site, null, person, user.Email);
             return View(viewModel);
         }
 
@@ -723,7 +723,7 @@ namespace Agribusiness.Web.Controllers
                 if (profilepic != null) return this.RedirectToAction(a => a.UpdateProfilePicture(person.Id, null, true));
             }
 
-            var viewModel = PersonViewModel.Create(Repository, _firmService, null, person, user.Email);
+            var viewModel = PersonViewModel.Create(Repository, _firmService, Site, null, person, user.Email);
             return View(viewModel);
         }
         #endregion
@@ -891,7 +891,11 @@ namespace Agribusiness.Web.Controllers
             {
                 SetCommodities(seminarPerson, personEditModel.Commodities);
 
-                seminarPerson.Firm = personEditModel.Firm ?? new Firm(personEditModel.FirmName, personEditModel.FirmDescription) { WebAddress = personEditModel.FirmWebAddress };
+                if (personEditModel.Firm != null || !string.IsNullOrEmpty(personEditModel.FirmName))
+                {
+                    seminarPerson.Firm = personEditModel.Firm ?? new Firm(personEditModel.FirmName, personEditModel.FirmDescription) { WebAddress = personEditModel.FirmWebAddress };
+                }
+                
                 seminarPerson.Title = personEditModel.Title;    
             }
 

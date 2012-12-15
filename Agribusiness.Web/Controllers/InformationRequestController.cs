@@ -151,7 +151,7 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction(a => a.Index());
             }
 
-            var viewModel = PersonViewModel.Create(Repository, _firmService);
+            var viewModel = PersonViewModel.Create(Repository, _firmService, Site);
             viewModel.Person.FirstName = ir.FirstName.Trim();
             viewModel.Person.LastName = ir.LastName.Trim();
             viewModel.Email = ir.Email;
@@ -244,7 +244,7 @@ namespace Agribusiness.Web.Controllers
                 ModelState.AddModelError("Create User", AccountValidation.ErrorCodeToString(createStatus));
             }
 
-            var viewModel = PersonViewModel.Create(Repository, _firmService, null, person, personEditModel.Email);
+            var viewModel = PersonViewModel.Create(Repository, _firmService, Site, null, person, personEditModel.Email);
             viewModel.Addresses = personEditModel.Addresses;
             viewModel.UserName = personEditModel.UserName;
             return View(viewModel);

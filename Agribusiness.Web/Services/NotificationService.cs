@@ -39,7 +39,7 @@ namespace Agribusiness.Web.Services
                 seminar = SiteService.GetLatestSeminar(siteId);
             }
 
-            var helper = new NotificationGeneratorHelper(person, seminar, invitation, password);
+            var helper = new NotificationGeneratorHelper(person, seminar, siteId, invitation, password);
 
             return HandleBody(template, helper);
         }
@@ -250,9 +250,9 @@ namespace Agribusiness.Web.Services
             
         }
 
-        public NotificationGeneratorHelper(Person person, Seminar seminar, Invitation invitation = null, string password = null)
+        public NotificationGeneratorHelper(Person person, Seminar seminar, string siteId, Invitation invitation = null, string password = null)
         {
-            var reg = person.GetLatestRegistration();
+            var reg = person.GetLatestRegistration(siteId);
 
             BadgeName = person.BadgeName;
             FirstName = person.FirstName;

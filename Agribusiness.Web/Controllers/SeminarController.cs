@@ -145,7 +145,7 @@ namespace Agribusiness.Web.Controllers
 
             var viewModel = SeminarViewModel.Create(Repository, seminar.Site, seminar);
             viewModel.IsCurrent = SiteService.GetLatestSeminar(Site).Id == seminar.Id;
-            viewModel.DisplayPeople = _personService.GetDisplayPeopleForSeminar(seminar.Id);
+            viewModel.DisplayPeople = _personService.GetDisplayPeopleForSeminar(seminar.Id, Site);
 
             return View(viewModel);
         }

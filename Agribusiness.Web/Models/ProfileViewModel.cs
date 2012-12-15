@@ -15,7 +15,7 @@ namespace Agribusiness.Web.Models
         public SeminarPerson SeminarPerson { get; set; }
         public Person Person { get; set; }
 
-        public static ProfileViewModel Create(IRepository repository, IFirmService firmService, string userId)
+        public static ProfileViewModel Create(IRepository repository, IFirmService firmService, string userId, string site)
         {
             Check.Require(repository != null, "Repository must be supplied");
             Check.Require(firmService != null, "firmService is required.");
@@ -28,7 +28,7 @@ namespace Agribusiness.Web.Models
 
             Check.Require(person != null, "person is required.");
 
-            var seminarPerson = person.GetLatestRegistration();
+            var seminarPerson = person.GetLatestRegistration(site);
 
             var viewModel = new ProfileViewModel()
                                 {

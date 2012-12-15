@@ -344,7 +344,7 @@ namespace Agribusiness.Web.Controllers
                     dataRow = sheet.CreateRow(i + 1);
 
                     var invitation = invitations.FirstOrDefault(a => a.Person == password.Key);
-                    var seminarPerson = password.Key.GetLatestRegistration();
+                    var seminarPerson = password.Key.GetLatestRegistration(Site);
 
                     // fill the data
                     dataRow.CreateCell(0).SetCellValue(password.Key.LastName);

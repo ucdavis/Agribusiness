@@ -47,13 +47,13 @@ namespace Agribusiness.Web.Services
         /// <param name="person"></param>
         /// <param name="firms">List of firms, there should only be one instance of each firm in this list</param>
         /// <returns></returns>
-        public DisplayPerson GetDisplayPerson(Person person, Seminar seminar = null)
+        public DisplayPerson GetDisplayPerson(Person person, string site, Seminar seminar = null)
         {
             Check.Require(person != null, "person is required.");
 
             var displayPerson = new DisplayPerson() {Person = person};
 
-            var reg = seminar == null ? person.GetLatestRegistration() : person.SeminarPeople.Where(a=>a.Seminar == seminar).FirstOrDefault();
+            var reg = seminar == null ? person.GetLatestRegistration(site) : person.SeminarPeople.Where(a=>a.Seminar == seminar).FirstOrDefault();
             if (reg == null) return displayPerson;
 
             displayPerson.Seminar = reg.Seminar;
@@ -67,10 +67,10 @@ namespace Agribusiness.Web.Services
         /// Gets a display list of all people in the database
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<DisplayPerson> GetAllDisplayPeople()
+        public IEnumerable<DisplayPerson> GetAllDisplayPeople(string site)
         {
             var people = _personRepository.GetAll();
-            return GetDisplayPeeps(people);
+            return GetDisplayPeeps(people, site);
         }
 
         /// <summary>
@@ -78,12 +78,12 @@ namespace Agribusiness.Web.Services
         /// </summary>
         /// <param name="id">Seminar Id</param>
         /// <returns></returns>
-        public IEnumerable<DisplayPerson> GetDisplayPeopleForSeminar(int id)
+        public IEnumerable<DisplayPerson> GetDisplayPeopleForSeminar(int id, string site)
         {
             var seminarPeeps = _seminarPersonRepository.Queryable.Where(a => a.Seminar.Id == id);
             var people = seminarPeeps.Select(a => a.Person);
 
-            return GetDisplayPeeps(people);
+            return GetDisplayPeeps(people, site);
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace Agribusiness.Web.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public IEnumerable<DisplayPerson> GetDisplayPeopleNotInSeminar(int id)
+        public IEnumerable<DisplayPerson> GetDisplayPeopleNotInSeminar(int id, string site)
         {
             // ids of people who we need to exclude
             var seminarPeeps = _seminarPersonRepository.Queryable.Where(a => a.Seminar.Id == id).Select(a=>a.Person.Id).ToList();
@@ -100,12 +100,12 @@ namespace Agribusiness.Web.Services
             var people = _personRepository.Queryable.Where(a => !seminarPeeps.Contains(a.Id));
 
 
-            return GetDisplayPeeps(people);
+            return GetDisplayPeeps(people, site);
         }
 
-        public IEnumerable<DisplayPerson> ConvertToDisplayPeople(IEnumerable<Person> people)
+        public IEnumerable<DisplayPerson> ConvertToDisplayPeople(IEnumerable<Person> people, string site)
         {
-            return people.Select(a => GetDisplayPerson(a));
+            return people.Select(a => GetDisplayPerson(a, site));
         }
 
         /// <summary>
@@ -265,13 +265,13 @@ namespace Agribusiness.Web.Services
         }
 
         #region Helper Functions
-        private IEnumerable<DisplayPerson> GetDisplayPeeps(IEnumerable<Person> people)
+        private IEnumerable<DisplayPerson> GetDisplayPeeps(IEnumerable<Person> people, string siteId)
         {
             var displayPeople = new List<DisplayPerson>();
             
             foreach (var person in people)
             {
-                var reg = person.GetLatestRegistration();
+                var reg = person.GetLatestRegistration(siteId);
                 if (reg != null)
                 {
                     // only give back a firm if it's not null

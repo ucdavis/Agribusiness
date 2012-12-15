@@ -101,7 +101,7 @@ namespace Agribusiness.Web.Controllers
             if (person != null)
             {
                 // get the last registration
-                var seminarPerson = person.GetLatestRegistration();
+                var seminarPerson = person.GetLatestRegistration(Site);
                 var site = SiteService.LoadSite(Site);
 
                 if (site.BackgroundPerson.Id == id)

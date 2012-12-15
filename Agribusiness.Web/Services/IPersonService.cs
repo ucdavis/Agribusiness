@@ -7,11 +7,11 @@ namespace Agribusiness.Web.Services
 {
     public interface IPersonService
     {
-        DisplayPerson GetDisplayPerson(Person person, Seminar seminar = null);
-        IEnumerable<DisplayPerson> GetAllDisplayPeople();
-        IEnumerable<DisplayPerson> GetDisplayPeopleForSeminar(int id);
-        IEnumerable<DisplayPerson> GetDisplayPeopleNotInSeminar(int id);
-        IEnumerable<DisplayPerson> ConvertToDisplayPeople(IEnumerable<Person> people);
+        DisplayPerson GetDisplayPerson(Person person, string site, Seminar seminar = null);
+        IEnumerable<DisplayPerson> GetAllDisplayPeople(string site);
+        IEnumerable<DisplayPerson> GetDisplayPeopleForSeminar(int id, string site);
+        IEnumerable<DisplayPerson> GetDisplayPeopleNotInSeminar(int id, string site);
+        IEnumerable<DisplayPerson> ConvertToDisplayPeople(IEnumerable<Person> people, string site);
             
         Person LoadPerson(string loginId);
         bool HasAccess(string loginId, int seminarId, bool paidResources = true);

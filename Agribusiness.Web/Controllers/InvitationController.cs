@@ -63,7 +63,7 @@ namespace Agribusiness.Web.Controllers
 
             foreach(var person in people)
             {
-                var reg = person.GetLatestRegistration();
+                var reg = person.GetLatestRegistration(Site);
                 var title = reg != null ? reg.Title : string.Empty;
                 var firmName = reg != null ? reg.Firm.Name : string.Empty;
 
@@ -115,7 +115,7 @@ namespace Agribusiness.Web.Controllers
 
             if (person == null || seminar == null) return this.RedirectToAction<ErrorController>(a => a.Index());
 
-            var reg = person.GetLatestRegistration();
+            var reg = person.GetLatestRegistration(Site);
 
             var invitation = new Invitation(person) {Seminar = seminar, Title= reg != null ? reg.Title : string.Empty, FirmName = reg != null && reg.Firm != null ? reg.Firm.Name : string.Empty};
 

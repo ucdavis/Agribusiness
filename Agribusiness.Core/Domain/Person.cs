@@ -152,9 +152,9 @@ namespace Agribusiness.Core.Domain
             }
         }
 
-        public virtual SeminarPerson GetLatestRegistration()
+        public virtual SeminarPerson GetLatestRegistration(string site)
         {
-            return SeminarPeople.AsQueryable().LastOrDefault();
+            return SeminarPeople.AsQueryable().LastOrDefault(a => a.Seminar.Site.Id == site);
         }
         #endregion
         
