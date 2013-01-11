@@ -7,8 +7,6 @@ using System.Web.Mvc;
 using System.Web.Security;
 using Agribusiness.Core.Domain;
 using Agribusiness.Core.Repositories;
-using Agribusiness.Core.Resources;
-using Agribusiness.Web.App_GlobalResources;
 using Agribusiness.Web.Controllers.Filters;
 using Agribusiness.Web.Models;
 using Agribusiness.Web.Services;
@@ -16,11 +14,9 @@ using Agribusiness.WS;
 using AutoMapper;
 using Resources;
 using UCDArch.Core.PersistanceSupport;
-using UCDArch.Core.Utils;
 using UCDArch.Web.ActionResults;
 using UCDArch.Web.Helpers;
 using MvcContrib;
-using INotificationService = Agribusiness.Web.Services.INotificationService;
 using Membership = Agribusiness.Core.Domain.Membership;
 
 namespace Agribusiness.Web.Controllers
@@ -962,7 +958,13 @@ namespace Agribusiness.Web.Controllers
         }
         private static void SetContacts(Person person, IList<Contact> contacts, ModelStateDictionary modelState)
         {
-            // remove the blanks
+            // ones to delete
+            foreach(var contact in contacts.Where(a => !a.HasContact && a.Id > 0))
+            {
+                person.Contacts.Remove(contact);
+            }
+
+            // remove the blanks from being processed
             var remove = contacts.Where(a => !a.HasContact).ToList();
             foreach (var a in remove) contacts.Remove(a);
 
@@ -970,7 +972,7 @@ namespace Agribusiness.Web.Controllers
             foreach (var ct in contacts)
             {
                 var type = ct.ContactType;
-                var origCt = person.Contacts.Where(a => a.ContactType == type).FirstOrDefault();
+                var origCt = person.Contacts.FirstOrDefault(a => a.ContactType == type);
 
                 if (type.Required)
                 {

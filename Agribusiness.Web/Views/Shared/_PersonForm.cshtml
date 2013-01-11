@@ -104,6 +104,7 @@
             <h3>@Model.Contacts[i].ContactType.Name</h3>
 						
             @Html.Hidden(string.Format("Contacts[{0}].ContactType", i), Model.Contacts[i].ContactType.Id)
+            @Html.Hidden(string.Format("Contacts[{0}].Id", i), Model.Contacts[i].Id)
             <div class="control-group @(required ? "required" : string.Empty)">
                 <label class="control-label" for="Contacts[i].FirstName">
                     First Name
