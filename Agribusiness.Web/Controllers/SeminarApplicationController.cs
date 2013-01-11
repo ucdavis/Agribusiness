@@ -186,7 +186,15 @@ namespace Agribusiness.Web.Controllers
                 application.ContentType = file.ContentType;
             }
 
+            if (application.Firm != null && application.Firm.Id == 0)
+            {
+                application.Firm = null;
+            }
+
             application.TransferValidationMessagesTo(ModelState);
+
+            //var test = application.Firm;
+            //ModelState.AddModelError("Firm", "Please define a firm");
 
             if (application.FirmType != null && application.FirmType.Name == "Other" && string.IsNullOrWhiteSpace(application.OtherFirmType))
             {
