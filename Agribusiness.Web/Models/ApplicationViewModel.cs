@@ -75,7 +75,7 @@ namespace Agribusiness.Web.Models
                 }
 
                 // copy assistant information
-                var assistant = person.Contacts.Where(a => a.ContactType.Id == 'A').FirstOrDefault();
+                var assistant = person.Contacts.FirstOrDefault(a => a.ContactType.Id == 'A');
 
                 if (assistant != null)
                 {
@@ -94,7 +94,7 @@ namespace Agribusiness.Web.Models
                 viewModel.Application.FirmPhone = person.Phone;
                 viewModel.Application.FirmPhoneExt = person.PhoneExt;
 
-                var address = person.Addresses.Where(a => a.AddressType.Id == 'B').FirstOrDefault();
+                var address = person.Addresses.FirstOrDefault(a => a.AddressType.Id == 'B');
                 if (address != null)
                 {
                     viewModel.Application.FirmAddressLine1 = address.Line1;
