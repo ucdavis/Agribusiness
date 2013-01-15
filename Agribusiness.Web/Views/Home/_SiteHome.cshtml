@@ -7,6 +7,14 @@
 <div class="well pagination-centered">
     @*<p>To contact us for more information on the seminar, plese click @Html.ActionLink("here", "MoreInformation", "Public", new {}, new {@class="btn"})</p>*@
     @Html.ActionLink("Click here for information", "MoreInformation", "Public", new { }, new { @class = "btn btn-block btn-primary btn-large" })
+    
+    @foreach (var file in Model.Files)
+    {
+        <a href="@Url.Action("Download", "File", new { id = file.Id })" class="btn btn-success btn-large">
+            <i class="icon-download icon-white"></i>
+            Download @file.Name
+        </a>
+    }
 </div>    
 }
 

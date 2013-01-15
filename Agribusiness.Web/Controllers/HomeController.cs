@@ -16,6 +16,7 @@ namespace Agribusiness.Web.Controllers
         public ActionResult Index()
         {
             var viewModel = HomeViewModel.Create(RepositoryFactory.SiteRepository , SiteService.LoadSite(Site));
+            viewModel.Files = RepositoryFactory.FileRepository.Queryable.Where(a => a.Home);
             return View(viewModel);
         }
 
