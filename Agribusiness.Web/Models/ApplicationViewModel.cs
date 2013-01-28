@@ -42,14 +42,13 @@ namespace Agribusiness.Web.Models
 
             // load commodities
             var commodities = repository.OfType<Commodity>().Queryable.Where(a => a.IsActive).OrderBy(a => a.Name).ToList();
-            //commodities.Add(new Commodity(){ Name = "Other"});
             viewModel.Commodities = commodities;
 
             // load the firm types
             var firmTypes = repository.OfType<FirmType>().Queryable.Where(a => a.IsActive).OrderBy(a => a.Name).ToList();
             viewModel.FirmTypes = firmTypes;
 
-            var user = repository.OfType<User>().Queryable.Where(a => a.LoweredUserName == userId.ToLower()).FirstOrDefault();
+            var user = repository.OfType<User>().Queryable.FirstOrDefault(a => a.LoweredUserName == userId.ToLower());
             if (user == null) throw new ArgumentException(string.Format("Unable to load user with userid {0}.", userId));
 
             // populate the application with person info
@@ -109,8 +108,15 @@ namespace Agribusiness.Web.Models
             viewModel.HasPhoto = user.Person != null && user.Person.MainProfilePicture != null;
 
             // get the firms and add the "Other" option
-            var firms = new List<Firm>(firmService.GetAllFirms());
-            viewModel.Firms = firms.Where(a=>!a.Review).OrderBy(a=>a.Name).ToList();
+            //var firms = new List<Firm>(firmService.GetAllFirms());
+            //firms = firms.Where(a=>!a.Review && a.Name != "Other (Not Listed)").OrderBy(a=>a.Name).ToList();
+
+            var tmpFirms = firmService.GetAllFirms();
+            var firms = new List<Firm>();
+            firms.Add(tmpFirms.First(a => a.Name == "Other (Not Listed)"));
+            firms.AddRange(tmpFirms.Where(a=>!a.Review && a.Name != "Other (Not Listed)").OrderBy(a=>a.Name).ToList());
+
+            viewModel.Firms = firms;
 
             return viewModel;
         }
