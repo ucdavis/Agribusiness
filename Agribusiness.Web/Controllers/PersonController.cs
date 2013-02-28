@@ -326,11 +326,9 @@ namespace Agribusiness.Web.Controllers
             }
 
             person.Biography = biographytxt;
-
+            _eventService.BioUpdate(person, Site);
             _personRepository.EnsurePersistent(person);
             Message = string.Format(Messages.Saved, "Biography");
-
-            _eventService.BioUpdate(person, Site);
 
             var url = Url.Action("AdminEdit", new {id = person.User.Id, seminarId = seminarId});
             return Redirect(string.Format("{0}#biography", url));
