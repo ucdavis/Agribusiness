@@ -208,6 +208,7 @@
     <None Include="Schema Compare\sqlexpress.scmp" />
     <None Include="Schema Compare\terry.scmp" />
     <None Include="Schema Compare\donbot.scmp" />
+    <None Include="Scripts\ExportPeople.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Permissions.sql" />
