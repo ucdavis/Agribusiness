@@ -8,7 +8,12 @@
     </ProjectItem>
   </DataSources>
   <DataSets />
-  <Reports />
+  <Reports>
+    <ProjectItem>
+      <Name>AllContactsBoth.rdl</Name>
+      <FullPath>AllContactsBoth.rdl</FullPath>
+    </ProjectItem>
+  </Reports>
   <Configurations>
     <Configuration>
       <Name>Debug</Name>

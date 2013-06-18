@@ -2,8 +2,8 @@
 <RptDataSource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="Agribusiness">
   <ConnectionProperties>
     <Extension>SQL</Extension>
-    <ConnectString>Data Source=.\SQLEXPRESS;Initial Catalog=agribusiness</ConnectString>
+    <ConnectString>Data Source=DONBOT;Initial Catalog=agribusiness</ConnectString>
     <IntegratedSecurity>true</IntegratedSecurity>
   </ConnectionProperties>
-  <DataSourceID>876a4b3d-94ed-4032-8f62-2acf86710249</DataSourceID>
+  <DataSourceID>d92c43f9-70fd-4e37-9c4e-274812576291</DataSourceID>
 </RptDataSource>
