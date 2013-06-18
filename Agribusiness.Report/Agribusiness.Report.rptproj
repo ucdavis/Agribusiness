@@ -17,6 +17,14 @@
       <Name>AllContactsBySite.rdl</Name>
       <FullPath>AllContactsBySite.rdl</FullPath>
     </ProjectItem>
+    <ProjectItem>
+      <Name>AllApplicantsBySite.rdl</Name>
+      <FullPath>AllApplicantsBySite.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>AllAttendeesBySeminar.rdl</Name>
+      <FullPath>AllAttendeesBySeminar.rdl</FullPath>
+    </ProjectItem>
   </Reports>
   <Configurations>
     <Configuration>
