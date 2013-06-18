@@ -13,6 +13,10 @@
       <Name>AllContactsBoth.rdl</Name>
       <FullPath>AllContactsBoth.rdl</FullPath>
     </ProjectItem>
+    <ProjectItem>
+      <Name>AllContactsBySite.rdl</Name>
+      <FullPath>AllContactsBySite.rdl</FullPath>
+    </ProjectItem>
   </Reports>
   <Configurations>
     <Configuration>

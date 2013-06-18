@@ -84,7 +84,7 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox23">
+                    <Textbox Name="textbox2">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -100,43 +100,9 @@
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox23</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>DimGray</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <BackgroundColor>#1c3a70</BackgroundColor>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="textbox2">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>First Name</Value>
-                              <Style>
-                                <FontFamily>Tahoma</FontFamily>
-                                <FontSize>11pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>White</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>textbox2</rd:DefaultName>
@@ -163,7 +129,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Last Name</Value>
+                              <Value>First Name</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>11pt</FontSize>
@@ -192,42 +158,6 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox25">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>Email</Value>
-                              <Style>
-                                <FontFamily>Tahoma</FontFamily>
-                                <FontSize>11pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>White</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox25</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>DimGray</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <BackgroundColor>#1c3a70</BackgroundColor>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
                     <Textbox Name="textbox4">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
@@ -235,7 +165,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Company</Value>
+                              <Value>Last Name</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>11pt</FontSize>
@@ -271,7 +201,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Title</Value>
+                              <Value>Lowered Email</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>11pt</FontSize>
@@ -307,7 +237,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Address Line1</Value>
+                              <Value>Company</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>11pt</FontSize>
@@ -343,7 +273,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Address Line2</Value>
+                              <Value>Title</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>11pt</FontSize>
@@ -379,7 +309,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>City</Value>
+                              <Value>Line1</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>11pt</FontSize>
@@ -415,7 +345,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>State</Value>
+                              <Value>Line2</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>11pt</FontSize>
@@ -451,7 +381,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Zip</Value>
+                              <Value>City</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>11pt</FontSize>
@@ -487,7 +417,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Country</Value>
+                              <Value>State</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>11pt</FontSize>
@@ -523,7 +453,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Courier Address Line1</Value>
+                              <Value>Zip</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>11pt</FontSize>
@@ -559,7 +489,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Courier Address Line2</Value>
+                              <Value>Country Id</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>11pt</FontSize>
@@ -595,7 +525,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Courier City</Value>
+                              <Value>c Address Line1</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>11pt</FontSize>
@@ -631,7 +561,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Courier State</Value>
+                              <Value>c Address Line2</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>11pt</FontSize>
@@ -667,7 +597,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Courier Zip</Value>
+                              <Value>c Address Ciry</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>11pt</FontSize>
@@ -703,7 +633,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Courier Country</Value>
+                              <Value>c Address State</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>11pt</FontSize>
@@ -739,7 +669,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>contacts Phone</Value>
+                              <Value>c Address Zip</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>11pt</FontSize>
@@ -775,7 +705,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>contacts Ext</Value>
+                              <Value>c Address Country</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>11pt</FontSize>
@@ -811,7 +741,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>contacts First Name</Value>
+                              <Value>contacts Phone</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>11pt</FontSize>
@@ -847,7 +777,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>contacts Last Name</Value>
+                              <Value>contacts Ext</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>11pt</FontSize>
@@ -883,7 +813,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>contacts Email</Value>
+                              <Value>contacts First Name</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>11pt</FontSize>
@@ -912,7 +842,79 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox24">
+                    <Textbox Name="textbox23">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>contacts Last Name</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>11pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox23</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>DimGray</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>#1c3a70</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox24">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>contacts Email</Value>
+                              <Style>
+                                <FontFamily>Tahoma</FontFamily>
+                                <FontSize>11pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox24</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>DimGray</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>#1c3a70</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox25">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -928,10 +930,12 @@
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox24</rd:DefaultName>
+                      <rd:DefaultName>textbox25</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>DimGray</Color>
@@ -1784,7 +1788,15 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>All Contacts Both Sites</Value>
+                <Value>All Contacts By Site </Value>
+                <Style>
+                  <FontFamily>Tahoma</FontFamily>
+                  <FontSize>18pt</FontSize>
+                  <Color>#1c3a70</Color>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Value>=Parameters!sitename.Value</Value>
                 <Style>
                   <FontFamily>Tahoma</FontFamily>
                   <FontSize>18pt</FontSize>
@@ -1797,7 +1809,7 @@
         </Paragraphs>
         <rd:DefaultName>textbox1</rd:DefaultName>
         <Height>0.33in</Height>
-        <Width>21in</Width>
+        <Width>24in</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <PaddingLeft>2pt</PaddingLeft>
@@ -1823,13 +1835,18 @@
     <DataSource Name="Agribusiness">
       <DataSourceReference>Agribusiness</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
-      <rd:DataSourceID>57246bf8-9eac-4e2d-9954-7a6f46ec7833</rd:DataSourceID>
+      <rd:DataSourceID>ad94e1d9-9a01-43da-b1c9-11fc0f16702b</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
     <DataSet Name="DataSet1">
       <Query>
         <DataSourceName>Agribusiness</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@sitename">
+            <Value>=Parameters!sitename.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
         <CommandText>SELECT        People.FirstName, People.LastName, seminarpeeps.Title, seminarpeeps.firmname AS Company, aspnet_Membership.LoweredEmail, bAddress.id, bAddress.Line1, 
                          bAddress.Line2, bAddress.City, bAddress.State, bAddress.Zip, bAddress.AddressTypeId, bAddress.PersonId, bAddress.CountryId, bAddress.Description, 
                          cAddress.id AS cAddressId, cAddress.Line1 AS cAddressLine1, cAddress.Line2 AS cAddressLine2, cAddress.City AS cAddressCiry, cAddress.State AS cAddressState, 
@@ -1847,6 +1864,10 @@ FROM            People INNER JOIN
                          Addresses AS bAddress ON bAddress.PersonId = People.id AND bAddress.AddressTypeId = 'B' LEFT OUTER JOIN
                          Addresses AS cAddress ON cAddress.PersonId = People.id AND cAddress.AddressTypeId = 'C' LEFT OUTER JOIN
                          Contacts ON Contacts.PersonId = People.id AND Contacts.ContactTypeId = 'A'
+WHERE        (People.id IN
+                             (SELECT        PersonId
+                               FROM            PeopleXSites
+                               WHERE        (SiteId = @sitename)))
 ORDER BY People.LastName</CommandText>
       </Query>
       <Fields>
@@ -1985,8 +2006,14 @@ ORDER BY People.LastName</CommandText>
       </Fields>
     </DataSet>
   </DataSets>
+  <ReportParameters>
+    <ReportParameter Name="sitename">
+      <DataType>String</DataType>
+      <Prompt>sitename</Prompt>
+    </ReportParameter>
+  </ReportParameters>
   <Language>en-US</Language>
   <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
-  <rd:ReportID>14db56af-db12-4772-95a8-e60c0d1bb303</rd:ReportID>
+  <rd:ReportID>5c1a8d56-3bd0-4f67-850c-faf77c4eeb2f</rd:ReportID>
 </Report>
