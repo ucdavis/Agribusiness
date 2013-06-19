@@ -886,6 +886,7 @@
     <Content Include="App_GlobalResources\Messages.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Messages.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
     <EmbeddedResource Include="App_GlobalResources\StaticIndexes.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
