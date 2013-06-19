@@ -24,12 +24,31 @@ namespace Agribusiness.Web.Controllers
             return View(viewModel);
         }
 
-        public FileResult GetReport(Report report, int? seminarId)
+        public FileResult GetReport(Report report, int? seminarId, string siteName)
         {
-            throw new NotImplementedException();
+            var name = string.Empty;
+            var parameters = new Dictionary<string, string>();
+
+            switch (report)
+            {
+                case Report.AllContactsBoth:
+                    name = "AllContactsBoth";
+                    break;
+                case Report.AllContactsBySite:
+                    name = "AllContactsBySite";
+                    parameters.Add("sitename", siteName);
+
+                    break;
+                default:
+                    throw new NotImplementedException();
+                    break;
+            }
+
+            return File(GetReport(string.Format("/agribusiness/{0}", name), parameters), "application/excel", string.Format("{0}{1}.xls",DateTime.Now.Date.ToString("yyyyMMdd"), name));
+            
         }
 
-        public enum Report {}
+        public enum Report { AllApplicantsBySite, AllAttendeesBySeminar, AllContactsBoth, AllContactsBySite }
 
         private byte[] GetReport(string ReportName, Dictionary<string, string> parameters)
         {
