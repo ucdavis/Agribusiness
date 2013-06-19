@@ -67,7 +67,7 @@ namespace Agribusiness.Web.Controllers
             catch (Exception ex)
             {
                 var client = new SmtpClient("smtp.ucdavis.edu");
-                var message = new MailMessage("automatedmessage@caes.ucdavis.edu", "anlai@ucdavis.edu");
+                var message = new MailMessage("automatedmessage@caes.ucdavis.edu", "jsylvestre@ucdavis.edu");
                 message.Subject = "Error Syncing from Agribusiness";
                 message.Body = ex.Message;
                 client.Send(message);
@@ -77,7 +77,7 @@ namespace Agribusiness.Web.Controllers
             //{
             //    // determine the address of the calling person.
             //    var client = new SmtpClient("smtp.ucdavis.edu");
-            //    var message = new MailMessage("automatedmessage@caes.ucdavis.edu", "anlai@ucdavis.edu");
+            //    var message = new MailMessage("automatedmessage@caes.ucdavis.edu", "jsylvestre@ucdavis.edu");
             //    message.Subject = "sync call was made to agribusiness and completed";
             //    message.Body = Request.UserHostAddress ?? "No address";
             //    client.Send(message);
