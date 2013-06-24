@@ -2000,7 +2000,7 @@ FROM            People INNER JOIN
                          Addresses AS bAddress ON bAddress.PersonId = People.id AND bAddress.AddressTypeId = 'B' LEFT OUTER JOIN
                          Addresses AS cAddress ON cAddress.PersonId = People.id AND cAddress.AddressTypeId = 'C' LEFT OUTER JOIN
                          Contacts ON Contacts.PersonId = People.id AND Contacts.ContactTypeId = 'A'
-ORDER BY People.LastName</CommandText>
+ORDER BY People.LastName, SeminarYear</CommandText>
       </Query>
       <Fields>
         <Field Name="FirstName">

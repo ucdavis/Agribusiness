@@ -38,6 +38,10 @@ namespace Agribusiness.Web.Controllers
                     name = "AllContactsBoth";
                     fileName = name;
                     break;
+                case Report.AllContactsAllSeminars:
+                    name = "AllContactsAllSeminars";
+                    fileName = name;
+                    break;
                 case Report.AllContactsBySite:
                     name = "AllContactsBySite";
                     parameters.Add("sitename", siteName);
@@ -69,7 +73,7 @@ namespace Agribusiness.Web.Controllers
 
         }
 
-        public enum Report { AllApplicantsBySite, AllAttendeesBySeminar, AllContactsBoth, AllContactsBySite }
+        public enum Report { AllApplicantsBySite, AllAttendeesBySeminar, AllContactsBoth, AllContactsBySite, AllContactsAllSeminars }
 
         private byte[] GetReport(string ReportName, Dictionary<string, string> parameters)
         {

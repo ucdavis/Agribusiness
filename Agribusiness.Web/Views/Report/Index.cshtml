@@ -32,6 +32,16 @@
     </dt>
     <dd>This report will return an excel file with all the contacts for both sites (seminar and workshop)</dd>
     <hr/>
+    
+    <dt>
+        @using (Html.BeginForm("GetReport", "Report", FormMethod.Get))
+        {
+            @Html.Hidden("Report", ReportController.Report.AllContactsAllSeminars)
+            <a href="javascript:;" class="submitanchor">All Contacts All Seminars</a>
+        }
+    </dt>
+    <dd>This report will return an excel file with all the contacts for both sites (seminar and workshop) and all the seminars. This means there will be duplicate rows. The Past Information is from the Invitation.</dd>
+    <hr/>
         
     <dt>
         @using (Html.BeginForm("GetReport", "Report", FormMethod.Get))
