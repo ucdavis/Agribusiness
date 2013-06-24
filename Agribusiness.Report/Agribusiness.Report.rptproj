@@ -25,6 +25,10 @@
       <Name>AllContactsBySite.rdl</Name>
       <FullPath>AllContactsBySite.rdl</FullPath>
     </ProjectItem>
+    <ProjectItem>
+      <Name>AllContactsAllSeminars.rdl</Name>
+      <FullPath>AllContactsAllSeminars.rdl</FullPath>
+    </ProjectItem>
   </Reports>
   <Configurations>
     <Configuration>
@@ -55,7 +59,7 @@
       <Options>
         <OutputPath>bin\Release</OutputPath>
         <TargetServerVersion>SSRS2008R2</TargetServerVersion>
-        <TargetServerURL>http://reports.caes.ucdavis.edu/reportserver</TargetServerURL>
+        <TargetServerURL>http://blotto/reportserver</TargetServerURL>
         <TargetFolder>Agribusiness</TargetFolder>
         <TargetDataSourceFolder>Data Sources</TargetDataSourceFolder>
       </Options>
