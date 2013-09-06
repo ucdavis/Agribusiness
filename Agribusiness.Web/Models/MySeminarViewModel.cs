@@ -33,19 +33,37 @@ namespace Agribusiness.Web.Models
             if (!string.IsNullOrWhiteSpace(seminarPerson.CouponCode))
             {
                 viewModel.CrpLink = string.Format(ConfigurationManager.AppSettings["crplinkCoupon"], 
-                    seminarPerson.Seminar.RegistrationId, seminarPerson.ReferenceId, seminarPerson.Seminar.RegistrationPassword,
-                    seminarPerson.CouponCode,
-                    seminarPerson.Person.FirstName, seminarPerson.Person.LastName,
-                    address.Line1, address.Line2, address.City, address.State, address.Zip,
-                    seminarPerson.Person.Phone, seminarPerson.Person.User.Email);
+                    seminarPerson.Seminar.RegistrationId,           //0
+                    seminarPerson.ReferenceId,                      //1
+                    seminarPerson.Seminar.RegistrationPassword,     //2
+                    seminarPerson.CouponCode,                       //3
+                    seminarPerson.Person.FirstName,                 //4
+                    seminarPerson.Person.LastName,                  //5
+                    seminarPerson.Title,                            //6 new
+                    address.Line1,                                  //7
+                    address.Line2,                                  //8
+                    address.City,                                   //9
+                    address.State,                                  //10
+                    address.Zip,                                    //11
+                    seminarPerson.Person.Phone,                     //12
+                    seminarPerson.Person.User.Email);               //13
             }
             else
             {
                 viewModel.CrpLink = string.Format(ConfigurationManager.AppSettings["CrpLink"],
-                    seminarPerson.Seminar.RegistrationId, seminarPerson.ReferenceId, seminarPerson.Seminar.RegistrationPassword,
-                    seminarPerson.Person.FirstName, seminarPerson.Person.LastName,
-                    address.Line1, address.Line2, address.City, address.State, address.Zip,
-                    seminarPerson.Person.Phone, seminarPerson.Person.User.Email);
+                    seminarPerson.Seminar.RegistrationId,       //0
+                    seminarPerson.ReferenceId,                  //1
+                    seminarPerson.Seminar.RegistrationPassword, //2
+                    seminarPerson.Person.FirstName,             //3
+                    seminarPerson.Person.LastName,              //4
+                    seminarPerson.Title,                        //5 new
+                    address.Line1,                              //6
+                    address.Line2,                              //7
+                    address.City,                               //8
+                    address.State,                              //9
+                    address.Zip,                                //10
+                    seminarPerson.Person.Phone,                 //11
+                    seminarPerson.Person.User.Email);           //12
             }
 
             return viewModel;
