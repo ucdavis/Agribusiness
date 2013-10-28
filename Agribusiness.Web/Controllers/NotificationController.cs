@@ -150,6 +150,10 @@ namespace Agribusiness.Web.Controllers
 
             ModelState.Clear();
             notificationTracking.TransferValidationMessagesTo(ModelState);
+            if (string.IsNullOrWhiteSpace(emailQueue.Subject))
+            {
+                ModelState.AddModelError("EmailQueue.Subject", "You must enter a subject.");
+            }
 
             var mailingList = mailingListId.HasValue ? Repository.OfType<MailingList>().GetNullableById(mailingListId.Value) : null;
 

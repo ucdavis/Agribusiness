@@ -46,7 +46,7 @@ namespace Agribusiness.Core.Domain
         public virtual int? ErrorCode { get; set; }
 
         /// <summary>
-        /// Optionally set the from address to use, otherwise it defualts to the automated email
+        /// Optionally set the from address to use, otherwise it defaults to the automated email
         /// </summary>
         [StringLength(50)]
         [Email]
