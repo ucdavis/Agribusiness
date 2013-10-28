@@ -170,12 +170,14 @@ namespace Agribusiness.Web.Controllers
 
         public ActionResult ResetPassword()
         {
+            ViewBag.Site = Site;
             return View();
         }
 
         [HttpPost]
-        public ActionResult ResetPassword(string userName, string email)
+        public ActionResult ResetPassword(string userName, string email, string site)
         {
+            ViewBag.Site = site;
             // lookup by email
             if (string.IsNullOrEmpty(userName) && !string.IsNullOrWhiteSpace(email))
             {
@@ -189,7 +191,8 @@ namespace Agribusiness.Web.Controllers
             if (MembershipService.ResetPassword(userName))
             {
                 Message = "Your password has been reset, please check your email";
-                return this.RedirectToAction<HomeController>(a => a.Index());
+                //return this.RedirectToAction<AccountController>(a => a.LogOn(null, true));
+                return RedirectToAction("LogOn", "Account", new {membershipLogon = true, site = site});
             }
 
             ModelState.AddModelError("", "Invalid account name provided.");
