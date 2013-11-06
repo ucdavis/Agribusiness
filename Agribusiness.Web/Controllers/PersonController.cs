@@ -889,8 +889,10 @@ namespace Agribusiness.Web.Controllers
                 {
                     seminarPerson.Firm = personEditModel.Firm ?? new Firm(personEditModel.FirmName, personEditModel.FirmDescription) { WebAddress = personEditModel.FirmWebAddress };
                 }
-                
-                seminarPerson.Title = personEditModel.Title;    
+                if (personEditModel.Title != null) //Not sure what is happening here. This may fix it.
+                {
+                    seminarPerson.Title = personEditModel.Title;
+                }    
             }
 
             // deal with the image))
