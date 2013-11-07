@@ -250,12 +250,14 @@
                 }
                 <div class="span12">
                     <div class="control-group">
-                        <div class="controls">
+                        <div class="controls" style="display: inline-block">
                             <label class="checkbox">
                                 <input type="checkbox" id="commodity-other" @(!string.IsNullOrWhiteSpace(Model.Application.OtherCommodity) ? "checked" : string.Empty) />
-                                Other
-                                <input type="text" id="Application_OtherCommodity" name="Application.OtherCommodity" class="hastip" title="Please enter commodities not listed above.  If entering more than one please seperate by commas." />
-                            </label>
+                                Other                                
+                            </label>                            
+                        </div>
+                        <div style="display: inline-block">
+                            <input type="text" id="Application_OtherCommodity" name="Application.OtherCommodity" class="hastip" title="Please enter commodities not listed above.  If entering more than one please seperate by commas." />
                         </div>
                     </div>
                 </div>
