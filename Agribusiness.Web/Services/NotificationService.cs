@@ -121,7 +121,7 @@ namespace Agribusiness.Web.Services
             {
                 var body =
                     string.Format(
-                        "Thank you for submitting your application to the UC Davis {0}.  Your application has been received and will be reviewed for admission. Applicants will be notified of admission decisions {1}.  If you have any questions, please feel free to contact Chris Akins at crakins@ucdavis.edu or visit the website at http://agribusiness.ucdavis.edu/{2}.",
+                        "Thank you for submitting your application to the {0}.  Your application has been received and will be reviewed for admission. Applicants will be notified of admission decisions {1}.  If you have any questions, please feel free to contact Chris Akins at crakins@ucdavis.edu or visit the website at http://agribusiness.ucdavis.edu/{2}.",
                         site.Name,
                         seminar.AcceptanceDate.HasValue
                             ? string.Format("by {0}", string.Format("{0: MMMM dd, yyyy}", seminar.AcceptanceDate.Value))
