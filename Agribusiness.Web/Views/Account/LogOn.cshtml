@@ -1,12 +1,12 @@
 ﻿@model LogOnModel
 
 @{
-    ViewBag.Title = "Log On";
-    ViewBag.SubPageTitle = "Log On";
+    ViewBag.Title = "Logon";
+    ViewBag.SubPageTitle = "Logon";
     var site = ViewData["site"] as string;
 }
 
-@Html.ValidationSummary(true, "Login was unsuccessful. Please correct the errors and try again.")
+@Html.ValidationSummary(true, "Logon was unsuccessful. Please correct the errors and try again.")
 
 @using (Html.BeginForm("LogOn", "Account", new {returnUrl = ViewBag.ReturnUrl, site = ViewBag.Site}, FormMethod.Post, new {@class="form-horizontal"}))
 {
@@ -38,9 +38,9 @@
         </fieldset>
     </div>
     <div class="form-actions">
-        <input type="submit" class="btn btn-primary" value="Log On"/>    
+        <input type="submit" class="btn btn-primary" value="Logon"/>    
     </div>
 }
 
 
-<p>If you are an administrator log in @Html.ActionLink("here", "Admin", "Home", new {membershipLogon = false, site = ViewBag.Site}, new {}).</p>
+<p>If you are an administrator logon @Html.ActionLink("here", "Admin", "Home", new {membershipLogon = false, site = ViewBag.Site}, new {}).</p>
