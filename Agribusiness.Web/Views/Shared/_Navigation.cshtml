@@ -54,8 +54,8 @@
     else
     { 
         <li class="@(nav == Nav.Home ? "active" : string.Empty)">@Html.ActionLink("Home", "Index", "Home")</li>
-        <li class="@(nav == Nav.BackgroundInformation ? "active" : string.Empty)">@Html.ActionLink("Background Information", "Background", "Public")</li>
-        <li class="@(nav == Nav.ProgramOverview ? "active" : string.Empty)">@Html.ActionLink("Program Overview", "ProgramOverview", "Public")</li>
+        <li class="@(nav == Nav.BackgroundInformation ? "active" : string.Empty)">@Html.ActionLink("Background", "Background", "Public")</li>
+        <li class="@(nav == Nav.ProgramOverview ? "active" : string.Empty)">@Html.ActionLink("Program", "ProgramOverview", "Public")</li>
         <li class="@(nav == Nav.Sponsors ? "active" : string.Empty)">@Html.ActionLink("Sponsors", "Sponsors", "Public")</li>
     }
 </ul>

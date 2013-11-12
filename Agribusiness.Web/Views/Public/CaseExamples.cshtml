@@ -91,7 +91,7 @@ else
 {
     <h3 style="color: #014A81;border-bottom: 1px solid #EEE; padding-bottom: 1em;">Past Case Studies and Issue Papers have included:</h3>
 
-    foreach (var year in Model.CaseStudies.Where(a => a.Seminar.Year != Model.CurrentSeminar.Year).Select(a => a.Seminar.Year).OrderBy(a => a).Distinct())
+    foreach (var year in Model.CaseStudies.Where(a => a.Seminar.Year != Model.CurrentSeminar.Year).Select(a => a.Seminar.Year).OrderByDescending(a => a).Distinct())
     {
         if (year >= 2012)
         {
