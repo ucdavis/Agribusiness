@@ -34,13 +34,15 @@
                     @Html.ValidationMessageFor(model => model.RememberMe)
                 </div>
             </div>
-            <p>Please enter your username and password. <h3>Forgot your password? @Html.ActionLink("Click Here", "ResetPassword", new {site = site})</h3></p><br/>
+            <p>Please enter your username and password. </p>
         </fieldset>
     </div>
     <div class="form-actions">
         <input type="submit" class="btn btn-primary" value="Logon"/>    
     </div>
+    
+    <h3>Forgot your password? @Html.ActionLink("Click Here", "ResetPassword", new { site = site })</h3>
 }
 
 
-<p>If you are an administrator logon @Html.ActionLink("here", "Admin", "Home", new {membershipLogon = false, site = ViewBag.Site}, new {}).</p>
+<p>If you are an administrator logon @Html.ActionLink("here", "Admin", "Home", new { membershipLogon = false, site = ViewBag.Site }, new { }).</p>
