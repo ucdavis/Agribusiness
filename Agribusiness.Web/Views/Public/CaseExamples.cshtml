@@ -53,13 +53,14 @@
 }
 
 
-<p>
+@*<p>
 The @site.EventType revolves around the discussion of company case studies and issue papers that explore important issues facing agriculture. A list of past cases and issues provides a sense of the content of the @site.EventType.
-</p>
+</p>*@
 
 <!-- No Case Studies for the current seminar -->
 @if (!Model.CurrentSeminar.ReleaseCaseStudyList)
 {
+
     <h3>@string.Format("{0} {1}", Model.CurrentSeminar.Year, Model.CurrentSeminar.Site.Name)</h3>
 
     if (!string.IsNullOrEmpty(Model.CurrentSeminar.CaseStudyText))
@@ -75,6 +76,7 @@ The @site.EventType revolves around the discussion of company case studies and i
 }
 else
 {
+
     <h3>@string.Format("{0} {1}", Model.CurrentSeminar.Year, Model.CurrentSeminar.Site.Name)</h3>
 
     <ul class="unstyled">

@@ -132,7 +132,7 @@ namespace Agribusiness.Web.Services
                 {
                     Body = body,
                     FromAddress = "agribusiness@ucdavis.edu",
-                    Subject = string.Format("UC Davis {0} Application Confirmation", site.Name)
+                    Subject = string.Format("{0} Application Confirmation", site.Name)
                 };
 
                 _emailQueueRepository.EnsurePersistent(emailQueue);    
@@ -141,14 +141,14 @@ namespace Agribusiness.Web.Services
             {
                 var body =
                     string.Format(
-                        "Thank you for registering for UC Davis {0}. Registrants will be sent more information soon. If you have any questions, please feel free to contact Chris Akins at crakins@ucdavis.edu or visit the website at https://agribusiness.ucdavis.edu/{1}",
+                        "Thank you for registering for  {0}. Registrants will be sent more information soon. If you have any questions, please feel free to contact Chris Akins at crakins@ucdavis.edu or visit the website at https://agribusiness.ucdavis.edu/{1}",
                         site.Name, site.Id);
 
                 var emailQueue = new EmailQueue(person)
                 {
                     Body = body,
                     FromAddress = "agribusiness@ucdavis.edu",
-                    Subject = string.Format("UC Davis {0} Registration Confirmation", site.Name)
+                    Subject = string.Format("{0} Registration Confirmation", site.Name)
                 };
 
                 _emailQueueRepository.EnsurePersistent(emailQueue);    
