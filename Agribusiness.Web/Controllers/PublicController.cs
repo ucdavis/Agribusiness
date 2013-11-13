@@ -76,10 +76,33 @@ namespace Agribusiness.Web.Controllers
         /// <returns></returns>
         public ActionResult Venue()
         {
-            //var siteId = ViewData["site"] as string;
-            //var seminar = SiteService.GetLatestSeminar(siteId);
+            ViewBag.ShowImage = false;
+            var siteId = ViewData["site"] as string;
+            var seminar = SiteService.GetLatestSeminar(siteId);
+            if (seminar != null)
+            {
+                var id = seminar.Id;
+                var file = RepositoryFactory.FileRepository.Queryable.FirstOrDefault(a => a.Seminar.Id == id && a.Venue);
+                if (file != null)
+                {
+                    ViewBag.ShowImage = true;
+                }
+            }
 
             return View();
+        }
+
+        public ActionResult GetVenueImage(int siteId)
+        {
+            var file = RepositoryFactory.FileRepository.Queryable.FirstOrDefault(a => a.Seminar.Id == siteId && a.Venue);
+            if (file != null)
+            {
+                return File(file.Contents, "image/jpg");
+            }
+            else
+            {
+                return File(new byte[0], "image/jpg");
+            }
         }
 
         /// <summary>
