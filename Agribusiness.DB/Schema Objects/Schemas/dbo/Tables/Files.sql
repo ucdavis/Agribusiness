@@ -11,5 +11,6 @@
     [ProgramOverview] BIT NOT NULL DEFAULT 0, 
     [Sponsors] BIT NOT NULL DEFAULT 0, 
     [Home] BIT NOT NULL DEFAULT 0, 
+    [Venue] BIT NOT NULL DEFAULT 0, 
     CONSTRAINT [FK_Files_Seminars] FOREIGN KEY ([SeminarId]) REFERENCES [Seminars]([Id])
 )
