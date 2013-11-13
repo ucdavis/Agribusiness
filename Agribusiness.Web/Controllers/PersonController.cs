@@ -627,6 +627,31 @@ namespace Agribusiness.Web.Controllers
             return this.RedirectToAction("Index");
         }
 
+        [UserOnly]
+        [HttpPost]
+        public ActionResult UnlockUser(int id)
+        {
+            var person = _personRepository.GetNullableById(id);
+
+            if (person != null)
+            {
+                var success = _membershipService.UnlockUserNoEmail(person.User.LoweredUserName);
+
+                if (success)
+                {
+                    Message = "Unlocked.";
+                }
+                else
+                {
+                    Message = "Unlock Failed.";
+                }
+
+                return this.RedirectToAction("AdminEdit", new { id = person.User.Id });
+            }
+
+            return this.RedirectToAction("Index");
+        }
+
         #endregion
 
         #region Profile Editing Functions

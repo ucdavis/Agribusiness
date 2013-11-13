@@ -53,6 +53,16 @@
                 }
                 
             });
+
+            $("#submit-unlock-user").click(function() {
+
+                if (confirm("Are you sure you want to unlock the user?")) {
+
+                    $(this).parents("form").submit();
+
+                }
+
+            });
             
         });
     </script>
@@ -114,6 +124,17 @@
                     @Html.AntiForgeryToken()
                     <input type="hidden" name="id" value="@Model.PersonViewModel.Person.Id"/>
                     <a href="javascript:;" id="submit-password-reset">Reset Password</a>
+                }
+
+            </li>
+            
+             <li>
+        
+                @using(Html.BeginForm("UnlockUser", "Person", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" value="@Model.PersonViewModel.Person.Id"/>
+                    <a href="javascript:;" id="submit-unlock-user">Unlock User (If Password Reset Failed)</a>
                 }
 
             </li>
