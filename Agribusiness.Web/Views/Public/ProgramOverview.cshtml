@@ -3,7 +3,7 @@
 
 @{
     ViewBag.Title = "Program Overview";
-    ViewBag.SubPageTitle = "Program Overview";
+    ViewBag.SubPageTitle = "Program";
 
     if (Model.SeminarPeople.SelectMany(a => a.SeminarRoles).Any(a => a.Id == StaticIndexes.Role_SteeringCommittee))
     {
