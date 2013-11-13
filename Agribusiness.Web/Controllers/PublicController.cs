@@ -76,6 +76,9 @@ namespace Agribusiness.Web.Controllers
         /// <returns></returns>
         public ActionResult Venue()
         {
+            //var siteId = ViewData["site"] as string;
+            //var seminar = SiteService.GetLatestSeminar(siteId);
+
             return View();
         }
 

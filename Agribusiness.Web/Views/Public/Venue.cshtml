@@ -35,7 +35,7 @@
 }
 
 <div class="row-fluid">
-    <div class="span8">
+    <div class="span4">
         @if (!string.IsNullOrEmpty(site.Venue))
         {
             @Html.Raw(site.Venue)
@@ -46,6 +46,10 @@
                 <p>Venue information is not available at this time.</p>
             </div>
         }
+
+    </div>
+    <div class="span4">
+        @*<img  style="width: 460px; height: 290px; float: left; margin-right: 1em; background: green; display: inline-block;"/>*@
     </div>
     <div class="span4">
         @if (!string.IsNullOrEmpty(site.VenueEmbeddedMap))
