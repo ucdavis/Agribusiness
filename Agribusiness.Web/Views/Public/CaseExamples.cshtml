@@ -61,8 +61,9 @@ The @site.EventType revolves around the discussion of company case studies and i
 @if (!Model.CurrentSeminar.ReleaseCaseStudyList)
 {
 
-    <h3>@string.Format("{0} {1}", Model.CurrentSeminar.Year, Model.CurrentSeminar.Site.Name)</h3>
-
+    @*<h3>@string.Format("{0} {1}", Model.CurrentSeminar.Year, Model.CurrentSeminar.Site.Name)</h3>*@
+    <h3>Current program overview: Case studies and topic discussions</h3>
+    
     if (!string.IsNullOrEmpty(Model.CurrentSeminar.CaseStudyText))
     {
         @Html.Raw(Model.CurrentSeminar.CaseStudyText)         
@@ -77,8 +78,8 @@ The @site.EventType revolves around the discussion of company case studies and i
 else
 {
 
-    <h3>@string.Format("{0} {1}", Model.CurrentSeminar.Year, Model.CurrentSeminar.Site.Name)</h3>
-
+    @*<h3>@string.Format("{0} {1}", Model.CurrentSeminar.Year, Model.CurrentSeminar.Site.Name)</h3>*@
+    <h3>Current program overview: Case studies and topic discussions</h3>
     <ul class="unstyled">
         @foreach (var caseStudy in Model.CurrentSeminar.CaseStudies)
         {
