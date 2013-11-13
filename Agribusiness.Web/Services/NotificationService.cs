@@ -105,9 +105,12 @@ namespace Agribusiness.Web.Services
 
             if (mailingList != null)
             {
-                mailingList.People.Remove(person);
+                if (mailingList.People.Contains(person))
+                {
+                    mailingList.People.Remove(person);
 
-                _mailingListRepository.EnsurePersistent(mailingList);
+                    _mailingListRepository.EnsurePersistent(mailingList);
+                }
             }
         }
 
