@@ -143,19 +143,21 @@ namespace Agribusiness.Web.Controllers
         [Authorize]
         public ActionResult ChangePassword()
         {
+            ViewBag.Site = Site;
             ViewBag.PasswordLength = MembershipService.MinPasswordLength;
             return View();
         }
 
         [Authorize]
         [HttpPost]
-        public ActionResult ChangePassword(ChangePasswordModel model)
+        public ActionResult ChangePassword(ChangePasswordModel model, string site)
         {
+            ViewBag.Site = site;
             if (ModelState.IsValid)
             {
                 if (MembershipService.ChangePassword(User.Identity.Name, model.OldPassword, model.NewPassword))
                 {
-                    return RedirectToAction("ChangePasswordSuccess");
+                    return RedirectToAction("ChangePasswordSuccess", new {site});
                 }
                 else
                 {
