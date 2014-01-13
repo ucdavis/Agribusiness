@@ -108,6 +108,7 @@
 
         <ul class="nav nav-pills nav-stacked">
             <li>@Html.ActionLink("Update Crop", "UpdateProfilePicture", new { id = Model.PersonViewModel.Person.Id, seminarId = Model.SeminarId, admin = true })</li>
+            <li><a href="@Url.Action("DownloadPhoto", new { id = Model.PersonViewModel.Person.Id })" target="_blank" >Download Photo</a></li>
             @if (Model.Invited)
             {
                 <li>Already Invited</li>
