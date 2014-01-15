@@ -60,6 +60,7 @@
         <img src='@Url.Action("GetApplicationPhoto", new { id = Model.Id })' />
 
         <div class="well" style="margin: 1em 0;"><em>*Photo may be distorted because it has not been cropped yet.</em></div>
+        <a href="@Url.Action("DownloadOriginalPhoto", new { id = Model.Id })" target="_blank" >Download Photo</a>
     </div>
 
     <div class="span10">

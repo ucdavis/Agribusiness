@@ -869,6 +869,29 @@ namespace Agribusiness.Web.Controllers
             return File(img, "image/png");
         }
 
+        public FileResult DownloadPhoto(int id)
+        {
+            byte[] photo = null;
+            var contentType = "image/jpeg";
+
+            var person = Repository.OfType<Person>().GetById(id);
+            if (person.OriginalPicture != null)
+            {
+                photo = person.OriginalPicture;
+                contentType = string.IsNullOrWhiteSpace(person.ContentType) ? contentType : person.ContentType;
+            }
+            else
+            {
+                if (person.MainProfilePicture != null)
+                {
+                    photo = person.MainProfilePicture;
+                    contentType = string.IsNullOrWhiteSpace(person.ContentType) ? contentType : person.ContentType;
+                }
+            }
+
+            return File(photo, contentType, string.Format("AgribusinessPhoto_{0}.jpg", person.FullName)); 
+        }
+
         public ActionResult GetThumbnail(int? id)
         {
             if(id != null)

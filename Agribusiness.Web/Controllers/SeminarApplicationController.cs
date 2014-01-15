@@ -294,5 +294,31 @@ namespace Agribusiness.Web.Controllers
 
             return File(photo, contentType);
         }
+
+        public FileResult DownloadOriginalPhoto(int id)
+        {
+            byte[] photo = null;
+            var contentType = "image/jpeg";
+
+            var application = _applicationRepository.GetNullableById(id);
+            if (application != null)
+            {
+                var person = application.User.Person;
+
+                // attempt to assign person's existing main profile picture
+                if (person != null)
+                {
+                    photo = person.OriginalPicture;
+                    contentType = string.IsNullOrWhiteSpace(person.ContentType) ? contentType : person.ContentType;
+                }
+                if (photo == null)
+                {
+                    photo = application.Photo;
+                    contentType = string.IsNullOrWhiteSpace(application.ContentType) ? contentType : application.ContentType;
+                }
+            }
+
+            return File(photo, contentType, string.Format("AgribusinessPhoto_{0}.jpg", application.FullName)); 
+        }
     }
 }
