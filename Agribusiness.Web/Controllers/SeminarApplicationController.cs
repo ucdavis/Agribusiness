@@ -310,6 +310,10 @@ namespace Agribusiness.Web.Controllers
                 {
                     photo = person.OriginalPicture;
                     contentType = string.IsNullOrWhiteSpace(person.ContentType) ? contentType : person.ContentType;
+                    if (photo == null)
+                    {
+                        photo = person.MainProfilePicture;
+                    }
                 }
                 if (photo == null)
                 {
