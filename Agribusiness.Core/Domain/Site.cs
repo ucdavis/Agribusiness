@@ -67,12 +67,12 @@ namespace Agribusiness.Core.Domain
             Map(x => x.SplashImage).CustomType("BinaryBlob");
             Map(x => x.SplashContentType);
 
-            Map(x => x.Description);
-            Map(x => x.Welcome);
-            Map(x => x.Background);
+            Map(x => x.Description).Length(int.MaxValue);
+            Map(x => x.Welcome).Length(int.MaxValue);
+            Map(x => x.Background).Length(int.MaxValue);
             References(x => x.BackgroundPerson).Column("BackgroundPersonId");
-            Map(x => x.Venue);
-            Map(x => x.VenueEmbeddedMap);
+            Map(x => x.Venue).Length(int.MaxValue);
+            Map(x => x.VenueEmbeddedMap).Length(int.MaxValue);
 
             HasMany(x => x.Seminars);
             HasManyToMany(x => x.People)
