@@ -119,7 +119,8 @@ namespace Agribusiness.Web.Models
             // determine if last reg is the current seminar
             if (seminar != null)
             {
-                viewModel.IsCurrentSeminar = seminar == SiteService.GetLatestSeminar(siteId);
+                viewModel.IsCurrentSeminar = seminar.Id == SiteService.GetLatestSeminar(siteId).Id;
+                
             }
             
             return viewModel;

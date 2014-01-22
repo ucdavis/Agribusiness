@@ -105,12 +105,15 @@
     <li><a href="@Url.Content("~/Doc/Menus.pdf")" target="menu">Menus</a></li>
 </ul>*@
 
-    <ul class="nav nav-stacked nav-pills">
-        @foreach (var file in Model.Seminar.Files.Where(a => a.MySeminar))
-        {
-            <li><a href="@Url.Action("Download", "File", new {id=file.Id})" target="@file.Id">@file.Name</a></li>
-        }
-    </ul>
+    @if (Model.SeminarPerson != null && Model.SeminarPerson.Paid)
+    {
+        <ul class="nav nav-stacked nav-pills">
+            @foreach (var file in Model.Seminar.Files.Where(a => a.MySeminar))
+            {
+                <li><a href="@Url.Action("Download", "File", new {id = file.Id})" target="@file.Id">@file.Name</a></li>
+            }
+        </ul>
+    }
 
 </div>    
 

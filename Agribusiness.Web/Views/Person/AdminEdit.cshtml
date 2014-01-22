@@ -14,7 +14,7 @@
         $(function () {
             $("#tabs").tabs();
 
-            @if(Model.SeminarId != null)
+            @if (Model.SeminarId != null)
             {
                 <text>
                 $("#coupon_dialog").dialog({ autoOpen: false, modal: true });
@@ -57,6 +57,16 @@
             $("#submit-unlock-user").click(function() {
 
                 if (confirm("Are you sure you want to unlock the user?")) {
+
+                    $(this).parents("form").submit();
+
+                }
+
+            });
+            
+            $("#submit-mark-paid").click(function() {
+
+                if (confirm("Are you sure you want to mark the user as paid?")) {
 
                     $(this).parents("form").submit();
 
@@ -120,7 +130,7 @@
         
             <li>
         
-                @using(Html.BeginForm("ResetPassword", "Person", FormMethod.Post))
+                @using (Html.BeginForm("ResetPassword", "Person", FormMethod.Post))
                 {
                     @Html.AntiForgeryToken()
                     <input type="hidden" name="id" value="@Model.PersonViewModel.Person.Id"/>
@@ -129,9 +139,9 @@
 
             </li>
             
-             <li>
+            <li>
         
-                @using(Html.BeginForm("UnlockUser", "Person", FormMethod.Post))
+                @using (Html.BeginForm("UnlockUser", "Person", FormMethod.Post))
                 {
                     @Html.AntiForgeryToken()
                     <input type="hidden" name="id" value="@Model.PersonViewModel.Person.Id"/>
@@ -139,6 +149,25 @@
                 }
 
             </li>
+            
+            @if (Model.PersonViewModel.SeminarPerson != null)
+            {
+                <li>
+                    @if (Model.PersonViewModel.SeminarPerson.Paid)
+                    {
+                        <p>Paid</p>
+                    }
+                    else
+                    {
+                        using (Html.BeginForm("MarkPaid", "Person", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@Model.PersonViewModel.SeminarPerson.Id"/>
+                            <a href="javascript:;" id="submit-mark-paid">Mark User Paid for Seminar "@Html.Encode(Model.SeminarId)"</a>
+                        }
+                    }
+                </li>
+            }
 
         </ul>
     </div>
@@ -161,7 +190,7 @@
             </ul>
 
             <div id="profile">
-                @using (Html.BeginForm("AdminEdit", "Person", FormMethod.Post, new { enctype = "multipart/form-data", @class="form-horizontal" }))
+                @using (Html.BeginForm("AdminEdit", "Person", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
                 { 
                     @Html.ValidationSummary(false)
                     @Html.Hidden("seminarId", Model.SeminarId)
@@ -170,7 +199,7 @@
             </div>
             <div id="biography">
     
-                @using (Html.BeginForm("UpdateBiography", "Person", FormMethod.Post, new {@class="form-horizontal"}))
+                @using (Html.BeginForm("UpdateBiography", "Person", FormMethod.Post, new { @class = "form-horizontal" }))
                 { 
                     @Html.Hidden("seminarId", Model.SeminarId)
                     @Html.Hidden("personId", Model.PersonViewModel.Person.Id)
@@ -227,8 +256,8 @@
                         <div class="display-form">
 
                             @{
-                                var registered = !string.IsNullOrWhiteSpace(Model.PersonViewModel.SeminarPerson.TransactionId);
-                                var paid = Model.PersonViewModel.SeminarPerson.Paid;
+                                    var registered = !string.IsNullOrWhiteSpace(Model.PersonViewModel.SeminarPerson.TransactionId);
+                                    var paid = Model.PersonViewModel.SeminarPerson.Paid;
                             }
 
                             <ul>
@@ -276,8 +305,8 @@
                                 {
                                     <li>
                                         @{
-                                            var check = Model.PersonViewModel.Person.GetLatestRegistration(Model.SiteId).SeminarRoles.Contains(a);
-                                            var checkedTxt = check ? "checked" : string.Empty;
+                                    var check = Model.PersonViewModel.Person.GetLatestRegistration(Model.SiteId).SeminarRoles.Contains(a);
+                                    var checkedTxt = check ? "checked" : string.Empty;
                                         }
                                         <input type="checkbox" name="roles" value='@a.Id' @checkedTxt />
                                         @a.Name - @a.Description

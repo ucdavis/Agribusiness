@@ -122,23 +122,25 @@ namespace Agribusiness.Web.Services
 
             if (seminar.RequireApproval)
             {
-                var body =
-                    string.Format(
-                        "Thank you for submitting your application to the {0}.  Your application has been received and will be reviewed for admission. Applicants will be notified of admission decisions {1}.  If you have any questions, please feel free to contact Chris Akins at crakins@ucdavis.edu or visit the website at http://agribusiness.ucdavis.edu/{2}.",
-                        site.Name,
-                        seminar.AcceptanceDate.HasValue
-                            ? string.Format("by {0}", string.Format("{0: MMMM dd, yyyy}", seminar.AcceptanceDate.Value))
-                            : "in the near future"
-                            , site.Id);
+                //Disable for now as per email from Chris Jan 21, 2014 1:12PM
 
-                var emailQueue = new EmailQueue(person)
-                {
-                    Body = body,
-                    FromAddress = "agribusiness@ucdavis.edu",
-                    Subject = string.Format("{0} Application Confirmation", site.Name)
-                };
+                //var body =
+                //    string.Format(
+                //        "Thank you for submitting your application to the {0}.  Your application has been received and will be reviewed for admission. Applicants will be notified of admission decisions {1}.  If you have any questions, please feel free to contact Chris Akins at crakins@ucdavis.edu or visit the website at http://agribusiness.ucdavis.edu/{2}.",
+                //        site.Name,
+                //        seminar.AcceptanceDate.HasValue
+                //            ? string.Format("by {0}", string.Format("{0: MMMM dd, yyyy}", seminar.AcceptanceDate.Value))
+                //            : "in the near future"
+                //            , site.Id);
 
-                _emailQueueRepository.EnsurePersistent(emailQueue);    
+                //var emailQueue = new EmailQueue(person)
+                //{
+                //    Body = body,
+                //    FromAddress = "agribusiness@ucdavis.edu",
+                //    Subject = string.Format("{0} Application Confirmation", site.Name)
+                //};
+
+                //_emailQueueRepository.EnsurePersistent(emailQueue);    
             }
             else
             {

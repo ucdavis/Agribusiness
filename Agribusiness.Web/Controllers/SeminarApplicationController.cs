@@ -162,17 +162,17 @@ namespace Agribusiness.Web.Controllers
                 {
                     if (string.IsNullOrWhiteSpace(application.FirstName) && string.IsNullOrWhiteSpace(application.LastName))
                     {
-                        ModelState.AddModelError("Assistant Name", "Becuase of your communication preference an Assistant Name is required.");
+                        ModelState.AddModelError("Assistant Name", "Because of your communication preference an Assistant Name is required.");
                     }
 
                     if (string.IsNullOrWhiteSpace(application.AssistantPhone))
                     {
-                        ModelState.AddModelError("Assistant Name", "Becuase of your communication preference an Assistant Phone is required.");
+                        ModelState.AddModelError("Assistant Name", "Because of your communication preference an Assistant Phone is required.");
                     }
 
                     if (string.IsNullOrWhiteSpace(application.AssistantEmail))
                     {
-                        ModelState.AddModelError("Assistant Name", "Becuase of your communication preference an Assistant Email is required.");
+                        ModelState.AddModelError("Assistant Name", "Because of your communication preference an Assistant Email is required.");
                     }
                 }    
             }

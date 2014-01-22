@@ -652,6 +652,19 @@ namespace Agribusiness.Web.Controllers
             return this.RedirectToAction("Index");
         }
 
+        [UserOnly]
+        [HttpPost]
+        public ActionResult MarkPaid(int id)
+        {
+            var seminarPerson = _seminarPersonRepository.Queryable.Single(a => a.Id == id);
+
+            seminarPerson.Paid = true;
+            _seminarPersonRepository.EnsurePersistent(seminarPerson);
+
+            return this.RedirectToAction("AdminEdit", new {id = seminarPerson.Person.User.Id, seminarId = seminarPerson.Seminar.Id});
+
+        }
+
         #endregion
 
         #region Profile Editing Functions
