@@ -407,7 +407,7 @@ namespace Agribusiness.Web.Controllers
             var seminar = SiteService.GetLatestSeminar(Site);
 
             // check if user is registered for the current seminar
-            if (reg.Seminar != seminar)
+            if (reg.Seminar == null || seminar == null || reg.Seminar.Id != seminar.Id)
             {
                 Message = "User is not a part of the current seminar.  Coupon cannot be created.";
                 return this.RedirectToAction(a => a.AdminEdit(person.User.Id, seminarId, null));
@@ -454,9 +454,9 @@ namespace Agribusiness.Web.Controllers
             var seminar = SiteService.GetLatestSeminar(Site);
 
             // check if user is registered for the current seminar
-            if (reg.Seminar != seminar)
+            if (reg.Seminar == null || seminar == null ||  reg.Seminar.Id != seminar.Id)
             {
-                Message = "User is not a part of the current seminar.  Coupon cannot be created.";
+                Message = "User is not a part of the current seminar.  Hotel info cannot be created.";
                 return this.RedirectToAction(a => a.AdminEdit(person.User.Id, seminarId, null));
             }
 
