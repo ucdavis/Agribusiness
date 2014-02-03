@@ -658,8 +658,15 @@ namespace Agribusiness.Web.Controllers
         {
             var seminarPerson = _seminarPersonRepository.Queryable.Single(a => a.Id == id);
 
-            seminarPerson.Paid = true;
-            _seminarPersonRepository.EnsurePersistent(seminarPerson);
+            var allSeminarPersons = _seminarPersonRepository.Queryable.Where(a => a.Person.Id == seminarPerson.Person.Id && a.Seminar.Id == seminarPerson.Seminar.Id);
+            foreach (var allSeminarPerson in allSeminarPersons)
+            {
+                allSeminarPerson.Paid = true;
+                _seminarPersonRepository.EnsurePersistent(allSeminarPerson);
+            }
+
+            //seminarPerson.Paid = true;
+            //_seminarPersonRepository.EnsurePersistent(seminarPerson);
 
             return this.RedirectToAction("AdminEdit", new {id = seminarPerson.Person.User.Id, seminarId = seminarPerson.Seminar.Id});
 
