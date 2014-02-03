@@ -10,7 +10,7 @@ using UCDArch.Web.Controller;
 
 namespace Agribusiness.Web.Controllers
 {
-    [Version(MajorVersion = 2)]
+   // [Version(MajorVersion = 2)]
     //[CatbertMessages]
     //[ServiceMessage("Agribusiness", ...)]
     public abstract class ApplicationController : SuperController
@@ -22,6 +22,11 @@ namespace Agribusiness.Web.Controllers
         }
 
         public string Site { get; private set; }
+
+        public ApplicationController()
+        {
+            ViewBag.Version = "2.2014.2.3";
+        }
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
