@@ -36,6 +36,7 @@
 
 @using (Html.BeginForm("Edit", "CaseStudy", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
+    @Html.Hidden("seminarId", Model.Seminar.Id)
     @Html.Partial("_CaseStudyForm")    
 }
 
@@ -62,6 +63,7 @@
                             @Html.Hidden("id", Model.CaseStudy.Id)
                             @Html.Hidden("seminarPersonId", a.Id)
                             @Html.Hidden("personType", StaticIndexes.Role_CaseStudyAuthor)
+                            
                             
                             <input type="submit" value="" class="removePerson" />
                         }
