@@ -3,10 +3,11 @@
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
-    <PostConversionRemoveFromScc>
-    </PostConversionRemoveFromScc>
-    <PostConversionAddToScc>
-    </PostConversionAddToScc>
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">10.0</VisualStudioVersion>
+    <PostConversionRemoveFromScc>;C:\Users\kirkland\Documents\GitHub\Agribusiness\Agribusiness.CLR\Agribusiness.CLR.csproj</PostConversionRemoveFromScc>
+    <PostConversionAddToScc>;C:\Users\kirkland\Documents\GitHub\Agribusiness\Agribusiness.CLR\Agribusiness.CLR.sqlproj</PostConversionAddToScc>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -17,11 +18,11 @@
     <OutputType>Database</OutputType>
     <NoStandardLibraries>false</NoStandardLibraries>
     <AssemblyName>Agribusiness.CLR</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <ConnectionString>
     </ConnectionString>
     <TargetFrameworkProfile />
-    <PermissionSet>SAFE</PermissionSet>
+    <PermissionSet>EXTERNAL_ACCESS</PermissionSet>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -37,10 +38,12 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <FileUpgradeFlags>0</FileUpgradeFlags>
+    <OldToolsVersion>4.0</OldToolsVersion>
     <DSP>Microsoft.Data.Tools.Schema.Sql.Sql110DatabaseSchemaProvider</DSP>
     <Name>Agribusiness.CLR</Name>
     <ProjectVersion>4.0</ProjectVersion>
-    <ProjectGuid>{6c599949-ec2b-486b-95df-5a1fb71c71e7}</ProjectGuid>
+    <ProjectGuid>{a27fe3b7-506f-4f9b-87b1-e3679c817949}</ProjectGuid>
     <IncludeSchemaNameInFileName>False</IncludeSchemaNameInFileName>
     <GenerateDatabaseFile>False</GenerateDatabaseFile>
     <GenerateCreateScript>False</GenerateCreateScript>
@@ -48,7 +51,6 @@
     <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <DefaultSchema>dbo</DefaultSchema>
-    <SqlServerVerification>False</SqlServerVerification>
     <TargetLanguage>CS</TargetLanguage>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
