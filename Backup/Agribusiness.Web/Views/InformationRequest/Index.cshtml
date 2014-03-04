@@ -1,0 +1,101 @@
+﻿@model IQueryable<Agribusiness.Core.Domain.InformationRequest>
+
+@{
+	ViewBag.Title = "Information Requests";
+    ViewBag.SubPageTitle = "Information Requests";
+}
+
+@section SubPageNavigation
+{
+	<ul class='navigation'>
+		
+	</ul>
+}
+
+
+<table class='default_table nolasticon'>
+	<thead>
+		<tr>
+			<th></th>
+
+			<th>
+				Name
+			</th>
+
+			<th>
+				Title
+			</th>
+
+			<th>
+				Company
+			</th>
+
+			<th>
+				Email
+			</th>
+
+			<th>
+				Commodity
+			</th>
+
+			<th>
+				Location
+			</th>
+
+			<th>
+				SubmittedDateTime
+			</th>
+
+			<th>
+				Responded
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+@{ var odd = false; }
+@foreach (var item in Model) {
+		<tr class="@(odd ? "odd": "even")">
+
+			<td>
+				<a href='@Url.Action("Edit", new {id=item.Id})'>
+					<img src='@Url.Image("edit.png")' />
+				</a>
+			</td>
+
+			<td>
+				@item.Name
+			</td>
+
+			<td>
+				@item.Title
+			</td>
+
+			<td>
+				@item.Company
+			</td>
+
+			<td>
+				@item.Email
+			</td>
+
+			<td>
+				@item.Commodity
+			</td>
+
+			<td>
+				@item.Location
+			</td>
+
+			<td>
+				@String.Format("{0:g}", item.SubmittedDateTime)
+			</td>
+
+			<td>
+				@item.Responded
+			</td>
+
+		</tr>
+		odd = !odd;
+}
+	</tbody>
+</table>

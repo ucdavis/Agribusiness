@@ -1,0 +1,150 @@
+﻿a.button { color:#333333; }
+
+/* --------------------- */
+/* Profile List Styling  */
+/* --------------------- */
+
+.list-item
+{
+border-bottom: 1px solid #0068B7;
+padding: 1em;
+margin-bottom: 1em;
+}
+
+.list-item-picture
+{
+display: block;
+width: 165px;
+float: left;
+}
+
+.list-item-body
+{
+float:left;
+width: 800px;
+}
+
+.list-item-name
+{
+font-weight: bold;
+font-size: large;
+}
+
+.list-item-title
+{
+margin-top: .5em;
+font-style: italic;
+}
+
+.list-item-firm-name
+{
+margin: 1em 0 .5em 0;
+font-weight: bold;
+}
+
+.list-item-vcard
+{
+float: right;
+border: 1px solid #0068B7;
+padding: 1em;
+margin-top: 2em;
+background-color: #EEEEEE;
+}
+
+.list-item-vcard a
+{
+    margin-left: 20px;
+}
+
+
+/* ---------------- */
+/* Profile Styling  */
+/* ---------------- */
+.profile_pic_container { margin-left: 15px; width: 165px; display:inline-block;}
+.profile_links {
+    background-color: #EEEEEE;
+    border: 1px solid #0068B7;
+    padding: .5em;
+}
+.profile_links ul { list-style: none;}
+
+.profile_information_container { margin-left: 40px; width: 780px; vertical-align: top;display:inline-block;}
+.profile_information_container h2 { color: #014A81; margin-top: 0; }
+.profile_information_container ul { list-style:none; }
+.profile_information_container .name {font-size: larger; font-weight: bold; color: #014A81; }
+.profile_information_container .title { margin-top: .5em; font-weight: bold; }
+.profile_information_container .description { margin-top: 1em; }
+
+
+/* ---------------------------- */
+/* DataTables Specific Styling  */
+/* ---------------------------- */
+.dataTables_length {
+	width: 40%;
+	float: left;
+}
+
+.dataTables_filter {
+	width: 50%;
+	float: right;
+	text-align: right;
+}
+
+.dataTables_info {
+	width: 60%;
+	float: left;
+}
+
+.dataTables_paginate {
+	width: 44px;
+	float: right;
+	text-align: right;
+}
+
+div.dataTables_wrapper .ui-toolbar
+{
+    padding: 5px;
+}
+
+div.dataTables_wrapper table
+{
+    margin: 0;
+    clear:both;
+}
+
+.DataTables_sort_wrapper
+{
+    cursor:pointer;
+}
+
+.css_right { float:right;}
+.clear { clear: both; }
+
+
+/* ---------------------------- */
+/* vCard Styling                */
+/* ---------------------------- */
+.vcard
+{
+margin: 1em;
+padding: 1em;
+}
+.vcard .fn
+{
+font-size: 1.5em;
+font-weight: bold;
+margin-bottom: 7px;
+color: #014A81;
+}
+.vcard .adr
+{
+    margin-bottom: 4px;
+}
+.vcard .title
+{
+font-style: italic;
+}
+.vcard .email .value 
+{
+font-weight: bold;
+}

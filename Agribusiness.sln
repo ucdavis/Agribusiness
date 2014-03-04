@@ -1,10 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agribusiness.Web", "Agribusiness.Web\Agribusiness.Web.csproj", "{33BA1238-6E6E-47CB-B0F3-910ACAE25B4E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agribusiness.Tests", "Agribusiness.Tests\Agribusiness.Tests.csproj", "{D01CEA98-CF40-4880-8685-E488B461FFE1}"
-EndProject
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30110.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bin", "Bin", "{16225D2D-13C1-46B6-816F-0F8AB3B019D7}"
 	ProjectSection(SolutionItems) = preProject
 		Bin\Antlr3.Runtime.dll = Bin\Antlr3.Runtime.dll
@@ -57,15 +55,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bin", "Bin", "{16225D2D-13C
 		Bin\xVal.dll = Bin\xVal.dll
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agribusiness.Web", "Agribusiness.Web\Agribusiness.Web.csproj", "{33BA1238-6E6E-47CB-B0F3-910ACAE25B4E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agribusiness.Tests", "Agribusiness.Tests\Agribusiness.Tests.csproj", "{D01CEA98-CF40-4880-8685-E488B461FFE1}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agribusiness.Core", "Agribusiness.Core\Agribusiness.Core.csproj", "{59FC9042-FBF0-4F82-803D-78E291FDD7F2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agribusiness.WS", "Agribusiness.WS\Agribusiness.WS.csproj", "{9A333D4D-EC23-45AC-8B92-E64987A5EAB5}"
 EndProject
-Project("{C8D11400-126E-41CD-887F-60BD40844F9E}") = "Agribusiness.DB", "Agribusiness.DB\Agribusiness.DB.dbproj", "{67CBC824-A49E-4E9B-A947-360F3DFE65C3}"
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Agribusiness.DB", "Agribusiness.DB\Agribusiness.DB.sqlproj", "{532FE3E0-CD47-43DE-A1CA-C08B8EA9D78D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agribusiness.Import", "Agribusiness.Import\Agribusiness.Import.csproj", "{93424014-7422-4B70-ABE1-5DA4E3F9DAB7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agribusiness.CLR", "Agribusiness.CLR\Agribusiness.CLR.csproj", "{A27FE3B7-506F-4F9B-87B1-E3679C817949}"
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Agribusiness.CLR", "Agribusiness.CLR\Agribusiness.CLR.sqlproj", "{1671AB50-A121-4BCE-94B2-4B47FDE442C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -95,23 +97,23 @@ Global
 		{9A333D4D-EC23-45AC-8B92-E64987A5EAB5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9A333D4D-EC23-45AC-8B92-E64987A5EAB5}.Test|Any CPU.ActiveCfg = Test|Any CPU
 		{9A333D4D-EC23-45AC-8B92-E64987A5EAB5}.Test|Any CPU.Build.0 = Test|Any CPU
-		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Test|Any CPU.ActiveCfg = Test|Any CPU
+		{532FE3E0-CD47-43DE-A1CA-C08B8EA9D78D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{532FE3E0-CD47-43DE-A1CA-C08B8EA9D78D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{532FE3E0-CD47-43DE-A1CA-C08B8EA9D78D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{532FE3E0-CD47-43DE-A1CA-C08B8EA9D78D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{532FE3E0-CD47-43DE-A1CA-C08B8EA9D78D}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{532FE3E0-CD47-43DE-A1CA-C08B8EA9D78D}.Test|Any CPU.ActiveCfg = Test|Any CPU
 		{93424014-7422-4B70-ABE1-5DA4E3F9DAB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{93424014-7422-4B70-ABE1-5DA4E3F9DAB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93424014-7422-4B70-ABE1-5DA4E3F9DAB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93424014-7422-4B70-ABE1-5DA4E3F9DAB7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{93424014-7422-4B70-ABE1-5DA4E3F9DAB7}.Test|Any CPU.ActiveCfg = Test|Any CPU
-		{A27FE3B7-506F-4F9B-87B1-E3679C817949}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A27FE3B7-506F-4F9B-87B1-E3679C817949}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A27FE3B7-506F-4F9B-87B1-E3679C817949}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A27FE3B7-506F-4F9B-87B1-E3679C817949}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A27FE3B7-506F-4F9B-87B1-E3679C817949}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{A27FE3B7-506F-4F9B-87B1-E3679C817949}.Test|Any CPU.ActiveCfg = Release|Any CPU
+		{1671AB50-A121-4BCE-94B2-4B47FDE442C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1671AB50-A121-4BCE-94B2-4B47FDE442C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1671AB50-A121-4BCE-94B2-4B47FDE442C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1671AB50-A121-4BCE-94B2-4B47FDE442C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1671AB50-A121-4BCE-94B2-4B47FDE442C6}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{1671AB50-A121-4BCE-94B2-4B47FDE442C6}.Test|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,157 @@
+﻿@using Agribusiness.Web.Models
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>
+
+        @if (String.IsNullOrWhiteSpace(ViewBag.Title))
+        { 
+            <text>UC Davis Agribusiness Executive Seminar</text>
+        }
+        else
+        {
+            @ViewBag.Title
+        }
+    </title>
+    
+    <script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.6.2.min.js" type="text/javascript"></script>
+	<script src="//ajax.aspnetcdn.com/ajax/jquery.ui/1.8.14/jquery-ui.min.js" type="text/javascript"></script>
+ 
+</head>
+
+<body>
+
+<div class="wrapper">
+    @if (!string.IsNullOrWhiteSpace(ViewBag.CatbertCritical) || !string.IsNullOrWhiteSpace(ViewBag.CatbertMessage))
+    { 
+        <div id="system_wide_status">  
+            <div id="system_wide_status_text">
+            @Html.Raw(ViewBag.CatbertCritical)
+            @Html.Raw(ViewBag.CatbertMessage)
+            </div>
+        </div>
+    }
+
+@* Contains branding and navigation *@
+<div id="branding">
+    <span class="header">
+        <div class="col1">  
+        <span><a href="@Url.Action("Index", "Home")"><img src="@Url.Image("logo-agribusiness.jpg")" alt="Aribusiness Executive Seminar" height="90px" /></a></span>
+     </div> 
+     <div class="col2">
+        @Html.Partial("_Navigation", true)
+    </div> 
+
+    </span> 
+</div>
+
+@* This section holds the logon/logoff and greeting *@
+<div id="personalbar">
+    @Html.Partial("_LogOnPartial")
+</div>
+
+    <div class="main">
+
+        @* status and error message container *@
+        <div id="messagecontainer">
+
+        @if (!string.IsNullOrWhiteSpace((string)TempData["ErrorMessages"]))
+        {
+            @Html.Partial("_Message", new MessageModel() { IsError = true, Message = (string)TempData["ErrorMessages"] })
+        }
+
+        @if (!string.IsNullOrWhiteSpace((string)TempData["Message"]))
+        {
+            @Html.Partial("_Message", new MessageModel() { IsError = false, Message = (string)TempData["Message"] })
+        }
+
+        @* Page Title and Navigation *@
+        <div class="col1">
+        <h2>@ViewBag.SubPageTitle</h2>
+        </div>
+        <div class="col2">
+            @RenderSection("SubPageNavigation", false)
+        </div>
+        
+        </div> <!-- End of Message Container -->
+	
+        @* Render the main contents of the page *@
+        @RenderBody()
+
+    </div> <!-- End of Main -->
+
+</div>
+
+@* Byline and Secondary Navigation *@
+<div id="footer">
+<div id="footertext">
+<div class="col1">
+    @Html.Partial("_Navigation", false)
+</div>
+<div class="col2">
+<ul>
+	<li>
+	Version #: @ViewBag.Version
+	</li>
+    <li>
+        <img id="_sponsorImage" src="@Url.Content("~/Images/caes_wf_blue.jpg")" usemap="#_sponsorMap" alt="Sponsors" />
+        <map id="_sponsorMap" name="_sponsorMap">
+        <area shape="rect" coords="0,0,58,55" href="http://wellsfargo.com" alt="Wells Fargo" title="Wells Fargo"    />
+        <area shape="rect" coords="57,0,266,55" href="http://caes.ucdavis.edu" alt="College of Agricultural & Environmental Sciences" title="College of Agricultural & Environmental Sciences"    />
+        </map>
+    </li>
+	@*<li>
+	Developed By The College Of Agricultural And Environmental Science Dean's Office
+	</li>
+	<li>
+	Copyright The Regents of the University of California, Davis campus, 2005-11. All Rights Reserved.
+	</li>*@
+</div>
+</div>
+</div>
+
+    <link href="@Url.Content("~/Css/jquery-ui-1.8.11.caes.css")" rel="Stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Css/main.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Css/Agribusiness.css")" rel="stylesheet" type="text/css" />   
+    <link href="@Url.Content("~/Css/jquery.qtip.min.css")" rel="stylesheet" type="text/css" />
+
+    <script src="//ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+    <script type="text/javascript" src='@Url.Content("~/Scripts/jquery.dataTables.min.js")'></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.qtip.min.js")"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $(".datepicker").datepicker();
+            $(".default_table").dataTable({ "bJQueryUI": true, "bPaginate": false });
+            $(".submitanchor").click(function () { $(this).parent()[0].submit(); });
+
+            $(".hastip").qtip({
+                position: {
+                    my: 'bottom left',
+                    at: 'top left'
+                }
+
+            });
+        }); 
+    </script>
+
+    @RenderSection("ScriptContent", false)
+
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-5512876-8']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+    </script>
+
+</body>
+</html>

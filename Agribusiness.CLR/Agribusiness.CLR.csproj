@@ -18,6 +18,9 @@
     </ConnectionString>
     <TargetFrameworkProfile />
     <PermissionLevel>2</PermissionLevel>
+    <FileUpgradeFlags>40</FileUpgradeFlags>
+    <UpgradeBackupLocation>C:\Users\kirkland\Documents\GitHub\Agribusiness\Backup\Agribusiness.CLR\</UpgradeBackupLocation>
+    <OldToolsVersion>4.0</OldToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

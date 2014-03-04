@@ -1,0 +1,472 @@
+﻿@model AssignToSessionViewModel
+
+@{
+    ViewBag.Title = "Assign Attendees to Sessions";
+    ViewBag.SubPageTitle = "Assign Attendees to Sessions";
+}
+
+@section ScriptContent{
+
+
+    <style type="text/css">
+        
+        .container
+        {
+            margin-top: 1em;
+            float: left;
+        }
+        
+        #people-container
+        {
+            width: 200px;
+            margin-right: 20px;
+        }
+        
+        div header
+        {
+            font-size: large;
+            font-weight: bold;
+            border-bottom: 1px dotted darkgray;
+            padding-bottom: .3em;
+            vertical-align: middle;
+            color: #014A81;
+        } 
+        
+        div header a
+        {
+            font-weight: normal;
+            font-size: small;
+        }
+        
+        .people
+        {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            margin-right: 10px;
+        }
+        .people li
+        {
+            margin: 5px;
+            padding: 5px;
+            background: lightgray;
+            cursor: pointer;
+        }
+        .person {cursor: pointer;} 
+        
+        #session-container
+        {
+            float: left;
+            width: 800px;
+        }
+        
+        #session-selector 
+        {
+            text-align: center;
+            padding: .5em;           
+        }
+        #session-selector select { min-width: 790px; }
+       
+        .session-item {margin: 1em 0 4em 0;}
+        .session-item .person { width: 200px;}
+        
+        ul.session { list-style-type: none; margin: 0; padding: 0; float:left; margin-right: 10px; padding: 5px; width: 790px; min-height: 20px; }
+        ul.session li { margin: 5px; padding: 5px; background: lightgray;}
+        li.person .remove { float: right; }
+        
+        #sessions header
+        {
+            margin-top: 5px;
+            font-size: medium;
+            color: #014A81;
+        }
+        
+        .session .person
+        {
+        float: left;
+        width: 240px;
+        }
+        
+        .add-all { float: right; cursor: pointer; }
+    </style>
+
+    <script type="text/javascript" src="@Url.Script("chosen.jquery.min.js")"></script>
+    <script type="text/javascript" src="@Url.Script("jquery.tmpl.min.js")"></script>
+    <link href="@Url.Content("~/Css/chosen.css")" rel="Stylesheet" type="text/css" />
+
+    <script type="text/javascript">
+        var deleteImageUrl = '@Url.Content("~/Images/button_delete_red.png")';
+        var antiforgeryToken;
+
+        var assignUrl = '@Url.Action("Assign")';
+        var unassignUrl = '@Url.Action("UnAssign")';
+
+        var detailsUrl = '@Url.Action("GetDetails")';
+
+        $(function () {
+
+            // set the antiforgery
+            antiforgeryToken = $('input[name="__RequestVerificationToken"]').val();
+
+            // make the button a button
+            $("input[type='button']").button();
+
+            // initialize the chosen drop down
+            $("#session-filter-selector").chosen();
+
+            // show/hide the filters
+            $("#filter-toggle").click(function () {
+
+                $("#session-filters").toggle();
+
+                if ($("#session-filters").is(":visible")) {
+                    $(this).html("Hide Filters");
+                }
+                else {
+                    $(this).html("Show Filters");
+                }
+
+            });
+
+            // event for selecting/unselecting a filter
+            $("#session-filter-selector").change(function () {
+
+                var filters = $(this).find("option:selected");
+
+                // show all
+                if (filters.length == 0) {
+
+                    $(".session-item").show();
+
+                }
+                // show filtered
+                else {
+
+                    //hide all first
+                    $(".session-item").hide();
+
+                    $.each(filters, function (index, item) {
+
+                        var session = $(".session-item[data-sessionid='" + $(item).data("id") + "']");
+                        session.show();
+                        
+                    });
+                }
+            });
+
+            // set the source of where the names will be dragged from
+            $("ul.people li").draggable({ helper: "clone" });
+
+            // setup the targets
+            $("ul.session").droppable({
+                drop: function (event, ui) { AddPersonToSession(this, ui.draggable); }
+            });
+
+            // add live click handler for removing people from session
+            $(".remove").live('click', function () {
+
+                var session = $(this).parents(".session");
+                var person = $(this).parents("li");
+
+                // need to make the call to the server
+                UnAssign(session, person);
+
+            });
+
+            // add all people to a specific session
+            $(".add-all").click(function () {
+                var session = $(this).siblings("ul.session");
+
+                $.each($("ul.people li"), function (index, item) {
+                    AddPersonToSession(session, $(item));
+                });
+            });
+
+        });
+
+        /*
+        Add a person to a session
+
+        Parameters:
+        that - the session ul
+        personLi - the li object for a person
+        */
+        function AddPersonToSession(that, personLi) {
+//            //that --> the session
+//            var person = $(personLi).clone().removeClass("ui-draggable");
+
+//            // insert the delete image
+//            var deleteImg = $("<img>").attr("src", deleteImageUrl).addClass("remove");
+//            deleteImg.insertBefore(details);
+
+            // prevent adding a duplicate
+            if ($(that).find('li[data-id="' + personLi.data("id") + '"]').length <= 0) {
+
+                var title = personLi.find("div").attr("oldtitle");
+                var name = personLi.find("div").html();
+
+                var person = [{ id: personLi.data('id'), sessionId: $(that).attr("id"), title: title, name: name}];
+                
+                // make the call to the server to save
+                Assign(that, person);
+
+            }
+        }
+
+        /*
+        Makes the ajax calls to persist assignments to sessions
+
+        Parameters:
+        session - ul object for the particular session
+        person - the li object for a particular person
+        */
+        function Assign(session, person) {
+
+            var sessionId = $(session).attr("id");
+            var personId = $(person)[0].id;
+
+            $.post(assignUrl, { id: sessionId, seminarPersonId: personId, __RequestVerificationToken: antiforgeryToken }, function (result) {
+
+                if (result) {
+
+                    //person.appendTo(session);
+                    //$.tmpl("attendee-template", person).appendTo(session);
+
+                    var $newperson = $("#attendee-template").tmpl(person).appendTo(session);
+
+                    $newperson.find("div").qtip({
+                        position: {
+                            my: 'bottom left',
+                            at: 'top left'
+                        }
+
+                    });
+
+                }
+                else {
+                    alert("failed to save");
+                }
+
+            });
+        }
+
+        /*
+        Makes the ajax calls to persist unassignments to sessions
+
+        Parameters:
+        session - ul object for the particular session
+        person - the li object for a particular person
+        */
+        function UnAssign(session, person) {
+
+            var sessionId = $(session).attr("id");
+            var personId = $(person).data("id");
+
+            $.post(unassignUrl, { id: sessionId, seminarPersonId: personId, __RequestVerificationToken: antiforgeryToken }, function (result) {
+
+                if (result) {
+
+                    $(person).remove();
+
+                    if ($(session).parents("div").hasClass("single")) {
+                        AdjustNotFirstClasses(session);
+                    }
+
+                    ResizeSessionBox(session);
+                }
+                else {
+                    alert("failed to save");
+                }
+            });
+        }
+        
+    </script>
+
+    <script type="text/x-jquery-tmpl" id="attendee-template">
+        <li class="person" data-id="${id}" data-sessionId="${sessionId}">
+            <div class="hastip" title="${title}">${name}
+            <img src='@Url.Image("button_delete_red.png")' class="remove" />
+            </div>
+        </li>
+    </script>
+
+}
+
+@section SubPageNavigation
+{
+    <ul class="navigation">
+        <li>@Html.ActionLink("Back to Seminar", "Details", new {id=@Model.Seminar.Id})</li>
+    </ul>
+}
+
+@Html.AntiForgeryToken()
+
+<div id="people-container" class="container">
+
+    <header>Attendees</header>
+
+    <div class="scrollable">
+        <ul class="people">
+            @foreach(var person in Model.Seminar.SeminarPeople.OrderBy(a => a.Person.LastName))
+            {
+                <li class="person" data-id='@person.Id'>
+                    <div class="hastip" title="@(string.Format("{0}<br/>{1}<br/>{2}", person.Title, person.FirmName, person.GetCommodityList()))">
+                    @person.Person.FullName
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+
+</div>
+
+<div id="session-container" class="container">
+
+    <header>
+        <div style="float: left;">Sessions</div>
+        <div style="float: right;"><a id="filter-toggle" href="javascript:;">Hide Filters</a></div>
+        <div style="clear: both;"></div>
+    </header>
+
+    @{
+        var dates = Model.Seminar.Sessions.Where(a=>a.Begin.HasValue).Select(a => a.Begin.Value.Date).Distinct();
+    }
+
+    <section id="session-filters" >
+    
+        <div id="session-selector">
+        <select id="session-filter-selector" multiple data-placeholder="-- Select Session --">
+            @foreach (var date in dates)
+            {
+                var sessions = Model.Seminar.Sessions.Where(a => a.Begin.HasValue && a.Begin.Value.Date == date);
+                
+                <optgroup label="@String.Format("{0:dddd, MMMM d}", date)">
+                
+                @foreach (var session in sessions)
+                {
+                    <option data-id="@session.Id">@session.Name</option>
+                }
+                
+                </optgroup>
+            }
+        </select>
+        @*<input id="add-session-filter" type="button" value="Add Session"/>*@
+        </div>
+
+        @*<div id="session-selected" class="ui-state-focus">&nbsp;
+        </div>*@
+
+    </section>
+
+    <section id="sessions">
+        @foreach (var date in dates)
+        {
+            <header>@String.Format("{0:dddd, MMMM d}", date)</header>
+            
+            var sessions = Model.Seminar.Sessions.Where(a => a.Begin.HasValue && a.Begin.Value.Date == date);
+
+            foreach (var session in sessions)
+            {
+                <div class="session-item" data-sessionId="@session.Id">
+                    <a class="add-all" data-id='@session.Id'>Add All</a>
+                    <h4>@session.Name (@session.Begin.Value.ToShortTimeString())</h4>
+
+                    <ul id="@session.Id" class="session ui-state-highlight">
+                        @{var orderedPeeps = session.SeminarPeople.OrderBy(a=>a.Person.LastName).ToList();}
+                        @for(var j = 0; j<orderedPeeps.Count; j++)
+                        { 
+                            var person = orderedPeeps[j];
+                            var isFirst = j%3 == 0;
+                            var notFirst = isFirst ? "" : "notfirst";
+                                
+                            <li class="person @notFirst" data-id='@person.Id' data-sessionId="@session.Id">
+                                @person.Person.FullName
+                                <img src='@Url.Image("button_delete_red.png")' class="remove" />
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <div style="clear: both;"></div>
+            }
+        }
+    </section>
+
+</div>
+
+@*<fieldset class="people-container">
+    <legend>Attendees</legend>
+    <div class="scrollable">
+    <ul class="people">
+    @foreach (var person in Model.Seminar.SeminarPeople.OrderBy(a=>a.Person.LastName))
+    { 
+        <li class="person" data-id='@person.Id'>
+            @person.Person.FullName
+            <span class="details" data-id='@person.Id'><img src='@Url.Image("Search.png")'  /></span>
+        </li>
+    }
+    </ul>
+    </div>
+</fieldset>
+
+<fieldset class="session-container">
+    <legend>Sessions</legend>
+
+    <div class="scrollable">
+    @{var date = Model.Seminar.Begin;}
+
+    @do {
+
+        <fieldset>
+            <legend>@date.ToShortDateString()</legend>
+            @for (int i = 1; i < 24; i++)
+            {
+                // if any then put out a header and all the sessions
+                if (Model.Seminar.Sessions.Where(a=>a.Begin.HasValue).Any(a => a.Begin.Value.Hour == i && a.Begin.Value.Date == date.Date))
+                {                    
+                    var single = Model.Seminar.Sessions.Count(a=>a.Begin.Value.Hour == i && a.Begin.Value.Date == date.Date) == 1 ? "single" : string.Empty;
+                       
+                    foreach (var session in Model.Seminar.Sessions.Where(a => a.Begin.Value.Hour == i && a.Begin.Value.Date == date.Date))
+                    { 
+                        <div class='session-item @single'><a class="add-all" data-id='@session.Id'>Add All</a>
+                        <h4>@session.Name (@session.Begin.Value.ToShortTimeString())</h4>
+                        <ul id='@session.Id' class="session">
+                            @{var orderedPeeps = session.SeminarPeople.OrderBy(a=>a.Person.LastName).ToList();}
+                            @for(var j = 0; j<orderedPeeps.Count; j++)
+                            { 
+                                var person = orderedPeeps[j];
+                                var isFirst = j%3 == 0;
+                                var notFirst = isFirst ? "" : "notfirst";
+                                
+                                <li class="person @notFirst" data-id='@person.Id'>
+                                    @person.Person.FullName
+                                    <img src='@Url.Image("button_delete_red.png")' class="remove" />
+                                    <span class="details" data-id='@person.Id'><img src='@Url.Image("search.png")' /></span>
+                                </li>
+                            }
+                        </ul>
+                        </div>
+                    }
+                    <div style="clear:both;"></div>
+                }
+            }
+        </fieldset>
+        
+        // increment the day by one
+        date = date.AddDays(1);
+        
+    } while (date.Date <= Model.Seminar.End);
+    </div>
+</fieldset>
+
+<div style="clear:both;"></div>
+
+@*<div id="details" style="display:none;">
+    @foreach (var person in Model.Seminar.SeminarPeople.OrderBy(a=>a.Person.LastName))
+    { 
+        <div class="details" data-id='@person.Id'>
+            Specific details about @person.Person.FullName who is @person.Title at @person.FirmCode            
+        </div>
+    }
+</div>*@
+
+<div style="clear: both;"></div>

@@ -1,0 +1,74 @@
+﻿@using Agribusiness.Web.Helpers
+
+@model Agribusiness.Web.Models.SessionViewModel
+
+@Html.ValidationSummary("Please correct the following errors.")
+
+@using (Html.BeginForm())
+{ 
+@Html.AntiForgeryToken()
+<fieldset>
+    <ul>
+        <li><div class="editor-label required">
+                @Html.LabelFor(a => a.Session.Name)
+                <span>*</span>
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(a => a.Session.Name)
+                @Html.ValidationMessageFor(a => a.Session.Name)
+            </div>
+        </li>
+        <li><div class="editor-label">
+                @Html.LabelFor(a => a.Session.Location)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(a => a.Session.Location)
+                @Html.ValidationMessageFor(a => a.Session.Location)
+            </div>
+        </li>
+        <li><div class="editor-label">
+                @Html.LabelFor(a=>a.Session.Description)
+            </div>
+            <div class="editor-field">
+                @Html.TextAreaFor(a=>a.Session.Description)
+                @Html.ValidationMessageFor(a=>a.Session.Description)
+            </div>
+        </li>
+        <li><div class="editor-label">
+                @Html.LabelFor(a => a.Session.Begin)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(a => a.Session.Begin, "DateAndTime")
+                @Html.ValidationMessageFor(a => a.Session.Begin)
+            </div>
+        </li>
+        <li><div class="editor-label">
+                @Html.LabelFor(a => a.Session.End)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(a => a.Session.End, "DateAndTime")
+                @Html.ValidationMessageFor(a => a.Session.End)
+            </div>
+        </li>
+        <li><div class="editor-label required">
+                @Html.LabelFor(a => a.Session.SessionType)
+                <span>*</span>
+            </div>
+            <div class="editor-field">
+                @this.Select("Session.SessionType").Options(Model.SessionTypes,x=>x.Id,x=>x.Name).Selected(Model.Session.SessionType != null ? Model.Session.SessionType.Id : string.Empty).FirstOptionText("--Select a Session Type--").IncludeUnobtrusiveValidationAttributes(Html)
+                @Html.ValidationMessageFor(a => a.Session.SessionType)
+            </div>
+        </li>
+        <li><div class="editor-label">@Html.LabelFor(a => a.Session.ShowPublic)</div>
+            <div class="editor-field">@Html.EditorFor(a=> a.Session.ShowPublic)</div>
+        </li>
+        <li><div class="editor-label"><label>&nbsp;</label></div>
+            <div class="editor-field">
+            <input class="button" type="submit" value="Save" /> |
+            @Html.ActionLink("Cancel", "Edit", "Seminar", new { id = Model.Seminar.Id }, new { })
+            </div>
+        </li>
+    </ul>
+</fieldset>
+    
+}

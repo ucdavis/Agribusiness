@@ -1,0 +1,43 @@
+﻿@model PersonViewModel
+
+@{
+    ViewBag.Title = "Edit Profile";
+    ViewBag.SubPageTitle = "Edit Profile";
+}
+
+@section SubPageNavigation
+{
+    @if (User.IsInRole(Agribusiness.Web.Controllers.Filters.RoleNames.User))
+    { 
+    <ul class="navigation">
+        <li>@Html.ActionLink("Back to Details", "Details", new { id = Model.Person.Id })</li>
+    </ul>
+    }
+    else
+    {
+        <ul class="navigation">
+            <li>@Html.ActionLink("Back to Home", "Index", "Authorized")</li>
+            <li>@Html.ActionLink("Change Password", "ChangePassword", "Account")</li>
+        </ul>
+    }
+}
+
+<div>
+<div class="profile_pic_container">
+    <img src='@Url.Action("GetProfilePicture", new { id = Model.Person.Id })' />
+
+    @Html.ActionLink("Update Crop", "UpdateProfilePicture", new {id=Model.Person.Id})
+</div>
+
+<div class="profile_information_container">
+
+        @using (Html.BeginForm("Edit", "Person", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        { 
+            @Html.ValidationSummary(true)
+
+            @Html.Partial("_PersonForm")        
+        }
+
+</div>
+</div>
+<div style="clear:both;" />

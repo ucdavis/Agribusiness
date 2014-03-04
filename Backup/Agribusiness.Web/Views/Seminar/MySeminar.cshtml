@@ -1,0 +1,148 @@
+﻿@model Agribusiness.Web.Models.MySeminarViewModel
+
+@{
+    ViewBag.Title = "My Seminar";
+    ViewBag.SubPageTitle = "My Seminar";
+}
+
+@section ScriptContent{
+    <script type="text/javascript">
+        $(function () {
+            $("table").dataTable({ "bJQueryUI": true });
+        });    
+    </script>
+
+    <style type="text/css">
+    #payment-details { padding: 1em; }
+    #payment-details p { margin-bottom: 1em;}
+    #payment-contact { margin-left: 50px; }
+    </style>
+}
+
+@section SubPageNavigation
+{
+    @if (Model.SeminarPerson.Paid)
+    {
+        <ul class="navigation">
+            <li>@Html.ActionLink("Attendees", "BySeminar", "Attendee", new { id = Model.Seminar.Id }, new { })</li>
+            <li>@Html.ActionLink("Case Studies", "BySeminar", "CaseStudy", new { id = Model.Seminar.Id }, new { })</li>
+            <li>@Html.ActionLink("Venue", "Venue", "Public", new {}, new {})</li>
+            <li>@Html.ActionLink("Steering Committee", "SteeringCommittee", "Public", new {}, new {target="committee"})</li>
+        </ul>        
+    }
+
+}
+
+<h3>Seminar Details</h3>
+<div class="display-form">
+    <ul >
+        <li><div class="display-label">Date:</div>
+            <div class="display-details">@Model.Seminar.Begin.ToShortDateString()</div>
+        </li>
+        <li><div class="display-label">Location:</div>
+            <div class="display-details">@Model.Seminar.Location</div>
+        </li>
+        <li><div class="display-label">Payment Status:</div>
+            <div class="display-details">
+            @if (!string.IsNullOrWhiteSpace(Model.SeminarPerson.TransactionId) && !Model.SeminarPerson.Paid)
+            {
+                <text>Transaction Pending</text>
+            }
+            else if (Model.SeminarPerson.Paid)
+            {
+                <text>Paid</text>
+            }
+            else
+            { 
+                <a href='@Model.CrpLink' target="payment">Click here to Pay</a>
+            }
+            </div>
+        </li>
+
+        @if (!string.IsNullOrWhiteSpace(Model.SeminarPerson.CouponCode))
+        { 
+        <li><div class="display-label">Coupon:</div>
+            <div class="display-details">@Model.SeminarPerson.CouponCode</div>
+        </li>
+        }
+    </ul>
+
+    @if (!Model.SeminarPerson.Paid && string.IsNullOrWhiteSpace(Model.SeminarPerson.TransactionId))
+    {
+         <div id="payment-details" class="ui-state-highlight">
+            @*<p>Payment: the seminar fee of $3,950 covers all study materials, instruction, meals, and receptions, but excludes lodging. The fee is due February 1, 2012. Credit cards and checks are accepted.  You will not have access to case studies and contact information of other attendees until your seminar fee is paid.  Please make checks payable to UC Regents and ensure that the name of the applicant accompanies the check.</p>*@
+
+            <ul>
+                <li>Payment fee of $3,950 covers all study materials, instruction, meals, and receptions, but excludes lodging.</li>
+                <li>The fee is due February 1, 2012. </li>
+                <li>Credit cards and checks are accepted.</li>
+                <li><span style="color: red;"><strong>Payments will take 24 hours to process.</strong></span></li>
+                <li>You will not have access to case studies and contact information of other attendees until your seminar fee is paid.</li>
+                <li>Confirmation of credit card payments will occur within 24 hours (once you receive your confirmation, you will then have access to case studies and contact information of other attendees).</li>
+                <li>Please make checks payable to UC Regents and ensure that the name of the applicant accompanies the check.</li>
+            </ul>
+
+           
+            <p><a href="@Model.CrpLink" target="payment">Click here to pay</a></p>
+        </div>   
+    }
+
+</div>
+
+<div style="margin: 1em;">
+<h3>Documents</h3>
+<ul style="list-style: none;">
+    <li><a href="@Url.Content("~/Doc/2012-DASPacketLetter.pdf")" target="DASPacketLetter">Welcome Letter</a></li>
+    <li><a href="@Url.Content("~/Doc/2012-Schedule.pdf")" target="program">2012 Program</a></li>
+    <li><a href="@Url.Content("~/Doc/2012-AttendeeList.pdf")" target="attendee">Attendee List</a></li>
+    <li><a href="@Url.Content("~/Doc/2012-SeminarPrepPage.pdf")" target="seminarprep">Seminar Preparation Information</a></li>
+    <li><a href="@Url.Content("~/Doc/2012-DiscussionGroupFormat.pdf")" target="discussiongroup">Discussion Group Format Information</a></li>
+    <li><a href="@Url.Content("~/Doc/DirectionsRoundTripSF.pdf")" target="directions">Directions to Monterey</a></li>
+    <li><a href="@Url.Content("~/Doc/MontereyPlazaMa.pdf")" target="montereyplaza">Monterey Plaza Hotel and Spa Map</a></li>
+    <li><a href="@Url.Content("~/Doc/Menus.pdf")" target="menu">Menus</a></li>
+</ul>
+</div>    
+
+
+
+@if (Model.SeminarPerson.Sessions.Count == 0)
+{
+    @*<p style="margin: 2em 0;">Program schedule and breakout session assignments will be available soon.</p>*@
+}
+else if (Model.SeminarPerson.Paid)
+{
+    <h3>Your Sessions</h3>
+    <table>
+        <thead> 
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Begin</th>
+                <th>End</th>
+                <th>Type</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        
+            @foreach (var a in Model.SeminarPerson.Sessions)
+            { 
+                <tr>
+                    <td>
+                        <a href="@Url.Action("Details", "Session", new { id = a.Id })">
+                            <img src='@Url.Content("~/Images/details.png")' alt="View details for session" />
+                        </a>
+                    </td>
+                    <td>@a.Name</td>
+                    <td>@a.Location</td>
+                    <td>@a.BeginString</td>
+                    <td>@a.EndString</td>
+                    <td>@a.SessionType.Name</td>
+                    <td></td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+}

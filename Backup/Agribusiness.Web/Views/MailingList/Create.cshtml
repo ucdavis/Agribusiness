@@ -1,0 +1,22 @@
+﻿@model MailingListViewModel
+
+@{
+	ViewBag.Title = "Create Mailing List";
+    ViewBag.SubPageTitle = "Create Mailing List";
+}
+
+@section SubPageNavigation
+{
+	<ul class="navigation">
+        @if (Model.SeminarId.HasValue)
+        {
+            <li>@Html.ActionLink("Back to List", "Index", new {seminarId = @Model.SeminarId.Value})</li>    
+        }
+        else
+        {
+            <li>@Html.ActionLink("Back to List", "Index")</li>    
+        }
+	</ul>
+}
+
+@Html.Partial("_MailingListForm")

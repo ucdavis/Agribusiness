@@ -1,0 +1,77 @@
+﻿@model FirmViewModel
+
+@{
+    ViewBag.Title = "Edit Firm";
+    ViewBag.SubPageTitle = "Edit Firm";
+}
+
+<fieldset>
+    <legend>Original Firm Information</legend>
+
+    @if(Model.OrigFirm != null)
+    {
+    <div class="display-form" style="padding: 10px 50px 10px 100px;">
+    <ul>
+        <li><div class="display-label">Name:</div>
+            <div class="display-details">@Model.OrigFirm.Name</div>
+        </li>
+        <li><div class="display-label">Description:</div>
+            <div class="display-details">@Model.OrigFirm.Description</div>
+        </li>
+    </ul>
+    </div>
+    }
+    else
+    {
+        <p>There is no old firm information.</p>
+    }
+        
+</fieldset>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("FirmCode", Model.PendingFirm.FirmCode)
+    <input id="decissionId" type="hidden" value="@ViewBag.DecissionId" name="decissionId" />
+    <fieldset>
+        <legend>Modified/New Firm Information</legend>      
+
+        @if (Model.OrigFirm != null && Model.PendingFirm.Review)
+        { 
+        @Html.ActionLink("Reject Changes", "Reject", new { id = Model.PendingFirm.Id }, new { style = "float:right; margin-right: 20px;" })
+        }
+
+        <ul>
+            <li><div class="editor-label required">Name: <span>*</span></div>
+                <div class="editor-field">@Html.TextBox("Name", Model.PendingFirm.Name)</div>
+            </li>
+            <li><div class="editor-label required">Description:<span>*</span></div>
+                <div class="editor-field">@Html.TextArea("Description", Model.PendingFirm.Description, new { @style="height: 100px; width: 630px;" })</div>
+            </li>
+            <li><div class="editor-label"></div>
+                <div class="editor-field">
+                    <input type="submit" value="Save" class="button" /> |
+                    @if(@ViewBag.DecissionId != null){
+                        @Html.ActionLink("Cancel", "Decide", "SeminarApplication", new { id = @ViewBag.DecissionId }, null)
+                    }
+                    else if (@ViewBag.UserId != null)
+                    {
+                        if (@ViewBag.SeminarId == null)
+                        {
+                            @Html.ActionLink("Cancel", "AdminEdit", "Person", new { id = @ViewBag.UserId }, null)    
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Cancel", "AdminEdit", "Person", new { id = @ViewBag.UserId, seminarId = @ViewBag.SeminarId }, null)    
+                        }
+                    }
+                    else
+                    { 
+                        @Html.ActionLink("Cancel", "Index")
+                    }
+                </div>
+            </li>
+        </ul>
+    
+    </fieldset>
+}

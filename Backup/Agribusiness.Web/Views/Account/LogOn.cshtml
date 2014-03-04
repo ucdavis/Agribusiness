@@ -1,0 +1,55 @@
+﻿@model Agribusiness.Web.Models.LogOnModel
+
+@{
+    ViewBag.Title = "Log On";
+    ViewBag.SubPageTitle = "Log On";
+}
+
+<p>
+    Please enter your username and password. Forgot your password? @Html.ActionLink("Click Here", "ResetPassword")
+</p>
+
+
+@Html.ValidationSummary(true, "Login was unsuccessful. Please correct the errors and try again.")
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    <div>
+        <fieldset>
+            <legend>Account Information</legend>
+
+            <ul>
+            <li>
+            <div class="editor-label">
+                @Html.LabelFor(m => m.UserName)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(m => m.UserName)
+                @Html.ValidationMessageFor(m => m.UserName)
+            </div>
+            </li>
+            <li>
+            <div class="editor-label">
+                @Html.LabelFor(m => m.Password)
+            </div>
+            <div class="editor-field">
+                @Html.PasswordFor(m => m.Password)
+                @Html.ValidationMessageFor(m => m.Password)
+            </div>
+            </li>
+            <li><div class="editor-label">&nbsp;</div>
+            <div class="editor-field">
+                @Html.CheckBoxFor(m => m.RememberMe)
+                @Html.LabelFor(m => m.RememberMe)
+            </div>
+            </li>
+            <li><div class="editor-label">&nbsp;</div>
+                <div class="editor-field"><input type="submit" value="Log On" class="button" /></div>
+            </li>
+
+            </ul>
+        </fieldset>
+    </div>
+}
+
+<p>If you are an administrator log in @Html.ActionLink("Here", "LogOn", new { returnUrl = @Url.Action("Admin", "Home"), membershipLogon = false}).</p>

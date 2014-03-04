@@ -1,0 +1,76 @@
+﻿@{Layout = null;}
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head runat="server">
+    <title>
+            UC Davis Agribusiness Executive Seminar
+    </title>
+    
+</head>
+
+<body>
+
+<div class="wrapper">
+    <div id="branding">
+        <span class="header">
+        <h1>Agribusiness Executive Seminar</h1>
+        <div class="col1">  
+            <span><a href="http://ucdavis.edu"><img src='@Url.Content("~/Images/logo-ucdavis.png")' alt="UC Davis" /></a></span>
+        </div> 
+        <div class="col2">
+        </div> 
+
+        </span> 
+    </div>
+
+    @* This section holds the logon/logoff and greeting *@
+    <div id="personalbar">
+    </div>
+
+    <div class="main">
+    
+        @* Page Title and Navigation *@
+        <div class="col1">
+        <h2>Coming Soon</h2>
+        </div>
+        <div class="col2">
+        </div>
+
+        <!-- Put in the body stuff here -->
+        <p>
+            We are working hard on setting up a new UC Davis Agribusiness Executive Seminar portal.  Please come back soon!
+        </p>
+
+
+    </div> <!-- End of Main -->
+
+</div>
+
+@* Byline and Secondary Navigation *@
+<div id="footer">
+<div id="footertext">
+<div class="col1">
+</div>
+<div class="col2">
+<ul>
+	<li>
+	Version #: @ViewBag.Version
+	</li>
+    <li>
+        <img id="_sponsorImage" src="@Url.Content("~/Images/caes_wf_blue.jpg")" usemap="#_sponsorMap" alt="Sponsors" />
+        <map id="_sponsorMap" name="_sponsorMap">
+        <area shape="rect" coords="0,0,58,55" href="http://wellsfargo.com" alt="Wells Fargo" title="Wells Fargo"    />
+        <area shape="rect" coords="57,0,266,55" href="http://caes.ucdavis.edu" alt="College of Agricultural & Environmental Sciences" title="College of Agricultural & Environmental Sciences"    />
+        </map>
+    </li>
+</div>
+</div>
+</div>
+
+    <link href="@Url.Content("~/Css/main.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Css/Agribusiness.css")" rel="stylesheet" type="text/css" />   
+
+</body>
+</html>

@@ -1,0 +1,16 @@
+﻿@model Agribusiness.Web.Models.TemplateViewModel
+
+
+@{
+    ViewBag.Title = "Edit";
+    ViewBag.SubPageTitle = "Edit Template";
+}
+
+@section SubPageNavigation
+{
+    <div id="navigation">
+        <li>@Html.ActionLink("Back to List", "Index")</li>
+    </div>
+}
+
+@Html.Partial("_TemplateForm")

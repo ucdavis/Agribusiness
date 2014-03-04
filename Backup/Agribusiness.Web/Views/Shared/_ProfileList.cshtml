@@ -1,0 +1,111 @@
+﻿@model Agribusiness.Web.Models.DisplayPerson
+
+@{
+    var publicProfile = ViewBag.PublicProfile != null && (bool)ViewBag.PublicProfile;
+}
+
+
+<div class="list-item">
+
+    <aside class="list-item-picture">
+        @if (publicProfile)
+        {
+            <img src='@Url.Action("GetPublicThumbnail", "Public", new { id = Model.Person.Id })' alt='@string.Format("{0}'s Profile Picture", @Model.Person.FullName)' />
+        }
+        else
+        {
+            <img src='@Url.Action("GetThumbnail", "Person", new { id = Model.Person.Id })' alt='@string.Format("{0}'s Profile Picture", @Model.Person.FullName)' />
+        }
+    </aside>
+
+    <section class="list-item-body">
+    
+        <header class="list-item-name">
+        
+            @if (publicProfile)
+            {
+                <text>@Model.Person.FullName</text>
+            }
+            else
+            {
+                 @Html.ActionLink(Model.Person.FullName, "Profile", new { id = Model.Person.Id, seminarId = Model.Seminar != null ? Model.Seminar.Id.ToString() : string.Empty })
+            }
+@*            else if (Model.Seminar != null)
+            { 
+                @Html.ActionLink(Model.Person.FullName, "Profile", new { id = Model.Person.Id, seminarId = Model.Seminar.Id })
+            }
+            else
+            { 
+                <text>@Model.Person.FullName (No Seminar)</text>
+            }*@
+
+        </header>
+
+        <div class="list-item-title">@Model.Title</div>
+
+        <div class="list-item-firm-name">                    
+            @if (Model.Firm != null)
+            { 
+                @Model.Firm.Name
+            }
+            else
+            { 
+                <text>No firm has been defined for this person</text>
+            }   
+        </div>
+
+        <div class="list-item-firm-description">
+        
+            @if ((Model.Firm != null) && !publicProfile)
+            {
+                @Model.Firm.Description
+            }
+
+        </div>
+
+        @if (!publicProfile)
+        {
+            <aside class="list-item-vcard">
+                <a href='@Url.Action("GetvCard", "Person", new { id = Model.Person.Id })'>
+                    <img src='@Url.Image("icon_vcard.png")' alt="vcard icon" style="top: 10px;" />
+                    Download Contact Card
+                </a>
+
+                @{
+            var isUser = User.IsInRole(Agribusiness.Web.Controllers.Filters.RoleNames.User);
+                }
+
+                @if (isUser)
+                {
+
+                    if (Model.Seminar != null)
+                    {
+                        <a href='@Url.Action("AdminEdit", "Person", new { id = Model.Person.User.Id, seminarId = Model.Seminar.Id })'>
+                            <img src='@Url.Image("edit.png")' alt="Edit" style="height: 20px; width: 20px;" />
+                            Edit
+                        </a>    
+                    }
+                    else
+                    {
+                        <a href='@Url.Action("AdminEdit", "Person", new { id = Model.Person.User.Id })'>
+                            <img src='@Url.Image("edit.png")' alt="Edit" style="height: 20px; width: 20px;" />
+                            Edit
+                        </a>    
+                    }
+                    
+                    <a href="javascript:;" class="mailinglist-add" data-personid="@Model.Person.Id" data-name="@Model.Person.FullName">
+                        <img src='@Url.Image("mail_add.png")' alt="Add to Mailing List" style="height: 20px; width: 20px;" />
+                        Add to Mailing List
+                    </a>
+                    
+                }
+
+            </aside>                
+        }
+
+
+    </section>
+
+    <div style="clear:both"></div>
+
+</div>

@@ -1,0 +1,9 @@
+﻿@if (Request.IsAuthenticated)
+{ 
+    <div class="col1">Welcome @Context.User.Identity.Name</div>
+    <div class="col2" id="LogOffOn">@Html.ActionLink("Log Off", "Logoff", "Account")</div>
+}
+else { 
+    <div class="col1"></div>
+    <div class="col2" id="LogOffOn">@Html.ActionLink("Log On", "Index", "Authorized", new { }, new { })</div>
+}

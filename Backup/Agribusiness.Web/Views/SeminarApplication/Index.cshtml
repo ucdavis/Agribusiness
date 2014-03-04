@@ -1,0 +1,68 @@
+﻿@model IEnumerable<Agribusiness.Core.Domain.Application>
+
+@{
+    ViewBag.Title = "Seminar Applications";
+    ViewBag.SubPageTitle = "Seminar Applications";
+}
+
+@section ScriptContent{
+    <script type="text/javascript">
+        $(function () {
+            $("table").dataTable({ "bJQueryUI": true, "bPaginate": false, "aaSorting": [[3, "asc"]] });
+        });
+    </script>
+}
+
+<table>
+	<thead>
+		<tr>
+			<th></th>
+			<th>
+				FirstName
+			</th>
+			<th>
+				MI
+			</th>
+			<th>
+				LastName
+			</th>
+			<th>
+				Expectations
+			</th>
+            <th>Date Submitted</th>
+            <th>Pending</th>
+            <th>Approved</th>
+		</tr>
+	</thead>
+	<tbody>
+@{ var odd = false; }
+@foreach (var item in Model) {
+		<tr class="@(odd ? "odd": "even")">
+			<td>
+                <a href='@Url.Action("Decide", new { id=item.Id })'>
+                <img src='@Url.Content("~/Images/Edit.png")' alt="Decide on this application." />
+                </a>
+			</td>
+			<td>
+				@item.FirstName
+			</td>
+			<td>
+				@item.MI
+			</td>
+			<td>
+				@item.LastName
+			</td>
+			<td>
+				@item.Expectations
+			</td>
+            <td>
+                @item.DateSubmitted.ToString("g")
+            </td>
+            <td>@if (item.IsPending) { <img src='@Url.Image("check.png")' alt='@string.Format("{0}'s application is pending.", item.FullName)' /> }</td>
+            <td>@if (item.IsApproved) { <img src='@Url.Image("check.png")' alt='@string.Format("{0}'s application is approved.", item.FullName)' /> }</td>
+		</tr>
+		odd = !odd;
+}
+	</tbody>
+</table>
+

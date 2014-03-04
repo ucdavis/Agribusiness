@@ -1,0 +1,67 @@
+﻿@model CaseStudyViewModel
+
+@Html.ValidationSummary("Please correct the following errors:")
+
+
+
+@Html.AntiForgeryToken()
+@Html.Hidden("seminarId", Model.Seminar.Id)
+        
+<fieldset>
+    <legend>Properties</legend>
+    <ul>
+        <li><div class="editor-label required">
+            @Html.LabelFor(a => a.CaseStudy.Name)
+            <span>*</span>
+            </div>
+            <div class="editor-field">
+            @Html.TextBoxFor(a => a.CaseStudy.Name)
+            @Html.ValidationMessageFor(a => a.CaseStudy.Name)
+            </div>
+        </li>
+        <li><div class="editor-label">
+            @Html.LabelFor(a => a.CaseStudy.Description)
+            </div>
+            <div class="editor-field">
+            @Html.TextAreaFor(a => a.CaseStudy.Description)
+            @Html.ValidationMessageFor(a => a.CaseStudy.Description)
+            </div>
+        </li>
+        <li><div class="editor-label">
+            @Html.LabelFor(a => a.CaseStudy.File)
+            </div>
+            <div class="editor-field">
+            <input type="file" name='file' id='file' />
+            @Html.ValidationMessageFor(a => a.CaseStudy.File)
+
+
+            @if (Model.CaseStudy.File != null)
+            { 
+                <text>|</text> @Html.ActionLink("Download Existing File", "Download", new { id=Model.CaseStudy.Id })
+            }
+                    
+
+            </div>
+        </li>
+        <li><div class="editor-label">
+            @Html.LabelFor(a => a.CaseStudy.Session)
+            </div>
+            <div class="editor-field">
+            @this.Select("CaseStudy.Session").Options(Model.Seminar.Sessions, x => x.Id, x => x.Name).FirstOption("--Select a Session--").Selected(Model.CaseStudy.Session != null ? Model.CaseStudy.Id.ToString() : string.Empty)
+            </div>
+        </li>
+        <li><div class="editor-label">@Html.LabelFor(a => a.CaseStudy.IsPublic)</div>
+            <div class="editor-field">@Html.CheckBoxFor(a => a.CaseStudy.IsPublic)
+                <em>Display the name of this case study publicly</em>
+            </div>
+        </li>
+        <li>
+            <div class="editor-label"><label>&nbsp;</label></div>
+            <div class="editor-field">
+                <input type="submit" value="Save" class="button" /> |
+                @Html.ActionLink("Cancel", "Edit", "Seminar", new { id = Model.Seminar.Id }, new { })
+            </div>
+        </li>
+    </ul>
+
+</fieldset>

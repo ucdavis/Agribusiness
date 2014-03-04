@@ -1,0 +1,57 @@
+﻿@model Seminar
+
+
+
+<link href="@Url.Content("~/Css/anytimec.css")" rel="stylesheet" type="text/css" />   
+<script src="@Url.Content("~/Scripts/anytimec.js")" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+    var year = @(Model.Begin.Year);
+
+    @if ((bool)ViewBag.Restrict)
+    {
+        <text>
+            var beginMonth = @(Model.Begin.Month);
+            var beginDay = @(Model.Begin.Day);
+
+            var endMonth = @(Model.End.Month);
+            var endDay = @(Model.End.Day);
+
+        
+            $(function () {
+                $.each($(".dateAndTime"), function (index, item) {
+                    AnyTime.picker(item.id, {
+                        format: "%m/%d/%Y %h:%i %p",
+                        baseYear: year,
+                        earliest: new Date(year, beginMonth - 1, beginDay, 0, 0, 0),
+                        latest: new Date(year, endMonth - 1, endDay, 23, 59, 0)
+                        });
+                });
+            });    
+        </text>
+    }
+    else
+    {
+        <text>
+
+             $(function () {
+                $.each($(".dateAndTime"), function (index, item) {
+                    AnyTime.picker(item.id, {
+                        format: "%m/%d/%Y %h:%i %p",
+                        baseYear: year
+                        });
+                });
+            });            
+
+        </text>
+    }
+    
+    
+</script>
+
+<style type="text/css">
+    .AnyTime-pkr {z-index: 100;}
+    .AnyTime-pkr .AnyTime-btn {color: White;}
+    .AnyTime-pkr .ui-state-highlight {color: Black;}
+</style>

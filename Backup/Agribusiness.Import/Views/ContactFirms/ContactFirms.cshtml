@@ -1,0 +1,27 @@
+﻿@model Agribusiness.Import.Models.View.ContactFirmViewModel
+
+@{
+    ViewBag.Title = "ContactFirms";
+}
+
+<h2>ContactFirms</h2>
+
+<div>
+    <ul>
+    <li>
+        <em>Imported Already?</em> @(Model.AlreadyImported ? "Yes" : "No")    
+    </li>
+    <li>
+        <em># Read:</em> @Model.ContactFirms.Count
+    </li>
+    <li>
+        <em># Error:</em> @Model.Errors.Count
+    </li>
+    </ul>
+</div>
+
+@Html.Partial("_Error", Model.Errors)
+
+@*<hr />
+
+@Html.Partial("_ContactFirmList", Model.ContactFirms)*@

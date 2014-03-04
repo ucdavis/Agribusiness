@@ -1,0 +1,11 @@
+﻿@model CaseStudyViewModel
+
+@{
+    ViewBag.Title = "Create Case Study";
+    ViewBag.SubPageTitle = "Create Case Study";
+}
+
+@using (Html.BeginForm("Create", "CaseStudy", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.Partial("_CaseStudyForm")
+}

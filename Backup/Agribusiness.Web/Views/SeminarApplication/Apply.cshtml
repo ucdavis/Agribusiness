@@ -1,0 +1,516 @@
+﻿@model Agribusiness.Web.Models.ApplicationViewModel
+
+@{
+	ViewBag.Title = "Apply for Seminar";
+    ViewBag.SubPageTitle = "Apply for Seminar";
+}
+
+@section SubPageNavigation
+{
+    <ul class="navigation">
+        <li>@Html.ActionLink("Back to Home", "Index", "Authorized")</li>
+    </ul>
+}
+
+@section ScriptContent{
+
+    <style type="text/css">
+        .commodities li
+        {
+            float:left;
+            display:inline-block;
+            width: 210px;
+            height: 25px;
+        }
+        
+        input[type='text'], textarea
+        {
+            width: 250px;
+        }
+        
+        select
+        {
+            width: 262px;
+        }
+        
+        textarea
+        {
+            height: 75px;
+        }
+        
+        form fieldset div.editor-label, .display-form div.display-label
+        {
+            width: 150px;
+        }
+        
+        
+        #commodity-other-container
+        {
+            clear: both;
+            width: 350px;
+        }
+
+        #Application_OtherCommodity
+        {
+            margin-left: 20px;
+            padding: .4em;
+            min-width: 200px;
+        }
+    </style>
+
+    <script type="text/javascript">
+        $(function () {
+            $("#firm_dialog").dialog({
+                autoOpen: false,
+                modal: true,
+                buttons: {
+                    "Confirm": selectFirm,
+                    Cancel: function () { $(this).dialog("close"); }
+                }
+            });
+
+            $("#selectFirm_btn").click(function () {
+                $("#firm_dialog").dialog("open");
+            });
+
+            $("#Application_FirmType").change(function () {
+
+                if ($(this).find(":selected").text() == "Other") {
+                    $("#firmtype-other").show();
+                }
+                else {
+                    $("#firmtype-other").hide();
+                }
+            });
+
+            $("#Application_OtherCommodity").bind("focus blur keyup", function () {
+
+                if ($(this).val() != "") { $("#commodity-other").attr("checked", "checked"); }
+                else $("#commodity-other").removeAttr("checked");
+
+            });
+        });
+
+        function selectFirm() {
+
+            var dropDown = $(this).find("select");
+
+            // hide the existing firms
+            $("#existingFirmInformation").hide();
+            $("#firmInformation").hide();
+            $("#firmAddress").hide();
+            $("#jobInformation").hide();
+
+            // blank out the other txt boxes
+            $("#Application_Firm").val("");
+            $("#Application_FirmName").val("");
+            $("#Application_FirmDescription").val("");
+
+            // make sure a firm has been selected
+            if (dropDown.val() != "" && dropDown.val() != "0") {
+
+                // display the correct form
+                $("#firmName").html($(dropDown).find(":selected").text());
+                $("#Application_Firm").val($(dropDown).val());
+                $("#existingFirmInformation").show();
+
+            }
+            // selected other
+            else if (dropDown.val() == "0") {
+
+                $("#firmInformation").show();
+
+            }
+            // did not select a firm or other
+            else {
+                alert("no firm selected");
+                return;
+            }
+
+            $("#jobInformation").show();
+            $("#firmAddress").show();
+            $(this).dialog("close");
+        }
+    </script>
+
+}
+
+@Html.ValidationSummary(false, "Please correct the following errors:")
+
+@using (Html.BeginForm("Apply", "SeminarApplication", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+	@Html.AntiForgeryToken()
+	
+    <fieldset>
+	    <legend>Personal Information</legend>
+	    <p>All required fields are in <strong>bold</strong> and have a red <span class="required">*</span> next to the field label.</p>
+	    <ul>
+		    <li>
+			    <div class="editor-label required">
+				    @Html.LabelFor(model => model.Application.FirstName)<span>*</span> 
+			    </div>
+			    <div class="editor-field">
+				    @Html.EditorFor(model => model.Application.FirstName)
+				    @Html.ValidationMessageFor(model => model.Application.FirstName)
+			    </div>
+		    </li>
+		    <li>
+			    <div class="editor-label">
+				    @Html.LabelFor(model => model.Application.MI) 
+			    </div>
+			    <div class="editor-field">
+				    @Html.EditorFor(model => model.Application.MI)
+				    @Html.ValidationMessageFor(model => model.Application.MI)
+			    </div>
+		    </li>
+		    <li>
+			    <div class="editor-label required">
+				    @Html.LabelFor(model => model.Application.LastName)<span>*</span> 
+			    </div>
+			    <div class="editor-field">
+				    @Html.EditorFor(model => model.Application.LastName)
+				    @Html.ValidationMessageFor(model => model.Application.LastName)
+			    </div>
+		    </li>
+		    <li>
+			    <div class="editor-label">
+				    @Html.LabelFor(model => model.Application.BadgeName) 
+			    </div>
+			    <div class="editor-field">
+				    @Html.EditorFor(model => model.Application.BadgeName)
+				    @Html.ValidationMessageFor(model => model.Application.BadgeName)
+			    </div>
+		    </li>
+        </ul>
+    </fieldset>
+    <fieldset>
+        <legend>Firm Information</legend>
+
+        <p style="margin-bottom: 2em;">
+            Please select your firm from the pop-up list and make any necessary changes below.  If your firm does not appear, select "Other" and fill in the requested information.
+        </p>
+
+        <div class="text_btn" id="selectFirm_btn">
+            <a href="javascript:;">Select a Firm</a>
+            <span style="color:Red;">*</span>
+        </div>
+        
+
+        <div id="firm_dialog" title="Select a Firm">
+            <p>
+            @this.Select("Firm").Options(Model.Firms, x => x.Id, x => x.Name).FirstOption("--Select a Firm--")
+            </p>
+        </div>
+
+
+        @{
+    var existing = Model.Application.Firm == null;
+    var newFirm = string.IsNullOrWhiteSpace(Model.Application.FirmName) && string.IsNullOrWhiteSpace(Model.Application.FirmDescription);
+
+    var displayExisting = existing ? "display:none;" : "";
+    var displayNew = newFirm ? "display:none;" : "";
+
+    var combined = existing && newFirm ? "display:none;" : "";
+
+    var existingFirmName = Model.Application.Firm != null ? Model.Application.Firm.Name : string.Empty;
+        }
+
+        <div class="display-form" id="existingFirmInformation" style='@displayExisting' >
+        @*@Html.HiddenFor(a=>a.Application.Firm)*@
+
+        @Html.Hidden("Application.Firm", Model.Application.Firm != null ? Model.Application.Firm.Id.ToString() : string.Empty)
+
+        <ul>
+            <li><div class="display-label">@Html.LabelFor(model => model.Application.FirmName)</div>
+                <div class="display-details"><span id="firmName">@existingFirmName</span></div>
+            </li>
+        </ul>
+        </div>
+
+        @* Only needed if firm name has not been selected *@
+        <ul id="firmInformation" style='@displayNew'>
+            <li><div class="editor-label required">@Html.LabelFor(model => model.Application.FirmName)<span>*</span></div>
+                <div class="editor-field">@Html.TextBox("Application.FirmName", Model.Application.FirmName)</div>
+            </li>
+            <li><div class="editor-label required">@Html.LabelFor(model => model.Application.FirmDescription)<span>*</span></div>
+                <div class="editor-field">@Html.TextArea("Application.FirmDescription", Model.Application.FirmDescription)</div>
+            </li>
+        </ul>
+
+        @* Job Information *@
+        <ul id="jobInformation" style='@combined'>
+            <li><div class="editor-label required">@Html.LabelFor(model => model.Application.FirmType)<span>*</span></div>
+                <div class="editor-field">
+                    @this.Select("Application.FirmType").Options(Model.FirmTypes, x => x.Id, x => x.Name).FirstOption("--Select Firm Type--").Selected(Model.Application.FirmType != null ? Model.Application.FirmType.Id.ToString() : string.Empty).Class("required")
+
+                    <span id="firmtype-other" style="@(Model.Application.FirmType != null && Model.Application.FirmType.Name == "Other" ? "display: inline-block;" : "display: none;")">
+                        @*@Html.TextBoxFor(model => model.Application.OtherFirmType)*@
+                        <input type="text" id="Application_OtherFirmType" name="Application.OtherFirmType" placeholder="Firm Type" value="@Model.Application.OtherFirmType" class="hastip" title="Please enter the type of your firm." />
+                    </span>
+
+                    @Html.ValidationMessageFor(a=>a.Application.FirmType)
+                </div>
+            </li>
+            <li><div class="editor-label">@Html.LabelFor(model => model.Application.Website)</div>
+                <div class="editor-field">@Html.TextBoxFor(a => a.Application.Website)</div>
+            </li>
+            <li><div class="editor-label required">@Html.LabelFor(model => model.Application.JobTitle)<span>*</span></div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(a => a.Application.JobTitle)
+                    @Html.ValidationMessageFor(a => a.Application.JobTitle)
+                </div>
+            </li>
+            <li><div class="editor-label required">@Html.LabelFor(model => model.Application.Responsibilities)<span>*</span></div>
+                <div class="editor-field">
+                    @Html.TextAreaFor(a => a.Application.Responsibilities)
+                    @Html.ValidationMessageFor(a => a.Application.Responsibilities)
+                </div>
+            </li>
+            <li><div class="editor-label required">@Html.LabelFor(model => model.Application.FirmPhone)<span>*</span></div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(a => a.Application.FirmPhone, new { placeholder = "eg. (555) 555-5555" })
+                    @Html.ValidationMessageFor(a => a.Application.FirmPhone)
+                </div>
+            </li>
+            <li><div class="editor-label">@Html.LabelFor(model => model.Application.FirmPhoneExt)</div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(a => a.Application.FirmPhoneExt)
+                    @Html.ValidationMessageFor(a => a.Application.FirmPhoneExt)
+                </div>
+            </li>
+        </ul>
+
+        @* Always need to fill in the address information *@
+        <ul id="firmAddress" style='@combined'>
+            <li><div class="editor-label required">@Html.LabelFor(model => model.Application.FirmAddressLine1)<span>*</span></div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(a => a.Application.FirmAddressLine1)
+                    @Html.ValidationMessageFor(a => a.Application.FirmAddressLine1)
+                </div>
+            </li>
+            <li><div class="editor-label">@Html.LabelFor(model => model.Application.FirmAddressLine2)</div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(a => a.Application.FirmAddressLine2)
+                    @Html.ValidationMessageFor(a => a.Application.FirmAddressLine2)
+                </div>
+            </li>
+            <li><div class="editor-label required">@Html.LabelFor(model => model.Application.FirmCity)<span>*</span></div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(a => a.Application.FirmCity)
+                    @Html.ValidationMessageFor(a => a.Application.FirmCity)
+                </div>
+            </li>
+            <li><div class="editor-label required">@Html.LabelFor(model => model.Application.FirmState)<span>*</span></div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(a => a.Application.FirmState)                    
+                    @Html.ValidationMessageFor(a => a.Application.FirmState)
+                </div>
+            </li>
+            <li><div class="editor-label required">@Html.LabelFor(model => model.Application.FirmZip)<span>*</span></div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(a => a.Application.FirmZip)
+                    @Html.ValidationMessageFor(a => a.Application.FirmZip)    
+                </div>
+            </li>
+            <li><div class="editor-label reuqired">@Html.LabelFor(a => a.Application.Country)<span>*</span></div>
+                <div class="editor-field">
+                    @this.Select("Application.Country").Options(Model.Countries, x => x.Id, x => x.Name).FirstOption("--Select a Country--").Selected(Model.Application.Country != null ? Model.Application.Country.Id : "USA")
+                    @Html.ValidationMessageFor(a => a.Application.Country)
+                </div>
+            </li>
+        </ul>
+
+    </fieldset>
+    <fieldset>
+        <legend>Commodities Important to your Business</legend>
+        <p>Please check all commodities that apply to your firm.</p>
+        <ul class="commodities">
+            @foreach (var c in Model.Commodities)
+            { 
+                <li>
+                    @{var selected = Model.Application.Commodities.Contains(c) ? "checked" : string.Empty;}
+                    <input type="checkbox" name="Application.Commodities" value='@c.Id' @selected />
+                    @c.Name
+                </li>
+            }
+
+            <li id="commodity-other-container">
+                <input type="checkbox" id="commodity-other" @(!string.IsNullOrWhiteSpace(Model.Application.OtherCommodity) ? "checked" : string.Empty) /> <span>Other</span>
+                @*@Html.TextBoxFor(model=>model.Application.OtherCommodity)*@
+                <input type="text" id="Application_OtherCommodity" name="Application.OtherCommodity" class="hastip" title="Please enter commodities not listed above.  If entering more than one please seperate by commas." />
+            </li>
+        </ul>
+
+    </fieldset>
+    
+    <fieldset>
+        <legend>Communication Option</legend>
+
+                <p>Please choose your preference for receiving communications from us.  If selecting "Assistant", all communications will only be sent to the assistant listed below.  If selecting "Carbon Copy Assistant", all communications will be sent to both you and the assistant listed below.  If selecting "Directly", all communications will only be sent to you.</p>
+
+        <ul>
+        @*@foreach(var a in Model.CommunicationOptions)
+        {
+            <li>
+            <input type="radio" name="Application.CommunicationOption" value='@a.Id' /> @a.Description
+            </li>
+        }*@
+
+        <li>
+            <div class="editor-label required">&nbsp;<span>*</span></div>
+            <div class="editor-field">
+            @this.Select("Application.CommunicationOption").Options(Model.CommunicationOptions, x => x.Id, x => x.Name).FirstOption("--Select Communication Option--").Selected(Model.Application.CommunicationOption != null ? Model.Application.CommunicationOption.Id : string.Empty)    
+            @Html.ValidationMessageFor(a => a.Application.CommunicationOption)
+            </div>
+        </li>
+        </ul>
+
+    </fieldset>
+        
+    <fieldset>
+        <legend>Assistant</legend>
+            <ul>
+    		    <li>
+			    <div class="editor-label">
+				    @Html.LabelFor(model => model.Application.AssistantFirstName) 
+			    </div>
+			    <div class="editor-field">
+				    @Html.EditorFor(model => model.Application.AssistantFirstName)
+				    @Html.ValidationMessageFor(model => model.Application.AssistantFirstName)
+			    </div>
+		    </li>
+    		    <li>
+			    <div class="editor-label">
+				    @Html.LabelFor(model => model.Application.AssistantLastName) 
+			    </div>
+			    <div class="editor-field">
+				    @Html.EditorFor(model => model.Application.AssistantLastName)
+				    @Html.ValidationMessageFor(model => model.Application.AssistantLastName)
+			    </div>
+		    </li>
+		    <li>
+			    <div class="editor-label">
+				    @Html.LabelFor(model => model.Application.AssistantPhone) 
+			    </div>
+			    <div class="editor-field">
+				    @Html.TextBoxFor(model => model.Application.AssistantPhone, new { placeholder = "eg. (555) 555-5555" })
+				    @Html.ValidationMessageFor(model => model.Application.AssistantPhone)
+			    </div>
+		    </li>
+		    <li>
+			    <div class="editor-label">
+				    @Html.LabelFor(model => model.Application.AssistantEmail) 
+			    </div>
+			    <div class="editor-field">
+				    @Html.TextBoxFor(model => model.Application.AssistantEmail, new { placeholder = "eg. you@example.com" })
+				    @Html.ValidationMessageFor(model => model.Application.AssistantEmail)
+			    </div>
+		    </li>
+		    
+		    
+	    </ul>
+    </fieldset>
+    <fieldset>
+        <legend>Seminar Expectations</legend>
+
+        <p>
+            Please tell us your expectations of the California Agribusiness Executive Seminar and
+            how it may benefit you and your organization.
+        </p>
+
+        <ul>
+        <li>
+			<div class="editor-label">
+				@Html.LabelFor(model => model.Application.Expectations) 
+			</div>
+			<div class="editor-field">
+				@Html.TextAreaFor(model => model.Application.Expectations)
+				@Html.ValidationMessageFor(model => model.Application.Expectations)
+			</div>
+		</li>
+        </ul>
+    </fieldset>
+    <fieldset>
+        <legend>Photo</legend>
+
+        <p>
+            @if (Model.HasPhoto)
+            { 
+                <text>You have a photo on file, if you would like to update the photo, please upload a new one.</text>
+            }
+            else
+            { 
+                <text>You do not have a photo on file, please upload a new one.</text>
+            }
+            If you do not wish to upload a file now, you can upload a new photo at anytime through your profile manager.
+        </p>
+
+        <ul>
+            <li><div class="editor-label"><img src="@Url.Action("GetThumbnail", "Person", new { id = Model.PersonId })" alt="Profile Picture" /></div>
+                <div class="editor-field">
+                    <input type="file" id="file" name="file" />
+                </div>
+            </li>
+        </ul>
+    </fieldset>
+    
+    <fieldset>
+        <legend>Contact Information Release</legend>
+
+        <p>
+        I authorize the UC Davis Agribusiness Executive Seminar to share my contact information through this website with other attendees.  Information that will be
+        shared include Email, Phone, Address and Website.  
+        </p>
+
+
+        <ul>
+            <li>
+                <div class="editor-label">&nbsp;</div>
+                <div class="editor-field">
+                    @Html.CheckBoxFor(a => a.Application.ContactInformationRelease) 
+                    <text>I Agree</text>    
+                </div>
+            </li>
+        </ul>
+    </fieldset>
+    
+    <fieldset>
+    
+        <legend>Seminar Information</legend>
+
+        <p>
+        A seminar fee of @string.Format("{0:C}", Model.Seminar.Cost) covers all study materials, instruction, meals, and receptions, but excludes lodging. Upon acceptance, the fee is due by February 1, 2012. In the event a participant needs to cancel, the fee is fully refundable until February 1, 2012.  Half the fee is refundable until February 17, 2012. No refunds are possible for a cancellation received after February 17, 2012. Credit cards and checks will be accepted. Decisions will be made by January 13, 2012.
+        </p>
+
+        <ul>
+            <li><div class="editor-label">&nbsp;</div>
+                <div class="editor-field">
+                    @Html.CheckBox("SeminarTerms", Model.SeminarTerms, new { @class = "required" })
+
+                    <span>I Understand the terms of this application listed above.</span>
+                    @Html.ValidationMessage("SeminarTerms")
+                </div>
+            </li>
+        </ul>
+
+    </fieldset>
+    
+    
+    <fieldset>
+    
+        <ul>
+            <li>
+			    <div class="editor-label">&nbsp;</div>
+                <div class="editor-field">
+			    <input class="button" type="submit" value="Create" /> | @Html.ActionLink("Cancel", "Index", "Authorized")
+                </div>
+		    </li>
+        </ul>
+
+    </fieldset>
+}
+
+<div>
+	
+</div>
+

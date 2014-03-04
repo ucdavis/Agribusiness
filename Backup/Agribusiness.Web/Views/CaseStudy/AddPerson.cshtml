@@ -1,0 +1,43 @@
+﻿@model CaseStudyPersonViewModel
+
+@{
+    ViewBag.Title = "Add Person to Case Study";
+    ViewBag.SubPageTitle = string.Format("Add Person to {0} Case Study", Model.CaseStudy.Name);
+}
+
+@Html.ValidationSummary("Please correct the following errors:")
+
+@using (Html.BeginForm()) { 
+    @Html.AntiForgeryToken()
+    <fieldset>
+        <ul>
+            <li><div class="editor-label required">
+                Person
+                <span>*</span>
+                </div>
+                <div class="editor-field">
+                @this.Select("seminarPersonId").Options(Model.SeminarPeople.OrderBy(a=>a.Person.LastName) ,x=>x.Id,x=>x.Person.FullName).Selected(Model.SeminarPersonId).FirstOption("--Select a Person")
+                </div>
+            </li>
+            <li>
+                <div class="editor-label required">
+                Person Type
+                <span>*</span>
+                </div>
+                <div class="editor=field">
+                    <ul>
+                        <li>@Html.RadioButton("personType", "CA") Case Author</li>
+                        <li>@Html.RadioButton("personType", "CE") Case Executive</li>
+                    </ul>
+                </div>
+            </li>
+            <li><div class="editor-label">&nbsp;</div>
+                <div class="editor-field">
+                <input type="submit" value="Save" class="button" /> |
+                @Html.ActionLink("Cancel", "Edit", new{id=Model.CaseStudy.Id,seminarId=Model.CaseStudy.Seminar.Id})
+                </div>
+            </li>
+        </ul>
+    </fieldset>
+    
+}
