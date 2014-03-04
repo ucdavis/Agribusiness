@@ -44,3 +44,4 @@ Agribusiness.Core/bin/*
 Agribusiness.WS/bin/*
 *.ldf
 *.mdf
+!nuget.exe
