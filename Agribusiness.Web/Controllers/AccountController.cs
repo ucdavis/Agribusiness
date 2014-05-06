@@ -8,10 +8,11 @@ using System.Web.Routing;
 using System.Web.Security;
 using Agribusiness.Core.Domain;
 using Agribusiness.Web.Controllers.Filters;
+using Agribusiness.Web.Helpers;
 using Agribusiness.Web.Models;
 using MvcContrib;
 using UCDArch.Core.PersistanceSupport;
-using UCDArch.Web.Authentication;
+
 
 namespace Agribusiness.Web.Controllers
 {
