@@ -1,30 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
-    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
-    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
-    <PostConversionRemoveFromScc>
-    </PostConversionRemoveFromScc>
-    <PostConversionAddToScc>
-    </PostConversionAddToScc>
-    <TargetDatabaseSet>True</TargetDatabaseSet>
-  </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectTypeGuids>{c252feb5-a946-4202-b1d4-9916a0590387};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <ProductVersion>
     </ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <OutputType>Database</OutputType>
+    <SchemaVersion>
+    </SchemaVersion>
+    <ProjectGuid>{A27FE3B7-506F-4F9B-87B1-E3679C817949}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <NoStandardLibraries>false</NoStandardLibraries>
     <AssemblyName>Agribusiness.CLR</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <SGenUseProxyTypes>false</SGenUseProxyTypes>
     <ConnectionString>
     </ConnectionString>
     <TargetFrameworkProfile />
-    <PermissionSet>EXTERNAL_ACCESS</PermissionSet>
+    <PermissionLevel>2</PermissionLevel>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -42,20 +35,7 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <FileUpgradeFlags>40</FileUpgradeFlags>
     <OldToolsVersion>4.0</OldToolsVersion>
-    <UpgradeBackupLocation>C:\Users\Sylvestre\Documents\Projects\Agribusiness\Backup\Agribusiness.CLR\</UpgradeBackupLocation>
-    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql120DatabaseSchemaProvider</DSP>
-    <Name>Agribusiness.CLR</Name>
-    <ProjectVersion>4.1</ProjectVersion>
-    <ProjectGuid>{aefa1cd0-d914-419d-bf6d-9e78cec15af3}</ProjectGuid>
-    <IncludeSchemaNameInFileName>False</IncludeSchemaNameInFileName>
-    <GenerateDatabaseFile>False</GenerateDatabaseFile>
-    <GenerateCreateScript>False</GenerateCreateScript>
-    <ModelCollation>1033,CI</ModelCollation>
-    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <DefaultSchema>dbo</DefaultSchema>
-    <SqlServerVerification>False</SqlServerVerification>
-    <TargetLanguage>CS</TargetLanguage>
+    <UpgradeBackupLocation>C:\Users\Sylvestre\Documents\Projects\Agribusiness\Backup8\</UpgradeBackupLocation>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -63,32 +43,26 @@
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
-    <DefineConstants>
-    </DefineConstants>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>4</WarningLevel>
+    <DeployCode>true</DeployCode>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
-    <DefineDebug>true</DefineDebug>
-    <DefineTrace>true</DefineTrace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>false</DebugSymbols>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
-    <DefineConstants>
-    </DefineConstants>
+    <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>4</WarningLevel>
+    <DeployCode>true</DeployCode>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
-    <DefineDebug>false</DefineDebug>
-    <DefineTrace>true</DefineTrace>
   </PropertyGroup>
   <PropertyGroup>
     <RootNamespace>Agribusiness.CLR</RootNamespace>
   </PropertyGroup>
-  <Import Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" Condition="'$(SQLDBExtensionsRefPath)' != ''" />
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" Condition="'$(SQLDBExtensionsRefPath)' == ''" />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildBinPath)\SqlServer.targets" />
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -100,6 +74,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Test Scripts\Test.sql">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="PreDeployScript.sql">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="PostDeployScript.sql">
       <SubType>Content</SubType>
     </Content>
   </ItemGroup>
@@ -119,16 +99,6 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <PreDeploy Include="PreDeployScript.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <PostDeploy Include="PostDeployScript.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-    <Folder Include="Test Scripts\" />
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
