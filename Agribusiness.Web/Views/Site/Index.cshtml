@@ -1,0 +1,93 @@
+﻿@model IEnumerable<Site>
+
+@{
+    ViewBag.Title = "Agribusiness Sites";
+    ViewBag.SubPageTitle = "Agribusiness Sites";
+}
+
+@section SubPageNavigation
+{
+    <ul class="nav nav-pills">
+        @*<li>@Html.ActionLink("Create", "Create")</li>*@
+    </ul>
+}
+
+@section ScriptContent
+{
+        <script type="text/javascript">
+
+            var splashurl = '@Url.Action("GetSplash")';
+            var logourl = '@Url.Action("GetLogo")';
+
+            $(function () {
+                $(".preview").click(function (e) {
+
+                    var id = $(this).data("id");
+
+                    if ($(this).hasClass("splash")) {
+                        var winname = 'popUp';
+                        window.open(splashurl + "/" + id, winname);
+                    } else if ($(this).hasClass("logo")) {
+                        var winname = 'popUp';
+                        window.open(logourl + "/" + id, winname);
+                    }
+                });
+            });
+    </script>
+}
+
+<table class="table table-striped">
+    <tr>
+        <th></th>
+        <th>Name</th>
+        <th>Logo</th>
+        <th>Splash</th>
+        <th>IsActive</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            <a href="@Url.Action("Edit", new {id=item.Id})" class="btn hastip" title="Edit">
+                <i class="icon-pencil"></i>
+            </a>
+            <a href="@Url.Action("Details", new {id=item.Id})" class="btn hastip" title="Details">
+                <i class="icon-search"></i>
+            </a>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @if (item.Logo == null)
+            {
+                <text>No Logo</text>
+            }
+            else
+            {
+                <input type="button" value="Preview Existing" class="btn preview logo" data-id="@item.Id"/>
+            }
+        </td>
+        <td>
+            @if (item.SplashImage == null)
+            {
+                <text>No Splash</text>
+            }
+            else
+            {
+                <input type="button" value="Preview Existing" class="btn preview splash" data-id="@item.Id"/>
+            }
+        </td>
+        <td>
+            @if (item.IsActive)
+            {
+                <span class="label label-success">Active</span>   
+            } else
+            {
+                <span class="label label-important">Not Active</span>
+            }
+        </td>
+    </tr>
+}
+
+</table>

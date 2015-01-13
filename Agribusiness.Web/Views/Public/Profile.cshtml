@@ -1,10 +1,26 @@
-﻿@model Agribusiness.Core.Domain.SeminarPerson
+﻿@using Agribusiness.Web.App_GlobalResources
+@using Agribusiness.Web.Services
+@model SeminarPerson
+
+@{
+    var siteId = ViewData["site"] as string;
+    var seminar = SiteService.GetLatestSeminar(siteId);
+
+    if (seminar != null && seminar.SeminarPeople.SelectMany(a => a.SeminarRoles).Any(a => a.Id == StaticIndexes.Role_SteeringCommittee))
+    {
+        ViewData["hasSteeringCommittee"] = true;
+    }
+    else
+    {
+        ViewData["hasSteeringCommittee"] = false;
+    }  
+}
 
 @section ScriptContent
 {
     <style type="text/css">
     
-        #profile-name {color: #014A81;}
+        #profile-name {color: #014A81;margin: 1em 0;}
         #biography {margin-top: 1em;}
         #biography p {margin-top: .75em;text-indent:25px;}
     
@@ -16,12 +32,17 @@
     @Html.Partial("_PublicSubNavigation")
 }
 
-<div id="profile-pic">
+<div class="row-fluid">
+<div class="span12">
     <img src="@Url.Action("GetPublicPicture", new {id=Model.Person.Id} )" alt="@(string.Format("{0} profile picture", Model.Person.FullName))"/>
 </div>
 
-<h2 id="profile-name">@Model.Person.FullName</h2>
-
-<div id="biography">
-@Html.Raw(@Model.Person.Biography)
+<div class="span12">
+    <h2 id="profile-name">@Model.Person.FullName</h2>
 </div>
+
+<div id="biography" class="span12">
+    @Html.Raw(@Model.Person.Biography)
+</div>    
+</div>
+

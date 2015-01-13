@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
-using System.Linq;
 using System.Net.Mail;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 
@@ -91,6 +88,8 @@ namespace Agribusiness.Web.Models
 
         string ResetPasswordNoEmail(string userName);
         bool IsValidUser(string userName);
+
+        bool UnlockUserNoEmail(string userName);
     }
 
     public class AccountMembershipService : IMembershipService
@@ -193,6 +192,21 @@ namespace Agribusiness.Web.Models
             catch (Exception ex)
             {
                 return string.Empty;
+            }
+        }
+
+        public bool UnlockUserNoEmail(string userName)
+        {
+            try
+            {
+                var user = _provider.GetUser(userName, false);
+                user.UnlockUser();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
             }
         }
 

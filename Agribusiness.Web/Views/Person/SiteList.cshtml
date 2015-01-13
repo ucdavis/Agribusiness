@@ -1,0 +1,78 @@
+﻿@model IEnumerable<DisplayPerson>
+
+@{
+    ViewBag.Title = "People Site List";
+    ViewBag.SubPageTitle = "People Site List";
+}
+
+@section ScriptContent
+{
+    @Html.Partial("_DataTables")
+    
+    <script type="text/javascript">
+
+        var removeUrl = '@Url.Action("RemoveFromSiteList")';
+        var antiForgeryToken = $('input[name="__RequestVerificationToken"]').val();
+
+        $(function () {
+
+            $('table').on('click', '.removeFromSite', function (e) {
+                var id = $(this).data("id");
+                var $that = $(this);
+
+                $.post(removeUrl, { personId: id, __RequestVerificationToken: antiForgeryToken }, function (result) {
+                    $that.closest('tr').hide();
+                });
+
+                e.preventDefault();
+            });
+        });
+    </script>
+
+    <style type="text/css">
+        table tr td:nth-of-type(1) {width: 100px;}
+        table tr td:nth-of-type(2), table tr td:nth-of-type(3) {width: 15%;}
+    </style>
+}
+
+@section SubPageNavigation
+{
+    <div class="pull-right">
+        <ul class="nav nav-pills">
+            <li>@Html.ActionLink("Create Person", "Create", "Person")</li>
+        </ul>
+    </div>
+}
+
+@Html.AntiForgeryToken()
+
+<table class="default_table table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th></th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Title</th>
+            <th>Firm</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var person in Model)
+        {
+            <tr>
+                <td>
+                    <a href="@Url.Action("AdminEdit", new { id = person.Person.User.Id, allList = true })" class="btn hastip" rel="tooltip" title="Edit"><i class="icon-pencil"></i></a>
+                    <a href="#" class="btn hastip" rel="tooltip" title="Contact Card"><i class="icon-file"></i></a>
+                </td>
+                <td>@person.Person.FirstName</td>
+                <td>@person.Person.LastName</td>
+                <td>@person.Title</td>
+                <td>@(person.Firm != null ? person.Firm.Name : string.Empty)</td>
+                <td>
+                    <a href="#" class="btn btn-danger hastip removeFromSite" rel="tooltip" title="Remove from Site List" data-id="@person.Person.Id"><i class="icon-minus"></i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

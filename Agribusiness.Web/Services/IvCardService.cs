@@ -12,19 +12,19 @@ namespace Agribusiness.Web.Services
 {
     public interface IvCardService
     {
-        byte[] Create(Person person);
+        byte[] Create(Person person, string site);
     }
 
     public class vCardService : IvCardService
     {
-        public byte[] Create(Person person)
+        public byte[] Create(Person person, string site)
         {
             Check.Require(person != null, "person is required.");
 
-            return GeneratevCard(person);
+            return GeneratevCard(person, site);
         }
 
-        private byte[] GeneratevCard(Person person)
+        private byte[] GeneratevCard(Person person, string site)
         {
             // create the card
             var vCard = new vCard();
@@ -35,8 +35,8 @@ namespace Agribusiness.Web.Services
             vCard.NamePrefix = person.Salutation;
 
             // job information
-            vCard.Organization = person.GetLatestRegistration().Firm.Name;
-            vCard.Title = person.GetLatestRegistration().Title;
+            vCard.Organization = person.GetLatestRegistration(site).Firm.Name;
+            vCard.Title = person.GetLatestRegistration(site).Title;
 
             // picture
             if (person.MainProfilePicture != null)

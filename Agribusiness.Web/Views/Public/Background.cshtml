@@ -1,5 +1,20 @@
-﻿@{
+﻿@using Agribusiness.Web.App_GlobalResources
+@using Agribusiness.Web.Services
+@{
     ViewBag.Title = "Background Information";
+
+    var siteId = ViewData["site"] as string;
+    var site = SiteService.LoadSite(siteId);
+    var seminar = SiteService.GetLatestSeminar(siteId);
+    
+    if (seminar != null && seminar.SeminarPeople.SelectMany(a => a.SeminarRoles).Any(a => a.Id == StaticIndexes.Role_SteeringCommittee))
+    {
+        ViewData["hasSteeringCommittee"] = true;
+    }
+    else
+    {
+        ViewData["hasSteeringCommittee"] = false;
+    }  
 }
 
 @section ScriptContent
@@ -17,8 +32,22 @@
 
 <h2>Background</h2>
 
-<p>The 2012 seminar will be the seventeenth in a series that began in 1989 as a collaboration between Wells Fargo Bank, led by Bill Henderson, Executive Vice President, and the Department of Agricultural and Resource Economics at the University of California, Davis. Chester O. McCorkle, UC Davis Professor Emeritus, directed the seminar from 1989 through 2003. Roberta Cook, Extension Marketing Economist in the Department of Agricultural and Resource Economics at UC Davis was director from 2005 through 2010. Daniel Sumner, Professor in the Department of Agricultural and Resource Economics and Director, UC Agricultural Issues Center, is the current academic director. Kenneth McCorkle, College of Agricultural and Environmental Sciences alumnus and volunteer, is the lead Wells Fargo collaborator.</p>
+@if (!string.IsNullOrEmpty(site.Background))
+{
+    @Html.Raw(site.Background)
 
-<p>@Html.ActionLink("Daniel Sumner photo and bio", "Profile", new {id=2675})</p>
+    if (site.BackgroundPerson != null)
+    {
+         <p>@Html.ActionLink(string.Format("{0} photo and bio", site.BackgroundPerson.FullName), "Profile", new {id = site.BackgroundPerson.Id})</p>
+    }
+    
+    @*<p>@Html.ActionLink("Daniel Sumner photo and bio", "Profile", new { id = 2675 })</p>*@
+}
+else
+{
+    <div class="well">
+    <p>There is no background information available at this time.</p>
+    </div>
+}
 
-<p><a href="http://aic.ucdavis.edu">Ag Issues Center</a></p>
+

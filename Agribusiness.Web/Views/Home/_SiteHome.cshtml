@@ -1,0 +1,63 @@
+﻿@model HomeViewModel
+           
+@Html.Raw(Model.Site.Welcome)
+
+@if (!User.Identity.IsAuthenticated)
+{
+<div class="well ">
+    @*<p>To contact us for more information on
+    
+    
+    
+    
+    
+    
+    
+    
+    
+     the seminar, please click @Html.ActionLink("here", "MoreInformation", "Public", new {}, new {@class="btn"})</p>*@
+    @Html.ActionLink("If you would like us to contact you, click here", "MoreInformation", "Public", new { }, new { @class = "btn btn-block btn-primary " })
+    
+    @foreach (var file in Model.Files)
+    {
+        <a href="@Url.Action("Download", "File", new { id = file.Id })" class="btn btn-success">
+            <i class="icon-download icon-white"></i>
+            Download @file.Name
+        </a>
+    }
+</div>    
+}
+
+<div class="well">
+    @if (Model.Seminar != null && Model.Seminar.End > DateTime.Now)
+    {
+        <ul class="seminar-info">
+            <li>@(string.Format("{0} {1}", Model.Seminar.Year, Model.Seminar.Site.EventType))</li>
+            <li>@(string.Format("{0} through {1}", Model.Seminar.Begin.ToString("f"), Model.Seminar.End.ToString("f")))</li>
+            <li>
+            @if (string.IsNullOrWhiteSpace(Model.Seminar.LocationLink))
+            {
+                <text>@Model.Seminar.Location</text>
+            }
+            else
+            {
+                <a href='@Model.Seminar.LocationLink'>@Model.Seminar.Location</a>
+            }
+            </li>
+            <li>
+            @if (Model.Seminar.Cost.HasValue)
+            {
+            @(string.Format("Seminar fee: {0}", string.Format("{0:C}", Model.Seminar.Cost)))
+            }
+            else
+            {
+                 <text>Seminar fee: n/a</text>
+            }
+            </li>
+        </ul>
+    }
+    else
+    {
+        <p>There is no current seminar, please check back later.</p>
+    }
+</div>

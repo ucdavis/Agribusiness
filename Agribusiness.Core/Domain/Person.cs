@@ -30,6 +30,7 @@ namespace Agribusiness.Core.Domain
             Contacts = new List<Contact>();
             CaseStudyExecutive =  new List<CaseStudy>();
             CaseStudyAuthor = new List<CaseStudy>();
+            Sites = new List<Site>();
         }
         #endregion
 
@@ -96,6 +97,7 @@ namespace Agribusiness.Core.Domain
         public virtual IList<CaseStudy> CaseStudyAuthor { get; set; }
 
         public virtual IList<NotificationTracking> NotificationTrackings { get; set; }
+        public virtual IList<Site> Sites { get; set; }
         #endregion
         #endregion
 
@@ -134,9 +136,25 @@ namespace Agribusiness.Core.Domain
             SeminarPeople.Add(seminarPerson);
         }
 
-        public virtual SeminarPerson GetLatestRegistration()
+        public virtual void AddSite(Site site)
         {
-            return SeminarPeople.AsQueryable().LastOrDefault();
+            if (!Sites.Contains(site))
+            {
+                Sites.Add(site);
+            }
+        }
+
+        public virtual void RemoveSite(Site site)
+        {
+            if (Sites.Contains(site))
+            {
+                Sites.Remove(site);
+            }
+        }
+
+        public virtual SeminarPerson GetLatestRegistration(string site)
+        {
+            return SeminarPeople.AsQueryable().LastOrDefault(a => a.Seminar.Site.Id == site);
         }
         #endregion
         
@@ -172,7 +190,7 @@ namespace Agribusiness.Core.Domain
 
             References(x => x.User);
 
-            HasMany(x => x.SeminarPeople).Inverse().Cascade.None();
+            HasMany(x => x.SeminarPeople).Inverse().Cascade.None().Fetch.Subselect();
             HasMany(a => a.Addresses).Inverse().Cascade.AllDeleteOrphan();
             HasMany(a => a.Contacts).Inverse().Cascade.AllDeleteOrphan();
             HasMany(a => a.NotificationTrackings).Inverse().Cascade.AllDeleteOrphan();
@@ -188,6 +206,12 @@ namespace Agribusiness.Core.Domain
                 .ChildKeyColumn("CaseStudyId")
                 .Table("CaseStudyAuthors")
                 .Cascade.SaveUpdate();
+
+            HasManyToMany(x => x.Sites)
+                .ParentKeyColumn("PersonId")
+                .ChildKeyColumn("SiteId")
+                .Table("PeopleXSites")
+                .Cascade.SaveUpdate().Fetch.Subselect();
         }
     }
 }

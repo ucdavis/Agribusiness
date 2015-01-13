@@ -42,6 +42,7 @@ namespace Agribusiness.Core.Domain
         [Required]
         public virtual string NotifiedBy { get; set; }
 
+        [DataType(DataType.MultilineText)]
         public virtual string Comments { get; set; }
 
         public virtual EmailQueue EmailQueue { get; set; }

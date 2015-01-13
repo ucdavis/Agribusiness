@@ -1,55 +1,46 @@
-﻿
-
-
-
-
-
-
-
-
-
-
-
-
-
-@model Agribusiness.Core.Domain.Template
-
+﻿@model Template
 
 @{
     ViewBag.Title = "Details";
-
+    ViewBag.SubPageTitle = "Details";
 }
 
-<h2>Details</h2>
-
-
-
-@section SubNav
+@section SubPageNavigation
 {
-	<ul class="navigation">
-		
-			<li>@Html.ActionLink("Edit", "Edit", new { id=Model.Id }) </li>
-			<li>@Html.ActionLink("Back to List", "Index")</li>
-		
+	<ul class="nav nav-pills">
+	    <li>@Html.ActionLink("Edit", "Edit", new { id=Model.Id }) </li>
+	    <li>@Html.ActionLink("Back to List", "Index")</li>
 	</ul>
 }
 
-<fieldset class="display-form">
-    <legend>Template</legend>
-	<ul>
+@section ScriptContent
+{
+    <style type="text/css">
+        #body-preview {}
+        #body-preview hr { border-top: 1px solid black; } 
+    </style>
+}
 
-		<li>
-			<div class="display-label">BodyText</div>
-			<div class="display-details">@Model.BodyText</div>
-		</li>
+<div class="form-horizontal">
+    <fieldset>
+        <div class="control-group">
+            <label for="TemplateType.NotificationType.Name" class="control-label">Template Type</label>
+            <div class="controls form-text">
+                @Model.NotificationType.Name
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="IsActive" class="control-label">Is Active</label>
+            <div class="controls form-text">
+                @(Model.IsActive ? "Active" : "Inactive")
+            </div>
+        </div>
+    </fieldset>
+</div>
 
-		<li>
-			<div class="display-label">IsActive</div>
-			<div class="display-details">@Model.IsActive</div>
-		</li>
-
-	</ul>
-</fieldset>
+<div id="body-preview" class="well well-large">
+    @Html.Raw(Model.BodyText)
+</div>
 
 
 

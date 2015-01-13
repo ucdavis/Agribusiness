@@ -1,0 +1,118 @@
+﻿@model Site
+
+@{
+    ViewBag.Title = "Site Details";
+    ViewBag.SubPageTitle = "Site Details";
+}
+
+@section SubPageNavigation
+{
+    <ul class="nav nav-pills">
+        <li>@Html.ActionLink("Edit", "Edit", new {id=Model.Id})</li>
+        <li>@Html.ActionLink("Back to List", "Index")</li>
+    </ul>
+}
+
+@section ScriptContent
+{
+    <style type="text/css">
+        .address { color: grey;}
+    </style>
+}
+
+<div class="form-horizontal">
+    <div class="control-group">
+        <fieldset>
+            <legend>@Model.Name</legend>
+            
+            <div class="control-group">
+                <label for="EventType" class="control-label">Event Type</label>
+                <div class="controls form-text">
+                    @Model.EventType
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label for="Subdomain" class="control-label">Address</label>
+                <div class="controls form-text">
+                    <div>@Model.Subdomain<span class="address">.ucdavis.edu</span></div>
+                    <div><span class="address">https://agribusiness.ucdavis.edu/</span>@Model.Id</div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label for="Description" class="control-label">Description:</label>
+                <div class="controls" style="margin-top: 5px;">
+                    <div>
+                    @Html.Raw(Model.Description)
+                    </div>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label for="Welcome" class="control-label">Welcome Text:</label>
+                <div class="controls" style="margin-top: 5px;">
+                    <div>
+                    @Html.Raw(Model.Welcome)
+                    </div>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label for="Background" class="control-label">Background</label>
+                <div class="controls">
+                    @Html.Raw(Model.Background)
+                </div>
+            </div>
+            
+@*            <div class="control-group">
+                <label for="BackgroundPerson" class="control-label">Background Person</label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.BackgroundPerson)
+                    @Html.ValidationMessageFor(model => model.BackgroundPerson)
+                </div>
+            </div>*@
+
+            <div class="control-group">
+                <label for="Venue" class="control-label">Venue</label>
+                <div class="controls">
+                    @Html.Raw(Model.Venue)
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label for="VenueEmbeddedMap" class="control-label">Venue Embedded Map</label>
+                <div class="controls">
+                    @Html.Raw(Model.VenueEmbeddedMap)
+                </div>
+            </div>
+
+            @if (Model.Logo != null)
+            {
+                <div class="control-group">
+                    <label for="logo" class="control-label">Logo:</label>
+                    <div class="controls">
+		                <img src='@Url.Action("GetLogo", new {id=Model.Id})' alt="Logo"/>
+                    </div>
+                </div>
+            }
+            
+            @if (Model.SplashImage != null)
+            {
+                <div class="control-group">
+                    <label for="splashimage" class="control-label">Splash:</label>
+                    <div class="controls form-text">
+		                <img src='@Url.Action("GetSplash", new { id = Model.Id })' alt="Splash Image"/>
+                    </div>
+                </div>    
+            }
+
+            <div class="control-group">
+                <label for="IsActive" class="control-label">Is Active:</label>
+                <div class="controls form-text">
+		            @(Model.IsActive ? "Yes" : "No")
+                </div>
+            </div>
+        </fieldset>    
+    </div>
+</div>

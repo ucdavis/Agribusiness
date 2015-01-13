@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Agribusiness.Core.Domain;
+using Agribusiness.Web.Services;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
 
@@ -17,7 +18,7 @@ namespace Agribusiness.Web.Models
         public static TemplateViewModel Create(IRepository repository, Template template = null)
         {
             Check.Require(repository != null, "Repository must be supplied");
-			
+
             var viewModel = new TemplateViewModel
                                 {
                                     Template = template ?? new Template(),

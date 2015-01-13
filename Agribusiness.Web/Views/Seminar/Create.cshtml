@@ -8,9 +8,21 @@
 
 @section ScriptContent
 {
-
     @Html.Partial("_DateTimePickerScripts", Model.Seminar)
+    @Html.Partial("_tinymce", new TinyMceViewModel())
+    
+    <style type="text/css">
+        /* Override of UI style */
+        .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { font-size: 10px;color: black;}
+    </style>
 }
 
-@Html.Partial("_SeminarForm")
+@Html.ValidationSummary("Please correct the following errors.")
+@using (Html.BeginForm("Create", "Seminar", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.Partial("_SeminarForm")    
+}
+
+
 

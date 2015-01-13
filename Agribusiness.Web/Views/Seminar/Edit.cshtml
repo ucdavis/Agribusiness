@@ -1,15 +1,22 @@
-﻿@using Agribusiness.Web.Models
+﻿@using Agribusiness.Web.Services
 
-@model Agribusiness.Web.Models.SeminarViewModel
+@model SeminarViewModel
 
 @{
     ViewBag.Title = "Edit Seminar";
     ViewBag.SubPageTitle = "Edit Seminar";
     ViewBag.Restrict = false;
+
+    var site = ViewData["site"] as string;
+    var seminar = SiteService.GetLatestSeminar(site);
+    if (Model.Seminar.Id == seminar.Id)
+    {
+        ViewBag.Nav = Nav.Seminars;
+    }
 }
 
 @section SubPageNavigation {
-    <ul class="navigation">
+    <ul class="nav nav-pills">
         <li>
             @Html.ActionLink("Details View", "Details", "Seminar", new { id = Model.Seminar.Id }, new { })
         </li>
@@ -20,6 +27,9 @@
             @Html.ActionLink("Create Case Study", "Create", "CaseStudy", new { seminarId = Model.Seminar.Id }, new { })
         </li>
         <li>
+            @Html.ActionLink("Add File", "Create", "File", new {seminarId = Model.Seminar.Id}, new {})
+        </li>
+        <li>
             @Html.ActionLink("Back to List", "Index", "Seminar")
         </li>
     </ul>
@@ -27,15 +37,28 @@
 
 @section ScriptContent{
     @Html.Partial("_DateTimePickerScripts", Model.Seminar)
+    @Html.Partial("_tinymce", new TinyMceViewModel())
+    @Html.Partial("_DataTables")
+    
+    <style type="text/css">
+        /* Override of UI style */
+        .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { font-size: 10px;color: black;}
+    </style>
+
 }
 
-@Html.Partial("_SeminarForm")
+@Html.ValidationSummary("Please correct the following errors.")
+@using (Html.BeginForm("Edit", "Seminar", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.Partial("_SeminarForm")    
+}
 
 <h3>Sessions</h3>
 
     @if (Model.Seminar.Sessions.Any())
     { 
-    <table id="sessions" class="default_table nolasticon">
+    <table id="sessions" class="default_table table table-striped table-bordered">
         <thead> 
             <tr>
                 <th></th>
@@ -78,7 +101,7 @@
 
     @if (Model.Seminar.CaseStudies.Any())
     {
-        <table id="casestudies" class="nolasticon default_table">
+        <table id="casestudies" class="default_table table table-striped table-bordered">
             <thead>
                 <tr>
                     <th></th>
@@ -115,3 +138,73 @@
     { 
         @Html.Partial("_Message", new MessageModel() { IsError = false, Message = "No Case Studies have been created yet." })
     }
+    
+<h3>Seminar Files</h3>
+
+@if (Model.Seminar.Files.Any())
+{
+    <table class="default_table table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th></th> 
+                <th>Name</th>
+                <th>File Name</th>
+                <th>Public</th>
+                <th>Page(s)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var f in Model.Seminar.Files)
+            {
+                <tr>
+                    <td>
+                        <a href="@Url.Action("Edit", "File", new {id=f.Id})" class="btn">
+                            <i class="icon-pencil"></i>
+                        </a>
+                        <a href="@Url.Action("DownloadAdmin","File", new {id=f.Id})" class="btn">
+                            <i class="icon-download"></i>
+                        </a>
+                    </td>
+                    <td>@f.Name</td>
+                    <td>@f.FileName</td>
+                    <td>
+                        @if (f.Public)
+                        {
+                            <span class="label label-important">Yes</span>    
+                        }
+                        else
+                        {
+                            <span class="label label-success">No</span>
+                        }
+                    </td>
+                    <td>
+                        @if (f.MySeminar)
+                        {
+                            <span class="label">My Seminar</span>
+                        }
+                        @if (f.ProgramOverview)
+                        {
+                            <span class="label label-important">Program Overview</span>
+                        }
+                        @if (f.Sponsors)
+                        {
+                            <span class="label label-inverse">Sponsors</span>
+                        }
+                        @if (f.Home)
+                        {
+                            <span class="label label-info">Home Page</span>
+                        }
+                        @if (f.Venue)
+                        {
+                            <span class="label label-info">Venue Page</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    @Html.Partial("_Message", new MessageModel() { IsError = false, Message = "No files have been added yet." })
+}

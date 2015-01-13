@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
 
@@ -9,6 +10,7 @@ namespace Agribusiness.Core.Domain
         public Template()
         {
             IsActive = true;
+            DateCreated = DateTime.Now;
         }
 
         [Required]
@@ -16,6 +18,10 @@ namespace Agribusiness.Core.Domain
         public virtual bool IsActive { get; set; }
         [Required]
         public virtual NotificationType NotificationType { get; set; }
+        [Required]
+        public virtual Seminar Seminar { get; set; }
+
+        public virtual DateTime DateCreated { get; set; }
     }
 
     public class TemplateMap : ClassMap<Template>
@@ -27,6 +33,8 @@ namespace Agribusiness.Core.Domain
             Map(x => x.BodyText);
             Map(x => x.IsActive);
             References(x => x.NotificationType);
+            References(x => x.Seminar);
+            Map(x => x.DateCreated);
         }
     }
 }

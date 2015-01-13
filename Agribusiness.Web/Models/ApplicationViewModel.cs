@@ -25,7 +25,7 @@ namespace Agribusiness.Web.Models
         public IEnumerable<CommunicationOption> CommunicationOptions { get; set; }
         public IEnumerable<FirmType> FirmTypes { get; set; }
         
-        public static ApplicationViewModel Create(IRepository repository, IFirmService firmService, ISeminarService seminarService, string userId, Application application = null, bool seminarTerms = false)
+        public static ApplicationViewModel Create(IRepository repository, IFirmService firmService, string userId, string siteId, Application application = null, bool seminarTerms = false)
         {
             Check.Require(repository != null, "Repository must be supplied");
 
@@ -33,7 +33,7 @@ namespace Agribusiness.Web.Models
                                 {
                                     Application = application ?? new Application(),
                                     // always get the latest
-                                    Seminar = seminarService.GetCurrent(),
+                                    Seminar = SiteService.GetLatestSeminar(siteId),
                                     //Commodities = repository.OfType<Commodity>().Queryable.Where(a=>a.IsActive).OrderBy(a=>a.Name).ToList(),
                                     Countries = repository.OfType<Country>().GetAll(),
                                     CommunicationOptions = repository.OfType<CommunicationOption>().GetAll(),
@@ -42,14 +42,13 @@ namespace Agribusiness.Web.Models
 
             // load commodities
             var commodities = repository.OfType<Commodity>().Queryable.Where(a => a.IsActive).OrderBy(a => a.Name).ToList();
-            //commodities.Add(new Commodity(){ Name = "Other"});
             viewModel.Commodities = commodities;
 
             // load the firm types
             var firmTypes = repository.OfType<FirmType>().Queryable.Where(a => a.IsActive).OrderBy(a => a.Name).ToList();
             viewModel.FirmTypes = firmTypes;
 
-            var user = repository.OfType<User>().Queryable.Where(a => a.LoweredUserName == userId.ToLower()).FirstOrDefault();
+            var user = repository.OfType<User>().Queryable.FirstOrDefault(a => a.LoweredUserName == userId.ToLower());
             if (user == null) throw new ArgumentException(string.Format("Unable to load user with userid {0}.", userId));
 
             // populate the application with person info
@@ -68,14 +67,14 @@ namespace Agribusiness.Web.Models
                 viewModel.Application.ContactInformationRelease = person.ContactInformationRelease;
 
                 // get latest seminar information
-                var reg = person.GetLatestRegistration();
+                var reg = person.GetLatestRegistration(siteId);
                 if (reg != null)
                 {
                     viewModel.Application.JobTitle = reg.Title;
                 }
 
                 // copy assistant information
-                var assistant = person.Contacts.Where(a => a.ContactType.Id == 'A').FirstOrDefault();
+                var assistant = person.Contacts.FirstOrDefault(a => a.ContactType.Id == 'A');
 
                 if (assistant != null)
                 {
@@ -85,7 +84,7 @@ namespace Agribusiness.Web.Models
                     viewModel.Application.AssistantPhone = assistant.Phone;
                 }
 
-                var seminarPeople = person.GetLatestRegistration();
+                var seminarPeople = person.GetLatestRegistration(siteId);
                 if (seminarPeople != null)
                 {
                     viewModel.Application.Firm = seminarPeople.Firm;    
@@ -94,7 +93,7 @@ namespace Agribusiness.Web.Models
                 viewModel.Application.FirmPhone = person.Phone;
                 viewModel.Application.FirmPhoneExt = person.PhoneExt;
 
-                var address = person.Addresses.Where(a => a.AddressType.Id == 'B').FirstOrDefault();
+                var address = person.Addresses.FirstOrDefault(a => a.AddressType.Id == 'B');
                 if (address != null)
                 {
                     viewModel.Application.FirmAddressLine1 = address.Line1;
@@ -109,9 +108,15 @@ namespace Agribusiness.Web.Models
             viewModel.HasPhoto = user.Person != null && user.Person.MainProfilePicture != null;
 
             // get the firms and add the "Other" option
-            var firms = new List<Firm>(firmService.GetAllFirms());
-            viewModel.Firms = firms.Where(a=>!a.Review).OrderBy(a=>a.Name).ToList();
-            viewModel.Firms.Add(new Firm() { Name = "Other (Not Listed)" });
+            //var firms = new List<Firm>(firmService.GetAllFirms());
+            //firms = firms.Where(a=>!a.Review && a.Name != "Other (Not Listed)").OrderBy(a=>a.Name).ToList();
+
+            var tmpFirms = firmService.GetAllFirms();
+            var firms = new List<Firm>();
+            firms.Add(tmpFirms.First(a => a.Name == "Other (Not Listed)"));
+            firms.AddRange(tmpFirms.Where(a=>!a.Review && a.Name != "Other (Not Listed)").OrderBy(a=>a.Name).ToList());
+
+            viewModel.Firms = firms;
 
             return viewModel;
         }

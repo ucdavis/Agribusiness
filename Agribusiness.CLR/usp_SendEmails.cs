@@ -79,7 +79,7 @@ public partial class StoredProcedures
                     {
                         if (!string.IsNullOrEmpty(to.Trim())) msg.To.Add(to.Trim());
                     }
-                    //msg.To.Add("anlai@ucdavis.edu");
+                    //msg.To.Add("jsylvestre@ucdavis.edu");
                     msg.Subject = email.Subject;
                     msg.Body = email.Body;
                     msg.IsBodyHtml = true;

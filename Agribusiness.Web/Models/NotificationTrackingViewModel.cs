@@ -26,19 +26,26 @@ namespace Agribusiness.Web.Models
         /// List of all people in the current seminar
         /// </summary>
         public virtual IList<Person> AllPeople { get; set; }
+        /// <summary>
+        /// List of people in the site
+        /// </summary>
+        public virtual IList<Person> SitePeople { get; set; }
 
-        public static NotificationTrackingViewModel Create(IRepository repository, ISeminarService seminarService, NotificationTracking notificationTracking = null, Person person = null, MailingList mailingList = null)
+        public static NotificationTrackingViewModel Create(IRepository repository, string siteId, NotificationTracking notificationTracking = null, Person person = null, MailingList mailingList = null)
         {
             Check.Require(repository != null, "Repository is required.");
+
+            var seminar = SiteService.GetLatestSeminar(siteId);
 
             var viewModel = new NotificationTrackingViewModel(){
                                     NotificationTracking = notificationTracking ?? new NotificationTracking(),
                                     NotificationMethods = repository.OfType<NotificationMethod>().GetAll(), 
                                     NotificationTypes = repository.OfType<NotificationType>().GetAll(),
                                     People = new List<Person>(),
-                                    AllPeople = seminarService.GetCurrent().SeminarPeople.Select(a=>a.Person).ToList(),
-                                    Seminar = seminarService.GetCurrent(),
-                                    MailingLists = repository.OfType<MailingList>().GetAll(),
+                                    AllPeople = SiteService.GetLatestSeminar(siteId).SeminarPeople.Select(a => a.Person).ToList(),//seminarService.GetCurrent().SeminarPeople.Select(a=>a.Person).ToList(),
+                                    SitePeople = SiteService.LoadSite(siteId).People,
+                                    Seminar = seminar,
+                                    MailingLists = seminar.MailingLists,
                                     MailingList = mailingList
                                 };
 

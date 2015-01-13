@@ -3,41 +3,42 @@
 @{
     ViewBag.Title = "Edit Profile";
     ViewBag.SubPageTitle = "Edit Profile";
+    
+    var siteId = ViewData["site"] as string;
 }
 
 @section SubPageNavigation
 {
     @if (User.IsInRole(Agribusiness.Web.Controllers.Filters.RoleNames.User))
     { 
-    <ul class="navigation">
+    <ul class="nav nav-pills">
         <li>@Html.ActionLink("Back to Details", "Details", new { id = Model.Person.Id })</li>
     </ul>
     }
     else
     {
-        <ul class="navigation">
+        <ul class="nav nav-pills">
+            <li>@Html.ActionLink("Change Password", "ChangePassword", "Account", new {site = siteId}, new {})</li>
             <li>@Html.ActionLink("Back to Home", "Index", "Authorized")</li>
-            <li>@Html.ActionLink("Change Password", "ChangePassword", "Account")</li>
         </ul>
     }
 }
 
-<div>
-<div class="profile_pic_container">
-    <img src='@Url.Action("GetProfilePicture", new { id = Model.Person.Id })' />
-
-    @Html.ActionLink("Update Crop", "UpdateProfilePicture", new {id=Model.Person.Id})
-</div>
-
-<div class="profile_information_container">
-
-        @using (Html.BeginForm("Edit", "Person", FormMethod.Post, new { enctype = "multipart/form-data" }))
+<div class="row-fluid">
+    <div class="span2">
+        <img src='@Url.Action("GetProfilePicture", new { id = Model.Person.Id })' />
+        <ul class="nav nav-pills nav-stacked">
+            <li>@Html.ActionLink("Update Crop", "UpdateProfilePicture", new {id=Model.Person.Id})</li>
+        </ul>
+    </div>
+    <div class="span10">
+        @using (Html.BeginForm("Edit", "Person", FormMethod.Post, new { @class="form-horizontal", enctype = "multipart/form-data" }))
         { 
             @Html.ValidationSummary(true)
 
             @Html.Partial("_PersonForm")        
         }
+    </div>
+</div>
 
-</div>
-</div>
 <div style="clear:both;" />

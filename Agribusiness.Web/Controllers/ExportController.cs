@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
@@ -11,9 +10,6 @@ using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.SS.Util;
 using UCDArch.Core.PersistanceSupport;
-using UCDArch.Web.Controller;
-using UCDArch.Web.Helpers;
-using UCDArch.Core.Utils;
 
 namespace Agribusiness.Web.Controllers
 {
@@ -24,19 +20,17 @@ namespace Agribusiness.Web.Controllers
     public class ExportController : ApplicationController
     {
         private readonly IRepository<SeminarPerson> _seminarPersonRepository;
-        private readonly ISeminarService _seminarService;
 
-        public ExportController(IRepository<SeminarPerson> seminarPersonRepository, ISeminarService seminarService)
+        public ExportController(IRepository<SeminarPerson> seminarPersonRepository)
         {
             _seminarPersonRepository = seminarPersonRepository;
-            _seminarService = seminarService;
         }
 
         //
         // GET: /Export/
         public FileResult Index()
         {
-            var seminar = _seminarService.GetCurrent();
+            var seminar = SiteService.GetLatestSeminar(Site);
 
             var people = _seminarPersonRepository.Queryable.Where(a => a.Seminar == seminar).ToList();
 
@@ -105,7 +99,7 @@ namespace Agribusiness.Web.Controllers
 
         public FileResult AttendeeList()
         {
-            var seminar = _seminarService.GetCurrent();
+            var seminar = SiteService.GetLatestSeminar(Site);
 
             // get all the peeps
             var people = _seminarPersonRepository.Queryable.Where(a => a.Seminar == seminar).ToList();

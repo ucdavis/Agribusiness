@@ -1,0 +1,67 @@
+﻿@model SponsorViewModel
+
+@Html.ValidationSummary(false)
+@Html.AntiForgeryToken()
+
+<div class="control-group">
+    <fieldset>
+        <div class="control-group">
+            <label for="Sponsor.Name" class="control-label">Name<span class="required">*</span></label>
+            <div class="controls">
+                @Html.EditorFor(model => model.Sponsor.Name)
+                @Html.ValidationMessageFor(model => model.Sponsor.Name)
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="Sponsor.Url" class="control-label">Url</label>
+            <div class="controls">
+                @Html.EditorFor(model => model.Sponsor.Url)
+                @Html.ValidationMessageFor(model => model.Sponsor.Url)
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="Sponsor.Description" class="control-label">Description</label>
+            <div class="controls">
+                @Html.EditorFor(model => model.Sponsor.Description)
+                @Html.ValidationMessageFor(model => model.Sponsor.Description)
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="Sponsor.Logo" class="control-label">Logo</label>
+            <div class="controls">
+                <div class="row-fluid">
+                    <span class="span4">
+                        <input type="file" id="logo" name="logo" />
+                        @Html.ValidationMessageFor(model => model.Sponsor.Logo)
+                    </span>
+                    <span class="span6">
+                        @if (Model.Sponsor.Logo != null)
+                        {
+                            <img src='@Url.Action("Logo", new{id=Model.Sponsor.Id})' alt="Logo"/>
+                        }
+                    </span>
+                </div>
+                
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="Sponsor.Level" class="control-label">Sponsor Level<span class="required">*</span></label>
+            <div class="controls">
+                @this.Select("Sponsor.Level").Options(Model.SponsorLevels, x=>x.Key, x=>x.Value).FirstOption("--Select Sponsor Level--").Selected(Model.Sponsor != null ? (int)Model.Sponsor.Level : 0)
+                @Html.ValidationMessageFor(model => model.Sponsor.Level)
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="Sponsor.IsActive" class="control-label">Is Active</label>
+            <div class="controls">
+                @Html.EditorFor(model => model.Sponsor.IsActive)
+                @Html.ValidationMessageFor(model => model.Sponsor.IsActive)
+            </div>
+        </div>
+    </fieldset>
+</div>
+    
+<div class="form-actions">
+    <input type="submit" class="btn btn-primary" value="Save" />
+    @Html.ActionLink("Cancel", "Index", new {}, new {@class="btn"})
+</div>

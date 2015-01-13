@@ -2,68 +2,58 @@
 
 @{
     ViewBag.Title = "Delete Mailing List";
-    ViewBag.SubPageTitle = "Delete Mailing List";
+    ViewBag.SubPageTitle = "Are you sure you want to delete this mailing list?";
 }
 
 @section ScriptContent{
     <link rel="stylesheet" type="text/css" href="@Url.Css("jquery.AutoCompleteSelect.css")"/>
 }
 
-<h3>Are you sure you want to delete this?</h3>
+@using (Html.BeginForm("Delete", "MailingList", FormMethod.Post, new {@class="form-horizontal"})) {
 
-@using (Html.BeginForm()) {
-	@Html.AntiForgeryToken()
+    @Html.AntiForgeryToken()
 
-<fieldset class="display-form">
-	<legend>MailingList</legend>
-	<ul>
-
-		<li>
-			<div class="display-label">Name</div>
-			<div class="display-details">@Model.Name</div>
-		</li>
-
-        <li>
-            <div class="display-label">People</div>
-            <div class="display-details">
-            
-                <div class="ac-container ac-gradientbackground">
-                
-                    <div class="ac-selectedContainer">
-                    
-                        @foreach (var person in Model.People.OrderBy(a => a.LastName))
-                        {
-                            <span class="ac-selected ac-gradientbackground">
-                                <span style="display:inline-block;">@person.FullName</span>
-                            </span>
-                        }
-
-                    </div>
-
-                </div>
-
+    <div class="control-group">
+    <fieldset>
+        <div class="control-group">
+            <label for="Name" class="control-label">Name</label>
+            <div class="controls form-text">
+                @Model.Name
             </div>
-        </li>
+        </div>
+        <div class="control-group">
+            <label for="People" class="control-label">People</label>
+            <div class="controls">
+                <div class="well">
+                    @foreach (var person in Model.People.OrderBy(a => a.LastName))
+                    {
+                        <span class="ac-selected ac-gradientbackground">
+                            <span style="display:inline-block;">@person.FullName</span>
+                        </span>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="DateCreated" class="control-label">Date Created</label>
+            <div class="controls">
+                @Model.DateCreated
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="DateUpdated" class="control-label">Date Updated</label>
+            <div class="controls">
+                @Model.DateUpdated
+            </div>
+        </div>
+    </fieldset>
+    </div>
 
-		<li>
-			<div class="display-label">DateCreated</div>
-			<div class="display-details">@String.Format("{0:g}", Model.DateCreated)</div>
-		</li>
+    <div class="form-actions">
+        <input type="submit" value="Delete" class="btn btn-danger"/>
+        @Html.ActionLink("Cancel", "Index", new {}, new {@class="btn"})
+    </div>    
 
-		<li>
-			<div class="display-label">DateUpdated</div>
-			<div class="display-details">@String.Format("{0:g}", Model.DateUpdated)</div>
-		</li>
-		
-		<li>
-			@* For the clear and submit buttons an empty label is required. Example: <label>&nbsp;</label> *@
-			<div class="display-label">&nbsp;</div>
-			<div class="display-details">
-			<input class="button" type="submit" value="Delete" /> | @Html.ActionLink("Cancel", "Index")
-			</div>
-		</li>
-	</ul>
-</fieldset>
 }
 
 

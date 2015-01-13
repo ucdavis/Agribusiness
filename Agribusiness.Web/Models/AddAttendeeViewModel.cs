@@ -12,7 +12,7 @@ namespace Agribusiness.Web.Models
         public IEnumerable<DisplayPerson> DisplayPeople { get; set; }
         public int PersonId { get; set; }
 
-        public static AddAttendeeViewModel Create(IRepository repository, IPersonService personService, Seminar seminar, int? personId = null)
+        public static AddAttendeeViewModel Create(IRepository repository, IPersonService personService, Seminar seminar, string siteId, int? personId = null)
         {
             Check.Require(repository != null, "Repository is required.");
             Check.Require(personService != null, "personService is required.");
@@ -20,7 +20,7 @@ namespace Agribusiness.Web.Models
             var viewModel = new AddAttendeeViewModel()
                                 {
                                     Seminar = seminar,
-                                    DisplayPeople = personService.GetDisplayPeopleNotInSeminar(seminar.Id),
+                                    DisplayPeople = personService.GetDisplayPeopleNotInSeminar(seminar.Id, siteId),
                                     PersonId = personId.HasValue ? personId.Value : -1
                                 };
 

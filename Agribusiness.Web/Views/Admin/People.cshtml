@@ -1,0 +1,58 @@
+﻿@model AdminPeopleViewModel
+
+@{
+    ViewBag.Title = "People";
+    ViewBag.SubPageTitle = Model.Site != null ? string.Format("People for {0}", Model.Site.Name) : "People";
+}
+
+@section ScriptContent
+{
+    @Html.Partial("_DataTables")
+}
+
+<div class="row-fluid">
+    <span class="span12">
+        Seminars: @this.Select("seminar").Options(Model.Seminars, x=>x.Id, x=>x.Year).FirstOption("--Select Seminar--").Selected(Model.Seminar != null ? Model.Seminar.Id : string.Empty)
+    </span>
+</div>
+
+<table id="people" class="default_table table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th></th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Title</th>
+            <th>Last Attendance</th>
+            <th>Last Event</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var p in Model.People)
+    {
+        var lastreg = @p.GetLatestRegistration(Model.Site);
+        <tr>
+            <td>
+                <a href='@Url.Action("AdminEdit", "Person")' class="btn hastip" rel="tooltip" title="View Profile"><i class="icon-user"></i></a>
+                <a href='#' class="btn hastip" rel="tooltip" title="Add to Mailing List"><i class="icon-envelope"></i></a>
+                <a href='#' class="btn hastip" rel="tooltip" title="Invite to Seminar"><i class="icon-plus"></i></a>
+            </td>
+            <td>@p.FirstName</td>
+            <td>@p.LastName</td>
+            <td>@p.User.Email</td>
+            <td>
+                @(lastreg != null ? lastreg.Title : "n/a")
+            </td>
+            <td>
+                @(lastreg != null ? lastreg.Seminar.Year.ToString() : "n/a")
+            </td>
+            <td>
+                @(lastreg != null ? lastreg.Seminar.Site.Id : "n/a")
+            </td>
+            <td></td>
+        </tr>
+    }
+    </tbody>
+</table>

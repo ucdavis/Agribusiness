@@ -9,37 +9,66 @@
 @section ScriptContent
 {
     <style type="text/css">
-    ul, dl { list-style:none; margin: 1em;}
-    dt { margin: 1em 0 .5em 0; font-weight: bold; }
+        ul, dl { list-style:none; margin: 1em;}
+        dt { margin: 1em 0 .5em 0; font-weight: bold; }
     </style>
+    
+    <script type="text/javascript">
+        $(function () {
+            $(".submitanchor").click(function() { $(this).parent("form").submit(); });
+        });
+    </script>
 }
 
-<fieldset>
-    <legend>Report Parameters</legend>
-
-    <ul>
-        <li>
-            <strong>Seminar:</strong>
-            @this.Select("Seminar").Options(Model.Seminars,x=>x.Id,x=>x.Year).FirstOption("").Selected(Model.Seminar != null ? Model.Seminar.Id.ToString() : string.Empty)
-        </li>
-    </ul>
-
-</fieldset>
 
 
-<fieldset>
-
-    <legend>Reports</legend>
-
-    <dl>
-        <dt><a href="javascript:;">Sample Report 1</a></dt>
-        <dd>This report will provide information about sample 1</dd>
+<dl>
+    <dt>
+        @using (Html.BeginForm("GetReport", "Report", FormMethod.Get))
+        {
+            @Html.Hidden("Report", ReportController.Report.AllContactsBoth)
+            <a href="javascript:;" class="submitanchor">All Contacts Both Sites</a>
+        }
+    </dt>
+    <dd>This report will return an excel file with all the contacts for both sites (seminar and workshop)</dd>
+    <hr/>
+    
+    <dt>
+        @using (Html.BeginForm("GetReport", "Report", FormMethod.Get))
+        {
+            @Html.Hidden("Report", ReportController.Report.AllContactsAllSeminars)
+            <a href="javascript:;" class="submitanchor">All Contacts All Seminars</a>
+        }
+    </dt>
+    <dd>This report will return an excel file with all the contacts for both sites (seminar and workshop) and all the seminars. This means there will be duplicate rows. The Past Information is from the Invitation.</dd>
+    <hr/>
         
-        <dt><a href="javascript:;">Sample Report 2</a></dt>
-        <dd>This report will provide information about the second data set.</dd>
-
-        <dt><a href="javascript:;">Sample Report 3</a></dt>
-        <dd>This third dataset will provide the most information about our attendees for the selected seminar.</dd>
-    </dl>
-
-</fieldset>
+    <dt>
+        @using (Html.BeginForm("GetReport", "Report", FormMethod.Get))
+        {              
+            @Html.Hidden("Report", ReportController.Report.AllContactsBySite)
+            <a href="javascript:;" class="submitanchor">All Contacts By Site </a> @this.Select("SiteName").Options(Model.Sites, x => x.Id, x => x.Name).FirstOption("").Selected(Model.Site ?? string.Empty)
+        }
+    </dt>
+    <dd>This report will return an excel file with all the contacts for the selected site</dd>
+    <hr/>
+    <dt>
+        @using (Html.BeginForm("GetReport", "Report", FormMethod.Get))
+        {              
+            @Html.Hidden("Report", ReportController.Report.AllApplicantsBySite)
+            <a href="javascript:;" class="submitanchor">All Applicants By Seminar </a> @this.Select("SeminarId").Options(Model.Seminars, x => x.Id, x => x.Year).FirstOption("").Selected(Model.Seminar != null ? Model.Seminar.Id.ToString() : string.Empty)
+        }
+    </dt>
+    <dd>This report will return an excel file with all the applicants for the selected seminar</dd>
+    <hr/>
+        
+    <dt>
+        @using (Html.BeginForm("GetReport", "Report", FormMethod.Get))
+        {              
+            @Html.Hidden("Report", ReportController.Report.AllAttendeesBySeminar)
+            <a href="javascript:;" class="submitanchor">All Attendees By Seminar </a> @this.Select("SeminarId").Options(Model.Seminars, x => x.Id, x => x.Year).FirstOption("").Selected(Model.Seminar != null ? Model.Seminar.Id.ToString() : string.Empty)
+        }
+    </dt>
+    <dd>This report will return an excel file with all the attendees for the selected seminar</dd>
+    <hr/>
+</dl>

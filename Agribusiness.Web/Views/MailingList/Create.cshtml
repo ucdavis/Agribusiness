@@ -7,7 +7,7 @@
 
 @section SubPageNavigation
 {
-	<ul class="navigation">
+	<ul class="nav nav-pills">
         @if (Model.SeminarId.HasValue)
         {
             <li>@Html.ActionLink("Back to List", "Index", new {seminarId = @Model.SeminarId.Value})</li>    
@@ -19,4 +19,20 @@
 	</ul>
 }
 
-@Html.Partial("_MailingListForm")
+@section ScriptContent
+{
+    <link href="@Url.Content("~/Content/chosen.css")" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="@Url.Script("chosen.jquery.min.js")"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#MailingList_People").chosen();
+        });
+    </script>
+}
+
+@using (Html.BeginForm("Create", "MailingList", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+	@Html.ValidationSummary(true)
+    @Html.Partial("_MailingListForm")    
+}

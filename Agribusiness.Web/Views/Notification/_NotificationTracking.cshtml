@@ -1,121 +1,84 @@
-﻿@model Agribusiness.Web.Models.NotificationTrackingViewModel
+﻿@model NotificationTrackingViewModel
 
+@Html.HiddenFor(a=>a.NotificationTracking.NotifiedBy)      
+@Html.Hidden("NotificationTracking.Seminar", Model.Seminar.Id)
 
-    @Html.HiddenFor(a=>a.NotificationTracking.NotifiedBy)      
-    @Html.Hidden("NotificationTracking.Seminar", Model.Seminar.Id)
+<div class="control-group">
     <fieldset>
-
-        <legend>Notification Type</legend>
-
-        <ul>
-            <li><div class="editor-label">Mailing List</div>
-                <div class="editor-field">
-                    @this.Select("mailingListId").Options(Model.MailingLists, x => x.Id, x => x.Name).FirstOption("--Select Mailing List--").Selected(Model.MailingList != null ? Model.MailingList.Id : 0)
-                </div>
-            </li>
-            <li><div class="editor-label required">Name(s)<span>*</span></div>
-                <div class="editor-field">
-                    <div id="person-name-container">
-                        @foreach (var a in Model.People)
-                        { 
-                            <div class="person-name">
-                                @a.FullName <span class="ui-icon ui-icon-closethick remove-name" style="display:inline-block;"></span>
-                                @Html.Hidden("People", a.Id)
-                            </div>
-                        }
-                    </div>
-                    <span id="add-name" class="ui-icon ui-icon-circle-plus" style="display:inline-block;"></span>
-                </div>
-            </li>
-            <li><div class="editor-label required">@Html.LabelFor(a=>a.NotificationTracking.NotificationMethod)<span>*</span></div>
-                <div class="editor-field">
-                    @this.Select("NotificationTracking.NotificationMethod").Selected(Model.NotificationTracking.NotificationMethod != null ? Model.NotificationTracking.NotificationMethod.Id : string.Empty).Options(Model.NotificationMethods, x=>x.Id, x=>x.Name).FirstOption("--Select a Method--")
-                </div>
-            </li>
-            <li><div class="editor-label required">@Html.LabelFor(a=>a.NotificationTracking.NotificationType)<span>*</span></div>
-                <div class="editor-field">
-                    @this.Select("NotificationTracking.NotificationType").Selected(Model.NotificationTracking.NotificationType != null ? Model.NotificationTracking.NotificationType.Id : string.Empty).Options(Model.NotificationTypes, x=>x.Id, x=>x.Name).FirstOption("--Select a Type--")
-                </div>
-            </li>
-            <li><div class="editor-label required">@Html.LabelFor(a=>a.NotificationTracking.Comments)</div>
-                <div class="editor-field">
-                    @Html.TextAreaFor(a=>a.NotificationTracking.Comments)
-                </div>
-            </li>
-            @if (ViewBag.ShowSave == true)
-            { 
-            <li><div class="editor-label">&nbsp;</div>
-                <div class="editor-field">
-                    <input type="submit" class="button" value="Save" /> | 
-                    @if (Model.People.Count == 1)
-                    {
-                        var userId = Model.People[0].User.Id;
-                        @Html.ActionLink("Cancel", "AdminEdit", "Person", new { id = userId, seminarId = Model.Seminar.Id }, new { })
-                    }
-                    else
+        <div class="control-group">
+            <label for="MailingList" class="control-label">Mailing List</label>
+            <div class="controls">
+                @this.Select("mailingListId").Options(Model.MailingLists, x=>x.Id, x=>x.Name).FirstOption("--Select Mailing List--").Selected(Model.MailingList != null ? Model.MailingList.Id : 0)
+                @Html.ValidationMessageFor(model => model.MailingList)
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="Name" class="control-label">Name(s)</label>
+            <div class="controls">
+                <div id="person-name-container" class="well">
+                    @foreach (var a in Model.People)
                     { 
-                        @Html.ActionLink("Cancel", "Details", "Seminar", new { id = Model.Seminar.Id }, new { })
+                        <div class="person-name">
+                            @a.FullName @*<span class="ui-icon ui-icon-closethick remove-name" style="display:inline-block;"></span>*@
+                            <a href="#" class="btn btn-mini remove-name"><i class="icon-minus"></i></a>
+                            @Html.Hidden("People", a.Id)
+                        </div>
                     }
                 </div>
-            </li>
-            }
-        </ul>
-
+                <a href="#" id="add-name" class="btn"><i class="icon-plus"></i>Add Person</a>
+                <a href="#" id="add-site-name" class="btn"><i class="icon-plus"></i>Add Site Person</a>
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="NotificationMethod" class="control-label">Method</label>
+            <div class="controls">
+                @this.Select("NotificationTracking.NotificationMethod").Selected(Model.NotificationTracking.NotificationMethod != null ? Model.NotificationTracking.NotificationMethod.Id : string.Empty).Options(Model.NotificationMethods, x=>x.Id, x=>x.Name).FirstOption("--Select a Method--")
+                @Html.ValidationMessageFor(model => model.NotificationTracking.NotificationMethod)
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="NotificationTracking.NotificationType" class="control-label">Type</label>
+            <div class="controls">
+                @this.Select("NotificationTracking.NotificationType").Selected(Model.NotificationTracking.NotificationType != null ? Model.NotificationTracking.NotificationType.Id : string.Empty).Options(Model.NotificationTypes, x=>x.Id, x=>x.Name).FirstOption("--Select a Type--")
+                @Html.ValidationMessageFor(model => model.NotificationTracking.NotificationType)
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="NotificationTracking.Comments" class="control-label">Comments</label>
+            <div class="controls">
+                @Html.EditorFor(model => model.NotificationTracking.Comments)
+                @Html.ValidationMessageFor(model => model.NotificationTracking.Comments)
+            </div>
+        </div>
     </fieldset>
+</div>
 
-    <div id="add-name-dialog" title="Add Person">
-
-        @this.MultiSelect("select-name").Options(Model.AllPeople, x => x.Id, x => x.FullName).Size(10)
-
+<div id="add-name-dialog" class="modal hide">
+    
+    <div class="modal-header">Add Person</div>
+    <div class="modal-body">
+        @this.MultiSelect("select-name").Options(Model.AllPeople.OrderBy(a => a.LastName), x => x.Id, x => x.FullName).Size(10)
+        <a href="#" id="add-selectall" class="btn">Select All</a>
+        <a href="#" id="add-unselectall" class="btn">UnSelect All</a>
+    </div>
+    <div class="modal-footer">
+        <a href="#" id="add-recipients" class="btn btn-primary">Add</a>
+        <a href="#" class="btn" data-dismiss="modal">Close</a>
     </div>
 
-    <style type="text/css">
-    #person-name-container{background-color:#F4F4F4; border: 1px solid #014a81; padding: 10px; -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; min-width: 50px; min-height: 22px; }        
-    .person-name {background-color:white;border: 1px solid #014a81;-webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; padding:5px; text-decoration:none; font-weight:bold; font-size:0.9em; letter-spacing:.5px; text-transform:uppercase;display:inline-block; margin-right:5px; margin-bottom: 5px;}
-    .remove-name {cursor:pointer;}
-    </style>
+</div>
 
-    <script type="text/javascript" src='@Url.Script("jquery.tmpl.min.js")'></script>
-    <script type="text/javascript">
+<div id="add-site-name-dialog" class="modal hide">
+    
+    <div class="modal-header">Add Site Person</div>
+    <div class="modal-body">
+        @this.MultiSelect("select-site-name").Options(Model.SitePeople.OrderBy(a => a.LastName), x => x.Id, x => x.FullName).Size(10)
+        <a href="#" id="add-site-selectall" class="btn">Select All</a>
+        <a href="#" id="add-site-unselectall" class="btn">UnSelect All</a>
+    </div>
+    <div class="modal-footer">
+        <a href="#" id="add-site-recipients" class="btn btn-primary">Add</a>
+        <a href="#" class="btn" data-dismiss="modal">Close</a>
+    </div>
 
-        // template for adding people
-        var personNameTemplate = '<div class="person-name">${Name}<span class="ui-icon ui-icon-closethick remove-name" style="display:inline-block;"></span><input type="hidden" name="People" value="${id}"/></div>';
-
-        $(function () {
-
-            $(".remove-name").live('click', function () {
-                var that = $(this).parents(".person-name");
-                that.effect("fade", function () { that.remove(); });
-            });
-
-            $("#add-name-dialog").dialog({
-                autoOpen: false,
-                buttons: {
-                    Add: addNames,
-                    Cancel: function () { $(this).dialog("close"); }
-                }
-            });
-
-            $("#add-name").click(function () { $("#add-name-dialog").dialog("open"); });
-        });
-
-        // renders the new names added
-        function addNames() {
-
-            var that = $(this);
-
-            // compile the markup
-            $.template("personTemplate", personNameTemplate);
-
-            var select = $("#select-name");
-            $.each(select.find(":selected"), function (index, item) {
-                var person = { Name: $(item).text(), id: $(item).val() };
-                $.tmpl("personTemplate", person).appendTo("#person-name-container");
-
-                that.dialog("close");
-            });
-
-            // clear the selected
-            $("#select-name").children().removeAttr("selected");
-        }
-    </script>
+</div>

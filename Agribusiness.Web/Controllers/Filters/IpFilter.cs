@@ -16,7 +16,7 @@ namespace Agribusiness.Web.Controllers.Filters
             {
                 var client = new SmtpClient();
                 var msg = "Sync call from {0}";
-                var message = new MailMessage("automatedemail@caes.ucdavis.edu", "anlai@ucdavis.edu", "Agribusiness Sync Call IP Filter", string.Format(msg, filterContext.RequestContext.HttpContext.Request.UserHostAddress));
+                var message = new MailMessage("automatedemail@caes.ucdavis.edu", "jsylvestre@ucdavis.edu", "Agribusiness Sync Call IP Filter", string.Format(msg, filterContext.RequestContext.HttpContext.Request.UserHostAddress));
 
                 client.Send(message);
             }
@@ -29,7 +29,7 @@ namespace Agribusiness.Web.Controllers.Filters
                 //                {
                 //                    var client = new SmtpClient();
                 //                    var msg = "Sync call from {0} was called and filtered out.";
-                //                    var message = new MailMessage("automatedemail@caes.ucdavis.edu", "anlai@ucdavis.edu", "Sync Call IP Filter Failure", string.Format(msg, filterContext.RequestContext.HttpContext.Request.UserHostAddress));
+                //                    var message = new MailMessage("automatedemail@caes.ucdavis.edu", "jsylvestre@ucdavis.edu", "Sync Call IP Filter Failure", string.Format(msg, filterContext.RequestContext.HttpContext.Request.UserHostAddress));
 
                 //                    client.Send(message);
                 //                }

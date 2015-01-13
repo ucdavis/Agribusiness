@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="Agribusiness">
+</Property><Property Name="Solution File" Value="C:\Users\lai\Documents\Visual Studio 2010\Projects\Agribusiness\Agribusiness.sln">
+</Property><Property Name="Date" Value="Monday, November 05, 2012">
+</Property><Property Name="Time" Value="7:03 AM">
+</Property></Properties><Event ErrorLevel="0" Project="Agribusiness.Web" Source="Agribusiness.Web\Agribusiness.Web.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="Agribusiness.Web" Source="Agribusiness.Web\Agribusiness.Web.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="Agribusiness.Tests" Source="Agribusiness.Tests\Agribusiness.Tests.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="Agribusiness.Tests" Source="Agribusiness.Tests\Agribusiness.Tests.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="Agribusiness.Core" Source="Agribusiness.Core\Agribusiness.Core.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="Agribusiness.Core" Source="Agribusiness.Core\Agribusiness.Core.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="Agribusiness.WS" Source="Agribusiness.WS\Agribusiness.WS.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="Agribusiness.WS" Source="Agribusiness.WS\Agribusiness.WS.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="Agribusiness.CLR" Source="Agribusiness.CLR\Agribusiness.CLR.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="Agribusiness.CLR" Source="Agribusiness.CLR\Agribusiness.CLR.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="C:\Users\lai\Documents\Visual Studio 2010\Projects\Agribusiness\Agribusiness.DB\Agribusiness.DB.sqlproj" Source="Agribusiness.DB\Agribusiness.DB.sqlproj" Description="Beginning Upgrade">
+</Event><Event ErrorLevel="3" Project="C:\Users\lai\Documents\Visual Studio 2010\Projects\Agribusiness\Agribusiness.DB\Agribusiness.DB.sqlproj" Source="Agribusiness.DB\Agribusiness.DB.sqlproj" Description="Converted">
+</Event><Event ErrorLevel="3" Project="C:\Users\lai\Documents\Visual Studio 2010\Projects\Agribusiness\Agribusiness.DB\Agribusiness.DB.sqlproj" Source="Agribusiness.DB\Agribusiness.DB.sqlproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="Agribusiness.sln" Description="The solution file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="" Source="Agribusiness.sln" Description="No Conversion Required">
+</Event></UpgradeLog>

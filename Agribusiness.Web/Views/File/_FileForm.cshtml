@@ -1,0 +1,63 @@
+﻿@model FileViewModel
+
+@Html.AntiForgeryToken()
+    
+<div class="control-group">
+    <fieldset>
+        <div class="control-group">
+            <label for="Name" class="control-label">Name</label>
+            <div class="controls">
+                @Html.EditorFor(model => model.File.Name)
+                @Html.ValidationMessageFor(model => model.File.Name)
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="File" class="control-label">File</label>
+            <div class="controls">
+                <input type="file" name="uploadedFile" class="input-file"/>
+                @if (Model.File.Contents != null)
+                {
+                    <a href="@Url.Action("DownloadAdmin", "File", new{id=Model.File.Id})" class="btn hastip" title="Download existing file."><i class="icon-download"></i></a>
+                }
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="Public" class="control-label">Public</label>
+            <div class="controls">
+                <label class="checkbox">
+                <span class="hastip" title="If checked, will not check if user has access to the attached seminar.">@Html.EditorFor(model => model.File.Public)</span>
+                </label>
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="MySeminar" class="control-label">Display Location</label>
+            <div class="controls">
+                <ul class="unstyled">
+                    <li>
+                        <label class="checkbox">
+                            @Html.EditorFor(model => model.File.MySeminar)        
+                            My Seminar
+                        </label>
+                        <label class="checkbox">
+                            @Html.EditorFor(model => model.File.ProgramOverview)
+                            Program Overview
+                        </label>
+                        <label class="checkbox">
+                            @Html.EditorFor(model => model.File.Sponsors)
+                            Sponsors
+                        </label>
+                        <label class="checkbox">
+                            @Html.EditorFor(model => model.File.Home) 
+                            Home Page
+                        </label>
+                        <label class="checkbox">
+                            @Html.EditorFor(model => model.File.Venue) 
+                            Venue -- Only Image and only 1 should be checked per seminar
+                        </label>
+                    </li>
+                        
+                </ul>
+            </div>
+        </div>
+    </fieldset>
+</div>

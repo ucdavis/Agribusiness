@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.Policy;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
 using Agribusiness.Core.Domain;
 using Agribusiness.Web.Controllers.Filters;
+using Agribusiness.Web.Helpers;
 using Agribusiness.Web.Models;
-using UCDArch.Core.PersistanceSupport;
-using UCDArch.Web.Authentication;
 using MvcContrib;
+using UCDArch.Core.PersistanceSupport;
+
 
 namespace Agribusiness.Web.Controllers
 {
@@ -42,13 +44,16 @@ namespace Agribusiness.Web.Controllers
 
         public ActionResult LogOn(string returnUrl, bool membershipLogon = true)
         {
+            ViewBag.ReturnUrl = returnUrl;
+            ViewBag.Site = Site;
+
             if (!membershipLogon) return this.RedirectToAction(a => a.CasLogon(returnUrl));
 
             return View();
         }
 
         [HttpPost]
-        public ActionResult LogOn(LogOnModel model, string returnUrl)
+        public ActionResult LogOn(LogOnModel model, string returnUrl, string site)
         {
             if (ModelState.IsValid)
             {
@@ -61,7 +66,7 @@ namespace Agribusiness.Web.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Authorized", new {site});
                     }
                 }
                 else
@@ -139,19 +144,21 @@ namespace Agribusiness.Web.Controllers
         [Authorize]
         public ActionResult ChangePassword()
         {
+            ViewBag.Site = Site;
             ViewBag.PasswordLength = MembershipService.MinPasswordLength;
             return View();
         }
 
         [Authorize]
         [HttpPost]
-        public ActionResult ChangePassword(ChangePasswordModel model)
+        public ActionResult ChangePassword(ChangePasswordModel model, string site)
         {
+            ViewBag.Site = site;
             if (ModelState.IsValid)
             {
                 if (MembershipService.ChangePassword(User.Identity.Name, model.OldPassword, model.NewPassword))
                 {
-                    return RedirectToAction("ChangePasswordSuccess");
+                    return RedirectToAction("ChangePasswordSuccess", new {site});
                 }
                 else
                 {
@@ -166,12 +173,14 @@ namespace Agribusiness.Web.Controllers
 
         public ActionResult ResetPassword()
         {
+            ViewBag.Site = Site;
             return View();
         }
 
         [HttpPost]
-        public ActionResult ResetPassword(string userName, string email)
+        public ActionResult ResetPassword(string userName, string email, string site)
         {
+            ViewBag.Site = site;
             // lookup by email
             if (string.IsNullOrEmpty(userName) && !string.IsNullOrWhiteSpace(email))
             {
@@ -185,7 +194,8 @@ namespace Agribusiness.Web.Controllers
             if (MembershipService.ResetPassword(userName))
             {
                 Message = "Your password has been reset, please check your email";
-                return this.RedirectToAction<HomeController>(a => a.Index());
+                //return this.RedirectToAction<AccountController>(a => a.LogOn(null, true));
+                return RedirectToAction("LogOn", "Account", new {membershipLogon = true, site = site});
             }
 
             ModelState.AddModelError("", "Invalid account name provided.");

@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using Agribusiness.Core.Domain;
 using Agribusiness.Web.Controllers.Filters;
 using Agribusiness.Web.Models;
+using Agribusiness.Web.Services;
 using AutoMapper;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Web.ActionResults;
@@ -31,6 +32,8 @@ namespace Agribusiness.Web.Controllers
         // GET: /Template/
         public ActionResult Index()
         {
+            var seminar = SiteService.GetLatestSeminar(Site);
+
             var templateList = _templateRepository.Queryable.Where(a=>a.IsActive);
 
             return View(templateList);
@@ -63,9 +66,11 @@ namespace Agribusiness.Web.Controllers
         public ActionResult Create(Template template)
         {
             var templateToCreate = new Template();
-
             Mapper.Map(template, templateToCreate);
+            templateToCreate.Seminar = SiteService.GetLatestSeminar(Site, true);
 
+            ModelState.Clear();
+            templateToCreate.TransferValidationMessagesTo(ModelState);
             if (ModelState.IsValid)
             {
                 // inactivate all old templates
@@ -81,13 +86,9 @@ namespace Agribusiness.Web.Controllers
 
                 return RedirectToAction("Index");
             }
-            else
-            {
-				var viewModel = TemplateViewModel.Create(Repository);
-                viewModel.Template = template;
-
-                return View(viewModel);
-            }
+			
+            var viewModel = TemplateViewModel.Create(Repository, templateToCreate);
+            return View(viewModel);
         }
 
         //
@@ -98,8 +99,7 @@ namespace Agribusiness.Web.Controllers
 
             if (template == null) return RedirectToAction("Index");
 
-			var viewModel = TemplateViewModel.Create(Repository);
-			viewModel.Template = template;
+			var viewModel = TemplateViewModel.Create(Repository, template);
 
 			return View(viewModel);
         }
@@ -113,7 +113,9 @@ namespace Agribusiness.Web.Controllers
             var templateToEdit = new Template();
 
             Mapper.Map(template, templateToEdit);
-
+            templateToEdit.Seminar = SiteService.GetLatestSeminar(Site, true);
+            ModelState.Clear();
+            templateToEdit.TransferValidationMessagesTo(ModelState);
             if (ModelState.IsValid)
             {
                 // inactivate all old templates
@@ -129,13 +131,9 @@ namespace Agribusiness.Web.Controllers
 
                 return RedirectToAction("Index");
             }
-            else
-            {
-				var viewModel = TemplateViewModel.Create(Repository);
-                viewModel.Template = template;
-
-                return View(viewModel);
-            }
+		
+            var viewModel = TemplateViewModel.Create(Repository, template);
+            return View(viewModel);
         }
 
         /// <summary>

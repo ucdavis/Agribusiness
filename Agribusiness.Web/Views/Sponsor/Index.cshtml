@@ -1,0 +1,54 @@
+﻿@model IQueryable<Sponsor>
+
+@{
+    ViewBag.Title = "Sponsors";
+    ViewBag.SubPageTitle = "Sponsors";
+}
+
+@section ScriptContent
+{
+    @Html.Partial("_DataTables")
+}
+
+@section SubPageNavigation
+{
+    <ul class="nav nav-pills">
+        <li>@Html.ActionLink("Create New", "Create")</li>
+        <li>@Html.ActionLink("Reorder", "Reorder")</li>
+    </ul>
+}
+
+<table class="default_table table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Support Level</th>
+            <th>Display Order</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var sponsor in Model.OrderBy(a => a.Level).ThenBy(a => a.Order))
+        {
+            var level = string.Empty;
+            switch(sponsor.Level)
+            {
+                case SponsorLevel.Gold : level = "$25,000"; break;
+                case SponsorLevel.Silver : level = "$15,000"; break;
+                case SponsorLevel.Bronze : level = "$10,000"; break;
+                case SponsorLevel.BroughtToYouBy : level = "Brought to you By"; break;                                                                          
+            }
+            
+            <tr>
+                <td>
+                    <a href='@Url.Action("Edit", new{id=sponsor.Id})' class="btn">
+                        <i class="icon-pencil"></i>
+                    </a>
+                </td>
+                <td>@sponsor.Name</td>
+                <td>@level</td>
+                <td>@sponsor.Order</td>
+            </tr>
+        }
+    </tbody>
+</table>

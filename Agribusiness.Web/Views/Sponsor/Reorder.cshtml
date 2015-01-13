@@ -1,0 +1,174 @@
+﻿@model IQueryable<Sponsor>
+
+@{
+    ViewBag.Title = "Reorder Sponsors";
+    ViewBag.SubPageTitle = "Reorder Sponsors";
+}
+
+@section ScriptContent
+{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.tablednd.js")"></script>
+    <script type="text/javascript">
+
+        var url = '@Url.Action("ReorderSponsors")';
+
+        $(function () {
+            $("#tabs").tabs();
+
+            $(".sponsors").tableDnD({
+                onDrop: function (table, row) {
+
+                    var sponsors = [];
+
+                    $(table).find('tbody tr').each(function (index, item) {
+                        sponsors.push($(item).data('id'));
+                    });
+
+                    var antiForgeryToken = $('input[name="__RequestVerificationToken"]').val();
+
+                    $.ajax({
+                        type: 'POST',
+                        url: url,
+                        traditional: true,
+                        data: { ids: sponsors, __RequestVerificationToken: antiForgeryToken },
+                        success: function (result) {
+                            if (result) {
+                                $("#success-message").show('normal');
+
+                                setTimeout(function () { $("#success-message").hide('normal'); }, 1000)
+
+                            } else {
+                                $("#error-message").show('normal');
+                            }
+
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}
+
+@section SubPageNavigation
+{
+    <ul class="nav nav-pills">
+        <li>@Html.ActionLink("Back to List", "Index")</li>
+    </ul>
+}
+
+@Html.AntiForgeryToken()
+
+<div id="success-message" class="alert alert-success" style="display:none;">
+    <p>Ordering was successfully updated.</p>
+</div>
+<div id="error-message"  class="alert alert-danger" style="display:none;">
+    <p>There was an error reordering sponsors, please reload the page and try again.</p>
+</div>
+
+<div id="tabs">
+    
+    <ul>
+        <li><a href="#gold">$25,000</a></li>
+        <li><a href="#silver">$15,000</a></li>
+        <li><a href="#bronze">$10,000</a></li>
+        <li><a href="#broughtby">Brought To You By</a></li>
+    </ul>
+    
+    <div id="gold">
+        @if (Model.Any(a => a.Level == SponsorLevel.Gold))
+        {
+            <table class="table table-striped sponsors">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var sponsor in Model.Where(a => a.Level == SponsorLevel.Gold).OrderBy(a => a.Order))
+                    {
+                        <tr data-id="@sponsor.Id">
+                            <td>@sponsor.Name</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>    
+        }
+        else
+        {
+            <div class="alert">No sponsors have been added at the Gold level.</div>
+        }        
+    </div>
+    <div id="silver">
+        @if (Model.Any(a => a.Level == SponsorLevel.Silver))
+        {
+            <table class="table table-striped sponsors">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var sponsor in Model.Where(a => a.Level == SponsorLevel.Silver).OrderBy(a => a.Order))
+                    {
+                        <tr data-id="@sponsor.Id">
+                            <td>@sponsor.Name</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert">No sponsors have been added at the Silver level.</div>
+        }        
+    </div>
+    <div id="bronze">
+        @if (Model.Any(a => a.Level == SponsorLevel.Bronze))
+        {
+            <table class="table table-striped sponsors">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var sponsor in Model.Where(a => a.Level == SponsorLevel.Bronze).OrderBy(a => a.Order))
+                    {
+                        <tr data-id="@sponsor.Id">
+                            <td>@sponsor.Name</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert">No sponsors have been added at the Bronze level.</div>
+        }        
+    </div>
+    <div id="broughtby">
+        @if (Model.Any(a => a.Level == SponsorLevel.BroughtToYouBy))
+        {
+            <table class="table table-striped sponsors">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var sponsor in Model.Where(a => a.Level == SponsorLevel.BroughtToYouBy).OrderBy(a => a.Order))
+                    {
+                        <tr data-id="@sponsor.Id">
+                            <td>@sponsor.Name</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert">No sponsors have been added at the Bronze level.</div>
+        }   
+    </div>
+
+</div>

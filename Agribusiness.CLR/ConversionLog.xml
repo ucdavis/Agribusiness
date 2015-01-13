@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type='text/xsl' href='_ConversionReport_Files/ConversionReport.xslt'?>
+<UpgradeLog>
+  <Properties>
+    <Property Name="Project" Value="Agribusiness.CLR" />
+    <Property Name="Project File" Value="C:\Users\lai\Documents\GitHub\Agribusiness\Agribusiness.CLR\Agribusiness.CLR.csproj" />
+    <Property Name="Date" Value="Tuesday, December 04, 2012" />
+    <Property Name="Time" Value="7:51 AM" />
+  </Properties>
+  <Event ErrorLevel="0" Project="C:\Users\lai\Documents\GitHub\Agribusiness\Agribusiness.CLR\Agribusiness.CLR.csproj" Source="..\Agribusiness.CLR.csproj" Description="Project was successfully converted: 'C:\Users\lai\Documents\GitHub\Agribusiness\Agribusiness.CLR\Agribusiness.CLR.csproj' to 'C:\Users\lai\Documents\GitHub\Agribusiness\Agribusiness.CLR\Agribusiness.CLR.sqlproj'" />
+  <Event ErrorLevel="3" Project="C:\Users\lai\Documents\GitHub\Agribusiness\Agribusiness.CLR\Agribusiness.CLR.csproj" Source="..\Agribusiness.CLR.csproj" Description="Converted" />
+</UpgradeLog>

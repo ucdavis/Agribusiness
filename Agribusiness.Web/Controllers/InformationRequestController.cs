@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using Agribusiness.Core.Domain;
+using Agribusiness.Core.Repositories;
 using Agribusiness.Web.App_GlobalResources;
 using Agribusiness.Web.Controllers.Filters;
 using Agribusiness.Web.Models;
@@ -29,22 +30,18 @@ namespace Agribusiness.Web.Controllers
         private readonly IRepository<InformationRequestNote> _informationRequestNoteRepository;
         private readonly IRepositoryWithTypedId<AddressType, char> _addressTypeRepository;
         private readonly IFirmService _firmService;
-        private readonly IRepository<Seminar> _seminarRepository;
         private readonly IRepository<User> _userRepository;
-        private readonly ISeminarService _seminarService;
         private readonly IRepository<Person> _personRepository;
 
         private readonly IMembershipService _membershipService;
 
-        public InformationRequestController(IRepository<InformationRequest> informationrequestRepository, IRepository<InformationRequestNote> informationRequestNoteRepository, IRepositoryWithTypedId<AddressType, char> addressTypeRepository, IFirmService firmService, IRepository<Seminar> seminarRepository, IRepository<User> userRepository, ISeminarService seminarService, IRepository<Person> personRepository )
+        public InformationRequestController(IRepository<InformationRequest> informationrequestRepository, IRepository<InformationRequestNote> informationRequestNoteRepository, IRepositoryWithTypedId<AddressType, char> addressTypeRepository, IFirmService firmService, IRepository<User> userRepository, IRepository<Person> personRepository )
         {
             _informationrequestRepository = informationrequestRepository;
             _informationRequestNoteRepository = informationRequestNoteRepository;
             _addressTypeRepository = addressTypeRepository;
             _firmService = firmService;
-            _seminarRepository = seminarRepository;
             _userRepository = userRepository;
-            _seminarService = seminarService;
             _personRepository = personRepository;
 
             _membershipService = new AccountMembershipService();
@@ -54,7 +51,8 @@ namespace Agribusiness.Web.Controllers
         // GET: /InformationRequest/
         public ActionResult Index()
         {
-            var informationrequestList = _informationrequestRepository.Queryable.OrderBy(a=>a.Responded);
+            var seminar = SiteService.GetLatestSeminar(Site);
+            var informationrequestList = _informationrequestRepository.Queryable.Where(a => a.Seminar == seminar).OrderBy(a=>a.Responded);
 
             return View(informationrequestList);
         }
@@ -69,13 +67,13 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction(a => a.Index());
             }
 
-            return View(informationRequest);
+            return View(InformationRequestViewModel.Create(RepositoryFactory, informationRequest));
         }
 
         [HttpPost]
-        public ActionResult Edit(int id, InformationRequest informationRequest)
+        public ActionResult Edit(int? id, InformationRequest informationRequest)
         {
-            var editInformationRequest = _informationrequestRepository.GetNullableById(id);
+            var editInformationRequest = _informationrequestRepository.GetNullableById(id.Value);
 
             if (editInformationRequest == null)
             {
@@ -94,7 +92,7 @@ namespace Agribusiness.Web.Controllers
                 Message = string.Format(Messages.Saved, "Information request");
             }
 
-            return View(editInformationRequest);
+            return View(InformationRequestViewModel.Create(RepositoryFactory,editInformationRequest));
         }
 
         public ActionResult AddNote(int id)
@@ -153,42 +151,51 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction(a => a.Index());
             }
 
-            var viewModel = PersonViewModel.Create(Repository, _firmService);
-
-            // set the person's information
-            var firstname = ir.Name.Trim().Substring(0, ir.Name.LastIndexOf(' '));
-            var lastname = ir.Name.Trim().Substring(ir.Name.LastIndexOf(' '));
-
-            viewModel.Person.FirstName = firstname.Trim();
-            viewModel.Person.LastName = lastname.Trim();
+            var viewModel = PersonViewModel.Create(Repository, _firmService, Site);
+            viewModel.Person.FirstName = ir.FirstName.Trim();
+            viewModel.Person.LastName = ir.LastName.Trim();
             viewModel.Email = ir.Email;
-            viewModel.UserName = string.Format("{0}.{1}", firstname.Trim(), lastname.Trim());
+            viewModel.UserName = string.Format("{0}.{1}", ir.FirstName.Trim(), ir.LastName.Trim());
 
             // fake phone number
-            viewModel.Person.Phone = "555-555-5555";    
+            viewModel.Person.Phone = ir.Phone;    
 
-            // fake address since we don't have it yet
             var atype = _addressTypeRepository.GetNullableById((char)StaticIndexes.Address_Business[0]);
 
-            var address = viewModel.Addresses.Where(a => a.AddressType == atype).FirstOrDefault();
-            address.Line1 = "Address";
-            address.Zip = "Zip Code";
-            
-            // see if we can extract city/state out of the information reuqest
-            var commaIndex = ir.Location.IndexOf(',');
-
-            // no comma, probably no state information
-            if (commaIndex < 0)
+            var address = viewModel.Addresses.FirstOrDefault(a => a.AddressType == atype);
+            if (address != null)
             {
-                address.City = ir.Location;
+                address.Line1 = ir.AddressLine1;
+                address.Line2 = ir.AddressLine2;
+                address.City = ir.City;
+                address.State = ir.State;
+                address.Zip = ir.Zip;
+                address.Country = ir.Country;    
             }
-            // comma exists, most likely a state exists
+
+            if (ir.Site.CollectExtended)
+            {
+                // get the assistant contact
+                var ctype = RepositoryFactory.ContactTypeRepsitory.GetNullableById((char)StaticIndexes.Contact_Assistant[0]);
+                var assistant = viewModel.Contacts.FirstOrDefault(a => a.ContactType == ctype);
+
+                if (assistant != null)
+                {
+                    assistant.FirstName = ir.AssistantFirstName;
+                    assistant.LastName = ir.AssistantLastName;
+                    assistant.Email = ir.AssistantEmail;
+                    assistant.Phone = ir.AssistantPhone;
+
+                    var comoption = RepositoryFactory.CommunicationOptionRepository.GetNullableById(StaticIndexes.Communication_Assistant);
+                    viewModel.Person.CommunicationOption = comoption;
+                }
+            }
             else
             {
-                address.City = ir.Location.Substring(0, commaIndex).Trim();
-                address.State = ir.Location.Substring(commaIndex + 1).Trim();
+                var comoption = RepositoryFactory.CommunicationOptionRepository.GetNullableById(StaticIndexes.Communication_Directly);
+                viewModel.Person.CommunicationOption = comoption;
             }
-            
+
             return View(viewModel);
         }
 
@@ -199,7 +206,7 @@ namespace Agribusiness.Web.Controllers
 
             var person = personEditModel.Person;
 
-            var user = _userRepository.Queryable.Where(a => a.LoweredUserName == personEditModel.UserName.ToLower()).FirstOrDefault();
+            var user = _userRepository.Queryable.FirstOrDefault(a => a.LoweredUserName == personEditModel.UserName.ToLower());
             person.User = user;
 
             SeminarPerson seminarPerson = null;
@@ -217,17 +224,19 @@ namespace Agribusiness.Web.Controllers
                                               , personEditModel.Email);
 
                 // retrieve the user to assign
-                var createdUser = _userRepository.Queryable.Where(a => a.LoweredUserName == personEditModel.UserName.ToLower()).FirstOrDefault();
+                var createdUser = _userRepository.Queryable.FirstOrDefault(a => a.LoweredUserName == personEditModel.UserName.ToLower());
                 person.User = createdUser;
 
                 // save only if user creation was successful
                 if (createStatus == MembershipCreateStatus.Success)
                 {
+                    person.AddSite(SiteService.LoadSite(Site));
+
                     // we're good save the person object
                     _personRepository.EnsurePersistent(person);
                     Message = string.Format(Messages.Saved, "Person");
 
-                    if (person.OriginalPicture != null) return this.RedirectToAction<PersonController>(a => a.UpdateProfilePicture(person.Id, null));
+                    if (person.OriginalPicture != null) return this.RedirectToAction<PersonController>(a => a.UpdateProfilePicture(person.Id, null, false));
 
                     return this.RedirectToAction<PersonController>(a => a.AdminEdit(person.User.Id, null, true));
                 }
@@ -235,7 +244,7 @@ namespace Agribusiness.Web.Controllers
                 ModelState.AddModelError("Create User", AccountValidation.ErrorCodeToString(createStatus));
             }
 
-            var viewModel = PersonViewModel.Create(Repository, _firmService, null, person, personEditModel.Email);
+            var viewModel = PersonViewModel.Create(Repository, _firmService, Site, null, person, personEditModel.Email);
             viewModel.Addresses = personEditModel.Addresses;
             viewModel.UserName = personEditModel.UserName;
             return View(viewModel);
@@ -373,12 +382,15 @@ namespace Agribusiness.Web.Controllers
     public class InformationRequestViewModel
 	{
 		public InformationRequest InformationRequest { get; set; }
+        public IEnumerable<Country> Countries { get; set; }
  
-		public static InformationRequestViewModel Create(IRepository repository, InformationRequest informationRequest = null)
+		public static InformationRequestViewModel Create(IRepositoryFactory repositoryFactory, InformationRequest informationRequest = null)
 		{
-			Check.Require(repository != null, "Repository must be supplied");
-			
-			var viewModel = new InformationRequestViewModel {InformationRequest = informationRequest ?? new InformationRequest()};
+			var viewModel = new InformationRequestViewModel
+			                    {
+			                        InformationRequest = informationRequest ?? new InformationRequest(),
+                                    Countries = repositoryFactory.CountryRepository.Queryable.OrderBy(a => a.Name).ToList()
+			                    };
  
 			return viewModel;
 		}

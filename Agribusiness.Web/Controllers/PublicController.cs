@@ -1,8 +1,5 @@
-﻿using System;
-using System.Configuration;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
-using System.Net.Mail;
 using System.Web.Mvc;
 using Agribusiness.Core.Domain;
 using Agribusiness.Web.App_GlobalResources;
@@ -12,6 +9,7 @@ using Agribusiness.Web.Services;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Web.Helpers;
 using MvcContrib;
+using System.Collections.Generic;
 
 namespace Agribusiness.Web.Controllers
 {
@@ -23,15 +21,13 @@ namespace Agribusiness.Web.Controllers
         private readonly IRepository<InformationRequest> _informationRequestRepository;
         private readonly IRepositoryWithTypedId<SeminarRole, string> _seminarRoleRepository;
         private readonly IRepository<CaseStudy> _caseStudyRepository;
-        private readonly ISeminarService _seminarService;
         private readonly INotificationService _notificationService;
 
-        public PublicController(IRepository<InformationRequest> informationRequestRepository, IRepositoryWithTypedId<SeminarRole, string> seminarRoleRepository, IRepository<CaseStudy> caseStudyRepository, ISeminarService seminarService, INotificationService notificationService)
+        public PublicController(IRepository<InformationRequest> informationRequestRepository, IRepositoryWithTypedId<SeminarRole, string> seminarRoleRepository, IRepository<CaseStudy> caseStudyRepository, INotificationService notificationService)
         {
             _informationRequestRepository = informationRequestRepository;
             _seminarRoleRepository = seminarRoleRepository;
             _caseStudyRepository = caseStudyRepository;
-            _seminarService = seminarService;
             _notificationService = notificationService;
         }
 
@@ -42,7 +38,7 @@ namespace Agribusiness.Web.Controllers
 
         public ActionResult SteeringCommittee()
         {
-            var seminar = _seminarService.GetCurrent();
+            var seminar = SiteService.GetLatestSeminar(Site);
             var role = _seminarRoleRepository.GetNullableById(StaticIndexes.Role_SteeringCommittee);
 
             if (seminar != null && role != null)
@@ -57,9 +53,10 @@ namespace Agribusiness.Web.Controllers
 
         public ActionResult ProgramOverview()
         {
-            var seminar = _seminarService.GetCurrent();
-
-            return View(seminar.Sessions.Where(a => a.ShowPublic).ToList());
+            //var seminar = _seminarService.GetCurrent();
+            //return View(seminar.Sessions.Where(a => a.ShowPublic).ToList());
+            var seminar = SiteService.GetLatestSeminar(Site);
+            return View(seminar);
         }
 
         /// <summary>
@@ -68,7 +65,7 @@ namespace Agribusiness.Web.Controllers
         /// <returns></returns>
         public ActionResult CaseExamples()
         {
-            var viewModel = CaseExampleViewModel.Create(_caseStudyRepository, _seminarService);
+            var viewModel = CaseExampleViewModel.Create(_caseStudyRepository, Site);
 
             return View(viewModel);
         }
@@ -79,7 +76,33 @@ namespace Agribusiness.Web.Controllers
         /// <returns></returns>
         public ActionResult Venue()
         {
+            ViewBag.ShowImage = false;
+            var siteId = ViewData["site"] as string;
+            var seminar = SiteService.GetLatestSeminar(siteId);
+            if (seminar != null)
+            {
+                var id = seminar.Id;
+                var file = RepositoryFactory.FileRepository.Queryable.FirstOrDefault(a => a.Seminar.Id == id && a.Venue);
+                if (file != null)
+                {
+                    ViewBag.ShowImage = true;
+                }
+            }
+
             return View();
+        }
+
+        public ActionResult GetVenueImage(int siteId)
+        {
+            var file = RepositoryFactory.FileRepository.Queryable.FirstOrDefault(a => a.Seminar.Id == siteId && a.Venue);
+            if (file != null)
+            {
+                return File(file.Contents, "image/jpg");
+            }
+            else
+            {
+                return File(new byte[0], "image/jpg");
+            }
         }
 
         /// <summary>
@@ -104,7 +127,14 @@ namespace Agribusiness.Web.Controllers
             if (person != null)
             {
                 // get the last registration
-                var seminarPerson = person.GetLatestRegistration();
+                var seminarPerson = person.GetLatestRegistration(Site);
+                var site = SiteService.LoadSite(Site);
+
+                if (site.BackgroundPerson.Id == id)
+                {
+                    ViewBag.Title = "Profile";
+                    return View(seminarPerson);
+                }
 
                 // is this person in the public roles of either faculty directory or steering committee?
                 var roles = seminarPerson.SeminarRoles.Select(a => a.Id);
@@ -133,16 +163,18 @@ namespace Agribusiness.Web.Controllers
         /// <returns></returns>
         public ActionResult MoreInformation()
         {
-            return View(new InformationRequest());
+            ViewBag.Countries = RepositoryFactory.CountryRepository.Queryable.OrderBy(a => a.Name).ToList();
+            return View(new InformationRequest() {Site = SiteService.LoadSite(Site)});
         }
 
         [CaptchaValidator]
         [HttpPost]
-        public ActionResult MoreInformation(InformationRequest informationRequest)
+        public ActionResult MoreInformation([Bind(Exclude = "Site")]InformationRequest informationRequest)
         {
             ModelState.Clear();
 
-            informationRequest.Seminar = _seminarService.GetCurrent();
+            informationRequest.Site = SiteService.LoadSite(Site);
+            informationRequest.Seminar = SiteService.GetLatestSeminar(Site);
             informationRequest.TransferValidationMessagesTo(ModelState);
 
             if (ModelState.IsValid)
@@ -151,14 +183,15 @@ namespace Agribusiness.Web.Controllers
                 Message = string.Format("Your request for information has been submitted.");
 
                 // send the information request notification to admin
-                _notificationService.SendInformationRequestNotification(informationRequest);
+                _notificationService.SendInformationRequestNotification(informationRequest, informationRequest.Site);
 
                 // queue an email for the person requesting information
-                _notificationService.SendInformationRequestConfirmatinon(informationRequest.Email);
+                _notificationService.SendInformationRequestConfirmatinon(informationRequest.Email, informationRequest.Site);
 
                 return this.RedirectToAction<HomeController>(a => a.Index());
             }
 
+            ViewBag.Countries = RepositoryFactory.CountryRepository.Queryable.OrderBy(a => a.Name).ToList();
             return View(informationRequest);
         }
 
@@ -196,7 +229,6 @@ namespace Agribusiness.Web.Controllers
             {
                 var person = Repository.OfType<Person>().GetById(id.Value);
 
-
                 // no result anyways
                 if (person == null)
                 {
@@ -204,17 +236,28 @@ namespace Agribusiness.Web.Controllers
                 }
 
                 // for now only committee members can be downloaded from this action
-                var committeeRole = Repository.OfType<SeminarRole>().Queryable.Where(a => a.Id == StaticIndexes.Role_SteeringCommittee).FirstOrDefault();
-                var isCommitteeMember = Repository.OfType<SeminarPerson>().Queryable.Where(a => a.SeminarRoles.Contains(committeeRole) && a.Person == person).Any();
+                var committeeRole = RepositoryFactory.SeminarRoleRepository.GetNullableById(StaticIndexes.Role_SteeringCommittee);
+                var faculty = RepositoryFactory.SeminarRoleRepository.GetNullableById(StaticIndexes.Role_FacultyDirector);
+                var site = SiteService.LoadSite(Site);
 
-                // not authorized to release this person's image
-                if (!isCommitteeMember)
-                    return File(new byte[0], string.Empty);
+                var isCommitteeMember = Repository.OfType<SeminarPerson>().Queryable.Any(a => a.SeminarRoles.Contains(committeeRole) && a.Person == person);
 
-                // has picture return that
-                if (person.MainProfilePicture != null)
+                var isAvailable = RepositoryFactory.SeminarPersonRepository.Queryable.Any(a =>
+                                    (
+                                        a.SeminarRoles.Contains(committeeRole) 
+                                        || a.SeminarRoles.Contains(faculty)
+                                        || site.BackgroundPerson.Id == person.Id
+                                    )
+                                    &&
+                                    a.Person == person);
+
+                // has picture return and is authorized
+                if (isAvailable && person.MainProfilePicture != null)
+                {
                     return File(person.MainProfilePicture, person.ContentType ?? "image/png");
+                }
             }
+
             // load the default image
             var fs = new FileStream(Server.MapPath("~/Images/profilepicplaceholder.png"), FileMode.Open, FileAccess.Read);
             var img = new byte[fs.Length];
@@ -223,6 +266,32 @@ namespace Agribusiness.Web.Controllers
 
             return File(img, "image/png");
         }
+
+        public FileResult SponsorLogo(int id)
+        {
+            var sponsor = RepositoryFactory.SponsorRepository.GetNullableById(id);
+
+            if (sponsor != null)
+            {
+                return File(sponsor.Logo, sponsor.LogoContentType);
+            }
+
+            return File(new byte[0], string.Empty);
+        }
+
+        public ActionResult Sponsors()
+        {
+            var viewModel = new PublicSponsorsViewModel();
+            viewModel.Sponsors = RepositoryFactory.SponsorRepository.Queryable.Where(a => a.IsActive && a.Site.Id == Site);
+            viewModel.Files = RepositoryFactory.FileRepository.Queryable.Where(a => a.Sponsors);
+
+            return View(viewModel);
+        }
     }
 
+    public class PublicSponsorsViewModel
+    {
+        public IEnumerable<Sponsor> Sponsors;
+        public IEnumerable<Agribusiness.Core.Domain.File> Files;
+    }
 }

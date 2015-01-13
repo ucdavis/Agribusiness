@@ -22,8 +22,12 @@ namespace Agribusiness.Web.Helpers
                 .ForMember(x => x.SeminarPeople, x => x.Ignore())
                 .ForMember(x => x.CaseStudies, x => x.Ignore())
                 .ForMember(x => x.MailingLists, x => x.Ignore())
-                .ForMember(x => x.Invitations, x => x.Ignore());
-            
+                .ForMember(x => x.Invitations, x => x.Ignore())
+                .ForMember(x => x.Files, x => x.Ignore())
+                .ForMember(x => x.Applications, x => x.Ignore())
+                .ForMember(x => x.Site, x => x.Ignore())
+                .ForMember(x => x.Templates, x => x.Ignore());
+
             CreateMap<Session, Session>()
                 .ForMember(x => x.Id, x => x.Ignore())
                 .ForMember(x=>x.Seminar, x=>x.Ignore())
@@ -73,12 +77,14 @@ namespace Agribusiness.Web.Helpers
                 .ForMember(x => x.Attachments, x=>x.Ignore());
 
             CreateMap<Template, Template>()
-                .ForMember(x => x.Id, x => x.Ignore());
+                .ForMember(x => x.Id, x => x.Ignore())
+                .ForMember(x => x.Seminar, x => x.Ignore());
 
             CreateMap<InformationRequest, InformationRequest>()
                 .ForMember(x => x.Id, x => x.Ignore())
                 .ForMember(x => x.SubmittedDateTime, x=> x.Ignore())
                 .ForMember(x => x.InformationRequestNotes, x=>x.Ignore())
+                .ForMember(x => x.Site, x => x.Ignore())
                 .ForMember(x => x.Seminar, x => x.Ignore());
 
             CreateMap<MailingList, MailingList>()
@@ -102,6 +108,21 @@ namespace Agribusiness.Web.Helpers
                 .ForMember(x => x.ContactInformationRelease, x => x.MapFrom(a => a.ContactInformationRelease))
                 ;
 
+            CreateMap<File, File>()
+                .ForMember(x => x.Id, x => x.Ignore())
+                .ForMember(x => x.Contents, x => x.Ignore())
+                .ForMember(x => x.ContentType, x => x.Ignore())
+                .ForMember(x => x.Seminar, x => x.Ignore())
+                .ForMember(x => x.FileName, x => x.Ignore())
+                ;
+
+            CreateMap<Sponsor, Sponsor>()
+                .ForMember(x => x.Logo, x => x.Ignore())
+                .ForMember(x => x.LogoContentType, x => x.Ignore())
+                .ForMember(x => x.Site, x => x.Ignore())
+                .ForMember(x => x.Id, x => x.Ignore())
+                .ForMember(x => x.Order, x => x.Ignore())
+                ;
         }
         
     }

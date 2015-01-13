@@ -2,18 +2,24 @@
 
 @{
 	ViewBag.Title = "Information Requests";
-    ViewBag.SubPageTitle = "Information Requests";
+	ViewBag.SubPageTitle = "Information Requests";
+    ViewBag.Nav = Nav.Requests;
 }
 
 @section SubPageNavigation
 {
-	<ul class='navigation'>
+	<ul class='nav nav-pills'>
 		
 	</ul>
 }
 
+@section ScriptContent
+{
+    @Html.Partial("_DataTables")
+}
 
-<table class='default_table nolasticon'>
+
+<table class='default_table table table-striped table-bordered'>
 	<thead>
 		<tr>
 			<th></th>
@@ -52,18 +58,17 @@
 		</tr>
 	</thead>
 	<tbody>
-@{ var odd = false; }
 @foreach (var item in Model) {
-		<tr class="@(odd ? "odd": "even")">
+		<tr >
 
 			<td>
-				<a href='@Url.Action("Edit", new {id=item.Id})'>
-					<img src='@Url.Image("edit.png")' />
+				<a href='@Url.Action("Edit", new {id=item.Id})' class="btn hastip" rel="tooltip" title="Edit Information Request">
+					<i class="icon-pencil"></i>
 				</a>
 			</td>
 
 			<td>
-				@item.Name
+				@item.FullName()
 			</td>
 
 			<td>
@@ -83,7 +88,7 @@
 			</td>
 
 			<td>
-				@item.Location
+				@(string.Format("{0} ({1})", item.City, item.State))
 			</td>
 
 			<td>
@@ -91,11 +96,17 @@
 			</td>
 
 			<td>
-				@item.Responded
+				@if (item.Responded)
+                {
+                    <span class="label label-success">Yes</span>
+                }
+                else
+                { 
+                    <span class="label label-important">No</span>
+                }
 			</td>
 
 		</tr>
-		odd = !odd;
 }
 	</tbody>
 </table>

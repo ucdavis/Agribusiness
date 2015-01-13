@@ -15,19 +15,19 @@ namespace Agribusiness.Web.Services
         /// <param name="person">Person that the notification is being sent to</param>
         /// <param name="seminarId">Seminar associated with message when available</param>
         /// <returns></returns>
-        string GenerateNotification(string template, Person person, int? seminarId = null, Invitation invitation = null, string password = null);
+        string GenerateNotification(string template, Person person, string siteId, int? seminarId = null, Invitation invitation = null, string password = null);
 
         /// <summary>
         /// Sends the notification to the admin about an information request submission.
         /// </summary>
         /// <param name="informationRequest"></param>
-        void SendInformationRequestNotification(InformationRequest informationRequest);
+        void SendInformationRequestNotification(InformationRequest informationRequest, Site site);
 
         /// <summary>
         /// Queue the confirmation message to the person requesting information
         /// </summary>
         /// <param name="email"></param>
-        void SendInformationRequestConfirmatinon(string email);
+        void SendInformationRequestConfirmatinon(string email, Site site);
 
         /// <summary>
         /// Add person to the mailing list

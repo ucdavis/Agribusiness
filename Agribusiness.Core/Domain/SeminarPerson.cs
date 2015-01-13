@@ -44,7 +44,7 @@ namespace Agribusiness.Core.Domain
         public virtual bool Paid { get; set; }
         public virtual bool Invite { get; set; }
         
-        public virtual string ReferenceId { get; private set; }
+        public virtual string ReferenceId { get; protected set; }
         [StringLength(20)]
         public virtual string TransactionId { get; set; }
         public virtual string Comments { get; set; }
@@ -95,7 +95,7 @@ namespace Agribusiness.Core.Domain
             References(x => x.Person);
 
             Map(x => x.Title);
-            References(x => x.Firm).Cascade.All();
+            References(x => x.Firm).Cascade.All().Fetch.Join();
             Map(x => x.CouponCode);
             Map(x => x.CouponAmount);
             Map(x => x.Paid);

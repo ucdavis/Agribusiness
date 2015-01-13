@@ -1,0 +1,43 @@
+﻿@model IQueryable<VEmailQueue>
+
+@{
+    ViewBag.Title = "Pending Email Queue";
+    ViewBag.SubPageTitle = "Pending Email Queue";
+}
+
+@section ScriptContent{
+    @Html.Partial("_dataTables", string.Empty)
+}
+
+@section SubPageNavigation
+{
+    <ul class="nav nav-pills">
+        <li>@Html.ActionLink("Process Email Queue", "Flush")</li>
+    </ul>
+}
+
+<table class="default_table table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Person</th>
+            <th>Email</th>
+            <th>Subject</th>
+            <th>From Email</th>
+        </tr>
+    </thead>
+        @foreach (var eq in Model)
+        {
+            <tr>
+                <td></td>
+                <td>@eq.Person.FullName</td>
+                <td>@eq.Email</td>
+                <td>@eq.Subject</td>
+                <td>@eq.FromAddress</td>
+            </tr>
+        }
+    <tbody>
+        
+    </tbody>
+</table>
+

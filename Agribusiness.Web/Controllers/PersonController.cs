@@ -6,8 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using Agribusiness.Core.Domain;
-using Agribusiness.Core.Resources;
-using Agribusiness.Web.App_GlobalResources;
+using Agribusiness.Core.Repositories;
 using Agribusiness.Web.Controllers.Filters;
 using Agribusiness.Web.Models;
 using Agribusiness.Web.Services;
@@ -15,11 +14,9 @@ using Agribusiness.WS;
 using AutoMapper;
 using Resources;
 using UCDArch.Core.PersistanceSupport;
-using UCDArch.Core.Utils;
 using UCDArch.Web.ActionResults;
 using UCDArch.Web.Helpers;
 using MvcContrib;
-using INotificationService = Agribusiness.Web.Services.INotificationService;
 using Membership = Agribusiness.Core.Domain.Membership;
 
 namespace Agribusiness.Web.Controllers
@@ -39,16 +36,16 @@ namespace Agribusiness.Web.Controllers
         private readonly IPictureService _pictureService;
         private readonly IPersonService _personService;
         private readonly IFirmService _firmService;
-        private readonly ISeminarService _seminarService;
         private readonly IRegistrationService _registrationService;
         private readonly IvCardService _vCardService;
         private readonly IEventService _eventService;
+        private readonly IRepositoryFactory _repositoryFactory;
         private readonly IMembershipService _membershipService;
 
         public PersonController(IRepository<Person> personRepository, IRepositoryWithTypedId<User, Guid> userRepository, IRepositoryWithTypedId<SeminarRole, string> seminarRoleRepository
             , IRepository<SeminarPerson> seminarPersonRepository, IRepository<Seminar> seminarRepository, IRepositoryWithTypedId<Agribusiness.Core.Domain.Membership, Guid>  membershipRepository
-            , IPictureService pictureService, IPersonService personService, IFirmService firmService, ISeminarService seminarService, IRegistrationService registrationService
-            , IvCardService vCardService,IEventService eventService)
+            , IPictureService pictureService, IPersonService personService, IFirmService firmService, IRegistrationService registrationService
+            , IvCardService vCardService,IEventService eventService, IRepositoryFactory repositoryFactory)
         {
             _personRepository = personRepository;
             _userRepository = userRepository;
@@ -59,50 +56,26 @@ namespace Agribusiness.Web.Controllers
             _pictureService = pictureService;
             _personService = personService;
             _firmService = firmService;
-            _seminarService = seminarService;
             _registrationService = registrationService;
             _vCardService = vCardService;
             _eventService = eventService;
+            _repositoryFactory = repositoryFactory;
 
             _membershipService = new AccountMembershipService();
         }
 
-        //
-        // GET: /Person/
         [UserOnly]
-        public ActionResult Index(FilterRule filter)
+        public ActionResult SiteList()
         {
-            var viewModel = PersonListViewModel.Create(_personRepository, _personService, _seminarService);
+            var people = _personService.ConvertToDisplayPeople(SiteService.LoadSite(Site).People, Site);
+            return View(people);
+        }
 
-            if (!string.IsNullOrWhiteSpace(filter.FilterBy) || !string.IsNullOrWhiteSpace(filter.SortBy))
-            {
-                if (!string.IsNullOrWhiteSpace(filter.SortBy))
-                {
-                    switch (filter.SortBy.ToLower())
-                    {
-                        case "firstname":
-                            viewModel.People = filter.Desc ? viewModel.People.OrderByDescending(a => a.Person.FirstName).ToList() : viewModel.People.OrderBy(a => a.Person.FirstName).ToList();
-                            break;
-                        case "lastname":
-                            viewModel.People = filter.Desc ? viewModel.People.OrderByDescending(a => a.Person.LastName).ToList() : viewModel.People.OrderBy(a => a.Person.LastName).ToList();
-                            break;
-                        case "firm":
-                            viewModel.People = filter.Desc ? viewModel.People.OrderByDescending(a => a.Firm.Name).ToList() : viewModel.People.OrderBy(a => a.Firm.Name).ToList();
-                            break;
-                    }
-
-                    viewModel.SortBy = filter.SortBy.ToLower();
-                    viewModel.Desc = filter.Desc;
-                }
-            }
-            else
-            {
-                viewModel.People = viewModel.People.OrderBy(a => a.Person.LastName).ToList();
-                viewModel.Desc = false;
-                viewModel.SortBy = "lastname";
-            }
-
-            return View(viewModel);
+        [UserOnly]
+        public ActionResult MasterList()
+        {
+            var people = _personService.GetAllDisplayPeople(Site);
+            return View(people);
         }
 
         [UserOnly]
@@ -113,10 +86,10 @@ namespace Agribusiness.Web.Controllers
             if (person == null)
             {
                 Message = "Could not locate person.";
-                return this.RedirectToAction(a => a.Index(null));
+                return this.RedirectToAction(a => a.SiteList());
             }
 
-            var displayPerson = _personService.GetDisplayPerson(person);
+            var displayPerson = _personService.GetDisplayPerson(person, Site);
             return View(displayPerson);
         }
 
@@ -131,11 +104,47 @@ namespace Agribusiness.Web.Controllers
 
             if (person == null) { return File(new byte[0], "text/x-vcard"); }
 
-            var vCard = _vCardService.Create(person);
+            var vCard = _vCardService.Create(person, Site);
 
             return File(vCard, "text/x-vcard", string.Format("{0}.vcf", person.FullName.Replace(" ", "").Replace(".", "")));
         }
 
+        #region List Functions
+        [HttpPost]
+        public JsonNetResult AddtoSiteList(int personId)
+        {
+            var person = RepositoryFactory.PersonRepository.GetNullableById(personId);
+            var site = RepositoryFactory.SiteRepository.GetNullableById(Site);
+
+            if (person != null && site != null)
+            {
+                person.AddSite(site);
+                RepositoryFactory.PersonRepository.EnsurePersistent(person);
+
+                var dp = _personService.GetDisplayPerson(person, Site);
+                return new JsonNetResult(new { id = dp.Person.Id, userId = dp.Person.User.Id, firstName = dp.Person.FirstName, lastName = dp.Person.LastName, title = dp.Title, firm = dp.Firm, lastSeminar = dp.Seminar != null ? dp.Seminar.Year.ToString() : string.Empty });
+            }
+
+            return new JsonNetResult(false);
+        }
+
+        [HttpPost]
+        public JsonNetResult RemoveFromSiteList(int personId)
+        {
+            var person = RepositoryFactory.PersonRepository.GetNullableById(personId);
+            var site = RepositoryFactory.SiteRepository.GetNullableById(Site);
+
+            if (person != null && site != null)
+            {
+                person.RemoveSite(site);
+                RepositoryFactory.PersonRepository.EnsurePersistent(person);
+
+                return new JsonNetResult(true);
+            }
+
+            return new JsonNetResult(false);
+        }
+        #endregion
 
         #region Administration Functions
         /// <summary>
@@ -154,7 +163,9 @@ namespace Agribusiness.Web.Controllers
             //    return this.RedirectToAction<SeminarController>(a => a.Index());
             //}
 
-            var viewModel = PersonViewModel.Create(Repository, _firmService, seminar);
+            ViewData["site"] = Site;
+
+            var viewModel = PersonViewModel.Create(Repository, _firmService, Site, seminar);
             return View(viewModel);
         }
 
@@ -175,8 +186,9 @@ namespace Agribusiness.Web.Controllers
 
             var person = personEditModel.Person;
 
-            var user = _userRepository.Queryable.Where(a => a.LoweredUserName == personEditModel.UserName.ToLower()).FirstOrDefault();
+            var user = _userRepository.Queryable.FirstOrDefault(a => a.LoweredUserName == personEditModel.UserName.ToLower());
             person.User = user;
+            person.AddSite(SiteService.LoadSite(Site));
 
             SeminarPerson seminarPerson = null;
             if (seminar != null)
@@ -187,7 +199,7 @@ namespace Agribusiness.Web.Controllers
             }
 
             person = SetPerson(personEditModel, seminarPerson, ModelState, person, profilepic);
-
+            
             ModelState.Remove("Person.User");
 
             if (ModelState.IsValid)
@@ -199,7 +211,7 @@ namespace Agribusiness.Web.Controllers
                                               , personEditModel.Email);
 
                 // retrieve the user to assign
-                var createdUser = _userRepository.Queryable.Where(a => a.LoweredUserName == personEditModel.UserName.ToLower()).FirstOrDefault();
+                var createdUser = _userRepository.Queryable.FirstOrDefault(a => a.LoweredUserName == personEditModel.UserName.ToLower());
                 person.User = createdUser;
 
                 // save only if user creation was successful
@@ -209,14 +221,16 @@ namespace Agribusiness.Web.Controllers
                     _personRepository.EnsurePersistent(person);
                     Message = string.Format(Messages.Saved, "Person");
 
-                    if (person.OriginalPicture != null) return this.RedirectToAction(a => a.UpdateProfilePicture(person.Id, null));
+                    if (person.OriginalPicture != null) return this.RedirectToAction(a => a.UpdateProfilePicture(person.Id, null, false));
                     else return this.RedirectToAction(a => a.AdminEdit(createdUser.Id, null, null));
                 }
 
                 ModelState.AddModelError("Create User", AccountValidation.ErrorCodeToString(createStatus));
             }
-            
-            var viewModel = PersonViewModel.Create(Repository, _firmService, seminar, person, personEditModel.Email);
+
+            ViewData["site"] = Site;
+
+            var viewModel = PersonViewModel.Create(Repository, _firmService, Site, seminar, person, personEditModel.Email);
             viewModel.Addresses = personEditModel.Addresses;
             viewModel.UserName = personEditModel.UserName;
             return View(viewModel);
@@ -230,12 +244,12 @@ namespace Agribusiness.Web.Controllers
             if (user == null)
             {
                 Message = string.Format(Messages.NotFound, "user", id);
-                return this.RedirectToAction<PersonController>(a => a.Index(null));
+                return this.RedirectToAction<PersonController>(a => a.SiteList());
             }
 
             ViewBag.AllList = allList ?? false;
 
-            var viewModel = AdminPersonViewModel.Create(Repository, _firmService, _seminarService, seminarId, user.Person, user.Email);
+            var viewModel = AdminPersonViewModel.Create(Repository, _firmService, Site, seminarId, user.Person, user.Email);
 
             if (viewModel.PersonViewModel.SeminarPerson == null) viewModel.SeminarId = null;
 
@@ -251,7 +265,18 @@ namespace Agribusiness.Web.Controllers
             if (user == null)
             {
                 Message = string.Format(Messages.NotFound, "user", id);
-                return this.RedirectToAction<AttendeeController>(a => a.Index(seminarId.HasValue?seminarId.Value : _seminarService.GetCurrent().Id));
+                int sid = 0;
+                
+                if (!seminarId.HasValue)
+                {
+                    sid = SiteService.GetLatestSeminar(Site).Id;
+                }
+                else
+                {
+                    sid = seminarId.Value;
+                }
+
+                return this.RedirectToAction<AttendeeController>(a => a.Index(sid));
             }
 
             var seminarPerson = _seminarPersonRepository.GetNullableById(personEditModel.SeminarPersonId);
@@ -271,13 +296,13 @@ namespace Agribusiness.Web.Controllers
                 Message = string.Format(Messages.Saved, "Person");
 
                 // send to crop photo if one was uploaded
-                if (profilepic != null) return this.RedirectToAction(a => a.UpdateProfilePicture(person.Id, seminarId));
+                if (profilepic != null) return this.RedirectToAction(a => a.UpdateProfilePicture(person.Id, seminarId, true));
 
                 return this.RedirectToAction(a => a.AdminEdit(person.User.Id, seminarId, null));
             }
 
             ViewBag.AllList =  allList ?? false;
-            var viewModel = AdminPersonViewModel.Create(Repository, _firmService, _seminarService, seminarId, user.Person, user.Email);
+            var viewModel = AdminPersonViewModel.Create(Repository, _firmService, Site, seminarId, user.Person, user.Email);
             return View(viewModel);
         }
 
@@ -297,15 +322,13 @@ namespace Agribusiness.Web.Controllers
             if (person == null)
             {
                 Message = string.Format(Messages.NotFound, "Person", personId);
-                return this.RedirectToAction(a => a.Index(null));
+                return this.RedirectToAction(a => a.SiteList());
             }
 
             person.Biography = biographytxt;
-
+            _eventService.BioUpdate(person, Site);
             _personRepository.EnsurePersistent(person);
             Message = string.Format(Messages.Saved, "Biography");
-
-            _eventService.BioUpdate(person);
 
             var url = Url.Action("AdminEdit", new {id = person.User.Id, seminarId = seminarId});
             return Redirect(string.Format("{0}#biography", url));
@@ -328,12 +351,12 @@ namespace Agribusiness.Web.Controllers
             if (person == null)
             {
                 Message = string.Format(Messages.NotFound, "Person", personId);
-                return this.RedirectToAction(a => a.Index(null));
+                return this.RedirectToAction(a => a.SiteList());
             }
 
             // merge the roles
-            var reg = person.GetLatestRegistration();
-            var seminar = _seminarService.GetCurrent();
+            var reg = person.GetLatestRegistration(Site);
+            var seminar = SiteService.GetLatestSeminar(Site);
 
             // check if user is registered for the current seminar
             if (reg.Seminar != seminar)
@@ -377,14 +400,14 @@ namespace Agribusiness.Web.Controllers
             if (person == null)
             {
                 Message = string.Format(Messages.NotFound, "Person", personId);
-                return this.RedirectToAction(a => a.Index(null));
+                return this.RedirectToAction(a => a.SiteList());
             }
 
-            var reg = person.GetLatestRegistration();
-            var seminar = _seminarService.GetCurrent();
+            var reg = person.GetLatestRegistration(Site);
+            var seminar = SiteService.GetLatestSeminar(Site);
 
             // check if user is registered for the current seminar
-            if (reg.Seminar != seminar)
+            if (reg.Seminar == null || seminar == null || reg.Seminar.Id != seminar.Id)
             {
                 Message = "User is not a part of the current seminar.  Coupon cannot be created.";
                 return this.RedirectToAction(a => a.AdminEdit(person.User.Id, seminarId, null));
@@ -424,16 +447,16 @@ namespace Agribusiness.Web.Controllers
             if (person == null)
             {
                 Message = string.Format(Messages.NotFound, "Person", personId);
-                return this.RedirectToAction(a => a.Index(null));
+                return this.RedirectToAction(a => a.SiteList());
             }
 
-            var reg = person.GetLatestRegistration();
-            var seminar = _seminarService.GetCurrent();
+            var reg = person.GetLatestRegistration(Site);
+            var seminar = SiteService.GetLatestSeminar(Site);
 
             // check if user is registered for the current seminar
-            if (reg.Seminar != seminar)
+            if (reg.Seminar == null || seminar == null ||  reg.Seminar.Id != seminar.Id)
             {
-                Message = "User is not a part of the current seminar.  Coupon cannot be created.";
+                Message = "User is not a part of the current seminar.  Hotel info cannot be created.";
                 return this.RedirectToAction(a => a.AdminEdit(person.User.Id, seminarId, null));
             }
 
@@ -444,7 +467,7 @@ namespace Agribusiness.Web.Controllers
             reg.RoomType = hotelPostModel.RoomType;
             reg.HotelComments = hotelPostModel.Comments;
 
-            _eventService.HotelUpdate(person);
+            _eventService.HotelUpdate(person, Site);
 
             // save
             _seminarPersonRepository.EnsurePersistent(reg);
@@ -463,11 +486,11 @@ namespace Agribusiness.Web.Controllers
             if (person == null)
             {
                 Message = string.Format(Messages.NotFound, "Person", personId);
-                return this.RedirectToAction(a => a.Index(null));
+                return this.RedirectToAction(a => a.SiteList());
             }
 
-            var reg = person.GetLatestRegistration();
-            var seminar = _seminarService.GetCurrent();
+            var reg = person.GetLatestRegistration(Site);
+            var seminar = SiteService.GetLatestSeminar(Site);
 
             // check if user is registered for the current seminar
             if (reg.Seminar != seminar)
@@ -500,11 +523,11 @@ namespace Agribusiness.Web.Controllers
             if (person == null)
             {
                 Message = string.Format(Messages.NotFound, "Person", personId);
-                return this.RedirectToAction(a => a.Index(null));
+                return this.RedirectToAction(a => a.SiteList());
             }
 
-            var reg = person.GetLatestRegistration();
-            var seminar = _seminarService.GetCurrent();
+            var reg = person.GetLatestRegistration(Site);
+            var seminar = SiteService.GetLatestSeminar(Site);
 
             // check if user is registered for the current seminar
             if (reg.Seminar != seminar)
@@ -523,7 +546,7 @@ namespace Agribusiness.Web.Controllers
 
             _seminarPersonRepository.EnsurePersistent(reg);
 
-            _eventService.Paid(person);
+            _eventService.Paid(person, Site);
 
             Message = "Registration information has been updated.";
             var url = Url.Action("AdminEdit", new { id = person.User.Id, seminarId = seminarId });
@@ -539,11 +562,11 @@ namespace Agribusiness.Web.Controllers
             if (person == null)
             {
                 Message = string.Format(Messages.NotFound, "Person", personId);
-                return this.RedirectToAction(a => a.Index(null));
+                return this.RedirectToAction(a => a.SiteList());
             }
 
-            var reg = person.GetLatestRegistration();
-            var seminar = _seminarService.GetCurrent();
+            var reg = person.GetLatestRegistration(Site);
+            var seminar = SiteService.GetLatestSeminar(Site);
 
             // check if user is registered for the current seminar
             if (reg.Seminar != seminar)
@@ -604,6 +627,51 @@ namespace Agribusiness.Web.Controllers
             return this.RedirectToAction("Index");
         }
 
+        [UserOnly]
+        [HttpPost]
+        public ActionResult UnlockUser(int id)
+        {
+            var person = _personRepository.GetNullableById(id);
+
+            if (person != null)
+            {
+                var success = _membershipService.UnlockUserNoEmail(person.User.LoweredUserName);
+
+                if (success)
+                {
+                    Message = "Unlocked.";
+                }
+                else
+                {
+                    Message = "Unlock Failed.";
+                }
+
+                return this.RedirectToAction("AdminEdit", new { id = person.User.Id });
+            }
+
+            return this.RedirectToAction("Index");
+        }
+
+        [UserOnly]
+        [HttpPost]
+        public ActionResult MarkPaid(int id)
+        {
+            var seminarPerson = _seminarPersonRepository.Queryable.Single(a => a.Id == id);
+
+            var allSeminarPersons = _seminarPersonRepository.Queryable.Where(a => a.Person.Id == seminarPerson.Person.Id && a.Seminar.Id == seminarPerson.Seminar.Id);
+            foreach (var allSeminarPerson in allSeminarPersons)
+            {
+                allSeminarPerson.Paid = true;
+                _seminarPersonRepository.EnsurePersistent(allSeminarPerson);
+            }
+
+            //seminarPerson.Paid = true;
+            //_seminarPersonRepository.EnsurePersistent(seminarPerson);
+
+            return this.RedirectToAction("AdminEdit", new {id = seminarPerson.Person.User.Id, seminarId = seminarPerson.Seminar.Id});
+
+        }
+
         #endregion
 
         #region Profile Editing Functions
@@ -639,7 +707,7 @@ namespace Agribusiness.Web.Controllers
 
             var person = user.Person;
 
-            var viewModel = PersonViewModel.Create(Repository, _firmService, null, person, user.Email);
+            var viewModel = PersonViewModel.Create(Repository, _firmService, Site, null, person, user.Email);
             return View(viewModel);
         }
 
@@ -691,23 +759,23 @@ namespace Agribusiness.Web.Controllers
                 }
 
                 // send to crop photo if one was uploaded
-                if (profilepic != null) return this.RedirectToAction(a => a.UpdateProfilePicture(person.Id, null));
+                if (profilepic != null) return this.RedirectToAction(a => a.UpdateProfilePicture(person.Id, null, true));
             }
 
-            var viewModel = PersonViewModel.Create(Repository, _firmService, null, person, user.Email);
+            var viewModel = PersonViewModel.Create(Repository, _firmService, Site, null, person, user.Email);
             return View(viewModel);
         }
         #endregion
 
         #region Profile Picture Actions
-        public ActionResult UpdateProfilePicture(int id, int? seminarId)
+        public ActionResult UpdateProfilePicture(int id, int? seminarId, bool admin = false)
         {
             var person = _personRepository.GetNullableById(id);
 
             if (person == null)
             {
                 Message = string.Format(Messages.NotFound, "Person", id);
-                return this.RedirectToAction(a => a.Index(null));
+                return this.RedirectToAction(a => a.SiteList());
             }
 
             // validate this is the person or is a person in user role
@@ -718,19 +786,20 @@ namespace Agribusiness.Web.Controllers
 
             // set this to check for admin routing back to attendee edit page
             ViewBag.SeminarId = seminarId;
+            ViewBag.Admin = admin;
 
             return View(person);
         }
 
         [HttpPost]
-        public ActionResult UpdateProfilePicture(int id, int? seminarId, int? x, int? y, int? height, int? width)
+        public ActionResult UpdateProfilePicture(int id, int? seminarId, int? x, int? y, int? height, int? width, bool admin = false)
         {
             var person = _personRepository.GetNullableById(id);
 
             if (person == null)
             {
                 Message = string.Format(Messages.NotFound, "Person", id);
-                return this.RedirectToAction(a => a.Index(null));
+                return this.RedirectToAction(a => a.SiteList());
             }
 
             // ensure that a crop has been specified
@@ -762,20 +831,24 @@ namespace Agribusiness.Web.Controllers
                 Message = string.Format(Messages.Saved, "Person");
                 _personRepository.EnsurePersistent(person);
 
-                _eventService.PhotoUpdate(person);
+                _eventService.PhotoUpdate(person, Site);
 
                 if (seminarId.HasValue)
                 {
                     return this.RedirectToAction(a => a.AdminEdit(person.User.Id, seminarId.Value, null));
                 }
 
-                if (_userRepository.Queryable.Where(a => a.LoweredUserName == CurrentUser.Identity.Name.ToLower()).Any())
+                if (_userRepository.Queryable.Any(a => a.LoweredUserName == CurrentUser.Identity.Name.ToLower()))
                 {
                     return this.RedirectToAction(a => a.Edit(null));
                 }
 
-                return this.RedirectToAction(a => a.Index(null));
+                return this.RedirectToAction(a => a.SiteList());
             }
+
+            // set this to check for admin routing back to attendee edit page
+            ViewBag.SeminarId = seminarId;
+            ViewBag.Admin = admin;
 
             return View(person);
         }
@@ -814,6 +887,29 @@ namespace Agribusiness.Web.Controllers
             fs.Close();
 
             return File(img, "image/png");
+        }
+
+        public FileResult DownloadPhoto(int id)
+        {
+            byte[] photo = null;
+            var contentType = "image/jpeg";
+
+            var person = Repository.OfType<Person>().GetById(id);
+            if (person.OriginalPicture != null)
+            {
+                photo = person.OriginalPicture;
+                contentType = string.IsNullOrWhiteSpace(person.ContentType) ? contentType : person.ContentType;
+            }
+            else
+            {
+                if (person.MainProfilePicture != null)
+                {
+                    photo = person.MainProfilePicture;
+                    contentType = string.IsNullOrWhiteSpace(person.ContentType) ? contentType : person.ContentType;
+                }
+            }
+
+            return File(photo, contentType, string.Format("AgribusinessPhoto_{0}.jpg", person.FullName)); 
         }
 
         public ActionResult GetThumbnail(int? id)
@@ -857,8 +953,14 @@ namespace Agribusiness.Web.Controllers
             {
                 SetCommodities(seminarPerson, personEditModel.Commodities);
 
-                seminarPerson.Firm = personEditModel.Firm ?? new Firm(personEditModel.FirmName, personEditModel.FirmDescription) { WebAddress = personEditModel.FirmWebAddress };
-                seminarPerson.Title = personEditModel.Title;    
+                if (personEditModel.Firm != null || !string.IsNullOrEmpty(personEditModel.FirmName))
+                {
+                    seminarPerson.Firm = personEditModel.Firm ?? new Firm(personEditModel.FirmName, personEditModel.FirmDescription) { WebAddress = personEditModel.FirmWebAddress };
+                }
+                if (personEditModel.Title != null) //Not sure what is happening here. This may fix it.
+                {
+                    seminarPerson.Title = personEditModel.Title;
+                }    
             }
 
             // deal with the image))
@@ -924,7 +1026,13 @@ namespace Agribusiness.Web.Controllers
         }
         private static void SetContacts(Person person, IList<Contact> contacts, ModelStateDictionary modelState)
         {
-            // remove the blanks
+            // ones to delete
+            foreach(var contact in contacts.Where(a => !a.HasContact && a.Id > 0))
+            {
+                person.Contacts.Remove(contact);
+            }
+
+            // remove the blanks from being processed
             var remove = contacts.Where(a => !a.HasContact).ToList();
             foreach (var a in remove) contacts.Remove(a);
 
@@ -932,7 +1040,7 @@ namespace Agribusiness.Web.Controllers
             foreach (var ct in contacts)
             {
                 var type = ct.ContactType;
-                var origCt = person.Contacts.Where(a => a.ContactType == type).FirstOrDefault();
+                var origCt = person.Contacts.FirstOrDefault(a => a.ContactType == type);
 
                 if (type.Required)
                 {

@@ -1,4 +1,4 @@
-﻿@model Agribusiness.Web.Models.TemplateViewModel
+﻿@model TemplateViewModel
 
 @{
     ViewBag.Title = "Create Template";
@@ -7,9 +7,19 @@
 
 @section SubPageNavigation
 {
-    <div class="navigation">
+    <div class="nav nav-pills">
         <li>@Html.ActionLink("Back to List", "Index")</li>
     </div>
 }
 
-@Html.Partial("_TemplateForm")
+@section ScriptContent
+{
+    @Html.Partial("_tinymce", new TinyMceViewModel(enableTokenInsert:true))
+}
+
+@using (Html.BeginForm("Create", "Template", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.Partial("_TemplateForm")    
+}
+
+

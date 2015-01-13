@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using Agribusiness.Core.Domain;
 using Agribusiness.Core.Resources;
@@ -10,9 +8,8 @@ using Agribusiness.Web.Services;
 using AutoMapper;
 using Resources;
 using UCDArch.Core.PersistanceSupport;
-using UCDArch.Web.Controller;
-using UCDArch.Web.Helpers;
 using MvcContrib;
+using UCDArch.Web.Helpers;
 
 namespace Agribusiness.Web.Controllers
 {
@@ -22,24 +19,16 @@ namespace Agribusiness.Web.Controllers
     public class SeminarController : ApplicationController
     {
 	    private readonly IRepository<Seminar> _seminarRepository;
-        private readonly IRepository<Session> _sessionRepository;
-        private readonly IRepository<Person> _personRepository;
         private readonly IRepository<SeminarPerson> _seminarPersonRepository;
         private readonly IRepository<MailingList> _mailingListRepository;
-        private readonly IFirmService _firmService;
         private readonly IPersonService _personService;
-        private readonly ISeminarService _seminarService;
 
-        public SeminarController(IRepository<Seminar> seminarRepository, IRepository<Session> sessionRepository, IRepository<Person> personRepository, IRepository<SeminarPerson> seminarPersonRepository, IRepository<MailingList> mailingListRepository, IFirmService firmService, IPersonService personService, ISeminarService seminarService)
+        public SeminarController(IRepository<Seminar> seminarRepository, IRepository<SeminarPerson> seminarPersonRepository, IRepository<MailingList> mailingListRepository, IPersonService personService)
         {
             _seminarRepository = seminarRepository;
-            _sessionRepository = sessionRepository;
-            _personRepository = personRepository;
             _seminarPersonRepository = seminarPersonRepository;
             _mailingListRepository = mailingListRepository;
-            _firmService = firmService;
             _personService = personService;
-            _seminarService = seminarService;
         }
 
         #region Administrative Functions
@@ -48,7 +37,7 @@ namespace Agribusiness.Web.Controllers
         [UserOnly]
         public ActionResult Index()
         {
-            var seminarList = _seminarRepository.Queryable.OrderByDescending(a => a.Year);
+            var seminarList = _seminarRepository.Queryable.Where(a => a.Site.Id == Site).OrderByDescending(a => a.Year);
 
             return View(seminarList);
         }
@@ -56,15 +45,20 @@ namespace Agribusiness.Web.Controllers
         [UserOnly]
         public ActionResult Create()
         {
-            var viewModel = SeminarViewModel.Create(Repository);
+            var viewModel = SeminarViewModel.Create(Repository, SiteService.LoadSite(Site));
 
             return View(viewModel);
         }
 
         [UserOnly]
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult Create(Seminar seminar)
         {
+            seminar.Site = SiteService.LoadSite(Site);
+            ModelState.Clear();
+            seminar.TransferValidationMessagesTo(ModelState);
+
             if (ModelState.IsValid)
             {
                 _seminarRepository.EnsurePersistent(seminar);
@@ -93,7 +87,7 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction(a => a.Index());
             }
 
-            var viewModel = SeminarViewModel.Create(Repository, seminar);
+            var viewModel = SeminarViewModel.Create(Repository, seminar.Site, seminar);
             return View(viewModel);
         }
 
@@ -108,12 +102,13 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction(a => a.Index());
             }
 
-            var viewModel = SeminarViewModel.Create(Repository, seminar);
+            var viewModel = SeminarViewModel.Create(Repository, seminar.Site, seminar);
             return View(viewModel);
         }
 
         [UserOnly]
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult Edit(int id, Seminar seminar)
         {
             var origSeminar = LoadSeminar(id);
@@ -133,7 +128,7 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction(a => a.Index());
             }
 
-            var viewModel = SeminarViewModel.Create(Repository, seminar);
+            var viewModel = SeminarViewModel.Create(Repository, seminar.Site, seminar);
             return View(viewModel);
         }
 
@@ -148,9 +143,9 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction(a => a.Index());
             }
 
-            var viewModel = SeminarViewModel.Create(Repository, seminar);
-            viewModel.IsCurrent = _seminarService.GetCurrent() == seminar;
-            viewModel.DisplayPeople = _personService.GetDisplayPeopleForSeminar(seminar.Id);
+            var viewModel = SeminarViewModel.Create(Repository, seminar.Site, seminar);
+            viewModel.IsCurrent = SiteService.GetLatestSeminar(Site).Id == seminar.Id;
+            viewModel.DisplayPeople = _personService.GetDisplayPeopleForSeminar(seminar.Id, Site);
 
             return View(viewModel);
         }
@@ -170,76 +165,76 @@ namespace Agribusiness.Web.Controllers
             if (seminar != null) return seminar;
 
             // otherwise just load the latest one
-            seminar = _seminarService.GetCurrent();
+            seminar = SiteService.GetLatestSeminar(Site);
 
             return seminar;
         }
 
-        /// <summary>
-        /// Assign people to sessions to attend.
-        /// </summary>
-        /// <param name="id">Seminar Id</param>
-        /// <returns></returns>
-        [UserOnly]
-        public ActionResult AssignToSessions(int id)
-        {
-            var seminar = LoadSeminar(id);
+        ///// <summary>
+        ///// Assign people to sessions to attend.
+        ///// </summary>
+        ///// <param name="id">Seminar Id</param>
+        ///// <returns></returns>
+        //[UserOnly]
+        //public ActionResult AssignToSessions(int id)
+        //{
+        //    var seminar = LoadSeminar(id);
 
-            // redirect to the list if no seminar
-            if (seminar == null)
-            {
-                ErrorMessages = string.Format(Messages.NotFound, "Seminar", id);
-                return this.RedirectToAction(a => a.Index());
-            }
+        //    // redirect to the list if no seminar
+        //    if (seminar == null)
+        //    {
+        //        ErrorMessages = string.Format(Messages.NotFound, "Seminar", id);
+        //        return this.RedirectToAction(a => a.Index());
+        //    }
 
-            var viewModel = AssignToSessionViewModel.Create(seminar);
-            return View(viewModel);
-        }
+        //    var viewModel = AssignToSessionViewModel.Create(seminar);
+        //    return View(viewModel);
+        //}
 
-        /// <summary>
-        /// Assigns a person into a session
-        /// </summary>
-        /// <param name="id">Session Id</param>
-        /// <param name="seminarPersonId"></param>
-        /// <returns></returns>
-        [HttpPost]
-        [UserOnly]
-        public JsonResult Assign(int id, int seminarPersonId)
-        {
-            var session = _sessionRepository.GetNullableById(id);
-            var seminarPerson = _seminarPersonRepository.GetNullableById(seminarPersonId);
+        ///// <summary>
+        ///// Assigns a person into a session
+        ///// </summary>
+        ///// <param name="id">Session Id</param>
+        ///// <param name="seminarPersonId"></param>
+        ///// <returns></returns>
+        //[HttpPost]
+        //[UserOnly]
+        //public JsonResult Assign(int id, int seminarPersonId)
+        //{
+        //    var session = _sessionRepository.GetNullableById(id);
+        //    var seminarPerson = _seminarPersonRepository.GetNullableById(seminarPersonId);
 
-            // make sure the sesion isn't already assigned
-            if (!seminarPerson.Sessions.Any(a => a == session))
-            {
-                seminarPerson.Sessions.Add(session);
-                _seminarPersonRepository.EnsurePersistent(seminarPerson);
+        //    // make sure the sesion isn't already assigned
+        //    if (!seminarPerson.Sessions.Any(a => a == session))
+        //    {
+        //        seminarPerson.Sessions.Add(session);
+        //        _seminarPersonRepository.EnsurePersistent(seminarPerson);
 
-                return Json(true);
-            }
+        //        return Json(true);
+        //    }
 
-            return Json(false);
-        }
+        //    return Json(false);
+        //}
 
-        /// <summary>
-        /// Removes a session from a person
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="seminarPersonId"></param>
-        /// <returns></returns>
-        [HttpPost]
-        [UserOnly]
-        public JsonResult UnAssign(int id, int seminarPersonId)
-        {
-            //var session = _sessionRepository.GetNullableById(id);
-            var seminarPerson = _seminarPersonRepository.GetNullableById(seminarPersonId);
+        ///// <summary>
+        ///// Removes a session from a person
+        ///// </summary>
+        ///// <param name="id"></param>
+        ///// <param name="seminarPersonId"></param>
+        ///// <returns></returns>
+        //[HttpPost]
+        //[UserOnly]
+        //public JsonResult UnAssign(int id, int seminarPersonId)
+        //{
+        //    //var session = _sessionRepository.GetNullableById(id);
+        //    var seminarPerson = _seminarPersonRepository.GetNullableById(seminarPersonId);
 
-            var session = seminarPerson.Sessions.Where(a => a.Id == id).FirstOrDefault();
-            seminarPerson.Sessions.Remove(session);
+        //    var session = seminarPerson.Sessions.Where(a => a.Id == id).FirstOrDefault();
+        //    seminarPerson.Sessions.Remove(session);
 
-            _seminarPersonRepository.EnsurePersistent(seminarPerson);
-            return Json(true);
-        }
+        //    _seminarPersonRepository.EnsurePersistent(seminarPerson);
+        //    return Json(true);
+        //}
 
         /// <summary>
         /// Gets the details for the popup balloons on assign to sessions
@@ -293,5 +288,6 @@ namespace Agribusiness.Web.Controllers
             return View(viewModel);
         }
         #endregion
+
     }
 }

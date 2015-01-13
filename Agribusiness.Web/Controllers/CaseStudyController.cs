@@ -286,7 +286,7 @@ namespace Agribusiness.Web.Controllers
             if (user == null) return this.RedirectToAction<ErrorController>(a => a.NotAuthorized());
 
             var person = user.Person;
-            var latestReg = person.GetLatestRegistration();
+            var latestReg = person.GetLatestRegistration(Site);
 
             if (seminar == null)
             {

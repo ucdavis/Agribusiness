@@ -1,0 +1,56 @@
+﻿@using Agribusiness.Web.App_GlobalResources
+@using Agribusiness.Web.Services
+@model PublicSponsorsViewModel
+           
+@{
+    ViewBag.Title = "Sponsors";
+    ViewBag.SubPageTitle = "Sponsors";
+
+    ViewBag.Nav = Nav.Sponsors;
+    ViewBag.Extended = false;
+
+    var siteId = ViewData["site"] as string;
+    var seminar = SiteService.GetLatestSeminar(siteId);
+
+    if (seminar != null && seminar.SeminarPeople.SelectMany(a => a.SeminarRoles).Any(a => a.Id == StaticIndexes.Role_SteeringCommittee))
+    {
+        ViewData["hasSteeringCommittee"] = true;
+    }
+    else
+    {
+        ViewData["hasSteeringCommittee"] = false;
+    }  
+}
+
+@section ScriptContent
+{
+    <style type="text/css">
+        .logo-img { max-height: 200px;max-width: 200px; }
+        .sponsor { margin: 1em;}
+        .sponsor h4 { margin: 1em 0;color: #014A81;}
+        h3 { color: #014A81;border-bottom: 1px solid #EEE;}
+        
+        .sponsor-anchor, .sponsor-anchor:hover, .sponsor-anchor:focus, .sponsor-anchor:active { text-decoration: none;color: #005580;}
+    </style>
+}
+
+@section SubPageNavigation
+{
+    @Html.Partial("_PublicSubNavigation")
+}
+
+@if (Model.Files.Any(a => a.ProgramOverview))
+{
+    <ul class="nav nav-pills">
+        @foreach (var f in Model.Files.Where(a => a.ProgramOverview))
+        {
+            <li><a href="@Url.Action("Download", "File", new { id = f.Id })">
+                    <i class="icon-download"></i>
+                    Download @f.Name
+                </a>
+            </li>    
+        }
+    </ul>
+}
+
+@Html.Partial("_SponsorsDisplay", Model.Sponsors)

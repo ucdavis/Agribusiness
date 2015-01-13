@@ -32,11 +32,13 @@ namespace Agribusiness.Core.Domain
         [StringLength(200)]
         public virtual string Name { get; set; }
         [Required]
+        [DataType(DataType.MultilineText)]
         public virtual string Description { get; set; }
 
         public virtual bool Review { get; set; }
         [Display(Name="Web Address")]
         [StringLength(200)]
+        [DataType(DataType.Url)]
         public virtual string WebAddress { get; set; }
     }
 

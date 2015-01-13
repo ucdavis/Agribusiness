@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Net.Mail;
-using System.Web;
 using Agribusiness.Core.Domain;
 using Agribusiness.Web.Models;
 using UCDArch.Core.PersistanceSupport;
@@ -14,23 +12,21 @@ namespace Agribusiness.Web.Services
     public class NotificationService : INotificationService
     {
         private readonly IRepository<Seminar> _seminarRepository;
-        private readonly ISeminarService _seminarService;
         private readonly IRepository<EmailQueue> _emailQueueRepository;
         private readonly IRepository<MailingList> _mailingListRepository;
         private AccountMembershipService _membershipService;
         
 
-        public NotificationService(IRepository<Seminar> seminarRepository,ISeminarService seminarService, IRepository<EmailQueue> emailQueueRepository, IRepository<MailingList> mailingListRepository)
+        public NotificationService(IRepository<Seminar> seminarRepository, IRepository<EmailQueue> emailQueueRepository, IRepository<MailingList> mailingListRepository)
         {
             _seminarRepository = seminarRepository;
-            _seminarService = seminarService;
             _emailQueueRepository = emailQueueRepository;
             _mailingListRepository = mailingListRepository;
 
             if (_membershipService == null) { _membershipService = new AccountMembershipService(); }
         }
 
-        public string GenerateNotification(string template, Person person, int? seminarId = null, Invitation invitation = null, string password = null)
+        public string GenerateNotification(string template, Person person, string siteId, int? seminarId = null, Invitation invitation = null, string password = null)
         {
             Seminar seminar;
 
@@ -40,15 +36,15 @@ namespace Agribusiness.Web.Services
             }
             else
             {
-                seminar = _seminarService.GetCurrent();
+                seminar = SiteService.GetLatestSeminar(siteId);
             }
 
-            var helper = new NotificationGeneratorHelper(person, seminar, invitation, password);
+            var helper = new NotificationGeneratorHelper(person, seminar, siteId, invitation, password);
 
             return HandleBody(template, helper);
         }
 
-        public void SendInformationRequestNotification(InformationRequest informationRequest)
+        public void SendInformationRequestNotification(InformationRequest informationRequest, Site site)
         {
             // send the notification email to the admin
             try
@@ -63,7 +59,7 @@ namespace Agribusiness.Web.Services
                     message.To.Add(email);
                 }
                 message.Subject = "Information Request Received";
-                message.Body = string.Format("A new information request has been received for the following person:<br/>{0}<br/>{1}", informationRequest.Name, informationRequest.Email);
+                message.Body = string.Format("A new information request has been received for the following person:<br/>{0}<br/>{1}<br/>{2}", informationRequest.FullName(), informationRequest.Email, site.Name);
                 client.Send(message);
             }
             catch (Exception ex)
@@ -72,10 +68,10 @@ namespace Agribusiness.Web.Services
             }
         }
 
-        public void SendInformationRequestConfirmatinon(string email)
+        public void SendInformationRequestConfirmatinon(string email, Site site)
         {
             var subject = "Information Request Received";
-            var body = "Thank you for your interest in the UC Davis Agribusiness Executive Seminar. We have received your request for information regarding the seminar. We will contact you with more details soon.";
+            var body = string.Format("Thank you for your interest in the {0}. We have received your request for information regarding the {1}. We will contact you with more details soon.", site.Name, site.EventType);
 
             try
             {
@@ -93,7 +89,7 @@ namespace Agribusiness.Web.Services
 
         public void AddToMailingList(Seminar seminar, Person person, string mailingListName)
         {
-            var mailingList = seminar.MailingLists.Where(a => a.Name == mailingListName).FirstOrDefault();
+            var mailingList = seminar.MailingLists.FirstOrDefault(a => a.Name == mailingListName);
 
             if (mailingList != null)
             {
@@ -105,13 +101,16 @@ namespace Agribusiness.Web.Services
 
         public void RemoveFromMailingList(Seminar seminar, Person person, string mailingListName)
         {
-            var mailingList = seminar.MailingLists.Where(a => a.Name == mailingListName).FirstOrDefault();
+            var mailingList = seminar.MailingLists.FirstOrDefault(a => a.Name == mailingListName);
 
             if (mailingList != null)
             {
-                mailingList.People.Remove(person);
+                if (mailingList.People.Contains(person))
+                {
+                    mailingList.People.Remove(person);
 
-                _mailingListRepository.EnsurePersistent(mailingList);
+                    _mailingListRepository.EnsurePersistent(mailingList);
+                }
             }
         }
 
@@ -119,23 +118,46 @@ namespace Agribusiness.Web.Services
         {
             var seminar = application.Seminar;
             var person = application.User.Person;
+            var site = application.Seminar.Site;
 
-            var body =
-                string.Format(
-                    "Thank you for submitting your application to the UC Davis Agribusiness Executive Seminar.  Your application has been received and will be reviewed for admission. Applicants will be notified of admission decisions {0}.  If you have any questions, please feel free to contact Chris Akins at crakins@ucdavis.edu or visit the website at http://agribusiness.ucdavis.edu.",
-                    seminar.AcceptanceDate.HasValue
-                        ? string.Format("by {0}", string.Format("{0: MMMM dd, yyyy}", seminar.AcceptanceDate.Value))
-                        : "in the near future");
+            if (seminar.RequireApproval)
+            {
+                //Disable for now as per email from Chris Jan 21, 2014 1:12PM
 
-            var emailQueue = new EmailQueue(person)
-                                 {
-                                     Body = body,
-                                     FromAddress = "agribusiness@ucdavis.edu",
-                                     Subject = "UC Davis Agribusiness Executive Seminar Application Confirmation"
-                                 };
+                //var body =
+                //    string.Format(
+                //        "Thank you for submitting your application to the {0}.  Your application has been received and will be reviewed for admission. Applicants will be notified of admission decisions {1}.  If you have any questions, please feel free to contact Chris Akins at crakins@ucdavis.edu or visit the website at http://agribusiness.ucdavis.edu/{2}.",
+                //        site.Name,
+                //        seminar.AcceptanceDate.HasValue
+                //            ? string.Format("by {0}", string.Format("{0: MMMM dd, yyyy}", seminar.AcceptanceDate.Value))
+                //            : "in the near future"
+                //            , site.Id);
 
-            _emailQueueRepository.EnsurePersistent(emailQueue);
+                //var emailQueue = new EmailQueue(person)
+                //{
+                //    Body = body,
+                //    FromAddress = "agribusiness@ucdavis.edu",
+                //    Subject = string.Format("{0} Application Confirmation", site.Name)
+                //};
 
+                //_emailQueueRepository.EnsurePersistent(emailQueue);    
+            }
+            else
+            {
+                var body =
+                    string.Format(
+                        "Thank you for registering for  {0}. Registrants will be sent more information soon. If you have any questions, please feel free to contact Chris Akins at crakins@ucdavis.edu or visit the website at https://agribusiness.ucdavis.edu/{1}",
+                        site.Name, site.Id);
+
+                var emailQueue = new EmailQueue(person)
+                {
+                    Body = body,
+                    FromAddress = "agribusiness@ucdavis.edu",
+                    Subject = string.Format("{0} Registration Confirmation", site.Name)
+                };
+
+                _emailQueueRepository.EnsurePersistent(emailQueue);    
+            }
         }
 
         /// <summary>
@@ -233,9 +255,9 @@ namespace Agribusiness.Web.Services
             
         }
 
-        public NotificationGeneratorHelper(Person person, Seminar seminar, Invitation invitation = null, string password = null)
+        public NotificationGeneratorHelper(Person person, Seminar seminar, string siteId, Invitation invitation = null, string password = null)
         {
-            var reg = person.GetLatestRegistration();
+            var reg = person.GetLatestRegistration(siteId);
 
             BadgeName = person.BadgeName;
             FirstName = person.FirstName;

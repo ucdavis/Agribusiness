@@ -47,7 +47,7 @@
 @section SubPageNavigation
 {
     <ul class="navigation">
-        @if (ViewBag.SeminarId == null)
+        @if (ViewBag.SeminarId == null && !ViewBag.Admin)
         { 
             <li>@Html.ActionLink("Back to Edit", "Edit", new { id = Model.User.Id })</li>
         }
@@ -59,13 +59,17 @@
     </ul>
 }
 
-    <img id="profile_image" src='@Url.Action("GetOriginalPicture", "Person", new { id = Model.Id })' alt="Profile Image" />
-
-    <div style="width: 148px; height: 185px; overflow: hidden; border:1px solid black;">
-    <img id="preview" src='@Url.Action("GetOriginalPicture", "Person", new { id = Model.Id })' alt="Profile Preview" />
+<div class="row-fluid">
+    <div class="span4">
+        <div style="width: 148px; height: 185px; overflow: hidden; border:1px solid black;">
+        <img id="preview" src='@Url.Action("GetOriginalPicture", "Person", new { id = Model.Id })' alt="Profile Preview" />
+        </div>
     </div>
+    <div class="span8"><img id="profile_image" src='@Url.Action("GetOriginalPicture", "Person", new { id = Model.Id })' alt="Profile Image" /></div>
+</div>
+    
 
-    <div>
+    <div class="form-actions">
     
         @using (Html.BeginForm())
         { 
@@ -77,15 +81,14 @@
             @Html.Hidden("width")
             @Html.Hidden("height")
 
-            <input type="submit" value="Save" class="button" /> 
-            <text>|</text>
-            if (ViewBag.SeminarId == null)
+            <input type="submit" value="Save" class="btn btn-primary" /> 
+            if (ViewBag.SeminarId == null && !ViewBag.Admin)
             { 
-                @Html.ActionLink("Cancel", "Edit", new { id = Model.User.Id })
+                @Html.ActionLink("Cancel", "Edit", new { id = Model.User.Id }, new { @class = "btn" })
             }
             else
             { 
-                @Html.ActionLink("Cancel", "AdminEdit", new { id = Model.User.Id, seminarId=ViewBag.SeminarId })
+                @Html.ActionLink("Cancel", "AdminEdit", new { id = Model.User.Id, seminarId = ViewBag.SeminarId }, new { @class = "btn" })
             }        
         }
         

@@ -40,12 +40,13 @@ namespace Agribusiness.Core.Domain
         public virtual DateTime? SentDateTime { get; set; }
 
         public virtual string Subject { get; set; }
+        [DataType(DataType.MultilineText)]
         public virtual string Body { get; set; }
 
         public virtual int? ErrorCode { get; set; }
 
         /// <summary>
-        /// Optionally set the from address to use, otherwise it defualts to the automated email
+        /// Optionally set the from address to use, otherwise it defaults to the automated email
         /// </summary>
         [StringLength(50)]
         [Email]
@@ -69,7 +70,7 @@ namespace Agribusiness.Core.Domain
             Map(x => x.Pending);
             Map(x => x.SentDateTime);
             Map(x => x.Subject);
-            Map(x => x.Body);
+            Map(x => x.Body).CustomType("StringClob").CustomSqlType("varchar(max)");
             Map(x => x.ErrorCode);
             Map(x => x.FromAddress);
 

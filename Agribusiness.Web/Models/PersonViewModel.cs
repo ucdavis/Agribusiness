@@ -27,7 +27,7 @@ namespace Agribusiness.Web.Models
 
         public string UserName { get; set; }
 
-        public static PersonViewModel Create(IRepository repository, IFirmService firmService, Seminar seminar = null, Person person = null, string email = null, Firm firm = null)
+        public static PersonViewModel Create(IRepository repository, IFirmService firmService, string site, Seminar seminar = null, Person person = null, string email = null, Firm firm = null)
         {
             Check.Require(repository != null, "Repository must be supplied");
 
@@ -38,7 +38,7 @@ namespace Agribusiness.Web.Models
                 Contacts = repository.OfType<ContactType>().Queryable.Select( a => new Contact(){ContactType = a}).ToList(),
                 Countries = repository.OfType<Country>().GetAll(),
                 CommunicationOptions = repository.OfType<CommunicationOption>().GetAll(),
-                SeminarPerson = person != null ? person.GetLatestRegistration() : null,
+                SeminarPerson = person != null ? person.GetLatestRegistration(site) : null,
                 Email = email,
                 Seminar = seminar,
                 Commodities = repository.OfType<Commodity>().Queryable.Where(a=>a.IsActive).ToList(),
@@ -99,26 +99,28 @@ namespace Agribusiness.Web.Models
         public bool IsCurrentSeminar { get; set; }
         public int? SeminarId { get; set; }
         public bool Invited { get; set; }
+        public string SiteId { get; set; }
 
-        public static AdminPersonViewModel Create(IRepository repository, IFirmService firmService, ISeminarService seminarService, int? seminarId, Person person = null, string email = null)
+        public static AdminPersonViewModel Create(IRepository repository, IFirmService firmService, string siteId, int? seminarId, Person person = null, string email = null)
         {
             Check.Require(repository != null, "Repository is required.");
-            Check.Require(seminarService != null, "seminarService is required.");
 
             var seminar = seminarId.HasValue ? repository.OfType<Seminar>().GetNullableById(seminarId.Value) : null;
             var viewModel = new AdminPersonViewModel()
                                 {
-                                    PersonViewModel = PersonViewModel.Create(repository, firmService, seminar, person, email),
+                                    PersonViewModel = PersonViewModel.Create(repository, firmService, siteId, seminar, person, email),
                                     SeminarRoles = repository.OfType<SeminarRole>().Queryable,
                                     RoomTypes = repository.OfType<RoomType>().Queryable.Where(a=>a.IsActive),
                                     SeminarId = seminarId,
-                                    Invited = seminarService.GetCurrent().Invitations.Where(a => a.Person == person).Any()
+                                    Invited = SiteService.GetLatestSeminar(siteId).Invitations.Where(a => a.Person == person).Any(),
+                                    SiteId = siteId
                                 };
 
             // determine if last reg is the current seminar
             if (seminar != null)
             {
-                viewModel.IsCurrentSeminar = seminar == seminarService.GetCurrent();
+                viewModel.IsCurrentSeminar = seminar.Id == SiteService.GetLatestSeminar(siteId).Id;
+                
             }
             
             return viewModel;

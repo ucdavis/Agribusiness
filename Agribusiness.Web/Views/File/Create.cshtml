@@ -1,0 +1,17 @@
+﻿@model FileViewModel
+
+@{
+    ViewBag.Title = "Create Seminar File";
+    ViewBag.SubPageTitle = "Create Seminar File";
+}
+
+@using (Html.BeginForm("Create", "File", new {seminarId = Model.SeminarId}, FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+{
+
+    @Html.Partial("_FileForm")
+    
+    <div class="form-actions">
+        <input type="submit" value="Save" class="btn btn-primary"/>
+        @Html.ActionLink("Cancel", "Edit", "Seminar", new {id=Model.File.Seminar.Id}, new {@class="btn"})
+    </div>
+}

@@ -33,27 +33,20 @@ namespace Agribusiness.Web.Controllers
         private readonly IRepository<NotificationTracking> _notificationTrackingRepository;
         private readonly IRepositoryWithTypedId<NotificationMethod, string> _notificationMethodRepository;
         private readonly IRepository<Attachment> _attachmentRepository;
-        private readonly ISeminarService _seminarService;
         private readonly INotificationService _notificationService;
         private readonly IPersonService _personService;
 
         public NotificationController(IRepository<Person> personRepository, IRepository<Seminar> seminarRepository, IRepository<NotificationTracking> notificationTrackingRepository
                                     , IRepositoryWithTypedId<NotificationMethod, string> notificationMethodRepository, IRepository<Attachment> attachmentRepository
-                                    , ISeminarService seminarService, INotificationService notificationService, IPersonService personService)
+                                    , INotificationService notificationService, IPersonService personService)
         {
             _personRepository = personRepository;
             _seminarRepository = seminarRepository;
             _notificationTrackingRepository = notificationTrackingRepository;
             _notificationMethodRepository = notificationMethodRepository;
             _attachmentRepository = attachmentRepository;
-            _seminarService = seminarService;
             _notificationService = notificationService;
             _personService = personService;
-        }
-
-        public ActionResult Index()
-        {
-            return View();
         }
 
         /// <summary>
@@ -69,10 +62,10 @@ namespace Agribusiness.Web.Controllers
                 person = _personRepository.GetNullableById(personId.Value);
             }
 
-            var viewModel = NotificationTrackingViewModel.Create(Repository, _seminarService, person: person);
+            var viewModel = NotificationTrackingViewModel.Create(Repository, Site, person: person);
             
             viewModel.NotificationTracking.NotifiedBy = CurrentUser.Identity.Name;
-            viewModel.NotificationTracking.Seminar = _seminarService.GetCurrent();
+            viewModel.NotificationTracking.Seminar = SiteService.GetLatestSeminar(Site);
             
             return View(viewModel);
         }
@@ -108,7 +101,7 @@ namespace Agribusiness.Web.Controllers
                 {
                     var person = tracking[0].Person;
 
-                    var url = Url.Action("AdminEdit", "Person", new { id = person.User.Id, seminarId = _seminarService.GetCurrent().Id });
+                    var url = Url.Action("AdminEdit", "Person", new { id = person.User.Id, seminarId = SiteService.GetLatestSeminar(Site).Id });
                     return Redirect(string.Format("{0}#notifications", url));
                 }
                 
@@ -116,7 +109,7 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction<SeminarController>(a => a.Details(null));
             }
 
-            var viewModel = NotificationTrackingViewModel.Create(Repository, _seminarService, notificationTracking);
+            var viewModel = NotificationTrackingViewModel.Create(Repository, Site, notificationTracking);
             viewModel.People = tracking.Select(a=>a.Person).ToList();
 
             return View(viewModel);
@@ -134,10 +127,10 @@ namespace Agribusiness.Web.Controllers
                 person = _personRepository.GetNullableById(personId.Value);
             }
 
-            var ntViewModel = NotificationTrackingViewModel.Create(Repository, _seminarService, person: person);
+            var ntViewModel = NotificationTrackingViewModel.Create(Repository, Site, person: person);
 
             ntViewModel.NotificationTracking.NotifiedBy = CurrentUser.Identity.Name;
-            ntViewModel.NotificationTracking.Seminar = _seminarService.GetCurrent();
+            ntViewModel.NotificationTracking.Seminar = SiteService.GetLatestSeminar(Site);
             ntViewModel.NotificationTracking.NotificationMethod = _notificationMethodRepository.GetById(StaticIndexes.NotificationMethod_Email);
 
             var viewModel = SendNotificationViewModel.Create(Repository, ntViewModel);
@@ -157,6 +150,10 @@ namespace Agribusiness.Web.Controllers
 
             ModelState.Clear();
             notificationTracking.TransferValidationMessagesTo(ModelState);
+            if (string.IsNullOrWhiteSpace(emailQueue.Subject))
+            {
+                ModelState.AddModelError("EmailQueue.Subject", "You must enter a subject.");
+            }
 
             var mailingList = mailingListId.HasValue ? Repository.OfType<MailingList>().GetNullableById(mailingListId.Value) : null;
 
@@ -176,7 +173,7 @@ namespace Agribusiness.Web.Controllers
                 {
                     var person = tracking[0].Person;
 
-                    var url = Url.Action("AdminEdit", "Person", new { id = person.User.Id, seminarId = _seminarService.GetCurrent().Id });
+                    var url = Url.Action("AdminEdit", "Person", new { id = person.User.Id, seminarId = SiteService.GetLatestSeminar(Site).Id });
                     return Redirect(string.Format("{0}#notifications", url));
                 }
 
@@ -185,7 +182,7 @@ namespace Agribusiness.Web.Controllers
             }
 
             // not good, hand the page back
-            var ntViewModel = NotificationTrackingViewModel.Create(Repository, _seminarService, notificationTracking, mailingList:mailingList );
+            var ntViewModel = NotificationTrackingViewModel.Create(Repository, Site, notificationTracking, mailingList:mailingList );
             ntViewModel.People = tracking.Select(a => a.Person).ToList();
 
             var viewModel = SendNotificationViewModel.Create(Repository, ntViewModel, emailQueue);
@@ -254,47 +251,53 @@ namespace Agribusiness.Web.Controllers
 
             foreach (var person in peeps.Distinct())
             {
-                var nt = new NotificationTracking();
-                // copy the fields
-                Mapper.Map(notificationTracking, nt);
-                nt.Seminar = notificationTracking.Seminar;
-                // assign the person
-                nt.Person = person;
-
-                if (emailQueue != null)
+                try
                 {
-                    var eq = new EmailQueue();
+                    var nt = new NotificationTracking();
+                    // copy the fields
+                    Mapper.Map(notificationTracking, nt);
+                    nt.Seminar = notificationTracking.Seminar;
+                    // assign the person
+                    nt.Person = person;
 
-                    Mapper.Map(emailQueue, eq);
-
-                    Invitation invitation = null;
-                    string password = null;
-                    if (mailingList.Name == MailingLists.Invitation)
+                    if (emailQueue != null)
                     {
-                        // get the invitation object
-                        invitation = Repository.OfType<Invitation>().Queryable.Where(a => a.Person == person && a.Seminar == notificationTracking.Seminar).FirstOrDefault();
-                        
-                        invitations.Add(invitation);
+                        var eq = new EmailQueue();
 
-                        // get the person object
-                        password = passwords.Where(a => a.Key == person).Select(a=>a.Value).FirstOrDefault();
+                        Mapper.Map(emailQueue, eq);
+
+                        Invitation invitation = null;
+                        string password = null;
+                        if (mailingList.Name == MailingLists.Invitation)
+                        {
+                            // get the invitation object
+                            invitation = Repository.OfType<Invitation>().Queryable.FirstOrDefault(a => a.Person == person && a.Seminar == notificationTracking.Seminar);
+
+                            invitations.Add(invitation);
+
+                            // get the person object
+                            password = passwords.Where(a => a.Key == person).Select(a => a.Value).FirstOrDefault();
+                        }
+
+                        eq.Body = _notificationService.GenerateNotification(eq.Body, person, Site, notificationTracking.Seminar.Id, invitation, password);
+
+                        if (attachmentIds != null)
+                        {
+                            // add attachments
+                            var attachments = _attachmentRepository.Queryable.Where(a => attachmentIds.Contains(a.Id)).ToList();
+                            foreach (var a in attachments) eq.Attachments.Add(a);
+                        }
+
+                        eq.Person = person;
+                        nt.EmailQueue = eq;
                     }
 
-                    eq.Body = _notificationService.GenerateNotification(eq.Body, person, notificationTracking.Seminar.Id, invitation, password);
-
-                    if (attachmentIds != null)
-                    {
-                        // add attachments
-                        var attachments = _attachmentRepository.Queryable.Where(a => attachmentIds.Contains(a.Id)).ToList();
-                        foreach (var a in attachments) eq.Attachments.Add(a);                        
-                    }
-                    
-                    eq.Person = person;
-                    nt.EmailQueue = eq;
+                    // add it to the list
+                    tracking.Add(nt);
                 }
-
-                // add it to the list
-                tracking.Add(nt);
+                catch
+                {
+                }
             }
 
             // add errors for those not in the list
@@ -344,8 +347,8 @@ namespace Agribusiness.Web.Controllers
                     var password = passwords[i];
                     dataRow = sheet.CreateRow(i + 1);
 
-                    var invitation = invitations.Where(a => a.Person == password.Key).FirstOrDefault();
-                    var seminarPerson = password.Key.GetLatestRegistration();
+                    var invitation = invitations.FirstOrDefault(a => a.Person == password.Key);
+                    var seminarPerson = password.Key.GetLatestRegistration(Site);
 
                     // fill the data
                     dataRow.CreateCell(0).SetCellValue(password.Key.LastName);
@@ -358,8 +361,8 @@ namespace Agribusiness.Web.Controllers
                     try
                     {
                         // try to get the courier address
-                        var address = invitation.Person.Addresses.Where(a => a.AddressType.Id == 'C').FirstOrDefault();
-                        if (address == null) address = invitation.Person.Addresses.Where(a => a.AddressType.Id == 'B').FirstOrDefault();
+                        var address = invitation.Person.Addresses.FirstOrDefault(a => a.AddressType.Id == 'C');
+                        if (address == null) address = invitation.Person.Addresses.FirstOrDefault(a => a.AddressType.Id == 'B');
 
                         if (address != null)
                         {

@@ -1,5 +1,7 @@
 ﻿using System.Web.Mvc;
 using Agribusiness.Web.Controllers.Filters;
+using Agribusiness.Web.Models;
+using Agribusiness.Web.Services;
 
 namespace Agribusiness.Web.Controllers
 {
@@ -9,15 +11,10 @@ namespace Agribusiness.Web.Controllers
     [UserOnly]
     public class AdminController : ApplicationController
     {
-        public AdminController()
+        public ActionResult People(int? seminarId)
         {
-        }
-
-        //
-        // GET: /Admin/
-        public ActionResult Index()
-        {
-            return View();
+            var viewModel = AdminPeopleViewModel.Create(RepositoryFactory, SiteService.LoadSite(Site), seminarId);
+            return View(viewModel);
         }
     }
 }

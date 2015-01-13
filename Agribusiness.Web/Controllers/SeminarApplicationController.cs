@@ -3,14 +3,13 @@ using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using Agribusiness.Core.Domain;
-using Agribusiness.Core.Resources;
+using Agribusiness.Core.Repositories;
 using Agribusiness.Web.Controllers.Filters;
 using Agribusiness.Web.Models;
 using Agribusiness.Web.Services;
 using Resources;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Web.ActionResults;
-using UCDArch.Web.Controller;
 using UCDArch.Web.Helpers;
 using System.Web;
 using MvcContrib;
@@ -24,27 +23,28 @@ namespace Agribusiness.Web.Controllers
     {
         private readonly IRepository<Application> _applicationRepository;
         private readonly IFirmService _firmService;
-        private readonly ISeminarService _seminarService;
         private readonly INotificationService _notificationService;
         private readonly IEventService _eventService;
         private readonly IPictureService _pictureService;
         private readonly IPersonService _personService;
+        private readonly IRepositoryFactory _repositoryFactory;
 
-        public SeminarApplicationController(IRepository<Application> applicationRepository, IFirmService firmService, ISeminarService seminarService, INotificationService notificationService, IEventService eventService, IPictureService pictureService, IPersonService personService)
+        public SeminarApplicationController(IRepository<Application> applicationRepository, IFirmService firmService, INotificationService notificationService, IEventService eventService, IPictureService pictureService, IPersonService personService, IRepositoryFactory repositoryFactory)
         {
             _applicationRepository = applicationRepository;
             _firmService = firmService;
-            _seminarService = seminarService;
             _notificationService = notificationService;
             _eventService = eventService;
             _pictureService = pictureService;
             _personService = personService;
+            _repositoryFactory = repositoryFactory;
         }
 
         [UserOnly]
         public ActionResult Index()
         {
-            var applications = _applicationRepository.Queryable.OrderBy(a=>a.IsPending).ThenBy(a=>a.IsApproved);
+            var seminar = SiteService.GetLatestSeminar(Site);
+            var applications = _applicationRepository.Queryable.Where(a => a.Seminar == seminar).OrderBy(a=>a.IsPending).ThenBy(a=>a.IsApproved);
             return View(applications);
         }
 
@@ -101,11 +101,11 @@ namespace Agribusiness.Web.Controllers
 
                 if (isApproved)
                 {
-                    _eventService.Accepted(person);
+                    _eventService.Accepted(person, Site);
                 }
                 else
                 {
-                   _eventService.Denied(person);
+                   _eventService.Denied(person, Site);
                 }
 
                 return this.RedirectToAction<SeminarApplicationController>(a => a.Index());
@@ -138,7 +138,7 @@ namespace Agribusiness.Web.Controllers
         [MembershipUserOnly]
         public ActionResult Apply()
         {
-            var viewModel = ApplicationViewModel.Create(Repository, _firmService, _seminarService, CurrentUser.Identity.Name);
+            var viewModel = ApplicationViewModel.Create(Repository, _firmService, CurrentUser.Identity.Name, Site);
             return View(viewModel);
         }
 
@@ -148,8 +148,8 @@ namespace Agribusiness.Web.Controllers
         {
             ModelState.Clear();
 
-            application.Seminar = _seminarService.GetCurrent();
-            application.User = Repository.OfType<User>().Queryable.Where(a => a.LoweredUserName == CurrentUser.Identity.Name.ToLower()).FirstOrDefault();
+            application.Seminar = SiteService.GetLatestSeminar(Site, true);
+            application.User = Repository.OfType<User>().Queryable.FirstOrDefault(a => a.LoweredUserName == CurrentUser.Identity.Name.ToLower());
 
             // requires assistant
             if (application.CommunicationOption == null)
@@ -162,17 +162,17 @@ namespace Agribusiness.Web.Controllers
                 {
                     if (string.IsNullOrWhiteSpace(application.FirstName) && string.IsNullOrWhiteSpace(application.LastName))
                     {
-                        ModelState.AddModelError("Assistant Name", "Becuase of your communication preference an Assistant Name is required.");
+                        ModelState.AddModelError("Assistant Name", "Because of your communication preference an Assistant Name is required.");
                     }
 
                     if (string.IsNullOrWhiteSpace(application.AssistantPhone))
                     {
-                        ModelState.AddModelError("Assistant Name", "Becuase of your communication preference an Assistant Phone is required.");
+                        ModelState.AddModelError("Assistant Name", "Because of your communication preference an Assistant Phone is required.");
                     }
 
                     if (string.IsNullOrWhiteSpace(application.AssistantEmail))
                     {
-                        ModelState.AddModelError("Assistant Name", "Becuase of your communication preference an Assistant Email is required.");
+                        ModelState.AddModelError("Assistant Name", "Because of your communication preference an Assistant Email is required.");
                     }
                 }    
             }
@@ -186,7 +186,15 @@ namespace Agribusiness.Web.Controllers
                 application.ContentType = file.ContentType;
             }
 
+            if (application.Firm != null && application.Firm.Id == 0)
+            {
+                application.Firm = null;
+            }
+
             application.TransferValidationMessagesTo(ModelState);
+
+            //var test = application.Firm;
+            //ModelState.AddModelError("Firm", "Please define a firm");
 
             if (application.FirmType != null && application.FirmType.Name == "Other" && string.IsNullOrWhiteSpace(application.OtherFirmType))
             {
@@ -199,18 +207,30 @@ namespace Agribusiness.Web.Controllers
             {
                 _applicationRepository.EnsurePersistent(application);
 
-                _eventService.Apply(application.User.Person, application);
+                _eventService.Apply(application.User.Person, application, Site);
 
-                //Message = string.Format(Messages.Saved, "Application");
-                //Message = "Thank you for successfully submitting your application.  Applicants will be notified of acceptance by January 13, 2012.";
-
-                if (application.Seminar.AcceptanceDate.HasValue)
+                if (application.Seminar.RequireApproval)
                 {
-                    Message = string.Format("Thank you for successfully submitting your application.<br/>  Applicants will be notified of acceptance by {0}", application.Seminar.AcceptanceDate.Value.ToString("d"));
+                    if (application.Seminar.AcceptanceDate.HasValue)
+                    {
+                        Message = string.Format("Thank you for successfully submitting your application.<br/>  Applicants will be notified of acceptance by {0}", application.Seminar.AcceptanceDate.Value.ToString("d"));
+                    }
+                    else
+                    {
+                        Message = "Thank you for successfully submitting your application.<br/>  Applicants will be notified in the near future.";
+                    }    
                 }
                 else
                 {
-                    Message = "Thank you for successfully submitting your application.<br/>  Applicants will be notified in the near future.";
+                    application.IsPending = false;
+                    application.IsApproved = true;
+                    application.DateDecision = DateTime.Now;
+                    application.DecisionReason = "Approval not required.";
+
+                    var person = _personService.CreateSeminarPerson(application, ModelState);
+                    _applicationRepository.EnsurePersistent(application);
+
+                    _eventService.Accepted(person, Site);
                 }
 
                 if (application.Photo != null)
@@ -221,7 +241,7 @@ namespace Agribusiness.Web.Controllers
                 return this.RedirectToAction<AuthorizedController>(a => a.Index());
             }
 
-            var viewModel = ApplicationViewModel.Create(Repository, _firmService, _seminarService, CurrentUser.Identity.Name, application, seminarTerms);
+            var viewModel = ApplicationViewModel.Create(Repository, _firmService, CurrentUser.Identity.Name, Site, application, seminarTerms);
             return View(viewModel);
         }
         #endregion
@@ -273,6 +293,36 @@ namespace Agribusiness.Web.Controllers
             }
 
             return File(photo, contentType);
+        }
+
+        public FileResult DownloadOriginalPhoto(int id)
+        {
+            byte[] photo = null;
+            var contentType = "image/jpeg";
+
+            var application = _applicationRepository.GetNullableById(id);
+            if (application != null)
+            {
+                var person = application.User.Person;
+
+                // attempt to assign person's existing main profile picture
+                if (person != null)
+                {
+                    photo = person.OriginalPicture;
+                    contentType = string.IsNullOrWhiteSpace(person.ContentType) ? contentType : person.ContentType;
+                    if (photo == null)
+                    {
+                        photo = person.MainProfilePicture;
+                    }
+                }
+                if (photo == null)
+                {
+                    photo = application.Photo;
+                    contentType = string.IsNullOrWhiteSpace(application.ContentType) ? contentType : application.ContentType;
+                }
+            }
+
+            return File(photo, contentType, string.Format("AgribusinessPhoto_{0}.jpg", application.FullName)); 
         }
     }
 }

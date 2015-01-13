@@ -32,15 +32,6 @@ namespace Agribusiness.Web.Controllers
             return View(commodityList);
         }
 
-        public ActionResult Details(int id)
-        {
-            var commodity = _commodityRepository.GetNullableById(id);
-
-            if (commodity == null) return RedirectToAction("Index");
-
-            return View(commodity);            
-        }
-
         //
         // GET: /Commodity/Create
         public ActionResult Create()

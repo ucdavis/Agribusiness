@@ -1,108 +1,91 @@
 ﻿@model Agribusiness.Web.Models.DisplayPerson
 
-<div class="profile_pic_container">
-    <img src='@Url.Action("GetProfilePicture", "Person", new { id = Model.Person.Id })' />
-</div>
-
-<div class="profile_information_container display-form">
-
-    <h2>@Model.Person.FullName</h2>
-
-    <ul>
-        <li class="title">@Model.Title</li>
-    </ul>
-
-    @if (Model.Firm != null)
-    { 
-    <fieldset>
-        <legend>Firm</legend>
-
-        <ul>
-            <li><div class="display-label">Name:</div>
-	            <div class="display-details">@Model.Firm.Name</div>
-            </li>
-            <li><div class="display-label">Description:</div>
-	            <div class="display-details">@Model.Firm.Description</div>
-            </li>
-        </ul>
-    </fieldset>
-    }
-    
-    @if (ViewBag.ShowContact == true)
-    {     
-    <fieldset>
-        <legend>Contact Information</legend>
-
-        <ul>
-            <li><div class="display-label">Username:</div>
-                <div class="display-details">@Model.Person.User.UserName</div>
-            </li>
-            <li><div class="display-label">Email:</div>
-                <div class="display-details">@Model.Person.User.Email</div>
-            </li>
-            <li><div class="display-label">Phone:</div>
-                <div class="display-details">@Model.Person.Phone</div>
-            </li>
-        </ul>
-    </fieldset>
-
-    <fieldset>
-        <legend>Addresses</legend>
-
-        @foreach (var a in Model.Person.Addresses)
+<div class="row-fluid">
+    <div class="span2">
+        <img src='@Url.Action("GetProfilePicture", "Person", new { id = Model.Person.Id })' style="margin-top: 45px;" />    
+    </div>
+    <div class="span10">
+        <h2>@Model.Person.FullName</h2>
+        <div><strong>@Model.Title</strong></div>
+        
+        <div class="contents" style="margin-top: 1em;">
+        @if (Model.Firm != null)
         { 
-            <h3>@a.AddressType.Name</h3>
-            
-            <ul>
-                <li><div class="display-label">Address Line 1:</div>
-                    <div class="display-details">@a.Line1</div>
-                </li>
-                <li><div class="display-label">Address Line 2:</div>
-                    <div class="display-details">@a.Line2</div>
-                </li>
-                <li><div class="display-label">City:</div>
-                    <div class="display-details">@a.City</div>
-                </li>
-                <li><div class="display-label">State:</div>
-                    <div class="display-details">@a.State</div>
-                </li>
-                <li><div class="display-label">Zip:</div>
-                    <div class="display-details">@a.Zip</div>
-                </li>
-                <li><div class="display-label">Country:</div>
-                    <div class="display-details">@(a.Country != null ? a.Country.Name : "n/a")</div>
-                </li>
-            </ul>
+            <fieldset>
+                <legend>Firm</legend>
+                <span class="span2"><strong>Name</strong></span>
+                <span class="span8">@Model.Firm.Name</span>
+                
+                <span class="span2"><strong>Description</strong></span>
+                <span class="span8">@Model.Firm.Description</span>
+            </fieldset>
         }
-
-    </fieldset>
-
-    <fieldset>
-        <legend>Contacts</legend>
-
-        @foreach (var a in Model.Person.Contacts)
-        { 
-            <h3>@a.ContactType.Name</h3>
-            
-            <ul>
-                <li><div class="display-label">First Name:</div>
-                    <div class="display-details">@a.FirstName</div>
-                </li>
-                <li><div class="display-label">Last Name:</div>
-                    <div class="display-details">@a.LastName</div>
-                </li>
-                <li><div class="display-label">Phone:</div>
-                    <div class="display-details">@a.Phone</div>
-                </li>
-                <li><div class="display-label">Email:</div>
-                    <div class="display-details">@a.Email</div>
-                </li>
-            </ul>
-        }
-
-    </fieldset>
-    }
     
-</div>
+        @if (ViewBag.ShowContact == true)
+        {     
+            <fieldset>
+                <legend>Contact Information</legend>
+                
+                <span class="span2"><strong>Username:</strong></span>
+                <span class="span8">@Model.Person.User.UserName</span>
+                
+                <span class="span2"><strong>Email</strong></span>
+                <span class="span8">@Model.Person.User.Email</span>
+                
+                <span class="span2"><strong>Phone</strong></span>
+                <span class="span8">@Model.Person.Phone</span>
+            </fieldset>
 
-<div style="clear:both;" />
+            <fieldset>
+                <legend>Addresses</legend>
+
+                @foreach (var a in Model.Person.Addresses)
+                { 
+                    <h3>@a.AddressType.Name</h3>
+                
+                    <span class="span2"><strong>Address Line 1</strong></span>
+                    <span class="span8">@a.Line1</span>
+                    
+                    <span class="span2"><strong>Address Line 2</strong></span>
+                    <span class="span8">@a.Line2</span>
+                    
+                    <span class="span2"><strong>City</strong></span>
+                    <span class="span8">@a.City</span>
+                    
+                    <span class="span2"><strong>State</strong></span>
+                    <span class="span8">@a.State</span>
+                    
+                    <span class="span2"><strong>Zip</strong></span>
+                    <span class="span8">@a.Zip</span>
+                    
+                    <span class="span2"><strong>Country</strong></span>
+                    <span class="span8">@a.Country</span>
+                }
+
+            </fieldset>
+
+            <fieldset>
+                <legend>Contacts</legend>
+
+                @foreach (var a in Model.Person.Contacts)
+                { 
+                    <h3>@a.ContactType.Name</h3>
+            
+                    <span class="span2"><strong>First Name</strong></span>
+                    <span class="span8">@a.FirstName</span>
+                    
+                    <span class="span2"><strong>Last Name</strong></span>
+                    <span class="span8">@a.LastName</span>
+                    
+                    <span class="span2"><strong>Phone</strong></span>
+                    <span class="span8">@a.Phone</span>
+                    
+                    <span class="span2"><strong>Email</strong></span>
+                    <span class="span8">@a.Email</span>
+                }
+
+            </fieldset>
+        }
+        </div>
+    </div>
+</div>

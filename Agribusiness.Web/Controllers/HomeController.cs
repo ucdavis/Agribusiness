@@ -1,65 +1,73 @@
 ﻿using System.Linq;
-using System.Text;
 using System.Web.Mvc;
-using Agribusiness.Core.Domain;
+using Agribusiness.Core.Repositories;
 using Agribusiness.Web.Controllers.Filters;
+using Agribusiness.Web.Models;
 using Agribusiness.Web.Services;
-using UCDArch.Web.Attributes;
 
 namespace Agribusiness.Web.Controllers
 {
-    [HandleTransactionsManually]
     public class HomeController : ApplicationController
     {
-        private readonly ISeminarService _seminarService;
-
-        public HomeController(ISeminarService seminarService)
+        public HomeController()
         {
-            _seminarService = seminarService;
         }
 
         public ActionResult Index()
         {
-            var seminar = _seminarService.GetCurrent();
-
-            return View(seminar);
+            var viewModel = HomeViewModel.Create(RepositoryFactory.SiteRepository , SiteService.LoadSite(Site));
+            viewModel.Files = RepositoryFactory.FileRepository.Queryable.Where(a => a.Home);
+            return View(viewModel);
         }
 
         [UserOnly]
         public ActionResult Admin()
         {
-            var pendingApplications = Repository.OfType<Application>().Queryable.Where(a => a.IsPending).Count();
-            var peopleMissingPicture = Repository.OfType<Person>().Queryable.Where(a=>a.OriginalPicture == null).Count();
-            var firmsRequiringReview = Repository.OfType<Firm>().Queryable.Where(a => a.Review).Count();
-            var pendingInformationRequests = Repository.OfType<InformationRequest>().Queryable.Where(a => !a.Responded).Count();
-            var message = new StringBuilder();
-
-            if (pendingApplications > 0)
-            {
-                message.Append(string.Format("There are {0} pending applications to review.<br/>", pendingApplications));
-            }
-
-            if (peopleMissingPicture > 0)
-            {
-                message.Append(string.Format("There are {0} profiles that are missing pictures.<br/>", peopleMissingPicture));
-            }
-
-            if (firmsRequiringReview > 0)
-            {
-                message.Append(string.Format("There are {0} firms waiting approval.", firmsRequiringReview));
-            }
-
-            if (pendingInformationRequests > 0)
-            {
-                message.Append(string.Format("There are {0} pending information requests.", pendingInformationRequests));
-            }
-
-            return View(message);
+            var viewModel = AdminIndexViewModel.Create(RepositoryFactory, Site);
+            return View(viewModel);
         }
 
         public ActionResult About()
         {
             return View();
         }
+    }
+
+    public class AdminIndexViewModel
+    {
+        public int PendingInformationRequests { get; set; }
+        public int RespondedInformationRequests { get; set; }
+
+        public int PendingApplications { get; set; }
+        public int ApprovedApplications { get; set; }
+        public int DeniedApplications { get; set; }
+
+        public int Registered { get; set; }
+        
+        public int PeopleMissingBiography { get; set; }
+        public int PeopleMissingPhoto { get; set; }
+        public int PeopleMissingHotel { get; set; }
+
+        public static AdminIndexViewModel Create(IRepositoryFactory repositoryFactory, string site)
+        {
+            var seminar = SiteService.GetLatestSeminar(site);
+
+            var viewModel = new AdminIndexViewModel()
+                                {
+                                    PendingInformationRequests = repositoryFactory.InformationRequestRepository.Queryable.Where(a => a.Site.Id == site).Count(a => !a.Responded),
+
+                                    PendingApplications = repositoryFactory.ApplicationRepository.Queryable.Count(a => a.Seminar.Id == seminar.Id && a.IsPending),
+                                    ApprovedApplications = repositoryFactory.ApplicationRepository.Queryable.Count(a => a.Seminar.Id == seminar.Id && !a.IsPending && a.IsApproved),
+                                    DeniedApplications = repositoryFactory.ApplicationRepository.Queryable.Count(a => a.Seminar.Id == seminar.Id && !a.IsPending && !a.IsApproved),
+
+                                    Registered = repositoryFactory.SeminarPersonRepository.Queryable.Count(a => a.Seminar.Id == seminar.Id && a.Paid), 
+                                    PeopleMissingBiography = repositoryFactory.SeminarPersonRepository.Queryable.Count(a => a.Seminar.Id == seminar.Id && a.Paid && a.Person.Biography != null && a.Person.Biography != string.Empty),
+                                    PeopleMissingPhoto = repositoryFactory.SeminarPersonRepository.Queryable.Count(a => a.Seminar.Id == seminar.Id && a.Paid && a.Person.OriginalPicture == null),
+                                    PeopleMissingHotel = repositoryFactory.SeminarPersonRepository.Queryable.Count(a => a.Seminar.Id == seminar.Id && a.Paid && a.HotelConfirmation != null && a.HotelConfirmation != string.Empty)
+                                };
+
+            return viewModel;
+        }
+
     }
 }

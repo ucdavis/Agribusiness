@@ -1,8 +1,21 @@
-﻿@model CaseExampleViewModel
+﻿@using Agribusiness.Web.App_GlobalResources
+@model CaseExampleViewModel
 
 @{
     ViewBag.Title = "Case Studies";
+    ViewBag.SubPageTitle = "Case Studies";
 
+    if (Model.CurrentSeminar != null && Model.CurrentSeminar.SeminarPeople.SelectMany(a => a.SeminarRoles).Any(a => a.Id == StaticIndexes.Role_SteeringCommittee))
+    {
+        ViewData["hasSteeringCommittee"] = true;
+    }
+    else
+    {
+        ViewData["hasSteeringCommittee"] = false;
+    }
+
+    var siteId = ViewData["site"] as string;
+    var site = Agribusiness.Web.Services.SiteService.LoadSite(siteId);
 }
 
 @section SubPageNavigation
@@ -39,60 +52,62 @@
 </style>
 }
 
-<h2>Case Studies</h2>
 
-<p>
-The Seminar revolves around the discussion of company case studies and issue papers that explore important issues facing agriculture. A list of past cases and issues provides a sense of the content of the seminar.
-</p>
+@*<p>
+The @site.EventType revolves around the discussion of company case studies and issue papers that explore important issues facing agriculture. A list of past cases and issues provides a sense of the content of the @site.EventType.
+</p>*@
 
 <!-- No Case Studies for the current seminar -->
-@if(Model.CurrentSeminar.CaseStudies.Count == 0)
+@if (!Model.CurrentSeminar.ReleaseCaseStudyList)
 {
-    <fieldset class="seminar-group">
+
+    @*<h3>@string.Format("{0} {1}", Model.CurrentSeminar.Year, Model.CurrentSeminar.Site.Name)</h3>*@
+    <h3>Current program overview: Case studies and topic discussions</h3>
     
-        <legend>@string.Format("{0} UC Davis Agribusiness Executive Seminar", Model.CurrentSeminar.Year)</legend>
-
-        <p><em>Coming in October 2011</em></p>
-
-    </fieldset>
+    if (!string.IsNullOrEmpty(Model.CurrentSeminar.CaseStudyText))
+    {
+        @Html.Raw(Model.CurrentSeminar.CaseStudyText)         
+    }
+    else
+    {
+        <div class="well">
+        <p>Case examples are not available at this time.  Please check back later.</p>
+        </div>
+    }
 }
 else
 {
-    <fieldset class="seminar-group">
-    
-        <legend>@string.Format("{0} UC Davis Agribusiness Executive Seminar", Model.CurrentSeminar.Year)</legend>
 
-        <ul>
-            @foreach (var caseStudy in Model.CurrentSeminar.CaseStudies)
-            {
-                <li>@caseStudy.Name</li>
-            }
-        </ul>
-
-    </fieldset>
+    @*<h3>@string.Format("{0} {1}", Model.CurrentSeminar.Year, Model.CurrentSeminar.Site.Name)</h3>*@
+    <h3>Current program overview: Case studies and topic discussions</h3>
+    <ul class="unstyled">
+        @foreach (var caseStudy in Model.CurrentSeminar.CaseStudies)
+        {
+            <li>@caseStudy.Name</li>
+        }
+    </ul>
 }
 
-<h3 style="font-weight: normal;">Past Case Studies and Issue Papers have included:</h3>
-
-@foreach (var year in Model.CaseStudies.Where(a => a.Seminar.Year != Model.CurrentSeminar.Year).Select(a => a.Seminar.Year).OrderBy(a => a).Distinct())
+@if (Model.CaseStudies.Any())
 {
-    <fieldset class="seminar-group">
-    
-        @if (year >= 2012)
+    <h3 style="color: #014A81;border-bottom: 1px solid #EEE; padding-bottom: 1em;">Past Case Studies and Issue Papers have included:</h3>
+
+    foreach (var year in Model.CaseStudies.Where(a => a.Seminar.Year != Model.CurrentSeminar.Year).Select(a => a.Seminar.Year).OrderByDescending(a => a).Distinct())
+    {
+        if (year >= 2012)
         {
-            <legend>@string.Format("{0} UC Davis Agribusiness Executive Seminar", year)</legend>
+            <h3>@string.Format("{0} UC Davis Agribusiness Executive Seminar", year)</h3>
         }
         else
         {
-            <legend>@string.Format("{0} California Agribusiness Executive Seminar", year)</legend>    
+            <h3>@string.Format("{0} California Agribusiness Executive Seminar", year)</h3>    
         }
 
-        <ul>
+        <ul class="unstyled">
             @foreach (var caseStudy in Model.CaseStudies.Where(a => a.Seminar.Year == year).OrderBy(a => a.Name))
             {
                 <li>@caseStudy.Name</li>
             }
         </ul>
-
-    </fieldset>
+    }
 }

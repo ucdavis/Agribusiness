@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="d8adec91-6480-40b7-a24b-5cc316c2f041" ChangeDateTime="07/24/2012 14:30:54">
+    <Property Name="ElementName" Value="[dbo].[Seminars].[Site]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Seminars]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="SiteId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="4594ed12-75d8-4209-b1d8-f8066b23be7b" ChangeDateTime="07/31/2012 18:34:15">
+    <Property Name="ElementName" Value="[dbo].[InformationRequests].[AssistantName]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[InformationRequests]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AssistanFirstName" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="e326b0d5-5540-4247-a957-ef4ca9b8426d" ChangeDateTime="07/31/2012 18:34:28">
+    <Property Name="ElementName" Value="[dbo].[InformationRequests].[AssistanFirstName]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[InformationRequests]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AssistantFirstName" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="1523e1ce-e4f9-4f65-aad5-9df2bc8120c3" ChangeDateTime="07/31/2012 19:53:02">
+    <Property Name="ElementName" Value="[dbo].[Sites].[CollectAssistant]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Sites]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CollectExtended" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="46c2f6bc-ae72-4875-91c4-63a381c0c9c6" ChangeDateTime="07/31/2012 20:28:27">
+    <Property Name="ElementName" Value="[dbo].[InformationRequests].[Name]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[InformationRequests]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="FirstName" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="1683805b-dd4e-4ed4-b8cb-21c95d018256" ChangeDateTime="07/31/2012 21:21:19">
+    <Property Name="ElementName" Value="[dbo].[InformationRequests].[Country]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[InformationRequests]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CountryID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="408d333f-37e2-4fd8-bc4a-1143c2c7681a" ChangeDateTime="09/13/2012 22:01:16">
+    <Property Name="ElementName" Value="[dbo].[Sponsors].[Linke]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Sponsors]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Link" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="75629b2e-e286-45ec-8662-93b0087f8d60" ChangeDateTime="09/13/2012 22:01:20">
+    <Property Name="ElementName" Value="[dbo].[Sponsors].[Link]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Sponsors]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Ulr" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="24c4893f-c8d0-475f-8707-2f307fba6c34" ChangeDateTime="09/13/2012 22:01:21">
+    <Property Name="ElementName" Value="[dbo].[Sponsors].[Ulr]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Sponsors]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Url" />
+  </Operation>
+</Operations>

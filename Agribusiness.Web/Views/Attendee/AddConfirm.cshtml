@@ -1,15 +1,13 @@
 ﻿@model AddConfirmViewModel
 
-
 @{
     ViewBag.Title = "Add Attendee Confirm";
     ViewBag.SubPageTitle = "Add Attendee Confirm";
 }
 
-
 @section SubPageNavigation
 {
-    <ul class='navigation'>
+    <ul class='nav nav-pills'>
         <li>@Html.ActionLink("Back To List", "Add", new { id = Model.Seminar.Id })</li>
     </ul>
 }
@@ -18,130 +16,100 @@
 {
     <script type="text/javascript">
         $(function () {
-            $("#firm_dialog").dialog({
-                autoOpen: false,
-                modal: true,
-                width: 800,
-                buttons: {
-                    "Confirm": selectFirm,
-                    Cancel: function () { $(this).dialog("close"); }
+            $("#Firm_Id").change(function () {
+
+                var $this = $(this);
+                var value = $this.find(':selected')[0].text;
+
+                if (value == "Other") {
+                    $(".firm").show('normal');
+                } else {
+                    $('.firm').hide('normal');
+                    $('.firm').val('');
                 }
             });
-
-            $("#change-firm").click(function () {
-                $("#firm_dialog").dialog("open");
-            });
         });
-
-        function selectFirm() {
-
-            var dropDown = $(this).find("select");
-
-            // make sure a firm has been selected
-            if (dropDown.val() != "" && dropDown.val() != "0") {
-
-                // display the correct form
-                $("#firm-name").html($(dropDown).find(":selected").text());
-                $("#firm-name").show();
-                $("#new-firm-name").hide();
-                $("#firm-description").hide();
-                $("#firm-webaddress").hide();
-            }
-            // selected other
-            else if (dropDown.val() == "0") {
-
-                $("#firm-name").html("");
-                $("#firm-name").hide();
-                $("#new-firm-name").show();
-                $("#firm-description").show();
-                $("#firm-webaddress").show();
-            }
-            // did not select a firm or other
-            else {
-                alert("no firm selected");
-                return;
-            }
-
-            // update the firm id hidden
-            $("#Firm_Id").val($(dropDown).val());
-
-            $(this).dialog("close");
-        }
     </script>
+    
+    <style type="text/css">
+        .firm { display: none;}
+    </style>
 }
 
 @Html.ValidationSummary(false)
 
-<fieldset class="display-form">
-
-    <ul>
-        <li><div class="display-label">Name:</div>
-            <div class="display-details">@Model.Person.FullName</div>
-        </li>
-        <li><div class="display-label">Email:</div>
-            <div class="display-details">@Model.Person.User.LoweredUserName</div>
-        </li>
-    </ul>
-
-</fieldset>
-
-@using (Html.BeginForm())
-{ 
+@using (Html.BeginForm("AddConfirm", "Attendee", FormMethod.Post, new { @class = "form-horizontal" }))
+{
     var newFirm = Model.Firm == null || Model.Firm.Id <= 0;
+    @Html.AntiForgeryToken()
+    @Html.Hidden("personId", Model.Person.Id)
     
-    @Html.AntiForgeryToken()  
-    
-    <fieldset>
-        
-        <ul>
-            <li><div class="editor-label">@Html.LabelFor(a => a.SeminarPerson.Title)</div>
-                <div class="editor-field">@Html.TextBoxFor(a => a.SeminarPerson.Title)</div>
-            </li>
-            <li><div class="editor-label">@Html.LabelFor(a => a.SeminarPerson.Firm)</div>
-                <div class="editor-field">
-                    
-                    <div id="firm-name" style="display:inline-block; min-width: 200px; @(newFirm ? "display:none" : "")">
-                    @if (!newFirm)
-                    { 
-                        @(Model.SeminarPerson.Firm != null ? Model.SeminarPerson.Firm.Name : "")
-                    }
-                    </div>
-                    
-                    <span id="new-firm-name" style="@(newFirm ? "" : "display:none;")">
-                        @Html.TextBox("Firm.Name", !newFirm ? Model.Firm.Name : string.Empty)
-                    </span>
-                    
-                    <a href="javascript:;" id="change-firm">[Change Firm]</a>
-
-                    @Html.HiddenFor(a=>a.Firm.Id)
+    <div class="control-group">
+        <fieldset>
+            <div class="control-group">
+                <label for="Name" class="control-label">Name</label>
+                <div class="controls form-text">
+                    @Model.Person.FullName
                 </div>
-            </li>
-            <li id="firm-description" style="@(newFirm ? "" : "display:none;")"><div class="editor-label">@Html.LabelFor(a=>a.Firm.Description)</div>
-                <div class="editor-field">
-                    @Html.TextArea("Firm.Description", !newFirm ? Model.Firm.Description : string.Empty)
-                </div>            
-            </li>
-            <li id="firm-webaddress" style="@(newFirm ? "" : "display:none;")">
-                <div class="editor-label">@Html.LabelFor(a=>a.Firm.WebAddress)</div>
-                <div class="editor-field">
-                    @Html.TextBox("Firm.WebAddress", !newFirm ? Model.Firm.WebAddress : string.Empty)
-                </div>
-            </li>
-        </ul>
-
-    </fieldset>
-    
-    <fieldset>
-        <ul><div class="editor-label">&nbsp;</div>
-            <div class="editor-field">
-                <input type="submit" value="Add Attendee" class="button" /> | @Html.ActionLink("Cancel", "Add", new { id = Model.Seminar.Id })
             </div>
-        </ul>
-    </fieldset>
+            <div class="control-group">
+                <label for="Email" class="control-label">Email</label>
+                <div class="controls form-text">
+                    @Model.Person.User.LoweredUserName
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="Title" class="control-label">Title</label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.SeminarPerson.Title)
+                    @Html.ValidationMessageFor(model => model.SeminarPerson.Title)
+                </div>
+            </div>
+        </fieldset>
+        
+        <legend>Firm</legend>
+        
+        @{
+            var css = "display: none;";
+            var css2 = "display: none;";
+            
+            if (Model.Firm.Id == 0)
+            {
+                css = "display: inline-block;";
+                css2 = "display: block;";
+            }
+        }
+
+        <fieldset>
+            <div class="control-group">
+                <label for="Firm" class="control-label">Firm</label>
+                <div class="controls">
+                    @this.Select("Firm.Id").Options(Model.Firms, x=>x.Id, x=>x.Name).FirstOption("-1", "--Select Firm--").Selected(Model.Firm != null ? Model.Firm.Id.ToString() : string.Empty)
+                    @Html.TextBox("Firm.Name", newFirm ? Model.Firm.Name : string.Empty, new{ @style=css, @class="firm"})
+                    @Html.ValidationMessageFor(model => model.SeminarPerson.Firm)
+                </div>
+            </div>
+            <div class="control-group firm" style='@css2'>
+                <label for="Firm.Description" class="control-label">Description</label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.Firm.Description)
+                    @Html.ValidationMessageFor(model => model.Firm.Description)
+                </div>
+            </div>
+            <div class="control-group firm" style='@css2'>
+                <label for="Firm_WebAddress" class="control-label">Web Address</label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.Firm.WebAddress)
+                    @Html.ValidationMessageFor(model => model.Firm.WebAddress)
+                </div>
+            </div>
+        </fieldset>
+
+    </div>
     
-    <div id="firm_dialog" title="Select a Firm">
-        <p>
-        @this.Select("Firm").Options(Model.Firms, x => x.Id, x => x.Name).FirstOption("--Select a Firm--").Selected(Model.SeminarPerson.Firm != null ? Model.SeminarPerson.Firm.Id.ToString() : "")
-        </p>
-    </div>    
+    <div class="form-actions">
+        <input type="submit" value="Add Attendee" class="btn btn-primary"/>
+        @Html.ActionLink("Cancel", "Add", new { id = Model.Seminar.Id }, new {@class="btn"})
+    </div>
+    
 }

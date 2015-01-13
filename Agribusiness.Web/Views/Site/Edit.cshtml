@@ -1,0 +1,173 @@
+﻿@model Site
+
+@{
+    ViewBag.Title = "Edit Site";
+    ViewBag.SubPageTitle = "Edit Site";
+}
+
+@section ScriptContent
+{
+    @Html.Partial("_tinymce", new TinyMceViewModel())
+    
+    <link href="@Url.Content("~/Content/chosen.css")" type="text/css" rel="stylesheet"/>
+    <script type="text/javascript" src="@Url.Script("chosen.jquery.min.js")"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#BackgroundPerson").chosen();
+        });
+    </script>
+}
+
+@section SubPageNavigation
+{
+    <ul class="nav nav-pills">
+        <li>@Html.ActionLink("Details", "Details", new {id=Model.Id})</li>
+        <li>@Html.ActionLink("Back to List", "Index")</li>
+    </ul>
+}
+
+@using (Html.BeginForm("Edit", "Site", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="control-group">
+        <fieldset>
+            <div class="control-group">
+                <label for="id" class="control-label">Id:</label>
+                @if (string.IsNullOrEmpty(Model.Id))
+                {
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.Id, new { @class = "input-small" })
+                        @Html.ValidationMessageFor(model => model.Id)    
+                    </div>
+                }
+                else
+                {
+                    <div class="controls form-text">
+                        @Model.Id
+                    </div>
+                }
+            </div>
+            <div class="control-group">
+                <label for="name" class="control-label">Name:</label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.Name)
+                    @Html.ValidationMessageFor(model => model.Name)
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="EventType" class="control-label">Event Type</label>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.EventType)
+                    <p class="help-inline">Eg. Seminar, Workshop...</p>
+                    @Html.ValidationMessageFor(model => model.EventType)
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="Subdomain" class="control-label">Subdomain</label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.Subdomain)
+                    @Html.ValidationMessageFor(model => model.Subdomain)
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="description" class="control-label">Description:</label>
+                <div class="controls">
+                    <div class="row-fluid">
+                        <div class="span8">
+                            @Html.EditorFor(model => model.Description)
+                        </div>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Description)
+                    <p class="help-block">Text used for the splash screen, when users come to agribusiness.ucdavis.edu</p>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="welcome" class="control-label">Welcome Text:</label>
+                <div class="controls">
+                    <div class="row-fluid">
+                        <div class="span8">
+                            @Html.EditorFor(model => model.Welcome)
+                        </div>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Welcome)
+                    <p class="help-block">Text for the welcome message, once a user comes into the site for this "site".</p>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="Background" class="control-label">Background</label>
+                <div class="controls">
+                    <div class="row-fluid">
+                        <div class="span8">
+                            @Html.EditorFor(model => model.Background)
+                        </div>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Background)
+                    <p class="help-block">Text for the "Background Information" public page.</p>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="BackgroundPerson" class="control-label">Background Person</label>
+                <div class="controls">
+                    @*@Html.EditorFor(model => model.BackgroundPerson)*@
+                    
+                    @this.Select("BackgroundPerson").Options(Model.People, x=>x.Id, x=>x.FullName).FirstOption("--Select Person--").Selected(Model.BackgroundPerson != null ? Model.BackgroundPerson.Id.ToString() : string.Empty)
+                    @Html.ValidationMessageFor(model => model.BackgroundPerson)
+                    
+                    <p class="help-block">A link for the selected user will be placed on the background page.</p>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="Venue" class="control-label">Venue</label>
+                <div class="controls">
+                    <div class="row-fluid">
+                        <div class="span8">
+                            @Html.EditorFor(model => model.Venue)
+                        </div>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Venue)
+                    <p class="help-block">Text for the "Venue" public page.</p>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="VenueEmbeddedMap" class="control-label">Venue Embedded Map</label>
+                <div class="controls">
+                    @Html.EditorFor(model => model.VenueEmbeddedMap)
+                    @Html.ValidationMessageFor(model => model.VenueEmbeddedMap)
+                    <p class="help-block">This map will be displayed on the public page, next to the venue information.  To get a proper map, open up google maps, point it to the location you want.  Click on the Link icon and take the code to embed in website.</p>
+                </div>
+            </div>
+
+        </fieldset>
+        
+        <fieldset>
+            <legend>Images</legend>
+            <div class="control-group">
+                <label for="logo" class="control-label">Logo:</label>
+                <div class="controls">
+                    <input type="file" name="logo" class="input-file"/>
+                    @if (Model.Logo != null)
+                    {
+                        <input type="button" value="Preview Existing" class="btn preview logo"/>    
+                    }
+                    
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="splash" class="control-label">Splash:</label>
+                <div class="controls">
+                    <input type="file" name="splash" class="input-file"/>
+                    @if (Model.SplashImage != null)
+                    {
+                        <input type="button" value="Preview Existing" class="btn preview splash"/>    
+                    }
+                </div>
+            </div>
+        </fieldset>
+    </div>
+    
+    <div class="form-actions">
+        <input type="submit" class="btn btn-primary" value="Save"/>
+        @Html.ActionLink("Cancel", "Index", new { }, new { @class = "btn" })
+    </div>
+}

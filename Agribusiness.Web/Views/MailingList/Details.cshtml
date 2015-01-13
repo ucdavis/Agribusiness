@@ -8,58 +8,68 @@
 
 @section ScriptContent{
     <link rel="stylesheet" type="text/css" href="@Url.Css("jquery.AutoCompleteSelect.css")"/>
+    
+    @Html.Partial("_dataTables")
 }
 
 @section SubPageNavigation
 {
-	<ul class="navigation">
-		
-			<li>@Html.ActionLink("Edit", "Edit", new { id=Model.Id }) </li>
-			<li>@Html.ActionLink("Back to List", "Index")</li>
-		
+	<ul class="nav nav-pills">
+		<li>@Html.ActionLink("Edit", "Edit", new { id=Model.Id }) </li>
+		<li>@Html.ActionLink("Back to List", "Index")</li>
 	</ul>
 }
 
-<fieldset class="display-form">
-    <legend>MailingList</legend>
-	<ul>
-
-		<li>
-			<div class="display-label">Name</div>
-			<div class="display-details">@Model.Name</div>
-		</li>
-
-        <li>
-            <div class="display-label">People</div>
-            <div class="display-details">
-            
-                <div class="ac-container ac-gradientbackground">
-                
-                    <div class="ac-selectedContainer">
-                    
-                        @foreach (var person in Model.People.OrderBy(a => a.LastName))
-                        {
-                            <span class="ac-selected ac-gradientbackground">
-                                <span style="display:inline-block;">@person.FullName</span>
-                            </span>
-                        }
-
-                    </div>
-
-                </div>
-
+<div class="form-horizontal">
+    <fieldset>
+        <div class="control-group">
+            <label for="Name" class="control-label">Name</label>
+            <div class="controls form-text">
+                @Model.Name
             </div>
-        </li>
+        </div>
+        @*        <div class="control-group">
+            <label for="People" class="control-label">People</label>
+            <div class="controls">
+                <div class="well">
+                    @foreach (var person in Model.People.OrderBy(a => a.LastName))
+                    {
+                        <span class="ac-selected ac-gradientbackground">
+                            <span style="display:inline-block;">@person.FullName</span>
+                        </span>
+                    }
+                </div>
+            </div>
+        </div>*@
+        <div class="control-group">
+            <label for="DateCreated" class="control-label">Date Created</label>
+            <div class="controls">
+                @Model.DateCreated
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="DateUpdated" class="control-label">Date Updated</label>
+            <div class="controls">
+                @Model.DateUpdated
+            </div>
+        </div>
+    </fieldset>
+</div>
 
-		<li>
-			<div class="display-label">DateCreated</div>
-			<div class="display-details">@String.Format("{0:g}", Model.DateCreated)</div>
-		</li>
-
-		<li>
-			<div class="display-label">DateUpdated</div>
-			<div class="display-details">@String.Format("{0:g}", Model.DateUpdated)</div>
-		</li>
-
-	</ul>
-</fieldset>
+<table class="default_table table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var person in Model.People.OrderBy(a => a.LastName))
+        {
+            <tr>
+                <td>@person.FirstName</td>
+                <td>@person.LastName</td>
+            </tr>
+        }
+    </tbody>
+</table>

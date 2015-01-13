@@ -119,3 +119,119 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agribusiness.Web", "Agribusiness.Web\Agribusiness.Web.csproj", "{33BA1238-6E6E-47CB-B0F3-910ACAE25B4E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agribusiness.Tests", "Agribusiness.Tests\Agribusiness.Tests.csproj", "{D01CEA98-CF40-4880-8685-E488B461FFE1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bin", "Bin", "{16225D2D-13C1-46B6-816F-0F8AB3B019D7}"
+	ProjectSection(SolutionItems) = preProject
+		Bin\Ionic.Zip.dll = Bin\Ionic.Zip.dll
+		Bin\Microsoft.ReportViewer.Common.dll = Bin\Microsoft.ReportViewer.Common.dll
+		Bin\Microsoft.ReportViewer.WebForms.dll = Bin\Microsoft.ReportViewer.WebForms.dll
+		Bin\Microsoft.ReportViewer.WebForms.xml = Bin\Microsoft.ReportViewer.WebForms.xml
+		Bin\Microsoft.Web.Mvc.dll = Bin\Microsoft.Web.Mvc.dll
+		Bin\Moxiecode.TinyMCE.dll = Bin\Moxiecode.TinyMCE.dll
+		Bin\NPOI.DDF.dll = Bin\NPOI.DDF.dll
+		Bin\NPOI.DDF.xml = Bin\NPOI.DDF.xml
+		Bin\NPOI.dll = Bin\NPOI.dll
+		Bin\NPOI.HPSF.dll = Bin\NPOI.HPSF.dll
+		Bin\NPOI.HPSF.xml = Bin\NPOI.HPSF.xml
+		Bin\NPOI.HSSF.dll = Bin\NPOI.HSSF.dll
+		Bin\NPOI.HSSF.XML = Bin\NPOI.HSSF.XML
+		Bin\NPOI.POIFS.dll = Bin\NPOI.POIFS.dll
+		Bin\NPOI.POIFS.xml = Bin\NPOI.POIFS.xml
+		Bin\NPOI.Util.dll = Bin\NPOI.Util.dll
+		Bin\NPOI.Util.xml = Bin\NPOI.Util.xml
+		Bin\NPOI.xml = Bin\NPOI.xml
+		Bin\Recaptcha.dll = Bin\Recaptcha.dll
+		Bin\Recaptcha.pdb = Bin\Recaptcha.pdb
+		Bin\Thought.vCards.dll = Bin\Thought.vCards.dll
+		Bin\Thought.vCards.pdb = Bin\Thought.vCards.pdb
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agribusiness.Core", "Agribusiness.Core\Agribusiness.Core.csproj", "{59FC9042-FBF0-4F82-803D-78E291FDD7F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agribusiness.WS", "Agribusiness.WS\Agribusiness.WS.csproj", "{9A333D4D-EC23-45AC-8B92-E64987A5EAB5}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Agribusiness.DB", "Agribusiness.DB\Agribusiness.DB.sqlproj", "{26482A3E-9E73-49C7-8E08-091291E3679C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{3FB9DE8E-0FFC-4E8D-AF02-FDE9BACDB583}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\nuget.exe = .nuget\nuget.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agribusiness.CLR", "Agribusiness.CLR\Agribusiness.CLR.csproj", "{A27FE3B7-506F-4F9B-87B1-E3679C817949}"
+EndProject
+Project("{F14B399A-7131-4C87-9E4B-1186C45EF12D}") = "Agribusiness.Report", "Agribusiness.Report\Agribusiness.Report.rptproj", "{BE0264C5-472C-4FBD-AABF-22B0497471C9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		DebugLocal|Any CPU = DebugLocal|Any CPU
+		Release|Any CPU = Release|Any CPU
+		Test|Any CPU = Test|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{33BA1238-6E6E-47CB-B0F3-910ACAE25B4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33BA1238-6E6E-47CB-B0F3-910ACAE25B4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33BA1238-6E6E-47CB-B0F3-910ACAE25B4E}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
+		{33BA1238-6E6E-47CB-B0F3-910ACAE25B4E}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
+		{33BA1238-6E6E-47CB-B0F3-910ACAE25B4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33BA1238-6E6E-47CB-B0F3-910ACAE25B4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33BA1238-6E6E-47CB-B0F3-910ACAE25B4E}.Test|Any CPU.ActiveCfg = Test|Any CPU
+		{33BA1238-6E6E-47CB-B0F3-910ACAE25B4E}.Test|Any CPU.Build.0 = Test|Any CPU
+		{D01CEA98-CF40-4880-8685-E488B461FFE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D01CEA98-CF40-4880-8685-E488B461FFE1}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
+		{D01CEA98-CF40-4880-8685-E488B461FFE1}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
+		{D01CEA98-CF40-4880-8685-E488B461FFE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D01CEA98-CF40-4880-8685-E488B461FFE1}.Test|Any CPU.ActiveCfg = Test|Any CPU
+		{59FC9042-FBF0-4F82-803D-78E291FDD7F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59FC9042-FBF0-4F82-803D-78E291FDD7F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59FC9042-FBF0-4F82-803D-78E291FDD7F2}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
+		{59FC9042-FBF0-4F82-803D-78E291FDD7F2}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
+		{59FC9042-FBF0-4F82-803D-78E291FDD7F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59FC9042-FBF0-4F82-803D-78E291FDD7F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59FC9042-FBF0-4F82-803D-78E291FDD7F2}.Test|Any CPU.ActiveCfg = Test|Any CPU
+		{59FC9042-FBF0-4F82-803D-78E291FDD7F2}.Test|Any CPU.Build.0 = Test|Any CPU
+		{9A333D4D-EC23-45AC-8B92-E64987A5EAB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A333D4D-EC23-45AC-8B92-E64987A5EAB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A333D4D-EC23-45AC-8B92-E64987A5EAB5}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A333D4D-EC23-45AC-8B92-E64987A5EAB5}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
+		{9A333D4D-EC23-45AC-8B92-E64987A5EAB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A333D4D-EC23-45AC-8B92-E64987A5EAB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A333D4D-EC23-45AC-8B92-E64987A5EAB5}.Test|Any CPU.ActiveCfg = Test|Any CPU
+		{9A333D4D-EC23-45AC-8B92-E64987A5EAB5}.Test|Any CPU.Build.0 = Test|Any CPU
+		{26482A3E-9E73-49C7-8E08-091291E3679C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26482A3E-9E73-49C7-8E08-091291E3679C}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
+		{26482A3E-9E73-49C7-8E08-091291E3679C}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
+		{26482A3E-9E73-49C7-8E08-091291E3679C}.DebugLocal|Any CPU.Deploy.0 = Debug|Any CPU
+		{26482A3E-9E73-49C7-8E08-091291E3679C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26482A3E-9E73-49C7-8E08-091291E3679C}.Test|Any CPU.ActiveCfg = Test|Any CPU
+		{26482A3E-9E73-49C7-8E08-091291E3679C}.Test|Any CPU.Build.0 = Test|Any CPU
+		{26482A3E-9E73-49C7-8E08-091291E3679C}.Test|Any CPU.Deploy.0 = Test|Any CPU
+		{A27FE3B7-506F-4F9B-87B1-E3679C817949}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A27FE3B7-506F-4F9B-87B1-E3679C817949}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
+		{A27FE3B7-506F-4F9B-87B1-E3679C817949}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
+		{A27FE3B7-506F-4F9B-87B1-E3679C817949}.DebugLocal|Any CPU.Deploy.0 = Debug|Any CPU
+		{A27FE3B7-506F-4F9B-87B1-E3679C817949}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A27FE3B7-506F-4F9B-87B1-E3679C817949}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A27FE3B7-506F-4F9B-87B1-E3679C817949}.Test|Any CPU.ActiveCfg = Release|Any CPU
+		{A27FE3B7-506F-4F9B-87B1-E3679C817949}.Test|Any CPU.Build.0 = Release|Any CPU
+		{A27FE3B7-506F-4F9B-87B1-E3679C817949}.Test|Any CPU.Deploy.0 = Release|Any CPU
+		{BE0264C5-472C-4FBD-AABF-22B0497471C9}.Debug|Any CPU.ActiveCfg = Debug
+		{BE0264C5-472C-4FBD-AABF-22B0497471C9}.DebugLocal|Any CPU.ActiveCfg = DebugLocal
+		{BE0264C5-472C-4FBD-AABF-22B0497471C9}.Release|Any CPU.ActiveCfg = Release
+		{BE0264C5-472C-4FBD-AABF-22B0497471C9}.Release|Any CPU.Build.0 = Release
+		{BE0264C5-472C-4FBD-AABF-22B0497471C9}.Test|Any CPU.ActiveCfg = Release
+		{BE0264C5-472C-4FBD-AABF-22B0497471C9}.Test|Any CPU.Build.0 = Release
+		{BE0264C5-472C-4FBD-AABF-22B0497471C9}.Test|Any CPU.Deploy.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

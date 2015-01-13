@@ -5,76 +5,38 @@
     ViewBag.SubPageTitle = "Firms";
 }
 
-@if (Model.PendingFirms.Count() > 0)
-{ 
-    <h3>Pending Firms</h3>
-    <table class="default_table nolasticon">
-	    <thead>
-		    <tr>
-			    <th></th>
-			    <th>
-				    Name
-			    </th>
-			    <th>
-				    Description
-			    </th>
-		    </tr>
-	    </thead>
-	    <tbody>
-    @{ var podd = false; }
-    @foreach (var item in Model.PendingFirms)
-    {
-		    <tr class="@(podd ? "odd" : "even")">
-			    <td>
-                    <a href='@Url.Action("Edit", new {id=item.Id})'>
-                        <img src='@Url.Image("edit.png")' />
-                    </a>
-                </td>
-			    <td>
-				    @item.Name
-			    </td>
-			    <td>
-				    @item.Description
-			    </td>
-		    </tr>
-        podd = !podd;
-    }
-	    </tbody>
-    </table>
-}
-
-<h3>Firms</h3>
-<table class="default_table nolasticon">
-	<thead>
-		<tr>
-			<th></th>
-			<th>
-				Name
-			</th>
-			<th>
-				Description
-			</th>
-		</tr>
-	</thead>
-	<tbody>
-@{ var odd = false; }
-@foreach (var item in Model.Firms)
+@section ScriptContent
 {
-		<tr class="@(odd ? "odd" : "even")">
-			<td>
-                <a href='@Url.Action("Edit", new {id=item.Id})'>
-                    <img src='@Url.Image("edit.png")' />
-                </a>
-            </td>
-			<td>
-				@item.Name
-			</td>
-			<td>
-				@item.Description
-			</td>
-		</tr>
-    odd = !odd;
+    @Html.Partial("_DataTables")
+    
+    <script type="text/javascript">
+        $(function () {
+            $("#tabs").tabs();
+        });
+    </script>
 }
-	</tbody>
-</table>
 
+<div id="tabs">
+    <ul class="nav nav-tabs">
+    <li><a href="#pending" data-toggle="tab">Pending</a></li>
+    <li><a href="#approved" data-toggle="tab">Approved</a></li>
+</ul>
+
+    <div class="tab-content">
+    <div class="tab-pane @(Model.PendingFirms.Any() ? "active" : string.Empty)" id="pending">
+        @if (Model.PendingFirms.Any())
+        {
+            @Html.Partial("_FirmTable", Model.PendingFirms)    
+        }
+        else
+        {
+            <div class="alert alert-info">
+                There are no pending firms.
+            </div>
+        }
+    </div>
+    <div class="tab-pane @(!Model.PendingFirms.Any() ? "active" : string.Empty)" id="approved">
+        @Html.Partial("_FirmTable", Model.Firms)
+    </div>
+</div>
+</div>

@@ -1,19 +1,16 @@
-﻿@model IEnumerable<Agribusiness.Core.Domain.Application>
+﻿@model IEnumerable<Application>
 
 @{
     ViewBag.Title = "Seminar Applications";
     ViewBag.SubPageTitle = "Seminar Applications";
+    ViewBag.Nav = Nav.Applications;
 }
 
 @section ScriptContent{
-    <script type="text/javascript">
-        $(function () {
-            $("table").dataTable({ "bJQueryUI": true, "bPaginate": false, "aaSorting": [[3, "asc"]] });
-        });
-    </script>
+    @Html.Partial("_DataTables")
 }
 
-<table>
+<table class="default_table table table-striped table-bordered">
 	<thead>
 		<tr>
 			<th></th>
@@ -30,8 +27,7 @@
 				Expectations
 			</th>
             <th>Date Submitted</th>
-            <th>Pending</th>
-            <th>Approved</th>
+            <th>Status</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -39,8 +35,8 @@
 @foreach (var item in Model) {
 		<tr class="@(odd ? "odd": "even")">
 			<td>
-                <a href='@Url.Action("Decide", new { id=item.Id })'>
-                <img src='@Url.Content("~/Images/Edit.png")' alt="Decide on this application." />
+                <a href='@Url.Action("Decide", new { id=item.Id })' class="btn hastip" rel="tooltip" title="Decide on application">
+                    <i class="icon-pencil"></i>
                 </a>
 			</td>
 			<td>
@@ -58,10 +54,24 @@
             <td>
                 @item.DateSubmitted.ToString("g")
             </td>
-            <td>@if (item.IsPending) { <img src='@Url.Image("check.png")' alt='@string.Format("{0}'s application is pending.", item.FullName)' /> }</td>
-            <td>@if (item.IsApproved) { <img src='@Url.Image("check.png")' alt='@string.Format("{0}'s application is approved.", item.FullName)' /> }</td>
+            <td>
+                @if (item.IsPending)
+                {
+                    <span class="label label-info">Pending</span>
+                }
+                else
+                {
+                    if (item.IsApproved)
+                    {
+                        <span class="label label-success">Approved</span>
+                    }
+                    else
+                    {
+                        <span class="label label-important">Denied</span>
+                    }
+                }
+            </td>
 		</tr>
-		odd = !odd;
 }
 	</tbody>
 </table>

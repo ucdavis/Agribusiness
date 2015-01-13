@@ -1,0 +1,138 @@
+﻿@model IQueryable<Sponsor>
+
+@helper ExtendedSponsor(Sponsor sponsor)
+    {
+    var extended = (bool?)ViewBag.Extended ?? true;
+    if (extended)
+    {
+        <div class="span10 sponsor">
+            @if (!string.IsNullOrEmpty(sponsor.Url))
+            {
+                <a href="@Html.Raw(sponsor.Url)" class="sponsor-anchor">
+                    @if (sponsor.Logo != null)
+                    {
+                        <img src="@Url.Action("SponsorLogo", "Public", new { id = sponsor.Id })" alt="@sponsor.Name logo" class="logo-img"/>
+                    }
+        
+                    <h4>@sponsor.Name</h4>
+        
+                    @Html.Raw(sponsor.Description)
+                </a>
+            }
+            else
+            {
+                if (sponsor.Logo != null)
+                {
+                    <img src="@Url.Action("SponsorLogo", "Public", new { id = sponsor.Id })" alt="@sponsor.Name logo" class="logo-img"/>
+                }
+        
+                <h4>@sponsor.Name</h4>
+        
+                @Html.Raw(sponsor.Description)
+            }
+        </div>     
+    }
+    else
+    {
+        <span class="span2 sponsor">
+            
+            @if (!string.IsNullOrEmpty(sponsor.Url))
+            {
+                <a href="@Html.Raw(sponsor.Url)" class="sponsor-anchor">
+                    @if (sponsor.Logo != null)
+                    {
+                        <img src="@Url.Action("SponsorLogo", "Public", new { id = sponsor.Id })" alt="@sponsor.Name logo" class="logo-img"/>
+                    }
+        
+                    <h4>@sponsor.Name</h4>
+                </a>
+            }
+            else
+            {
+                if (sponsor.Logo != null)
+                {
+                <img src="@Url.Action("SponsorLogo", "Public", new { id = sponsor.Id })" alt="@sponsor.Name logo" class="logo-img"/>
+                }
+        
+                <h4>@sponsor.Name</h4>
+            }
+            
+        </span>
+    }    
+    
+}
+
+<div class="row-fluid">
+    
+    @if (Model.Any(a => a.Level == SponsorLevel.Gold))
+    {
+        if (Model.Count(a => a.Level == SponsorLevel.Gold) > 1)
+        {
+            <h3>$25,000 Sponsors</h3>
+        }
+        else
+        {
+            <h3>$25,000 Sponsor</h3>
+        }
+
+        foreach (var sponsor in Model.Where(a => a.Level == SponsorLevel.Gold).OrderBy(a => a.Order))
+        {
+            <text>@ExtendedSponsor(sponsor)</text>
+        }
+    }
+</div>
+<div class="row-fluid">
+    @if (Model.Any(a => a.Level == SponsorLevel.Silver))
+    {
+        if (Model.Count(a => a.Level == SponsorLevel.Silver) > 1)
+        {
+            <h3>$15,000 Sponsors</h3>
+        }
+        else
+        {
+            <h3>$15,000 Sponsor</h3>
+        }
+
+        foreach (var sponsor in Model.Where(a => a.Level == SponsorLevel.Silver).OrderBy(a => a.Order))
+        {
+            <text>@ExtendedSponsor(sponsor)</text>
+        }
+    }
+</div>    
+<div class="row-fluid">
+@if (Model.Any(a => a.Level == SponsorLevel.Bronze))
+{
+    if (Model.Count(a => a.Level == SponsorLevel.Bronze) > 1)
+    {
+            <h3>$10,000 Sponsors</h3>
+    }
+    else
+    {
+            <h3>$10,000 Sponsor</h3>
+    }
+
+    foreach (var sponsor in Model.Where(a => a.Level == SponsorLevel.Bronze).OrderBy(a => a.Order))
+    {
+            <text>@ExtendedSponsor(sponsor)</text>
+    }
+}
+</div>
+
+<div class="row-fluid">
+@if(Model.Any(a => a.Level == SponsorLevel.BroughtToYouBy))
+{
+    if (Model.Count(a => a.Level == SponsorLevel.Bronze) > 1)
+    {
+            <h3>Brought to you by</h3>
+    }
+    else
+    {
+            <h3>Brought to you by</h3>
+    }
+
+    foreach (var sponsor in Model.Where(a => a.Level == SponsorLevel.BroughtToYouBy).OrderBy(a => a.Order))
+    {
+            <text>@ExtendedSponsor(sponsor)</text>
+    }
+}
+</div>
