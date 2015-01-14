@@ -12,7 +12,7 @@ namespace Agribusiness.Tests.Controllers
     [TestClass]
     public class HomeControllerTest
     {
-        [TestMethod]
+        [TestMethod, Ignore]
         public void Index()
         {
             // Arrange
@@ -25,7 +25,7 @@ namespace Agribusiness.Tests.Controllers
             //Assert.AreEqual("Welcome to ASP.NET MVC!", result.ViewBag.Message);
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public void About()
         {
             // Arrange
