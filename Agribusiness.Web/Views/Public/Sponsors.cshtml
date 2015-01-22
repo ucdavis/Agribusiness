@@ -7,7 +7,7 @@
     ViewBag.SubPageTitle = "Sponsors";
 
     ViewBag.Nav = Nav.Sponsors;
-    ViewBag.Extended = false;
+    ViewBag.Extended = true;
 
     var siteId = ViewData["site"] as string;
     var seminar = SiteService.GetLatestSeminar(siteId);
