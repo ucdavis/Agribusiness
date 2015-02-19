@@ -374,9 +374,13 @@
             <p class="well">
                 A seminar fee of @string.Format("{0:C}", Model.Seminar.Cost) covers all study materials, instruction, meals, and receptions, but excludes lodging. 
                 Upon acceptance, the fee is due by @(Model.Seminar.PaymentDeadline.HasValue ? Model.Seminar.PaymentDeadline.Value.ToShortDateString() : "TBD"). 
-                In the event a participant needs to cancel, the fee is fully refundable until @(Model.Seminar.PaymentDeadline.HasValue ? Model.Seminar.PaymentDeadline.Value.ToShortDateString() : "TBD").  
-                No refunds are possible for a cancellation received after @(Model.Seminar.PaymentDeadline.HasValue ? Model.Seminar.PaymentDeadline.Value.ToShortDateString() : "TBD"). 
-                Credit cards and checks will be accepted. 
+                @if (siteId != "workshop")
+                {<span>
+                    In the event a participant needs to cancel, the fee is fully refundable until @(Model.Seminar.PaymentDeadline.HasValue ? Model.Seminar.PaymentDeadline.Value.ToShortDateString() : "TBD").
+                    No refunds are possible for a cancellation received after @(Model.Seminar.PaymentDeadline.HasValue ? Model.Seminar.PaymentDeadline.Value.ToShortDateString() : "TBD").
+                    Credit cards and checks will be accepted.
+                </span>
+                }
                 @if (Model.Seminar.RequireApproval)
                 {
                     <text>Decisions will be made by @(@Model.Seminar.AcceptanceDate.HasValue ? Model.Seminar.AcceptanceDate.Value.ToShortDateString() : "TBD").</text>
