@@ -25,7 +25,7 @@ namespace Agribusiness.Web.Controllers
 
         public ApplicationController()
         {
-            ViewBag.Version = "2.2014.2.3";
+            ViewBag.Version = "2.2015.3.17";
         }
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
