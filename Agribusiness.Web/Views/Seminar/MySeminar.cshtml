@@ -80,7 +80,10 @@
                 <li>The fee is due @(Model.Seminar.PaymentDeadline.HasValue ? Model.Seminar.PaymentDeadline.Value.ToString("d") : "TBD"). </li>
                 <li>Credit cards and checks are accepted.</li>
                 <li><span style="color: red;"><strong>Payments will take 24 hours to process.</strong></span></li>
-                <li>You will not have access to case studies and contact information of other attendees until your @site.EventType fee is paid.</li>
+                @if (siteId != "workshop")
+                {
+                    <li>You will not have access to case studies and contact information of other attendees until your @site.EventType fee is paid.</li>
+                }
                 <li>Confirmation of credit card payments will occur within 24 hours (once you receive your confirmation, you will then have access to case studies and contact information of other attendees).</li>
                 <li>Please make checks payable to UC Regents and ensure that the name of the applicant accompanies the check.</li>
             </ul>

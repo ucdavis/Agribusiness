@@ -359,7 +359,7 @@ namespace Agribusiness.Web.Controllers
             var seminar = SiteService.GetLatestSeminar(Site);
 
             // check if user is registered for the current seminar
-            if (reg.Seminar != seminar)
+            if (reg.Seminar.Id != seminar.Id)
             {
                 Message = "User is not a part of the current seminar.  Roles cannot be assigned.";
                 return this.RedirectToAction(a => a.AdminEdit(person.User.Id, seminarId, null));
